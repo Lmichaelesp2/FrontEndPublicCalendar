@@ -13,6 +13,7 @@ import { SocialProof } from './components/SocialProof';
 import { FAQ } from './components/FAQ';
 import { WhatsIncluded } from './components/WhatsIncluded';
 import { SanAntonioPage } from './components/cities/SanAntonioPage';
+import { SanAntonioTechnologyPage } from './components/cities/SanAntonioTechnologyPage';
 import { SubscribePage } from './components/SubscribePage';
 import { CityLoginBanner } from './components/CityLoginBanner';
 import { getCityConfig } from './lib/cities';
@@ -139,6 +140,11 @@ function App() {
         <Route path="/san-antonio" element={
           <CityProvider>
             <SanAntonioPage />
+          </CityProvider>
+        } />
+        <Route path="/san-antonio/technology" element={
+          <CityProvider>
+            <SanAntonioTechnologyPage />
           </CityProvider>
         } />
         <Route path="/:citySlug/subscribe" element={<SubscribePage />} />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock } from 'lucide-react';
+import { CheckCircle, Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { CityLoginBanner } from '../CityLoginBanner';
 import { Footer } from '../Footer';
@@ -125,6 +125,18 @@ function SanAntonioContent() {
       </section>
 
       <SponsorSection cityName="San Antonio" />
+
+      <div className="sa-category-nav">
+        <div className="sa-category-nav-inner">
+          <span className="sa-category-nav-label">Browse by category:</span>
+          <div className="sa-category-nav-links">
+            <Link to="/san-antonio/technology" className="sa-category-link">
+              <Monitor size={16} />
+              Technology
+            </Link>
+          </div>
+        </div>
+      </div>
 
       <section className="value-section">
         <div className="value-inner">

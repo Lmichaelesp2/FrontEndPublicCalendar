@@ -7,6 +7,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 interface CalendarProps {
   forcedCity?: City;
+  eventCategory?: string;
 }
 
 const MONTH_NAMES = [
@@ -25,7 +26,7 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
   return grid;
 }
 
-export function Calendar({ forcedCity }: CalendarProps = {}) {
+export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
   const { user } = useAuth();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,9 +64,11 @@ export function Calendar({ forcedCity }: CalendarProps = {}) {
 
   const today = dateKey(new Date());
 
-  const cityFiltered = events.filter((e) =>
-    forcedCity ? e.city_calendar === forcedCity : true
-  );
+  const cityFiltered = events.filter((e) => {
+    if (forcedCity && e.city_calendar !== forcedCity) return false;
+    if (eventCategory && e.event_category !== eventCategory) return false;
+    return true;
+  });
 
   function handleDayClick(dk: string) {
     if (dk < today) return;
