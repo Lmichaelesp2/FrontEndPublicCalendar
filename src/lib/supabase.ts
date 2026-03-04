@@ -29,6 +29,7 @@ export type Event = {
   part_of_town: string | null;
   time_of_day: string | null;
   city_calendar: string | null;
+  event_category: string | null;
   status: string;
   created_at: string;
   updated_at: string;
