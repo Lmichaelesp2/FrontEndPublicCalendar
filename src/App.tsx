@@ -14,6 +14,9 @@ import { FAQ } from './components/FAQ';
 import { WhatsIncluded } from './components/WhatsIncluded';
 import { SanAntonioPage } from './components/cities/SanAntonioPage';
 import { SanAntonioTechnologyPage } from './components/cities/SanAntonioTechnologyPage';
+import { SanAntonioRealEstatePage } from './components/cities/SanAntonioRealEstatePage';
+import { SanAntonioChamberPage } from './components/cities/SanAntonioChamberPage';
+import { SanAntonioSmallBusinessPage } from './components/cities/SanAntonioSmallBusinessPage';
 import { SubscribePage } from './components/SubscribePage';
 import { CityLoginBanner } from './components/CityLoginBanner';
 import { getCityConfig } from './lib/cities';
@@ -145,6 +148,21 @@ function App() {
         <Route path="/san-antonio/technology" element={
           <CityProvider>
             <SanAntonioTechnologyPage />
+          </CityProvider>
+        } />
+        <Route path="/san-antonio/real-estate" element={
+          <CityProvider>
+            <SanAntonioRealEstatePage />
+          </CityProvider>
+        } />
+        <Route path="/san-antonio/chamber" element={
+          <CityProvider>
+            <SanAntonioChamberPage />
+          </CityProvider>
+        } />
+        <Route path="/san-antonio/small-business" element={
+          <CityProvider>
+            <SanAntonioSmallBusinessPage />
           </CityProvider>
         } />
         <Route path="/:citySlug/subscribe" element={<SubscribePage />} />

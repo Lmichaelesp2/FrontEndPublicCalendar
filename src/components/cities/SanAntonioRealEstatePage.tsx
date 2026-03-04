@@ -1,0 +1,346 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { CheckCircle, Star, Plus, Minus, Search, Mail, Home, Users, Clock, ArrowLeft } from 'lucide-react';
+import { Navigation } from '../Navigation';
+import { CityLoginBanner } from '../CityLoginBanner';
+import { Footer } from '../Footer';
+import { SEOHead } from '../SEOHead';
+import { Calendar } from '../Calendar';
+
+const STATS = [
+  { number: '80+', label: 'Real estate events added monthly' },
+  { number: '1,800+', label: 'Real estate professionals subscribed' },
+  { number: '40+', label: 'Real estate organizations tracked' },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "I used to miss half the SABOR events and investor meetups. Now everything is in one place and I never fall behind.",
+    name: 'Rachel T.',
+    location: 'San Antonio, TX',
+  },
+  {
+    quote: "The weekly real estate events email keeps me in the loop on open houses, networking lunches, and CE classes without any effort.",
+    name: 'James W.',
+    location: 'San Antonio, TX',
+  },
+  {
+    quote: "As a commercial broker, staying connected to the SA real estate community is everything. This calendar makes it automatic.",
+    name: 'Linda M.',
+    location: 'San Antonio, TX',
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    question: 'What types of real estate events are listed?',
+    answer: 'We track investor meetups, SABOR events, broker open houses, real estate networking mixers, continuing education classes, property tours, market update seminars, and more across San Antonio.',
+  },
+  {
+    question: 'Is this calendar free?',
+    answer: 'Yes! The San Antonio real estate events calendar and weekly email are completely free — no credit card required.',
+  },
+  {
+    question: 'How is this different from the main San Antonio calendar?',
+    answer: 'The main San Antonio calendar shows all business and networking events. This page focuses exclusively on real estate events, making it easier for agents, brokers, investors, and property professionals to find what matters most.',
+  },
+  {
+    question: 'How do you find real estate events in San Antonio?',
+    answer: 'We monitor SABOR, local REI groups, CCIM, IREM, real estate Meetup groups, Eventbrite, LinkedIn, and Facebook real estate communities in the San Antonio area.',
+  },
+  {
+    question: 'Can I submit a real estate event?',
+    answer: 'Yes! Use our Submit Event page to add your real estate event to the calendar for free. Just make sure to categorize it as a real estate event.',
+  },
+  {
+    question: 'Do you cover investor meetups?',
+    answer: 'Absolutely. San Antonio has a very active real estate investment community and we track events from local REI clubs, wholesaler meetups, and multifamily networking groups.',
+  },
+];
+
+const EVENT_TYPES = [
+  'Real estate networking mixers',
+  'Investor meetups & REI clubs',
+  'SABOR events & CE classes',
+  'Broker open houses & tours',
+  'Market update seminars',
+  'Commercial real estate events',
+  'Property management workshops',
+  'First-time homebuyer events',
+];
+
+const ORGS = [
+  'SABOR',
+  'SA Real Estate Investors',
+  'CCIM South Texas',
+  'IREM San Antonio',
+  'SA Apartment Association',
+  'Women\'s Council of Realtors SA',
+  'SA Commercial Brokers Assoc.',
+  'Texas Realtors SA Chapter',
+  'Keller Williams SA Events',
+  'SA REI Meetup Group',
+  'Alamo Area Landlords',
+  '... and many more',
+];
+
+function FaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
+  return (
+    <div className={`faq-item${open ? ' open' : ''}`}>
+      <button className="faq-trigger" onClick={onToggle} aria-expanded={open}>
+        <span>{question}</span>
+        {open ? <Minus size={18} /> : <Plus size={18} />}
+      </button>
+      <div className="faq-answer">
+        <p>{answer}</p>
+      </div>
+    </div>
+  );
+}
+
+function SanAntonioRealEstateContent() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="sa-page">
+      <SEOHead
+        title="Real Estate Events in San Antonio, TX | Texas Business Calendars"
+        description="Find real estate networking events, investor meetups, SABOR events, broker tours, and CE classes in San Antonio, Texas. Updated weekly."
+      />
+
+      <Navigation />
+      <CityLoginBanner cityName="San Antonio" />
+
+      <section className="sa-hero">
+        <div className="sa-hero-inner">
+          <Link
+            to="/san-antonio"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '.4rem',
+              color: 'rgba(255,255,255,.7)',
+              fontSize: '.85rem',
+              fontWeight: 500,
+              textDecoration: 'none',
+              marginBottom: '1rem',
+              transition: 'color .2s',
+            }}
+            onMouseOver={(e) => e.currentTarget.style.color = 'rgba(255,255,255,1)'}
+            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,.7)'}
+          >
+            <ArrowLeft size={16} />
+            All San Antonio Events
+          </Link>
+          <div className="hero-badge">
+            <span className="dot" style={{ background: '#f59e0b' }}></span>
+            San Antonio Real Estate Calendar
+          </div>
+          <h1>
+            Real Estate Events
+            <br />
+            in <em>San Antonio</em>
+          </h1>
+          <p className="sa-hero-sub">
+            Stay connected to San Antonio's real estate community. Investor meetups, SABOR events, broker tours, CE classes, and more — all in one place.
+          </p>
+          <Link to="/san-antonio/subscribe" className="btn btn-gold">
+            Start Your FREE Subscription
+          </Link>
+          <p className="hero-note">No credit card required · Cancel anytime</p>
+        </div>
+      </section>
+
+      <section className="value-section">
+        <div className="value-inner">
+          <h2>San Antonio Real Estate Events, One Calendar</h2>
+          <p>Real estate events in San Antonio are scattered across SABOR, Meetup, Eventbrite, LinkedIn, and dozens of local groups. We bring them together so you never miss an opportunity.</p>
+        </div>
+      </section>
+
+      <section className="sa-value-strip">
+        <div className="sa-value-strip-inner">
+          <div className="sa-value-strip-item">
+            <div className="sa-strip-icon"><Home size={28} strokeWidth={1.8} /></div>
+            <div>
+              <strong>Real Estate Focused</strong>
+              <p>Curated specifically for agents, brokers, investors, property managers, and real estate professionals.</p>
+            </div>
+          </div>
+          <div className="sa-value-strip-item">
+            <div className="sa-strip-icon"><Search size={28} strokeWidth={1.8} /></div>
+            <div>
+              <strong>Easy to Browse</strong>
+              <p>Search by keyword, browse by date, and find the right real estate events for your schedule.</p>
+            </div>
+          </div>
+          <div className="sa-value-strip-item">
+            <div className="sa-strip-icon"><Mail size={28} strokeWidth={1.8} /></div>
+            <div>
+              <strong>Weekly Real Estate Roundup</strong>
+              <p>Get a Monday email with the week's real estate events in San Antonio. Never miss a meetup again.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="why-section">
+        <div className="why-inner">
+          <h2>Why a Separate Real Estate Calendar?</h2>
+          <p className="why-subtitle">San Antonio is one of the hottest real estate markets in Texas. With military relocations, explosive population growth, and active investor communities, there's no shortage of events — but finding them is the hard part.</p>
+          <div className="why-grid">
+            <div className="why-card">
+              <h3>The problem</h3>
+              <p>Real estate events are buried across SABOR, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. It's impossible to track them all.</p>
+            </div>
+            <div className="why-card">
+              <h3>What we do</h3>
+              <p>We monitor San Antonio's top real estate organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
+            </div>
+            <div className="why-card">
+              <h3>What you get</h3>
+              <p>A single source for real estate events in San Antonio — from investor meetups to SABOR classes to broker networking events.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="value-section" style={{ paddingTop: '2rem' }}>
+        <div className="value-inner">
+          <h2>How It Works</h2>
+          <div className="value-grid">
+            <div className="value-card">
+              <div className="value-icon"><Home size={40} strokeWidth={2} /></div>
+              <h3>Real estate events only</h3>
+              <p>This calendar filters out everything except real estate events in San Antonio.</p>
+            </div>
+            <div className="value-card">
+              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
+              <h3>Browse & search</h3>
+              <p>Use the calendar or search by keyword to find investor meetups, CE classes, tours, and more.</p>
+            </div>
+            <div className="value-card">
+              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
+              <h3>Get weekly reminders</h3>
+              <p>Subscribe free and get a Monday email with San Antonio real estate opportunities.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next San Antonio Real Estate Event</h2>
+          <p>Browse investor meetups, SABOR events, broker tours, and more</p>
+        </div>
+        <Calendar forcedCity="San Antonio" eventCategory="real_estate" />
+      </section>
+
+      <section className="whats-included-section">
+        <div className="whats-included-inner">
+          <h2>What's Included</h2>
+          <p className="whats-included-subtitle">
+            The San Antonio real estate calendar includes events like:
+          </p>
+          <div className="event-types-list">
+            {EVENT_TYPES.map((type, i) => (
+              <div key={i} className="event-type-item">
+                <CheckCircle className="check-icon" size={24} strokeWidth={2.5} />
+                <span>{type}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sa-orgs-section">
+        <div className="sa-orgs-inner">
+          <h2>San Antonio Real Estate Organizations We Track</h2>
+          <p>We monitor events from San Antonio's top real estate communities so nothing slips through the cracks.</p>
+          <div className="sa-orgs-grid">
+            {ORGS.map((org, i) => (
+              <div key={i} className="sa-org-tag">
+                <Users size={14} strokeWidth={2} />
+                {org}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sp-section">
+        <div className="sp-inner">
+          <h2>Trusted by San Antonio Real Estate Professionals</h2>
+          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
+          <div className="sp-stats">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="sp-stat">
+                <span className="sp-stat-number">{stat.number}</span>
+                <span className="sp-stat-label">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+          <div className="sp-testimonials">
+            {TESTIMONIALS.map((t) => (
+              <div key={t.name} className="sp-card">
+                <div className="sp-stars">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={14} fill="currentColor" />
+                  ))}
+                </div>
+                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
+                <div className="sp-author">
+                  <span className="sp-name">&mdash; {t.name}</span>
+                  <span className="sp-location">{t.location}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sa-subscribe-section" id="sa-subscribe">
+        <div className="sa-subscribe-inner">
+          <div className="sa-subscribe-badge">
+            <Clock size={14} />
+            Free · Takes 30 seconds
+          </div>
+          <h2>Never Miss a San Antonio Real Estate Event Again</h2>
+          <p>Get a free weekly email every Monday with the best upcoming real estate events in San Antonio. No spam, no fluff — just the events worth your time.</p>
+          <div className="sa-subscribe-actions">
+            <Link to="/submit" className="btn sa-btn-outline">Submit a Real Estate Event</Link>
+            <Link to="/san-antonio/subscribe" className="btn btn-gold">Subscribe Free</Link>
+          </div>
+          <p className="sa-subscribe-note">Also covers all San Antonio business events when you subscribe</p>
+        </div>
+      </section>
+
+      <section className="faq-section">
+        <div className="faq-inner">
+          <h2>Frequently Asked Questions</h2>
+          <div className="faq-list">
+            {FAQ_ITEMS.map((item, i) => (
+              <FaqItem
+                key={i}
+                question={item.question}
+                answer={item.answer}
+                open={openFaq === i}
+                onToggle={() => setOpenFaq(openFaq === i ? null : i)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+
+export function SanAntonioRealEstatePage() {
+  return <SanAntonioRealEstateContent />;
+}

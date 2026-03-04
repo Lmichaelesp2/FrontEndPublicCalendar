@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor } from 'lucide-react';
+import { CheckCircle, Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { CityLoginBanner } from '../CityLoginBanner';
 import { Footer } from '../Footer';
@@ -133,6 +133,18 @@ function SanAntonioContent() {
             <Link to="/san-antonio/technology" className="sa-category-link">
               <Monitor size={16} />
               Technology
+            </Link>
+            <Link to="/san-antonio/real-estate" className="sa-category-link">
+              <Home size={16} />
+              Real Estate
+            </Link>
+            <Link to="/san-antonio/chamber" className="sa-category-link">
+              <Landmark size={16} />
+              Chamber
+            </Link>
+            <Link to="/san-antonio/small-business" className="sa-category-link">
+              <Briefcase size={16} />
+              Small Business
             </Link>
           </div>
         </div>
