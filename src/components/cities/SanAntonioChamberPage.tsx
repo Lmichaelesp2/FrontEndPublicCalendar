@@ -215,7 +215,7 @@ function SanAntonioChamberContent() {
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Landmark size={40} strokeWidth={2} /></div>
-              <h3>Chamber events only</h3>
+              <h3>This Week's Events</h3>
               <p>This calendar filters out everything except chamber and association events in San Antonio.</p>
             </div>
             <div className="value-card">

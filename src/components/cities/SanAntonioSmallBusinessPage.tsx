@@ -215,7 +215,7 @@ function SanAntonioSmallBusinessContent() {
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Briefcase size={40} strokeWidth={2} /></div>
-              <h3>Small business events only</h3>
+              <h3>This Week's Events</h3>
               <p>This calendar filters out everything except small business events in San Antonio.</p>
             </div>
             <div className="value-card">

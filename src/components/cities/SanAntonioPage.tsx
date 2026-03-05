@@ -210,7 +210,7 @@ function SanAntonioContent() {
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>San Antonio focused</h3>
+              <h3>This Week's Events</h3>
               <p>This calendar is built specifically for San Antonio business professionals.</p>
             </div>
             <div className="value-card">

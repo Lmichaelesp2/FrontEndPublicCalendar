@@ -215,7 +215,7 @@ function SanAntonioRealEstateContent() {
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Home size={40} strokeWidth={2} /></div>
-              <h3>Real estate events only</h3>
+              <h3>This Week's Events</h3>
               <p>This calendar filters out everything except real estate events in San Antonio.</p>
             </div>
             <div className="value-card">

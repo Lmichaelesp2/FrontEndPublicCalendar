@@ -112,7 +112,7 @@ function MainLayoutInner() {
             <div className="value-grid">
               <div className="value-card">
                 <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
-                <h3>Choose your city</h3>
+                <h3>This Week's Events</h3>
                 <p>Pick San Antonio, Austin, Dallas, or Houston.</p>
               </div>
               <div className="value-card">
