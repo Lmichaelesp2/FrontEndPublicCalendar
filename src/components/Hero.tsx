@@ -56,7 +56,7 @@ export function Hero() {
             <nav className="hero-cities" aria-label="Browse by city">
               <div className="hero-cities-label">
                 <Mail size={20} />
-                <span>Every Monday you'll receive that week's events—free, no account needed.</span>
+                <span>Every Monday you'll receive that week's events — free, no account needed.</span>
               </div>
               <div className="hero-cities-row">
                 {CITY_CONFIGS.map((c) => (
