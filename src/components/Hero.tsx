@@ -67,7 +67,7 @@ export function Hero() {
                 </div>
               </nav>
               <p className="hero-subtext-below">
-                Every event, curated and delivered to your inbox every Monday. Always free.
+                Browse the calendar anytime between emails. Always free.
               </p>
             </>
           )}
