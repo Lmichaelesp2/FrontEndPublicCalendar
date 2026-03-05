@@ -33,9 +33,9 @@ export function Hero() {
             </h1>
           ) : (
             <h1>
-              Networking &amp; Business Events
-              <br className="hero-headline-break" />
-              in <em>San Antonio, Austin, Dallas, and Houston</em>
+              Networking &amp; Business Events in
+              <br />
+              <em>San Antonio, Austin, Dallas &amp; Houston</em>
             </h1>
           )}
 
@@ -54,9 +54,7 @@ export function Hero() {
           {!cityConfig && (
             <>
               <p className="hero-subtext">
-                Get your city's business events delivered to
-                <br className="hero-subtext-break" />
-                your inbox every Monday.
+                Stop missing the events that grow your network and your business.
               </p>
               <nav className="hero-cities" aria-label="Browse by city">
                 <div className="hero-cities-row">
@@ -69,7 +67,7 @@ export function Hero() {
                 </div>
               </nav>
               <p className="hero-subtext-below">
-                Browse the calendar anytime between emails. Always free.
+                Every event, curated and delivered to your inbox every Monday. Always free.
               </p>
             </>
           )}
