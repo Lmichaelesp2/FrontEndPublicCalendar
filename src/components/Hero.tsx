@@ -2,6 +2,7 @@ import { useCity } from '../contexts/CityContext';
 import { SEOHead } from './SEOHead';
 import { HOME_SEO, CITY_CONFIGS } from '../lib/cities';
 import { Link } from 'react-router-dom';
+import { Mail } from 'lucide-react';
 
 export function Hero() {
   const { selectedCity } = useCity();
@@ -55,14 +56,21 @@ export function Hero() {
           {!cityConfig && (
             <nav className="hero-cities" aria-label="Browse by city">
               <span className="hero-cities-label">Pick your city. Get the weekly email.</span>
+              <div className="hero-email-banner">
+                <Mail size={18} />
+                <span>Every Monday you'll receive the weeks Events free no account needed</span>
+              </div>
               <div className="hero-cities-row">
                 {CITY_CONFIGS.map((c) => (
-                  <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
+                  <div key={c.slug} className="hero-city-link">
                     <div className="hero-city-content">
                       <span className="hero-city-name">{c.name}</span>
                       <span className="hero-city-label">Get Weekly Email</span>
                     </div>
-                  </Link>
+                    <Link to={`/${c.slug}/subscribe`} className="hero-city-subscribe">
+                      Subscribe here
+                    </Link>
+                  </div>
                 ))}
               </div>
             </nav>

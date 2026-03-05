@@ -113,13 +113,17 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .hero-cities{display:flex;flex-direction:column;align-items:center;gap:2.25rem;margin-top:1.5rem}
 .hero-cities-label{font-size:2rem;font-weight:800;color:#fff;text-transform:none;letter-spacing:.02em;max-width:600px;line-height:1.3;text-shadow:0 3px 12px rgba(0,0,0,.3);background:linear-gradient(135deg,#fff 0%,rgba(239,199,94,1) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.85}}
+.hero-email-banner{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:rgba(30,51,86,.5);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#f0a500;font-size:.95rem;font-weight:600;max-width:600px;width:100%;justify-content:center;letter-spacing:.01em}
 .hero-cities-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;width:100%;max-width:950px}
-.hero-city-link{display:flex;align-items:center;justify-content:center;padding:.7rem 1.5rem;border-radius:var(--radius-sm);background:#ffffff;border:none;color:var(--navy-dark);text-decoration:none;transition:all .2s ease;box-shadow:0 2px 8px rgba(0,0,0,.18);min-width:0}
-.hero-city-link:hover{background:#eef3ff;transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.22)}
+.hero-city-link{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:.75rem;padding:0;border-radius:var(--radius-sm);background:transparent;border:none;color:var(--navy-dark);text-decoration:none;transition:all .2s ease;min-width:0}
+.hero-city-link:hover{transform:translateY(-2px)}
 .hero-city-link:active{transform:translateY(0)}
-.hero-city-content{display:flex;align-items:center;justify-content:center;text-align:center;width:100%}
+.hero-city-content{display:flex;align-items:center;justify-content:center;text-align:center;width:100%;padding:.7rem 1.5rem;background:#ffffff;border-radius:var(--radius-sm);box-shadow:0 2px 8px rgba(0,0,0,.18);transition:all .2s ease}
+.hero-city-link:hover .hero-city-content{background:#eef3ff;box-shadow:0 4px 16px rgba(0,0,0,.22)}
 .hero-city-name{font-size:.95rem;font-weight:700;color:var(--navy-dark);letter-spacing:.01em;line-height:1}
 .hero-city-label{display:none}
+.hero-city-subscribe{display:block;font-size:.8rem;font-weight:600;color:var(--navy-dark);text-decoration:none;padding:.4rem .8rem;background:#f0a500;border-radius:6px;transition:all .2s ease;white-space:nowrap}
+.hero-city-subscribe:hover{background:#f5d26e}
 @media(max-width:768px){
   .hero-cities-label{font-size:1.5rem}
   .hero-cities-row{grid-template-columns:repeat(2,1fr);gap:.75rem}
