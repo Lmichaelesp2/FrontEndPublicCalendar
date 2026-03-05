@@ -19,10 +19,6 @@ export function EventCard({ event, index }: EventCardProps) {
   const monthDay = eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   const timeLabel = `${dayOfWeek}. ${monthDay} | ${event.start_time}${event.end_time ? ` - ${event.end_time}` : ''}`;
 
-  const tags: string[] = [];
-  if (event.paid) tags.push(event.paid);
-  if (event.participation) tags.push(event.participation);
-
   return (
     <div
       className="ev-card-new"
@@ -57,18 +53,9 @@ export function EventCard({ event, index }: EventCardProps) {
           <p className="ev-card-new-desc">{rawDesc}</p>
         )}
 
-        {(tags.length > 0 || event.group_name) && (
+        {event.group_name && (
           <div className="ev-card-new-footer">
-            {event.group_name && (
-              <span className="ev-card-new-org">{event.group_name}</span>
-            )}
-            {tags.length > 0 && (
-              <div className="ev-card-new-tags">
-                {tags.map((tag) => (
-                  <span key={tag} className="ev-card-new-tag">{tag}</span>
-                ))}
-              </div>
-            )}
+            <span className="ev-card-new-org">{event.group_name}</span>
           </div>
         )}
       </div>
