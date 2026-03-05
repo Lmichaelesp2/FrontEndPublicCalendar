@@ -81,8 +81,10 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .city-login-btn:hover{background:#f5d26e;transform:translateY(-1px);box-shadow:0 5px 18px rgba(212,168,67,.45)}
 .city-login-banner-inner-centered{max-width:1200px;margin:0 auto;padding:2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;text-align:center}
 .city-login-banner-text-centered{display:flex;flex-direction:column;align-items:center;justify-content:center}
-.stop-hunting-icon{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap}
-.monday-with-icon{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap}
+.stop-hunting-icon{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap;color:var(--gold-bright)}
+.stop-hunting-icon svg{color:var(--gold-bright)}
+.monday-with-icon{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap;color:var(--gold-bright)}
+.monday-with-icon svg{color:var(--gold-bright)}
 @media(max-width:640px){
   .city-login-banner-inner{flex-direction:column;align-items:flex-start;gap:1rem}
   .city-login-banner-right{width:100%;justify-content:space-between}
