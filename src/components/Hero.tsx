@@ -56,10 +56,6 @@ export function Hero() {
           {!cityConfig && (
             <nav className="hero-cities" aria-label="Browse by city">
               <span className="hero-cities-label">Pick your city. Get the weekly email.</span>
-              <div className="hero-email-banner">
-                <Mail size={18} />
-                <span>Every Monday you'll receive the weeks Events free no account needed</span>
-              </div>
               <div className="hero-cities-row">
                 {CITY_CONFIGS.map((c) => (
                   <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
@@ -67,6 +63,10 @@ export function Hero() {
                     <span className="hero-city-subscribe">Subscribe here</span>
                   </Link>
                 ))}
+              </div>
+              <div className="hero-email-banner">
+                <Mail size={18} />
+                <span>Every Monday you'll receive that week's events—free, no account needed.</span>
               </div>
             </nav>
           )}
