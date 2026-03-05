@@ -79,11 +79,15 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .city-login-banner-perks span{display:flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:500;color:rgba(255,255,255,.7)}
 .city-login-btn{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold-bright);color:var(--navy-dark);font-size:.88rem;font-weight:700;padding:.65rem 1.4rem;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;box-shadow:0 3px 12px rgba(212,168,67,.35)}
 .city-login-btn:hover{background:#f5d26e;transform:translateY(-1px);box-shadow:0 5px 18px rgba(212,168,67,.45)}
+.city-login-banner-inner-centered{max-width:1200px;margin:0 auto;padding:2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;text-align:center}
+.city-login-banner-text-centered{display:flex;flex-direction:column;align-items:center;justify-content:center}
 @media(max-width:640px){
   .city-login-banner-inner{flex-direction:column;align-items:flex-start;gap:1rem}
   .city-login-banner-right{width:100%;justify-content:space-between}
   .city-login-banner-perks{flex-direction:row;gap:.75rem}
   .city-login-btn{flex:1;justify-content:center}
+  .city-login-banner-inner-centered{padding:1.5rem}
+  .city-login-banner-headline{font-size:.9rem}
 }
 
 /* HERO */
