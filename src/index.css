@@ -282,8 +282,8 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .hpc-city-name{font-size:1rem;font-weight:800;color:var(--white);letter-spacing:-.01em}
 .hpc-city-count{font-size:.75rem;color:rgba(255,255,255,.6);font-weight:500}
 .hpc-city-actions{display:flex;align-items:center;gap:.75rem;flex-shrink:0}
-.hpc-city-link{display:inline-flex;align-items:center;gap:.25rem;font-size:.78rem;font-weight:600;color:var(--gold);text-decoration:none;background:rgba(255,255,255,.1);padding:.35rem .7rem;border-radius:6px;transition:background .15s;white-space:nowrap}
-.hpc-city-link:hover{background:rgba(255,255,255,.18)}
+.hpc-city-link{display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:700;color:var(--gold);text-decoration:none;background:rgba(255,255,255,.08);padding:.5rem 1rem;border-radius:8px;border:1px solid rgba(255,255,255,.12);transition:all .2s;white-space:nowrap;letter-spacing:.01em;backdrop-filter:blur(4px)}
+.hpc-city-link:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.22);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .hpc-events{padding:.75rem 1rem;display:flex;flex-direction:column;gap:.5rem}
 .hpc-no-events{text-align:center;padding:1.5rem;color:var(--gray-400);font-size:.85rem}
 .hpc-city-cta{margin:.25rem 0 .25rem;background:linear-gradient(135deg,#f0f5fc 0%,#e8f0fb 100%);border-top:1px solid #d4e1f5;border-radius:0 0 10px 10px;padding:1.1rem 1.25rem 1.15rem;text-align:center}

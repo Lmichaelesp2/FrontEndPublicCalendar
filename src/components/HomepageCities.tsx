@@ -243,7 +243,7 @@ function CitySection({
         </div>
         <div className="hpc-city-actions">
           <Link
-            to={`${cityRoute}/subscribe`}
+            to={cityRoute}
             className="hpc-city-link"
             onClick={(e) => e.stopPropagation()}
           >
