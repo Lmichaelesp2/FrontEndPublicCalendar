@@ -342,13 +342,6 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .hpc-cta-subscribe{background:#0f2847;color:var(--white);border:1.5px solid #0f2847;box-shadow:0 2px 6px rgba(15,40,71,.25)}
 .hpc-cta-subscribe:hover{background:#1a3a6b;border-color:#1a3a6b;transform:translateY(-1px);box-shadow:0 4px 10px rgba(15,40,71,.3)}
 
-.hpc-whats-included{background:linear-gradient(135deg,#f9fbfe 0%,#f3f7fc 100%);border-top:1px solid #e0e8f4;padding:1.25rem 1.25rem 1.15rem;border-radius:0 0 10px 10px;margin-top:.5rem}
-.hpc-whats-included-inner{display:flex;flex-direction:column;gap:.75rem}
-.hpc-whats-included-inner h4{font-size:.95rem;font-weight:700;color:#0a3368;letter-spacing:-.01em;margin:0}
-.hpc-event-types-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.6rem}
-.hpc-event-type-item{display:flex;align-items:flex-start;gap:.5rem;font-size:.8rem;color:#3a5278;font-weight:500}
-.hpc-event-type-item .check-icon{color:#16a34a;flex-shrink:0;margin-top:.15rem}
-
 /* CITY SELECTOR */
 .city-sel{margin-bottom:1.5rem}
 .city-sel-label{display:flex;align-items:center;gap:.5rem;font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:.9rem;justify-content:center;letter-spacing:-.01em}
