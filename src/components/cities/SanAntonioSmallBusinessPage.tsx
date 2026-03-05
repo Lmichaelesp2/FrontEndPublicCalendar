@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Star, Plus, Minus, Search, Mail, Briefcase, Users, Clock, ArrowLeft } from 'lucide-react';
+import { Star, Plus, Minus, Search, Mail, Briefcase, Users, Clock, ArrowLeft } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { CityLoginBanner } from '../CityLoginBanner';
 import { Footer } from '../Footer';
@@ -238,23 +238,6 @@ function SanAntonioSmallBusinessContent() {
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
         <Calendar forcedCity="San Antonio" eventCategory="small_business" />
-      </section>
-
-      <section className="whats-included-section">
-        <div className="whats-included-inner">
-          <h2>What's Included</h2>
-          <p className="whats-included-subtitle">
-            The San Antonio small business calendar includes events like:
-          </p>
-          <div className="event-types-list">
-            {EVENT_TYPES.map((type, i) => (
-              <div key={i} className="event-type-item">
-                <CheckCircle className="check-icon" size={24} strokeWidth={2.5} />
-                <span>{type}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       <section className="sa-orgs-section">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase } from 'lucide-react';
+import { Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { CityLoginBanner } from '../CityLoginBanner';
 import { Footer } from '../Footer';
@@ -233,23 +233,6 @@ function SanAntonioContent() {
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
         <Calendar forcedCity="San Antonio" />
-      </section>
-
-      <section className="whats-included-section">
-        <div className="whats-included-inner">
-          <h2>What's Included</h2>
-          <p className="whats-included-subtitle">
-            The San Antonio calendar includes a mix of networking and professional events, such as:
-          </p>
-          <div className="event-types-list">
-            {EVENT_TYPES.map((type, i) => (
-              <div key={i} className="event-type-item">
-                <CheckCircle className="check-icon" size={24} strokeWidth={2.5} />
-                <span>{type}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       <section className="sa-orgs-section">

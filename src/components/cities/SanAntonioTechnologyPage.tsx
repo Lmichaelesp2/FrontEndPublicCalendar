@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, ArrowLeft } from 'lucide-react';
+import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, ArrowLeft } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { CityLoginBanner } from '../CityLoginBanner';
 import { Footer } from '../Footer';
@@ -238,23 +238,6 @@ function SanAntonioTechnologyContent() {
           <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
         </div>
         <Calendar forcedCity="San Antonio" eventCategory="technology" />
-      </section>
-
-      <section className="whats-included-section">
-        <div className="whats-included-inner">
-          <h2>What's Included</h2>
-          <p className="whats-included-subtitle">
-            The San Antonio technology calendar includes events like:
-          </p>
-          <div className="event-types-list">
-            {TECH_EVENT_TYPES.map((type, i) => (
-              <div key={i} className="event-type-item">
-                <CheckCircle className="check-icon" size={24} strokeWidth={2.5} />
-                <span>{type}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       <section className="sa-orgs-section">

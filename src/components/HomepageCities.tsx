@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Mail } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Mail, CheckCircle } from 'lucide-react';
 import { supabase, Event, CITIES, City } from '../lib/supabase';
 import { dateKey, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
@@ -13,6 +13,15 @@ const CITY_ROUTES: Record<City, string> = {
 };
 
 const HOME_LIMIT = 10;
+
+const EVENT_TYPES = [
+  'Business networking events',
+  'Industry meetups',
+  'Professional workshops',
+  'Chamber and association events',
+  'Educational business sessions',
+  'Entrepreneur and startup gatherings'
+];
 
 const MONTH_NAMES = [
   'January','February','March','April','May','June',
@@ -280,6 +289,19 @@ function CitySection({
               )}
             </>
           )}
+          <div className="hpc-whats-included">
+            <div className="hpc-whats-included-inner">
+              <h4>What's Included in {city}</h4>
+              <div className="hpc-event-types-list">
+                {EVENT_TYPES.map((type, i) => (
+                  <div key={i} className="hpc-event-type-item">
+                    <CheckCircle className="check-icon" size={18} strokeWidth={2.5} />
+                    <span>{type}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
