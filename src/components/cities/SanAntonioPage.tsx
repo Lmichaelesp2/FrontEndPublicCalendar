@@ -50,8 +50,8 @@ const SA_FAQ = [
     answer: 'Those platforms only show events posted on their own site. We gather networking and business events from all major platforms and local San Antonio organizations into one calendar, giving you a complete picture.',
   },
   {
-    question: 'What do I get with a free subscription?',
-    answer: 'Access to the full San Antonio events calendar plus a weekly email every Monday with the best upcoming networking and business events in the area.',
+    question: 'What do I get with the weekly email?',
+    answer: 'A curated digest of San Antonio\'s best upcoming networking and business events, delivered to your inbox every Monday morning. The calendar on the site is always free to browse.',
   },
   {
     question: 'What is the Personal Event Assistant?',
@@ -118,9 +118,9 @@ function SanAntonioContent() {
             Never miss an event again. We gather San Antonio's best networking and business events in one place.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
-            Start Your FREE Subscription
+            Get the FREE Weekly Email
           </Link>
-          <p className="hero-note">No credit card required · Cancel anytime</p>
+          <p className="hero-note">No credit card required · Unsubscribe anytime</p>
         </div>
       </section>
 
@@ -317,13 +317,13 @@ function SanAntonioContent() {
             <Clock size={14} />
             Free · Takes 30 seconds
           </div>
-          <h2>Never Miss a San Antonio Business Event Again</h2>
-          <p>Get a free weekly email every Monday with the best upcoming networking and business events in San Antonio. No spam, no fluff — just the events worth your time.</p>
+          <h2>Don't Want to Check Back Every Week?</h2>
+          <p>Get the full week's San Antonio events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
             <Link to="/submit" className="btn sa-btn-outline">Submit an Event</Link>
-            <Link to="/san-antonio/subscribe" className="btn btn-gold">Subscribe Free</Link>
+            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Email — Free</Link>
           </div>
-          <p className="sa-subscribe-note">Also covers Austin · Dallas · Houston when you subscribe to the full Texas calendar</p>
+          <p className="sa-subscribe-note">Also available for Austin · Dallas · Houston</p>
         </div>
       </section>
 

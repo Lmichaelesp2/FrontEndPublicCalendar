@@ -43,24 +43,24 @@ export function Hero() {
           {cityConfig && (
             <>
               <p className="hero-sub">
-                Never miss an event again. We gather {cityConfig.name}'s best networking and business events in one place.
+                Never miss an event again. We gather {cityConfig.name}'s best networking and business events in one place — and deliver a curated digest to your inbox every Monday.
               </p>
               <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-gold">
-                Start Your FREE Subscription
+                Get the FREE Weekly Email
               </Link>
-              <p className="hero-note">No credit card required · Cancel anytime</p>
+              <p className="hero-note">No credit card required · Unsubscribe anytime</p>
             </>
           )}
 
           {!cityConfig && (
             <nav className="hero-cities" aria-label="Browse by city">
-              <span className="hero-cities-label">Pick your city. Subscribe free.</span>
+              <span className="hero-cities-label">Pick your city. Get the weekly email.</span>
               <div className="hero-cities-row">
                 {CITY_CONFIGS.map((c) => (
                   <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
                     <div className="hero-city-content">
                       <span className="hero-city-name">{c.name}</span>
-                      <span className="hero-city-label">Subscribe Now</span>
+                      <span className="hero-city-label">Get Weekly Email</span>
                     </div>
                   </Link>
                 ))}

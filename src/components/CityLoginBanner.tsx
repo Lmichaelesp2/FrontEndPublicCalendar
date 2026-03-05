@@ -1,56 +1,45 @@
-import { useState } from 'react';
-import { LogIn, CalendarDays, Mail, Star } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import { AuthModal } from './auth/AuthModal';
+import { Link } from 'react-router-dom';
+import { Mail, CalendarDays } from 'lucide-react';
+import { CITY_CONFIGS } from '../lib/cities';
 
 type CityLoginBannerProps = {
   cityName: string;
 };
 
 export function CityLoginBanner({ cityName }: CityLoginBannerProps) {
-  const { user, loading } = useAuth();
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-
-  if (loading || user) return null;
+  const cityConfig = CITY_CONFIGS.find((c) => c.name === cityName);
+  const slug = cityConfig?.slug ?? cityName.toLowerCase().replace(/\s+/g, '-');
 
   return (
-    <>
-      <div className="city-login-banner">
-        <div className="city-login-banner-inner">
-          <div className="city-login-banner-left">
-            <div className="city-login-banner-icon">
-              <CalendarDays size={28} strokeWidth={1.8} />
-            </div>
-            <div className="city-login-banner-text">
-              <p className="city-login-banner-headline">
-                Already subscribed to {cityName}?
-              </p>
-              <p className="city-login-banner-sub">
-                Log in to access your full calendar and weekly event updates.
-              </p>
-            </div>
+    <div className="city-login-banner">
+      <div className="city-login-banner-inner">
+        <div className="city-login-banner-left">
+          <div className="city-login-banner-icon">
+            <Mail size={28} strokeWidth={1.8} />
           </div>
-          <div className="city-login-banner-right">
-            <div className="city-login-banner-perks">
-              <span><Mail size={13} /> Weekly digest</span>
-              <span><Star size={13} /> Full calendar access</span>
-            </div>
-            <button
-              className="city-login-btn"
-              onClick={() => setAuthModalOpen(true)}
-            >
-              <LogIn size={16} />
-              Log In to Your Account
-            </button>
+          <div className="city-login-banner-text">
+            <p className="city-login-banner-headline">
+              Get {cityName} events in your inbox
+            </p>
+            <p className="city-login-banner-sub">
+              Every Monday we send a curated list of the week's best networking and business events. Free, no spam.
+            </p>
           </div>
         </div>
+        <div className="city-login-banner-right">
+          <div className="city-login-banner-perks">
+            <span><CalendarDays size={13} /> Weekly Monday digest</span>
+            <span><Mail size={13} /> Free to subscribe</span>
+          </div>
+          <Link
+            to={`/${slug}/subscribe`}
+            className="city-login-btn"
+          >
+            <Mail size={16} />
+            Subscribe to the Weekly Email
+          </Link>
+        </div>
       </div>
-
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        onSuccess={() => setAuthModalOpen(false)}
-      />
-    </>
+    </div>
   );
 }

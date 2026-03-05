@@ -3,7 +3,6 @@ import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
 import { supabase, Event, City } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
-import { useAuth } from '../contexts/AuthContext';
 
 interface CalendarProps {
   forcedCity?: City;
@@ -27,7 +26,6 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
 }
 
 export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
-  const { user } = useAuth();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -140,7 +138,6 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
     displayEvents = sortEventsByTime(cityFiltered.filter((e) => e.start_date >= today));
   }
 
-  const totalUpcoming = cityFiltered.filter((e) => e.start_date >= today).length;
   const eventCount = displayEvents.length;
 
   const rangeLabel = rangeStart
@@ -161,11 +158,9 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
             <input
               type="text"
               className="cal-search-input"
-              placeholder={user ? 'Search by keyword...' : 'Log in to search events...'}
+              placeholder="Search by keyword..."
               value={searchQuery}
-              onChange={(e) => user && setSearchQuery(e.target.value)}
-              disabled={!user}
-              onClick={() => !user && document.dispatchEvent(new CustomEvent('open-auth-modal'))}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             {searchQuery && (
               <button className="cal-search-clear" onClick={() => setSearchQuery('')} aria-label="Clear search">
@@ -242,18 +237,6 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
           </div>
         </div>
 
-        {!user && (
-          <div className="cal-guest-note">
-            <button
-              className="cal-guest-login-btn"
-              onClick={() => document.dispatchEvent(new CustomEvent('open-auth-modal'))}
-            >
-              Log in
-            </button>{' '}
-            to search all {totalUpcoming} upcoming events and see full event details.
-          </div>
-        )}
-
         <div className="ev-list" style={{ marginTop: '1.5rem' }}>
           {loading ? (
             <div className="no-ev"><p>Loading events...</p></div>
@@ -278,7 +261,7 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
                         {formatDate(parseDate(event.start_date))}
                       </div>
                     )}
-                    <EventCard event={event} index={index} isLoggedIn={!!user} />
+                    <EventCard event={event} index={index} />
                   </div>
                 );
               })}

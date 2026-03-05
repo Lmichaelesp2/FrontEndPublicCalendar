@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, LogIn, UserPlus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Mail } from 'lucide-react';
 import { supabase, Event, CITIES, City } from '../lib/supabase';
 import { dateKey, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
@@ -92,8 +92,7 @@ export function HomepageCities() {
         <div className="hpc-header">
           <h2>Events Across Texas</h2>
           <p className="hpc-subtitle">
-            Select any date to browse events by city —{' '}
-            <span className="hpc-login-text">log in</span> to search all upcoming events and see full details
+            Select any date to browse events by city — subscribe to get a weekly digest in your inbox every Monday
           </p>
         </div>
 
@@ -259,21 +258,20 @@ function CitySection({
           ) : (
             <>
               {events.map((event, i) => (
-                <EventCard key={event.id} event={event} index={i} isLoggedIn={false} />
+                <EventCard key={event.id} event={event} index={i} />
               ))}
               {hasMore && (
                 <div className="hpc-city-cta">
                   <div className="hpc-city-cta-text">
-                    More events in {city} are available — log in or subscribe to see the full calendar.
+                    Don't want to check back every week? Get {city}'s full week of events delivered to your inbox every Monday morning.
                   </div>
                   <div className="hpc-city-cta-btns">
                     <Link to={cityRoute} className="hpc-cta-btn hpc-cta-login">
-                      <LogIn size={15} />
-                      Log in
+                      View all {city} events
                     </Link>
                     <Link to={`${cityRoute}/subscribe`} className="hpc-cta-btn hpc-cta-subscribe">
-                      <UserPlus size={15} />
-                      Subscribe to {city}
+                      <Mail size={15} />
+                      Get the weekly email
                     </Link>
                   </div>
                 </div>

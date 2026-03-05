@@ -20,9 +20,9 @@ const CITY_DESCRIPTIONS: Record<string, string> = {
 };
 
 const PERKS = [
-  { icon: CalendarDays, title: 'Full city calendar', desc: 'Every approved business event in your city — all in one place.' },
-  { icon: Search, title: 'Search & filter', desc: 'Filter by date, type, cost, or time of day to find what matters to you.' },
-  { icon: Mail, title: 'Weekly Monday email', desc: 'A curated digest of the week\'s best events lands in your inbox every Monday.' },
+  { icon: Mail, title: 'Weekly Monday email', desc: 'A curated digest of the week\'s best events lands in your inbox every Monday morning.' },
+  { icon: CalendarDays, title: 'Never miss an event', desc: 'Stop checking multiple sites. We do the searching so you can focus on showing up.' },
+  { icon: Search, title: 'Curated for your city', desc: 'Only events that matter to professionals in your area — no noise, no fluff.' },
 ];
 
 export function SubscribePage() {
@@ -83,8 +83,8 @@ export function SubscribePage() {
         <div className="sub-success-wrap">
           <div className="sub-success-card">
             <div className="sub-success-icon"><CheckCircle size={48} strokeWidth={1.5} /></div>
-            <h2>You're subscribed to {cityName}!</h2>
-            <p>Redirecting you to the {cityName} calendar now...</p>
+            <h2>You're on the list for {cityName}!</h2>
+            <p>You'll get your first weekly email next Monday. Redirecting to the calendar now...</p>
             <Link to={cityRoute} className="sub-go-btn">
               Go to {cityName} calendar <ArrowRight size={16} />
             </Link>
@@ -101,9 +101,9 @@ export function SubscribePage() {
 
       <div className="sub-hero">
         <div className="sub-hero-inner">
-          <div className="sub-hero-badge">Free Subscription</div>
-          <h1>Subscribe to {cityName}</h1>
-          <p className="sub-hero-desc">{cityDesc}</p>
+          <div className="sub-hero-badge">Free Weekly Email</div>
+          <h1>Get {cityName} Events in Your Inbox</h1>
+          <p className="sub-hero-desc">Don't want to check back every week? Get the full week's events delivered to your inbox every Monday morning. {cityDesc}</p>
         </div>
       </div>
 
@@ -111,7 +111,7 @@ export function SubscribePage() {
         <div className="sub-body-inner">
 
           <div className="sub-perks">
-            <h2 className="sub-perks-title">What you get — free</h2>
+            <h2 className="sub-perks-title">What you get — completely free</h2>
             <div className="sub-perks-grid">
               {PERKS.map(({ icon: Icon, title, desc }) => (
                 <div key={title} className="sub-perk-card">
@@ -143,8 +143,8 @@ export function SubscribePage() {
 
               <p className="sub-form-sub">
                 {mode === 'signup'
-                  ? `Create a free account to access the full ${cityName} calendar and weekly digest.`
-                  : `Welcome back — log in to access your ${cityName} calendar.`}
+                  ? `Sign up to get ${cityName}'s best networking and business events delivered to your inbox every Monday.`
+                  : `Welcome back — log in to manage your ${cityName} email subscription.`}
               </p>
 
               <form onSubmit={handleSubmit} className="sub-form">
@@ -178,7 +178,7 @@ export function SubscribePage() {
                   {loading
                     ? 'Please wait...'
                     : mode === 'signup'
-                    ? `Subscribe to ${cityName} — Free`
+                    ? `Get the Weekly Email — Free`
                     : 'Log in'}
                   {!loading && <ArrowRight size={16} />}
                 </button>

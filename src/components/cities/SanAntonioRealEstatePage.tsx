@@ -149,9 +149,9 @@ function SanAntonioRealEstateContent() {
             Stay connected to San Antonio's real estate community. Investor meetups, SABOR events, broker tours, CE classes, and more — all in one place.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
-            Start Your FREE Subscription
+            Get the FREE Weekly Email
           </Link>
-          <p className="hero-note">No credit card required · Cancel anytime</p>
+          <p className="hero-note">No credit card required · Unsubscribe anytime</p>
         </div>
       </section>
 
@@ -309,13 +309,13 @@ function SanAntonioRealEstateContent() {
             <Clock size={14} />
             Free · Takes 30 seconds
           </div>
-          <h2>Never Miss a San Antonio Real Estate Event Again</h2>
-          <p>Get a free weekly email every Monday with the best upcoming real estate events in San Antonio. No spam, no fluff — just the events worth your time.</p>
+          <h2>Don't Want to Check Back Every Week?</h2>
+          <p>Get San Antonio's best real estate events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
             <Link to="/submit" className="btn sa-btn-outline">Submit a Real Estate Event</Link>
-            <Link to="/san-antonio/subscribe" className="btn btn-gold">Subscribe Free</Link>
+            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Email — Free</Link>
           </div>
-          <p className="sa-subscribe-note">Also covers all San Antonio business events when you subscribe</p>
+          <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
         </div>
       </section>
 
