@@ -123,12 +123,12 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.85}}
 .hero-email-banner{display:flex;align-items:center;gap:.75rem;padding:1.2rem 1.8rem;background:linear-gradient(135deg,rgba(240,165,0,.15) 0%,rgba(245,210,110,.1) 100%);border:2px solid #f0a500;border-radius:12px;color:#f5d26e;font-size:.95rem;font-weight:700;max-width:800px;width:100%;justify-content:center;letter-spacing:.01em;box-shadow:0 0 30px rgba(240,165,0,.2);text-shadow:0 2px 4px rgba(0,0,0,.2)}
 .hero-cities-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;width:100%;max-width:950px}
-.hero-city-link{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1.2rem 1.2rem;border-radius:1rem;background:#f5d26e;border:none;color:#003d82;text-decoration:none;transition:all .2s ease;min-width:0}
-.hero-city-link:hover{background:#fae08f;transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,210,110,.3)}
+.hero-city-link{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1.2rem 1.2rem;border-radius:1rem;background:#e8f0ff;border:none;color:#003d82;text-decoration:none;transition:all .2s ease;min-width:0}
+.hero-city-link:hover{background:#dce7ff;transform:translateY(-2px)}
 .hero-city-link:active{transform:translateY(0)}
 .hero-city-name{font-size:.95rem;font-weight:700;color:#003d82;letter-spacing:.01em;line-height:1}
-.hero-city-subscribe{display:block;font-size:.8rem;font-weight:600;color:#003d82;text-decoration:none;padding:0;background:transparent;border:none;border-radius:0;transition:all .2s ease;white-space:nowrap}
-.hero-city-subscribe:hover{color:#001f4d}
+.hero-city-subscribe{display:block;font-size:.8rem;font-weight:600;color:#7a8a9e;text-decoration:none;padding:0;background:transparent;border:none;border-radius:0;transition:all .2s ease;white-space:nowrap}
+.hero-city-subscribe:hover{color:#f5d26e}
 @media(max-width:768px){
   .hero-cities-label{font-size:1.5rem}
   .hero-cities-row{grid-template-columns:repeat(2,1fr);gap:.75rem}
