@@ -112,17 +112,17 @@ function MainLayoutInner() {
             <div className="value-grid">
               <div className="value-card">
                 <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
-                <h3>Choose your city</h3>
+                <h3>Get the free weekly email</h3>
                 <p>Pick San Antonio, Austin, Dallas, or Houston.</p>
               </div>
               <div className="value-card">
                 <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-                <h3>Browse this week's events</h3>
+                <h3>Check the calendar anytime</h3>
                 <p>Use the calendar or search by keyword to find what's relevant.</p>
               </div>
               <div className="value-card">
                 <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-                <h3>Get weekly reminders</h3>
+                <h3>Never miss what matters</h3>
                 <p>Subscribe free and get a Monday email with opportunities.</p>
               </div>
             </div>
