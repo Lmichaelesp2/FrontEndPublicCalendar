@@ -129,7 +129,6 @@ function MainLayoutInner() {
           </div>
         </section>
 
-        <WhatsIncluded />
         <HomepageCities />
         <SocialProof />
         <FAQ />
