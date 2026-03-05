@@ -54,7 +54,8 @@ export function Hero() {
           {!cityConfig && (
             <>
               <p className="hero-subtext">
-                Get your city's business events delivered to your inbox every Monday - Browse the calendar anytime between emails
+                Get your city's business events delivered to your inbox every Monday.<br />
+                Browse the calendar anytime between emails. Always free.
               </p>
               <nav className="hero-cities" aria-label="Browse by city">
                 <div className="hero-cities-row">
