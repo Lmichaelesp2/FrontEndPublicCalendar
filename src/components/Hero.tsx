@@ -54,7 +54,7 @@ export function Hero() {
           {!cityConfig && (
             <>
               <p className="hero-subtext">
-                Stop hunting for events. Get them delivered every Monday — free, no account needed.
+                Stop hunting for events. Get them delivered every Monday - free, no account needed.
               </p>
               <nav className="hero-cities" aria-label="Browse by city">
                 <div className="hero-cities-row">
