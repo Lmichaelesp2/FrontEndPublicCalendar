@@ -11,16 +11,14 @@ type EventCardProps = {
 };
 
 export function EventCard({ event, index, isLoggedIn = false }: EventCardProps) {
-  const rawDesc =
-    event.description && event.description !== 'Please find more details at the Event Website.'
-      ? event.description
-      : null;
+  const hasRealDesc =
+    event.description && event.description !== 'Please find more details at the Event Website.';
+  const rawDesc = hasRealDesc ? event.description! : 'Information available on event site';
 
-  const guestDesc = rawDesc
-    ? rawDesc.length > MAX_DESC_GUEST
+  const guestDesc =
+    hasRealDesc && rawDesc.length > MAX_DESC_GUEST
       ? rawDesc.slice(0, MAX_DESC_GUEST).trimEnd() + '…'
-      : rawDesc
-    : null;
+      : rawDesc;
 
   const animationDelay = Math.min(index * 0.04, 0.35);
 
@@ -86,16 +84,12 @@ export function EventCard({ event, index, isLoggedIn = false }: EventCardProps) 
             </div>
           )}
 
-          {rawDesc && (
-            <p className="ev-card-new-desc">{rawDesc}</p>
-          )}
+          <p className={`ev-card-new-desc${!hasRealDesc ? ' ev-card-new-desc-fallback' : ''}`}>{rawDesc}</p>
         </div>
       ) : (
-        guestDesc && (
-          <div className="ev-card-new-body">
-            <p className="ev-card-new-desc" style={{ marginBottom: 0 }}>{guestDesc}</p>
-          </div>
-        )
+        <div className="ev-card-new-body">
+          <p className={`ev-card-new-desc${!hasRealDesc ? ' ev-card-new-desc-fallback' : ''}`} style={{ marginBottom: 0 }}>{guestDesc}</p>
+        </div>
       )}
     </div>
   );

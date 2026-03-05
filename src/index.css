@@ -430,6 +430,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .ev-card-new-tag{padding:.45rem .9rem;border-radius:20px;background:var(--white);border:1px solid #d0d0d0;font-size:.82rem;font-weight:600;color:#555}
 
 .ev-card-new-desc{font-size:.9rem;color:#444;line-height:1.65;margin-bottom:1.15rem;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.ev-card-new-desc-fallback{font-style:italic;color:#888}
 
 .ev-card-new-actions{display:flex;align-items:center;gap:.75rem;padding-top:.5rem}
 .ev-card-new-action-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1rem;border-radius:6px;border:1.5px solid #d0d0d0;background:var(--white);font-size:.85rem;font-weight:600;color:#555;cursor:pointer;transition:all .2s;font-family:inherit}
