@@ -61,7 +61,7 @@ export function Hero() {
                   {CITY_CONFIGS.map((c) => (
                     <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
                       <span className="hero-city-name">{c.name}</span>
-                      <span className="hero-city-subscribe">Subscribe here</span>
+                      <span className="hero-city-subscribe">Sign up free</span>
                     </Link>
                   ))}
                 </div>
