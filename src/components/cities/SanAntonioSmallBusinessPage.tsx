@@ -146,7 +146,7 @@ function SanAntonioSmallBusinessContent() {
             <em>San Antonio</em>
           </h1>
           <p className="hero-subtext">
-            Stop missing the events that grow your network and your business.
+            Stop missing the small business events that help you grow.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email

@@ -140,12 +140,12 @@ function SanAntonioTechnologyContent() {
             San Antonio Technology Calendar
           </div>
           <h1>
-            Technology Events in
+            Tech Events in
             <br />
             <em>San Antonio</em>
           </h1>
           <p className="hero-subtext">
-            Stop missing the tech events that grow your network and your career.
+            Stop missing the tech meetups that grow your career.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email

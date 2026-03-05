@@ -109,12 +109,12 @@ function SanAntonioContent() {
             San Antonio Business Calendar
           </div>
           <h1>
-            Networking &amp; Business Events in
+            Business Events in
             <br />
             <em>San Antonio</em>
           </h1>
           <p className="hero-subtext">
-            Stop missing the events that grow your network and your business.
+            Stop missing the networking events that grow your business.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email
