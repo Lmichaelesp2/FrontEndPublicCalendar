@@ -67,7 +67,7 @@ export function Hero() {
                 </div>
               </nav>
               <p className="hero-subtext-below">
-                Browse the calendar anytime between emails. Always free.
+                Calendar access anytime. Always free.
               </p>
             </>
           )}
