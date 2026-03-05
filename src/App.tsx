@@ -59,7 +59,9 @@ function MainLayoutInner() {
         <section className="features-section">
           <div className="features-inner">
             <h2>We Do the Searching So You Don't Have To</h2>
-            <p className="features-subtitle">Business events in your city are scattered across multiple sites. They take time to find. We bring them together for you.</p>
+            <p className="features-subtitle">We aggrigate sources across Texas so you don't have to — then deliver the best networking opportunities straight to your email every Monday.
+
+</p>
 
             <div className="features-grid">
               <div className="feature-card">
