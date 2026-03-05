@@ -267,7 +267,7 @@ function CitySection({
                     More events in {city} are available — log in or subscribe to see the full calendar.
                   </div>
                   <div className="hpc-city-cta-btns">
-                    <Link to="/login" className="hpc-cta-btn hpc-cta-login">
+                    <Link to={cityRoute} className="hpc-cta-btn hpc-cta-login">
                       <LogIn size={15} />
                       Log in
                     </Link>
