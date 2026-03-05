@@ -20,11 +20,16 @@ export function Hero() {
       <SEOHead title={seo.title} description={seo.description} />
       <section className="hero">
         <div className="hero-inner">
-          <div className="hero-badge">
-            {cityConfig
-              ? `${cityConfig.name} Business Calendar`
-              : 'Your City \u00b7 Your Events \u00b7 Every Monday'}
-          </div>
+          {cityConfig ? (
+            <div className="hero-badge">
+              {cityConfig.name} Business Calendar
+            </div>
+          ) : (
+            <div className="hero-badge-email">
+              <Mail size={20} />
+              <span>Every Monday you'll receive that week's events—free, no account needed.</span>
+            </div>
+          )}
 
           {cityConfig ? (
             <h1>
@@ -54,10 +59,6 @@ export function Hero() {
 
           {!cityConfig && (
             <nav className="hero-cities" aria-label="Browse by city">
-              <div className="hero-cities-label">
-                <Mail size={20} />
-                <span>Every Monday you'll receive that week's events—free, no account needed.</span>
-              </div>
               <div className="hero-cities-row">
                 {CITY_CONFIGS.map((c) => (
                   <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
