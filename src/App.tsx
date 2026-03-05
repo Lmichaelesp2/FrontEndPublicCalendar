@@ -30,6 +30,32 @@ function MainLayoutInner() {
       <Navigation />
       <Hero />
 
+        <section className="benefits-bar">
+          <div className="benefits-bar-inner">
+            <div className="benefit-item">
+              <div className="benefit-icon">
+                <CalendarDays size={20} strokeWidth={2} />
+              </div>
+              <span>Events aggregated every week</span>
+            </div>
+            <div className="benefit-item">
+              <div className="benefit-icon">
+                <Mail size={20} strokeWidth={2} />
+              </div>
+              <span>Delivered every Monday morning</span>
+            </div>
+            <div className="benefit-item">
+              <div className="benefit-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <span>No account required</span>
+            </div>
+          </div>
+        </section>
+
         <section className="features-section">
           <div className="features-inner">
             <h2>We Do the Searching So You Don't Have To</h2>
@@ -59,38 +85,6 @@ function MainLayoutInner() {
                 <h3>Weekly Event Reminder</h3>
                 <p>Every Monday, the week's events land in your inbox. Plan your networking before the week even starts.</p>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="benefits-bar">
-          <div className="benefits-bar-inner">
-            <div className="benefit-item">
-              <div className="benefit-icon">
-                <CalendarDays size={20} strokeWidth={2} />
-              </div>
-              <span>Events aggregated every week</span>
-            </div>
-            <div className="benefit-item">
-              <div className="benefit-icon">
-                <Mail size={20} strokeWidth={2} />
-              </div>
-              <span>Delivered every Monday morning</span>
-            </div>
-            <div className="benefit-item">
-              <div className="benefit-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="m9 12 2 2 4-4"></path>
-                </svg>
-              </div>
-              <span>No account required</span>
-            </div>
-            <div className="benefit-item">
-              <div className="benefit-icon">
-                <MapPin size={20} strokeWidth={2} />
-              </div>
-              <span>4 cities, 1 subscription</span>
             </div>
           </div>
         </section>
