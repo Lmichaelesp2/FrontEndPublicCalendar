@@ -30,35 +30,67 @@ function MainLayoutInner() {
       <Navigation />
       <Hero />
 
-        <section className="value-section">
-          <div className="value-inner">
+        <section className="features-section">
+          <div className="features-inner">
             <h2>We Do the Searching So You Don't Have To</h2>
-            <p>Business events in your city are scattered across multiple sites. They take time to find. We bring them together for you.</p>
+            <p className="features-subtitle">Business events in your city are scattered across multiple sites. They take time to find. We bring them together for you.</p>
+
+            <div className="features-grid">
+              <div className="feature-card">
+                <div className="feature-icon">
+                  <CalendarDays size={32} strokeWidth={1.5} />
+                </div>
+                <h3>Already Aggregated</h3>
+                <p>We track organizations so you don't have to check dozens of websites. Every event is already here.</p>
+              </div>
+
+              <div className="feature-card">
+                <div className="feature-icon">
+                  <Search size={32} strokeWidth={1.5} />
+                </div>
+                <h3>Easy-to-Use Calendar</h3>
+                <p>Browse events by day, search by keyword, and find exactly what you're looking for — fast.</p>
+              </div>
+
+              <div className="feature-card">
+                <div className="feature-icon">
+                  <Mail size={32} strokeWidth={1.5} />
+                </div>
+                <h3>Weekly Event Reminder</h3>
+                <p>Every Monday, the week's events land in your inbox. Plan your networking before the week even starts.</p>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="sa-value-strip">
-          <div className="sa-value-strip-inner">
-            <div className="sa-value-strip-item">
-              <div className="sa-strip-icon"><CalendarDays size={28} strokeWidth={1.8} /></div>
-              <div>
-                <strong>Already Aggregated</strong>
-                <p>We track organizations so you don't have to check dozens of websites. Every event is already here.</p>
+        <section className="benefits-bar">
+          <div className="benefits-bar-inner">
+            <div className="benefit-item">
+              <div className="benefit-icon">
+                <CalendarDays size={20} strokeWidth={2} />
               </div>
+              <span>Events aggregated every week</span>
             </div>
-            <div className="sa-value-strip-item">
-              <div className="sa-strip-icon"><Search size={28} strokeWidth={1.8} /></div>
-              <div>
-                <strong>Easy-to-Use Calendar</strong>
-                <p>Browse events by day, search by keyword, and find exactly what you're looking for — fast.</p>
+            <div className="benefit-item">
+              <div className="benefit-icon">
+                <Mail size={20} strokeWidth={2} />
               </div>
+              <span>Delivered every Monday morning</span>
             </div>
-            <div className="sa-value-strip-item">
-              <div className="sa-strip-icon"><Mail size={28} strokeWidth={1.8} /></div>
-              <div>
-                <strong>Weekly Event Reminder</strong>
-                <p>Every Monday, the week's events land in your inbox. Plan your networking before the week even starts.</p>
+            <div className="benefit-item">
+              <div className="benefit-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
               </div>
+              <span>No account required</span>
+            </div>
+            <div className="benefit-item">
+              <div className="benefit-icon">
+                <MapPin size={20} strokeWidth={2} />
+              </div>
+              <span>4 cities, 1 subscription</span>
             </div>
           </div>
         </section>

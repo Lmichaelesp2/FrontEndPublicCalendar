@@ -149,6 +149,35 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .value-card h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem;color:var(--navy-dark)}
 .value-card p{font-size:1rem;color:var(--gray-600);line-height:1.65}
 
+/* FEATURES SECTION */
+.features-section{padding:4rem 2rem;background:linear-gradient(135deg,#f0f5ff 0%,#e8f0fe 50%,#f8faff 100%);position:relative}
+.features-inner{max-width:1200px;margin:0 auto;text-align:center}
+.features-inner h2{font-size:2rem;color:var(--navy-dark);margin-bottom:.75rem;font-weight:800;letter-spacing:-.02em}
+.features-subtitle{color:var(--gray-600);font-size:1.1rem;margin-bottom:3.5rem;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.7;font-weight:500}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+.feature-card{background:var(--white);border-radius:12px;padding:2.5rem 2rem;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:all .3s ease}
+.feature-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(0,0,0,.12)}
+.feature-icon{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;background:linear-gradient(135deg,var(--blue) 0%,var(--navy) 100%);color:var(--white);border-radius:12px;margin-bottom:1.5rem}
+.feature-card h3{font-size:1.15rem;font-weight:700;color:var(--navy-dark);margin-bottom:1rem;letter-spacing:-.01em}
+.feature-card p{font-size:.95rem;color:var(--gray-600);line-height:1.7}
+
+/* BENEFITS BAR */
+.benefits-bar{background:linear-gradient(135deg,var(--gold-bright) 0%,var(--gold) 100%);padding:1.25rem 2rem;border-top:3px solid rgba(0,0,0,.08);border-bottom:3px solid rgba(0,0,0,.08)}
+.benefits-bar-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;align-items:center}
+.benefit-item{display:flex;align-items:center;gap:.75rem;color:var(--navy-dark);font-weight:600;font-size:.9rem}
+.benefit-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.benefit-icon svg{display:block}
+
+@media(max-width:1024px){
+  .features-grid{grid-template-columns:1fr;gap:1.5rem}
+  .benefits-bar-inner{grid-template-columns:repeat(2,1fr);gap:1.25rem}
+}
+
+@media(max-width:640px){
+  .benefits-bar-inner{grid-template-columns:1fr;gap:1rem}
+  .benefit-item{font-size:.85rem}
+}
+
 /* WHY SECTION */
 .why-section{padding:5rem 2rem;background:var(--white);position:relative}
 .why-inner{max-width:1100px;margin:0 auto;text-align:center}
