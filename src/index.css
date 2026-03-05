@@ -252,15 +252,15 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 
 /* Homepage calendar card */
 .hpc-cal-card{background:var(--white);border-radius:14px;border:1px solid #d0dae8;box-shadow:0 2px 12px rgba(0,0,0,.07);overflow:hidden;margin-bottom:1rem}
-.hpc-cal-header{display:flex;align-items:center;justify-content:space-between;background:#1a3a6b;padding:1rem 1.5rem}
+.hpc-cal-header{display:flex;align-items:center;justify-content:space-between;background:var(--white);padding:1rem 1.5rem;border-bottom:1px solid var(--gray-200)}
 .hpc-cal-title{display:flex;align-items:baseline;gap:.5rem}
-.hpc-cal-month{font-size:1.15rem;font-weight:800;color:var(--white);letter-spacing:-.01em}
-.hpc-cal-year{font-size:.85rem;font-weight:400;color:rgba(255,255,255,.55)}
+.hpc-cal-month{font-size:1.15rem;font-weight:800;color:#0a3368;letter-spacing:-.01em}
+.hpc-cal-year{font-size:.85rem;font-weight:400;color:#7a8fa8}
 .hpc-cal-nav{display:flex;align-items:center;gap:.4rem}
-.hpc-today-btn{font-size:.78rem;font-weight:600;color:var(--white);background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:.3rem .75rem;cursor:pointer;font-family:inherit;transition:background .15s}
-.hpc-today-btn:hover{background:rgba(255,255,255,.25)}
-.hpc-nav-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:6px;cursor:pointer;color:var(--white);transition:background .15s}
-.hpc-nav-btn:hover{background:rgba(255,255,255,.25)}
+.hpc-today-btn{font-size:.78rem;font-weight:600;color:#0a3368;background:#f3f6f9;border:1px solid #dae5f0;border-radius:6px;padding:.3rem .75rem;cursor:pointer;font-family:inherit;transition:background .15s}
+.hpc-today-btn:hover{background:#e8eef7}
+.hpc-nav-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;background:#f3f6f9;border:1px solid #dae5f0;border-radius:6px;cursor:pointer;color:#0a3368;transition:background .15s}
+.hpc-nav-btn:hover{background:#e8eef7}
 .hpc-grid-header{display:grid;grid-template-columns:repeat(7,1fr);background:#f0f4f9;border-bottom:1px solid #dde5ef}
 .hpc-grid-day-label{text-align:center;font-size:.7rem;font-weight:700;color:#7a8fa8;letter-spacing:.06em;padding:.55rem 0}
 .hpc-grid{display:grid;grid-template-columns:repeat(7,1fr)}
