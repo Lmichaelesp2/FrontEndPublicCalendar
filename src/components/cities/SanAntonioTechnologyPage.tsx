@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, ArrowLeft } from 'lucide-react';
+import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { CityLoginBanner } from '../CityLoginBanner';
 import { Footer } from '../Footer';
@@ -117,30 +117,11 @@ function SanAntonioTechnologyContent() {
 
       <section className="hero">
         <div className="hero-inner">
-          <Link
-            to="/san-antonio"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '.4rem',
-              color: 'rgba(255,255,255,.7)',
-              fontSize: '.85rem',
-              fontWeight: 500,
-              textDecoration: 'none',
-              marginBottom: '1rem',
-              transition: 'color .2s',
-            }}
-            onMouseOver={(e) => e.currentTarget.style.color = 'rgba(255,255,255,1)'}
-            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,.7)'}
-          >
-            <ArrowLeft size={16} />
-            All San Antonio Events
-          </Link>
           <div className="hero-badge">
             San Antonio Technology Calendar
           </div>
           <h1>
-            Networking &amp; Technology Events in
+            Technology Events in
             <br />
             the <em>San Antonio</em> area
           </h1>

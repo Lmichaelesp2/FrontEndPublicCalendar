@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, Search, Mail, Landmark, Users, Clock, ArrowLeft, CalendarDays, Building2 } from 'lucide-react';
+import { Star, Plus, Minus, Search, Mail, Landmark, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { CityLoginBanner } from '../CityLoginBanner';
 import { Footer } from '../Footer';
@@ -117,31 +117,12 @@ function SanAntonioChamberContent() {
 
       <section className="hero">
         <div className="hero-inner">
-          <Link
-            to="/san-antonio"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '.4rem',
-              color: 'rgba(255,255,255,.7)',
-              fontSize: '.85rem',
-              fontWeight: 500,
-              textDecoration: 'none',
-              marginBottom: '1rem',
-              transition: 'color .2s',
-            }}
-            onMouseOver={(e) => e.currentTarget.style.color = 'rgba(255,255,255,1)'}
-            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,.7)'}
-          >
-            <ArrowLeft size={16} />
-            All San Antonio Events
-          </Link>
           <div className="hero-badge">
             <span className="dot" style={{ background: '#10b981' }}></span>
             San Antonio Chamber Calendar
           </div>
           <h1>
-            Networking &amp; Chamber Events in
+            Chamber Events in
             <br />
             the <em>San Antonio</em> area
           </h1>
