@@ -178,30 +178,6 @@ function SanAntonioContent() {
         </div>
       </section>
 
-      <div className="sa-category-nav">
-        <div className="sa-category-nav-inner">
-          <span className="sa-category-nav-label">Browse by category:</span>
-          <div className="sa-category-nav-links">
-            <Link to="/san-antonio/technology" className="sa-category-link">
-              <Monitor size={16} />
-              Technology
-            </Link>
-            <Link to="/san-antonio/real-estate" className="sa-category-link">
-              <Home size={16} />
-              Real Estate
-            </Link>
-            <Link to="/san-antonio/chamber" className="sa-category-link">
-              <Landmark size={16} />
-              Chamber
-            </Link>
-            <Link to="/san-antonio/small-business" className="sa-category-link">
-              <Briefcase size={16} />
-              Small Business
-            </Link>
-          </div>
-        </div>
-      </div>
-
       <section className="why-section">
         <div className="why-inner">
           <h2>Why Use Texas Business Calendars?</h2>
@@ -346,7 +322,7 @@ function SanAntonioContent() {
         </div>
       </section>
 
-      <Footer />
+      <Footer showIndustryCalendars={true} />
     </div>
   );
 }
