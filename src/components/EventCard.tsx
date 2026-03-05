@@ -42,14 +42,14 @@ export function EventCard({ event, index, isLoggedIn = false }: EventCardProps) 
           <h3 className="ev-card-new-title">{event.name}</h3>
           <div className="ev-card-new-time">{timeLabel}</div>
         </div>
-        {isLoggedIn && event.website && (
+        {event.website && (
           <a
             href={event.website}
             target="_blank"
             rel="noopener noreferrer"
             className="ev-card-new-btn"
           >
-            View Details
+            Event Page
           </a>
         )}
       </div>
