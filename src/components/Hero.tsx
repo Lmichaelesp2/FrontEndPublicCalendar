@@ -33,9 +33,9 @@ export function Hero() {
             </h1>
           ) : (
             <h1>
-              Networking &amp; Business Events
+              Networking &amp; Business
               <br className="hero-headline-break" />
-              in <em>San Antonio, Austin, Dallas, and Houston</em>
+              Events in <em>San Antonio, Austin, Dallas, and Houston</em>
             </h1>
           )}
 
