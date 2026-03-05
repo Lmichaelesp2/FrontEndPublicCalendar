@@ -115,7 +115,7 @@ function SanAntonioContent() {
             in the <em>San Antonio</em> area
           </h1>
           <p className="sa-hero-sub">
-            Never miss an event again. We gather San Antonio's best networking and business events in one place.
+            Get your San Antonio business events delivered to your inbox every Monday — free. Browse the calendar anytime between emails.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email

@@ -146,7 +146,7 @@ function SanAntonioChamberContent() {
             in <em>San Antonio</em>
           </h1>
           <p className="sa-hero-sub">
-            Every chamber luncheon, Business After Hours, ribbon cutting, and association event in San Antonio — organized in one calendar.
+            Get your San Antonio chamber events delivered to your inbox every Monday — free. Browse the calendar anytime between emails.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email

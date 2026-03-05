@@ -42,7 +42,7 @@ export function Hero() {
           {cityConfig && (
             <>
               <p className="hero-sub">
-                Never miss an event again. We gather {cityConfig.name}'s best networking and business events in one place — and deliver a curated digest to your inbox every Monday.
+                Get your {cityConfig.name} business events delivered to your inbox every Monday — free. Browse the calendar anytime between emails.
               </p>
               <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-gold">
                 Get the FREE Weekly Email

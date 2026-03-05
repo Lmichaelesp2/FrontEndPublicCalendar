@@ -146,7 +146,7 @@ function SanAntonioRealEstateContent() {
             in <em>San Antonio</em>
           </h1>
           <p className="sa-hero-sub">
-            Stay connected to San Antonio's real estate community. Investor meetups, SABOR events, broker tours, CE classes, and more — all in one place.
+            Get your San Antonio real estate events delivered to your inbox every Monday — free. Browse the calendar anytime between emails.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email

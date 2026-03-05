@@ -146,7 +146,7 @@ function SanAntonioTechnologyContent() {
             in <em>San Antonio</em>
           </h1>
           <p className="sa-hero-sub">
-            Stay plugged into San Antonio's thriving tech scene. Developer meetups, cybersecurity events, hackathons, and more — all in one place.
+            Get your San Antonio tech events delivered to your inbox every Monday — free. Browse the calendar anytime between emails.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email
