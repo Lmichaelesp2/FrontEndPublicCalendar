@@ -225,7 +225,7 @@ function SanAntonioRealEstateContent() {
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Get weekly reminders</h3>
+              <h3>Event Details & Direct Links</h3>
               <p>Subscribe free and get a Monday email with San Antonio real estate opportunities.</p>
             </div>
           </div>
