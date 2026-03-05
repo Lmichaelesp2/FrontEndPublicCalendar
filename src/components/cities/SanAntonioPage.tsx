@@ -215,7 +215,7 @@ function SanAntonioContent() {
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Browse this week's events</h3>
+              <h3>City-Specific Coverage</h3>
               <p>Use the calendar or search by keyword to find what's relevant to you.</p>
             </div>
             <div className="value-card">
