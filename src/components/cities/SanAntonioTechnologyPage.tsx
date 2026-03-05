@@ -211,7 +211,7 @@ function SanAntonioTechnologyContent() {
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
-          <h2>How It Works</h2>
+          <h2>Everything in the free weekly email</h2>
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Monitor size={40} strokeWidth={2} /></div>
