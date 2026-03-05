@@ -206,6 +206,7 @@ export function HomepageCities() {
                   key={city}
                   city={city}
                   events={displayed}
+                  totalCount={cityEvents.length}
                   hasMore={hasMore}
                   cityRoute={CITY_ROUTES[city]}
                   selectedDate={selectedDate}
@@ -220,10 +221,11 @@ export function HomepageCities() {
 }
 
 function CitySection({
-  city, events, hasMore, cityRoute, selectedDate,
+  city, events, totalCount, hasMore, cityRoute, selectedDate,
 }: {
   city: City;
   events: Event[];
+  totalCount: number;
   hasMore: boolean;
   cityRoute: string;
   selectedDate: string;
@@ -237,7 +239,7 @@ function CitySection({
           <span className="hpc-city-dot" />
           <h3 className="hpc-city-name">{city}</h3>
           <span className="hpc-city-count">
-            {events.length} event{events.length !== 1 ? 's' : ''}
+            {events.length} of {totalCount} event{totalCount !== 1 ? 's' : ''}
           </span>
         </div>
         <div className="hpc-city-actions">
@@ -246,7 +248,7 @@ function CitySection({
             className="hpc-city-link"
             onClick={(e) => e.stopPropagation()}
           >
-            Go to calendar <ChevronRight size={13} />
+            See full calendar <ChevronRight size={13} />
           </Link>
         </div>
       </div>

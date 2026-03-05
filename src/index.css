@@ -287,14 +287,14 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 
 .hpc-cities{display:flex;flex-direction:column;gap:1.5rem}
 .hpc-city-block{background:var(--white);border-radius:12px;border:1px solid var(--gray-200);box-shadow:0 2px 8px rgba(0,0,0,.05);overflow:hidden}
-.hpc-city-header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;background:#0a3368;cursor:pointer;gap:1rem}
+.hpc-city-header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;background:var(--white);cursor:pointer;gap:1rem;border-bottom:1px solid var(--gray-200)}
 .hpc-city-title-row{display:flex;align-items:center;gap:.65rem}
-.hpc-city-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
-.hpc-city-name{font-size:1rem;font-weight:800;color:var(--white);letter-spacing:-.01em}
-.hpc-city-count{font-size:.75rem;color:rgba(255,255,255,.6);font-weight:500}
+.hpc-city-dot{width:10px;height:10px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.hpc-city-name{font-size:1.3rem;font-weight:800;color:#0a3368;letter-spacing:-.01em}
+.hpc-city-count{font-size:.8rem;color:#7a8fa8;font-weight:500}
 .hpc-city-actions{display:flex;align-items:center;gap:.75rem;flex-shrink:0}
-.hpc-city-link{display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:600;color:#fff;text-decoration:none;background:rgba(255,255,255,.08);padding:.5rem 1.1rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.25);transition:all .2s;white-space:nowrap;letter-spacing:.01em}
-.hpc-city-link:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4)}
+.hpc-city-link{display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:600;color:#0a3368;text-decoration:none;background:#f0f4f9;padding:.5rem 1.1rem;border-radius:8px;border:1.5px solid #d0dae8;transition:all .2s;white-space:nowrap;letter-spacing:.01em}
+.hpc-city-link:hover{background:#e4ecf5;border-color:#b8c9e0}
 .hpc-events{padding:.75rem 1rem;display:flex;flex-direction:column;gap:.5rem}
 .hpc-no-events{text-align:center;padding:1.5rem;color:var(--gray-400);font-size:.85rem}
 .hpc-city-cta{margin:.25rem 0 .25rem;background:linear-gradient(135deg,#f0f5fc 0%,#e8f0fb 100%);border-top:1px solid #d4e1f5;border-radius:0 0 10px 10px;padding:1.1rem 1.25rem 1.15rem;text-align:center}
