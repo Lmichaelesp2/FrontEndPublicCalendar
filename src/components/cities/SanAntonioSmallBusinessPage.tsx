@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Plus, Minus, Search, Mail, Briefcase, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
-import { CityLoginBanner } from '../CityLoginBanner';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { Calendar } from '../Calendar';
@@ -113,7 +112,6 @@ function SanAntonioSmallBusinessContent() {
       />
 
       <Navigation />
-      <CityLoginBanner cityName="San Antonio" />
 
       <section className="hero">
         <div className="hero-inner">
