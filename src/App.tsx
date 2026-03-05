@@ -51,7 +51,7 @@ function MainLayoutInner() {
                   <path d="m9 12 2 2 4-4"></path>
                 </svg>
               </div>
-              <span>No account required</span>
+              <span>Access calendar anytime</span>
             </div>
           </div>
         </section>
