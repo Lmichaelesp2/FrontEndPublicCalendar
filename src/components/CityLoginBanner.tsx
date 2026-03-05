@@ -18,7 +18,7 @@ export function CityLoginBanner({ cityName }: CityLoginBannerProps) {
         </div>
         <div className="city-login-banner-text-centered">
           <p className="city-login-banner-headline">
-            Stop hunting for events. Get them delivered <span className="monday-with-icon"><Mail size={18} />every Monday</span> - Free, No account needed
+            <span className="stop-hunting-icon"><Mail size={18} />Stop hunting for events.</span> Get them delivered <span className="monday-with-icon"><Mail size={18} />every Monday</span> - Free, No account needed
           </p>
         </div>
       </div>
