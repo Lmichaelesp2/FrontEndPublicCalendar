@@ -50,7 +50,7 @@ export function EventCard({ event, index }: EventCardProps) {
         ) : (
           <div className="ev-card-new-addr">
             <MapPin size={14} className="ev-card-new-addr-icon" />
-            <span>See site</span>
+            <span>Visit site for location details</span>
           </div>
         )}
 
