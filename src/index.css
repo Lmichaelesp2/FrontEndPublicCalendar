@@ -155,10 +155,10 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .features-inner h2{font-size:2rem;color:var(--navy-dark);margin-bottom:.75rem;font-weight:800;letter-spacing:-.02em}
 .features-subtitle{color:var(--gray-600);font-size:1.1rem;margin-bottom:3.5rem;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.7;font-weight:500}
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
-.feature-card{background:var(--white);border-radius:12px;padding:2.5rem 2rem;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:all .3s ease}
-.feature-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(0,0,0,.12)}
-.feature-icon{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;background:linear-gradient(135deg,var(--blue) 0%,var(--navy) 100%);color:var(--white);border-radius:12px;margin-bottom:1.5rem}
-.feature-card h3{font-size:1.15rem;font-weight:700;color:var(--navy-dark);margin-bottom:1rem;letter-spacing:-.01em}
+.feature-card{background:var(--white);border-radius:12px;padding:2.5rem 2rem;text-align:left;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #e5e7eb;transition:all .3s ease;display:flex;flex-direction:column;position:relative}
+.feature-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.feature-step{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;background:var(--navy-dark);color:var(--gold-bright);border-radius:50%;font-size:1.25rem;font-weight:700;margin-bottom:1.5rem}
+.feature-card h3{font-size:1.2rem;font-weight:700;color:var(--navy-dark);margin-bottom:.75rem;letter-spacing:-.01em}
 .feature-card p{font-size:.95rem;color:var(--gray-600);line-height:1.7}
 
 /* BENEFITS BAR */

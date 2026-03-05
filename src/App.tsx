@@ -65,27 +65,21 @@ function MainLayoutInner() {
 
             <div className="features-grid">
               <div className="feature-card">
-                <div className="feature-icon">
-                  <CalendarDays size={32} strokeWidth={1.5} />
-                </div>
-                <h3>Already Aggregated</h3>
-                <p>We track organizations so you don't have to check dozens of websites. Every event is already here.</p>
+                <div className="feature-step">1</div>
+                <h3>Subscribe to your city</h3>
+                <p>Click your city above. Enter your email. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
               </div>
 
               <div className="feature-card">
-                <div className="feature-icon">
-                  <Search size={32} strokeWidth={1.5} />
-                </div>
-                <h3>Easy-to-Use Calendar</h3>
-                <p>Browse events by day, search by keyword, and find exactly what you're looking for — fast.</p>
+                <div className="feature-step">2</div>
+                <h3>Get your Monday email</h3>
+                <p>Every Monday morning you'll receive a curated digest of that week's networking events, meetups, and business gatherings in your city.</p>
               </div>
 
               <div className="feature-card">
-                <div className="feature-icon">
-                  <Mail size={32} strokeWidth={1.5} />
-                </div>
-                <h3>Weekly Event Reminder</h3>
-                <p>Every Monday, the week's events land in your inbox. Plan your networking before the week even starts.</p>
+                <div className="feature-step">3</div>
+                <h3>Pick events & show up</h3>
+                <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
               </div>
             </div>
           </div>
