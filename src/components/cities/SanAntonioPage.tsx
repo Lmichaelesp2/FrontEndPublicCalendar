@@ -162,7 +162,7 @@ function SanAntonioContent() {
           <div className="sa-value-strip-item">
             <div className="sa-strip-icon"><CalendarDays size={28} strokeWidth={1.8} /></div>
             <div>
-              <strong>Already Aggregated</strong>
+              <strong>Subscribe to your city</strong>
               <p>We track organizations so you don't have to check dozens of websites. Every event is already here.</p>
             </div>
           </div>
