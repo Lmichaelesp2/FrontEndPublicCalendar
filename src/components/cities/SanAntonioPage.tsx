@@ -206,21 +206,21 @@ function SanAntonioContent() {
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
-          <h2>Everything in the free weekly email</h2>
+          <h2>How It Works</h2>
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>This Week's Events</h3>
+              <h3>San Antonio focused</h3>
               <p>This calendar is built specifically for San Antonio business professionals.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>City-Specific Coverage</h3>
+              <h3>Browse this week's events</h3>
               <p>Use the calendar or search by keyword to find what's relevant to you.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Event Details & Direct Links</h3>
+              <h3>Get weekly reminders</h3>
               <p>Subscribe free and get a Monday email with San Antonio opportunities.</p>
             </div>
           </div>

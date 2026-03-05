@@ -108,11 +108,11 @@ function MainLayoutInner() {
 
         <section className="value-section" style={{ paddingTop: '2rem' }}>
           <div className="value-inner">
-            <h2>Everything in the free weekly email</h2>
+            <h2>How It Works</h2>
             <div className="value-grid">
               <div className="value-card">
                 <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
-                <h3>This Week's Events</h3>
+                <h3>Choose your city</h3>
                 <p>Pick San Antonio, Austin, Dallas, or Houston.</p>
               </div>
               <div className="value-card">
