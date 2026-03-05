@@ -113,17 +113,17 @@ function MainLayoutInner() {
               <div className="value-card">
                 <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
                 <h3>Get the free weekly email</h3>
-                <p>Pick San Antonio, Austin, Dallas, or Houston.</p>
+                <p>Subscribe to your city and every Monday morning we deliver that week's best business events straight to your inbox. Free, no account needed.</p>
               </div>
               <div className="value-card">
                 <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
                 <h3>Check the calendar anytime</h3>
-                <p>Use the calendar or search by keyword to find what's relevant.</p>
+                <p>The local calendar is always open — no signup required. Browse what's happening in your city whenever you need it.</p>
               </div>
               <div className="value-card">
                 <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
                 <h3>Never miss what matters</h3>
-                <p>Subscribe free and get a Monday email with opportunities.</p>
+                <p>Between the Monday email and the calendar, you'll always know what's coming up with enough time to plan</p>
               </div>
             </div>
           </div>
