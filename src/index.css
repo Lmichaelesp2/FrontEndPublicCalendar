@@ -44,6 +44,8 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .nav-links{display:flex;gap:.25rem;align-items:center}
 .nav-links a{color:var(--gray-600);text-decoration:none;font-size:.82rem;font-weight:500;padding:.4rem .8rem;border-radius:var(--radius-xs);transition:all .2s}
 .nav-links a:hover{color:var(--navy);background:var(--gray-100)}
+.nav-city-link{color:var(--gray-600)!important;text-decoration:none;font-size:.82rem;font-weight:500;padding:.4rem .8rem;border-radius:var(--radius-xs);transition:all .2s;display:inline-block}
+.nav-city-link:hover{color:var(--navy)!important;background:var(--gray-100)}
 .nav-cta{background:var(--navy)!important;color:var(--white)!important;font-weight:700!important;padding:.4rem 1rem!important}
 .nav-cta:hover{background:var(--navy-mid)!important}
 
