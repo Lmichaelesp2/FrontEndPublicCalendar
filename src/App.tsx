@@ -18,7 +18,6 @@ import { SanAntonioRealEstatePage } from './components/cities/SanAntonioRealEsta
 import { SanAntonioChamberPage } from './components/cities/SanAntonioChamberPage';
 import { SanAntonioSmallBusinessPage } from './components/cities/SanAntonioSmallBusinessPage';
 import { SubscribePage } from './components/SubscribePage';
-import { CityLoginBanner } from './components/CityLoginBanner';
 import { getCityConfig } from './lib/cities';
 import { MapPin, Search, Mail, CalendarDays } from 'lucide-react';
 
@@ -29,7 +28,6 @@ function MainLayoutInner() {
   return (
     <div>
       <Navigation />
-      {cityConfig && <CityLoginBanner cityName={cityConfig.name} />}
       <Hero />
 
         <section className="value-section">

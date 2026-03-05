@@ -2,7 +2,6 @@ import { useCity } from '../contexts/CityContext';
 import { SEOHead } from './SEOHead';
 import { HOME_SEO, CITY_CONFIGS } from '../lib/cities';
 import { Link } from 'react-router-dom';
-import { Mail } from 'lucide-react';
 
 export function Hero() {
   const { selectedCity } = useCity();
@@ -53,24 +52,21 @@ export function Hero() {
           )}
 
           {!cityConfig && (
-            <nav className="hero-cities" aria-label="Browse by city">
-              <div className="hero-cities-label">
-                <Mail size={20} />
-                <span>Stop hunting for events. Get them delivered every Monday — free, no account needed.</span>
-              </div>
-              <div className="hero-cities-row">
-                {CITY_CONFIGS.map((c) => (
-                  <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
-                    <span className="hero-city-name">{c.name}</span>
-                    <span className="hero-city-subscribe">Subscribe here</span>
-                  </Link>
-                ))}
-              </div>
-              <div className="hero-email-banner">
-                <Mail size={18} />
-                <span>Every Monday you'll receive that week's events—free, no account needed.</span>
-              </div>
-            </nav>
+            <>
+              <p className="hero-subtext">
+                Stop hunting for events. Get them delivered every Monday — free, no account needed.
+              </p>
+              <nav className="hero-cities" aria-label="Browse by city">
+                <div className="hero-cities-row">
+                  {CITY_CONFIGS.map((c) => (
+                    <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
+                      <span className="hero-city-name">{c.name}</span>
+                      <span className="hero-city-subscribe">Subscribe here</span>
+                    </Link>
+                  ))}
+                </div>
+              </nav>
+            </>
           )}
         </div>
       </section>
