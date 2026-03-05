@@ -21,7 +21,6 @@ export function Hero() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-badge">
-            <span className="dot"></span>
             {cityConfig
               ? `${cityConfig.name} Business Calendar`
               : 'Your City \u00b7 Your Events \u00b7 Every Monday'}
