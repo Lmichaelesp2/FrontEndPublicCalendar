@@ -108,7 +108,7 @@ function MainLayoutInner() {
 
         <section className="value-section" style={{ paddingTop: '2rem' }}>
           <div className="value-inner">
-            <h2>How It Works</h2>
+            <h2>Never Miss an Event That Matters</h2>
             <div className="value-grid">
               <div className="value-card">
                 <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
