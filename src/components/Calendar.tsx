@@ -94,6 +94,17 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
     setSearchQuery('');
   }
 
+  function stepDay(direction: 1 | -1) {
+    const current = parseDate(rangeStart ?? today);
+    current.setDate(current.getDate() + direction);
+    if (dateKey(current) < today) return;
+    const dk = dateKey(current);
+    setRangeStart(dk);
+    setRangeEnd(null);
+    setSearchQuery('');
+    setCalMonth({ year: current.getFullYear(), month: current.getMonth() });
+  }
+
   function prevMonth() {
     const d = new Date(calMonth.year, calMonth.month - 1, 1);
     setCalMonth({ year: d.getFullYear(), month: d.getMonth() });
@@ -147,6 +158,15 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
     : 'All Upcoming';
 
   const isMultiDay = !!(rangeEnd && rangeEnd !== rangeStart) || searchActive;
+
+  const selectedParsed = rangeStart ? parseDate(rangeStart) : new Date();
+  const isSingleDay = rangeStart && !rangeEnd && !searchActive;
+  const selectedDayName = selectedParsed.toLocaleDateString('en-US', { weekday: 'long' });
+  const selectedDateDisplay = selectedParsed.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const selectedIsToday = rangeStart === today;
+  const singleDayCount = isSingleDay
+    ? cityFiltered.filter((e) => e.start_date === rangeStart).length
+    : 0;
 
   return (
     <section className="cal-section" id="calendar">
@@ -235,6 +255,35 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
               );
             })}
           </div>
+        </div>
+
+        <div className="cal-day-nav">
+          <button
+            className="cal-day-arrow"
+            onClick={() => stepDay(-1)}
+            disabled={rangeStart === today || !rangeStart}
+            aria-label="Previous day"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          <div className="cal-day-center">
+            <div className="cal-day-name">{isSingleDay ? (selectedIsToday ? 'Today' : selectedDayName) : rangeLabel}</div>
+            <div className="cal-day-full">{isSingleDay ? selectedDateDisplay : `${eventCount} event${eventCount !== 1 ? 's' : ''}`}</div>
+            {isSingleDay && (
+              <div className="cal-day-count">
+                {singleDayCount} event{singleDayCount !== 1 ? 's' : ''}
+              </div>
+            )}
+          </div>
+
+          <button
+            className="cal-day-arrow"
+            onClick={() => stepDay(1)}
+            aria-label="Next day"
+          >
+            <ChevronRight size={24} />
+          </button>
         </div>
 
         <div className="ev-list" style={{ marginTop: '1.5rem' }}>
