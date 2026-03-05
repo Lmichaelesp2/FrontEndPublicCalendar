@@ -115,8 +115,8 @@ function SanAntonioTechnologyContent() {
       <Navigation />
       <CityLoginBanner cityName="San Antonio" />
 
-      <section className="sa-hero">
-        <div className="sa-hero-inner">
+      <section className="hero">
+        <div className="hero-inner">
           <Link
             to="/san-antonio"
             style={{
@@ -137,16 +137,15 @@ function SanAntonioTechnologyContent() {
             All San Antonio Events
           </Link>
           <div className="hero-badge">
-            <span className="dot" style={{ background: '#22d3ee' }}></span>
             San Antonio Technology Calendar
           </div>
           <h1>
-            Technology Events
+            Technology Events in
             <br />
-            in <em>San Antonio</em>
+            <em>San Antonio</em>
           </h1>
-          <p className="sa-hero-sub">
-            Get your San Antonio tech events delivered to your inbox every Monday — free. Browse the calendar anytime between emails.
+          <p className="hero-subtext">
+            Stop missing the tech events that grow your network and your career.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email
@@ -155,34 +154,54 @@ function SanAntonioTechnologyContent() {
         </div>
       </section>
 
-      <section className="value-section">
-        <div className="value-inner">
-          <h2>San Antonio's Tech Scene, One Calendar</h2>
-          <p>Tech events in San Antonio are scattered across Meetup, Eventbrite, LinkedIn, Geekdom, and dozens of local groups. We bring them together so you don't miss a thing.</p>
+      <section className="benefits-bar">
+        <div className="benefits-bar-inner">
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <CalendarDays size={20} strokeWidth={2} />
+            </div>
+            <span>Tech events aggregated every week</span>
+          </div>
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <Mail size={20} strokeWidth={2} />
+            </div>
+            <span>Delivered every Monday morning</span>
+          </div>
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <span>Access calendar anytime</span>
+          </div>
         </div>
       </section>
 
-      <section className="sa-value-strip">
-        <div className="sa-value-strip-inner">
-          <div className="sa-value-strip-item">
-            <div className="sa-strip-icon"><Monitor size={28} strokeWidth={1.8} /></div>
-            <div>
-              <strong>Tech-Focused</strong>
-              <p>Curated specifically for developers, engineers, cybersecurity pros, data scientists, and tech entrepreneurs.</p>
+      <section className="features-section">
+        <div className="features-inner">
+          <h2>We Do the Searching So You Don't Have To</h2>
+          <p className="features-subtitle">We aggregate tech sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your email every Monday.</p>
+
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Subscribe to San Antonio Tech</h3>
+              <p>Click subscribe above. Enter your email. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
             </div>
-          </div>
-          <div className="sa-value-strip-item">
-            <div className="sa-strip-icon"><Search size={28} strokeWidth={1.8} /></div>
-            <div>
-              <strong>Easy to Browse</strong>
-              <p>Search by keyword, browse by date, and find the right tech events for your schedule.</p>
+
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday email</h3>
+              <p>Every Monday morning you'll receive a curated digest of that week's tech meetups, hackathons, and developer gatherings in San Antonio.</p>
             </div>
-          </div>
-          <div className="sa-value-strip-item">
-            <div className="sa-strip-icon"><Mail size={28} strokeWidth={1.8} /></div>
-            <div>
-              <strong>Weekly Tech Roundup</strong>
-              <p>Get a Monday email with the week's tech events in San Antonio. Never miss a meetup again.</p>
+
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events & show up</h3>
+              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
             </div>
           </div>
         </div>
@@ -211,22 +230,22 @@ function SanAntonioTechnologyContent() {
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
-          <h2>How It Works</h2>
+          <h2>Never Miss a Tech Event That Matters</h2>
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Monitor size={40} strokeWidth={2} /></div>
-              <h3>Tech events only</h3>
-              <p>This calendar filters out everything except technology-related events in San Antonio.</p>
+              <h3>Get the free weekly email</h3>
+              <p>Sign up for San Antonio tech events and get that week's opportunities in your inbox every Monday. Free.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Browse & search</h3>
-              <p>Use the calendar or search by keyword to find hackathons, meetups, workshops, and more.</p>
+              <h3>Check the calendar anytime</h3>
+              <p>No signup needed. Browse San Antonio's tech events on the calendar whenever you want.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Get weekly reminders</h3>
-              <p>Subscribe free and get a Monday email with San Antonio tech opportunities.</p>
+              <h3>Never miss what matters</h3>
+              <p>The email and the calendar work together so you always know what's coming up.</p>
             </div>
           </div>
         </div>

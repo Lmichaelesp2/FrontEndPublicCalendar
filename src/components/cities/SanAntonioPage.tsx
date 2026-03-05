@@ -103,19 +103,18 @@ function SanAntonioContent() {
       <Navigation />
       <CityLoginBanner cityName="San Antonio" />
 
-      <section className="sa-hero">
-        <div className="sa-hero-inner">
+      <section className="hero">
+        <div className="hero-inner">
           <div className="hero-badge">
-            <span className="dot"></span>
             San Antonio Business Calendar
           </div>
           <h1>
-            Networking &amp; Business Events
+            Networking &amp; Business Events in
             <br />
-            in the <em>San Antonio</em> area
+            <em>San Antonio</em>
           </h1>
-          <p className="sa-hero-sub">
-            Get your San Antonio business events delivered to your inbox every Monday — free. Browse the calendar anytime between emails.
+          <p className="hero-subtext">
+            Stop missing the events that grow your network and your business.
           </p>
           <Link to="/san-antonio/subscribe" className="btn btn-gold">
             Get the FREE Weekly Email
@@ -124,7 +123,58 @@ function SanAntonioContent() {
         </div>
       </section>
 
-      <SponsorSection cityName="San Antonio" />
+      <section className="benefits-bar">
+        <div className="benefits-bar-inner">
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <CalendarDays size={20} strokeWidth={2} />
+            </div>
+            <span>Events aggregated every week</span>
+          </div>
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <Mail size={20} strokeWidth={2} />
+            </div>
+            <span>Delivered every Monday morning</span>
+          </div>
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <span>Access calendar anytime</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="features-section">
+        <div className="features-inner">
+          <h2>We Do the Searching So You Don't Have To</h2>
+          <p className="features-subtitle">We aggregate sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your email every Monday.</p>
+
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Subscribe to San Antonio</h3>
+              <p>Click subscribe above. Enter your email. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday email</h3>
+              <p>Every Monday morning you'll receive a curated digest of that week's networking events, meetups, and business gatherings in San Antonio.</p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events & show up</h3>
+              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div className="sa-category-nav">
         <div className="sa-category-nav-inner">
@@ -150,39 +200,6 @@ function SanAntonioContent() {
         </div>
       </div>
 
-      <section className="value-section">
-        <div className="value-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <p>Business events in San Antonio are scattered across multiple sites. They take time to find. We bring them together for you.</p>
-        </div>
-      </section>
-
-      <section className="sa-value-strip">
-        <div className="sa-value-strip-inner">
-          <div className="sa-value-strip-item">
-            <div className="sa-strip-icon"><CalendarDays size={28} strokeWidth={1.8} /></div>
-            <div>
-              <strong>Subscribe to your city</strong>
-              <p>We track organizations so you don't have to check dozens of websites. Every event is already here.</p>
-            </div>
-          </div>
-          <div className="sa-value-strip-item">
-            <div className="sa-strip-icon"><Search size={28} strokeWidth={1.8} /></div>
-            <div>
-              <strong>Easy-to-Use Calendar</strong>
-              <p>Browse events by day, search by keyword, and find exactly what you're looking for — fast.</p>
-            </div>
-          </div>
-          <div className="sa-value-strip-item">
-            <div className="sa-strip-icon"><Mail size={28} strokeWidth={1.8} /></div>
-            <div>
-              <strong>Weekly Event Reminder</strong>
-              <p>Every Monday, the week's events land in your inbox. Plan your networking before the week even starts.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="why-section">
         <div className="why-inner">
           <h2>Why Use Texas Business Calendars?</h2>
@@ -206,22 +223,22 @@ function SanAntonioContent() {
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
-          <h2>How It Works</h2>
+          <h2>Never Miss an Event That Matters</h2>
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>San Antonio focused</h3>
-              <p>This calendar is built specifically for San Antonio business professionals.</p>
+              <h3>Get the free weekly email</h3>
+              <p>Sign up for San Antonio and get that week's business events in your inbox every Monday. Free.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Browse this week's events</h3>
-              <p>Use the calendar or search by keyword to find what's relevant to you.</p>
+              <h3>Check the calendar anytime</h3>
+              <p>No signup needed. Browse San Antonio's business events on the calendar whenever you want.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Get weekly reminders</h3>
-              <p>Subscribe free and get a Monday email with San Antonio opportunities.</p>
+              <h3>Never miss what matters</h3>
+              <p>The email and the calendar work together so you always know what's coming up.</p>
             </div>
           </div>
         </div>
