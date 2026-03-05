@@ -62,15 +62,10 @@ export function Hero() {
               </div>
               <div className="hero-cities-row">
                 {CITY_CONFIGS.map((c) => (
-                  <div key={c.slug} className="hero-city-link">
-                    <div className="hero-city-content">
-                      <span className="hero-city-name">{c.name}</span>
-                      <span className="hero-city-label">Get Weekly Email</span>
-                    </div>
-                    <Link to={`/${c.slug}/subscribe`} className="hero-city-subscribe">
-                      Subscribe here
-                    </Link>
-                  </div>
+                  <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
+                    <span className="hero-city-name">{c.name}</span>
+                    <span className="hero-city-subscribe">Subscribe here</span>
+                  </Link>
                 ))}
               </div>
             </nav>
