@@ -426,7 +426,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .ev-card-new-body{padding:.75rem 1.15rem .85rem}
 
 .ev-card-new-addr{display:flex;align-items:center;gap:.4rem;padding:.4rem .65rem;background:#f3f5f8;border-radius:6px;margin-bottom:.55rem}
-.ev-card-new-addr-icon{color:#d04a3a;flex-shrink:0}
+.ev-card-new-addr-icon{color:var(--gold);flex-shrink:0}
 .ev-card-new-addr span{font-size:.82rem;color:#3a4a5c;line-height:1.35}
 
 .ev-card-new-desc{font-size:.84rem;color:#0a3368;line-height:1.55;margin:0 0 .55rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}

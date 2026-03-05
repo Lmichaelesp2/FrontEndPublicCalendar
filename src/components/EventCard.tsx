@@ -42,10 +42,15 @@ export function EventCard({ event, index }: EventCardProps) {
       </div>
 
       <div className="ev-card-new-body">
-        {event.address && (
+        {event.address ? (
           <div className="ev-card-new-addr">
             <MapPin size={14} className="ev-card-new-addr-icon" />
             <span>{event.address}</span>
+          </div>
+        ) : (
+          <div className="ev-card-new-addr">
+            <MapPin size={14} className="ev-card-new-addr-icon" />
+            <span>See site</span>
           </div>
         )}
 
