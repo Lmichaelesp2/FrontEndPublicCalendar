@@ -11,7 +11,6 @@ export function EventCard({ event, index }: EventCardProps) {
   const hasRealDesc =
     event.description && event.description !== 'Please find more details at the Event Website.';
   const rawDesc = hasRealDesc ? event.description! : '';
-  const buttonText = hasRealDesc ? 'View Details' : 'Event Site';
 
   const animationDelay = Math.min(index * 0.04, 0.35);
 
@@ -37,7 +36,7 @@ export function EventCard({ event, index }: EventCardProps) {
             rel="noopener noreferrer"
             className="ev-card-new-btn"
           >
-            {buttonText}
+            Event Site
           </a>
         )}
       </div>
