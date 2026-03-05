@@ -33,7 +33,7 @@ export function Hero() {
             </h1>
           ) : (
             <h1>
-              &amp; Networking Events in
+              Networking &amp; Business Events in
               <br />
               <em>San Antonio, Austin, Dallas &amp; Houston</em>
             </h1>
