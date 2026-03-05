@@ -118,6 +118,8 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2.25rem;border-radius:var(--radius-sm);font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;border:none;transition:all .25s ease;font-family:inherit}
 .btn-gold{background:var(--gold-bright);color:var(--navy-dark);box-shadow:0 4px 16px rgba(212,168,67,.3);font-size:1.1rem;padding:1rem 2.75rem}
 .btn-gold:hover{background:#f5d26e;transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,168,67,.4)}
+.btn-white{background:var(--white);color:var(--navy-dark);box-shadow:0 4px 16px rgba(255,255,255,.25);font-size:1.1rem;padding:1rem 2.75rem}
+.btn-white:hover{background:#f5f5f5;transform:translateY(-2px);box-shadow:0 6px 24px rgba(255,255,255,.35)}
 .hero-note{color:rgba(255,255,255,.45);font-size:.78rem;margin-top:.6rem}
 
 .hero-cities{display:flex;flex-direction:column;align-items:center;gap:2.25rem;margin-top:1.5rem}

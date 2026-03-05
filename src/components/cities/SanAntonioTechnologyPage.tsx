@@ -148,7 +148,7 @@ function SanAntonioTechnologyContent() {
             Stop missing the events that grow your network and your career.
           </p>
           <div className="hero-cta-group">
-            <Link to="/san-antonio/subscribe" className="btn btn-gold">
+            <Link to="/san-antonio/subscribe" className="btn btn-white">
               Sign up for your free weekly email
             </Link>
             <p className="hero-subtext-below">

@@ -45,7 +45,7 @@ export function Hero() {
                 Stop missing the events that grow your network and your business.
               </p>
               <div className="hero-cta-group">
-                <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-gold">
+                <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-white">
                   Sign up for your free weekly email
                 </Link>
                 <p className="hero-subtext-below">
