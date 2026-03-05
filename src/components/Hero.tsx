@@ -24,7 +24,7 @@ export function Hero() {
             <span className="dot"></span>
             {cityConfig
               ? `${cityConfig.name} Business Calendar`
-              : '4 Texas Cities \u00b7 Local Events \u00b7 1 Subscription'}
+              : 'Your City \u00b7 Your Events \u00b7 Every Monday'}
           </div>
 
           {cityConfig ? (
