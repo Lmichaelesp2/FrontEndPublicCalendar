@@ -140,17 +140,21 @@ function SanAntonioTechnologyContent() {
             San Antonio Technology Calendar
           </div>
           <h1>
-            Tech Events in
+            Networking &amp; Technology Events in
             <br />
-            <em>San Antonio</em>
+            the <em>San Antonio</em> area
           </h1>
           <p className="hero-subtext">
-            Stop missing the tech meetups that grow your career.
+            Stop missing the events that grow your network and your career.
           </p>
-          <Link to="/san-antonio/subscribe" className="btn btn-gold">
-            Get the FREE Weekly Email
-          </Link>
-          <p className="hero-note">No credit card required · Unsubscribe anytime</p>
+          <div className="hero-cta-group">
+            <Link to="/san-antonio/subscribe" className="btn btn-gold">
+              Sign up for your free weekly email
+            </Link>
+            <p className="hero-subtext-below">
+              Browse the calendar anytime between emails. Always free.
+            </p>
+          </div>
         </div>
       </section>
 

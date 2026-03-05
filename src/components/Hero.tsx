@@ -41,13 +41,17 @@ export function Hero() {
 
           {cityConfig && (
             <>
-              <p className="hero-sub">
-                Get your {cityConfig.name} business events delivered to your inbox every Monday — free. Browse the calendar anytime between emails.
+              <p className="hero-subtext">
+                Stop missing the events that grow your network and your business.
               </p>
-              <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-gold">
-                Get the FREE Weekly Email
-              </Link>
-              <p className="hero-note">No credit card required · Unsubscribe anytime</p>
+              <div className="hero-cta-group">
+                <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-gold">
+                  Sign up for your free weekly email
+                </Link>
+                <p className="hero-subtext-below">
+                  Browse the calendar anytime between emails. Always free.
+                </p>
+              </div>
             </>
           )}
 
