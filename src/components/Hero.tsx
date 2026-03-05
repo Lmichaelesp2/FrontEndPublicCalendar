@@ -54,7 +54,7 @@ export function Hero() {
           {!cityConfig && (
             <>
               <p className="hero-subtext">
-                Your city's business events, delivered every Monday to your inbox.
+                Your city's business events, delivered every Monday.
               </p>
               <nav className="hero-cities" aria-label="Browse by city">
                 <div className="hero-cities-row">
