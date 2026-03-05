@@ -247,7 +247,7 @@ function CitySection({
             className="hpc-city-link"
             onClick={(e) => e.stopPropagation()}
           >
-            View all <ChevronRight size={13} />
+            Go to calendar <ChevronRight size={13} />
           </Link>
         </div>
       </div>
