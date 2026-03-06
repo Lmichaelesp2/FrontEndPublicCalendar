@@ -20,7 +20,7 @@ const CITY_DESCRIPTIONS: Record<string, string> = {
 };
 
 const PERKS = [
-  { icon: Mail, title: 'Weekly Monday email', desc: 'A curated digest of the week\'s best events lands in your inbox every Monday morning.' },
+  { icon: Mail, title: 'Weekly Monday newsletter', desc: 'A curated digest of the week\'s best events lands in your inbox every Monday morning.' },
   { icon: CalendarDays, title: 'Never miss an event', desc: 'Stop checking multiple sites. We do the searching so you can focus on showing up.' },
   { icon: Search, title: 'Curated for your city', desc: 'Only events that matter to professionals in your area — no noise, no fluff.' },
 ];
@@ -84,7 +84,7 @@ export function SubscribePage() {
           <div className="sub-success-card">
             <div className="sub-success-icon"><CheckCircle size={48} strokeWidth={1.5} /></div>
             <h2>You're on the list for {cityName}!</h2>
-            <p>You'll get your first weekly email next Monday. Redirecting to the calendar now...</p>
+            <p>You'll get your first weekly newsletter next Monday. Redirecting to the calendar now...</p>
             <Link to={cityRoute} className="sub-go-btn">
               Go to {cityName} calendar <ArrowRight size={16} />
             </Link>
@@ -101,7 +101,7 @@ export function SubscribePage() {
 
       <div className="sub-hero">
         <div className="sub-hero-inner">
-          <div className="sub-hero-badge">Free Weekly Email</div>
+          <div className="sub-hero-badge">Free Weekly Newsletter</div>
           <h1>Get {cityName} Events in Your Inbox</h1>
           <p className="sub-hero-desc">Don't want to check back every week? Get the full week's events delivered to your inbox every Monday morning. {cityDesc}</p>
         </div>
@@ -144,7 +144,7 @@ export function SubscribePage() {
               <p className="sub-form-sub">
                 {mode === 'signup'
                   ? `Sign up to get ${cityName}'s best networking and business events delivered to your inbox every Monday.`
-                  : `Welcome back — log in to manage your ${cityName} email subscription.`}
+                  : `Welcome back — log in to manage your ${cityName} newsletter subscription.`}
               </p>
 
               <form onSubmit={handleSubmit} className="sub-form">
@@ -178,7 +178,7 @@ export function SubscribePage() {
                   {loading
                     ? 'Please wait...'
                     : mode === 'signup'
-                    ? `Get the Weekly Email — Free`
+                    ? `Get the Weekly Newsletter — Free`
                     : 'Log in'}
                   {!loading && <ArrowRight size={16} />}
                 </button>
