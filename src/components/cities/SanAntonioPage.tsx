@@ -116,7 +116,7 @@ function SanAntonioContent() {
           </p>
           <div className="hero-cta-group">
             <Link to="/san-antonio/subscribe" className="btn btn-white">
-              Get My Free San Antonio Events Email
+              Get My Free San Antonio Events Newsletter
             </Link>
             <p className="hero-subtext-below">
               Browse the calendar anytime between emails. Always free.
