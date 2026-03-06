@@ -1,4 +1,4 @@
-import { MapPin } from 'lucide-react';
+import { MapPin, Calendar } from 'lucide-react';
 import { Event } from '../lib/supabase';
 import { parseDate } from '../lib/utils';
 
@@ -27,7 +27,10 @@ export function EventCard({ event, index }: EventCardProps) {
       <div className="ev-card-new-header">
         <div className="ev-card-new-header-content">
           <h3 className="ev-card-new-title">{event.name}</h3>
-          <div className="ev-card-new-time">{timeLabel}</div>
+          <div className="ev-card-new-time">
+            <Calendar size={14} className="ev-card-new-time-icon" />
+            <span>{timeLabel}</span>
+          </div>
           {event.address ? (
             <div className="ev-card-new-location">
               <MapPin size={14} className="ev-card-new-location-icon" />
