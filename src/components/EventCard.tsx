@@ -28,6 +28,17 @@ export function EventCard({ event, index }: EventCardProps) {
         <div className="ev-card-new-header-content">
           <h3 className="ev-card-new-title">{event.name}</h3>
           <div className="ev-card-new-time">{timeLabel}</div>
+          {event.address ? (
+            <div className="ev-card-new-location">
+              <MapPin size={14} className="ev-card-new-location-icon" />
+              <span>{event.address}</span>
+            </div>
+          ) : (
+            <div className="ev-card-new-location">
+              <MapPin size={14} className="ev-card-new-location-icon" />
+              <span>Visit site for location details</span>
+            </div>
+          )}
         </div>
         {event.website && (
           <a
@@ -42,17 +53,6 @@ export function EventCard({ event, index }: EventCardProps) {
       </div>
 
       <div className="ev-card-new-body">
-        {event.address ? (
-          <div className="ev-card-new-addr">
-            <MapPin size={14} className="ev-card-new-addr-icon" />
-            <span>{event.address}</span>
-          </div>
-        ) : (
-          <div className="ev-card-new-addr">
-            <MapPin size={14} className="ev-card-new-addr-icon" />
-            <span>Visit site for location details</span>
-          </div>
-        )}
 
         {rawDesc ? (
           <p className="ev-card-new-desc">{rawDesc}</p>
