@@ -129,7 +129,7 @@ function SanAntonioRealEstateContent() {
           </p>
           <div className="hero-cta-group">
             <Link to="/san-antonio/subscribe" className="btn btn-white">
-              Sign up for your free weekly email
+              Get My Free San Antonio Real Estate Events Newsletter
             </Link>
             <p className="hero-subtext-below">
               Browse the calendar anytime between emails. Always free.
