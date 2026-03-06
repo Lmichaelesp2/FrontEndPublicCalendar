@@ -46,10 +46,10 @@ export function Hero() {
               </p>
               <div className="hero-cta-group">
                 <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-white">
-                  Sign up for your free weekly email
+                  Sign up for your free weekly newsletter
                 </Link>
                 <p className="hero-subtext-below">
-                  Browse the calendar anytime between emails. Always free.
+                  Browse the calendar anytime between event newsletters. Always free.
                 </p>
               </div>
             </>
