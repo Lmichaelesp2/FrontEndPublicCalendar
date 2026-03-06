@@ -48,9 +48,7 @@ export function Hero() {
                 <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-white">
                   Sign up for your free weekly newsletter
                 </Link>
-                <p className="hero-subtext-below">
-                  Browse the calendar anytime between event newsletters. Always free.
-                </p>
+                <p className="hero-subtext-below">Browse the calendar anytime between event newsletters. Always free.</p>
               </div>
             </>
           )}
@@ -70,9 +68,7 @@ export function Hero() {
                   ))}
                 </div>
               </nav>
-              <p className="hero-subtext-below">
-                Browse the calendar anytime between emails. Always free.
-              </p>
+              <p className="hero-subtext-below">Browse the calendar anytime between event newsletters. Always free.</p>
             </>
           )}
         </div>
