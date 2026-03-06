@@ -132,7 +132,7 @@ function SanAntonioChamberContent() {
               Get My Free San Antonio Chamber Events Newsletter
             </Link>
             <p className="hero-subtext-below">
-              Browse the calendar anytime between emails. Always free.
+              Browse the calendar anytime between newsletters. Always free.
             </p>
           </div>
         </div>
@@ -167,18 +167,18 @@ function SanAntonioChamberContent() {
       <section className="features-section">
         <div className="features-inner">
           <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate chamber event sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your email every Monday.</p>
+          <p className="features-subtitle">We aggregate chamber event sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.</p>
 
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
               <h3>Subscribe to Chamber Events</h3>
-              <p>Click subscribe above. Enter your email. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday email</h3>
+              <h3>Get your Monday newsletter</h3>
               <p>Every Monday morning you'll receive a curated digest of that week's chamber luncheons, Business After Hours, and ribbon cuttings in San Antonio.</p>
             </div>
 
@@ -198,7 +198,7 @@ function SanAntonioChamberContent() {
           <div className="why-grid">
             <div className="why-card">
               <h3>The problem</h3>
-              <p>Each chamber has its own website, email list, and event calendar. If you belong to multiple chambers, you're checking multiple places every week.</p>
+              <p>Each chamber has its own website, newsletter list, and event calendar. If you belong to multiple chambers, you're checking multiple places every week.</p>
             </div>
             <div className="why-card">
               <h3>What we do</h3>
@@ -218,7 +218,7 @@ function SanAntonioChamberContent() {
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly email</h3>
+              <h3>Get the free weekly newsletter</h3>
               <p>Sign up for San Antonio chamber events and get that week's luncheons, Business After Hours, and ribbon cuttings in your inbox every Monday. Free.</p>
             </div>
             <div className="value-card">
@@ -229,7 +229,7 @@ function SanAntonioChamberContent() {
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
               <h3>Never miss what matters</h3>
-              <p>The email and the calendar work together so you always know what's coming up in the chamber community.</p>
+              <p>The newsletter and the calendar work together so you always know what's coming up in the chamber community.</p>
             </div>
           </div>
         </div>
@@ -299,7 +299,7 @@ function SanAntonioChamberContent() {
           <p>Get San Antonio's best chamber and association events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
             <Link to="/submit" className="btn sa-btn-outline">Submit a Chamber Event</Link>
-            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Email — Free</Link>
+            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
         </div>

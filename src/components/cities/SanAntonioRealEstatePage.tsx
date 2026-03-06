@@ -19,7 +19,7 @@ const TESTIMONIALS = [
     location: 'San Antonio, TX',
   },
   {
-    quote: "The weekly real estate events email keeps me in the loop on open houses, networking lunches, and CE classes without any effort.",
+    quote: "The weekly real estate events newsletter keeps me in the loop on open houses, networking lunches, and CE classes without any effort.",
     name: 'James W.',
     location: 'San Antonio, TX',
   },
@@ -37,7 +37,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Is this calendar free?',
-    answer: 'Yes! The San Antonio real estate events calendar and weekly email are completely free — no credit card required.',
+    answer: 'Yes! The San Antonio real estate events calendar and weekly newsletter are completely free — no credit card required.',
   },
   {
     question: 'How is this different from the main San Antonio calendar?',
@@ -132,7 +132,7 @@ function SanAntonioRealEstateContent() {
               Get My Free San Antonio Real Estate Events Newsletter
             </Link>
             <p className="hero-subtext-below">
-              Browse the calendar anytime between emails. Always free.
+              Browse the calendar anytime between newsletters. Always free.
             </p>
           </div>
         </div>
@@ -167,18 +167,18 @@ function SanAntonioRealEstateContent() {
       <section className="features-section">
         <div className="features-inner">
           <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate real estate event sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your email every Monday.</p>
+          <p className="features-subtitle">We aggregate real estate event sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.</p>
 
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
               <h3>Subscribe to Real Estate Events</h3>
-              <p>Click subscribe above. Enter your email. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday email</h3>
+              <h3>Get your Monday newsletter</h3>
               <p>Every Monday morning you'll receive a curated digest of that week's real estate networking events, investor meetups, and property tours in San Antonio.</p>
             </div>
 
@@ -218,7 +218,7 @@ function SanAntonioRealEstateContent() {
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly email</h3>
+              <h3>Get the free weekly newsletter</h3>
               <p>Sign up for San Antonio real estate events and get that week's investor meetups, SABOR events, and tours in your inbox every Monday. Free.</p>
             </div>
             <div className="value-card">
@@ -229,7 +229,7 @@ function SanAntonioRealEstateContent() {
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
               <h3>Never miss what matters</h3>
-              <p>The email and the calendar work together so you always know what's coming up in the real estate community.</p>
+              <p>The newsletter and the calendar work together so you always know what's coming up in the real estate community.</p>
             </div>
           </div>
         </div>
@@ -299,7 +299,7 @@ function SanAntonioRealEstateContent() {
           <p>Get San Antonio's best real estate events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
             <Link to="/submit" className="btn sa-btn-outline">Submit a Real Estate Event</Link>
-            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Email — Free</Link>
+            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
         </div>

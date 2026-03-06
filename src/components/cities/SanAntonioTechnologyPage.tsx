@@ -19,7 +19,7 @@ const TECH_TESTIMONIALS = [
     location: 'San Antonio, TX',
   },
   {
-    quote: "The weekly tech events email is a game-changer. I've attended more meetups in the last month than I did all last year.",
+    quote: "The weekly tech events newsletter is a game-changer. I've attended more meetups in the last month than I did all last year.",
     name: 'Priya K.',
     location: 'San Antonio, TX',
   },
@@ -37,7 +37,7 @@ const TECH_FAQ = [
   },
   {
     question: 'Is this calendar free?',
-    answer: 'Yes! The San Antonio technology events calendar and weekly email are completely free — no credit card required.',
+    answer: 'Yes! The San Antonio technology events calendar and weekly newsletter are completely free — no credit card required.',
   },
   {
     question: 'How is this different from the main San Antonio calendar?',
@@ -131,7 +131,7 @@ function SanAntonioTechnologyContent() {
               Get My Free San Antonio Technology Events Newsletter
             </Link>
             <p className="hero-subtext-below">
-              Browse the calendar anytime between emails. Always free.
+              Browse the calendar anytime between newsletters. Always free.
             </p>
           </div>
         </div>
@@ -166,18 +166,18 @@ function SanAntonioTechnologyContent() {
       <section className="features-section">
         <div className="features-inner">
           <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate tech sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your email every Monday.</p>
+          <p className="features-subtitle">We aggregate tech sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.</p>
 
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
               <h3>Subscribe to San Antonio Tech</h3>
-              <p>Click subscribe above. Enter your email. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday email</h3>
+              <h3>Get your Monday newsletter</h3>
               <p>Every Monday morning you'll receive a curated digest of that week's tech meetups, hackathons, and developer gatherings in San Antonio.</p>
             </div>
 
@@ -217,7 +217,7 @@ function SanAntonioTechnologyContent() {
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Monitor size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly email</h3>
+              <h3>Get the free weekly newsletter</h3>
               <p>Sign up for San Antonio tech events and get that week's opportunities in your inbox every Monday. Free.</p>
             </div>
             <div className="value-card">
@@ -228,7 +228,7 @@ function SanAntonioTechnologyContent() {
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
               <h3>Never miss what matters</h3>
-              <p>The email and the calendar work together so you always know what's coming up.</p>
+              <p>The newsletter and the calendar work together so you always know what's coming up.</p>
             </div>
           </div>
         </div>
@@ -298,7 +298,7 @@ function SanAntonioTechnologyContent() {
           <p>Get San Antonio's best technology events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
             <Link to="/submit" className="btn sa-btn-outline">Submit a Tech Event</Link>
-            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Email — Free</Link>
+            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
         </div>
