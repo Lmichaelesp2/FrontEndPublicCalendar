@@ -207,8 +207,8 @@ export function Homepage() {
             <Link to="/texas/" className="hp-state-feature-card">
               <div className="hp-state-feature-bg">
                 <img
-                  src="https://images.pexels.com/photos/1105804/pexels-photo-1105804.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="Texas skyline"
+                  src="https://images.pexels.com/photos/378570/pexels-photo-378570.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Houston Texas skyline"
                 />
                 <div className="hp-state-feature-overlay" />
               </div>
@@ -220,8 +220,8 @@ export function Homepage() {
             <div className="hp-state-feature-card hp-state-feature-card-coming-soon">
               <div className="hp-state-feature-bg">
                 <img
-                  src="https://images.pexels.com/photos/3932500/pexels-photo-3932500.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="Florida beach skyline"
+                  src="https://images.pexels.com/photos/421655/pexels-photo-421655.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Miami Florida skyline"
                 />
                 <div className="hp-state-feature-overlay" />
               </div>
@@ -234,8 +234,8 @@ export function Homepage() {
             <div className="hp-state-feature-card hp-state-feature-card-coming-soon">
               <div className="hp-state-feature-bg">
                 <img
-                  src="https://images.pexels.com/photos/3907517/pexels-photo-3907517.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="Other states coming soon"
+                  src="https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="US city skyline"
                 />
                 <div className="hp-state-feature-overlay" />
               </div>
