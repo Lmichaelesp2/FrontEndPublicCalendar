@@ -104,8 +104,15 @@ export function Homepage() {
                 <span className="hero-city-name">Texas</span>
                 <span className="hero-city-subscribe">Sign up free</span>
               </Link>
+              <div className="hp-state-card hp-state-card-coming-soon">
+                <div className="hp-state-coming-soon-badge">Coming Soon</div>
+                <div className="hp-state-icon">
+                  <Globe size={28} strokeWidth={1.8} />
+                </div>
+                <span className="hero-city-name">Florida</span>
+                <span className="hero-city-subscribe">Available soon</span>
+              </div>
             </div>
-            <p className="hp-coming-soon">More states coming soon</p>
           </nav>
 
           <p className="hero-subtext-below">Browse the calendar anytime between event newsletters. Always free.</p>
@@ -210,8 +217,21 @@ export function Homepage() {
                 <p>San Antonio &middot; Austin &middot; Dallas &middot; Houston</p>
               </div>
             </Link>
+            <div className="hp-state-feature-card hp-state-feature-card-coming-soon">
+              <div className="hp-state-feature-bg">
+                <img
+                  src="https://images.pexels.com/photos/4386146/pexels-photo-4386146.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  alt="Florida skyline"
+                />
+                <div className="hp-state-feature-overlay" />
+              </div>
+              <div className="hp-state-feature-content">
+                <div className="hp-state-feature-coming-soon">Coming Soon</div>
+                <h3>Florida Business Calendars</h3>
+                <p>Multiple cities launching soon</p>
+              </div>
+            </div>
           </div>
-          <p className="hp-more-states">More states coming soon</p>
         </div>
       </section>
 
