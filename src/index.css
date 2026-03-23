@@ -1107,6 +1107,14 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .sa-hero h1 em{font-style:normal;color:var(--gold-bright)}
 .sa-hero-sub{color:rgba(255,255,255,.9);font-size:1.15rem;line-height:1.7;max-width:520px;font-weight:400}
 
+.sa-breadcrumb{background:var(--gray-50);border-bottom:1px solid var(--gray-200);padding:.65rem 2rem;font-size:.8rem;color:var(--gray-500);max-width:100%}
+.sa-breadcrumb a{color:var(--navy);text-decoration:none;font-weight:500}
+.sa-breadcrumb a:hover{text-decoration:underline}
+.sa-breadcrumb span{margin:0 .25rem;color:var(--gray-400)}
+.sa-back-link{text-align:center;padding:1.5rem 2rem 0}
+.sa-back-link a{font-size:.9rem;font-weight:600;color:var(--navy);text-decoration:none}
+.sa-back-link a:hover{text-decoration:underline}
+
 .sa-category-nav{background:var(--gray-50);border-bottom:1px solid var(--gray-200);padding:1rem 2rem}
 .sa-category-nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .sa-category-nav-label{font-size:.8rem;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}

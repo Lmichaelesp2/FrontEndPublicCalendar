@@ -3,9 +3,11 @@ import { useEffect } from 'react';
 type SEOHeadProps = {
   title: string;
   description: string;
+  canonical?: string;
+  robots?: string;
 };
 
-export function SEOHead({ title, description }: SEOHeadProps) {
+export function SEOHead({ title, description, canonical, robots }: SEOHeadProps) {
   useEffect(() => {
     document.title = title;
 
@@ -32,7 +34,27 @@ export function SEOHead({ title, description }: SEOHeadProps) {
       document.head.appendChild(ogDesc);
     }
     ogDesc.setAttribute('content', description);
-  }, [title, description]);
+
+    if (canonical) {
+      let link = document.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', canonical);
+    }
+
+    if (robots) {
+      let metaRobots = document.querySelector('meta[name="robots"]');
+      if (!metaRobots) {
+        metaRobots = document.createElement('meta');
+        metaRobots.setAttribute('name', 'robots');
+        document.head.appendChild(metaRobots);
+      }
+      metaRobots.setAttribute('content', robots);
+    }
+  }, [title, description, canonical, robots]);
 
   return null;
 }

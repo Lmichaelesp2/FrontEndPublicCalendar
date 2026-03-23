@@ -15,6 +15,7 @@ import { SanAntonioTechnologyPage } from './components/cities/SanAntonioTechnolo
 import { SanAntonioRealEstatePage } from './components/cities/SanAntonioRealEstatePage';
 import { SanAntonioChamberPage } from './components/cities/SanAntonioChamberPage';
 import { SanAntonioSmallBusinessPage } from './components/cities/SanAntonioSmallBusinessPage';
+import { SanAntonioNetworkingPage } from './components/cities/SanAntonioNetworkingPage';
 import { SubscribePage } from './components/SubscribePage';
 import { Homepage } from './components/Homepage';
 import { MapPin, Search, Mail, CalendarDays } from 'lucide-react';
@@ -178,6 +179,11 @@ function App() {
         <Route path="/texas/san-antonio/small-business" element={
           <CityProvider>
             <SanAntonioSmallBusinessPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/san-antonio/networking" element={
+          <CityProvider>
+            <SanAntonioNetworkingPage />
           </CityProvider>
         } />
         <Route path="/texas/:citySlug/subscribe" element={<SubscribePage />} />
