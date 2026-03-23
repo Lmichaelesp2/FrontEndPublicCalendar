@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Monitor, Home, Landmark, Briefcase } from 'lucide-react';
+import { Monitor, Home, Landmark, Briefcase, Users } from 'lucide-react';
 import { CITY_CONFIGS } from '../lib/cities';
 
 type FooterProps = {
@@ -32,6 +32,10 @@ export function Footer({ showIndustryCalendars = false, variant = 'default' }: F
           <Link to="/texas/san-antonio/real-estate" className="industry-calendar-button">
             <Home size={18} />
             San Antonio Real Estate Events
+          </Link>
+          <Link to="/texas/san-antonio/networking" className="industry-calendar-button">
+            <Users size={18} />
+            San Antonio Networking Events
           </Link>
           <Link to="/texas/san-antonio/chamber" className="industry-calendar-button">
             <Landmark size={18} />
