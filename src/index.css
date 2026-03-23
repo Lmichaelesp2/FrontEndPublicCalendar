@@ -1148,3 +1148,37 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   .sa-subscribe-actions{flex-direction:column;width:100%}
   .sa-subscribe-actions .btn{width:100%;justify-content:center}
 }
+
+/* HOMEPAGE — STATE CARDS */
+.hp-state-cards{display:flex;justify-content:center;gap:1.25rem;margin-top:1.5rem}
+.hp-state-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;padding:1.5rem 2.5rem;border-radius:1rem;background:#e8f0ff;border:none;color:#003d82;text-decoration:none;transition:all .2s ease;min-width:160px}
+.hp-state-card:hover{background:#dce7ff;transform:translateY(-2px)}
+.hp-state-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:rgba(0,61,130,.08);border-radius:12px;color:#003d82;margin-bottom:.25rem}
+.hp-coming-soon{color:rgba(255,255,255,.55);font-size:.85rem;font-weight:500;margin-top:1.25rem;letter-spacing:.01em}
+
+/* HOMEPAGE — INTRO PARAGRAPH */
+.hp-intro-section{padding:3.5rem 2rem;background:var(--gray-50);border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)}
+.hp-intro-inner{max-width:780px;margin:0 auto;text-align:center}
+.hp-intro-inner p{font-size:1.05rem;color:var(--gray-600);line-height:1.75;font-weight:400}
+
+/* HOMEPAGE — STATE SELECTION SECTION */
+.hp-states-section{padding:5rem 2rem;background:var(--white)}
+.hp-states-inner{max-width:800px;margin:0 auto;text-align:center}
+.hp-states-inner h2{font-size:1.85rem;color:var(--navy-dark);margin-bottom:2.5rem;font-weight:800;letter-spacing:-.02em}
+.hp-states-grid{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+.hp-state-feature-card{display:block;position:relative;border-radius:16px;overflow:hidden;text-decoration:none;max-width:480px;width:100%;aspect-ratio:16/9;transition:all .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.hp-state-feature-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.hp-state-feature-bg{position:absolute;inset:0}
+.hp-state-feature-bg img{width:100%;height:100%;object-fit:cover}
+.hp-state-feature-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,30,66,.85) 0%,rgba(10,30,66,.4) 50%,rgba(10,30,66,.2) 100%)}
+.hp-state-feature-content{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem}
+.hp-state-feature-content h3{font-size:1.5rem;font-weight:800;color:var(--white);margin-bottom:.35rem;letter-spacing:-.01em}
+.hp-state-feature-content p{font-size:.95rem;color:rgba(255,255,255,.75);font-weight:500}
+.hp-more-states{color:var(--gray-400);font-size:.9rem;font-weight:500;margin-top:2rem}
+
+@media(max-width:768px){
+  .hp-state-cards{flex-direction:column;align-items:center}
+  .hp-state-card{width:100%;max-width:240px}
+  .hp-state-feature-card{aspect-ratio:4/3}
+  .hp-state-feature-content h3{font-size:1.25rem}
+}

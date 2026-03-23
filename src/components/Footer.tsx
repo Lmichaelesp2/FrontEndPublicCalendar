@@ -4,32 +4,40 @@ import { CITY_CONFIGS } from '../lib/cities';
 
 type FooterProps = {
   showIndustryCalendars?: boolean;
+  variant?: 'default' | 'homepage';
 };
 
-export function Footer({ showIndustryCalendars = false }: FooterProps) {
+export function Footer({ showIndustryCalendars = false, variant = 'default' }: FooterProps) {
   return (
     <footer className="footer">
-      {!showIndustryCalendars ? (
+      {variant === 'homepage' ? (
+        <nav className="footer-cities" aria-label="City pages">
+          <Link to="/texas">Texas</Link>
+          {CITY_CONFIGS.map((c) => (
+            <Link key={c.slug} to={`/texas/${c.slug}`}>{c.name}</Link>
+          ))}
+        </nav>
+      ) : !showIndustryCalendars ? (
         <nav className="footer-cities" aria-label="City pages">
           {CITY_CONFIGS.map((c) => (
-            <Link key={c.slug} to={`/${c.slug}`}>{c.name}</Link>
+            <Link key={c.slug} to={`/texas/${c.slug}`}>{c.name}</Link>
           ))}
         </nav>
       ) : (
         <nav className="footer-cities footer-industry-calendars" aria-label="Industry calendars">
-          <Link to="/san-antonio/technology" className="industry-calendar-button">
+          <Link to="/texas/san-antonio/technology" className="industry-calendar-button">
             <Monitor size={18} />
             San Antonio Technology Events
           </Link>
-          <Link to="/san-antonio/real-estate" className="industry-calendar-button">
+          <Link to="/texas/san-antonio/real-estate" className="industry-calendar-button">
             <Home size={18} />
             San Antonio Real Estate Events
           </Link>
-          <Link to="/san-antonio/chamber" className="industry-calendar-button">
+          <Link to="/texas/san-antonio/chamber" className="industry-calendar-button">
             <Landmark size={18} />
             San Antonio Chamber Events
           </Link>
-          <Link to="/san-antonio/small-business" className="industry-calendar-button">
+          <Link to="/texas/san-antonio/small-business" className="industry-calendar-button">
             <Briefcase size={18} />
             San Antonio Small Business Events
           </Link>

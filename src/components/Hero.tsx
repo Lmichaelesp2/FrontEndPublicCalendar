@@ -45,7 +45,7 @@ export function Hero() {
                 Stop missing the events that grow your network and your business.
               </p>
               <div className="hero-cta-group">
-                <Link to={`/${cityConfig.slug}/subscribe`} className="btn btn-white">
+                <Link to={`/texas/${cityConfig.slug}/subscribe`} className="btn btn-white">
                   Sign up for your free weekly newsletter
                 </Link>
                 <p className="hero-subtext-below">Browse the calendar anytime between event newsletters. Always free.</p>
@@ -61,7 +61,7 @@ export function Hero() {
               <nav className="hero-cities" aria-label="Browse by city">
                 <div className="hero-cities-row">
                   {CITY_CONFIGS.map((c) => (
-                    <Link key={c.slug} to={`/${c.slug}/subscribe`} className="hero-city-link">
+                    <Link key={c.slug} to={`/texas/${c.slug}/subscribe`} className="hero-city-link">
                       <span className="hero-city-name">{c.name}</span>
                       <span className="hero-city-subscribe">Sign up free</span>
                     </Link>

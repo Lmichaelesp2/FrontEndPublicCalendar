@@ -6,10 +6,10 @@ import { dateKey, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
 
 const CITY_ROUTES: Record<City, string> = {
-  'San Antonio': '/san-antonio',
-  'Austin': '/austin',
-  'Dallas': '/dallas',
-  'Houston': '/houston',
+  'San Antonio': '/texas/san-antonio',
+  'Austin': '/texas/austin',
+  'Dallas': '/texas/dallas',
+  'Houston': '/texas/houston',
 };
 
 const HOME_LIMIT = 10;

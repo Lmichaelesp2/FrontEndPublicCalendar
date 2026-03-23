@@ -1,4 +1,4 @@
-import { Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { Footer } from './components/Footer';
@@ -8,23 +8,18 @@ import { CityProvider } from './contexts/CityContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { AdminPanel } from './components/admin/AdminPanel';
 import { SubmitEventPage } from './components/SubmitEventPage';
-import { EventAssistantBanner } from './components/EventAssistantBanner';
 import { SocialProof } from './components/SocialProof';
 import { FAQ } from './components/FAQ';
-import { WhatsIncluded } from './components/WhatsIncluded';
 import { SanAntonioPage } from './components/cities/SanAntonioPage';
 import { SanAntonioTechnologyPage } from './components/cities/SanAntonioTechnologyPage';
 import { SanAntonioRealEstatePage } from './components/cities/SanAntonioRealEstatePage';
 import { SanAntonioChamberPage } from './components/cities/SanAntonioChamberPage';
 import { SanAntonioSmallBusinessPage } from './components/cities/SanAntonioSmallBusinessPage';
 import { SubscribePage } from './components/SubscribePage';
-import { getCityConfig } from './lib/cities';
+import { Homepage } from './components/Homepage';
 import { MapPin, Search, Mail, CalendarDays } from 'lucide-react';
 
 function MainLayoutInner() {
-  const { citySlug } = useParams<{ citySlug?: string }>();
-  const cityConfig = citySlug ? getCityConfig(citySlug) : null;
-
   return (
     <div>
       <Navigation />
@@ -157,36 +152,37 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
+        <Route path="/" element={<Homepage />} />
         <Route path="/admin" element={<AdminRoute />} />
         <Route path="/submit" element={<SubmitEventPage />} />
-        <Route path="/san-antonio" element={
+        <Route path="/texas/san-antonio" element={
           <CityProvider>
             <SanAntonioPage />
           </CityProvider>
         } />
-        <Route path="/san-antonio/technology" element={
+        <Route path="/texas/san-antonio/technology" element={
           <CityProvider>
             <SanAntonioTechnologyPage />
           </CityProvider>
         } />
-        <Route path="/san-antonio/real-estate" element={
+        <Route path="/texas/san-antonio/real-estate" element={
           <CityProvider>
             <SanAntonioRealEstatePage />
           </CityProvider>
         } />
-        <Route path="/san-antonio/chamber" element={
+        <Route path="/texas/san-antonio/chamber" element={
           <CityProvider>
             <SanAntonioChamberPage />
           </CityProvider>
         } />
-        <Route path="/san-antonio/small-business" element={
+        <Route path="/texas/san-antonio/small-business" element={
           <CityProvider>
             <SanAntonioSmallBusinessPage />
           </CityProvider>
         } />
-        <Route path="/:citySlug/subscribe" element={<SubscribePage />} />
-        <Route path="/:citySlug" element={<MainLayout />} />
-        <Route path="/" element={<MainLayout />} />
+        <Route path="/texas/:citySlug/subscribe" element={<SubscribePage />} />
+        <Route path="/texas/:citySlug" element={<MainLayout />} />
+        <Route path="/texas" element={<MainLayout />} />
       </Routes>
     </AuthProvider>
   );

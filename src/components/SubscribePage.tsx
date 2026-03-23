@@ -53,7 +53,7 @@ export function SubscribePage() {
     );
   }
 
-  const cityRoute = `/${citySlug}`;
+  const cityRoute = `/texas/${citySlug}`;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

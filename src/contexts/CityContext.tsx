@@ -20,9 +20,9 @@ export function CityProvider({ children }: { children: ReactNode }) {
 
   const setSelectedCity = (city: City | 'All') => {
     if (city === 'All') {
-      navigate('/');
+      navigate('/texas');
     } else {
-      navigate(`/${getSlugForCity(city)}`);
+      navigate(`/texas/${getSlugForCity(city)}`);
     }
   };
 

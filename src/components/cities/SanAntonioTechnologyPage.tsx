@@ -127,7 +127,7 @@ function SanAntonioTechnologyContent() {
             Stop missing the events that grow your network and your career.
           </p>
           <div className="hero-cta-group">
-            <Link to="/san-antonio/subscribe" className="btn btn-white">
+            <Link to="/texas/san-antonio/subscribe" className="btn btn-white">
               Get My Free San Antonio Technology Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -298,7 +298,7 @@ function SanAntonioTechnologyContent() {
           <p>Get San Antonio's best technology events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
             <Link to="/submit" className="btn sa-btn-outline">Submit a Tech Event</Link>
-            <Link to="/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link to="/texas/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
         </div>

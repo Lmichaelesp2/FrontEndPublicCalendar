@@ -29,12 +29,13 @@ export function Navigation() {
         <div className="nav-inner">
           <Link to="/" className="nav-logo">
             <span className="nav-logo-text">
-              Texas <span>Business Calendars</span>
+              Local <span>Business Calendars</span>
             </span>
           </Link>
           <div className="nav-links">
+            <Link to="/texas" className="nav-city-link">Texas</Link>
             {CITY_CONFIGS.map((c) => (
-              <Link key={c.slug} to={`/${c.slug}`} className="nav-city-link">
+              <Link key={c.slug} to={`/texas/${c.slug}`} className="nav-city-link">
                 {c.name}
               </Link>
             ))}
