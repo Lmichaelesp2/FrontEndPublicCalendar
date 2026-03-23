@@ -207,8 +207,8 @@ export function Homepage() {
             <Link to="/texas/" className="hp-state-feature-card">
               <div className="hp-state-feature-bg">
                 <img
-                  src="https://images.pexels.com/photos/2263683/pexels-photo-2263683.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Texas city skyline"
+                  src="https://images.pexels.com/photos/1105804/pexels-photo-1105804.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Texas skyline"
                 />
                 <div className="hp-state-feature-overlay" />
               </div>
@@ -220,8 +220,8 @@ export function Homepage() {
             <div className="hp-state-feature-card hp-state-feature-card-coming-soon">
               <div className="hp-state-feature-bg">
                 <img
-                  src="https://images.pexels.com/photos/4386146/pexels-photo-4386146.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Florida skyline"
+                  src="https://images.pexels.com/photos/3932500/pexels-photo-3932500.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Florida beach skyline"
                 />
                 <div className="hp-state-feature-overlay" />
               </div>
@@ -229,6 +229,20 @@ export function Homepage() {
                 <div className="hp-state-feature-coming-soon">Coming Soon</div>
                 <h3>Florida Business Calendars</h3>
                 <p>Multiple cities launching soon</p>
+              </div>
+            </div>
+            <div className="hp-state-feature-card hp-state-feature-card-coming-soon">
+              <div className="hp-state-feature-bg">
+                <img
+                  src="https://images.pexels.com/photos/3907517/pexels-photo-3907517.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Other states coming soon"
+                />
+                <div className="hp-state-feature-overlay" />
+              </div>
+              <div className="hp-state-feature-content">
+                <div className="hp-state-feature-coming-soon">Coming Soon</div>
+                <h3>Other States</h3>
+                <p>More states launching soon</p>
               </div>
             </div>
           </div>
