@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
 import { supabase, Event, City } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
@@ -9,6 +9,8 @@ interface CalendarProps {
   eventCategory?: string;
   maxDate?: string;
   minDate?: string;
+  showGateBanner?: boolean;
+  onAuthClick?: () => void;
 }
 
 const MONTH_NAMES = [
@@ -27,7 +29,7 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
   return grid;
 }
 
-export function Calendar({ forcedCity, eventCategory, maxDate, minDate }: CalendarProps = {}) {
+export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick }: CalendarProps = {}) {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -294,6 +296,26 @@ export function Calendar({ forcedCity, eventCategory, maxDate, minDate }: Calend
             <ChevronRight size={24} />
           </button>
         </div>
+
+        {showGateBanner && (
+          <div className="ev-gate-banner" style={{ margin: '1.5rem auto 1rem' }}>
+            <div className="ev-gate-banner-inner">
+              <div className="ev-gate-icon">
+                <Lock size={20} />
+              </div>
+              <div className="ev-gate-text">
+                <p className="ev-gate-heading">See the full week's events — free</p>
+                <p className="ev-gate-sub">Create a free account to unlock Monday through Sunday view. No credit card, no paywall.</p>
+              </div>
+              <button className="ev-gate-btn" onClick={onAuthClick}>
+                Create Free Account
+              </button>
+              <button className="ev-gate-signin" onClick={onAuthClick}>
+                Sign in
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="ev-list" style={{ marginTop: '1.5rem' }}>
           {loading ? (
