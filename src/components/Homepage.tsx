@@ -97,25 +97,20 @@ export function Homepage() {
 
           <div className="hp-state-btns">
             <Link to="/texas/" className="hp-state-btn hp-state-btn-active">
-              <div className="hp-state-btn-bg" style={{ backgroundImage: "url('https://images.pexels.com/photos/378570/pexels-photo-378570.jpeg?auto=compress&cs=tinysrgb&w=800')" }} />
-              <div className="hp-state-btn-overlay" />
               <div className="hp-state-btn-content">
                 <span className="hp-state-btn-label">Texas</span>
                 <span className="hp-state-btn-live">Live now</span>
               </div>
             </Link>
 
-            <div className="hp-state-btn hp-state-btn-dimmed">
-              <div className="hp-state-btn-bg" style={{ backgroundImage: "url('https://images.pexels.com/photos/421655/pexels-photo-421655.jpeg?auto=compress&cs=tinysrgb&w=800')" }} />
-              <div className="hp-state-btn-overlay hp-state-btn-overlay-dark" />
+            <div className="hp-state-btn">
               <div className="hp-state-btn-content">
                 <span className="hp-state-btn-coming-soon">COMING SOON</span>
                 <span className="hp-state-btn-label">Florida</span>
               </div>
             </div>
 
-            <div className="hp-state-btn hp-state-btn-more">
-              <div className="hp-state-btn-dot-bg" />
+            <div className="hp-state-btn">
               <div className="hp-state-btn-content">
                 <span className="hp-state-btn-coming-soon">COMING SOON</span>
                 <span className="hp-state-btn-label">More States</span>

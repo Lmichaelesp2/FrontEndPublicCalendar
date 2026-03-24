@@ -1249,91 +1249,62 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .hp-state-btns{
   display:flex;
   justify-content:center;
-  gap:1.25rem;
+  gap:1.5rem;
   flex-wrap:wrap;
-  margin-bottom:2rem;
+  margin-bottom:2.5rem;
 }
 .hp-state-btn{
-  position:relative;
-  width:190px;
-  height:58px;
-  border-radius:10px;
-  overflow:hidden;
-  border:1.5px solid rgba(255,255,255,.3);
-  cursor:pointer;
-  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+  width:220px;
+  height:72px;
+  border-radius:14px;
+  border:2px solid rgba(255,255,255,.3);
+  background:rgba(12,40,90,.6);
+  backdrop-filter:blur(8px);
+  cursor:default;
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
   text-decoration:none;
   flex-shrink:0;
-  display:block;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+.hp-state-btn-active{cursor:pointer!important}
 .hp-state-btn-active:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 28px rgba(0,0,0,.35);
-  border-color:rgba(255,255,255,.7);
-}
-.hp-state-btn-dimmed{cursor:default}
-.hp-state-btn-more{cursor:default}
-.hp-state-btn-bg{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-}
-.hp-state-btn-overlay{
-  position:absolute;
-  inset:0;
-  background:rgba(10,31,74,.45);
-}
-.hp-state-btn-overlay-dark{
-  background:rgba(0,0,0,.58);
-}
-.hp-state-btn-dot-bg{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg,#0a1f4a 0%,#1040a0 100%);
-  background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
-  background-size:18px 18px;
+  transform:translateY(-4px);
+  box-shadow:0 12px 36px rgba(0,0,0,.4);
+  border-color:rgba(255,255,255,.6);
 }
 .hp-state-btn-content{
-  position:relative;
-  z-index:1;
-  height:100%;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:1px;
-  padding:.5rem 1rem;
+  gap:.35rem;
   font-family:'Outfit',sans-serif;
 }
 .hp-state-btn-label{
   font-family:'Outfit',sans-serif;
-  font-size:1rem;
+  font-size:1.35rem;
   font-weight:700;
   color:#fff;
   line-height:1;
-  letter-spacing:.01em;
+  letter-spacing:-.01em;
 }
 .hp-state-btn-live{
   font-family:'Outfit',sans-serif;
-  font-size:.72rem;
+  font-size:.8rem;
   font-weight:600;
   color:#f5c842;
   line-height:1;
-  letter-spacing:.01em;
+  letter-spacing:.02em;
 }
 .hp-state-btn-coming-soon{
   font-family:'Outfit',sans-serif;
-  font-size:.58rem;
+  font-size:.65rem;
   font-weight:700;
-  color:rgba(255,255,255,.6);
-  letter-spacing:.1em;
+  color:rgba(255,255,255,.5);
+  letter-spacing:.12em;
   text-transform:uppercase;
-  background:rgba(0,0,0,.25);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:4px;
-  padding:.15rem .5rem;
-  line-height:1;
   margin-bottom:2px;
 }
 .hp-hero-note{
@@ -1345,8 +1316,9 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 }
 @media(max-width:600px){
   .hp-hero-h1{font-size:2rem}
-  .hp-state-btns{gap:.85rem}
-  .hp-state-btn{width:160px;height:54px}
+  .hp-state-btns{gap:1rem}
+  .hp-state-btn{width:180px;height:68px}
+  .hp-state-btn-label{font-size:1.15rem}
   .hp-hero{padding:4rem 1.5rem 3.5rem}
 }
 
