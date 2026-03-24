@@ -28,34 +28,37 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="nav">
+      <nav className={`nav${isHomepage ? ' nav-homepage' : ''}`}>
         <div className="nav-inner">
           <Link to="/" className="nav-logo">
-            <span className="nav-logo-text">
+            <span className={`nav-logo-text${isHomepage ? ' nav-logo-text-hp' : ''}`}>
               Local <span>Business Calendars</span>
             </span>
           </Link>
           <div className="nav-links">
             {isHomepage ? (
-              <div className="nav-dropdown-wrapper">
-                <button
-                  className="nav-dropdown-trigger"
-                  onClick={() => setTexasDropdownOpen(!texasDropdownOpen)}
-                  aria-expanded={texasDropdownOpen}
-                >
-                  Texas <ChevronDown size={16} />
-                </button>
-                {texasDropdownOpen && (
-                  <div className="nav-dropdown-menu">
-                    <Link to="/texas" className="nav-dropdown-item">All Texas Cities</Link>
-                    {CITY_CONFIGS.map((c) => (
-                      <Link key={c.slug} to={`/texas/${c.slug}`} className="nav-dropdown-item">
-                        {c.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <>
+                <div className="nav-dropdown-wrapper">
+                  <button
+                    className="nav-dropdown-trigger"
+                    onClick={() => setTexasDropdownOpen(!texasDropdownOpen)}
+                    aria-expanded={texasDropdownOpen}
+                  >
+                    Texas <ChevronDown size={16} />
+                  </button>
+                  {texasDropdownOpen && (
+                    <div className="nav-dropdown-menu">
+                      <Link to="/texas" className="nav-dropdown-item">All Texas Cities</Link>
+                      {CITY_CONFIGS.map((c) => (
+                        <Link key={c.slug} to={`/texas/${c.slug}`} className="nav-dropdown-item">
+                          {c.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <span className="nav-coming-soon-link">Florida</span>
+              </>
             ) : (
               <>
                 <Link to="/texas" className="nav-city-link">Texas</Link>

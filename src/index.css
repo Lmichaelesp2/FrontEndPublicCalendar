@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -1201,3 +1202,157 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   .hp-state-feature-card{aspect-ratio:4/3}
   .hp-state-feature-content h3{font-size:1.25rem}
 }
+
+/* HOMEPAGE — NEW HERO (Outfit font, photo state buttons) */
+.hp-hero{
+  font-family:'Outfit',sans-serif;
+  background:linear-gradient(135deg,#0a1f4a 0%,#0f2b5b 40%,#2060cc 100%);
+  padding:5.5rem 2rem 4.5rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hp-hero-inner{max-width:860px;margin:0 auto;position:relative;z-index:1;font-family:'Outfit',sans-serif}
+.hp-hero-badge{
+  display:inline-block;
+  background:rgba(10,31,74,.55);
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(6px);
+  color:rgba(255,255,255,.92);
+  font-family:'Outfit',sans-serif;
+  font-size:.8rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:.55rem 1.5rem;
+  border-radius:99px;
+  margin-bottom:2.25rem;
+}
+.hp-hero-h1{
+  font-family:'Outfit',sans-serif;
+  font-size:3rem;
+  font-weight:800;
+  color:#fff;
+  line-height:1.15;
+  letter-spacing:-.025em;
+  margin-bottom:1.25rem;
+}
+.hp-hero-h1 em{font-style:normal;color:#f5c842}
+.hp-hero-sub{
+  font-family:'Outfit',sans-serif;
+  color:#f5c842;
+  font-size:1.25rem;
+  font-weight:600;
+  margin-bottom:2.75rem;
+  line-height:1.5;
+}
+.hp-state-btns{
+  display:flex;
+  justify-content:center;
+  gap:1.25rem;
+  flex-wrap:wrap;
+  margin-bottom:2rem;
+}
+.hp-state-btn{
+  position:relative;
+  width:190px;
+  height:58px;
+  border-radius:10px;
+  overflow:hidden;
+  border:1.5px solid rgba(255,255,255,.3);
+  cursor:pointer;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+  text-decoration:none;
+  flex-shrink:0;
+  display:block;
+}
+.hp-state-btn-active:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(0,0,0,.35);
+  border-color:rgba(255,255,255,.7);
+}
+.hp-state-btn-dimmed{cursor:default}
+.hp-state-btn-more{cursor:default}
+.hp-state-btn-bg{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+}
+.hp-state-btn-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(10,31,74,.45);
+}
+.hp-state-btn-overlay-dark{
+  background:rgba(0,0,0,.58);
+}
+.hp-state-btn-dot-bg{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#0a1f4a 0%,#1040a0 100%);
+  background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:18px 18px;
+}
+.hp-state-btn-content{
+  position:relative;
+  z-index:1;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1px;
+  padding:.5rem 1rem;
+  font-family:'Outfit',sans-serif;
+}
+.hp-state-btn-label{
+  font-family:'Outfit',sans-serif;
+  font-size:1rem;
+  font-weight:700;
+  color:#fff;
+  line-height:1;
+  letter-spacing:.01em;
+}
+.hp-state-btn-live{
+  font-family:'Outfit',sans-serif;
+  font-size:.72rem;
+  font-weight:600;
+  color:#f5c842;
+  line-height:1;
+  letter-spacing:.01em;
+}
+.hp-state-btn-coming-soon{
+  font-family:'Outfit',sans-serif;
+  font-size:.58rem;
+  font-weight:700;
+  color:rgba(255,255,255,.6);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:4px;
+  padding:.15rem .5rem;
+  line-height:1;
+  margin-bottom:2px;
+}
+.hp-hero-note{
+  font-family:'Outfit',sans-serif;
+  color:rgba(255,255,255,.45);
+  font-size:.88rem;
+  font-weight:400;
+  margin:0;
+}
+@media(max-width:600px){
+  .hp-hero-h1{font-size:2rem}
+  .hp-state-btns{gap:.85rem}
+  .hp-state-btn{width:160px;height:54px}
+  .hp-hero{padding:4rem 1.5rem 3.5rem}
+}
+
+/* NAV — Homepage override for Outfit */
+.nav-homepage{font-family:'Outfit',sans-serif}
+.nav-homepage .nav-logo-text-hp{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;color:#003d82}
+.nav-homepage .nav-logo-text-hp span{color:#1a75d2}
+.nav-homepage .nav-links a,.nav-homepage .nav-dropdown-trigger{font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:500}
+.nav-coming-soon-link{color:var(--gray-400)!important;font-size:.82rem;font-weight:500;padding:.4rem .8rem;border-radius:var(--radius-xs);cursor:default;pointer-events:none}

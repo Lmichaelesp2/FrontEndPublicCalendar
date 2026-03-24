@@ -81,41 +81,49 @@ export function Homepage() {
       />
       <Navigation />
 
-      <section className="hero">
-        <div className="hero-inner">
-          <div className="hero-badge">Your Local Business Events Network</div>
+      <section className="hp-hero">
+        <div className="hp-hero-inner">
+          <div className="hp-hero-badge">
+            WE DO THE SEARCHING &middot; YOU DO THE NETWORKING
+          </div>
 
-          <h1>
-            Local Business Calendars — Find Business &amp; Networking Events
-            <br />
-            in <em>Your City</em>
+          <h1 className="hp-hero-h1">
+            Find Business &amp; Networking Events <em>in Your City</em>
           </h1>
 
-          <p className="hero-subtext">
+          <p className="hp-hero-sub">
             Stop missing the events that grow your network and your business.
           </p>
 
-          <nav className="hero-cities" aria-label="Browse by state">
-            <div className="hp-state-cards">
-              <Link to="/texas/" className="hp-state-card">
-                <div className="hp-state-icon">
-                  <Globe size={28} strokeWidth={1.8} />
-                </div>
-                <span className="hero-city-name">Texas</span>
-                <span className="hero-city-subscribe">Sign up free</span>
-              </Link>
-              <div className="hp-state-card hp-state-card-coming-soon">
-                <div className="hp-state-coming-soon-badge">Coming Soon</div>
-                <div className="hp-state-icon">
-                  <Globe size={28} strokeWidth={1.8} />
-                </div>
-                <span className="hero-city-name">Florida</span>
-                <span className="hero-city-subscribe">Available soon</span>
+          <div className="hp-state-btns">
+            <Link to="/texas/" className="hp-state-btn hp-state-btn-active">
+              <div className="hp-state-btn-bg" style={{ backgroundImage: "url('https://images.pexels.com/photos/378570/pexels-photo-378570.jpeg?auto=compress&cs=tinysrgb&w=800')" }} />
+              <div className="hp-state-btn-overlay" />
+              <div className="hp-state-btn-content">
+                <span className="hp-state-btn-label">Texas</span>
+                <span className="hp-state-btn-live">Live now</span>
+              </div>
+            </Link>
+
+            <div className="hp-state-btn hp-state-btn-dimmed">
+              <div className="hp-state-btn-bg" style={{ backgroundImage: "url('https://images.pexels.com/photos/421655/pexels-photo-421655.jpeg?auto=compress&cs=tinysrgb&w=800')" }} />
+              <div className="hp-state-btn-overlay hp-state-btn-overlay-dark" />
+              <div className="hp-state-btn-content">
+                <span className="hp-state-btn-coming-soon">COMING SOON</span>
+                <span className="hp-state-btn-label">Florida</span>
               </div>
             </div>
-          </nav>
 
-          <p className="hero-subtext-below">Browse the calendar anytime between event newsletters. Always free.</p>
+            <div className="hp-state-btn hp-state-btn-more">
+              <div className="hp-state-btn-dot-bg" />
+              <div className="hp-state-btn-content">
+                <span className="hp-state-btn-coming-soon">COMING SOON</span>
+                <span className="hp-state-btn-label">More States</span>
+              </div>
+            </div>
+          </div>
+
+          <p className="hp-hero-note">Browse the calendar anytime between event newsletters. Always free.</p>
         </div>
       </section>
 
