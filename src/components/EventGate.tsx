@@ -39,12 +39,6 @@ export function EventGate({ forcedCity, eventCategory }: EventGateProps) {
 
   return (
     <>
-      <div className="ev-gate-header">
-        <div className="ev-gate-header-inner">
-          <p className="ev-gate-header-text">Showing today's events only. Sign up or log in to see the full week.</p>
-        </div>
-      </div>
-
       <Calendar
         forcedCity={forcedCity}
         eventCategory={eventCategory}
