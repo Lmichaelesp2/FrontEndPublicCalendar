@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
 import { supabase, Event, City } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
+import { useAuth } from '../contexts/AuthContext';
 
 interface CalendarProps {
   forcedCity?: City;
@@ -30,6 +31,7 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
 }
 
 export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick }: CalendarProps = {}) {
+  const { user } = useAuth();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -180,27 +182,29 @@ export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGate
     <section className="cal-section" id="calendar">
       <div className="cal-inner">
 
-        <div className="cal-search-row">
-          <div className="cal-search-wrap">
-            <Search size={15} className="cal-search-icon" />
-            <input
-              type="text"
-              className="cal-search-input"
-              placeholder="Search by keyword..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
-              <button className="cal-search-clear" onClick={() => setSearchQuery('')} aria-label="Clear search">
-                <X size={13} />
-              </button>
-            )}
+        {user && (
+          <div className="cal-search-row">
+            <div className="cal-search-wrap">
+              <Search size={15} className="cal-search-icon" />
+              <input
+                type="text"
+                className="cal-search-input"
+                placeholder="Search by keyword..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button className="cal-search-clear" onClick={() => setSearchQuery('')} aria-label="Clear search">
+                  <X size={13} />
+                </button>
+              )}
+            </div>
+            <div className="cal-search-meta">
+              <span className="cal-meta-label">{searchActive ? 'Search results' : 'All Upcoming'}</span>
+              <span className="cal-meta-count">{eventCount} events found</span>
+            </div>
           </div>
-          <div className="cal-search-meta">
-            <span className="cal-meta-label">{searchActive ? 'Search results' : 'All Upcoming'}</span>
-            <span className="cal-meta-count">{eventCount} events found</span>
-          </div>
-        </div>
+        )}
 
         <div className="cal-card">
           <div className="cal-card-header">
