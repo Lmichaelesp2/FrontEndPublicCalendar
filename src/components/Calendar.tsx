@@ -7,6 +7,8 @@ import { EventCard } from './EventCard';
 interface CalendarProps {
   forcedCity?: City;
   eventCategory?: string;
+  maxDate?: string;
+  minDate?: string;
 }
 
 const MONTH_NAMES = [
@@ -25,7 +27,7 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
   return grid;
 }
 
-export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
+export function Calendar({ forcedCity, eventCategory, maxDate, minDate }: CalendarProps = {}) {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -65,11 +67,14 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
   const cityFiltered = events.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
     if (eventCategory && e.event_category !== eventCategory) return false;
+    if (minDate && e.start_date < minDate) return false;
+    if (maxDate && e.start_date > maxDate) return false;
     return true;
   });
 
   function handleDayClick(dk: string) {
     if (dk < today) return;
+    if (maxDate && dk > maxDate) return;
     setSearchQuery('');
     if (!rangeStart || (rangeStart && rangeEnd)) {
       setRangeStart(dk);
@@ -97,8 +102,9 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
   function stepDay(direction: 1 | -1) {
     const current = parseDate(rangeStart ?? today);
     current.setDate(current.getDate() + direction);
-    if (dateKey(current) < today) return;
     const dk = dateKey(current);
+    if (dk < today) return;
+    if (maxDate && dk > maxDate) return;
     setRangeStart(dk);
     setRangeEnd(null);
     setSearchQuery('');
@@ -224,6 +230,8 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
               }
               const dk = dateKey(date);
               const isPast = dk < today;
+              const isBeyondMax = !!(maxDate && dk > maxDate);
+              const isDisabled = isPast || isBeyondMax;
               const hasEvents = datesWithEvents.has(dk);
               const isStart = dk === rangeStart;
               const isEnd = dk === (effectiveEnd ?? rangeStart);
@@ -237,20 +245,21 @@ export function Calendar({ forcedCity, eventCategory }: CalendarProps = {}) {
                   className={[
                     'cal-cell',
                     isPast ? 'past' : '',
+                    isBeyondMax ? 'past gated' : '',
                     isToday ? 'is-today' : '',
                     inRangeVal ? 'in-range' : '',
                     isEdge ? 'range-edge' : '',
                     isStart ? 'range-start' : '',
                     isEnd && (rangeEnd || isStart) ? 'range-selected' : '',
-                    hasEvents && !isPast ? 'has-events' : '',
+                    hasEvents && !isDisabled ? 'has-events' : '',
                   ].filter(Boolean).join(' ')}
-                  onClick={() => !isPast && handleDayClick(dk)}
-                  onMouseEnter={() => !isPast && rangeStart && !rangeEnd && setHoverDate(dk)}
+                  onClick={() => !isDisabled && handleDayClick(dk)}
+                  onMouseEnter={() => !isDisabled && rangeStart && !rangeEnd && setHoverDate(dk)}
                   onMouseLeave={() => setHoverDate(null)}
-                  disabled={isPast}
+                  disabled={isDisabled}
                 >
                   <span className="cal-cell-num">{date.getDate()}</span>
-                  {hasEvents && !isPast && <span className="cal-cell-dot" />}
+                  {hasEvents && !isDisabled && <span className="cal-cell-dot" />}
                 </button>
               );
             })}

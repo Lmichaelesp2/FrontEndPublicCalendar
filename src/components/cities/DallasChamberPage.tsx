@@ -4,7 +4,7 @@ import { Star, Plus, Minus, Search, Mail, Landmark, Users, Clock, CalendarDays, 
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const STATS = [
   { number: '60+', label: 'Chamber events added monthly' },
@@ -240,7 +240,7 @@ function DallasChamberContent() {
           <h2>Find Your Next Dallas Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <Calendar forcedCity="Dallas" eventCategory="chamber" />
+        <EventGate forcedCity="Dallas" eventCategory="chamber" />
       </section>
 
       <section className="sa-orgs-section">

@@ -45,3 +45,32 @@ export function sortEventsByTime<T extends { start_time: string | null }>(events
     return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
   });
 }
+
+export function getTodayKey(): string {
+  return dateKey(new Date());
+}
+
+export function getCurrentWeekRange(): { start: string; end: string } {
+  const now = new Date();
+  const day = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  return { start: dateKey(monday), end: dateKey(sunday) };
+}
+
+export function getWeekRangeFromToday(): { start: string; end: string } {
+  const now = new Date();
+  const day = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  const todayStr = dateKey(now);
+  const mondayStr = dateKey(monday);
+  return {
+    start: todayStr > mondayStr ? todayStr : mondayStr,
+    end: dateKey(sunday),
+  };
+}

@@ -4,7 +4,7 @@ import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const STATS = [
   { number: '80+', label: 'Real estate events added monthly' },
@@ -240,7 +240,7 @@ function DallasRealEstateContent() {
           <h2>Find Your Next Dallas Real Estate Event</h2>
           <p>Browse investor meetups, networking events, CE classes, and more</p>
         </div>
-        <Calendar forcedCity="Dallas" eventCategory="real_estate" />
+        <EventGate forcedCity="Dallas" eventCategory="real_estate" />
       </section>
 
       <section className="sa-orgs-section">

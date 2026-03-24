@@ -4,7 +4,7 @@ import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const STATS = [
   { number: '70+', label: 'Small business events added monthly' },
@@ -241,7 +241,7 @@ function AustinSmallBusinessContent() {
           <h2>Find Your Next Austin Small Business Event</h2>
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
-        <Calendar forcedCity="Austin" eventCategory="small_business" />
+        <EventGate forcedCity="Austin" eventCategory="small_business" />
       </section>
 
       <section className="sa-orgs-section">

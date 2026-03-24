@@ -4,7 +4,7 @@ import { Star, Plus, Minus, Search, Mail, Briefcase, Users, Clock, CalendarDays,
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const STATS = [
   { number: '70+', label: 'Small business events added monthly' },
@@ -240,7 +240,7 @@ function DallasSmallBusinessContent() {
           <h2>Find Your Next Dallas Small Business Event</h2>
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
-        <Calendar forcedCity="Dallas" eventCategory="small_business" />
+        <EventGate forcedCity="Dallas" eventCategory="small_business" />
       </section>
 
       <section className="sa-orgs-section">

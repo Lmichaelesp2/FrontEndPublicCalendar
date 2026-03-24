@@ -4,7 +4,7 @@ import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } 
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const STATS = [
   { number: '50+', label: 'Technology organizations tracked' },
@@ -240,7 +240,7 @@ function DallasTechnologyContent() {
           <h2>Find Your Next Dallas Tech Event</h2>
           <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
         </div>
-        <Calendar forcedCity="Dallas" eventCategory="technology" />
+        <EventGate forcedCity="Dallas" eventCategory="technology" />
       </section>
 
       <section className="sa-orgs-section">

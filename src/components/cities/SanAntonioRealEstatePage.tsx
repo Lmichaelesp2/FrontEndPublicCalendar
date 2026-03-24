@@ -4,7 +4,7 @@ import { Star, Plus, Minus, Search, Mail, Home, Users, Clock, CalendarDays, Buil
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const STATS = [
   { number: '80+', label: 'Real estate events added monthly' },
@@ -240,7 +240,7 @@ function SanAntonioRealEstateContent() {
           <h2>Find Your Next San Antonio Real Estate Event</h2>
           <p>Browse investor meetups, SABOR events, broker tours, and more</p>
         </div>
-        <Calendar forcedCity="San Antonio" eventCategory="real_estate" />
+        <EventGate forcedCity="San Antonio" eventCategory="real_estate" />
       </section>
 
       <section className="sa-orgs-section">

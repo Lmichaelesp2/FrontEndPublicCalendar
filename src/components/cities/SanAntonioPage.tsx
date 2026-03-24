@@ -4,7 +4,7 @@ import { Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock,
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 import SponsorSection from '../SponsorSection';
 
 const SA_STATS = [
@@ -227,7 +227,7 @@ function SanAntonioContent() {
           <h2>Find Your Next San Antonio Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <Calendar forcedCity="San Antonio" />
+        <EventGate forcedCity="San Antonio" />
       </section>
 
       <section className="sa-orgs-section">

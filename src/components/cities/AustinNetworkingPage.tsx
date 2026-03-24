@@ -4,7 +4,7 @@ import { Star, Plus, Minus, CalendarDays, Search, Mail, Users, Clock } from 'luc
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const NETWORKING_STATS = [
   { number: '25+', label: 'Networking organizations tracked' },
@@ -240,7 +240,7 @@ function AustinNetworkingContent() {
           <h2>Today's Networking Events in Austin</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <Calendar forcedCity="Austin" eventCategory="networking" />
+        <EventGate forcedCity="Austin" eventCategory="networking" />
       </section>
 
       <section className="sa-orgs-section">

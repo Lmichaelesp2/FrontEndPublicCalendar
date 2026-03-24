@@ -4,7 +4,7 @@ import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const STATS = [
   { number: '80+', label: 'Real estate events added monthly' },
@@ -252,7 +252,7 @@ function AustinRealEstateContent() {
           <h2>Find Your Next Austin Real Estate Event</h2>
           <p>Browse investor meetups, broker networking, property tours, and more</p>
         </div>
-        <Calendar forcedCity="Austin" eventCategory="real_estate" />
+        <EventGate forcedCity="Austin" eventCategory="real_estate" />
       </section>
 
       <section className="sa-orgs-section">

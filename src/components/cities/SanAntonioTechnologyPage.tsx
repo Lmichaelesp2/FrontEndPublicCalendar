@@ -4,7 +4,7 @@ import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } 
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const TECH_STATS = [
   { number: '100+', label: 'Tech events added monthly' },
@@ -239,7 +239,7 @@ function SanAntonioTechnologyContent() {
           <h2>Find Your Next San Antonio Tech Event</h2>
           <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
         </div>
-        <Calendar forcedCity="San Antonio" eventCategory="technology" />
+        <EventGate forcedCity="San Antonio" eventCategory="technology" />
       </section>
 
       <section className="sa-orgs-section">

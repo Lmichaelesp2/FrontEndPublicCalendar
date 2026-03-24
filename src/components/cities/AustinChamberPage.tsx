@@ -4,7 +4,7 @@ import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
-import { Calendar } from '../Calendar';
+import { EventGate } from '../EventGate';
 
 const STATS = [
   { number: '60+', label: 'Chamber events added monthly' },
@@ -241,7 +241,7 @@ function AustinChamberContent() {
           <h2>Find Your Next Austin Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <Calendar forcedCity="Austin" eventCategory="chamber" />
+        <EventGate forcedCity="Austin" eventCategory="chamber" />
       </section>
 
       <section className="sa-orgs-section">
