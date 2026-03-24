@@ -279,9 +279,9 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .cal-day-arrow:active:not(:disabled){transform:scale(.95)}
 .cal-day-arrow:disabled{opacity:.25;cursor:default}
 .cal-day-center{flex:1;min-width:0}
-.cal-day-name{font-size:1.1rem;font-weight:800;color:#1a3a6b;letter-spacing:-.01em}
-.cal-day-full{font-size:.88rem;color:#5a6b80;margin-top:.15rem}
-.cal-day-count{font-size:.78rem;font-weight:600;color:#1a4f8a;margin-top:.25rem;background:#edf2fa;display:inline-block;padding:.15rem .65rem;border-radius:20px}
+.cal-day-name{font-size:1.35rem;font-weight:800;color:#1a3a6b;letter-spacing:-.01em}
+.cal-day-full{font-size:1.05rem;color:#5a6b80;margin-top:.25rem;font-weight:600}
+.cal-day-count{font-size:.9rem;font-weight:700;color:#1a4f8a;margin-top:.35rem;background:#edf2fa;display:inline-block;padding:.25rem .8rem;border-radius:20px}
 
 /* Results label */
 .cal-results-label{display:flex;align-items:center;justify-content:space-between;padding:.5rem .25rem .75rem;font-size:.82rem;color:#6b7c93;border-bottom:1px solid #eef1f6;margin-bottom:.75rem}
