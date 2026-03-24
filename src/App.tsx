@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { Footer } from './components/Footer';
@@ -25,7 +25,18 @@ import { SubscribePage } from './components/SubscribePage';
 import { Homepage } from './components/Homepage';
 import { MapPin, Search, Mail, CalendarDays } from 'lucide-react';
 
+const CITY_NAMES: Record<string, string> = {
+  austin: 'Austin',
+  'san-antonio': 'San Antonio',
+  dallas: 'Dallas',
+  houston: 'Houston',
+};
+
 function MainLayoutInner() {
+  const { citySlug } = useParams<{ citySlug?: string }>();
+  const showIndustryCalendars = citySlug === 'austin';
+  const cityName = citySlug ? (CITY_NAMES[citySlug] ?? citySlug) : undefined;
+
   return (
     <div>
       <Navigation />
@@ -133,7 +144,7 @@ function MainLayoutInner() {
         <HomepageCities />
         <SocialProof />
         <FAQ />
-        <Footer />
+        <Footer showIndustryCalendars={showIndustryCalendars} citySlug={citySlug} cityName={cityName} />
       </div>
   );
 }

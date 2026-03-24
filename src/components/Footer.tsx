@@ -5,9 +5,11 @@ import { CITY_CONFIGS } from '../lib/cities';
 type FooterProps = {
   showIndustryCalendars?: boolean;
   variant?: 'default' | 'homepage';
+  citySlug?: string;
+  cityName?: string;
 };
 
-export function Footer({ showIndustryCalendars = false, variant = 'default' }: FooterProps) {
+export function Footer({ showIndustryCalendars = false, variant = 'default', citySlug = 'san-antonio', cityName = 'San Antonio' }: FooterProps) {
   return (
     <footer className="footer">
       {variant === 'homepage' ? (
@@ -25,25 +27,25 @@ export function Footer({ showIndustryCalendars = false, variant = 'default' }: F
         </nav>
       ) : (
         <nav className="footer-cities footer-industry-calendars" aria-label="Industry calendars">
-          <Link to="/texas/san-antonio/technology" className="industry-calendar-button">
+          <Link to={`/texas/${citySlug}/technology`} className="industry-calendar-button">
             <Monitor size={18} />
-            San Antonio Technology Events
+            {cityName} Technology Events
           </Link>
-          <Link to="/texas/san-antonio/real-estate" className="industry-calendar-button">
+          <Link to={`/texas/${citySlug}/real-estate`} className="industry-calendar-button">
             <Home size={18} />
-            San Antonio Real Estate Events
+            {cityName} Real Estate Events
           </Link>
-          <Link to="/texas/san-antonio/networking" className="industry-calendar-button">
+          <Link to={`/texas/${citySlug}/networking`} className="industry-calendar-button">
             <Users size={18} />
-            San Antonio Networking Events
+            {cityName} Networking Events
           </Link>
-          <Link to="/texas/san-antonio/chamber" className="industry-calendar-button">
+          <Link to={`/texas/${citySlug}/chamber`} className="industry-calendar-button">
             <Landmark size={18} />
-            San Antonio Chamber Events
+            {cityName} Chamber Events
           </Link>
-          <Link to="/texas/san-antonio/small-business" className="industry-calendar-button">
+          <Link to={`/texas/${citySlug}/small-business`} className="industry-calendar-button">
             <Briefcase size={18} />
-            San Antonio Small Business Events
+            {cityName} Small Business Events
           </Link>
         </nav>
       )}
