@@ -1,0 +1,348 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { Navigation } from '../Navigation';
+import { Footer } from '../Footer';
+import { SEOHead } from '../SEOHead';
+import { Calendar } from '../Calendar';
+
+const STATS = [
+  { number: '80+', label: 'Real estate events added monthly' },
+  { number: '1,800+', label: 'Real estate professionals subscribed' },
+  { number: '40+', label: 'Real estate organizations tracked' },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "I used to miss investor meetups and TREC events. Now everything is in one place and I never fall behind on what's happening in DFW real estate.",
+    name: 'Rachel T.',
+    location: 'Dallas, TX',
+  },
+  {
+    quote: "The weekly real estate events newsletter keeps me in the loop on networking lunches and CE classes without any effort.",
+    name: 'James W.',
+    location: 'Dallas, TX',
+  },
+  {
+    quote: "As a commercial broker, staying connected to the Dallas real estate community is everything. This calendar makes it automatic.",
+    name: 'Linda M.',
+    location: 'Dallas, TX',
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    question: 'What types of real estate events are listed?',
+    answer: 'We track investor meetups, REIA chapter meetings, broker networking events, real estate mixers, continuing education classes, market update seminars, construction industry events, and design community gatherings across Dallas-Fort Worth.',
+  },
+  {
+    question: 'Do you include construction and design industry events?',
+    answer: 'Yes. The Dallas real estate calendar includes construction industry associations, interior design community events, and related trade organizations alongside traditional real estate networking and investor events.',
+  },
+  {
+    question: 'Is this the same as the main Dallas Business Calendar?',
+    answer: 'No. The main Dallas calendar shows all business and networking events across every category. This page focuses exclusively on real estate, construction, and design industry events, making it easier for professionals in those fields to find what matters most.',
+  },
+  {
+    question: 'Do you list REIA meetings and real estate investor events in DFW?',
+    answer: 'Yes. Dallas-Fort Worth has a very active real estate investment community and we track events from local REIA chapters, wholesaler meetups, multifamily networking groups, and investor organizations throughout the metro.',
+  },
+  {
+    question: 'Do you cover commercial real estate events in Dallas?',
+    answer: 'Absolutely. We track CCIM North Texas, NAIOP Dallas-Fort Worth, IREM Dallas, and other commercial real estate organizations that run consistent events across the DFW market.',
+  },
+  {
+    question: 'Is the newsletter really free?',
+    answer: 'Yes, completely free. No credit card, no trial period, no paid tier. Just enter your email and you\'ll receive Dallas real estate events every Monday morning.',
+  },
+];
+
+const ORGS = [
+  'MetroTex Association of Realtors',
+  'Dallas REIA',
+  'CCIM North Texas',
+  'NAIOP Dallas-Fort Worth',
+  'IREM Dallas',
+  'DFW Real Estate Investors',
+  'Women\'s Council of Realtors Dallas',
+  'Texas Realtors Dallas Chapter',
+  'DFW Apartment Association',
+  'Dallas Builders Association',
+  'AIA Dallas',
+  '... and many more',
+];
+
+function FaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
+  return (
+    <div className={`faq-item${open ? ' open' : ''}`}>
+      <button className="faq-trigger" onClick={onToggle} aria-expanded={open}>
+        <span>{question}</span>
+        {open ? <Minus size={18} /> : <Plus size={18} />}
+      </button>
+      <div className="faq-answer">
+        <p>{answer}</p>
+      </div>
+    </div>
+  );
+}
+
+function DallasRealEstateContent() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="sa-page">
+      <SEOHead
+        title="Dallas Real Estate Events Calendar | Free Weekly Real Estate Events Email"
+        description="Find real estate networking, investor meetups, construction events, and design industry gatherings in Dallas. Free weekly email every Monday."
+        canonical="https://businesseventscalendars.com/texas/dallas/real-estate/"
+        robots="noindex"
+      />
+
+      <Navigation />
+
+      <div className="sa-breadcrumb">
+        <Link to="/">Local Business Calendars</Link>
+        <span> &rsaquo; </span>
+        <Link to="/texas">Texas</Link>
+        <span> &rsaquo; </span>
+        <Link to="/texas/dallas">Dallas</Link>
+        <span> &rsaquo; </span>
+        <span>Real Estate Events</span>
+      </div>
+
+      <section className="hero">
+        <div className="hero-inner">
+          <div className="hero-badge">
+            DALLAS REAL ESTATE CALENDAR
+          </div>
+          <h1>
+            Real Estate, Construction &amp; Design Events in
+            <br />
+            the <em>Dallas</em> Area
+          </h1>
+          <p className="hero-subtext">
+            Stop missing the real estate events that grow your network and your deals.
+          </p>
+          <div className="hero-cta-group">
+            <Link to="/texas/dallas/subscribe" className="btn btn-white">
+              Get My Free Dallas Real Estate Events Newsletter
+            </Link>
+            <p className="hero-subtext-below">
+              Browse the calendar anytime between newsletters. Always free.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="benefits-bar">
+        <div className="benefits-bar-inner">
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <CalendarDays size={20} strokeWidth={2} />
+            </div>
+            <span>Events aggregated every week</span>
+          </div>
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <Mail size={20} strokeWidth={2} />
+            </div>
+            <span>Delivered every Monday morning</span>
+          </div>
+          <div className="benefit-item">
+            <div className="benefit-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <span>Access calendar anytime</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="features-section">
+        <div className="features-inner">
+          <h2>We Do the Searching So You Don't Have To</h2>
+          <p className="features-subtitle">We aggregate real estate event sources across Dallas-Fort Worth so you don't have to — then deliver the best event opportunities straight to your inbox every Monday.</p>
+
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Subscribe to Real Estate Events</h3>
+              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday morning you'll receive a curated digest of that week's real estate networking events, investor meetups, and property tours in Dallas.</p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events &amp; show up</h3>
+              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="why-section">
+        <div className="why-inner">
+          <h2>Dallas-Fort Worth's Real Estate Community</h2>
+          <p className="why-subtitle">Dallas-Fort Worth is one of the fastest-growing real estate markets in the United States. The region's explosive population growth has driven massive residential and commercial development, making DFW one of the most active real estate investment, construction, and design markets in the country. From residential investor meetups to commercial real estate networking, REIA chapters, construction industry associations, and design community events, Dallas's real estate ecosystem produces a consistent calendar of professional events throughout the year.</p>
+          <div className="why-grid">
+            <div className="why-card">
+              <h3>The problem</h3>
+              <p>Real estate events are buried across MetroTex, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. It's impossible to track them all.</p>
+            </div>
+            <div className="why-card">
+              <h3>What we do</h3>
+              <p>We monitor Dallas-Fort Worth's top real estate organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
+            </div>
+            <div className="why-card">
+              <h3>What you get</h3>
+              <p>A single source for real estate events in the DFW area — from investor meetups to CE classes to commercial broker networking events.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="value-section" style={{ paddingTop: '2rem' }}>
+        <div className="value-inner">
+          <h2>Never Miss a Real Estate Event That Matters</h2>
+          <div className="value-grid">
+            <div className="value-card">
+              <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
+              <h3>Get the free weekly newsletter</h3>
+              <p>Sign up for Dallas real estate events and get that week's investor meetups, networking events, and tours in your inbox every Monday. Free.</p>
+            </div>
+            <div className="value-card">
+              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
+              <h3>Check the calendar anytime</h3>
+              <p>No signup needed. Browse Dallas's real estate events on the calendar whenever you want.</p>
+            </div>
+            <div className="value-card">
+              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
+              <h3>Never miss what matters</h3>
+              <p>The newsletter and the calendar work together so you always know what's coming up in the real estate community.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Dallas Real Estate Event</h2>
+          <p>Browse investor meetups, networking events, CE classes, and more</p>
+        </div>
+        <Calendar forcedCity="Dallas" eventCategory="real_estate" />
+      </section>
+
+      <section className="sa-orgs-section">
+        <div className="sa-orgs-inner">
+          <h2>Dallas Real Estate Organizations We Track</h2>
+          <p>We monitor events from Dallas-Fort Worth's top real estate communities so nothing slips through the cracks.</p>
+          <div className="sa-orgs-grid">
+            {ORGS.map((org, i) => (
+              <div key={i} className="sa-org-tag">
+                <Users size={14} strokeWidth={2} />
+                {org}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sp-section">
+        <div className="sp-inner">
+          <h2>Trusted by Dallas Real Estate Professionals</h2>
+          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
+          <div className="sp-stats">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="sp-stat">
+                <span className="sp-stat-number">{stat.number}</span>
+                <span className="sp-stat-label">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+          <div className="sp-testimonials">
+            {TESTIMONIALS.map((t) => (
+              <div key={t.name} className="sp-card">
+                <div className="sp-stars">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={14} fill="currentColor" />
+                  ))}
+                </div>
+                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
+                <div className="sp-author">
+                  <span className="sp-name">&mdash; {t.name}</span>
+                  <span className="sp-location">{t.location}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sa-subscribe-section" id="sa-subscribe">
+        <div className="sa-subscribe-inner">
+          <div className="sa-subscribe-badge">
+            <Clock size={14} />
+            Free · Takes 30 seconds
+          </div>
+          <h2>Don't Want to Check Back Every Week?</h2>
+          <p>Get Dallas's best real estate events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
+          <div className="sa-subscribe-actions">
+            <Link to="/submit" className="btn sa-btn-outline">Submit a Real Estate Event</Link>
+            <Link to="/texas/dallas/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+          </div>
+          <p className="sa-subscribe-note">Also available for all Dallas business events</p>
+        </div>
+      </section>
+
+      <section className="sa-category-nav">
+        <div className="sa-category-nav-inner">
+          <span className="sa-category-nav-label">Also in Dallas:</span>
+          <div className="sa-category-nav-links">
+            <Link to="/texas/dallas/technology" className="sa-category-link">Technology Events</Link>
+            <Link to="/texas/dallas/networking" className="sa-category-link">Networking Events</Link>
+            <Link to="/texas/dallas/chamber" className="sa-category-link">Chamber Events</Link>
+            <Link to="/texas/dallas/small-business" className="sa-category-link">Small Business Events</Link>
+          </div>
+        </div>
+      </section>
+
+      <div className="sa-back-link">
+        <Link to="/texas/dallas">See all Dallas business events &rarr;</Link>
+      </div>
+
+      <section className="faq-section">
+        <div className="faq-inner">
+          <h2>Frequently Asked Questions About Dallas Real Estate Events</h2>
+          <div className="faq-list">
+            {FAQ_ITEMS.map((item, i) => (
+              <FaqItem
+                key={i}
+                question={item.question}
+                answer={item.answer}
+                open={openFaq === i}
+                onToggle={() => setOpenFaq(openFaq === i ? null : i)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Footer showIndustryCalendars={true} citySlug="dallas" cityName="Dallas" />
+    </div>
+  );
+}
+
+export function DallasRealEstatePage() {
+  return <DallasRealEstateContent />;
+}

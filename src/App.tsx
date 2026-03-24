@@ -21,6 +21,11 @@ import { AustinRealEstatePage } from './components/cities/AustinRealEstatePage';
 import { AustinNetworkingPage } from './components/cities/AustinNetworkingPage';
 import { AustinChamberPage } from './components/cities/AustinChamberPage';
 import { AustinSmallBusinessPage } from './components/cities/AustinSmallBusinessPage';
+import { DallasTechnologyPage } from './components/cities/DallasTechnologyPage';
+import { DallasRealEstatePage } from './components/cities/DallasRealEstatePage';
+import { DallasNetworkingPage } from './components/cities/DallasNetworkingPage';
+import { DallasChamberPage } from './components/cities/DallasChamberPage';
+import { DallasSmallBusinessPage } from './components/cities/DallasSmallBusinessPage';
 import { SubscribePage } from './components/SubscribePage';
 import { Homepage } from './components/Homepage';
 import { MapPin, Search, Mail, CalendarDays } from 'lucide-react';
@@ -34,7 +39,7 @@ const CITY_NAMES: Record<string, string> = {
 
 function MainLayoutInner() {
   const { citySlug } = useParams<{ citySlug?: string }>();
-  const showIndustryCalendars = citySlug === 'austin';
+  const showIndustryCalendars = citySlug === 'austin' || citySlug === 'dallas';
   const cityName = citySlug ? (CITY_NAMES[citySlug] ?? citySlug) : undefined;
 
   return (
@@ -225,6 +230,31 @@ function App() {
         <Route path="/texas/austin/small-business" element={
           <CityProvider>
             <AustinSmallBusinessPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/dallas/technology" element={
+          <CityProvider>
+            <DallasTechnologyPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/dallas/real-estate" element={
+          <CityProvider>
+            <DallasRealEstatePage />
+          </CityProvider>
+        } />
+        <Route path="/texas/dallas/networking" element={
+          <CityProvider>
+            <DallasNetworkingPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/dallas/chamber" element={
+          <CityProvider>
+            <DallasChamberPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/dallas/small-business" element={
+          <CityProvider>
+            <DallasSmallBusinessPage />
           </CityProvider>
         } />
         <Route path="/texas/:citySlug/subscribe" element={<SubscribePage />} />
