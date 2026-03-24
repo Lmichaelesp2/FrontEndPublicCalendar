@@ -16,6 +16,11 @@ import { SanAntonioRealEstatePage } from './components/cities/SanAntonioRealEsta
 import { SanAntonioChamberPage } from './components/cities/SanAntonioChamberPage';
 import { SanAntonioSmallBusinessPage } from './components/cities/SanAntonioSmallBusinessPage';
 import { SanAntonioNetworkingPage } from './components/cities/SanAntonioNetworkingPage';
+import { AustinTechnologyPage } from './components/cities/AustinTechnologyPage';
+import { AustinRealEstatePage } from './components/cities/AustinRealEstatePage';
+import { AustinNetworkingPage } from './components/cities/AustinNetworkingPage';
+import { AustinChamberPage } from './components/cities/AustinChamberPage';
+import { AustinSmallBusinessPage } from './components/cities/AustinSmallBusinessPage';
 import { SubscribePage } from './components/SubscribePage';
 import { Homepage } from './components/Homepage';
 import { MapPin, Search, Mail, CalendarDays } from 'lucide-react';
@@ -184,6 +189,31 @@ function App() {
         <Route path="/texas/san-antonio/networking" element={
           <CityProvider>
             <SanAntonioNetworkingPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/austin/technology" element={
+          <CityProvider>
+            <AustinTechnologyPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/austin/real-estate" element={
+          <CityProvider>
+            <AustinRealEstatePage />
+          </CityProvider>
+        } />
+        <Route path="/texas/austin/networking" element={
+          <CityProvider>
+            <AustinNetworkingPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/austin/chamber" element={
+          <CityProvider>
+            <AustinChamberPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/austin/small-business" element={
+          <CityProvider>
+            <AustinSmallBusinessPage />
           </CityProvider>
         } />
         <Route path="/texas/:citySlug/subscribe" element={<SubscribePage />} />
