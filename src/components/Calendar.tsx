@@ -298,21 +298,23 @@ export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGate
         </div>
 
         {showGateBanner && (
-          <div className="ev-gate-banner" style={{ margin: '1.5rem auto 1rem' }}>
+          <div className="ev-gate-banner">
             <div className="ev-gate-banner-inner">
               <div className="ev-gate-icon">
-                <Lock size={20} />
+                <Lock size={24} />
               </div>
               <div className="ev-gate-text">
-                <p className="ev-gate-heading">See the full week's events — free</p>
-                <p className="ev-gate-sub">Create a free account to unlock Monday through Sunday view. No credit card, no paywall.</p>
+                <p className="ev-gate-heading">See the Full Week</p>
+                <p className="ev-gate-sub">Create a free account to unlock the full weekly calendar.</p>
               </div>
-              <button className="ev-gate-btn" onClick={onAuthClick}>
-                Create Free Account
-              </button>
-              <button className="ev-gate-signin" onClick={onAuthClick}>
-                Sign in
-              </button>
+              <div className="ev-gate-banner-buttons">
+                <button className="ev-gate-btn" onClick={onAuthClick}>
+                  Create Free Account
+                </button>
+                <button className="ev-gate-signin" onClick={onAuthClick}>
+                  Sign in
+                </button>
+              </div>
             </div>
           </div>
         )}
