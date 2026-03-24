@@ -874,6 +874,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 
 /* EVENT GATE BANNER */
 .ev-gate-banner{margin:.75rem auto;max-width:900px;border-radius:12px;background:#f8f9fa;border:1px solid #e5e7eb;overflow:hidden}
+.ev-gate-banner-above{background:#e3f0ff;border:none;margin:0 0 1rem}
 .ev-gate-banner-inner{display:flex;align-items:center;gap:1rem;padding:.75rem 1.25rem;text-align:left}
 .ev-gate-icon{width:32px;height:32px;border-radius:8px;background:#0066cc;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ev-gate-text{flex:1;min-width:0}

@@ -272,6 +272,28 @@ export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGate
           </div>
         </div>
 
+        {showGateBanner && (
+          <div className="ev-gate-banner ev-gate-banner-above">
+            <div className="ev-gate-banner-inner">
+              <div className="ev-gate-icon">
+                <Lock size={24} />
+              </div>
+              <div className="ev-gate-text">
+                <p className="ev-gate-heading">See the Full Week</p>
+                <p className="ev-gate-sub">Create a free account to unlock the full weekly calendar.</p>
+              </div>
+              <div className="ev-gate-banner-buttons">
+                <button className="ev-gate-btn" onClick={onAuthClick}>
+                  Create Free Account
+                </button>
+                <button className="ev-gate-signin" onClick={onAuthClick}>
+                  Sign in
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="cal-day-nav">
           <button
             className="cal-day-arrow"
@@ -300,28 +322,6 @@ export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGate
             <ChevronRight size={24} />
           </button>
         </div>
-
-        {showGateBanner && (
-          <div className="ev-gate-banner">
-            <div className="ev-gate-banner-inner">
-              <div className="ev-gate-icon">
-                <Lock size={24} />
-              </div>
-              <div className="ev-gate-text">
-                <p className="ev-gate-heading">See the Full Week</p>
-                <p className="ev-gate-sub">Create a free account to unlock the full weekly calendar.</p>
-              </div>
-              <div className="ev-gate-banner-buttons">
-                <button className="ev-gate-btn" onClick={onAuthClick}>
-                  Create Free Account
-                </button>
-                <button className="ev-gate-signin" onClick={onAuthClick}>
-                  Sign in
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="ev-list" style={{ marginTop: '1.5rem' }}>
           {loading ? (
