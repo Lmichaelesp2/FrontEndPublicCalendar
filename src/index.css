@@ -650,8 +650,11 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 
 .admin-panel{min-height:100vh;background:var(--gray-50)}
 .admin-header{background:var(--navy);padding:1rem 2rem;box-shadow:var(--shadow-md)}
-.admin-header-content{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.admin-header h1{font-size:1.3rem;color:var(--white);font-weight:800}
+.admin-header-content{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.admin-header h1{font-size:1.3rem;color:var(--white);font-weight:800;flex:1;min-width:0}
+.admin-header .flex{gap:.75rem;display:flex;align-items:center;flex-shrink:0}
+.btn-secondary{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border-radius:var(--radius-xs);background:rgba(255,255,255,.15);color:var(--white);font-size:.82rem;font-weight:600;border:1px solid rgba(255,255,255,.25);text-decoration:none;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-secondary:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.4)}
 .btn-logout{display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border-radius:var(--radius-xs);background:rgba(255,255,255,.1);color:var(--white);font-size:.82rem;font-weight:600;border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:all .2s;font-family:inherit}
 .btn-logout:hover{background:rgba(255,255,255,.15)}
 
