@@ -8,8 +8,7 @@ import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 
 const STATS = [
-  { number: '150+', label: 'Events added monthly' },
-  { number: '1,200+', label: 'Austin professionals subscribed' },
+  { number: '500+', label: 'Austin professionals subscribed' },
   { number: '200+', label: 'Austin business organizations tracked' },
 ];
 

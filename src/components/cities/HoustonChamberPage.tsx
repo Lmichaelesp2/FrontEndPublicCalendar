@@ -8,8 +8,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 
 const STATS = [
-  { number: '60+', label: 'Chamber events added monthly' },
-  { number: '1,800+', label: 'Chamber members subscribed' },
+  { number: '500+', label: 'Chamber members subscribed' },
   { number: '30+', label: 'Chambers & associations tracked' },
 ];
 

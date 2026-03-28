@@ -8,8 +8,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 
 const STATS = [
-  { number: '70+', label: 'Small business events added monthly' },
-  { number: '2,500+', label: 'Small business owners subscribed' },
+  { number: '500+', label: 'Small business owners subscribed' },
   { number: '35+', label: 'Small business organizations tracked' },
 ];
 

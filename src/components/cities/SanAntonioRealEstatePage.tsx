@@ -8,8 +8,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 
 const STATS = [
-  { number: '80+', label: 'Real estate events added monthly' },
-  { number: '1,800+', label: 'Real estate professionals subscribed' },
+  { number: '500+', label: 'Real estate professionals subscribed' },
   { number: '40+', label: 'Real estate organizations tracked' },
 ];
 
