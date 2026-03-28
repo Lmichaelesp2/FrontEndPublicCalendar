@@ -41,7 +41,7 @@ import { HoustonChamberPage } from './components/cities/HoustonChamberPage';
 import { HoustonSmallBusinessPage } from './components/cities/HoustonSmallBusinessPage';
 import { SubscribePage } from './components/SubscribePage';
 import { Homepage } from './components/Homepage';
-import { MapPin, Search, Mail, CalendarDays } from 'lucide-react';
+import { Mail, CalendarDays } from 'lucide-react';
 
 const CITY_NAMES: Record<string, string> = {
   austin: 'Austin',
@@ -157,35 +157,6 @@ function MainLayoutInner() {
           </div>
         </section>
 
-        <section className="features-section">
-          <div className="features-inner">
-            <h2>We Do the Searching So You Don't Have To</h2>
-            <p className="features-subtitle">We aggregate sources across Texas so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.
-
-</p>
-
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-step">1</div>
-                <h3>Subscribe to your city</h3>
-                <p>Click your city above. Create your free account in 30 seconds. No credit card, no setup.</p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-step">2</div>
-                <h3>Get your Monday newsletter</h3>
-                <p>Every Monday morning you'll receive a curated digest of that week's networking events, meetups, and business gatherings in your city.</p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-step">3</div>
-                <h3>Pick events & show up</h3>
-                <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="why-section">
           <div className="why-inner">
             <h2>Why Use Texas Business Calendars?</h2>
@@ -210,24 +181,30 @@ function MainLayoutInner() {
           </div>
         </section>
 
-        <section className="value-section" style={{ paddingTop: '2rem' }}>
-          <div className="value-inner">
-            <h2>Never Miss an Event That Matters</h2>
-            <div className="value-grid">
-              <div className="value-card">
-                <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
-                <h3>Get the free weekly newsletter</h3>
-                <p>Sign up for your city and get that week's business events in your inbox every Monday. Free.</p>
+        <section className="features-section">
+          <div className="features-inner">
+            <h2>We Do the Searching So You Don't Have To</h2>
+            <p className="features-subtitle">We aggregate sources across Texas so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.
+
+</p>
+
+            <div className="features-grid">
+              <div className="feature-card">
+                <div className="feature-step">1</div>
+                <h3>Subscribe to your city</h3>
+                <p>Click your city above. Create your free account in 30 seconds. No credit card, no setup.</p>
               </div>
-              <div className="value-card">
-                <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-                <h3>Check the calendar anytime</h3>
-                <p>No signup needed. Browse your city's business events on the calendar whenever you want.</p>
+
+              <div className="feature-card">
+                <div className="feature-step">2</div>
+                <h3>Get your Monday newsletter</h3>
+                <p>Every Monday morning you'll receive a curated digest of that week's networking events, meetups, and business gatherings in your city.</p>
               </div>
-              <div className="value-card">
-                <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-                <h3>Never miss what matters</h3>
-                <p>The email and the calendar work together so you always know what's coming up.</p>
+
+              <div className="feature-card">
+                <div className="feature-step">3</div>
+                <h3>Pick events & show up</h3>
+                <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
               </div>
             </div>
           </div>
