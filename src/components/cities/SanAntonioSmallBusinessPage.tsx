@@ -274,7 +274,7 @@ function SanAntonioSmallBusinessContent() {
       <section className="sp-section">
         <div className="sp-inner">
           <h2>Trusted by San Antonio Small Business Owners</h2>
-          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
+          <p className="sp-subtitle">San Antonio Small Business Calendar — By the Numbers</p>
           <div className="sp-stats">
             {STATS.map((stat) => (
               <div key={stat.label} className="sp-stat">

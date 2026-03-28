@@ -264,7 +264,7 @@ function AustinTechnologyContent() {
       <section className="sp-section">
         <div className="sp-inner">
           <h2>Trusted by Austin Tech Professionals</h2>
-          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
+          <p className="sp-subtitle">Austin Technology Calendar — By the Numbers</p>
           <div className="sp-stats">
             {TECH_STATS.map((stat) => (
               <div key={stat.label} className="sp-stat">

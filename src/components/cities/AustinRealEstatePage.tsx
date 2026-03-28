@@ -276,7 +276,7 @@ function AustinRealEstateContent() {
       <section className="sp-section">
         <div className="sp-inner">
           <h2>Trusted by Austin Real Estate Professionals</h2>
-          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
+          <p className="sp-subtitle">Austin Real Estate Calendar — By the Numbers</p>
           <div className="sp-stats">
             {STATS.map((stat) => (
               <div key={stat.label} className="sp-stat">

@@ -262,7 +262,7 @@ function SanAntonioNetworkingContent() {
       <section className="sp-section">
         <div className="sp-inner">
           <h2>Trusted by San Antonio Networking Professionals</h2>
-          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
+          <p className="sp-subtitle">San Antonio Networking Calendar — By the Numbers</p>
           <div className="sp-stats">
             {NETWORKING_STATS.map((stat) => (
               <div key={stat.label} className="sp-stat">
