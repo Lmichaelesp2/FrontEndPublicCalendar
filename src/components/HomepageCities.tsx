@@ -254,9 +254,10 @@ function CitySection({
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div className="hpc-city-block">
+    <>
       <h2 className="hpc-city-heading">{CITY_HEADINGS[city]}</h2>
-      <div className="hpc-city-header" onClick={() => setExpanded(!expanded)}>
+      <div className="hpc-city-block">
+        <div className="hpc-city-header" onClick={() => setExpanded(!expanded)}>
         <div className="hpc-city-title-row">
           <span className="hpc-city-dot" />
           <div className="hpc-city-info">
@@ -307,6 +308,7 @@ function CitySection({
           )}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
