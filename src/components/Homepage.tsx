@@ -105,15 +105,15 @@ export function Homepage() {
 
             <div className="hp-state-btn">
               <div className="hp-state-btn-content">
-                <span className="hp-state-btn-coming-soon">COMING SOON</span>
                 <span className="hp-state-btn-label">Florida</span>
+                <span className="hp-state-btn-coming-soon">COMING SOON</span>
               </div>
             </div>
 
             <div className="hp-state-btn">
               <div className="hp-state-btn-content">
-                <span className="hp-state-btn-coming-soon">COMING SOON</span>
                 <span className="hp-state-btn-label">More States</span>
+                <span className="hp-state-btn-coming-soon">COMING SOON</span>
               </div>
             </div>
           </div>

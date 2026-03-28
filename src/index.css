@@ -1406,11 +1406,21 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   align-items:center;
   justify-content:center;
 }
-.hp-state-btn-active{cursor:pointer!important}
+.hp-state-btn-active{
+  background:#ffffff;
+  border:2px solid #ffffff;
+  cursor:pointer!important;
+}
 .hp-state-btn-active:hover{
   transform:translateY(-4px);
   box-shadow:0 12px 36px rgba(0,0,0,.4);
-  border-color:rgba(255,255,255,.6);
+  border-color:#ffffff;
+}
+.hp-state-btn-active .hp-state-btn-label{
+  color:#0056b3;
+}
+.hp-state-btn-active .hp-state-btn-live{
+  color:#0056b3;
 }
 .hp-state-btn-content{
   display:flex;
@@ -1425,8 +1435,9 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   font-size:1.35rem;
   font-weight:700;
   color:#fff;
-  line-height:1;
+  line-height:1.1;
   letter-spacing:-.01em;
+  order:1;
 }
 .hp-state-btn-live{
   font-family:'Inter',sans-serif;
@@ -1435,6 +1446,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   color:#f5c842;
   line-height:1;
   letter-spacing:.02em;
+  order:2;
 }
 .hp-state-btn-coming-soon{
   font-family:'Inter',sans-serif;
@@ -1443,7 +1455,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   color:rgba(255,255,255,.5);
   letter-spacing:.12em;
   text-transform:uppercase;
-  margin-bottom:2px;
+  order:2;
 }
 .hp-hero-note{
   font-family:'Inter',sans-serif;
