@@ -203,56 +203,7 @@ export function Homepage() {
         </div>
       </section>
 
-      <section className="hp-states-section">
-        <div className="hp-states-inner">
-          <h2>Choose Your State</h2>
-          <div className="hp-states-grid">
-            <Link to="/texas/" className="hp-state-feature-card">
-              <div className="hp-state-feature-bg">
-                <img
-                  src="https://images.pexels.com/photos/378570/pexels-photo-378570.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="Houston Texas skyline"
-                />
-                <div className="hp-state-feature-overlay" />
-              </div>
-              <div className="hp-state-feature-content">
-                <h3>Texas Business Calendars</h3>
-                <p>San Antonio &middot; Austin &middot; Dallas &middot; Houston</p>
-              </div>
-            </Link>
-            <div className="hp-state-feature-card hp-state-feature-card-coming-soon">
-              <div className="hp-state-feature-bg">
-                <img
-                  src="https://images.pexels.com/photos/421655/pexels-photo-421655.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="Miami Florida skyline"
-                />
-                <div className="hp-state-feature-overlay" />
-              </div>
-              <div className="hp-state-feature-content">
-                <div className="hp-state-feature-coming-soon">Coming Soon</div>
-                <h3>Florida Business Calendars</h3>
-                <p>Multiple cities launching soon</p>
-              </div>
-            </div>
-            <div className="hp-state-feature-card hp-state-feature-card-coming-soon">
-              <div className="hp-state-feature-bg">
-                <img
-                  src="https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="US city skyline"
-                />
-                <div className="hp-state-feature-overlay" />
-              </div>
-              <div className="hp-state-feature-content">
-                <div className="hp-state-feature-coming-soon">Coming Soon</div>
-                <h3>Other States</h3>
-                <p>More states launching soon</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="value-section" style={{ paddingTop: '2rem' }}>
+<section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
           <h2>Never Miss an Event That Matters</h2>
           <div className="value-grid">
