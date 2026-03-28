@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -199,14 +199,17 @@ function AustinSmallBusinessContent() {
           <p className="why-subtitle">Austin has one of the strongest small business ecosystems in Texas. The city's coworking culture, active entrepreneur development programs, SCORE Austin chapter, and UT Austin Small Business Development Center provide consistent resources and events for small business owners at every stage. From community education workshops to coworking networking events and government-backed small business programs, Austin's small business community runs events that help entrepreneurs connect, learn, and grow.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Small business events are spread across SCORE, SBA, SBDC, coworking spaces, Meetup, and individual organizations. Most small business owners don't have time to check them all.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor Austin's top small business organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for small business events in Austin — from SCORE workshops to entrepreneur meetups to coworking community events.</p>
             </div>

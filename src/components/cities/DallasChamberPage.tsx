@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, Search, Mail, Landmark, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Landmark, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -198,14 +198,17 @@ function DallasChamberContent() {
           <p className="why-subtitle">The Dallas-Fort Worth metro has one of the most extensive chamber of commerce networks in Texas. The Dallas Regional Chamber, Irving Chamber of Commerce, Plano Chamber of Commerce, Frisco Chamber of Commerce, Dallas Black Chamber of Commerce, Dallas Hispanic Chamber of Commerce, and dozens of additional area chambers serve the broader DFW metro — each running consistent networking events, luncheons, mixers, ribbon cuttings, and speaker series throughout the year. Staying active in Dallas's chamber community is one of the most effective ways to stay connected to the region's business leadership.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Each chamber has its own website, newsletter list, and event calendar. If you belong to multiple chambers, you're checking multiple places every week.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor every major chamber and business association in the Dallas-Fort Worth area and consolidate their events into one unified calendar.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for chamber events in DFW — from ribbon cuttings to Business After Hours to annual galas.</p>
             </div>

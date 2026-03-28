@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, CalendarDays, Search, Mail, Users, Clock } from 'lucide-react';
+import { Star, Plus, Minus, CalendarDays, Search, Mail, Users, Clock, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -196,14 +196,17 @@ function SanAntonioNetworkingContent() {
           <p className="why-subtitle">San Antonio has a thriving professional networking scene — BNI chapters, leads groups, chamber mixers, and referral organizations meeting every week. The challenge isn't that the events don't exist. It's finding them all in one place.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Networking events are scattered across BNI chapter websites, Meetup groups, Facebook events, and individual organization pages. Tracking them all separately takes time most professionals don't have.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor San Antonio's networking organizations, leads groups, and referral networking groups — then organize their events into one simple updated calendar.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>Every networking event in one place, delivered weekly, so you never miss a meeting that could become your next referral relationship.</p>
             </div>

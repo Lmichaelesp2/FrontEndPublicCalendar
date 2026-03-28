@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } from 'lucide-react';
+import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -198,14 +198,17 @@ function DallasTechnologyContent() {
           <p className="why-subtitle">Dallas-Fort Worth is one of the largest technology employment markets in the United States. The region is home to major corporate technology campuses, a thriving telecom corridor, and headquarters for companies including AT&T, Texas Instruments, Toyota, and thousands of technology firms of every size. DFW's developer communities, cybersecurity groups, AI and data science organizations, and startup ecosystem run consistent events that make Dallas one of the most active technology networking markets in the country.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor Dallas-Fort Worth's top tech organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for tech events in the DFW area — from coding meetups to cybersecurity conferences to startup pitch nights.</p>
             </div>

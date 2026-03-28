@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarDays, Mail, MapPin, Search, Star, Plus, Minus, Globe } from 'lucide-react';
+import { CalendarDays, Mail, MapPin, Search, Star, Plus, Minus, Globe, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
@@ -188,14 +188,17 @@ export function Homepage() {
           <p className="why-subtitle">Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Business events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We track business event hosts and organize their public events into one simple calendar per city — updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent.</p>
             </div>

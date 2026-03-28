@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } from 'lucide-react';
+import { AlertTriangle, Target, Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -198,14 +198,17 @@ function AustinTechnologyContent() {
           <p className="why-subtitle">Austin has grown into one of the premier technology hubs in the United States. Known as Silicon Hills, the city is home to major tech employers including Tesla, Apple, Dell, Oracle, and Google, alongside one of the most active startup and developer communities in the country. With hundreds of tech organizations, user groups, and innovation communities running consistent events, Austin's technology networking scene is among the most active in Texas.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor Austin's top tech organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for tech events in Austin — from coding meetups to startup pitch nights to AI workshops.</p>
             </div>

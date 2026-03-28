@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } from 'lucide-react';
+import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -209,14 +209,17 @@ function HoustonTechnologyContent() {
           <p className="why-subtitle">Houston is rapidly emerging as one of Texas's most significant technology markets. The city's unique combination of energy technology innovation, the Texas Medical Center's health technology ecosystem, NASA's Johnson Space Center and aerospace technology community, and a growing base of software and cybersecurity companies has created a diverse and active tech networking scene. Houston's developer groups, energy tech organizations, health tech communities, and startup ecosystem run consistent events that give technology professionals regular opportunities to connect, learn, and grow their careers.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor Houston's top tech organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for tech events in Houston — from coding meetups to energy tech conferences to startup pitch nights.</p>
             </div>

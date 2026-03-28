@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -210,14 +210,17 @@ function AustinRealEstateContent() {
           <p className="why-subtitle">Austin has experienced one of the most significant real estate booms of any US city over the past decade. Rapid population growth has driven massive residential and commercial construction, making Austin one of the most active real estate investment and development markets in the country. The city's real estate, construction, and design communities run consistent networking events, investor meetups, and professional development gatherings throughout the year.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Real estate events are buried across Austin Board of Realtors, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. It's impossible to track them all.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor Austin's top real estate organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for real estate events in Austin — from investor meetups to broker networking events to construction industry gatherings.</p>
             </div>

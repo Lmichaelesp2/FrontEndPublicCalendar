@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase } from 'lucide-react';
+import { AlertTriangle, Target, Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
@@ -194,14 +194,17 @@ function SanAntonioContent() {
           <p className="why-subtitle">Most San Antonio professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Business events in San Antonio are scattered across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and association websites. Most professionals miss events simply because they didn't know they were happening.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We track business event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>Today's events are always free to browse. Sign up free to unlock the full week and get the Monday newsletter — faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent.</p>
             </div>

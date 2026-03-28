@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, Search, Mail, Home, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { Star, Plus, Minus, Search, Mail, Home, Users, Clock, CalendarDays, Building2, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -208,14 +208,17 @@ function SanAntonioRealEstateContent() {
           <p className="why-subtitle">San Antonio is one of the hottest real estate markets in Texas. With military relocations, explosive population growth, and active investor communities, there's no shortage of events — but finding them is the hard part.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Real estate events are buried across SABOR, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. It's impossible to track them all.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor San Antonio's top real estate organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for real estate events in San Antonio — from investor meetups to SABOR classes to broker networking events.</p>
             </div>

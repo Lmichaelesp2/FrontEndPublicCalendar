@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, Search, Mail, Briefcase, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { Star, Plus, Minus, Search, Mail, Briefcase, Users, Clock, CalendarDays, Building2, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -208,14 +208,17 @@ function SanAntonioSmallBusinessContent() {
           <p className="why-subtitle">San Antonio has a thriving small business ecosystem with dozens of organizations offering free workshops, mentoring, and networking. The challenge is knowing when and where these events are happening.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Small business events are spread across SCORE, SBA, SBDC, LiftFund, Meetup, and individual organizations. Most small business owners don't have time to check them all.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor San Antonio's top small business organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for small business events in San Antonio — from SCORE workshops to entrepreneur meetups to funding sessions.</p>
             </div>

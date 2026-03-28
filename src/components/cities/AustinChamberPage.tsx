@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -199,14 +199,17 @@ function AustinChamberContent() {
           <p className="why-subtitle">Austin's chamber of commerce network is one of the most active in Texas. The Austin Chamber of Commerce, the Austin Hispanic Chamber of Commerce, the Asian American Chamber of Commerce of Austin, and multiple area chambers serve the broader Austin metro — each running consistent networking events, luncheons, mixers, ribbon cuttings, and speaker series throughout the year. Staying connected to Austin's chamber community means staying connected to the heartbeat of Austin's business economy.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Each chamber has its own website, newsletter list, and event calendar. If you belong to multiple chambers, you're checking multiple places every week.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor every major chamber and business association in the Austin area and consolidate their events into one unified calendar.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for chamber events in Austin — from ribbon cuttings to Business After Hours to annual galas.</p>
             </div>

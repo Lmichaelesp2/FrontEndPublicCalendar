@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -209,14 +209,17 @@ function HoustonSmallBusinessContent() {
           <p className="why-subtitle">Houston has one of the most diverse small business ecosystems in the United States. The city's extraordinary cultural diversity has produced a thriving immigrant entrepreneurship community alongside a strong base of locally owned businesses across every industry. The SCORE Houston chapter, University of Houston Small Business Development Center, Houston Community College entrepreneurship programs, and the city's growing coworking community provide consistent resources and events for small business owners at every stage. From government-backed training programs to coworking networking events and community education workshops, Houston's small business community runs events that help entrepreneurs connect, learn, and grow.</p>
           <div className="why-grid">
             <div className="why-card">
+              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
               <p>Small business events are spread across SCORE, SBA, SBDC, Meetup, and individual organizations. Most small business owners don't have time to check them all.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
               <p>We monitor Houston's top small business organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
             </div>
             <div className="why-card">
+              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
               <p>A single source for small business events in Houston — from SCORE workshops to entrepreneur meetups to funding sessions.</p>
             </div>
