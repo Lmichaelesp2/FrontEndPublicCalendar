@@ -5,6 +5,7 @@ import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { Breadcrumb } from '../Breadcrumb';
 import SponsorSection from '../SponsorSection';
 
 const SA_STATS = [
@@ -100,6 +101,12 @@ function SanAntonioContent() {
       />
 
       <Navigation />
+
+      <Breadcrumb items={[
+        { label: 'Local Business Calendars', href: '/' },
+        { label: 'Texas', href: '/texas' },
+        { label: 'San Antonio' },
+      ]} />
 
       <section className="hero">
         <div className="hero-inner">

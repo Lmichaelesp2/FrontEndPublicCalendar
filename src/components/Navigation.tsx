@@ -87,7 +87,6 @@ export function Navigation() {
                 <User size={18} />
               </button>
             )}
-            <Link to="/admin" className="text-sm opacity-60 hover:opacity-100">Admin</Link>
           </div>
         </div>
       </nav>

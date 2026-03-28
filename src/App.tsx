@@ -1,5 +1,6 @@
 import { Routes, Route, useParams } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
+import { Breadcrumb } from './components/Breadcrumb';
 import { Hero } from './components/Hero';
 import { Footer } from './components/Footer';
 import { HomepageCities } from './components/HomepageCities';
@@ -50,6 +51,13 @@ function MainLayoutInner() {
   return (
     <div>
       <Navigation />
+      {citySlug && (
+        <Breadcrumb items={[
+          { label: 'Local Business Calendars', href: '/' },
+          { label: 'Texas', href: '/texas' },
+          { label: cityName ?? citySlug },
+        ]} />
+      )}
       <Hero />
 
         <section className="benefits-bar">

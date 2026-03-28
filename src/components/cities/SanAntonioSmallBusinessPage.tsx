@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Plus, Minus, Search, Mail, Briefcase, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
+import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
@@ -112,6 +113,13 @@ function SanAntonioSmallBusinessContent() {
       />
 
       <Navigation />
+
+      <Breadcrumb items={[
+        { label: 'Local Business Calendars', href: '/' },
+        { label: 'Texas', href: '/texas' },
+        { label: 'San Antonio', href: '/texas/san-antonio' },
+        { label: 'Small Business Events' },
+      ]} />
 
       <section className="hero">
         <div className="hero-inner">

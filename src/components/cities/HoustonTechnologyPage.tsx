@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } from 'lucide-react';
 import { Navigation } from '../Navigation';
+import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
@@ -115,15 +116,12 @@ function HoustonTechnologyContent() {
 
       <Navigation />
 
-      <div className="sa-breadcrumb">
-        <Link to="/">Local Business Calendars</Link>
-        <span> &rsaquo; </span>
-        <Link to="/texas">Texas</Link>
-        <span> &rsaquo; </span>
-        <Link to="/texas/houston">Houston</Link>
-        <span> &rsaquo; </span>
-        <span>Technology Events</span>
-      </div>
+      <Breadcrumb items={[
+        { label: 'Local Business Calendars', href: '/' },
+        { label: 'Texas', href: '/texas' },
+        { label: 'Houston', href: '/texas/houston' },
+        { label: 'Technology Events' },
+      ]} />
 
       <section className="hero">
         <div className="hero-inner">
