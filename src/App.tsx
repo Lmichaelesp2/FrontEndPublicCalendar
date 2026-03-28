@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Routes, Route, useParams } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Breadcrumb } from './components/Breadcrumb';
@@ -12,6 +13,7 @@ import { AdminPanel } from './components/admin/AdminPanel';
 import { SubmitEventPage } from './components/SubmitEventPage';
 import { SocialProof } from './components/SocialProof';
 import { FAQ } from './components/FAQ';
+import { Plus, Minus } from 'lucide-react';
 import { SanAntonioPage } from './components/cities/SanAntonioPage';
 import { SanAntonioTechnologyPage } from './components/cities/SanAntonioTechnologyPage';
 import { SanAntonioRealEstatePage } from './components/cities/SanAntonioRealEstatePage';
@@ -44,8 +46,42 @@ const CITY_NAMES: Record<string, string> = {
   houston: 'Houston',
 };
 
+function TexasFaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
+  return (
+    <div className={`faq-item${open ? ' open' : ''}`}>
+      <button className="faq-trigger" onClick={onToggle} aria-expanded={open}>
+        <span>{question}</span>
+        {open ? <Minus size={18} /> : <Plus size={18} />}
+      </button>
+      <div className="faq-answer">
+        <p>{answer}</p>
+      </div>
+    </div>
+  );
+}
+
+const TEXAS_FAQ_ITEMS = [
+  {
+    question: 'Which cities does Texas Business Calendars cover?',
+    answer: 'We currently cover San Antonio, Austin, Dallas, and Houston. Each city has its own dedicated calendar and weekly email newsletter. Click any city above to browse events or subscribe.',
+  },
+  {
+    question: 'Is this free?',
+    answer: 'Yes — browsing the calendar and subscribing to the weekly email are both completely free. No credit card, no trial, no catch.',
+  },
+  {
+    question: 'How often are events updated?',
+    answer: 'We research and update events every week. New events are added as they\'re published by local organizations, and the weekly newsletter goes out every Monday morning.',
+  },
+  {
+    question: 'How do you find events across Texas?',
+    answer: 'We monitor chambers of commerce, local business organizations, Meetup groups, Eventbrite, Facebook, LinkedIn, and dozens of individual organization websites across all four cities — so you don\'t have to.',
+  },
+];
+
 function MainLayoutInner() {
   const { citySlug } = useParams<{ citySlug?: string }>();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const showIndustryCalendars = citySlug === 'austin' || citySlug === 'dallas' || citySlug === 'houston' || citySlug === 'san-antonio';
   const cityName = citySlug ? (CITY_NAMES[citySlug] ?? citySlug) : undefined;
 
@@ -72,6 +108,16 @@ function MainLayoutInner() {
         ]} />
       )}
       <Hero />
+
+        {!citySlug && (
+          <section className="hp-intro-section">
+            <div className="hp-intro-inner">
+              <p>
+                Texas Business Calendars aggregates networking events, chamber of commerce meetings, technology meetups, real estate investor gatherings, and small business events across San Antonio, Austin, Dallas, and Houston — researched weekly and delivered free to your inbox every Monday morning.
+              </p>
+            </div>
+          </section>
+        )}
 
         <section className="benefits-bar">
           <div className="benefits-bar-inner">
@@ -174,6 +220,24 @@ function MainLayoutInner() {
 
         <HomepageCities />
         <SocialProof />
+        {!citySlug && (
+          <section className="faq-section">
+            <div className="faq-inner">
+              <h2>Frequently Asked Questions About Texas Business Calendars</h2>
+              <div className="faq-list">
+                {TEXAS_FAQ_ITEMS.map((item, i) => (
+                  <TexasFaqItem
+                    key={i}
+                    question={item.question}
+                    answer={item.answer}
+                    open={openFaq === i}
+                    onToggle={() => setOpenFaq(openFaq === i ? null : i)}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
         <FAQ />
         <Footer showIndustryCalendars={showIndustryCalendars} citySlug={citySlug} cityName={cityName} />
       </div>

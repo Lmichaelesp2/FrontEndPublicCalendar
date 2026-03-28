@@ -12,6 +12,27 @@ const CITY_ROUTES: Record<City, string> = {
   'Houston': '/texas/houston',
 };
 
+const CITY_DESCRIPTORS: Record<City, string> = {
+  'San Antonio': 'Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more',
+  'Austin': 'Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more',
+  'Dallas': 'Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more',
+  'Houston': 'Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more',
+};
+
+const CITY_HEADINGS: Record<City, string> = {
+  'San Antonio': 'Networking & Business Events in San Antonio',
+  'Austin': 'Networking & Business Events in Austin',
+  'Dallas': 'Networking & Business Events in Dallas',
+  'Houston': 'Networking & Business Events in Houston',
+};
+
+const CITY_LINK_TEXT: Record<City, string> = {
+  'San Antonio': 'Browse San Antonio Events',
+  'Austin': 'Browse Austin Events',
+  'Dallas': 'Browse Dallas Events',
+  'Houston': 'Browse Houston Events',
+};
+
 const HOME_LIMIT = 10;
 
 const MONTH_NAMES = [
@@ -234,10 +255,14 @@ function CitySection({
 
   return (
     <div className="hpc-city-block">
+      <h2 className="hpc-city-heading">{CITY_HEADINGS[city]}</h2>
       <div className="hpc-city-header" onClick={() => setExpanded(!expanded)}>
         <div className="hpc-city-title-row">
           <span className="hpc-city-dot" />
-          <h3 className="hpc-city-name">{city}</h3>
+          <div className="hpc-city-info">
+            <h3 className="hpc-city-name">{city}</h3>
+            <p className="hpc-city-descriptor">{CITY_DESCRIPTORS[city]}</p>
+          </div>
           <span className="hpc-city-count">
             {events.length} of {totalCount} event{totalCount !== 1 ? 's' : ''}
           </span>
@@ -248,7 +273,7 @@ function CitySection({
             className="hpc-city-link"
             onClick={(e) => e.stopPropagation()}
           >
-            See full calendar <ChevronRight size={13} />
+            {CITY_LINK_TEXT[city]} <ChevronRight size={13} />
           </Link>
         </div>
       </div>
