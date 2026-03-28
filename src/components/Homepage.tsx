@@ -36,7 +36,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Is Local Business Calendars free?',
-    answer: 'Yes! The calendar and weekly email are completely free — no credit card required. Browse events anytime or subscribe to get a curated digest every Monday morning.',
+    answer: 'Yes — the calendar and weekly newsletter are both completely free. No credit card, no trial period, no catch.',
   },
   {
     question: 'How is this different from Eventbrite or Meetup?',
