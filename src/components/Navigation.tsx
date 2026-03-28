@@ -69,6 +69,7 @@ export function Navigation() {
                 ))}
               </>
             )}
+            <Link to="/about">About</Link>
             <Link to="/submit">Submit Event</Link>
             {user ? (
               <button
