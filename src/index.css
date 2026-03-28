@@ -1348,7 +1348,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 /* HOMEPAGE — NEW HERO (Inter font, photo state buttons) */
 .hp-hero{
   font-family:'Inter',sans-serif;
-  background:linear-gradient(135deg,#0a1f4a 0%,#0f2b5b 40%,#2060cc 100%);
+  background:linear-gradient(160deg, #0a1e42 0%, #0f2b5b 30%, #0056b3 70%, #0067d6 100%);
   padding:5.5rem 2rem 4.5rem;
   text-align:center;
   position:relative;
