@@ -126,10 +126,10 @@ function SanAntonioContent() {
           </div>
           <div className="hero-cta-group">
             <Link to="/texas/san-antonio/subscribe" className="btn btn-white">
-              Get My Free San Antonio Events Newsletter
+              Sign Up Free — See the Full Week of San Antonio Events
             </Link>
             <p className="hero-subtext-below">
-              Browse the calendar anytime between newsletters. Always free.
+              Free access to the full weekly calendar + the Monday newsletter. No credit card. Cancel anytime.
             </p>
           </div>
         </div>
@@ -164,25 +164,25 @@ function SanAntonioContent() {
       <section className="features-section">
         <div className="features-inner">
           <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.</p>
+          <p className="features-subtitle">We aggregate sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your inbox every Monday.</p>
 
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
-              <h3>Subscribe to San Antonio</h3>
-              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+              <h3>Sign up free in 10 seconds</h3>
+              <p>Enter your email — no account, no credit card, no setup. You're in.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's networking events, meetups, and business gatherings in San Antonio.</p>
+              <h3>Unlock the full week of events</h3>
+              <p>The calendar shows today's events to everyone. Sign up free and instantly see everything happening this week in San Antonio — all event types, all days.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">3</div>
-              <h3>Pick events & show up</h3>
-              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday morning, a curated digest of that week's best business and networking events in San Antonio lands in your inbox. We do the research — you show up.</p>
             </div>
           </div>
         </div>
@@ -190,20 +190,20 @@ function SanAntonioContent() {
 
       <section className="why-section">
         <div className="why-inner">
-          <h2>Why Use Texas Business Calendars?</h2>
+          <h2>Why San Antonio Professionals Use This Calendar</h2>
           <p className="why-subtitle">Most San Antonio professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly.</p>
           <div className="why-grid">
             <div className="why-card">
               <h3>The problem</h3>
-              <p>San Antonio events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations newsletters. It takes time to find what's worth attending.</p>
+              <p>Business events in San Antonio are scattered across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and association websites. Most professionals miss events simply because they didn't know they were happening.</p>
             </div>
             <div className="why-card">
               <h3>What we do</h3>
-              <p>We track San Antonio business event hosts — from the SA Chamber to local entrepreneur groups — and organize their public events into one simple calendar.</p>
+              <p>We track business event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week.</p>
             </div>
             <div className="why-card">
               <h3>What you get</h3>
-              <p>Faster discovery, fewer missed opportunities, and a weekly reminder that keeps your San Antonio networking consistent.</p>
+              <p>Today's events are always free to browse. Sign up free to unlock the full week and get the Monday newsletter — faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent.</p>
             </div>
           </div>
         </div>
@@ -215,18 +215,18 @@ function SanAntonioContent() {
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly newsletter</h3>
-              <p>Sign up for San Antonio and get that week's business events in your inbox every Monday. Free.</p>
+              <h3>Browse today's events free</h3>
+              <p>The calendar shows today's business and networking events in San Antonio to everyone — no signup needed. Come back anytime.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check the calendar anytime</h3>
-              <p>No signup needed. Browse San Antonio's business events on the calendar whenever you want.</p>
+              <h3>Sign up to unlock the full week</h3>
+              <p>Free signup gives you access to the entire week of upcoming events in San Antonio, not just today. See what's happening Monday through Sunday and plan ahead.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Never miss what matters</h3>
-              <p>The newsletter and the calendar work together so you always know what's coming up.</p>
+              <h3>Get the Monday newsletter</h3>
+              <p>Every Monday morning, a curated digest of that week's best events arrives in your inbox. Free subscribers get the full weekly roundup.</p>
             </div>
           </div>
         </div>
@@ -238,6 +238,36 @@ function SanAntonioContent() {
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
         <EventGate forcedCity="San Antonio" />
+      </section>
+
+      <section className="city-categories-section">
+        <div className="city-categories-inner">
+          <h2>Browse San Antonio Events by Category</h2>
+          <p className="city-categories-subtitle">Explore San Antonio's business event scene by topic</p>
+          <div className="city-categories-grid">
+            <Link to="/texas/san-antonio/networking" className="city-category-card">
+              <span className="city-category-icon"><Users size={20} /></span>
+              <span className="city-category-label">Networking Events</span>
+            </Link>
+            <Link to="/texas/san-antonio/chamber" className="city-category-card">
+              <span className="city-category-icon"><Landmark size={20} /></span>
+              <span className="city-category-label">Chamber Events</span>
+            </Link>
+            <Link to="/texas/san-antonio/technology" className="city-category-card">
+              <span className="city-category-icon"><Monitor size={20} /></span>
+              <span className="city-category-label">Technology Events</span>
+            </Link>
+            <Link to="/texas/san-antonio/real-estate" className="city-category-card">
+              <span className="city-category-icon"><Home size={20} /></span>
+              <span className="city-category-label">Real Estate Events</span>
+            </Link>
+            <Link to="/texas/san-antonio/small-business" className="city-category-card">
+              <span className="city-category-icon"><Briefcase size={20} /></span>
+              <span className="city-category-label">Small Business Events</span>
+            </Link>
+          </div>
+          <p className="city-categories-note">All events in each category calendar are free to browse — no signup needed. Subscribe to get the weekly category newsletter.</p>
+        </div>
       </section>
 
       <section className="sa-orgs-section">
@@ -309,7 +339,7 @@ function SanAntonioContent() {
           <p>Get the full week's San Antonio events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
             <Link to="/submit" className="btn sa-btn-outline">Submit an Event</Link>
-            <Link to="/texas/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link to="/texas/san-antonio/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week + Newsletter</Link>
           </div>
           <p className="sa-subscribe-note">Also available for Austin · Dallas · Houston</p>
         </div>
@@ -332,7 +362,7 @@ function SanAntonioContent() {
         </div>
       </section>
 
-      <Footer showIndustryCalendars={true} />
+      <Footer showIndustryCalendars={true} citySlug="san-antonio" cityName="San Antonio" />
     </div>
   );
 }
