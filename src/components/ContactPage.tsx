@@ -88,9 +88,9 @@ export function ContactPage() {
                 <div className="contact-info-icon">
                   <Mail size={32} strokeWidth={1.5} />
                 </div>
-                <h3>For Event Organizers</h3>
+                <h3>Submit Events</h3>
                 <p>
-                  Want to add your event to the calendar? Use our <Link to="/submit-event" className="contact-link">Submit Event page</Link> for the fastest response. Submitted events are reviewed within 2 business days.
+                  Have a business event to share? Use our <Link to="/submit-event" className="contact-link">Submit Event page</Link> for the fastest response. Events are reviewed within 2 business days.
                 </p>
               </div>
 
@@ -98,9 +98,9 @@ export function ContactPage() {
                 <div className="contact-info-icon">
                   <Mail size={32} strokeWidth={1.5} />
                 </div>
-                <h3>For Sponsors</h3>
+                <h3>Sponsorships</h3>
                 <p>
-                  Interested in sponsoring a city calendar or weekly newsletter? Each city calendar has one exclusive sponsor slot. Email us at <a href="mailto:sponsors@localbusinesscalendars.com" className="contact-link">sponsors@localbusinesscalendars.com</a> or use the form below and select 'Sponsorship Inquiry.'
+                  Interested in sponsoring a city calendar? Each calendar has one exclusive sponsor slot. Email <a href="mailto:sponsors@localbusinesscalendars.com" className="contact-link">sponsors@localbusinesscalendars.com</a> or use the contact form below.
                 </p>
               </div>
 
@@ -108,9 +108,9 @@ export function ContactPage() {
                 <div className="contact-info-icon">
                   <Mail size={32} strokeWidth={1.5} />
                 </div>
-                <h3>For General Inquiries</h3>
+                <h3>Other Questions</h3>
                 <p>
-                  For all other questions, feedback, or media inquiries, use the form below.
+                  Have feedback, a media inquiry, or other questions? Fill out the form below and we'll get back to you within 2 business days.
                 </p>
               </div>
             </div>
