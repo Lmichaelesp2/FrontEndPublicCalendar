@@ -168,7 +168,7 @@ function MainLayoutInner() {
               <div className="feature-card">
                 <div className="feature-step">1</div>
                 <h3>Subscribe to your city</h3>
-                <p>Click your city above. Enter your email. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+                <p>Click your city above. Create your free account in 30 seconds. No credit card, no setup.</p>
               </div>
 
               <div className="feature-card">

@@ -44,7 +44,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'How do I subscribe to a city calendar?',
-    answer: 'Choose your state, pick your city, and enter your email. That\'s it — no account, no credit card, no setup. You\'ll receive a curated email every Monday morning with that week\'s best events.',
+    answer: 'Choose your state, pick your city, and create your free account. Takes 30 seconds — no credit card, no setup.',
   },
   {
     question: 'Will you be adding more cities?',
