@@ -324,7 +324,7 @@ function HoustonContent() {
             <Link to="/submit" className="btn sa-btn-outline">Submit an Event</Link>
             <Link to="/texas/houston/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week + Newsletter</Link>
           </div>
-          <p className="sa-subscribe-note">Also available for San Antonio · Austin · Dallas</p>
+          <p className="sa-subscribe-note">Work across multiple Texas cities? <Link to="/texas/san-antonio">San Antonio</Link>, <Link to="/texas/austin">Austin</Link>, and <Link to="/texas/dallas">Dallas</Link> are free too.</p>
         </div>
       </section>
 
