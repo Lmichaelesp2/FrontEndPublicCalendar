@@ -121,6 +121,9 @@ function SanAntonioContent() {
           <p className="hero-subtext">
             Stop missing the events that grow your network and your business.
           </p>
+          <div className="hero-category-tags">
+            Networking &middot; Chamber &middot; Technology &middot; Real Estate &middot; Small Business &middot; Healthcare &middot; Finance &middot; and more
+          </div>
           <div className="hero-cta-group">
             <Link to="/texas/san-antonio/subscribe" className="btn btn-white">
               Get My Free San Antonio Events Newsletter

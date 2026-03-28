@@ -125,6 +125,9 @@ function DallasTechnologyContent() {
           <p className="hero-subtext">
             Stop missing the tech events that grow your network and your career.
           </p>
+          <div className="hero-category-tags">
+            Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more
+          </div>
           <div className="hero-cta-group">
             <Link to="/texas/dallas/subscribe" className="btn btn-white">
               Get My Free Dallas Technology Events Newsletter

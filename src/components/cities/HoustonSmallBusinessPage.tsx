@@ -136,6 +136,9 @@ function HoustonSmallBusinessContent() {
           <p className="hero-subtext">
             Stop missing the small business events that help you grow your business.
           </p>
+          <div className="hero-category-tags">
+            Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more
+          </div>
           <div className="hero-cta-group">
             <Link to="/texas/houston/subscribe" className="btn btn-white">
               Get My Free Houston Small Business Events Newsletter

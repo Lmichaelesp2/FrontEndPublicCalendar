@@ -137,6 +137,9 @@ function AustinRealEstateContent() {
           <p className="hero-subtext">
             Stop missing the real estate events that grow your network and your deals.
           </p>
+          <div className="hero-category-tags">
+            Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more
+          </div>
           <div className="hero-cta-group">
             <Link to="/texas/austin/subscribe" className="btn btn-white">
               Get My Free Austin Real Estate Events Newsletter

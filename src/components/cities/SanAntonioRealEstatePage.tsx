@@ -135,6 +135,9 @@ function SanAntonioRealEstateContent() {
           <p className="hero-subtext">
             Stop missing the events that grow your network and your business.
           </p>
+          <div className="hero-category-tags">
+            Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more
+          </div>
           <div className="hero-cta-group">
             <Link to="/texas/san-antonio/subscribe" className="btn btn-white">
               Get My Free San Antonio Real Estate Events Newsletter

@@ -126,6 +126,9 @@ function AustinChamberContent() {
           <p className="hero-subtext">
             Stop missing the chamber events that connect you to Austin's business community.
           </p>
+          <div className="hero-category-tags">
+            Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more
+          </div>
           <div className="hero-cta-group">
             <Link to="/texas/austin/subscribe" className="btn btn-white">
               Get My Free Austin Chamber Events Newsletter
