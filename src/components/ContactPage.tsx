@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
-import { Mail, ArrowRight } from 'lucide-react';
+import { CalendarPlus, Handshake, HelpCircle, MapPin, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 type InquiryType = 'general' | 'sponsorship' | 'media' | 'technical' | 'other';
@@ -86,7 +86,7 @@ export function ContactPage() {
             <div className="contact-info-grid">
               <div className="contact-info-card">
                 <div className="contact-info-icon">
-                  <Mail size={32} strokeWidth={1.5} />
+                  <CalendarPlus size={32} strokeWidth={1.5} />
                 </div>
                 <h3>Submit Events</h3>
                 <p>
@@ -97,7 +97,7 @@ export function ContactPage() {
 
               <div className="contact-info-card">
                 <div className="contact-info-icon">
-                  <Mail size={32} strokeWidth={1.5} />
+                  <Handshake size={32} strokeWidth={1.5} />
                 </div>
                 <h3>Sponsorships</h3>
                 <p>
@@ -108,7 +108,7 @@ export function ContactPage() {
 
               <div className="contact-info-card">
                 <div className="contact-info-icon">
-                  <Mail size={32} strokeWidth={1.5} />
+                  <HelpCircle size={32} strokeWidth={1.5} />
                 </div>
                 <h3>Other Questions</h3>
                 <p>
@@ -119,7 +119,7 @@ export function ContactPage() {
 
               <div className="contact-info-card">
                 <div className="contact-info-icon">
-                  <Mail size={32} strokeWidth={1.5} />
+                  <MapPin size={32} strokeWidth={1.5} />
                 </div>
                 <h3>New City Requests</h3>
                 <p>
