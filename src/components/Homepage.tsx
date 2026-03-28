@@ -118,7 +118,7 @@ export function Homepage() {
             </div>
           </div>
 
-          <p className="hp-hero-note">Browse the calendar anytime between event newsletters. Always free.</p>
+          <p className="hp-hero-note">Check the calendar anytime — or get events delivered to your inbox every Monday. Free.</p>
         </div>
       </section>
 
