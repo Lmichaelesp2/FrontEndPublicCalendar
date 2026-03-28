@@ -270,6 +270,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/admin" element={<AdminRoute />} />
         <Route path="/submit" element={<SubmitEventPage />} />
+        <Route path="/submit-event" element={<SubmitEventPage />} />
         <Route path="/texas/san-antonio" element={
           <CityProvider>
             <SanAntonioPage />
