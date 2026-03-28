@@ -1374,3 +1374,22 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .nav-homepage .nav-logo-text-hp span{color:#1a75d2}
 .nav-homepage .nav-links a,.nav-homepage .nav-dropdown-trigger{font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:500}
 .nav-coming-soon-link{color:var(--gray-400)!important;font-size:.82rem;font-weight:500;padding:.4rem .8rem;border-radius:var(--radius-xs);cursor:default;pointer-events:none}
+
+/* City Categories Section */
+.city-categories-section{padding:4rem 1.5rem;background:#f8fafc;border-top:1px solid #e2e8f0}
+.city-categories-inner{max-width:900px;margin:0 auto;text-align:center}
+.city-categories-inner h2{font-size:1.75rem;font-weight:700;color:#0f2a4a;margin-bottom:.5rem}
+.city-categories-subtitle{color:var(--gray-500);font-size:1rem;margin-bottom:2rem}
+.city-categories-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:1.25rem}
+.city-category-card{display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:1.25rem 1rem;background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;text-decoration:none;color:#0f2a4a;font-weight:600;font-size:.85rem;transition:border-color .18s,box-shadow .18s,transform .18s;cursor:pointer}
+.city-category-card:hover{border-color:#1a6fc4;box-shadow:0 4px 16px rgba(26,111,196,.12);transform:translateY(-2px);color:#1a6fc4}
+.city-category-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:linear-gradient(135deg,#e8f0fe,#dbeafe);border-radius:10px;color:#1a6fc4}
+.city-category-label{text-align:center;line-height:1.3}
+.city-categories-note{font-size:.82rem;color:var(--gray-400);margin-top:.25rem}
+@media(max-width:768px){
+  .city-categories-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:480px){
+  .city-categories-grid{grid-template-columns:repeat(2,1fr)}
+  .city-categories-inner h2{font-size:1.4rem}
+}

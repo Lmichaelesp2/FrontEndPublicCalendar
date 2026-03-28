@@ -15,6 +15,9 @@ import { SocialProof } from './components/SocialProof';
 import { FAQ } from './components/FAQ';
 import { Plus, Minus } from 'lucide-react';
 import { SanAntonioPage } from './components/cities/SanAntonioPage';
+import { AustinPage } from './components/cities/AustinPage';
+import { DallasPage } from './components/cities/DallasPage';
+import { HoustonPage } from './components/cities/HoustonPage';
 import { SanAntonioTechnologyPage } from './components/cities/SanAntonioTechnologyPage';
 import { SanAntonioRealEstatePage } from './components/cities/SanAntonioRealEstatePage';
 import { SanAntonioChamberPage } from './components/cities/SanAntonioChamberPage';
@@ -295,6 +298,21 @@ function App() {
         <Route path="/texas/san-antonio/networking" element={
           <CityProvider>
             <SanAntonioNetworkingPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/austin" element={
+          <CityProvider>
+            <AustinPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/dallas" element={
+          <CityProvider>
+            <DallasPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/houston" element={
+          <CityProvider>
+            <HoustonPage />
           </CityProvider>
         } />
         <Route path="/texas/austin/technology" element={
