@@ -22,7 +22,7 @@ export function Hero() {
           <div className="hero-badge">
             {cityConfig
               ? `${cityConfig.name} Business Calendar`
-              : 'We Do The Searching \u00b7 You Do The Networking'}
+              : 'Local Business Calendar'}
           </div>
 
           {cityConfig ? (
