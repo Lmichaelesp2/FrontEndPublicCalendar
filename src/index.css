@@ -157,7 +157,6 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem}
 .value-card{text-align:center;padding:0 .5rem}
 .value-icon{width:90px;height:90px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;color:var(--white);background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:24px;box-shadow:0 8px 24px rgba(0,86,179,.25),0 2px 8px rgba(0,0,0,.1);position:relative;transition:all .3s ease}
-.value-icon::after{content:'';position:absolute;top:-4px;right:-4px;width:24px;height:24px;background:linear-gradient(135deg,var(--gold-bright) 0%,var(--gold) 100%);border-radius:50%;box-shadow:0 2px 8px rgba(212,168,67,.4)}
 .value-card:hover .value-icon{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,86,179,.35),0 4px 12px rgba(0,0,0,.15)}
 .value-card h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem;color:var(--navy-dark)}
 .value-card p{font-size:1rem;color:var(--gray-600);line-height:1.65}
