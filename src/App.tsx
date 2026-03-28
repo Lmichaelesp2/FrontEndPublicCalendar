@@ -14,7 +14,6 @@ import { SubmitEventPage } from './components/SubmitEventPage';
 import { AboutPage } from './components/AboutPage';
 import { ContactPage } from './components/ContactPage';
 import { SocialProof } from './components/SocialProof';
-import { FAQ } from './components/FAQ';
 import { Plus, Minus, AlertTriangle, Target, Star } from 'lucide-react';
 import { SanAntonioPage } from './components/cities/SanAntonioPage';
 import { AustinPage } from './components/cities/AustinPage';
@@ -81,6 +80,14 @@ const TEXAS_FAQ_ITEMS = [
   {
     question: 'How do you find events across Texas?',
     answer: 'We monitor chambers of commerce, local business organizations, Meetup groups, Eventbrite, Facebook, LinkedIn, and dozens of individual organization websites across all four cities — so you don\'t have to.',
+  },
+  {
+    question: 'What do I get with a free subscription?',
+    answer: 'Access to your city\'s full events calendar plus a weekly email every Monday with the best upcoming networking and business events in your area.',
+  },
+  {
+    question: 'What is the Personal Event Assistant?',
+    answer: 'It\'s an upcoming AI-powered tool that learns your industry, professional goals, and schedule to recommend the best events for you personally — so you spend less time searching and more time networking. Join the waitlist above to be first in line when it launches.',
   },
 ];
 
@@ -246,7 +253,6 @@ function MainLayoutInner() {
             </div>
           </section>
         )}
-        <FAQ />
         <Footer showIndustryCalendars={showIndustryCalendars} citySlug={citySlug} cityName={cityName} />
       </div>
   );
