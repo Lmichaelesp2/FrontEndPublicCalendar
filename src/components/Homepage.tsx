@@ -154,8 +154,8 @@ export function Homepage() {
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
-              <h3>Pick your state</h3>
-              <p>Choose your state and city. We handle all the event research so you don't have to.</p>
+              <h3>Choose your city</h3>
+              <p>Pick your city from our Texas calendars. We handle all the event research so you don't have to.</p>
             </div>
             <div className="feature-card">
               <div className="feature-step">2</div>
@@ -222,8 +222,8 @@ export function Homepage() {
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Never miss what matters</h3>
-              <p>The email and the calendar work together so you always know what's coming up.</p>
+              <h3>Built for busy professionals</h3>
+              <p>We do the research every week so you can spend your time attending events, not hunting for them.</p>
             </div>
           </div>
         </div>
