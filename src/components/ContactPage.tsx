@@ -92,6 +92,7 @@ export function ContactPage() {
                 <p>
                   Have a business event to share? Use our <Link to="/submit-event" className="contact-link">Submit Event page</Link> for the fastest response. Events are reviewed within 2 business days.
                 </p>
+                <p className="contact-email">events@localbusinesscalendars.com</p>
               </div>
 
               <div className="contact-info-card">
@@ -100,8 +101,9 @@ export function ContactPage() {
                 </div>
                 <h3>Sponsorships</h3>
                 <p>
-                  Interested in sponsoring a city calendar? Each calendar has one exclusive sponsor slot. Email <a href="mailto:sponsors@localbusinesscalendars.com" className="contact-link">sponsors@localbusinesscalendars.com</a> or use the contact form below.
+                  Interested in sponsoring a city calendar? Each calendar has one exclusive sponsor slot.
                 </p>
+                <p className="contact-email">sponsors@localbusinesscalendars.com</p>
               </div>
 
               <div className="contact-info-card">
