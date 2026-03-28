@@ -4,6 +4,7 @@ import { Breadcrumb } from './components/Breadcrumb';
 import { Hero } from './components/Hero';
 import { Footer } from './components/Footer';
 import { HomepageCities } from './components/HomepageCities';
+import { SEOHead } from './components/SEOHead';
 import { AdminProvider } from './contexts/AdminContext';
 import { CityProvider } from './contexts/CityContext';
 import { AuthProvider } from './contexts/AuthContext';
@@ -48,8 +49,20 @@ function MainLayoutInner() {
   const showIndustryCalendars = citySlug === 'austin' || citySlug === 'dallas' || citySlug === 'houston' || citySlug === 'san-antonio';
   const cityName = citySlug ? (CITY_NAMES[citySlug] ?? citySlug) : undefined;
 
+  const seoTitle = citySlug
+    ? `${cityName} Business Calendar | Free Networking & Business Events Newsletter`
+    : 'Texas Business Calendars | Free Networking & Business Events Newsletter';
+
+  const seoDescription = citySlug
+    ? `Find networking events, business mixers, chamber meetings, and professional development opportunities in ${cityName}, Texas. Updated weekly with the latest events.`
+    : 'Explore business calendars for Austin, Dallas, Houston, and San Antonio, Texas. Find networking events, mixers, chamber meetings, and professional opportunities. Free weekly emails.';
+
   return (
     <div>
+      <SEOHead
+        title={seoTitle}
+        description={seoDescription}
+      />
       <Navigation />
       {citySlug && (
         <Breadcrumb items={[

@@ -108,7 +108,7 @@ function SanAntonioRealEstateContent() {
   return (
     <div className="sa-page">
       <SEOHead
-        title="Real Estate Events in San Antonio, TX | Texas Business Calendars"
+        title="San Antonio Real Estate Events Calendar | Free Weekly Real Estate Events Email"
         description="Find real estate networking events, investor meetups, SABOR events, broker tours, and CE classes in San Antonio, Texas. Updated weekly."
       />
 

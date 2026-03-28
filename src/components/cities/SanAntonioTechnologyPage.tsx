@@ -108,7 +108,7 @@ function SanAntonioTechnologyContent() {
   return (
     <div className="sa-page">
       <SEOHead
-        title="Technology Events in San Antonio, TX | Texas Business Calendars"
+        title="San Antonio Technology Events Calendar | Free Weekly Tech Events Email"
         description="Find tech meetups, cybersecurity events, hackathons, AI workshops, and developer gatherings in San Antonio, Texas. Updated weekly."
       />
 

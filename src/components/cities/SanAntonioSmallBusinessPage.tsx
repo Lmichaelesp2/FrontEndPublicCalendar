@@ -108,7 +108,7 @@ function SanAntonioSmallBusinessContent() {
   return (
     <div className="sa-page">
       <SEOHead
-        title="Small Business Events in San Antonio, TX | Texas Business Calendars"
+        title="San Antonio Small Business Events Calendar | Free Weekly Small Business Events Email"
         description="Find SCORE workshops, SBA seminars, entrepreneur meetups, and small business networking events in San Antonio, Texas. Updated weekly."
       />
 

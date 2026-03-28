@@ -96,7 +96,7 @@ function SanAntonioContent() {
   return (
     <div className="sa-page">
       <SEOHead
-        title="Networking & Business Events in San Antonio, TX | Texas Business Calendars"
+        title="San Antonio Business Calendar | Free Networking & Business Events Newsletter"
         description="Find networking events, business mixers, chamber meetings, and professional development opportunities in San Antonio, Texas. Updated weekly with the latest events."
       />
 

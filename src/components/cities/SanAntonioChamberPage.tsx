@@ -108,7 +108,7 @@ function SanAntonioChamberContent() {
   return (
     <div className="sa-page">
       <SEOHead
-        title="Chamber of Commerce Events in San Antonio, TX | Texas Business Calendars"
+        title="San Antonio Chamber Events Calendar | Free Weekly Chamber Events Email"
         description="Find chamber luncheons, Business After Hours, ribbon cuttings, and business association events in San Antonio, Texas. Updated weekly."
       />
 
