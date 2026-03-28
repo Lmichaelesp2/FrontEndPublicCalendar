@@ -308,8 +308,8 @@ function SanAntonioSmallBusinessContent() {
             <Clock size={14} />
             Free · Takes 30 seconds
           </div>
-          <h2>Don't Want to Check Back Every Week?</h2>
-          <p>Get San Antonio's best small business events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
+          <h2>Get San Antonio Small Business Events Every Monday — Free</h2>
+          <p>A curated digest of that week's small business events in San Antonio, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
             <Link to="/submit" className="btn sa-btn-outline">Submit a Small Business Event</Link>
             <Link to="/texas/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
