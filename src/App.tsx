@@ -26,6 +26,11 @@ import { DallasRealEstatePage } from './components/cities/DallasRealEstatePage';
 import { DallasNetworkingPage } from './components/cities/DallasNetworkingPage';
 import { DallasChamberPage } from './components/cities/DallasChamberPage';
 import { DallasSmallBusinessPage } from './components/cities/DallasSmallBusinessPage';
+import { HoustonTechnologyPage } from './components/cities/HoustonTechnologyPage';
+import { HoustonRealEstatePage } from './components/cities/HoustonRealEstatePage';
+import { HoustonNetworkingPage } from './components/cities/HoustonNetworkingPage';
+import { HoustonChamberPage } from './components/cities/HoustonChamberPage';
+import { HoustonSmallBusinessPage } from './components/cities/HoustonSmallBusinessPage';
 import { SubscribePage } from './components/SubscribePage';
 import { Homepage } from './components/Homepage';
 import { MapPin, Search, Mail, CalendarDays } from 'lucide-react';
@@ -255,6 +260,31 @@ function App() {
         <Route path="/texas/dallas/small-business" element={
           <CityProvider>
             <DallasSmallBusinessPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/houston/technology" element={
+          <CityProvider>
+            <HoustonTechnologyPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/houston/real-estate" element={
+          <CityProvider>
+            <HoustonRealEstatePage />
+          </CityProvider>
+        } />
+        <Route path="/texas/houston/networking" element={
+          <CityProvider>
+            <HoustonNetworkingPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/houston/chamber" element={
+          <CityProvider>
+            <HoustonChamberPage />
+          </CityProvider>
+        } />
+        <Route path="/texas/houston/small-business" element={
+          <CityProvider>
+            <HoustonSmallBusinessPage />
           </CityProvider>
         } />
         <Route path="/texas/:citySlug/subscribe" element={<SubscribePage />} />
