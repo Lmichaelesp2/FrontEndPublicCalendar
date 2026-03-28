@@ -70,6 +70,7 @@ export function Navigation() {
               </>
             )}
             <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
             <Link to="/submit">Submit Event</Link>
             {user ? (
               <button

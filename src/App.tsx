@@ -12,6 +12,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { AdminPanel } from './components/admin/AdminPanel';
 import { SubmitEventPage } from './components/SubmitEventPage';
 import { AboutPage } from './components/AboutPage';
+import { ContactPage } from './components/ContactPage';
 import { SocialProof } from './components/SocialProof';
 import { FAQ } from './components/FAQ';
 import { Plus, Minus } from 'lucide-react';
@@ -273,6 +274,7 @@ function App() {
         <Route path="/submit" element={<SubmitEventPage />} />
         <Route path="/submit-event" element={<SubmitEventPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/texas/san-antonio" element={
           <CityProvider>
             <SanAntonioPage />
