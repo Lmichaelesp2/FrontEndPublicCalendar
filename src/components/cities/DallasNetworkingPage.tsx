@@ -125,6 +125,7 @@ function DallasNetworkingContent() {
           <p className="hero-subtext">
             Stop missing the networking events that grow your referrals and your business.
           </p>
+          <p className="hero-category-tags">NETWORKING & REFERRAL GROUPS</p>
           <div className="hero-cta-group">
             <Link to="/texas/dallas/subscribe" className="btn btn-white">
               Get My Free Dallas Networking Events Newsletter

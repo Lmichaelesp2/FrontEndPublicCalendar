@@ -125,6 +125,7 @@ function SanAntonioNetworkingContent() {
           <p className="hero-subtext">
             Stop missing the networking events that grow your referrals and your business.
           </p>
+          <p className="hero-category-tags">NETWORKING & REFERRAL GROUPS</p>
           <div className="hero-cta-group">
             <Link to="/texas/san-antonio/subscribe" className="btn btn-white">
               Get My Free San Antonio Networking Events Newsletter
