@@ -63,6 +63,7 @@ export function Hero() {
                   {CITY_CONFIGS.map((c) => (
                     <Link key={c.slug} to={`/texas/${c.slug}/subscribe`} className="hero-city-link">
                       <span className="hero-city-name">{c.name}</span>
+                      <span className="hero-city-descriptor">Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more</span>
                       <span className="hero-city-subscribe">Sign up free</span>
                     </Link>
                   ))}

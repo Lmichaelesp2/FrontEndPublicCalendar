@@ -136,6 +136,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .hero-city-link:hover{background:#dce7ff;transform:translateY(-2px)}
 .hero-city-link:active{transform:translateY(0)}
 .hero-city-name{font-size:.95rem;font-weight:700;color:#003d82;letter-spacing:.01em;line-height:1}
+.hero-city-descriptor{display:block;font-size:.7rem;font-weight:400;color:#5a6e8a;text-align:center;line-height:1.4;opacity:.85}
 .hero-city-subscribe{display:block;font-size:.8rem;font-weight:600;color:#7a8a9e;text-decoration:none;padding:0;background:transparent;border:none;border-radius:0;transition:all .2s ease;white-space:nowrap}
 .hero-city-subscribe:hover{color:#f5d26e}
 @media(max-width:768px){
