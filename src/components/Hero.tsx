@@ -44,6 +44,9 @@ export function Hero() {
               <p className="hero-subtext">
                 Stop missing the events that grow your network and your business.
               </p>
+              <p className="hero-category-tags">
+                Networking &middot; Chamber &middot; Technology &middot; Real Estate &middot; Small Business &middot; Healthcare &middot; Finance &middot; and more
+              </p>
               <div className="hero-cta-group">
                 <Link to={`/texas/${cityConfig.slug}/subscribe`} className="btn btn-white">
                   Sign up for your free weekly newsletter
