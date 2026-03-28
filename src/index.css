@@ -1495,8 +1495,8 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .contact-body{flex:1;padding:4rem 1.5rem}
 .contact-info-section{background:#f8fafc;padding:4rem 1.5rem;border-bottom:1px solid #e2e8f0}
 .contact-info-inner{max-width:1000px;margin:0 auto}
-.contact-info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2rem;margin-bottom:2rem}
-.contact-info-card{background:#fff;padding:2.5rem 2rem;border-radius:12px;border:1.5px solid #e2e8f0;text-align:center;transition:all .2s;display:flex;flex-direction:column;min-height:380px;justify-content:space-between}
+.contact-info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-bottom:2rem}
+.contact-info-card{background:#fff;padding:2.5rem 2rem;border-radius:12px;border:1.5px solid #e2e8f0;text-align:center;transition:all .2s;display:flex;flex-direction:column;min-height:320px;justify-content:space-between}
 .contact-info-card:hover{border-color:#1a75d2;box-shadow:0 4px 16px rgba(26,111,196,.08)}
 .contact-info-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:linear-gradient(135deg,#e8f0fe,#dbeafe);border-radius:12px;color:#1a75d2;margin:0 auto 1rem;flex-shrink:0}
 .contact-info-card h3{font-size:1.1rem;font-weight:700;color:#0f2a4a;margin-bottom:.75rem}

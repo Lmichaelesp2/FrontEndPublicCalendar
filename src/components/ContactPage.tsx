@@ -116,6 +116,17 @@ export function ContactPage() {
                 </p>
                 <p className="contact-email">events@localbusinesscalendars.com</p>
               </div>
+
+              <div className="contact-info-card">
+                <div className="contact-info-icon">
+                  <Mail size={32} strokeWidth={1.5} />
+                </div>
+                <h3>New City Requests</h3>
+                <p>
+                  Interested in bringing a local business calendar to your city? We're always looking to expand. Reach out and let us know where you'd like to see us next.
+                </p>
+                <p className="contact-email">events@localbusinesscalendars.com</p>
+              </div>
             </div>
           </div>
         </section>
