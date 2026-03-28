@@ -345,7 +345,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .hpc-city-link:hover{background:#e4ecf5;border-color:#b8c9e0}
 .hpc-city-heading{font-size:1.4rem;font-weight:700;color:#0f2847;margin-bottom:0.75rem;margin-top:1.5rem;letter-spacing:-.01em}
 .hpc-city-info{display:flex;flex-direction:column;gap:.3rem;min-width:0;flex:1}
-.hpc-city-descriptor{font-size:.8rem;color:#6b7c93;margin:0;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hpc-city-descriptor{font-size:.8rem;color:#6b7c93;margin:0;font-weight:500;white-space:normal;overflow:visible;line-height:1.4}
 .hpc-events{padding:.75rem 1rem;display:flex;flex-direction:column;gap:.5rem}
 .hpc-no-events{text-align:center;padding:1.5rem;color:var(--gray-400);font-size:.85rem}
 .hpc-city-cta{margin:.25rem 0 .25rem;background:linear-gradient(135deg,#f0f5fc 0%,#e8f0fb 100%);border-top:1px solid #d4e1f5;border-radius:0 0 10px 10px;padding:1.1rem 1.25rem 1.15rem;text-align:center}
