@@ -316,6 +316,22 @@ function SanAntonioSmallBusinessContent() {
         </div>
       </section>
 
+      <section className="sa-category-nav">
+        <div className="sa-category-nav-inner">
+          <span className="sa-category-nav-label">Also in San Antonio:</span>
+          <div className="sa-category-nav-links">
+            <Link to="/texas/san-antonio/real-estate" className="sa-category-link">Real Estate Events</Link>
+            <Link to="/texas/san-antonio/chamber" className="sa-category-link">Chamber Events</Link>
+            <Link to="/texas/san-antonio/networking" className="sa-category-link">Networking Events</Link>
+            <Link to="/texas/san-antonio/technology" className="sa-category-link">Technology Events</Link>
+          </div>
+        </div>
+      </section>
+
+      <div className="sa-back-link">
+        <Link to="/texas/san-antonio">See all San Antonio business events &rarr;</Link>
+      </div>
+
       <section className="faq-section">
         <div className="faq-inner">
           <h2>Frequently Asked Questions</h2>
