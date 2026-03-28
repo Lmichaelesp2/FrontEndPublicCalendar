@@ -44,7 +44,7 @@ const CITY_NAMES: Record<string, string> = {
 
 function MainLayoutInner() {
   const { citySlug } = useParams<{ citySlug?: string }>();
-  const showIndustryCalendars = citySlug === 'austin' || citySlug === 'dallas';
+  const showIndustryCalendars = citySlug === 'austin' || citySlug === 'dallas' || citySlug === 'houston' || citySlug === 'san-antonio';
   const cityName = citySlug ? (CITY_NAMES[citySlug] ?? citySlug) : undefined;
 
   return (
