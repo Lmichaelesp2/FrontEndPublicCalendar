@@ -8,8 +8,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 
 const TECH_STATS = [
-  { number: '100+', label: 'Tech events added monthly' },
-  { number: '2,500+', label: 'Tech professionals subscribed' },
+  { number: '500+', label: 'Tech professionals subscribed' },
   { number: '50+', label: 'Tech organizations tracked' },
 ];
 

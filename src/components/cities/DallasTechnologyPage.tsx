@@ -8,9 +8,8 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 
 const STATS = [
+  { number: '500+', label: 'Tech professionals subscribed' },
   { number: '50+', label: 'Technology organizations tracked' },
-  { number: '2,500+', label: 'Tech professionals subscribed' },
-  { number: 'Weekly', label: 'Email every Monday' },
 ];
 
 const TESTIMONIALS = [

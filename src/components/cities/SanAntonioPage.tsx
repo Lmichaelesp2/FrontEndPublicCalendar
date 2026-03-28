@@ -9,8 +9,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import SponsorSection from '../SponsorSection';
 
 const SA_STATS = [
-  { number: '500+', label: 'Events added monthly' },
-  { number: '5,000+', label: 'Professionals subscribed' },
+  { number: '500+', label: 'San Antonio professionals subscribed' },
   { number: '800+', label: 'Business organizations tracked' },
 ];
 

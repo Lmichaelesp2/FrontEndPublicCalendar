@@ -8,9 +8,8 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 
 const NETWORKING_STATS = [
+  { number: '500+', label: 'Houston professionals subscribed' },
   { number: '30+', label: 'Networking organizations tracked' },
-  { number: '120+', label: 'Networking events monthly' },
-  { number: 'Weekly', label: 'Email every Monday' },
 ];
 
 const NETWORKING_TESTIMONIALS = [

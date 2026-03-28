@@ -8,9 +8,8 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 
 const NETWORKING_STATS = [
+  { number: '500+', label: 'San Antonio professionals subscribed' },
   { number: '25+', label: 'Networking organizations tracked' },
-  { number: '100+', label: 'Networking events monthly' },
-  { number: 'Weekly', label: 'Email every Monday' },
 ];
 
 const NETWORKING_TESTIMONIALS = [
