@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -955,7 +955,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .auth-modal-close:hover{background:var(--gray-100);color:var(--gray-700)}
 .auth-modal-header{text-align:center;margin-bottom:1.75rem}
 .auth-modal-icon{width:48px;height:48px;border-radius:12px;background:var(--navy);color:#f5c842;display:flex;align-items:center;justify-content:center;margin:0 auto .85rem}
-.auth-modal-title{font-size:1.45rem;font-weight:800;color:var(--navy);margin:0 0 .4rem;font-family:'Outfit',sans-serif}
+.auth-modal-title{font-size:1.45rem;font-weight:800;color:var(--navy);margin:0 0 .4rem;font-family:'Inter',sans-serif}
 .auth-modal-sub{font-size:.88rem;color:var(--gray-500);margin:0;line-height:1.5}
 .auth-modal-form{display:flex;flex-direction:column;gap:1rem}
 .auth-field{display:flex;flex-direction:column;gap:.45rem}
@@ -963,7 +963,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .auth-field input{padding:.75rem 1rem;border:2px solid var(--gray-200);border-radius:10px;font-size:.95rem;font-family:inherit;color:var(--gray-800);transition:border-color .18s,box-shadow .18s}
 .auth-field input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(0,61,130,.12)}
 .auth-error{font-size:.83rem;color:#dc2626;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:.6rem .85rem}
-.auth-submit-btn{background:var(--navy);color:#fff;padding:.85rem 1.5rem;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;letter-spacing:.01em;margin-top:.25rem}
+.auth-submit-btn{background:var(--navy);color:#fff;padding:.85rem 1.5rem;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;letter-spacing:.01em;margin-top:.25rem}
 .auth-submit-btn:hover{background:#003d82;box-shadow:0 4px 16px rgba(0,61,130,.3)}
 .auth-submit-btn:disabled{opacity:.55;cursor:not-allowed}
 .auth-modal-toggle{text-align:center;margin-top:1.25rem;color:var(--gray-500);font-size:.85rem}
@@ -975,12 +975,12 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .ev-gate-banner-inner{display:flex;align-items:center;gap:1rem;padding:.75rem 1.25rem;text-align:left}
 .ev-gate-icon{width:32px;height:32px;border-radius:8px;background:#0066cc;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ev-gate-text{flex:1;min-width:0}
-.ev-gate-heading{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;color:#06255e;margin:0}
-.ev-gate-sub{font-family:'Outfit',sans-serif;font-size:.8rem;color:#6b7280;margin:0;display:none}
+.ev-gate-heading{font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;color:#06255e;margin:0}
+.ev-gate-sub{font-family:'Inter',sans-serif;font-size:.8rem;color:#6b7280;margin:0;display:none}
 .ev-gate-banner-buttons{display:flex;gap:.5rem;flex-wrap:wrap}
-.ev-gate-btn{background:#0066cc;color:#fff;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;padding:.5rem 1rem;border:none;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.ev-gate-btn{background:#0066cc;color:#fff;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:700;padding:.5rem 1rem;border:none;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .ev-gate-btn:hover{background:#0052a3}
-.ev-gate-signin{background:#fff;border:1px solid #0066cc;color:#0066cc;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;padding:.5rem 1rem;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.ev-gate-signin{background:#fff;border:1px solid #0066cc;color:#0066cc;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:700;padding:.5rem 1rem;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .ev-gate-signin:hover{background:#f0f7ff}
 .ev-gate-loading{display:flex;justify-content:center;padding:4rem 0}
 .ev-gate-spinner{width:32px;height:32px;border:3px solid var(--gray-200);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite}
@@ -1341,23 +1341,23 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   .hp-state-feature-content h3{font-size:1.25rem}
 }
 
-/* HOMEPAGE — NEW HERO (Outfit font, photo state buttons) */
+/* HOMEPAGE — NEW HERO (Inter font, photo state buttons) */
 .hp-hero{
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
   background:linear-gradient(135deg,#0a1f4a 0%,#0f2b5b 40%,#2060cc 100%);
   padding:5.5rem 2rem 4.5rem;
   text-align:center;
   position:relative;
   overflow:hidden;
 }
-.hp-hero-inner{max-width:860px;margin:0 auto;position:relative;z-index:1;font-family:'Outfit',sans-serif}
+.hp-hero-inner{max-width:860px;margin:0 auto;position:relative;z-index:1;font-family:'Inter',sans-serif}
 .hp-hero-badge{
   display:inline-block;
   background:rgba(10,31,74,.55);
   border:1px solid rgba(255,255,255,.18);
   backdrop-filter:blur(6px);
   color:rgba(255,255,255,.92);
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
   font-size:.8rem;
   font-weight:700;
   letter-spacing:.1em;
@@ -1367,7 +1367,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   margin-bottom:2.25rem;
 }
 .hp-hero-h1{
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
   font-size:3rem;
   font-weight:800;
   color:#fff;
@@ -1377,7 +1377,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 }
 .hp-hero-h1 em{font-style:normal;color:#f5c842}
 .hp-hero-sub{
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
   color:#f5c842;
   font-size:1.25rem;
   font-weight:600;
@@ -1418,10 +1418,10 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   align-items:center;
   justify-content:center;
   gap:.35rem;
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
 }
 .hp-state-btn-label{
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
   font-size:1.35rem;
   font-weight:700;
   color:#fff;
@@ -1429,7 +1429,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   letter-spacing:-.01em;
 }
 .hp-state-btn-live{
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
   font-size:.8rem;
   font-weight:600;
   color:#f5c842;
@@ -1437,7 +1437,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   letter-spacing:.02em;
 }
 .hp-state-btn-coming-soon{
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
   font-size:.65rem;
   font-weight:700;
   color:rgba(255,255,255,.5);
@@ -1446,7 +1446,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   margin-bottom:2px;
 }
 .hp-hero-note{
-  font-family:'Outfit',sans-serif;
+  font-family:'Inter',sans-serif;
   color:rgba(255,255,255,.45);
   font-size:.88rem;
   font-weight:400;
@@ -1460,11 +1460,11 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   .hp-hero{padding:4rem 1.5rem 3.5rem}
 }
 
-/* NAV — Homepage override for Outfit */
-.nav-homepage{font-family:'Outfit',sans-serif}
-.nav-homepage .nav-logo-text-hp{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;color:#003d82}
+/* NAV — Homepage override for Inter */
+.nav-homepage{font-family:'Inter',sans-serif}
+.nav-homepage .nav-logo-text-hp{font-family:'Inter',sans-serif;font-size:1.05rem;font-weight:800;color:#003d82}
 .nav-homepage .nav-logo-text-hp span{color:#1a75d2}
-.nav-homepage .nav-links a,.nav-homepage .nav-dropdown-trigger{font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:500}
+.nav-homepage .nav-links a,.nav-homepage .nav-dropdown-trigger{font-family:'Inter',sans-serif;font-size:.88rem;font-weight:500}
 .nav-coming-soon-link{color:var(--gray-400)!important;font-size:.82rem;font-weight:500;padding:.4rem .8rem;border-radius:var(--radius-xs);cursor:default;pointer-events:none}
 
 /* City Categories Section */
