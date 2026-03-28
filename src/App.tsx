@@ -121,16 +121,6 @@ function MainLayoutInner() {
       )}
       <Hero />
 
-        {!citySlug && (
-          <section className="hp-intro-section">
-            <div className="hp-intro-inner">
-              <p>
-                Texas Business Calendars aggregates networking events, chamber of commerce meetings, technology meetups, real estate investor gatherings, and small business events across San Antonio, Austin, Dallas, and Houston — researched weekly and delivered free to your inbox every Monday morning.
-              </p>
-            </div>
-          </section>
-        )}
-
         <section className="benefits-bar">
           <div className="benefits-bar-inner">
             <div className="benefit-item">
@@ -156,6 +146,16 @@ function MainLayoutInner() {
             </div>
           </div>
         </section>
+
+        {!citySlug && (
+          <section className="hp-intro-section">
+            <div className="hp-intro-inner">
+              <p>
+                Texas Business Calendars aggregates networking events, chamber of commerce meetings, technology meetups, real estate investor gatherings, and small business events across San Antonio, Austin, Dallas, and Houston — researched weekly and delivered free to your inbox every Monday morning.
+              </p>
+            </div>
+          </section>
+        )}
 
         <section className="why-section">
           <div className="why-inner">
