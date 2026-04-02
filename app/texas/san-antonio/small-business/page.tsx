@@ -1,10 +1,12 @@
 import { CityProvider } from '../../../../src/contexts/CityContext';
 import { SanAntonioSmallBusinessPage } from '../../../../src/components/cities/SanAntonioSmallBusinessPage';
+import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
-export default function Page() {
+export default async function Page() {
+  const events = await fetchApprovedEvents({ city: 'San Antonio', eventCategory: 'small_business' });
   return (
     <CityProvider>
-      <SanAntonioSmallBusinessPage />
+      <SanAntonioSmallBusinessPage initialEvents={events} />
     </CityProvider>
   );
 }

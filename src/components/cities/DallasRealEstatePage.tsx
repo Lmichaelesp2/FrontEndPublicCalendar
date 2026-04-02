@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -87,7 +88,7 @@ function FaqItem({ question, answer, open, onToggle }: { question: string; answe
   );
 }
 
-function DallasRealEstateContent() {
+function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -244,7 +245,7 @@ function DallasRealEstateContent() {
           <h2>Find Your Next Dallas Real Estate Event</h2>
           <p>Browse investor meetups, networking events, CE classes, and more</p>
         </div>
-        <EventGate forcedCity="Dallas" eventCategory="real_estate" />
+        <EventGate forcedCity="Dallas" eventCategory="real_estate" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -347,6 +348,6 @@ function DallasRealEstateContent() {
   );
 }
 
-export function DallasRealEstatePage() {
-  return <DallasRealEstateContent />;
+export function DallasRealEstatePage({ initialEvents }: { initialEvents: Event[] }) {
+  return <DallasRealEstateContent initialEvents={initialEvents} />;
 }

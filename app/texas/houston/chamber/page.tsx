@@ -1,10 +1,12 @@
 import { CityProvider } from '../../../../src/contexts/CityContext';
 import { HoustonChamberPage } from '../../../../src/components/cities/HoustonChamberPage';
+import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
-export default function Page() {
+export default async function Page() {
+  const events = await fetchApprovedEvents({ city: 'Houston', eventCategory: 'chamber' });
   return (
     <CityProvider>
-      <HoustonChamberPage />
+      <HoustonChamberPage initialEvents={events} />
     </CityProvider>
   );
 }

@@ -7,6 +7,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
+import type { Event } from '../../lib/supabase';
 import SponsorSection from '../SponsorSection';
 
 const SA_STATS = [
@@ -86,7 +87,7 @@ function SAFaqItem({ question, answer, open, onToggle }: { question: string; ans
   );
 }
 
-function SanAntonioContent() {
+function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -240,7 +241,7 @@ function SanAntonioContent() {
           <h2>Find Your Next San Antonio Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" />
+        <EventGate forcedCity="San Antonio" initialEvents={initialEvents} />
       </section>
 
       <section className="city-categories-section">
@@ -370,6 +371,6 @@ function SanAntonioContent() {
   );
 }
 
-export function SanAntonioPage() {
-  return <SanAntonioContent />;
+export function SanAntonioPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <SanAntonioContent initialEvents={initialEvents} />;
 }

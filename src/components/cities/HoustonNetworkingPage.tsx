@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'Houston professionals subscribed' },
@@ -87,7 +88,7 @@ function NetworkingFaqItem({ question, answer, open, onToggle }: { question: str
   );
 }
 
-function HoustonNetworkingContent() {
+function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -242,7 +243,7 @@ function HoustonNetworkingContent() {
           <h2>Today's Networking Events in Houston</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="Houston" eventCategory="networking" />
+        <EventGate forcedCity="Houston" eventCategory="networking" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -345,6 +346,6 @@ function HoustonNetworkingContent() {
   );
 }
 
-export function HoustonNetworkingPage() {
-  return <HoustonNetworkingContent />;
+export function HoustonNetworkingPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <HoustonNetworkingContent initialEvents={initialEvents} />;
 }

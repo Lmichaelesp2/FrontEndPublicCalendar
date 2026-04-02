@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -87,7 +88,7 @@ function FaqItem({ question, answer, open, onToggle }: { question: string; answe
   );
 }
 
-function AustinSmallBusinessContent() {
+function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -245,7 +246,7 @@ function AustinSmallBusinessContent() {
           <h2>Find Your Next Austin Small Business Event</h2>
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
-        <EventGate forcedCity="Austin" eventCategory="small_business" />
+        <EventGate forcedCity="Austin" eventCategory="small_business" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -348,6 +349,6 @@ function AustinSmallBusinessContent() {
   );
 }
 
-export function AustinSmallBusinessPage() {
-  return <AustinSmallBusinessContent />;
+export function AustinSmallBusinessPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <AustinSmallBusinessContent initialEvents={initialEvents} />;
 }

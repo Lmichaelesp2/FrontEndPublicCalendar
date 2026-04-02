@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -98,7 +99,7 @@ function TechFaqItem({ question, answer, open, onToggle }: { question: string; a
   );
 }
 
-function SanAntonioTechnologyContent() {
+function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -253,7 +254,7 @@ function SanAntonioTechnologyContent() {
           <h2>Find Your Next San Antonio Tech Event</h2>
           <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" eventCategory="technology" />
+        <EventGate forcedCity="San Antonio" eventCategory="technology" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -356,6 +357,6 @@ function SanAntonioTechnologyContent() {
   );
 }
 
-export function SanAntonioTechnologyPage() {
-  return <SanAntonioTechnologyContent />;
+export function SanAntonioTechnologyPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <SanAntonioTechnologyContent initialEvents={initialEvents} />;
 }

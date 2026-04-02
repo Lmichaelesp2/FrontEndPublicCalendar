@@ -4,14 +4,15 @@ import { useAuth } from '../contexts/AuthContext';
 import { Calendar } from './Calendar';
 import { AuthModal } from './auth/AuthModal';
 import { getTodayKey, getWeekRangeFromToday } from '../lib/utils';
-import type { City } from '../lib/supabase';
+import type { City, Event } from '../lib/supabase';
 
 interface EventGateProps {
+  initialEvents: Event[];
   forcedCity: City;
   eventCategory?: string;
 }
 
-export function EventGate({ forcedCity, eventCategory }: EventGateProps) {
+export function EventGate({ initialEvents, forcedCity, eventCategory }: EventGateProps) {
   const { user, loading } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
 
@@ -29,6 +30,7 @@ export function EventGate({ forcedCity, eventCategory }: EventGateProps) {
   if (user) {
     return (
       <Calendar
+        initialEvents={initialEvents}
         forcedCity={forcedCity}
         eventCategory={eventCategory}
         minDate={weekRange.start}
@@ -40,6 +42,7 @@ export function EventGate({ forcedCity, eventCategory }: EventGateProps) {
   return (
     <>
       <Calendar
+        initialEvents={initialEvents}
         forcedCity={forcedCity}
         eventCategory={eventCategory}
         minDate={today}

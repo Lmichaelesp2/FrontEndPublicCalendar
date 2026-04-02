@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -98,7 +99,7 @@ function FaqItem({ question, answer, open, onToggle }: { question: string; answe
   );
 }
 
-function HoustonRealEstateContent() {
+function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -255,7 +256,7 @@ function HoustonRealEstateContent() {
           <h2>Find Your Next Houston Real Estate Event</h2>
           <p>Browse investor meetups, HAR events, broker tours, and more</p>
         </div>
-        <EventGate forcedCity="Houston" eventCategory="real_estate" />
+        <EventGate forcedCity="Houston" eventCategory="real_estate" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -358,6 +359,6 @@ function HoustonRealEstateContent() {
   );
 }
 
-export function HoustonRealEstatePage() {
-  return <HoustonRealEstateContent />;
+export function HoustonRealEstatePage({ initialEvents }: { initialEvents: Event[] }) {
+  return <HoustonRealEstateContent initialEvents={initialEvents} />;
 }

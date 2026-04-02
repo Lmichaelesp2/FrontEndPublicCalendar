@@ -1,12 +1,13 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
-import { supabase, Event, City } from '../lib/supabase';
+import type { Event, City } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
 import { useAuth } from '../contexts/AuthContext';
 
 interface CalendarProps {
+  initialEvents: Event[];
   forcedCity?: City;
   eventCategory?: string;
   maxDate?: string;
@@ -31,10 +32,8 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
   return grid;
 }
 
-export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick }: CalendarProps = {}) {
+export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick }: CalendarProps) {
   const { user } = useAuth();
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [calMonth, setCalMonth] = useState(() => {
     const now = new Date();
@@ -44,32 +43,9 @@ export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGate
   const [rangeEnd, setRangeEnd] = useState<string | null>(null);
   const [hoverDate, setHoverDate] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
-
-  async function fetchEvents() {
-    try {
-      setLoading(true);
-      const today = new Date().toISOString().split('T')[0];
-      const { data, error } = await supabase
-        .from('events')
-        .select('*')
-        .eq('status', 'approved')
-        .gte('start_date', today)
-        .order('start_date', { ascending: true });
-      if (error) throw error;
-      setEvents(data || []);
-    } catch (err) {
-      console.error('Error fetching events:', err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   const today = dateKey(new Date());
 
-  const cityFiltered = events.filter((e) => {
+  const cityFiltered = initialEvents.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
     if (eventCategory && e.event_category !== eventCategory) return false;
     if (minDate && e.start_date < minDate) return false;
@@ -325,9 +301,7 @@ export function Calendar({ forcedCity, eventCategory, maxDate, minDate, showGate
         </div>
 
         <div className="ev-list" style={{ marginTop: '1.5rem' }}>
-          {loading ? (
-            <div className="no-ev"><p>Loading events...</p></div>
-          ) : displayEvents.length === 0 ? (
+          {displayEvents.length === 0 ? (
             <div className="no-ev">
               <p>{searchActive ? 'No events match your search.' : 'No events for the selected date range.'}</p>
             </div>

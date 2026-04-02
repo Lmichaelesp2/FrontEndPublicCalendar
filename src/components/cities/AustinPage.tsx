@@ -7,6 +7,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
+import type { Event } from '../../lib/supabase';
 
 const STATS = [
   { number: '500+', label: 'Austin professionals subscribed' },
@@ -95,7 +96,7 @@ function FaqItem({ question, answer, open, onToggle }: { question: string; answe
   );
 }
 
-function AustinContent() {
+function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -249,7 +250,7 @@ function AustinContent() {
           <h2>Find Your Next Austin Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventGate forcedCity="Austin" />
+        <EventGate forcedCity="Austin" initialEvents={initialEvents} />
       </section>
 
       <section className="city-categories-section">
@@ -352,6 +353,6 @@ function AustinContent() {
   );
 }
 
-export function AustinPage() {
-  return <AustinContent />;
+export function AustinPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <AustinContent initialEvents={initialEvents} />;
 }

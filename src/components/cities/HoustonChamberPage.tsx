@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const STATS = [
   { number: '500+', label: 'Chamber members subscribed' },
@@ -98,7 +99,7 @@ function FaqItem({ question, answer, open, onToggle }: { question: string; answe
   );
 }
 
-function HoustonChamberContent() {
+function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -255,7 +256,7 @@ function HoustonChamberContent() {
           <h2>Find Your Next Houston Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <EventGate forcedCity="Houston" eventCategory="chamber" />
+        <EventGate forcedCity="Houston" eventCategory="chamber" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -358,6 +359,6 @@ function HoustonChamberContent() {
   );
 }
 
-export function HoustonChamberPage() {
-  return <HoustonChamberContent />;
+export function HoustonChamberPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <HoustonChamberContent initialEvents={initialEvents} />;
 }

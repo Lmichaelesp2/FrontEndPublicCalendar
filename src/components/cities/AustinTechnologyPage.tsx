@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -87,7 +88,7 @@ function TechFaqItem({ question, answer, open, onToggle }: { question: string; a
   );
 }
 
-function AustinTechnologyContent() {
+function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -244,7 +245,7 @@ function AustinTechnologyContent() {
           <h2>Find Your Next Austin Tech Event</h2>
           <p>Browse developer meetups, startup events, hackathons, and more</p>
         </div>
-        <EventGate forcedCity="Austin" eventCategory="technology" />
+        <EventGate forcedCity="Austin" eventCategory="technology" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -347,6 +348,6 @@ function AustinTechnologyContent() {
   );
 }
 
-export function AustinTechnologyPage() {
-  return <AustinTechnologyContent />;
+export function AustinTechnologyPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <AustinTechnologyContent initialEvents={initialEvents} />;
 }

@@ -1,10 +1,12 @@
 import { CityProvider } from '../../../../src/contexts/CityContext';
 import { AustinTechnologyPage } from '../../../../src/components/cities/AustinTechnologyPage';
+import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
-export default function Page() {
+export default async function Page() {
+  const events = await fetchApprovedEvents({ city: 'Austin', eventCategory: 'technology' });
   return (
     <CityProvider>
-      <AustinTechnologyPage />
+      <AustinTechnologyPage initialEvents={events} />
     </CityProvider>
   );
 }

@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'San Antonio professionals subscribed' },
@@ -87,7 +88,7 @@ function NetworkingFaqItem({ question, answer, open, onToggle }: { question: str
   );
 }
 
-function SanAntonioNetworkingContent() {
+function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -242,7 +243,7 @@ function SanAntonioNetworkingContent() {
           <h2>Today's Networking Events in San Antonio</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="San Antonio" eventCategory="networking" />
+        <EventGate forcedCity="San Antonio" eventCategory="networking" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -345,6 +346,6 @@ function SanAntonioNetworkingContent() {
   );
 }
 
-export function SanAntonioNetworkingPage() {
-  return <SanAntonioNetworkingContent />;
+export function SanAntonioNetworkingPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <SanAntonioNetworkingContent initialEvents={initialEvents} />;
 }

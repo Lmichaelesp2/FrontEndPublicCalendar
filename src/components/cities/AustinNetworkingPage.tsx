@@ -7,6 +7,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import type { Event } from '../../lib/supabase';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'Austin professionals subscribed' },
@@ -87,7 +88,7 @@ function NetworkingFaqItem({ question, answer, open, onToggle }: { question: str
   );
 }
 
-function AustinNetworkingContent() {
+function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -242,7 +243,7 @@ function AustinNetworkingContent() {
           <h2>Today's Networking Events in Austin</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="Austin" eventCategory="networking" />
+        <EventGate forcedCity="Austin" eventCategory="networking" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
@@ -345,6 +346,6 @@ function AustinNetworkingContent() {
   );
 }
 
-export function AustinNetworkingPage() {
-  return <AustinNetworkingContent />;
+export function AustinNetworkingPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <AustinNetworkingContent initialEvents={initialEvents} />;
 }
