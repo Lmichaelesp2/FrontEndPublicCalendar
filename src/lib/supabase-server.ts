@@ -10,6 +10,7 @@ function getServerSupabase() {
 export async function fetchApprovedEvents(options?: {
   city?: string;
   eventCategory?: string;
+  date?: string;
 }): Promise<Event[]> {
   const supabase = getServerSupabase();
   const today = new Date().toISOString().split('T')[0];
@@ -18,8 +19,13 @@ export async function fetchApprovedEvents(options?: {
     .from('events')
     .select('*')
     .eq('status', 'approved')
-    .gte('start_date', today)
     .order('start_date', { ascending: true });
+
+  if (options?.date) {
+    query = query.eq('start_date', options.date);
+  } else {
+    query = query.gte('start_date', today);
+  }
 
   if (options?.city) {
     query = query.eq('city_calendar', options.city);

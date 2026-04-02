@@ -53,37 +53,48 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
   return grid;
 }
 
-export function HomepageCities() {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
+interface HomepageCitiesProps {
+  initialEvents?: Event[];
+}
+
+export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
+  const today = dateKey(new Date());
+
+  const [events, setEvents] = useState<Event[]>(initialEvents);
+  const [fetchedDates, setFetchedDates] = useState<Set<string>>(() => new Set([today]));
   const [calMonth, setCalMonth] = useState(() => {
     const now = new Date();
     return { year: now.getFullYear(), month: now.getMonth() };
   });
-  const [selectedDate, setSelectedDate] = useState<string>(() => dateKey(new Date()));
+  const [selectedDate, setSelectedDate] = useState<string>(today);
+
+  async function fetchEventsForDate(date: string) {
+    if (fetchedDates.has(date)) return;
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .eq('status', 'approved')
+        .eq('start_date', date)
+        .order('start_date', { ascending: true });
+      if (error) throw error;
+      setEvents((prev) => {
+        const existing = new Set(prev.map((e) => e.id));
+        const newEvents = (data || []).filter((e) => !existing.has(e.id));
+        return [...prev, ...newEvents];
+      });
+      setFetchedDates((prev) => new Set([...prev, date]));
+    } catch (err) {
+      console.error('Error fetching events:', err);
+    }
+  }
 
   useEffect(() => {
-    async function fetchEvents() {
-      try {
-        const today = new Date().toISOString().split('T')[0];
-        const { data, error } = await supabase
-          .from('events')
-          .select('*')
-          .eq('status', 'approved')
-          .gte('start_date', today)
-          .order('start_date', { ascending: true });
-        if (error) throw error;
-        setEvents(data || []);
-      } catch (err) {
-        console.error('Error fetching events:', err);
-      } finally {
-        setLoading(false);
-      }
+    if (selectedDate !== today) {
+      fetchEventsForDate(selectedDate);
     }
-    fetchEvents();
-  }, []);
+  }, [selectedDate]);
 
-  const today = dateKey(new Date());
   const datesWithEvents = new Set(events.map((e) => e.start_date));
   const grid = getMonthGrid(calMonth.year, calMonth.month);
 
@@ -163,7 +174,7 @@ export function HomepageCities() {
               const isPast = dk < today;
               const hasEvents = datesWithEvents.has(dk);
               const isSelected = dk === selectedDate;
-              const isToday = dk === today;
+              const isTodayCell = dk === today;
 
               return (
                 <button
@@ -171,7 +182,7 @@ export function HomepageCities() {
                   className={[
                     'hpc-cal-cell',
                     isPast ? 'past' : '',
-                    isToday ? 'is-today' : '',
+                    isTodayCell ? 'is-today' : '',
                     isSelected ? 'selected' : '',
                     hasEvents && !isPast ? 'has-events' : '',
                   ].filter(Boolean).join(' ')}
@@ -213,31 +224,27 @@ export function HomepageCities() {
           </button>
         </div>
 
-        {loading ? (
-          <div className="hpc-loading">Loading events...</div>
-        ) : (
-          <div className="hpc-cities">
-            {CITIES.map((city) => {
-              const cityEvents = sortEventsByTime(
-                filteredEvents.filter((e) => e.city_calendar === city)
-              );
-              const displayed = cityEvents.slice(0, HOME_LIMIT);
-              const hasMore = cityEvents.length > HOME_LIMIT;
+        <div className="hpc-cities">
+          {CITIES.map((city) => {
+            const cityEvents = sortEventsByTime(
+              filteredEvents.filter((e) => e.city_calendar === city)
+            );
+            const displayed = cityEvents.slice(0, HOME_LIMIT);
+            const hasMore = cityEvents.length > HOME_LIMIT;
 
-              return (
-                <CitySection
-                  key={city}
-                  city={city}
-                  events={displayed}
-                  totalCount={cityEvents.length}
-                  hasMore={hasMore}
-                  cityRoute={CITY_ROUTES[city]}
-                  selectedDate={selectedDate}
-                />
-              );
-            })}
-          </div>
-        )}
+            return (
+              <CitySection
+                key={city}
+                city={city}
+                events={displayed}
+                totalCount={cityEvents.length}
+                hasMore={hasMore}
+                cityRoute={CITY_ROUTES[city]}
+                selectedDate={selectedDate}
+              />
+            );
+          })}
+        </div>
       </div>
     </section>
   );

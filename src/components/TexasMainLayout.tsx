@@ -10,6 +10,7 @@ import { HomepageCities } from './HomepageCities';
 import { SEOHead } from './SEOHead';
 import { CityProvider } from '../contexts/CityContext';
 import { SocialProof } from './SocialProof';
+import type { Event } from '../lib/supabase';
 import { Plus, Minus, AlertTriangle, Target, Star, Mail, CalendarDays } from 'lucide-react';
 
 const CITY_NAMES: Record<string, string> = {
@@ -60,7 +61,7 @@ function TexasFaqItem({ question, answer, open, onToggle }: { question: string; 
   );
 }
 
-function MainLayoutInner() {
+function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
   const params = useParams();
   const citySlug = params?.citySlug as string | undefined;
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -175,7 +176,7 @@ function MainLayoutInner() {
         </div>
       </section>
 
-      <HomepageCities />
+      <HomepageCities initialEvents={initialEvents} />
       <SocialProof />
       {!citySlug && (
         <section className="faq-section">
@@ -200,10 +201,10 @@ function MainLayoutInner() {
   );
 }
 
-export function TexasMainLayout() {
+export function TexasMainLayout({ initialEvents }: { initialEvents?: Event[] }) {
   return (
     <CityProvider>
-      <MainLayoutInner />
+      <MainLayoutInner initialEvents={initialEvents} />
     </CityProvider>
   );
 }
