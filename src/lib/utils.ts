@@ -53,24 +53,24 @@ export function getTodayKey(): string {
 export function getCurrentWeekRange(): { start: string; end: string } {
   const now = new Date();
   const day = now.getDay();
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
-  return { start: dateKey(monday), end: dateKey(sunday) };
+  const sunday = new Date(now);
+  sunday.setDate(now.getDate() - day);
+  const saturday = new Date(sunday);
+  saturday.setDate(sunday.getDate() + 6);
+  return { start: dateKey(sunday), end: dateKey(saturday) };
 }
 
 export function getWeekRangeFromToday(): { start: string; end: string } {
   const now = new Date();
   const day = now.getDay();
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
+  const sunday = new Date(now);
+  sunday.setDate(now.getDate() - day);
+  const saturday = new Date(sunday);
+  saturday.setDate(sunday.getDate() + 6);
   const todayStr = dateKey(now);
-  const mondayStr = dateKey(monday);
+  const sundayStr = dateKey(sunday);
   return {
-    start: todayStr > mondayStr ? todayStr : mondayStr,
-    end: dateKey(sunday),
+    start: todayStr > sundayStr ? todayStr : sundayStr,
+    end: dateKey(saturday),
   };
 }

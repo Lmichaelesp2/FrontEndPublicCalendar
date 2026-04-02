@@ -19,6 +19,20 @@ export function EventGate({ initialEvents, forcedCity, eventCategory }: EventGat
   const today = getTodayKey();
   const weekRange = getWeekRangeFromToday();
 
+  if (loading) {
+    return (
+      <Calendar
+        initialEvents={initialEvents}
+        forcedCity={forcedCity}
+        eventCategory={eventCategory}
+        minDate={today}
+        maxDate={today}
+        showGateBanner={false}
+        onAuthClick={() => setAuthOpen(true)}
+      />
+    );
+  }
+
   if (user) {
     return (
       <Calendar
@@ -39,7 +53,7 @@ export function EventGate({ initialEvents, forcedCity, eventCategory }: EventGat
         eventCategory={eventCategory}
         minDate={today}
         maxDate={today}
-        showGateBanner={!loading}
+        showGateBanner={true}
         onAuthClick={() => setAuthOpen(true)}
       />
 
