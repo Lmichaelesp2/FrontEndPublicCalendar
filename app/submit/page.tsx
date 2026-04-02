@@ -1,5 +1,5 @@
-import { SubmitEventPage } from '../../src/components/SubmitEventPage';
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  return <SubmitEventPage />;
+  redirect('/submit-event');
 }
