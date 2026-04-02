@@ -1,5 +1,6 @@
+'use client';
 import { useState } from 'react';
-import { Trash2, Edit2, Check, X } from 'lucide-react';
+import { Trash2, CreditCard as Edit2, Check, X } from 'lucide-react';
 import { EventInput, validateEvent } from '../../lib/csvParser';
 import { supabase, CITIES } from '../../lib/supabase';
 

@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Mail } from 'lucide-react';
 import { supabase, Event, CITIES, City } from '../lib/supabase';
 import { dateKey, parseDate, sortEventsByTime } from '../lib/utils';
@@ -270,7 +272,7 @@ function CitySection({
         </div>
         <div className="hpc-city-actions">
           <Link
-            to={cityRoute}
+            href={cityRoute}
             className="hpc-city-link"
             onClick={(e) => e.stopPropagation()}
           >
@@ -294,10 +296,10 @@ function CitySection({
                     Don't want to check back every week? Get {city}'s full week of events delivered to your inbox every Monday morning.
                   </div>
                   <div className="hpc-city-cta-btns">
-                    <Link to={cityRoute} className="hpc-cta-btn hpc-cta-login">
+                    <Link href={cityRoute} className="hpc-cta-btn hpc-cta-login">
                       View all {city} events
                     </Link>
-                    <Link to={`${cityRoute}/subscribe`} className="hpc-cta-btn hpc-cta-subscribe">
+                    <Link href={`${cityRoute}/subscribe`} className="hpc-cta-btn hpc-cta-subscribe">
                       <Mail size={15} />
                       Get the weekly email
                     </Link>

@@ -1,5 +1,7 @@
+'use client';
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
@@ -423,7 +425,7 @@ export function SubmitEventPage() {
                     {CITIES.map(city => (
                       <Link
                         key={city}
-                        to={`/texas/${city.toLowerCase().replace(' ', '-')}`}
+                        href={`/texas/${city.toLowerCase().replace(' ', '-')}`}
                         className="se-callout-link"
                       >
                         {city}

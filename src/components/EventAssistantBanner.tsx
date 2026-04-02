@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { Sparkles, ArrowRight, Check, Radar } from 'lucide-react';
 import { supabase } from '../lib/supabase';

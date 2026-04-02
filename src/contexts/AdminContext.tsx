@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 type AdminContextType = {
@@ -9,10 +10,11 @@ type AdminContextType = {
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
-const ADMIN_PASSWORD = import.meta.env.ADMIN_PASSWORD || '2!!9Miche$p';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '2!!9Miche$p';
 
 export function AdminProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window === 'undefined') return false;
     return localStorage.getItem('admin_auth') === 'true';
   });
 

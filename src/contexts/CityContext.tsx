@@ -1,5 +1,6 @@
+'use client';
 import { createContext, useContext, ReactNode } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { City } from '../lib/supabase';
 import { getCityBySlug, getSlugForCity } from '../lib/cities';
 
@@ -11,8 +12,9 @@ type CityContextType = {
 const CityContext = createContext<CityContextType | undefined>(undefined);
 
 export function CityProvider({ children }: { children: ReactNode }) {
-  const { citySlug } = useParams<{ citySlug?: string }>();
-  const navigate = useNavigate();
+  const params = useParams();
+  const citySlug = params?.citySlug as string | undefined;
+  const router = useRouter();
 
   const selectedCity: City | 'All' = citySlug
     ? getCityBySlug(citySlug) ?? 'All'
@@ -20,9 +22,9 @@ export function CityProvider({ children }: { children: ReactNode }) {
 
   const setSelectedCity = (city: City | 'All') => {
     if (city === 'All') {
-      navigate('/texas');
+      router.push('/texas');
     } else {
-      navigate(`/texas/${getSlugForCity(city)}`);
+      router.push(`/texas/${getSlugForCity(city)}`);
     }
   };
 

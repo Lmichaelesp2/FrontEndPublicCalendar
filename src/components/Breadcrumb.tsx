@@ -1,5 +1,7 @@
+'use client';
+
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const BASE_URL = 'https://businesseventscalendars.com';
 
@@ -48,7 +50,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
         <span key={index}>
           {index > 0 && <span> &rsaquo; </span>}
           {item.href && index < items.length - 1 ? (
-            <Link to={item.href}>{item.label}</Link>
+            <Link href={item.href}>{item.label}</Link>
           ) : (
             <span>{item.label}</span>
           )}

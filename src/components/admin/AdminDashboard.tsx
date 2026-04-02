@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { Calendar, Upload, MapPin, Clock, RefreshCw } from 'lucide-react';
 import { supabase, CITIES } from '../../lib/supabase';

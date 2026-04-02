@@ -1,5 +1,9 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { User, LogOut, ChevronDown } from 'lucide-react';
 import { CITY_CONFIGS } from '../lib/cities';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,9 +13,9 @@ export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [texasDropdownOpen, setTexasDropdownOpen] = useState(false);
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const isHomepage = location.pathname === '/';
+  const router = useRouter();
+  const pathname = usePathname();
+  const isHomepage = pathname === '/';
 
   useEffect(() => {
     function handleOpenAuth() {
@@ -23,14 +27,14 @@ export function Navigation() {
 
   async function handleLogout() {
     await signOut();
-    navigate('/');
+    router.push('/');
   }
 
   return (
     <>
       <nav className={`nav${isHomepage ? ' nav-homepage' : ''}`}>
         <div className="nav-inner">
-          <Link to="/" className="nav-logo">
+          <Link href="/" className="nav-logo">
             <span className={`nav-logo-text${isHomepage ? ' nav-logo-text-hp' : ''}`}>
               Local <span>Business Calendars</span>
             </span>
@@ -48,9 +52,9 @@ export function Navigation() {
                   </button>
                   {texasDropdownOpen && (
                     <div className="nav-dropdown-menu">
-                      <Link to="/texas" className="nav-dropdown-item">All Texas Cities</Link>
+                      <Link href="/texas" className="nav-dropdown-item">All Texas Cities</Link>
                       {CITY_CONFIGS.map((c) => (
-                        <Link key={c.slug} to={`/texas/${c.slug}`} className="nav-dropdown-item">
+                        <Link key={c.slug} href={`/texas/${c.slug}`} className="nav-dropdown-item">
                           {c.name}
                         </Link>
                       ))}
@@ -61,17 +65,17 @@ export function Navigation() {
               </>
             ) : (
               <>
-                <Link to="/texas" className="nav-city-link">Texas</Link>
+                <Link href="/texas" className="nav-city-link">Texas</Link>
                 {CITY_CONFIGS.map((c) => (
-                  <Link key={c.slug} to={`/texas/${c.slug}`} className="nav-city-link">
+                  <Link key={c.slug} href={`/texas/${c.slug}`} className="nav-city-link">
                     {c.name}
                   </Link>
                 ))}
               </>
             )}
-            <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
-            <Link to="/submit">Submit Event</Link>
+            <Link href="/about">About</Link>
+            <Link href="/contact">Contact</Link>
+            <Link href="/submit">Submit Event</Link>
             {user ? (
               <button
                 className="nav-logout-btn"

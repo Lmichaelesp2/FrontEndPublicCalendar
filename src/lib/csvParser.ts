@@ -78,6 +78,8 @@ function mapRowToEvent(headers: string[], values: string[]): EventInput | null {
     group_name: null,
     participation: 'In-Person',
     part_of_town: null,
+    time_of_day: null,
+    event_category: null,
     city_calendar: null,
     status: 'approved'
   };

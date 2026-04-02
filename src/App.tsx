@@ -1,5 +1,6 @@
+'use client';
 import { useState } from 'react';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { Navigation } from './components/Navigation';
 import { Breadcrumb } from './components/Breadcrumb';
 import { Hero } from './components/Hero';
@@ -92,7 +93,8 @@ const TEXAS_FAQ_ITEMS = [
 ];
 
 function MainLayoutInner() {
-  const { citySlug } = useParams<{ citySlug?: string }>();
+  const params = useParams();
+  const citySlug = params?.citySlug as string | undefined;
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const showIndustryCalendars = citySlug === 'austin' || citySlug === 'dallas' || citySlug === 'houston' || citySlug === 'san-antonio';
   const cityName = citySlug ? (CITY_NAMES[citySlug] ?? citySlug) : undefined;
@@ -254,137 +256,7 @@ function AdminRoute() {
 function App() {
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/admin" element={<AdminRoute />} />
-        <Route path="/submit" element={<SubmitEventPage />} />
-        <Route path="/submit-event" element={<SubmitEventPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/texas/san-antonio" element={
-          <CityProvider>
-            <SanAntonioPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/san-antonio/technology" element={
-          <CityProvider>
-            <SanAntonioTechnologyPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/san-antonio/real-estate" element={
-          <CityProvider>
-            <SanAntonioRealEstatePage />
-          </CityProvider>
-        } />
-        <Route path="/texas/san-antonio/chamber" element={
-          <CityProvider>
-            <SanAntonioChamberPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/san-antonio/small-business" element={
-          <CityProvider>
-            <SanAntonioSmallBusinessPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/san-antonio/networking" element={
-          <CityProvider>
-            <SanAntonioNetworkingPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/austin" element={
-          <CityProvider>
-            <AustinPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/dallas" element={
-          <CityProvider>
-            <DallasPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/houston" element={
-          <CityProvider>
-            <HoustonPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/austin/technology" element={
-          <CityProvider>
-            <AustinTechnologyPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/austin/real-estate" element={
-          <CityProvider>
-            <AustinRealEstatePage />
-          </CityProvider>
-        } />
-        <Route path="/texas/austin/networking" element={
-          <CityProvider>
-            <AustinNetworkingPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/austin/chamber" element={
-          <CityProvider>
-            <AustinChamberPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/austin/small-business" element={
-          <CityProvider>
-            <AustinSmallBusinessPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/dallas/technology" element={
-          <CityProvider>
-            <DallasTechnologyPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/dallas/real-estate" element={
-          <CityProvider>
-            <DallasRealEstatePage />
-          </CityProvider>
-        } />
-        <Route path="/texas/dallas/networking" element={
-          <CityProvider>
-            <DallasNetworkingPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/dallas/chamber" element={
-          <CityProvider>
-            <DallasChamberPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/dallas/small-business" element={
-          <CityProvider>
-            <DallasSmallBusinessPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/houston/technology" element={
-          <CityProvider>
-            <HoustonTechnologyPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/houston/real-estate" element={
-          <CityProvider>
-            <HoustonRealEstatePage />
-          </CityProvider>
-        } />
-        <Route path="/texas/houston/networking" element={
-          <CityProvider>
-            <HoustonNetworkingPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/houston/chamber" element={
-          <CityProvider>
-            <HoustonChamberPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/houston/small-business" element={
-          <CityProvider>
-            <HoustonSmallBusinessPage />
-          </CityProvider>
-        } />
-        <Route path="/texas/:citySlug/subscribe" element={<SubscribePage />} />
-        <Route path="/texas/:citySlug" element={<MainLayout />} />
-        <Route path="/texas" element={<MainLayout />} />
-      </Routes>
+      <MainLayout />
     </AuthProvider>
   );
 }

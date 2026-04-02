@@ -1,6 +1,7 @@
+'use client';
 import { useState } from 'react';
 import { LogOut, Home } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
 import { AdminDashboard } from './AdminDashboard';
@@ -24,7 +25,7 @@ export function AdminPanel() {
         <div className="admin-header-content">
           <h1>Event Admin Panel</h1>
           <div className="flex gap-2">
-            <Link to="/" className="btn-secondary flex items-center gap-2">
+            <Link href="/" className="btn-secondary flex items-center gap-2">
               <Home size={16} />
               Back to Home
             </Link>

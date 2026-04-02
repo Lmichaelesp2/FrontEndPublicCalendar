@@ -1,3 +1,4 @@
+'use client';
 import { Building2, ArrowRight, Calendar, Check } from 'lucide-react';
 
 interface SponsorSectionProps {

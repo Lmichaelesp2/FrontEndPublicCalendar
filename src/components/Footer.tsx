@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { Monitor, Home, Landmark, Briefcase, Users } from 'lucide-react';
 import { CITY_CONFIGS } from '../lib/cities';
 
@@ -14,36 +16,36 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
     <footer className="footer">
       {variant === 'homepage' ? (
         <nav className="footer-cities" aria-label="City pages">
-          <Link to="/texas">Texas</Link>
+          <Link href="/texas">Texas</Link>
           {CITY_CONFIGS.map((c) => (
-            <Link key={c.slug} to={`/texas/${c.slug}`}>{c.name}</Link>
+            <Link key={c.slug} href={`/texas/${c.slug}`}>{c.name}</Link>
           ))}
         </nav>
       ) : !showIndustryCalendars ? (
         <nav className="footer-cities" aria-label="City pages">
           {CITY_CONFIGS.map((c) => (
-            <Link key={c.slug} to={`/texas/${c.slug}`}>{c.name}</Link>
+            <Link key={c.slug} href={`/texas/${c.slug}`}>{c.name}</Link>
           ))}
         </nav>
       ) : (
         <nav className="footer-cities footer-industry-calendars" aria-label="Industry calendars">
-          <Link to={`/texas/${citySlug}/technology`} className="industry-calendar-button">
+          <Link href={`/texas/${citySlug}/technology`} className="industry-calendar-button">
             <Monitor size={18} />
             {cityName} Technology Events
           </Link>
-          <Link to={`/texas/${citySlug}/real-estate`} className="industry-calendar-button">
+          <Link href={`/texas/${citySlug}/real-estate`} className="industry-calendar-button">
             <Home size={18} />
             {cityName} Real Estate Events
           </Link>
-          <Link to={`/texas/${citySlug}/networking`} className="industry-calendar-button">
+          <Link href={`/texas/${citySlug}/networking`} className="industry-calendar-button">
             <Users size={18} />
             {cityName} Networking Events
           </Link>
-          <Link to={`/texas/${citySlug}/chamber`} className="industry-calendar-button">
+          <Link href={`/texas/${citySlug}/chamber`} className="industry-calendar-button">
             <Landmark size={18} />
             {cityName} Chamber Events
           </Link>
-          <Link to={`/texas/${citySlug}/small-business`} className="industry-calendar-button">
+          <Link href={`/texas/${citySlug}/small-business`} className="industry-calendar-button">
             <Briefcase size={18} />
             {cityName} Small Business Events
           </Link>

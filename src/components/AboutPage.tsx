@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
@@ -87,11 +89,11 @@ export function AboutPage() {
           <div className="about-cta-inner">
             <h2>Ready to Find Events in Your City?</h2>
             <div className="about-cta-buttons">
-              <Link to="/texas" className="about-cta-btn about-cta-btn-primary">
+              <Link href="/texas" className="about-cta-btn about-cta-btn-primary">
                 Browse Events by City
                 <ArrowRight size={16} />
               </Link>
-              <Link to="/texas" className="about-cta-btn about-cta-btn-secondary">
+              <Link href="/texas" className="about-cta-btn about-cta-btn-secondary">
                 Subscribe Free
                 <ArrowRight size={16} />
               </Link>

@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { Trash2, AlertTriangle } from 'lucide-react';
 import { useAdmin } from '../../contexts/AdminContext';
@@ -18,12 +19,12 @@ export function ClearPastEvents() {
         throw new Error('Not authenticated');
       }
 
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-operations`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/admin-operations`;
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           action: 'delete_all',

@@ -1,5 +1,6 @@
+'use client';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { AlertTriangle, Target, Star, Plus, Minus, CalendarDays, Mail, Users, Clock, Monitor, Home, Landmark, Briefcase, Search, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
@@ -133,7 +134,7 @@ function AustinContent() {
             Networking &middot; Chamber &middot; Technology &middot; Real Estate &middot; Small Business &middot; Healthcare &middot; Finance &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link to="/texas/austin/subscribe" className="btn btn-white">
+            <Link href="/texas/austin/subscribe" className="btn btn-white">
               Sign Up Free — See the Full Week of Austin Events
             </Link>
             <p className="hero-subtext-below">
@@ -257,7 +258,7 @@ function AustinContent() {
           <p className="city-categories-subtitle">Explore Austin's business event scene by topic</p>
           <div className="city-categories-grid">
             {CATEGORY_LINKS.map((cat) => (
-              <Link key={cat.href} to={cat.href} className="city-category-card">
+              <Link key={cat.href} href={cat.href} className="city-category-card">
                 <span className="city-category-icon">{cat.icon}</span>
                 <span className="city-category-label">{cat.label}</span>
               </Link>
@@ -322,10 +323,10 @@ function AustinContent() {
           <h2>Don't Want to Check Back Every Week?</h2>
           <p>Get the full week's Austin events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link to="/submit" className="btn sa-btn-outline">Submit an Event</Link>
-            <Link to="/texas/austin/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week + Newsletter</Link>
+            <Link href="/submit" className="btn sa-btn-outline">Submit an Event</Link>
+            <Link href="/texas/austin/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week + Newsletter</Link>
           </div>
-          <p className="sa-subscribe-note">Work across multiple Texas cities? <Link to="/texas/san-antonio">San Antonio</Link>, <Link to="/texas/dallas">Dallas</Link>, and <Link to="/texas/houston">Houston</Link> are free too.</p>
+          <p className="sa-subscribe-note">Work across multiple Texas cities? <Link href="/texas/san-antonio">San Antonio</Link>, <Link href="/texas/dallas">Dallas</Link>, and <Link href="/texas/houston">Houston</Link> are free too.</p>
         </div>
       </section>
 

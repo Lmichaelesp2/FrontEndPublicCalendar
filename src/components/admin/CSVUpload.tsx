@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { Upload, FileText } from 'lucide-react';
 import { parseCSV, parseTSV, validateEvent, EventInput } from '../../lib/csvParser';

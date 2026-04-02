@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { X, CalendarDays } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';

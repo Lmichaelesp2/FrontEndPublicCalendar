@@ -1,5 +1,6 @@
+'use client';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Landmark, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
@@ -128,7 +129,7 @@ function DallasChamberContent() {
             Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link to="/texas/dallas/subscribe" className="btn btn-white">
+            <Link href="/texas/dallas/subscribe" className="btn btn-white">
               Get My Free Dallas Chamber Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -301,8 +302,8 @@ function DallasChamberContent() {
           <h2>Get Dallas Chamber Events Every Monday — Free</h2>
           <p>A curated digest of that week's chamber events in Dallas, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link to="/submit" className="btn sa-btn-outline">Submit a Chamber Event</Link>
-            <Link to="/texas/dallas/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/submit" className="btn sa-btn-outline">Submit a Chamber Event</Link>
+            <Link href="/texas/dallas/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Dallas business events</p>
         </div>
@@ -312,16 +313,16 @@ function DallasChamberContent() {
         <div className="sa-category-nav-inner">
           <span className="sa-category-nav-label">Also in Dallas:</span>
           <div className="sa-category-nav-links">
-            <Link to="/texas/dallas/technology" className="sa-category-link">Technology Events</Link>
-            <Link to="/texas/dallas/real-estate" className="sa-category-link">Real Estate Events</Link>
-            <Link to="/texas/dallas/networking" className="sa-category-link">Networking Events</Link>
-            <Link to="/texas/dallas/small-business" className="sa-category-link">Small Business Events</Link>
+            <Link href="/texas/dallas/technology" className="sa-category-link">Technology Events</Link>
+            <Link href="/texas/dallas/real-estate" className="sa-category-link">Real Estate Events</Link>
+            <Link href="/texas/dallas/networking" className="sa-category-link">Networking Events</Link>
+            <Link href="/texas/dallas/small-business" className="sa-category-link">Small Business Events</Link>
           </div>
         </div>
       </section>
 
       <div className="sa-back-link">
-        <Link to="/texas/dallas">See all Dallas business events &rarr;</Link>
+        <Link href="/texas/dallas">See all Dallas business events &rarr;</Link>
       </div>
 
       <section className="faq-section">

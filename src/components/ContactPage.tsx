@@ -1,5 +1,7 @@
+'use client';
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
@@ -90,7 +92,7 @@ export function ContactPage() {
                 </div>
                 <h3>Submit Events</h3>
                 <p>
-                  Have a business event to share? Use our <Link to="/submit-event" className="contact-link">Submit Event page</Link> for the fastest response or email us directly. Events are reviewed within 2 business days.
+                  Have a business event to share? Use our <Link href="/submit-event" className="contact-link">Submit Event page</Link> for the fastest response or email us directly. Events are reviewed within 2 business days.
                 </p>
                 <p className="contact-email">events@localbusinesscalendars.com</p>
               </div>

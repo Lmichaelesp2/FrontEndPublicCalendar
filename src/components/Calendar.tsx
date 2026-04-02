@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
 import { supabase, Event, City } from '../lib/supabase';

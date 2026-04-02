@@ -1,5 +1,6 @@
+'use client';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
@@ -137,7 +138,7 @@ function SanAntonioTechnologyContent() {
             Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link to="/texas/san-antonio/subscribe" className="btn btn-white">
+            <Link href="/texas/san-antonio/subscribe" className="btn btn-white">
               Get My Free San Antonio Technology Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -310,8 +311,8 @@ function SanAntonioTechnologyContent() {
           <h2>Get San Antonio Tech Events Every Monday — Free</h2>
           <p>A curated digest of that week's technology events in San Antonio, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link to="/submit" className="btn sa-btn-outline">Submit a Tech Event</Link>
-            <Link to="/texas/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/submit" className="btn sa-btn-outline">Submit a Tech Event</Link>
+            <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
         </div>
@@ -321,16 +322,16 @@ function SanAntonioTechnologyContent() {
         <div className="sa-category-nav-inner">
           <span className="sa-category-nav-label">Also in San Antonio:</span>
           <div className="sa-category-nav-links">
-            <Link to="/texas/san-antonio/real-estate" className="sa-category-link">Real Estate Events</Link>
-            <Link to="/texas/san-antonio/chamber" className="sa-category-link">Chamber Events</Link>
-            <Link to="/texas/san-antonio/small-business" className="sa-category-link">Small Business Events</Link>
-            <Link to="/texas/san-antonio/networking" className="sa-category-link">Networking Events</Link>
+            <Link href="/texas/san-antonio/real-estate" className="sa-category-link">Real Estate Events</Link>
+            <Link href="/texas/san-antonio/chamber" className="sa-category-link">Chamber Events</Link>
+            <Link href="/texas/san-antonio/small-business" className="sa-category-link">Small Business Events</Link>
+            <Link href="/texas/san-antonio/networking" className="sa-category-link">Networking Events</Link>
           </div>
         </div>
       </section>
 
       <div className="sa-back-link">
-        <Link to="/texas/san-antonio">See all San Antonio business events &rarr;</Link>
+        <Link href="/texas/san-antonio">See all San Antonio business events &rarr;</Link>
       </div>
 
       <section className="faq-section">

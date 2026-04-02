@@ -1,5 +1,6 @@
+'use client';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
@@ -140,7 +141,7 @@ function AustinRealEstateContent() {
             Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link to="/texas/austin/subscribe" className="btn btn-white">
+            <Link href="/texas/austin/subscribe" className="btn btn-white">
               Get My Free Austin Real Estate Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -313,8 +314,8 @@ function AustinRealEstateContent() {
           <h2>Get Austin Real Estate Events Every Monday — Free</h2>
           <p>A curated digest of that week's real estate events in Austin, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link to="/submit" className="btn sa-btn-outline">Submit a Real Estate Event</Link>
-            <Link to="/texas/austin/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/submit" className="btn sa-btn-outline">Submit a Real Estate Event</Link>
+            <Link href="/texas/austin/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Austin business events</p>
         </div>
@@ -324,16 +325,16 @@ function AustinRealEstateContent() {
         <div className="sa-category-nav-inner">
           <span className="sa-category-nav-label">Also in Austin:</span>
           <div className="sa-category-nav-links">
-            <Link to="/texas/austin/technology" className="sa-category-link">Technology Events</Link>
-            <Link to="/texas/austin/networking" className="sa-category-link">Networking Events</Link>
-            <Link to="/texas/austin/chamber" className="sa-category-link">Chamber Events</Link>
-            <Link to="/texas/austin/small-business" className="sa-category-link">Small Business Events</Link>
+            <Link href="/texas/austin/technology" className="sa-category-link">Technology Events</Link>
+            <Link href="/texas/austin/networking" className="sa-category-link">Networking Events</Link>
+            <Link href="/texas/austin/chamber" className="sa-category-link">Chamber Events</Link>
+            <Link href="/texas/austin/small-business" className="sa-category-link">Small Business Events</Link>
           </div>
         </div>
       </section>
 
       <div className="sa-back-link">
-        <Link to="/texas/austin">See all Austin business events &rarr;</Link>
+        <Link href="/texas/austin">See all Austin business events &rarr;</Link>
       </div>
 
       <section className="faq-section">

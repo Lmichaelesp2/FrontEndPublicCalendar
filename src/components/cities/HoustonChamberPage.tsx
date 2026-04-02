@@ -1,5 +1,6 @@
+'use client';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
@@ -139,7 +140,7 @@ function HoustonChamberContent() {
             Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link to="/texas/houston/subscribe" className="btn btn-white">
+            <Link href="/texas/houston/subscribe" className="btn btn-white">
               Get My Free Houston Chamber Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -312,8 +313,8 @@ function HoustonChamberContent() {
           <h2>Get Houston Chamber Events Every Monday — Free</h2>
           <p>A curated digest of that week's chamber events in Houston, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link to="/submit" className="btn sa-btn-outline">Submit a Chamber Event</Link>
-            <Link to="/texas/houston/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/submit" className="btn sa-btn-outline">Submit a Chamber Event</Link>
+            <Link href="/texas/houston/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Houston business events</p>
         </div>
@@ -323,16 +324,16 @@ function HoustonChamberContent() {
         <div className="sa-category-nav-inner">
           <span className="sa-category-nav-label">Also in Houston:</span>
           <div className="sa-category-nav-links">
-            <Link to="/texas/houston/technology" className="sa-category-link">Technology Events</Link>
-            <Link to="/texas/houston/real-estate" className="sa-category-link">Real Estate Events</Link>
-            <Link to="/texas/houston/networking" className="sa-category-link">Networking Events</Link>
-            <Link to="/texas/houston/small-business" className="sa-category-link">Small Business Events</Link>
+            <Link href="/texas/houston/technology" className="sa-category-link">Technology Events</Link>
+            <Link href="/texas/houston/real-estate" className="sa-category-link">Real Estate Events</Link>
+            <Link href="/texas/houston/networking" className="sa-category-link">Networking Events</Link>
+            <Link href="/texas/houston/small-business" className="sa-category-link">Small Business Events</Link>
           </div>
         </div>
       </section>
 
       <div className="sa-back-link">
-        <Link to="/texas/houston">See all Houston business events &rarr;</Link>
+        <Link href="/texas/houston">See all Houston business events &rarr;</Link>
       </div>
 
       <section className="faq-section">

@@ -1,5 +1,9 @@
+'use client';
+
 import { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { CheckCircle, Mail, CalendarDays, Search, ArrowRight, LogIn } from 'lucide-react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
@@ -26,8 +30,8 @@ const PERKS = [
 ];
 
 export function SubscribePage() {
-  const { citySlug } = useParams<{ citySlug: string }>();
-  const navigate = useNavigate();
+  const params = useParams(); const citySlug = params?.citySlug as string | undefined;
+  const router = useRouter();
   const { user, signUp, signIn } = useAuth();
 
   const cityName = citySlug ? CITY_SLUGS[citySlug] : undefined;
@@ -46,7 +50,7 @@ export function SubscribePage() {
         <Navigation />
         <div className="sub-not-found">
           <h2>City not found</h2>
-          <Link to="/" className="btn-primary">Back to home</Link>
+          <Link href="/" className="btn-primary">Back to home</Link>
         </div>
         <Footer />
       </div>
@@ -67,7 +71,7 @@ export function SubscribePage() {
         setError(authError.message);
       } else {
         setSuccess(true);
-        setTimeout(() => navigate(cityRoute), 2000);
+        setTimeout(() => router.push(cityRoute), 2000);
       }
     } catch {
       setError('An unexpected error occurred. Please try again.');
@@ -85,7 +89,7 @@ export function SubscribePage() {
             <div className="sub-success-icon"><CheckCircle size={48} strokeWidth={1.5} /></div>
             <h2>You're on the list for {cityName}!</h2>
             <p>You'll get your first weekly newsletter next Monday. Redirecting to the calendar now...</p>
-            <Link to={cityRoute} className="sub-go-btn">
+            <Link href={cityRoute} className="sub-go-btn">
               Go to {cityName} calendar <ArrowRight size={16} />
             </Link>
           </div>

@@ -1,7 +1,9 @@
+'use client';
+
 import { useCity } from '../contexts/CityContext';
 import { SEOHead } from './SEOHead';
 import { HOME_SEO, CITY_CONFIGS } from '../lib/cities';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export function Hero() {
   const { selectedCity } = useCity();
@@ -48,7 +50,7 @@ export function Hero() {
                 Networking &middot; Chamber &middot; Technology &middot; Real Estate &middot; Small Business &middot; Healthcare &middot; Finance &middot; and more
               </div>
               <div className="hero-cta-group">
-                <Link to={`/texas/${cityConfig.slug}/subscribe`} className="btn btn-white">
+                <Link href={`/texas/${cityConfig.slug}/subscribe`} className="btn btn-white">
                   Sign up for your free weekly newsletter
                 </Link>
                 <p className="hero-subtext-below">Browse the calendar anytime between event newsletters. Always free.</p>
@@ -64,7 +66,7 @@ export function Hero() {
               <nav className="hero-cities" aria-label="Browse by city">
                 <div className="hero-cities-row">
                   {CITY_CONFIGS.map((c) => (
-                    <Link key={c.slug} to={`/texas/${c.slug}/subscribe`} className="hero-city-link">
+                    <Link key={c.slug} href={`/texas/${c.slug}/subscribe`} className="hero-city-link">
                       <span className="hero-city-name">{c.name}</span>
                       <span className="hero-city-descriptor">Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more</span>
                       <span className="hero-city-subscribe">Sign up free</span>

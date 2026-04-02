@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { CalendarDays, Mail, MapPin, Search, Star, Plus, Minus, Globe, AlertTriangle, Target } from 'lucide-react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
@@ -96,7 +98,7 @@ export function Homepage() {
           </p>
 
           <div className="hp-state-btns">
-            <Link to="/texas/" className="hp-state-btn hp-state-btn-active">
+            <Link href="/texas/" className="hp-state-btn hp-state-btn-active">
               <div className="hp-state-btn-content">
                 <span className="hp-state-btn-label">Texas</span>
                 <span className="hp-state-btn-live">Live now</span>

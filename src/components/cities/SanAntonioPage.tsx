@@ -1,5 +1,6 @@
+'use client';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { AlertTriangle, Target, Star, Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
@@ -124,7 +125,7 @@ function SanAntonioContent() {
             Networking &middot; Chamber &middot; Technology &middot; Real Estate &middot; Small Business &middot; Healthcare &middot; Finance &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link to="/texas/san-antonio/subscribe" className="btn btn-white">
+            <Link href="/texas/san-antonio/subscribe" className="btn btn-white">
               Sign Up Free — See the Full Week of San Antonio Events
             </Link>
             <p className="hero-subtext-below">
@@ -247,23 +248,23 @@ function SanAntonioContent() {
           <h2>Browse San Antonio Events by Category</h2>
           <p className="city-categories-subtitle">Explore San Antonio's business event scene by topic</p>
           <div className="city-categories-grid">
-            <Link to="/texas/san-antonio/networking" className="city-category-card">
+            <Link href="/texas/san-antonio/networking" className="city-category-card">
               <span className="city-category-icon"><Users size={20} /></span>
               <span className="city-category-label">Networking Events</span>
             </Link>
-            <Link to="/texas/san-antonio/chamber" className="city-category-card">
+            <Link href="/texas/san-antonio/chamber" className="city-category-card">
               <span className="city-category-icon"><Landmark size={20} /></span>
               <span className="city-category-label">Chamber Events</span>
             </Link>
-            <Link to="/texas/san-antonio/technology" className="city-category-card">
+            <Link href="/texas/san-antonio/technology" className="city-category-card">
               <span className="city-category-icon"><Monitor size={20} /></span>
               <span className="city-category-label">Technology Events</span>
             </Link>
-            <Link to="/texas/san-antonio/real-estate" className="city-category-card">
+            <Link href="/texas/san-antonio/real-estate" className="city-category-card">
               <span className="city-category-icon"><Home size={20} /></span>
               <span className="city-category-label">Real Estate Events</span>
             </Link>
-            <Link to="/texas/san-antonio/small-business" className="city-category-card">
+            <Link href="/texas/san-antonio/small-business" className="city-category-card">
               <span className="city-category-icon"><Briefcase size={20} /></span>
               <span className="city-category-label">Small Business Events</span>
             </Link>
@@ -340,10 +341,10 @@ function SanAntonioContent() {
           <h2>Don't Want to Check Back Every Week?</h2>
           <p>Get the full week's San Antonio events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link to="/submit" className="btn sa-btn-outline">Submit an Event</Link>
-            <Link to="/texas/san-antonio/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week + Newsletter</Link>
+            <Link href="/submit" className="btn sa-btn-outline">Submit an Event</Link>
+            <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week + Newsletter</Link>
           </div>
-          <p className="sa-subscribe-note">Work across multiple Texas cities? <Link to="/texas/austin">Austin</Link>, <Link to="/texas/dallas">Dallas</Link>, and <Link to="/texas/houston">Houston</Link> are free too.</p>
+          <p className="sa-subscribe-note">Work across multiple Texas cities? <Link href="/texas/austin">Austin</Link>, <Link href="/texas/dallas">Dallas</Link>, and <Link href="/texas/houston">Houston</Link> are free too.</p>
         </div>
       </section>
 
