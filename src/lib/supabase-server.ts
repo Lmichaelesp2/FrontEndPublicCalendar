@@ -2,10 +2,9 @@ import { createClient } from '@supabase/supabase-js';
 import type { Event } from './supabase';
 
 function getServerSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) throw new Error('Missing Supabase environment variables');
-  return createClient(url, key);
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
+  return createClient(url || 'https://placeholder.supabase.co', key || 'placeholder');
 }
 
 export async function fetchApprovedEvents(options?: {
