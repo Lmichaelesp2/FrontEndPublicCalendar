@@ -168,7 +168,7 @@ export function Homepage() {
             <div className="why-card">
               <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
-              <p>Less searching, better event discovery, and weekly reminders that help you stay consistent.</p>
+              <p>Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date.</p>
             </div>
           </div>
         </div>
