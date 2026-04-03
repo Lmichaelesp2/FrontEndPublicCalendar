@@ -52,7 +52,7 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
         </nav>
       )}
       <p>
-        &copy; 2026 Local Business Calendars — San Antonio &middot; Austin &middot; Dallas &middot; Houston
+        &copy; 2026 Local Business Calendars — <Link href="/texas/san-antonio">San Antonio</Link> &middot; <Link href="/texas/austin">Austin</Link> &middot; <Link href="/texas/dallas">Dallas</Link> &middot; <Link href="/texas/houston">Houston</Link>
       </p>
       <p style={{ marginTop: '0.4rem' }}>
         <a href="#privacy">Privacy Policy</a> &middot; <a href="#terms">Terms &amp; Conditions</a>
