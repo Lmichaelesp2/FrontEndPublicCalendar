@@ -640,8 +640,8 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .footer p{color:rgba(255,255,255,.58);font-size:.76rem;line-height:1.7}
 .footer a{color:var(--gold-bright);text-decoration:none}
 .footer-cities{display:flex;justify-content:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
-.footer-cities a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .7rem;border-radius:var(--radius-xs);border:1px solid rgba(255,255,255,.12);transition:all .2s}
-.footer-cities a:hover{color:var(--gold-bright);border-color:rgba(239,199,94,.3);background:rgba(255,255,255,.04)}
+.footer-cities a{color:#003d82;text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .7rem;border-radius:var(--radius-xs);background:#ffffff;border:1px solid #ffffff;transition:all .2s}
+.footer-cities a:hover{color:#003d82;border-color:#ffffff;background:#f0f0f0}
 .footer-ea{color:rgba(255,255,255,.5);font-size:.72rem;margin-bottom:1rem;font-weight:400}
 .footer-ea a{color:var(--gold-bright);text-decoration:none;font-weight:600}
 .footer-ea a:hover{text-decoration:underline}

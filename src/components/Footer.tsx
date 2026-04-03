@@ -51,10 +51,6 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
           </Link>
         </nav>
       )}
-      <p className="footer-ea">
-        Coming Soon: Personal Event Assistant — AI-powered event recommendations tailored to you.{' '}
-        <a href="#event-assistant">Join the Waitlist &rarr;</a>
-      </p>
       <p>
         &copy; 2026 Local Business Calendars — San Antonio &middot; Austin &middot; Dallas &middot; Houston
       </p>
