@@ -5,6 +5,7 @@ import type { Event, City } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
 import { useAuth } from '../contexts/AuthContext';
+import { AuthModal } from './auth/AuthModal';
 
 interface CalendarProps {
   initialEvents: Event[];
@@ -42,8 +43,17 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
   const [rangeStart, setRangeStart] = useState<string | null>(() => dateKey(new Date()));
   const [rangeEnd, setRangeEnd] = useState<string | null>(null);
   const [hoverDate, setHoverDate] = useState<string | null>(null);
+  const [inlineAuthOpen, setInlineAuthOpen] = useState(false);
 
   const today = dateKey(new Date());
+
+  function triggerAuth() {
+    if (onAuthClick) {
+      onAuthClick();
+    } else {
+      setInlineAuthOpen(true);
+    }
+  }
 
   const cityFiltered = initialEvents.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
@@ -55,6 +65,10 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
 
   function handleDayClick(dk: string) {
     if (dk < today) return;
+    if (dk > today && !user) {
+      triggerAuth();
+      return;
+    }
     if (maxDate && dk > maxDate) return;
     setSearchQuery('');
     if (!rangeStart || (rangeStart && rangeEnd)) {
@@ -81,6 +95,10 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
   }
 
   function stepDay(direction: 1 | -1) {
+    if (direction === 1 && !user) {
+      triggerAuth();
+      return;
+    }
     const current = parseDate(rangeStart ?? today);
     current.setDate(current.getDate() + direction);
     const dk = dateKey(current);
@@ -155,6 +173,8 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
     ? cityFiltered.filter((e) => e.start_date === rangeStart).length
     : 0;
 
+  const nextDayAriaLabel = !user ? 'Create a free account to see future events' : 'Next day';
+
   return (
     <section className="cal-section" id="calendar">
       <div className="cal-inner">
@@ -214,6 +234,7 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
               const dk = dateKey(date);
               const isPast = dk < today;
               const isBeyondMax = !!(maxDate && dk > maxDate);
+              const isFutureGated = !user && dk > today;
               const isDisabled = isPast || isBeyondMax;
               const hasEvents = datesWithEvents.has(dk);
               const isStart = dk === rangeStart;
@@ -229,6 +250,7 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
                     'cal-cell',
                     isPast ? 'past' : '',
                     isBeyondMax ? 'past gated' : '',
+                    isFutureGated ? 'future-gated' : '',
                     isToday ? 'is-today' : '',
                     inRangeVal ? 'in-range' : '',
                     isEdge ? 'range-edge' : '',
@@ -236,13 +258,18 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
                     isEnd && (rangeEnd || isStart) ? 'range-selected' : '',
                     hasEvents && !isDisabled ? 'has-events' : '',
                   ].filter(Boolean).join(' ')}
-                  onClick={() => !isDisabled && handleDayClick(dk)}
-                  onMouseEnter={() => !isDisabled && rangeStart && !rangeEnd && setHoverDate(dk)}
+                  onClick={() => {
+                    if (isDisabled) return;
+                    handleDayClick(dk);
+                  }}
+                  onMouseEnter={() => !isDisabled && !isFutureGated && rangeStart && !rangeEnd && setHoverDate(dk)}
                   onMouseLeave={() => setHoverDate(null)}
                   disabled={isDisabled}
+                  aria-label={isFutureGated ? 'Create a free account to see future events' : undefined}
                 >
                   <span className="cal-cell-num">{date.getDate()}</span>
-                  {hasEvents && !isDisabled && <span className="cal-cell-dot" />}
+                  {isFutureGated && <span className="cal-cell-lock"><Lock size={8} /></span>}
+                  {hasEvents && !isDisabled && !isFutureGated && <span className="cal-cell-dot" />}
                 </button>
               );
             })}
@@ -260,10 +287,10 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
                 <p className="ev-gate-sub">Create a free account to unlock the full weekly calendar.</p>
               </div>
               <div className="ev-gate-banner-buttons">
-                <button className="ev-gate-btn" onClick={onAuthClick}>
+                <button className="ev-gate-btn" onClick={triggerAuth}>
                   Create Free Account
                 </button>
-                <button className="ev-gate-signin" onClick={onAuthClick}>
+                <button className="ev-gate-signin" onClick={triggerAuth}>
                   Sign in
                 </button>
               </div>
@@ -292,11 +319,11 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
           </div>
 
           <button
-            className="cal-day-arrow"
+            className={['cal-day-arrow', !user ? 'cal-day-arrow-gated' : ''].filter(Boolean).join(' ')}
             onClick={() => stepDay(1)}
-            aria-label="Next day"
+            aria-label={nextDayAriaLabel}
           >
-            <ChevronRight size={24} />
+            {!user ? <Lock size={18} /> : <ChevronRight size={24} />}
           </button>
         </div>
 
@@ -331,6 +358,14 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
         </div>
 
       </div>
+
+      {inlineAuthOpen && (
+        <AuthModal
+          isOpen={inlineAuthOpen}
+          onClose={() => setInlineAuthOpen(false)}
+          onSuccess={() => setInlineAuthOpen(false)}
+        />
+      )}
     </section>
   );
 }
