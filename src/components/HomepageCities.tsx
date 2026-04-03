@@ -31,10 +31,10 @@ const CITY_HEADINGS: Record<City, string> = {
 };
 
 const CITY_LINK_TEXT: Record<City, string> = {
-  'San Antonio': 'Browse San Antonio Events',
-  'Austin': 'Browse Austin Events',
-  'Dallas': 'Browse Dallas Events',
-  'Houston': 'Browse Houston Events',
+  'San Antonio': 'View This Week\'s San Antonio Events',
+  'Austin': 'View This Week\'s Austin Events',
+  'Dallas': 'View This Week\'s Dallas Events',
+  'Houston': 'View This Week\'s Houston Events',
 };
 
 const HOME_LIMIT = 10;
@@ -115,9 +115,9 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
     <section className="hpc-section" id="calendar">
       <div className="hpc-inner">
         <div className="hpc-header">
-          <h2>Events Across Texas</h2>
+          <h2>Today's Business & Networking Events Across Texas</h2>
           <p className="hpc-subtitle">
-            Select any date to browse events by city — subscribe to get a weekly digest in your inbox every Monday
+            Showing today's events. Get a free account to see the full week in San Antonio, Austin, Dallas, or Houston — plus the weekly Monday newsletter.
           </p>
         </div>
 
