@@ -37,8 +37,8 @@ const FAQ_ITEMS = [
     answer: 'We currently cover San Antonio, Austin, Dallas, and Houston, Texas. Each city has its own dedicated calendar with locally sourced business and networking events.',
   },
   {
-    question: 'Is Local Business Calendars free?',
-    answer: 'Yes — the calendar and weekly newsletter are both completely free. No credit card, no trial period, no catch.',
+    question: 'Are the city business calendars free?',
+    answer: 'Yes — each city calendar and its weekly newsletter are completely free. Whether you\'re in San Antonio, Austin, Dallas, or Houston, there\'s no credit card, no trial period, no catch.',
   },
   {
     question: 'How is this different from Eventbrite or Meetup?',
