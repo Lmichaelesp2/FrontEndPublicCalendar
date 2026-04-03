@@ -153,7 +153,7 @@ export function Homepage() {
       <section className="why-section">
         <div className="why-inner">
           <h2>Why Use Local Business Calendars?</h2>
-          <p className="why-subtitle">Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly.</p>
+          <p className="why-subtitle">Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up.</p>
           <div className="why-grid">
             <div className="why-card">
               <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
