@@ -190,30 +190,7 @@ export function Homepage() {
         </div>
       </section>
 
-<section className="value-section" style={{ paddingTop: '2rem' }}>
-        <div className="value-inner">
-          <h2>Never Miss an Event That Matters</h2>
-          <div className="value-grid">
-            <div className="value-card">
-              <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly newsletter</h3>
-              <p>Sign up for your city and get that week's business events in your inbox every Monday. Free.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check the calendar anytime</h3>
-              <p>No signup needed. Browse your city's business events on the calendar whenever you want.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Built for busy professionals</h3>
-              <p>We do the research every week so you can spend your time attending events, not hunting for them.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sp-section">
+<section className="sp-section">
         <div className="sp-inner">
           <h2>Trusted by Business Professionals Across Texas</h2>
 
@@ -241,6 +218,29 @@ export function Homepage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="value-section" style={{ paddingTop: '2rem' }}>
+        <div className="value-inner">
+          <h2>Never Miss an Event That Matters</h2>
+          <div className="value-grid">
+            <div className="value-card">
+              <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
+              <h3>Get the free weekly newsletter</h3>
+              <p>Sign up for your city and get that week's business events in your inbox every Monday. Free.</p>
+            </div>
+            <div className="value-card">
+              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
+              <h3>Check the calendar anytime</h3>
+              <p>No signup needed. Browse your city's business events on the calendar whenever you want.</p>
+            </div>
+            <div className="value-card">
+              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
+              <h3>Built for busy professionals</h3>
+              <p>We do the research every week so you can spend your time attending events, not hunting for them.</p>
+            </div>
           </div>
         </div>
       </section>
