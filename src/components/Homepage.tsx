@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CalendarDays, Mail, MapPin, Search, Star, Plus, Minus, Globe, AlertTriangle, Target } from 'lucide-react';
+import { CalendarDays, Mail, MapPin, Search, Star, Plus, Minus, Globe } from 'lucide-react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
+import { WhySection } from './WhySection';
 
 const STATS = [
   { number: '500+', label: 'Events every week' },
@@ -150,29 +151,13 @@ export function Homepage() {
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Why Use Local Business Calendars?</h2>
-          <p className="why-subtitle">Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We track local business event hosts and organize their public events into one local calendar and weekly newsletter.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Use Local Business Calendars?"
+        subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
+        problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
+        whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="features-section">
         <div className="features-inner">

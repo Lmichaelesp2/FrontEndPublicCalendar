@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, AlertTriangle, Target } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -204,29 +205,13 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Houston's Chamber Community</h2>
-          <p className="why-subtitle">Houston has one of the most extensive and diverse chamber of commerce networks in Texas. The Greater Houston Partnership, Houston Hispanic Chamber of Commerce, Houston Black Chamber of Commerce, Fort Bend Chamber of Commerce, Cy-Fair Houston Chamber of Commerce, and dozens of additional area chambers serve the broader Houston metro — each running consistent networking events, luncheons, mixers, ribbon cuttings, and speaker series throughout the year. Houston's chamber community reflects the city's extraordinary diversity and provides business professionals with consistent opportunities to connect with the region's business leadership across every industry sector.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Each chamber has its own website, newsletter list, and event calendar. If you belong to multiple chambers, you're checking multiple places every week.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor every major chamber and business association in the Houston area and consolidate their events into one unified calendar.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for chamber events in Houston — from ribbon cuttings to Business After Hours to annual galas.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Houston Chamber Professionals Use This Calendar"
+        subtitle="Houston chamber events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston chamber professionals keep up."
+        problemText="Chamber events in Houston are scattered across chamber websites, Eventbrite, LinkedIn, Facebook, and individual association pages. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track chamber event hosts across Houston and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

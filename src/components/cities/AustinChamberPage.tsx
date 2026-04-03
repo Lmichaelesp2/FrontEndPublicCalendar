@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -194,29 +195,13 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Austin's Chamber Community</h2>
-          <p className="why-subtitle">Austin's chamber of commerce network is one of the most active in Texas. The Austin Chamber of Commerce, the Austin Hispanic Chamber of Commerce, the Asian American Chamber of Commerce of Austin, and multiple area chambers serve the broader Austin metro — each running consistent networking events, luncheons, mixers, ribbon cuttings, and speaker series throughout the year. Staying connected to Austin's chamber community means staying connected to the heartbeat of Austin's business economy.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Each chamber has its own website, newsletter list, and event calendar. If you belong to multiple chambers, you're checking multiple places every week.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor every major chamber and business association in the Austin area and consolidate their events into one unified calendar.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for chamber events in Austin — from ribbon cuttings to Business After Hours to annual galas.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Austin Chamber Professionals Use This Calendar"
+        subtitle="Austin chamber events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin chamber professionals keep up."
+        problemText="Chamber events in Austin are scattered across chamber websites, Eventbrite, LinkedIn, Facebook, and individual association pages. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track chamber event hosts across Austin and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

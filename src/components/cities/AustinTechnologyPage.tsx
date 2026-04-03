@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, Target, Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock } from 'lucide-react';
+import { Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const TECH_STATS = [
@@ -193,29 +194,13 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Austin's Technology Community</h2>
-          <p className="why-subtitle">Austin has grown into one of the premier technology hubs in the United States. Known as Silicon Hills, the city is home to major tech employers including Tesla, Apple, Dell, Oracle, and Google, alongside one of the most active startup and developer communities in the country. With hundreds of tech organizations, user groups, and innovation communities running consistent events, Austin's technology networking scene is among the most active in Texas.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor Austin's top tech organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for tech events in Austin — from coding meetups to startup pitch nights to AI workshops.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Austin's Technology Community"
+        subtitle="Austin technology events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin tech professionals keep up."
+        problemText="Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all."
+        whatWeDoText="We monitor Austin's top tech organizations and platforms, then organize their events into one focused calendar updated weekly."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

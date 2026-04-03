@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Star, Plus, Minus, Search, Mail, Briefcase, Users, Clock, CalendarDays, Building2, AlertTriangle, Target } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Briefcase, Users, Clock, CalendarDays, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -193,29 +194,13 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Dallas-Fort Worth's Small Business Community</h2>
-          <p className="why-subtitle">Dallas-Fort Worth has one of the most diverse and active small business ecosystems in Texas. The region's coworking community, entrepreneur development programs, SCORE Dallas chapter, Goldman Sachs 10,000 Small Businesses Dallas program, and the North Texas Small Business Development Center provide consistent resources and events for small business owners at every stage. From community education workshops to government-backed small business programs and coworking networking events, DFW's small business community runs events that help entrepreneurs connect, learn, and grow across the entire metro.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Small business events are spread across SCORE, SBA, SBDC, Meetup, coworking spaces, and individual organizations. Most small business owners don't have time to check them all.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor Dallas-Fort Worth's top small business organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for small business events in the DFW area — from SCORE workshops to entrepreneur meetups to funding sessions.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Dallas Small Business Professionals Use This Calendar"
+        subtitle="Dallas small business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
+        problemText="Small business events in Dallas are scattered across SCORE, SBA, SBDC, Meetup, coworking spaces, and individual organizations. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track small business event hosts across Dallas and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

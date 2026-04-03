@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Star, Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, AlertTriangle, Target } from 'lucide-react';
+import { Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -193,29 +194,13 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Dallas-Fort Worth's Technology Community</h2>
-          <p className="why-subtitle">Dallas-Fort Worth is one of the largest technology employment markets in the United States. The region is home to major corporate technology campuses, a thriving telecom corridor, and headquarters for companies including AT&T, Texas Instruments, Toyota, and thousands of technology firms of every size. DFW's developer communities, cybersecurity groups, AI and data science organizations, and startup ecosystem run consistent events that make Dallas one of the most active technology networking markets in the country.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor Dallas-Fort Worth's top tech organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for tech events in the DFW area — from coding meetups to cybersecurity conferences to startup pitch nights.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Dallas Tech Professionals Use This Calendar"
+        subtitle="Dallas tech events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
+        problemText="Tech events in Dallas are scattered across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track tech event hosts across Dallas and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

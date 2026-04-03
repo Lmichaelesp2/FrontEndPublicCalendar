@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Star, Plus, Minus, Search, Mail, Landmark, Users, Clock, CalendarDays, Building2, AlertTriangle, Target } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Landmark, Users, Clock, CalendarDays, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -203,29 +204,13 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Why a Separate Chamber Calendar?</h2>
-          <p className="why-subtitle">San Antonio has one of the most active chamber networks in Texas. With multiple chambers serving different communities and industries, keeping track of all their events can feel like a full-time job.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Each chamber has its own website, newsletter list, and event calendar. If you belong to multiple chambers, you're checking multiple places every week.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor every major chamber and business association in the San Antonio area and consolidate their events into one unified calendar.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for chamber events in San Antonio — from ribbon cuttings to Business After Hours to annual galas.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why San Antonio Chamber Professionals Use This Calendar"
+        subtitle="San Antonio chamber events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio chamber professionals keep up."
+        problemText="Chamber events in San Antonio are scattered across chamber websites, Eventbrite, LinkedIn, Facebook, and individual association pages. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track chamber event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

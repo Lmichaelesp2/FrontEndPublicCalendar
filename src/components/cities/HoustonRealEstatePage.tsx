@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, AlertTriangle, Target } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -204,29 +205,13 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Houston's Real Estate Community</h2>
-          <p className="why-subtitle">Houston is one of the largest real estate markets in the United States. The city's continued population growth, energy corridor commercial development, massive port and industrial real estate sector, and diverse residential market have created one of the most active real estate investment and development communities in the country. Houston's real estate investors, agents, developers, construction professionals, and design community run consistent networking events, REIA meetings, investor meetups, and industry gatherings throughout the year.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Real estate events are buried across HAR, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. It's impossible to track them all.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor Houston's top real estate organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for real estate events in Houston — from investor meetups to HAR classes to broker networking events.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Houston Real Estate Professionals Use This Calendar"
+        subtitle="Houston real estate events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston professionals keep up."
+        problemText="Real estate events in Houston are scattered across HAR, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track real estate event hosts across Houston and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

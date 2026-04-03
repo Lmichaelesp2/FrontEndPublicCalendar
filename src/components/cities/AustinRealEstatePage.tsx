@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -205,29 +206,13 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Austin's Real Estate Community</h2>
-          <p className="why-subtitle">Austin has experienced one of the most significant real estate booms of any US city over the past decade. Rapid population growth has driven massive residential and commercial construction, making Austin one of the most active real estate investment and development markets in the country. The city's real estate, construction, and design communities run consistent networking events, investor meetups, and professional development gatherings throughout the year.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Real estate events are buried across Austin Board of Realtors, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. It's impossible to track them all.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor Austin's top real estate organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for real estate events in Austin — from investor meetups to broker networking events to construction industry gatherings.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Austin Real Estate Professionals Use This Calendar"
+        subtitle="Austin real estate events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
+        problemText="Real estate events in Austin are scattered across Austin Board of Realtors, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track real estate event hosts across Austin and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

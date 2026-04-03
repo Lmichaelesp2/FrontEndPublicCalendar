@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Star, Plus, Minus, CalendarDays, Search, Mail, Users, Clock, AlertTriangle, Target } from 'lucide-react';
+import { Plus, Minus, CalendarDays, Search, Mail, Users, Clock, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const NETWORKING_STATS = [
@@ -191,29 +192,13 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Houston's Professional Networking Community</h2>
-          <p className="why-subtitle">Houston's size and business diversity have produced one of the largest and most active professional networking communities in Texas. The city's BNI chapters, leads groups, referral networking organizations, and mixer series run consistent weekly and monthly events across the entire Houston metro — from the Energy Corridor to Downtown, the Woodlands, Sugar Land, and beyond. Houston's networking community reflects the city's diversity, with organizations serving professionals across every industry sector from energy and healthcare to technology and real estate.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Networking events are scattered across BNI chapter websites, Meetup groups, Facebook events, and individual organization pages. Tracking them all separately takes time most professionals don't have.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor Houston's networking organizations, leads groups, and referral networking groups — then organize their events into one simple updated calendar.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>Every networking event in one place, delivered weekly, so you never miss a meeting that could become your next referral relationship.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Houston Networking Professionals Use This Calendar"
+        subtitle="Houston networking events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston professionals keep up."
+        problemText="Networking events in Houston are scattered across BNI chapter websites, Meetup groups, LinkedIn, Facebook, and individual organization pages. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track networking event hosts across Houston and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

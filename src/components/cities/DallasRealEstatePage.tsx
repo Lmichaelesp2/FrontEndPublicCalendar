@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, Target, Star, Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2 } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -193,29 +194,13 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Dallas-Fort Worth's Real Estate Community</h2>
-          <p className="why-subtitle">Dallas-Fort Worth is one of the fastest-growing real estate markets in the United States. The region's explosive population growth has driven massive residential and commercial development, making DFW one of the most active real estate investment, construction, and design markets in the country. From residential investor meetups to commercial real estate networking, REIA chapters, construction industry associations, and design community events, Dallas's real estate ecosystem produces a consistent calendar of professional events throughout the year.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Real estate events are buried across MetroTex, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. It's impossible to track them all.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor Dallas-Fort Worth's top real estate organizations and platforms, then organize their events into one focused calendar updated weekly.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>A single source for real estate events in the DFW area — from investor meetups to CE classes to commercial broker networking events.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Dallas Real Estate Professionals Use This Calendar"
+        subtitle="Dallas real estate events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
+        problemText="Real estate events in Dallas are scattered across MetroTex, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track real estate event hosts across Dallas and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

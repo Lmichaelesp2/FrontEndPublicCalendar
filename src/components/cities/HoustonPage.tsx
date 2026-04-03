@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, Target, Star, Plus, Minus, CalendarDays, Mail, Users, Clock, Monitor, Home, Landmark, Briefcase, Search, Building2 } from 'lucide-react';
+import { Plus, Minus, CalendarDays, Mail, Users, Clock, Monitor, Home, Landmark, Briefcase, Search, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -197,29 +198,13 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Why Houston Professionals Use This Calendar</h2>
-          <p className="why-subtitle">Most Houston professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Business events in Houston are scattered across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and association websites. Most professionals miss events simply because they didn't know they were happening.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We track business event hosts across Houston and organize their public events into one city-focused calendar — updated every week.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>Today's events are always free to browse. Sign up free to unlock the full week and get the Monday newsletter — faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Houston Professionals Use This Calendar"
+        subtitle="Houston business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston professionals keep up."
+        problemText="Business events in Houston are scattered across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and association websites. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track business event hosts across Houston and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">

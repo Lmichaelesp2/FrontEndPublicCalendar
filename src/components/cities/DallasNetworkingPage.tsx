@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, Target, Star, Plus, Minus, CalendarDays, Search, Mail, Users, Clock } from 'lucide-react';
+import { Plus, Minus, CalendarDays, Search, Mail, Users, Clock, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
+import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
@@ -191,29 +192,13 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Dallas-Fort Worth's Professional Networking Community</h2>
-          <p className="why-subtitle">Dallas-Fort Worth has one of the largest and most active professional networking communities in Texas. The region's size and business density has produced a deep ecosystem of BNI chapters, leads groups, referral networking organizations, and mixer series that run consistent weekly and monthly events across the entire DFW metro. Whether you are in Dallas proper, Plano, Irving, Frisco, or anywhere in the DFW area, there are structured networking opportunities designed to help you build the referral relationships that grow your business.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Networking events are scattered across BNI chapter websites, Meetup groups, Facebook events, and individual organization pages. Tracking them all separately takes time most professionals don't have.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We monitor Dallas-Fort Worth's networking organizations, leads groups, and referral networking groups — then organize their events into one simple updated calendar.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>Every networking event in one place, delivered weekly, so you never miss a meeting that could become your next referral relationship.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Dallas Networking Professionals Use This Calendar"
+        subtitle="Dallas networking events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
+        problemText="Networking events in Dallas are scattered across BNI chapter websites, Meetup groups, LinkedIn, Facebook, and individual organization pages. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track networking event hosts across Dallas and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
