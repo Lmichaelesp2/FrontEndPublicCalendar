@@ -8,9 +8,10 @@ type AuthModalProps = {
   onClose: () => void;
   onSuccess: () => void;
   defaultMode?: 'signin' | 'signup';
+  cityName?: string;
 };
 
-export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup' }: AuthModalProps) {
+export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup', cityName }: AuthModalProps) {
   const [mode, setMode] = useState<'signin' | 'signup'>(defaultMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -58,8 +59,8 @@ export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup' }
           </h2>
           <p className="auth-modal-sub">
             {mode === 'signup'
-              ? 'Create a free account to unlock the full weekly calendar.'
-              : 'Sign in to access your weekly calendar view.'}
+              ? `Create a free account to unlock the full weekly ${cityName ? `${cityName} ` : ''}calendar.`
+              : `Sign in to access your ${cityName ? `${cityName} ` : ''}weekly calendar view.`}
           </p>
         </div>
 

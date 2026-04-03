@@ -10,12 +10,14 @@ interface EventGateProps {
   initialEvents: Event[];
   forcedCity: City;
   eventCategory?: string;
+  cityName?: string;
 }
 
-export function EventGate({ initialEvents, forcedCity, eventCategory }: EventGateProps) {
+export function EventGate({ initialEvents, forcedCity, eventCategory, cityName }: EventGateProps) {
   const { user, loading } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
 
+  const resolvedCityName = cityName ?? forcedCity;
   const today = getTodayKey();
   const weekRange = getWeekRangeFromToday();
 
@@ -29,6 +31,7 @@ export function EventGate({ initialEvents, forcedCity, eventCategory }: EventGat
         maxDate={today}
         showGateBanner={false}
         onAuthClick={() => setAuthOpen(true)}
+        cityName={resolvedCityName}
       />
     );
   }
@@ -41,6 +44,7 @@ export function EventGate({ initialEvents, forcedCity, eventCategory }: EventGat
         eventCategory={eventCategory}
         minDate={weekRange.start}
         maxDate={weekRange.end}
+        cityName={resolvedCityName}
       />
     );
   }
@@ -55,12 +59,14 @@ export function EventGate({ initialEvents, forcedCity, eventCategory }: EventGat
         maxDate={today}
         showGateBanner={true}
         onAuthClick={() => setAuthOpen(true)}
+        cityName={resolvedCityName}
       />
 
       <AuthModal
         isOpen={authOpen}
         onClose={() => setAuthOpen(false)}
         onSuccess={() => setAuthOpen(false)}
+        cityName={resolvedCityName}
       />
     </>
   );

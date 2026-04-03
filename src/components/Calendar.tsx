@@ -15,6 +15,7 @@ interface CalendarProps {
   minDate?: string;
   showGateBanner?: boolean;
   onAuthClick?: () => void;
+  cityName?: string;
 }
 
 const MONTH_NAMES = [
@@ -33,7 +34,7 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
   return grid;
 }
 
-export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick }: CalendarProps) {
+export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick, cityName }: CalendarProps) {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [calMonth, setCalMonth] = useState(() => {
@@ -95,7 +96,7 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
   }
 
   function stepDay(direction: 1 | -1) {
-    if (direction === 1 && !user) {
+    if (!user) {
       triggerAuth();
       return;
     }
@@ -172,8 +173,6 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
   const singleDayCount = isSingleDay
     ? cityFiltered.filter((e) => e.start_date === rangeStart).length
     : 0;
-
-  const nextDayAriaLabel = !user ? 'Create a free account to see future events' : 'Next day';
 
   return (
     <section className="cal-section" id="calendar">
@@ -302,8 +301,8 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
           <button
             className="cal-day-arrow"
             onClick={() => stepDay(-1)}
-            disabled={rangeStart === today || !rangeStart}
-            aria-label="Previous day"
+            disabled={user ? (rangeStart === today || !rangeStart) : false}
+            aria-label={!user ? 'Create a free account to see the full week' : 'Previous day'}
           >
             <ChevronLeft size={24} />
           </button>
@@ -319,11 +318,11 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
           </div>
 
           <button
-            className={['cal-day-arrow', !user ? 'cal-day-arrow-gated' : ''].filter(Boolean).join(' ')}
+            className="cal-day-arrow"
             onClick={() => stepDay(1)}
-            aria-label={nextDayAriaLabel}
+            aria-label={!user ? 'Create a free account to see the full week' : 'Next day'}
           >
-            {!user ? <Lock size={18} /> : <ChevronRight size={24} />}
+            <ChevronRight size={24} />
           </button>
         </div>
 
@@ -364,6 +363,7 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
           isOpen={inlineAuthOpen}
           onClose={() => setInlineAuthOpen(false)}
           onSuccess={() => setInlineAuthOpen(false)}
+          cityName={cityName}
         />
       )}
     </section>
