@@ -4,9 +4,9 @@ import { Plus, Minus } from 'lucide-react';
 
 const FAQ_ITEMS = [
   {
-    question: 'Is this really free?',
+    question: 'Are the city business calendars free?',
     answer:
-      'Yes! The calendar and weekly email are completely free — no credit card required. We also offer a Personal Event Assistant for professionals who want AI-powered event recommendations tailored to their industry and goals.',
+      'Yes — each city calendar and its weekly newsletter are completely free. Whether you\'re in San Antonio, Austin, Dallas, or Houston, there\'s no credit card, no trial period, no catch.',
   },
   {
     question: 'What cities do you cover?',
