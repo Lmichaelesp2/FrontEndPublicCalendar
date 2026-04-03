@@ -17,10 +17,10 @@ const CITY_ROUTES: Record<City, string> = {
 };
 
 const CITY_DESCRIPTORS: Record<City, string> = {
-  'San Antonio': 'Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more',
-  'Austin': 'Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more',
-  'Dallas': 'Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more',
-  'Houston': 'Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance · and more',
+  'San Antonio': 'Business networking, chamber events & professional meetups — updated weekly',
+  'Austin': 'Tech meetups, startup events, real estate & professional networking — updated weekly',
+  'Dallas': 'DFW networking, real estate, finance & business events — updated weekly',
+  'Houston': 'Energy sector, chamber, real estate & professional networking events — updated weekly',
 };
 
 const CITY_HEADINGS: Record<City, string> = {
