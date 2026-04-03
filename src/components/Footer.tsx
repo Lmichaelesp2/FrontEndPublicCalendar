@@ -9,9 +9,25 @@ type FooterProps = {
   variant?: 'default' | 'homepage';
   citySlug?: string;
   cityName?: string;
+  isTexasPage?: boolean;
 };
 
-export function Footer({ showIndustryCalendars = false, variant = 'default', citySlug = 'san-antonio', cityName = 'San Antonio' }: FooterProps) {
+export function Footer({ showIndustryCalendars = false, variant = 'default', citySlug = 'san-antonio', cityName = 'San Antonio', isTexasPage = false }: FooterProps) {
+  const getCitySpecificText = () => {
+    if (isTexasPage) {
+      return 'Texas Business Calendars is part of the Local Business Calendars network.';
+    }
+    if (!citySlug) return null;
+
+    const cityTexts: Record<string, string> = {
+      'san-antonio': 'San Antonio Business Calendar is part of the Local Business Calendars network.',
+      austin: 'Austin Business Calendar is part of the Local Business Calendars network.',
+      dallas: 'Dallas Business Calendar is part of the Local Business Calendars network.',
+      houston: 'Houston Business Calendar is part of the Local Business Calendars network.',
+    };
+
+    return cityTexts[citySlug] || null;
+  };
   return (
     <footer className="footer">
       {variant === 'homepage' ? (
@@ -50,6 +66,11 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
             {cityName} Small Business Events
           </Link>
         </nav>
+      )}
+      {getCitySpecificText() && (
+        <p style={{ marginBottom: '0.8rem', fontSize: '0.9rem', color: '#666' }}>
+          {getCitySpecificText()}
+        </p>
       )}
       <p>
         &copy; 2026 Local Business Calendars — <Link href="/texas/san-antonio">San Antonio</Link> &middot; <Link href="/texas/austin">Austin</Link> &middot; <Link href="/texas/dallas">Dallas</Link> &middot; <Link href="/texas/houston">Houston</Link>

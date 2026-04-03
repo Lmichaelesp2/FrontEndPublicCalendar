@@ -196,7 +196,7 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
           </div>
         </section>
       )}
-      <Footer showIndustryCalendars={showIndustryCalendars} citySlug={citySlug} cityName={cityName} />
+      <Footer showIndustryCalendars={showIndustryCalendars} citySlug={citySlug} cityName={cityName} isTexasPage={!citySlug} />
     </div>
   );
 }
