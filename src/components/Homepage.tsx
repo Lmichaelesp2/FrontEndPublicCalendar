@@ -159,6 +159,14 @@ export function Homepage() {
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
 
+      <section className="hp-intro-section">
+        <div className="hp-intro-inner">
+          <p>
+            Local Business Calendars is a network of free local business event calendars organized by city. We aggregate networking events, chamber of commerce meetings, technology meetups, real estate gatherings, and small business events — so professionals never miss the events that grow their network and their business. Currently serving San Antonio, Austin, Dallas, and Houston, Texas.
+          </p>
+        </div>
+      </section>
+
       <section className="features-section">
         <div className="features-inner">
           <h2>We Do the Searching So You Don't Have To</h2>
