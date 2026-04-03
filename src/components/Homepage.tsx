@@ -158,17 +158,17 @@ export function Homepage() {
             <div className="why-card">
               <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
               <h3>The problem</h3>
-              <p>Business events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending.</p>
+              <p>Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time.</p>
             </div>
             <div className="why-card">
               <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
               <h3>What we do</h3>
-              <p>We track business event hosts and organize their public events into one simple calendar per city — updated weekly.</p>
+              <p>We track local business event hosts and organize their public events into one local calendar and weekly newsletter.</p>
             </div>
             <div className="why-card">
               <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
               <h3>What you get</h3>
-              <p>Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent.</p>
+              <p>Less searching, better event discovery, and weekly reminders that help you stay consistent.</p>
             </div>
           </div>
         </div>
