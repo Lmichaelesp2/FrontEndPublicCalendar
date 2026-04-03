@@ -328,6 +328,11 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .hpc-cal-cell.selected .hpc-cell-num{background:#1a3a6b;color:var(--white);font-weight:700}
 .hpc-cal-cell.selected .hpc-cell-dot{background:rgba(255,255,255,.7)}
 .hpc-cell-dot{width:5px;height:5px;border-radius:50%;background:#f0a500;margin-top:4px}
+.hpc-cal-cell.future-gated{cursor:pointer;opacity:.55}
+.hpc-cal-cell.future-gated:hover{background:#fef3e2}
+.hpc-cell-lock{position:absolute;bottom:6px;right:6px;color:#c47f00;opacity:.7;display:flex;align-items:center;justify-content:center}
+.hpc-day-arrow-gated{border-color:#f0b429;color:#c47f00;background:#fffbeb}
+.hpc-day-arrow-gated:hover{background:#fff3cc;border-color:#c47f00;transform:scale(1.05)}
 
 /* Date navigator */
 .hpc-date-nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.25rem 0 1rem;text-align:center}

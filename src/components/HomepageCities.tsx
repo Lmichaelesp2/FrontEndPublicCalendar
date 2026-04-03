@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, Mail } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Mail, Lock } from 'lucide-react';
 import { supabase, Event, CITIES, City } from '../lib/supabase';
 import { dateKey, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
+import { useAuth } from '../contexts/AuthContext';
+import { AuthModal } from './auth/AuthModal';
 
 const CITY_ROUTES: Record<City, string> = {
   'San Antonio': '/texas/san-antonio',
@@ -59,6 +61,8 @@ interface HomepageCitiesProps {
 
 export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
   const today = dateKey(new Date());
+  const { user } = useAuth();
+  const [authOpen, setAuthOpen] = useState(false);
 
   const [events, setEvents] = useState<Event[]>(initialEvents);
   const [fetchedDates, setFetchedDates] = useState<Set<string>>(() => new Set([today]));
@@ -104,7 +108,20 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
     setSelectedDate(today);
   }
 
+  function handleDayClick(dk: string) {
+    if (dk < today) return;
+    if (dk > today && !user) {
+      setAuthOpen(true);
+      return;
+    }
+    setSelectedDate(dk);
+  }
+
   function stepDay(direction: 1 | -1) {
+    if (direction === 1 && !user) {
+      setAuthOpen(true);
+      return;
+    }
     const current = parseDate(selectedDate);
     current.setDate(current.getDate() + direction);
     if (dateKey(current) < today) return;
@@ -172,6 +189,7 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
               if (!date) return <div key={`empty-${i}`} className="hpc-cal-cell empty" />;
               const dk = dateKey(date);
               const isPast = dk < today;
+              const isFutureGated = !user && dk > today;
               const hasEvents = datesWithEvents.has(dk);
               const isSelected = dk === selectedDate;
               const isTodayCell = dk === today;
@@ -184,13 +202,18 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
                     isPast ? 'past' : '',
                     isTodayCell ? 'is-today' : '',
                     isSelected ? 'selected' : '',
+                    isFutureGated ? 'future-gated' : '',
                     hasEvents && !isPast ? 'has-events' : '',
                   ].filter(Boolean).join(' ')}
-                  onClick={() => !isPast && setSelectedDate(dk)}
+                  onClick={() => {
+                    if (!isPast) handleDayClick(dk);
+                  }}
                   disabled={isPast}
+                  aria-label={isFutureGated ? 'Create a free account to see future events' : undefined}
                 >
                   <span className="hpc-cell-num">{date.getDate()}</span>
-                  {hasEvents && !isPast && <span className="hpc-cell-dot" />}
+                  {isFutureGated && <span className="hpc-cell-lock"><Lock size={8} /></span>}
+                  {hasEvents && !isPast && !isFutureGated && <span className="hpc-cell-dot" />}
                 </button>
               );
             })}
@@ -216,11 +239,11 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
           </div>
 
           <button
-            className="hpc-day-arrow"
+            className={['hpc-day-arrow', !user ? 'hpc-day-arrow-gated' : ''].filter(Boolean).join(' ')}
             onClick={() => stepDay(1)}
-            aria-label="Next day"
+            aria-label={!user ? 'Create a free account to see future events' : 'Next day'}
           >
-            <ChevronRight size={20} />
+            {!user ? <Lock size={18} /> : <ChevronRight size={20} />}
           </button>
         </div>
 
@@ -246,6 +269,14 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
           })}
         </div>
       </div>
+
+      {authOpen && (
+        <AuthModal
+          isOpen={authOpen}
+          onClose={() => setAuthOpen(false)}
+          onSuccess={() => setAuthOpen(false)}
+        />
+      )}
     </section>
   );
 }
