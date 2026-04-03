@@ -39,22 +39,6 @@ const CITY_LINK_TEXT: Record<City, string> = {
 
 const HOME_LIMIT = 10;
 
-const MONTH_NAMES = [
-  'January','February','March','April','May','June',
-  'July','August','September','October','November','December',
-];
-const DAY_LABELS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-
-function getMonthGrid(year: number, month: number): (Date | null)[] {
-  const first = new Date(year, month, 1);
-  const last = new Date(year, month + 1, 0);
-  const grid: (Date | null)[] = [];
-  for (let i = 0; i < first.getDay(); i++) grid.push(null);
-  for (let d = 1; d <= last.getDate(); d++) grid.push(new Date(year, month, d));
-  while (grid.length % 7 !== 0) grid.push(null);
-  return grid;
-}
-
 interface HomepageCitiesProps {
   initialEvents?: Event[];
 }
@@ -66,10 +50,6 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
 
   const [events, setEvents] = useState<Event[]>(initialEvents);
   const [fetchedDates, setFetchedDates] = useState<Set<string>>(() => new Set([today]));
-  const [calMonth, setCalMonth] = useState(() => {
-    const now = new Date();
-    return { year: now.getFullYear(), month: now.getMonth() };
-  });
   const [selectedDate, setSelectedDate] = useState<string>(today);
 
   async function fetchEventsForDate(date: string) {
@@ -99,12 +79,7 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
     }
   }, [selectedDate]);
 
-  const datesWithEvents = new Set(events.map((e) => e.start_date));
-  const grid = getMonthGrid(calMonth.year, calMonth.month);
-
   function goToToday() {
-    const now = new Date();
-    setCalMonth({ year: now.getFullYear(), month: now.getMonth() });
     setSelectedDate(today);
   }
 
@@ -127,7 +102,6 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
     if (dateKey(current) < today) return;
     const dk = dateKey(current);
     setSelectedDate(dk);
-    setCalMonth({ year: current.getFullYear(), month: current.getMonth() });
   }
 
   const selectedParsed = parseDate(selectedDate);
@@ -147,78 +121,6 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
           </p>
         </div>
 
-        <div className="hpc-cal-card">
-          <div className="hpc-cal-header">
-            <div className="hpc-cal-title">
-              <span className="hpc-cal-month">{MONTH_NAMES[calMonth.month]}</span>
-              <span className="hpc-cal-year">{calMonth.year}</span>
-            </div>
-            <div className="hpc-cal-nav">
-              <button className="hpc-today-btn" onClick={goToToday}>Today</button>
-              <button
-                className="hpc-nav-btn"
-                onClick={() => {
-                  const d = new Date(calMonth.year, calMonth.month - 1, 1);
-                  setCalMonth({ year: d.getFullYear(), month: d.getMonth() });
-                }}
-                aria-label="Previous month"
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button
-                className="hpc-nav-btn"
-                onClick={() => {
-                  const d = new Date(calMonth.year, calMonth.month + 1, 1);
-                  setCalMonth({ year: d.getFullYear(), month: d.getMonth() });
-                }}
-                aria-label="Next month"
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
-
-          <div className="hpc-grid-header">
-            {DAY_LABELS.map((l) => (
-              <div key={l} className="hpc-grid-day-label">{l}</div>
-            ))}
-          </div>
-
-          <div className="hpc-grid">
-            {grid.map((date, i) => {
-              if (!date) return <div key={`empty-${i}`} className="hpc-cal-cell empty" />;
-              const dk = dateKey(date);
-              const isPast = dk < today;
-              const isFutureGated = !user && dk > today;
-              const hasEvents = datesWithEvents.has(dk);
-              const isSelected = dk === selectedDate;
-              const isTodayCell = dk === today;
-
-              return (
-                <button
-                  key={dk}
-                  className={[
-                    'hpc-cal-cell',
-                    isPast ? 'past' : '',
-                    isTodayCell ? 'is-today' : '',
-                    isSelected ? 'selected' : '',
-                    isFutureGated ? 'future-gated' : '',
-                    hasEvents && !isPast ? 'has-events' : '',
-                  ].filter(Boolean).join(' ')}
-                  onClick={() => {
-                    if (!isPast) handleDayClick(dk);
-                  }}
-                  disabled={isPast}
-                  aria-label={isFutureGated ? 'Create a free account to see future events' : undefined}
-                >
-                  <span className="hpc-cell-num">{date.getDate()}</span>
-                  {isFutureGated && <span className="hpc-cell-lock"><Lock size={8} /></span>}
-                  {hasEvents && !isPast && !isFutureGated && <span className="hpc-cell-dot" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
         <div className="hpc-date-nav">
           <button
