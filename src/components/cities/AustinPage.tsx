@@ -199,6 +199,14 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Austin Event</h2>
+          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
+        </div>
+        <EventGate forcedCity="Austin" initialEvents={initialEvents} />
+      </section>
+
       <WhySection
         heading="Why Austin Professionals Use This Calendar"
         subtitle="Austin business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
@@ -228,14 +236,6 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Event</h2>
-          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
-        </div>
-        <EventGate forcedCity="Austin" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

@@ -198,6 +198,14 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Houston Event</h2>
+          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
+        </div>
+        <EventGate forcedCity="Houston" initialEvents={initialEvents} />
+      </section>
+
       <WhySection
         heading="Why Houston Professionals Use This Calendar"
         subtitle="Houston business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston professionals keep up."
@@ -227,14 +235,6 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Houston Event</h2>
-          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
-        </div>
-        <EventGate forcedCity="Houston" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
