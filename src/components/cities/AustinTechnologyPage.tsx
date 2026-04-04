@@ -288,10 +288,12 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Get Austin Tech Events Every Monday — Free</h2>
           <p>A curated digest of that week's technology events in Austin, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/submit" className="btn sa-btn-outline">Submit a Tech Event</Link>
             <Link href="/texas/austin/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Austin business events</p>
+          <div className="sa-subscribe-secondary-cta">
+            <Link href="/submit" className="btn btn-accent">Submit a Tech Event</Link>
+          </div>
         </div>
       </section>
 

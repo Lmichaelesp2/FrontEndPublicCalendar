@@ -126,6 +126,8 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .btn-gold:hover{background:#fffbeb;box-shadow:0 4px 16px rgba(212,168,67,.25),0 2px 6px rgba(0,0,0,.1);transform:translateY(-1px)}
 .btn-white{background:var(--white);color:#1a365d;box-shadow:0 2px 8px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08);font-size:1.05rem;padding:1rem 2rem}
 .btn-white:hover{background:#fffbeb;box-shadow:0 4px 16px rgba(212,168,67,.25),0 2px 6px rgba(0,0,0,.1);transform:translateY(-1px)}
+.btn-accent{background:var(--gold);color:var(--navy-dark);box-shadow:0 2px 8px rgba(212,168,67,.25),0 1px 3px rgba(0,0,0,.08);font-size:1.05rem;padding:1rem 2rem;font-weight:700}
+.btn-accent:hover{background:var(--gold-bright);box-shadow:0 4px 16px rgba(212,168,67,.35),0 2px 6px rgba(0,0,0,.1);transform:translateY(-1px)}
 .hero-note{color:rgba(255,255,255,.45);font-size:.78rem;margin-top:.6rem}
 
 .hero-cities{display:flex;flex-direction:column;align-items:center;gap:2.25rem;margin-top:1.5rem}
@@ -1306,12 +1308,15 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .sa-btn-outline{background:transparent;border:1px solid rgba(255,255,255,.7);color:var(--white);padding:1rem 2rem;font-size:.95rem;border-radius:8px;font-weight:600}
 .sa-btn-outline:hover{background:rgba(255,255,255,.1);border-color:var(--white)}
 .sa-subscribe-note{font-size:.78rem;color:rgba(255,255,255,.45);margin:0}
+.sa-subscribe-secondary-cta{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
 
 @media(max-width:768px){
   .sa-value-strip-inner{grid-template-columns:1fr}
   .sa-hero h1{font-size:2rem}
   .sa-subscribe-actions{flex-direction:column;width:100%}
   .sa-subscribe-actions .btn{width:100%;justify-content:center}
+  .sa-subscribe-secondary-cta{flex-direction:column;width:100%}
+  .sa-subscribe-secondary-cta .btn{width:100%;justify-content:center}
 }
 
 /* HOMEPAGE — STATE CARDS */
