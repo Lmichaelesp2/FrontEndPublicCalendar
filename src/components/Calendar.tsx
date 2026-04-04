@@ -18,39 +18,17 @@ interface CalendarProps {
   cityName?: string;
 }
 
-const MONTH_NAMES = [
-  'January','February','March','April','May','June',
-  'July','August','September','October','November','December',
-];
-const DAY_LABELS = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-
-function getMonthGrid(year: number, month: number): (Date | null)[] {
-  const first = new Date(year, month, 1);
-  const last = new Date(year, month + 1, 0);
-  const grid: (Date | null)[] = [];
-  for (let i = 0; i < first.getDay(); i++) grid.push(null);
-  for (let d = 1; d <= last.getDate(); d++) grid.push(new Date(year, month, d));
-  while (grid.length % 7 !== 0) grid.push(null);
-  return grid;
-}
-
 export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick, cityName }: CalendarProps) {
   const { user } = useAuth();
   const today = useMidnightReset();
   const [searchQuery, setSearchQuery] = useState('');
-  const [calMonth, setCalMonth] = useState(() => {
-    const now = new Date();
-    return { year: now.getFullYear(), month: now.getMonth() };
-  });
   const [rangeStart, setRangeStart] = useState<string | null>(() => dateKey(new Date()));
   const [rangeEnd, setRangeEnd] = useState<string | null>(null);
-  const [hoverDate, setHoverDate] = useState<string | null>(null);
   const [inlineAuthOpen, setInlineAuthOpen] = useState(false);
 
   useEffect(() => {
     setRangeStart(today);
     setRangeEnd(null);
-    setCalMonth({ year: new Date().getFullYear(), month: new Date().getMonth() });
   }, [today]);
 
   function triggerAuth() {
@@ -69,37 +47,6 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
     return true;
   });
 
-  function handleDayClick(dk: string) {
-    if (dk < today) return;
-    if (dk > today && !user) {
-      triggerAuth();
-      return;
-    }
-    if (maxDate && dk > maxDate) return;
-    setSearchQuery('');
-    if (!rangeStart || (rangeStart && rangeEnd)) {
-      setRangeStart(dk);
-      setRangeEnd(null);
-    } else {
-      if (dk < rangeStart) {
-        setRangeEnd(rangeStart);
-        setRangeStart(dk);
-      } else if (dk === rangeStart) {
-        setRangeEnd(null);
-      } else {
-        setRangeEnd(dk);
-      }
-    }
-  }
-
-  function goToToday() {
-    const now = new Date();
-    setCalMonth({ year: now.getFullYear(), month: now.getMonth() });
-    setRangeStart(today);
-    setRangeEnd(null);
-    setSearchQuery('');
-  }
-
   function stepDay(direction: 1 | -1) {
     if (!user) {
       triggerAuth();
@@ -113,32 +60,7 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
     setRangeStart(dk);
     setRangeEnd(null);
     setSearchQuery('');
-    setCalMonth({ year: current.getFullYear(), month: current.getMonth() });
   }
-
-  function prevMonth() {
-    const d = new Date(calMonth.year, calMonth.month - 1, 1);
-    setCalMonth({ year: d.getFullYear(), month: d.getMonth() });
-  }
-
-  function nextMonth() {
-    const d = new Date(calMonth.year, calMonth.month + 1, 1);
-    setCalMonth({ year: d.getFullYear(), month: d.getMonth() });
-  }
-
-  const effectiveEnd =
-    hoverDate && rangeStart && !rangeEnd && hoverDate >= rangeStart
-      ? hoverDate
-      : rangeEnd;
-
-  function inRange(dk: string): boolean {
-    if (!rangeStart) return false;
-    const end = effectiveEnd ?? rangeStart;
-    return dk > rangeStart && dk < end;
-  }
-
-  const grid = getMonthGrid(calMonth.year, calMonth.month);
-  const datesWithEvents = new Set(cityFiltered.map((e) => e.start_date));
 
   const searchActive = searchQuery.trim().length > 0;
 
@@ -206,79 +128,6 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
             </div>
           </div>
         )}
-
-        <div className="cal-card">
-          <div className="cal-card-header">
-            <div className="cal-card-title">
-              <span className="cal-card-month">{MONTH_NAMES[calMonth.month]}</span>
-              <span className="cal-card-year">{calMonth.year}</span>
-            </div>
-            <div className="cal-card-nav">
-              <button className="cal-today-btn" onClick={goToToday}>Today</button>
-              <button className="cal-nav-btn" onClick={prevMonth} aria-label="Previous month">
-                <ChevronLeft size={16} />
-              </button>
-              <button className="cal-nav-btn" onClick={nextMonth} aria-label="Next month">
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
-
-          <div className="cal-grid-header">
-            {DAY_LABELS.map((l) => (
-              <div key={l} className="cal-grid-day-label">{l}</div>
-            ))}
-          </div>
-
-          <div className="cal-grid">
-            {grid.map((date, i) => {
-              if (!date) {
-                return <div key={`empty-${i}`} className="cal-cell empty" />;
-              }
-              const dk = dateKey(date);
-              const isPast = dk < today;
-              const isBeyondMax = !!(maxDate && dk > maxDate);
-              const isFutureGated = !user && dk > today;
-              const isDisabled = isPast || isBeyondMax;
-              const hasEvents = datesWithEvents.has(dk);
-              const isStart = dk === rangeStart;
-              const isEnd = dk === (effectiveEnd ?? rangeStart);
-              const inRangeVal = inRange(dk);
-              const isEdge = isStart || isEnd;
-              const isToday = dk === today;
-
-              return (
-                <button
-                  key={dk}
-                  className={[
-                    'cal-cell',
-                    isPast ? 'past' : '',
-                    isBeyondMax ? 'past gated' : '',
-                    isFutureGated ? 'future-gated' : '',
-                    isToday ? 'is-today' : '',
-                    inRangeVal ? 'in-range' : '',
-                    isEdge ? 'range-edge' : '',
-                    isStart ? 'range-start' : '',
-                    isEnd && (rangeEnd || isStart) ? 'range-selected' : '',
-                    hasEvents && !isDisabled ? 'has-events' : '',
-                  ].filter(Boolean).join(' ')}
-                  onClick={() => {
-                    if (isDisabled) return;
-                    handleDayClick(dk);
-                  }}
-                  onMouseEnter={() => !isDisabled && !isFutureGated && rangeStart && !rangeEnd && setHoverDate(dk)}
-                  onMouseLeave={() => setHoverDate(null)}
-                  disabled={isDisabled}
-                  aria-label={isFutureGated ? 'Create a free account to see future events' : undefined}
-                >
-                  <span className="cal-cell-num">{date.getDate()}</span>
-                  {isFutureGated && <span className="cal-cell-lock"><Lock size={8} /></span>}
-                  {hasEvents && !isDisabled && !isFutureGated && <span className="cal-cell-dot" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
         {showGateBanner && (
           <div className="ev-gate-banner ev-gate-banner-above">
