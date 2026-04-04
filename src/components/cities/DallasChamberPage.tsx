@@ -194,6 +194,14 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Dallas Chamber Event</h2>
+          <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
+        </div>
+        <EventGate forcedCity="Dallas" eventCategory="chamber" initialEvents={initialEvents} />
+      </section>
+
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>Dallas Chambers &amp; Associations We Track</h2>
