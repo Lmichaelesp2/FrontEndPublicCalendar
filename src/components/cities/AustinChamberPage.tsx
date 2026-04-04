@@ -195,13 +195,28 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <WhySection
-        heading="Why Austin Chamber Professionals Use This Calendar"
-        subtitle="Austin chamber events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin chamber professionals keep up."
-        problemText="Chamber events in Austin are scattered across chamber websites, Eventbrite, LinkedIn, Facebook, and individual association pages. Most professionals miss events simply because they didn't know they were happening."
-        whatWeDoText="We track chamber event hosts across Austin and organize their public events into one city-focused calendar — updated every week."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Austin Chamber Event</h2>
+          <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
+        </div>
+        <EventGate forcedCity="Austin" eventCategory="chamber" initialEvents={initialEvents} />
+      </section>
+
+      <section className="sa-orgs-section">
+        <div className="sa-orgs-inner">
+          <h2>Austin Chambers &amp; Associations We Track</h2>
+          <p>We monitor events from Austin's chambers and business associations so nothing slips through the cracks.</p>
+          <div className="sa-orgs-grid">
+            {ORGS.map((org, i) => (
+              <div key={i} className="sa-org-tag">
+                <Users size={14} strokeWidth={2} />
+                {org}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
@@ -222,29 +237,6 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
               <h3>Never miss what matters</h3>
               <p>The newsletter and the calendar work together so you always know what's coming up in the chamber community.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Chamber Event</h2>
-          <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
-        </div>
-        <EventGate forcedCity="Austin" eventCategory="chamber" initialEvents={initialEvents} />
-      </section>
-
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>Austin Chambers &amp; Associations We Track</h2>
-          <p>We monitor events from Austin's chambers and business associations so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {ORGS.map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -279,6 +271,14 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
+
+      <WhySection
+        heading="Why Austin Chamber Professionals Use This Calendar"
+        subtitle="Austin chamber events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin chamber professionals keep up."
+        problemText="Chamber events in Austin are scattered across chamber websites, Eventbrite, LinkedIn, Facebook, and individual association pages. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track chamber event hosts across Austin and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

@@ -203,13 +203,28 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <WhySection
-        heading="Why San Antonio Tech Professionals Use This Calendar"
-        subtitle="San Antonio tech events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
-        problemText="Tech events in San Antonio are scattered across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. Most professionals miss events simply because they didn't know they were happening."
-        whatWeDoText="We track tech event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next San Antonio Tech Event</h2>
+          <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
+        </div>
+        <EventGate forcedCity="San Antonio" eventCategory="technology" initialEvents={initialEvents} />
+      </section>
+
+      <section className="sa-orgs-section">
+        <div className="sa-orgs-inner">
+          <h2>San Antonio Tech Organizations We Track</h2>
+          <p>We monitor events from San Antonio's top technology communities so nothing slips through the cracks.</p>
+          <div className="sa-orgs-grid">
+            {TECH_ORGS.map((org, i) => (
+              <div key={i} className="sa-org-tag">
+                <Users size={14} strokeWidth={2} />
+                {org}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
@@ -230,29 +245,6 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
               <h3>Never miss what matters</h3>
               <p>The newsletter and the calendar work together so you always know what's coming up.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next San Antonio Tech Event</h2>
-          <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
-        </div>
-        <EventGate forcedCity="San Antonio" eventCategory="technology" initialEvents={initialEvents} />
-      </section>
-
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>San Antonio Tech Organizations We Track</h2>
-          <p>We monitor events from San Antonio's top technology communities so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {TECH_ORGS.map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -287,6 +279,14 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
           </div>
         </div>
       </section>
+
+      <WhySection
+        heading="Why San Antonio Tech Professionals Use This Calendar"
+        subtitle="San Antonio tech events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
+        problemText="Tech events in San Antonio are scattered across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track tech event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

@@ -194,13 +194,28 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <WhySection
-        heading="Austin's Technology Community"
-        subtitle="Austin technology events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin tech professionals keep up."
-        problemText="Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all."
-        whatWeDoText="We monitor Austin's top tech organizations and platforms, then organize their events into one focused calendar updated weekly."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Austin Tech Event</h2>
+          <p>Browse developer meetups, startup events, hackathons, and more</p>
+        </div>
+        <EventGate forcedCity="Austin" eventCategory="technology" initialEvents={initialEvents} />
+      </section>
+
+      <section className="sa-orgs-section">
+        <div className="sa-orgs-inner">
+          <h2>Austin Tech Organizations We Track</h2>
+          <p>We monitor events from Austin's top technology communities so nothing slips through the cracks.</p>
+          <div className="sa-orgs-grid">
+            {TECH_ORGS.map((org, i) => (
+              <div key={i} className="sa-org-tag">
+                <Users size={14} strokeWidth={2} />
+                {org}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
@@ -221,29 +236,6 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
               <h3>Never miss what matters</h3>
               <p>The newsletter and the calendar work together so you always know what's coming up.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Tech Event</h2>
-          <p>Browse developer meetups, startup events, hackathons, and more</p>
-        </div>
-        <EventGate forcedCity="Austin" eventCategory="technology" initialEvents={initialEvents} />
-      </section>
-
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>Austin Tech Organizations We Track</h2>
-          <p>We monitor events from Austin's top technology communities so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {TECH_ORGS.map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -278,6 +270,14 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
         </div>
       </section>
+
+      <WhySection
+        heading="Austin's Technology Community"
+        subtitle="Austin technology events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin tech professionals keep up."
+        problemText="Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all."
+        whatWeDoText="We monitor Austin's top tech organizations and platforms, then organize their events into one focused calendar updated weekly."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

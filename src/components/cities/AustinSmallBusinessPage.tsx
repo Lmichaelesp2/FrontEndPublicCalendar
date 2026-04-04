@@ -195,13 +195,28 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <WhySection
-        heading="Why Austin Small Business Professionals Use This Calendar"
-        subtitle="Austin small business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
-        problemText="Small business events in Austin are scattered across SCORE, SBA, SBDC, coworking spaces, Meetup, and individual organizations. Most professionals miss events simply because they didn't know they were happening."
-        whatWeDoText="We track small business event hosts across Austin and organize their public events into one city-focused calendar — updated every week."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Austin Small Business Event</h2>
+          <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
+        </div>
+        <EventGate forcedCity="Austin" eventCategory="small_business" initialEvents={initialEvents} />
+      </section>
+
+      <section className="sa-orgs-section">
+        <div className="sa-orgs-inner">
+          <h2>Austin Small Business Organizations We Track</h2>
+          <p>We monitor events from Austin's top small business resources so nothing slips through the cracks.</p>
+          <div className="sa-orgs-grid">
+            {ORGS.map((org, i) => (
+              <div key={i} className="sa-org-tag">
+                <Users size={14} strokeWidth={2} />
+                {org}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
@@ -222,29 +237,6 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
               <h3>Never miss what matters</h3>
               <p>The newsletter and the calendar work together so you always know what's coming up in the small business community.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Small Business Event</h2>
-          <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
-        </div>
-        <EventGate forcedCity="Austin" eventCategory="small_business" initialEvents={initialEvents} />
-      </section>
-
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>Austin Small Business Organizations We Track</h2>
-          <p>We monitor events from Austin's top small business resources so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {ORGS.map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -279,6 +271,14 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
           </div>
         </div>
       </section>
+
+      <WhySection
+        heading="Why Austin Small Business Professionals Use This Calendar"
+        subtitle="Austin small business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
+        problemText="Small business events in Austin are scattered across SCORE, SBA, SBDC, coworking spaces, Meetup, and individual organizations. Most professionals miss events simply because they didn't know they were happening."
+        whatWeDoText="We track small business event hosts across Austin and organize their public events into one city-focused calendar — updated every week."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">
