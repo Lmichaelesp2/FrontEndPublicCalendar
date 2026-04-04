@@ -41,7 +41,10 @@ export function EventPreview({ events, onEventsChange, onPublish }: EventPreview
 
       const { error } = await supabase.from('events').insert(validEvents);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase insert error:', error);
+        throw error;
+      }
 
       const citySet = new Set(
         validEvents
@@ -66,9 +69,12 @@ export function EventPreview({ events, onEventsChange, onPublish }: EventPreview
       }, 2000);
     } catch (error) {
       console.error('Error publishing events:', error);
+      const errorMessage = error instanceof Error
+        ? error.message
+        : (error as { message?: string })?.message || 'Unknown error';
       setPublishMessage({
         type: 'error',
-        text: 'Failed to publish events. Please try again.'
+        text: `Upload failed: ${errorMessage}`
       });
     } finally {
       setPublishing(false);
@@ -84,6 +90,11 @@ export function EventPreview({ events, onEventsChange, onPublish }: EventPreview
 
   return (
     <div className="event-preview">
+      {invalidCount > 0 && (
+        <div className="form-message error" style={{ marginBottom: '1rem' }}>
+          Warning: {invalidCount} event{invalidCount > 1 ? 's' : ''} will be skipped due to missing required fields (name or start_date). Only {validCount} valid event{validCount !== 1 ? 's' : ''} will be published.
+        </div>
+      )}
       <div className="preview-header">
         <div>
           <h3>Preview Events ({events.length} total)</h3>

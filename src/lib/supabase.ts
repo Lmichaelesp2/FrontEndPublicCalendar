@@ -26,7 +26,6 @@ export type Event = {
   org_name: string | null;
   participation: string;
   part_of_town: string | null;
-  time_of_day: string | null;
   city_calendar: string | null;
   org_type: string | null;
   org_id: string | null;

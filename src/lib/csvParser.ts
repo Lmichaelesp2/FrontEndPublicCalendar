@@ -115,7 +115,6 @@ function mapRowToEvent(headers: string[], values: string[]): EventInput | null {
     org_name: null,
     participation: 'In-Person',
     part_of_town: null,
-    time_of_day: null,
     org_type: null,
     org_id: null,
     event_type: null,

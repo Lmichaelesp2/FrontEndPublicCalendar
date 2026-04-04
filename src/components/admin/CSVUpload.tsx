@@ -101,41 +101,6 @@ export function CSVUpload({ onEventsLoaded }: CSVUploadProps) {
     });
   };
 
-  const processFile = (file: File) => {
-    console.log('Processing file:', file.name);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const text = e.target?.result as string;
-        console.log('File loaded, text length:', text.length);
-
-        const events = file.name.endsWith('.tsv') ? parseTSV(text) : parseCSV(text);
-        console.log('Events parsed:', events.length);
-
-        if (events.length === 0) {
-          setError('No valid events found in file. Check that your CSV has the required columns: Name and Start Date');
-          return;
-        }
-
-        const invalidEvents = events.filter(event => validateEvent(event).length > 0);
-        if (invalidEvents.length > 0) {
-          console.warn('Invalid events found:', invalidEvents);
-          setError(`${invalidEvents.length} events have validation errors. They will still be shown for review.`);
-        }
-
-        onEventsLoaded(events);
-      } catch (err) {
-        console.error('Error processing file:', err);
-        setError(err instanceof Error ? err.message : 'Failed to parse file');
-      }
-    };
-    reader.onerror = () => {
-      console.error('Error reading file');
-      setError('Failed to read file');
-    };
-    reader.readAsText(file);
-  };
-
   const handlePaste = () => {
     setError('');
     try {
