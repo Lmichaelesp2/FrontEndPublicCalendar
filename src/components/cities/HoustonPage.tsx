@@ -237,22 +237,6 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
         <EventGate forcedCity="Houston" initialEvents={initialEvents} />
       </section>
 
-      <section className="city-categories-section">
-        <div className="city-categories-inner">
-          <h2>Browse Houston Events by Category</h2>
-          <p className="city-categories-subtitle">Explore Houston's business event scene by topic</p>
-          <div className="city-categories-grid">
-            {CATEGORY_LINKS.map((cat) => (
-              <Link key={cat.href} href={cat.href} className="city-category-card">
-                <span className="city-category-icon">{cat.icon}</span>
-                <span className="city-category-label">{cat.label}</span>
-              </Link>
-            ))}
-          </div>
-          <p className="city-categories-note">All events in each category calendar are free to browse — no signup needed. Subscribe to get the weekly category newsletter.</p>
-        </div>
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>Houston Organizations We Track</h2>

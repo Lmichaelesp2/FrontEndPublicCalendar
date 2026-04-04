@@ -229,36 +229,6 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         <EventGate forcedCity="San Antonio" initialEvents={initialEvents} />
       </section>
 
-      <section className="city-categories-section">
-        <div className="city-categories-inner">
-          <h2>Browse San Antonio Events by Category</h2>
-          <p className="city-categories-subtitle">Explore San Antonio's business event scene by topic</p>
-          <div className="city-categories-grid">
-            <Link href="/texas/san-antonio/networking" className="city-category-card">
-              <span className="city-category-icon"><Users size={20} /></span>
-              <span className="city-category-label">Networking Events</span>
-            </Link>
-            <Link href="/texas/san-antonio/chamber" className="city-category-card">
-              <span className="city-category-icon"><Landmark size={20} /></span>
-              <span className="city-category-label">Chamber Events</span>
-            </Link>
-            <Link href="/texas/san-antonio/technology" className="city-category-card">
-              <span className="city-category-icon"><Monitor size={20} /></span>
-              <span className="city-category-label">Technology Events</span>
-            </Link>
-            <Link href="/texas/san-antonio/real-estate" className="city-category-card">
-              <span className="city-category-icon"><Home size={20} /></span>
-              <span className="city-category-label">Real Estate Events</span>
-            </Link>
-            <Link href="/texas/san-antonio/small-business" className="city-category-card">
-              <span className="city-category-icon"><Briefcase size={20} /></span>
-              <span className="city-category-label">Small Business Events</span>
-            </Link>
-          </div>
-          <p className="city-categories-note">All events in each category calendar are free to browse — no signup needed. Subscribe to get the weekly category newsletter.</p>
-        </div>
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>San Antonio Organizations We Track</h2>
