@@ -226,14 +226,6 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <WhySection
-        heading="Why San Antonio Professionals Use This Calendar"
-        subtitle="San Antonio business events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
-        problemText="Business events in San Antonio are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."
-        whatWeDoText="We track local business event hosts and organize their public events into one simple San Antonio calendar and weekly newsletter."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
-
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
           <h2>Never Miss a Networking or Business Event That Matters</h2>
@@ -287,6 +279,14 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
+
+      <WhySection
+        heading="Why San Antonio Professionals Use This Calendar"
+        subtitle="San Antonio business events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
+        problemText="Business events in San Antonio are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."
+        whatWeDoText="We track local business event hosts and organize their public events into one simple San Antonio calendar and weekly newsletter."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

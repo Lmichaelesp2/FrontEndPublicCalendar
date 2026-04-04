@@ -222,14 +222,6 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <WhySection
-        heading="Why Austin Professionals Use This Calendar"
-        subtitle="Austin business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
-        problemText="Business events in Austin are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."
-        whatWeDoText="We track local business event hosts and organize their public events into one simple Austin calendar and weekly newsletter."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
-
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
           <h2>Never Miss a Networking or Business Event That Matters</h2>
@@ -283,6 +275,14 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
+
+      <WhySection
+        heading="Why Austin Professionals Use This Calendar"
+        subtitle="Austin business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
+        problemText="Business events in Austin are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."
+        whatWeDoText="We track local business event hosts and organize their public events into one simple Austin calendar and weekly newsletter."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
       <section className="sa-subscribe-section" id="austin-subscribe">
         <div className="sa-subscribe-inner">
