@@ -203,7 +203,7 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next Dallas Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventGate forcedCity="Dallas" initialEvents={initialEvents} />
+        <EventGate forcedCity="Dallas" initialEvents={initialEvents} showMonthCalendar={true} />
       </section>
 
       <section className="sa-orgs-section">

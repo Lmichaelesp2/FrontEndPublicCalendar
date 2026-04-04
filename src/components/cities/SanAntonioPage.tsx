@@ -195,7 +195,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next San Antonio Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" initialEvents={initialEvents} />
+        <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} />
       </section>
 
       <section className="sa-orgs-section">
