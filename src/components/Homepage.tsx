@@ -222,29 +222,6 @@ export function Homepage() {
         </div>
       </section>
 
-      <section className="value-section" style={{ paddingTop: '2rem' }}>
-        <div className="value-inner">
-          <h2>Never Miss an Event That Matters</h2>
-          <div className="value-grid">
-            <div className="value-card">
-              <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly newsletter</h3>
-              <p>With your free sign-up, get the week's business events in your inbox every Monday.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check the calendar anytime</h3>
-              <p>Go to your city's calendar and see the day's events — or sign up free and see the full week of events.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Built for busy professionals</h3>
-              <p>We do the research every week so you can spend your time attending events, not hunting for them.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="faq-section">
         <div className="faq-inner">
           <h2>Frequently Asked Questions About Local Business Calendars</h2>
