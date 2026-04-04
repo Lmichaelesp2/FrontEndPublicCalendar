@@ -197,7 +197,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Today's Networking Events in Houston</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="Houston" eventCategory="networking" initialEvents={initialEvents} />
+        <EventGate forcedCity="Houston" groupType="networking" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

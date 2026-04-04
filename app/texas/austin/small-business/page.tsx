@@ -3,7 +3,7 @@ import { AustinSmallBusinessPage } from '../../../../src/components/cities/Austi
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
 export default async function Page() {
-  const events = await fetchApprovedEvents({ city: 'Austin', eventCategory: 'small_business' });
+  const events = await fetchApprovedEvents({ city: 'Austin', groupType: 'small_business' });
   return (
     <CityProvider>
       <AustinSmallBusinessPage initialEvents={events} />

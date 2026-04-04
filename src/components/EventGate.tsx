@@ -10,12 +10,12 @@ import type { City, Event } from '../lib/supabase';
 interface EventGateProps {
   initialEvents: Event[];
   forcedCity: City;
-  eventCategory?: string;
+  groupType?: string;
   cityName?: string;
   showMonthCalendar?: boolean;
 }
 
-export function EventGate({ initialEvents, forcedCity, eventCategory, cityName, showMonthCalendar = false }: EventGateProps) {
+export function EventGate({ initialEvents, forcedCity, groupType, cityName, showMonthCalendar = false }: EventGateProps) {
   const { user, loading } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -37,7 +37,7 @@ export function EventGate({ initialEvents, forcedCity, eventCategory, cityName, 
         <Calendar
           initialEvents={initialEvents}
           forcedCity={forcedCity}
-          eventCategory={eventCategory}
+          groupType={groupType}
           minDate={today}
           maxDate={today}
           showGateBanner={false}
@@ -61,7 +61,7 @@ export function EventGate({ initialEvents, forcedCity, eventCategory, cityName, 
         <Calendar
           initialEvents={initialEvents}
           forcedCity={forcedCity}
-          eventCategory={eventCategory}
+          groupType={groupType}
           minDate={weekRange.start}
           maxDate={weekRange.end}
           cityName={resolvedCityName}
@@ -82,7 +82,7 @@ export function EventGate({ initialEvents, forcedCity, eventCategory, cityName, 
       <Calendar
         initialEvents={initialEvents}
         forcedCity={forcedCity}
-        eventCategory={eventCategory}
+        groupType={groupType}
         minDate={today}
         maxDate={today}
         showGateBanner={true}

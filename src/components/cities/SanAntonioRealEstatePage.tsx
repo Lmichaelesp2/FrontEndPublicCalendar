@@ -209,7 +209,7 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
           <h2>Find Your Next San Antonio Real Estate Event</h2>
           <p>Browse investor meetups, SABOR events, broker tours, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" eventCategory="real_estate" initialEvents={initialEvents} />
+        <EventGate forcedCity="San Antonio" groupType="real_estate" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

@@ -199,7 +199,7 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Find Your Next Dallas Real Estate Event</h2>
           <p>Browse investor meetups, networking events, CE classes, and more</p>
         </div>
-        <EventGate forcedCity="Dallas" eventCategory="real_estate" initialEvents={initialEvents} />
+        <EventGate forcedCity="Dallas" groupType="real_estate" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

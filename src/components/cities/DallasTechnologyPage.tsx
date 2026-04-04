@@ -199,7 +199,7 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Find Your Next Dallas Tech Event</h2>
           <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
         </div>
-        <EventGate forcedCity="Dallas" eventCategory="technology" initialEvents={initialEvents} />
+        <EventGate forcedCity="Dallas" groupType="technology" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

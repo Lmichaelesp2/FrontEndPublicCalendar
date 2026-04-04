@@ -209,7 +209,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Find Your Next San Antonio Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" eventCategory="chamber" initialEvents={initialEvents} />
+        <EventGate forcedCity="San Antonio" groupType="chamber" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

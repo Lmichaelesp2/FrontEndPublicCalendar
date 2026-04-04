@@ -3,7 +3,7 @@ import { SanAntonioNetworkingPage } from '../../../../src/components/cities/SanA
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
 export default async function Page() {
-  const events = await fetchApprovedEvents({ city: 'San Antonio', eventCategory: 'networking' });
+  const events = await fetchApprovedEvents({ city: 'San Antonio', groupType: 'networking' });
   return (
     <CityProvider>
       <SanAntonioNetworkingPage initialEvents={events} />

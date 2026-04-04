@@ -210,7 +210,7 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Find Your Next Houston Real Estate Event</h2>
           <p>Browse investor meetups, HAR events, broker tours, and more</p>
         </div>
-        <EventGate forcedCity="Houston" eventCategory="real_estate" initialEvents={initialEvents} />
+        <EventGate forcedCity="Houston" groupType="real_estate" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

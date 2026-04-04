@@ -3,7 +3,7 @@ import { DallasChamberPage } from '../../../../src/components/cities/DallasChamb
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
 export default async function Page() {
-  const events = await fetchApprovedEvents({ city: 'Dallas', eventCategory: 'chamber' });
+  const events = await fetchApprovedEvents({ city: 'Dallas', groupType: 'chamber' });
   return (
     <CityProvider>
       <DallasChamberPage initialEvents={events} />

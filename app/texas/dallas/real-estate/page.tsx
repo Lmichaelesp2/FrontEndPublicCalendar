@@ -3,7 +3,7 @@ import { DallasRealEstatePage } from '../../../../src/components/cities/DallasRe
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
 export default async function Page() {
-  const events = await fetchApprovedEvents({ city: 'Dallas', eventCategory: 'real_estate' });
+  const events = await fetchApprovedEvents({ city: 'Dallas', groupType: 'real_estate' });
   return (
     <CityProvider>
       <DallasRealEstatePage initialEvents={events} />

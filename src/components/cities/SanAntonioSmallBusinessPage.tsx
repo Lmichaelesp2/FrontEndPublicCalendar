@@ -209,7 +209,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
           <h2>Find Your Next San Antonio Small Business Event</h2>
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" eventCategory="small_business" initialEvents={initialEvents} />
+        <EventGate forcedCity="San Antonio" groupType="small_business" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

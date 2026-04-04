@@ -3,7 +3,7 @@ import { SanAntonioRealEstatePage } from '../../../../src/components/cities/SanA
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
 export default async function Page() {
-  const events = await fetchApprovedEvents({ city: 'San Antonio', eventCategory: 'real_estate' });
+  const events = await fetchApprovedEvents({ city: 'San Antonio', groupType: 'real_estate' });
   return (
     <CityProvider>
       <SanAntonioRealEstatePage initialEvents={events} />

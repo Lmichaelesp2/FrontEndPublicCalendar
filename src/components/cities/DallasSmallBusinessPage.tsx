@@ -199,7 +199,7 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
           <h2>Find Your Next Dallas Small Business Event</h2>
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
-        <EventGate forcedCity="Dallas" eventCategory="small_business" initialEvents={initialEvents} />
+        <EventGate forcedCity="Dallas" groupType="small_business" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

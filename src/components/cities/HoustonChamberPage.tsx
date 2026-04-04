@@ -210,7 +210,7 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next Houston Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <EventGate forcedCity="Houston" eventCategory="chamber" initialEvents={initialEvents} />
+        <EventGate forcedCity="Houston" groupType="chamber" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

@@ -211,7 +211,7 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Find Your Next Austin Real Estate Event</h2>
           <p>Browse investor meetups, broker networking, property tours, and more</p>
         </div>
-        <EventGate forcedCity="Austin" eventCategory="real_estate" initialEvents={initialEvents} />
+        <EventGate forcedCity="Austin" groupType="real_estate" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">

@@ -9,7 +9,7 @@ function getServerSupabase() {
 
 export async function fetchApprovedEvents(options?: {
   city?: string;
-  eventCategory?: string;
+  groupType?: string;
   date?: string;
 }): Promise<Event[]> {
   const supabase = getServerSupabase();
@@ -31,8 +31,8 @@ export async function fetchApprovedEvents(options?: {
     query = query.eq('city_calendar', options.city);
   }
 
-  if (options?.eventCategory) {
-    query = query.eq('event_category', options.eventCategory);
+  if (options?.groupType) {
+    query = query.eq('group_type', options.groupType);
   }
 
   const { data, error } = await query;

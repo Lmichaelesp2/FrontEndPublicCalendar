@@ -10,7 +10,7 @@ import { AuthModal } from './auth/AuthModal';
 interface CalendarProps {
   initialEvents: Event[];
   forcedCity?: City;
-  eventCategory?: string;
+  groupType?: string;
   maxDate?: string;
   minDate?: string;
   showGateBanner?: boolean;
@@ -18,7 +18,7 @@ interface CalendarProps {
   cityName?: string;
 }
 
-export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick, cityName }: CalendarProps) {
+export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, onAuthClick, cityName }: CalendarProps) {
   const { user } = useAuth();
   const today = useMidnightReset();
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,7 +41,7 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
 
   const cityFiltered = initialEvents.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
-    if (eventCategory && e.event_category !== eventCategory) return false;
+    if (groupType && e.group_type !== groupType) return false;
     if (minDate && e.start_date < minDate) return false;
     if (maxDate && e.start_date > maxDate) return false;
     return true;

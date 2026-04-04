@@ -197,7 +197,7 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Today's Networking Events in Austin</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="Austin" eventCategory="networking" initialEvents={initialEvents} />
+        <EventGate forcedCity="Austin" groupType="networking" initialEvents={initialEvents} />
       </section>
 
       <section className="sa-orgs-section">
