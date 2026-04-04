@@ -22,6 +22,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
       localStorage.setItem('admin_auth', 'true');
+      localStorage.setItem('adminPassword', password);
       return true;
     }
     return false;
@@ -30,6 +31,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem('admin_auth');
+    localStorage.removeItem('adminPassword');
   };
 
   const getAdminPassword = () => {
