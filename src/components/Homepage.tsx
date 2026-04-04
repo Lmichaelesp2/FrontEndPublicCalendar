@@ -229,12 +229,12 @@ export function Homepage() {
             <div className="value-card">
               <div className="value-icon"><MapPin size={40} strokeWidth={2} /></div>
               <h3>Get the free weekly newsletter</h3>
-              <p>Sign up for your city and get that week's business events in your inbox every Monday. Free.</p>
+              <p>With your free sign-up, get the week's business events in your inbox every Monday.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
               <h3>Check the calendar anytime</h3>
-              <p>No signup needed. Browse your city's business events on the calendar whenever you want.</p>
+              <p>Go to your city's calendar and see the day's events — or sign up free and see the full week of events.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
