@@ -151,22 +151,6 @@ export function Homepage() {
         </div>
       </section>
 
-      <section className="hp-intro-section">
-        <div className="hp-intro-inner">
-          <p>
-            Local Business Calendars is a network of free local business event calendars organized by city. We aggregate networking events, chamber of commerce meetings, technology meetups, real estate gatherings, and small business events — so professionals never miss the events that grow their network and their business. Currently serving San Antonio, Austin, Dallas, and Houston, Texas.
-          </p>
-        </div>
-      </section>
-
-      <WhySection
-        heading="Why Use Local Business Calendars?"
-        subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
-        problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
-        whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Do the Searching So You Don't Have To</h2>
@@ -189,6 +173,22 @@ export function Homepage() {
           </div>
         </div>
       </section>
+
+      <section className="hp-intro-section">
+        <div className="hp-intro-inner">
+          <p>
+            Local Business Calendars is a network of free local business event calendars organized by city. We aggregate networking events, chamber of commerce meetings, technology meetups, real estate gatherings, and small business events — so professionals never miss the events that grow their network and their business. Currently serving San Antonio, Austin, Dallas, and Houston, Texas.
+          </p>
+        </div>
+      </section>
+
+      <WhySection
+        heading="Why Use Local Business Calendars?"
+        subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
+        problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
+        whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
 
 <section className="sp-section">
         <div className="sp-inner">
