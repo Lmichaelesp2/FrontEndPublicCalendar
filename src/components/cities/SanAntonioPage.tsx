@@ -200,22 +200,22 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
-          <h2>Never Miss an Event That Matters</h2>
+          <h2>Never Miss a Networking or Business Event That Matters</h2>
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>Browse today's events free</h3>
-              <p>The calendar shows today's business and networking events in San Antonio to everyone — no signup needed. Come back anytime.</p>
+              <h3>Start the week with a reminder</h3>
+              <p>Start each week with a curated email so upcoming networking and business events do not slip past you.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Sign up to unlock the full week</h3>
-              <p>Free signup gives you access to the entire week of upcoming events in San Antonio, not just today. See what's happening Monday through Sunday and plan ahead.</p>
+              <h3>Check events anytime</h3>
+              <p>Visit your city calendar anytime to see what's happening today and stay connected to local opportunities.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Get the Monday newsletter</h3>
-              <p>Every Monday morning, a curated digest of that week's best events arrives in your inbox. Free subscribers get the full weekly roundup.</p>
+              <h3>Plan your week ahead</h3>
+              <p>Look ahead at upcoming events so you can choose the right rooms, protect your time, and show up prepared.</p>
             </div>
           </div>
         </div>
