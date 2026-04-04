@@ -89,6 +89,7 @@ const COLUMN_MAP: Record<string, keyof EventInput | null> = {
   'id': 'org_id',
   'org_id': 'org_id',
   'group_type': 'org_type',
+  'organization_type': 'org_type',
   'org_type': 'org_type',
   participation: 'participation',
   'internal_type': 'internal_type',
