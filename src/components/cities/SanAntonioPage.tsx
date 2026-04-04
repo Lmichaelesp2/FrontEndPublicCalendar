@@ -198,6 +198,34 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         <EventGate forcedCity="San Antonio" initialEvents={initialEvents} />
       </section>
 
+      <section className="sa-orgs-section">
+        <div className="sa-orgs-inner">
+          <h2>San Antonio Organizations We Track</h2>
+          <p>We monitor events from San Antonio's top business networks so nothing slips through the cracks.</p>
+          <div className="sa-orgs-grid">
+            {[
+              'San Antonio Chamber of Commerce',
+              'North SA Chamber',
+              'Hispanic Chamber of Commerce',
+              'SCORE San Antonio',
+              'SA Young Professionals',
+              'Tech Bloc',
+              'Venture San Antonio',
+              'NAWBO San Antonio',
+              'SA Entrepreneurs',
+              'SA BizConnect',
+              'Small Business Development Center',
+              '... and many more',
+            ].map((org, i) => (
+              <div key={i} className="sa-org-tag">
+                <Users size={14} strokeWidth={2} />
+                {org}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <WhySection
         heading="Why San Antonio Professionals Use This Calendar"
         subtitle="San Antonio business events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
@@ -225,34 +253,6 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
               <h3>Plan your week ahead</h3>
               <p>Look ahead at upcoming events so you can choose the right rooms, protect your time, and show up prepared.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>San Antonio Organizations We Track</h2>
-          <p>We monitor events from San Antonio's top business networks so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {[
-              'San Antonio Chamber of Commerce',
-              'North SA Chamber',
-              'Hispanic Chamber of Commerce',
-              'SCORE San Antonio',
-              'SA Young Professionals',
-              'Tech Bloc',
-              'Venture San Antonio',
-              'NAWBO San Antonio',
-              'SA Entrepreneurs',
-              'SA BizConnect',
-              'Small Business Development Center',
-              '... and many more',
-            ].map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
           </div>
         </div>
       </section>
