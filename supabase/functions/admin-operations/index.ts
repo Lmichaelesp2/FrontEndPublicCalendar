@@ -136,35 +136,6 @@ Deno.serve(async (req: Request) => {
         notes: `${eventsToInsert.length} events across ${body.cities.length} ${body.cities.length === 1 ? 'city' : 'cities'}`,
       });
 
-      const nextJsRevalidateSecret = Deno.env.get("NEXT_JS_REVALIDATE_SECRET");
-      const deploymentUrl = Deno.env.get("NEXT_PUBLIC_DEPLOYMENT_URL");
-
-      if (nextJsRevalidateSecret && deploymentUrl) {
-        const cityPaths = new Set<string>();
-        for (const city of body.cities) {
-          const citySlug = city.toLowerCase().replace(/\s+/g, '-');
-          cityPaths.add(`/texas/${citySlug}`);
-          cityPaths.add(`/texas/${citySlug}/chamber`);
-          cityPaths.add(`/texas/${citySlug}/networking`);
-          cityPaths.add(`/texas/${citySlug}/technology`);
-          cityPaths.add(`/texas/${citySlug}/real-estate`);
-          cityPaths.add(`/texas/${citySlug}/small-business`);
-        }
-
-        const revalidatePromises = Array.from(cityPaths).map(path =>
-          fetch(`${deploymentUrl}/api/revalidate`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              secret: nextJsRevalidateSecret,
-              path
-            })
-          }).catch(err => console.error(`Failed to revalidate ${path}:`, err))
-        );
-
-        await Promise.allSettled(revalidatePromises);
-      }
-
       return new Response(
         JSON.stringify({
           success: true,
