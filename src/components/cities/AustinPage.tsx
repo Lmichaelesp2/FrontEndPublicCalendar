@@ -133,7 +133,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
             Stop missing the events that grow your network and your business.
           </p>
           <div className="hero-category-tags">
-            Networking &middot; Chamber &middot; Technology &middot; Real Estate &middot; Small Business &middot; Healthcare &middot; Finance &middot; and more
+            Technology · Startups · Networking · Real Estate · Small Business · Marketing · Chamber
           </div>
           <div className="hero-cta-group">
             <Link href="/texas/austin/subscribe" className="btn btn-white">

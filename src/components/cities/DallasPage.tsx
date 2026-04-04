@@ -132,7 +132,7 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
             Stop missing the events that grow your network and your business.
           </p>
           <div className="hero-category-tags">
-            Networking &middot; Chamber &middot; Technology &middot; Real Estate &middot; Small Business &middot; Healthcare &middot; Finance &middot; and more
+            Finance · Technology · Networking · Chamber · Real Estate · Healthcare · Small Business
           </div>
           <div className="hero-cta-group">
             <Link href="/texas/dallas/subscribe" className="btn btn-white">

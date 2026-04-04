@@ -124,7 +124,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
             Stop missing the events that grow your network and your business.
           </p>
           <div className="hero-category-tags">
-            Networking &middot; Chamber &middot; Technology &middot; Real Estate &middot; Small Business &middot; Healthcare &middot; Finance &middot; and more
+            Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance
           </div>
           <div className="hero-cta-group">
             <Link href="/texas/san-antonio/subscribe" className="btn btn-white">
