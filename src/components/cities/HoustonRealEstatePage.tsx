@@ -205,14 +205,6 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Houston Real Estate Event</h2>
-          <p>Browse investor meetups, HAR events, broker tours, and more</p>
-        </div>
-        <EventGate forcedCity="Houston" eventCategory="real_estate" initialEvents={initialEvents} />
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>Houston Real Estate Organizations We Track</h2>

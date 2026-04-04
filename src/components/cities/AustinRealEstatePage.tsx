@@ -206,14 +206,6 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Real Estate Event</h2>
-          <p>Browse investor meetups, broker networking, property tours, and more</p>
-        </div>
-        <EventGate forcedCity="Austin" eventCategory="real_estate" initialEvents={initialEvents} />
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>Austin Real Estate Organizations We Track</h2>

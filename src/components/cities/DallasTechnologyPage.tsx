@@ -194,14 +194,6 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Dallas Tech Event</h2>
-          <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
-        </div>
-        <EventGate forcedCity="Dallas" eventCategory="technology" initialEvents={initialEvents} />
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>Dallas Tech Organizations We Track</h2>

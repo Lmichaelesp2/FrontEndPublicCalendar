@@ -203,14 +203,6 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next San Antonio Tech Event</h2>
-          <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
-        </div>
-        <EventGate forcedCity="San Antonio" eventCategory="technology" initialEvents={initialEvents} />
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>San Antonio Tech Organizations We Track</h2>

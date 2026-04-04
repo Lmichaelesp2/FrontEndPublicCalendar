@@ -195,14 +195,6 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Small Business Event</h2>
-          <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
-        </div>
-        <EventGate forcedCity="Austin" eventCategory="small_business" initialEvents={initialEvents} />
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>Austin Small Business Organizations We Track</h2>

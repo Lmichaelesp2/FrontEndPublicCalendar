@@ -204,14 +204,6 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next San Antonio Small Business Event</h2>
-          <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
-        </div>
-        <EventGate forcedCity="San Antonio" eventCategory="small_business" initialEvents={initialEvents} />
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>San Antonio Small Business Organizations We Track</h2>

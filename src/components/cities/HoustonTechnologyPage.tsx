@@ -205,14 +205,6 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Houston Tech Event</h2>
-          <p>Browse developer meetups, energy tech events, health tech gatherings, and more</p>
-        </div>
-        <EventGate forcedCity="Houston" eventCategory="technology" initialEvents={initialEvents} />
-      </section>
-
       <section className="sa-orgs-section">
         <div className="sa-orgs-inner">
           <h2>Houston Tech Organizations We Track</h2>
