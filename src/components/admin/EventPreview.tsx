@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Trash2, CreditCard as Edit2, Check, X } from 'lucide-react';
 import { EventInput, validateEvent } from '../../lib/csvParser';
-import { supabase, CITIES } from '../../lib/supabase';
+import { supabaseAdmin, CITIES } from '../../lib/supabase';
 
 type EventPreviewProps = {
   events: EventInput[];
@@ -44,7 +44,7 @@ export function EventPreview({ events, onEventsChange, onPublish }: EventPreview
         status: 'approved'
       }));
 
-      const { error } = await supabase.from('events').insert(eventsToInsert);
+      const { error } = await supabaseAdmin.from('events').insert(eventsToInsert);
 
       if (error) {
         console.error('Supabase insert error:', error);
@@ -57,7 +57,7 @@ export function EventPreview({ events, onEventsChange, onPublish }: EventPreview
           .filter(Boolean) as string[]
       );
 
-      await supabase.from('upload_history').insert({
+      await supabaseAdmin.from('upload_history').insert({
         event_count: validEvents.length,
         cities: Array.from(citySet),
         source: 'csv',

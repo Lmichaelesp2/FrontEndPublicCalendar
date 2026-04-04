@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { Check, X, RefreshCw, MapPin, Globe, Clock, Calendar } from 'lucide-react';
-import { supabase, Event } from '../../lib/supabase';
+import { supabase, supabaseAdmin, Event } from '../../lib/supabase';
 
 export function PendingEvents() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -33,7 +33,7 @@ export function PendingEvents() {
   async function handleApprove(id: string) {
     setActionLoading(id);
     try {
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from('events')
         .update({ status: 'approved' })
         .eq('id', id);
@@ -50,7 +50,7 @@ export function PendingEvents() {
   async function handleReject(id: string) {
     setActionLoading(id);
     try {
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from('events')
         .update({ status: 'rejected' })
         .eq('id', id);
