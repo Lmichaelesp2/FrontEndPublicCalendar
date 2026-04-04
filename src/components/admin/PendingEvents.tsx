@@ -90,8 +90,8 @@ export function PendingEvents() {
               <div className="pending-card-top">
                 <div className="pending-card-info">
                   <h4>{event.name}</h4>
-                  {event.group_name && (
-                    <span className="pending-org">by {event.group_name}</span>
+                  {event.org_name && (
+                    <span className="pending-org">by {event.org_name}</span>
                   )}
                 </div>
                 <div className="pending-card-actions">

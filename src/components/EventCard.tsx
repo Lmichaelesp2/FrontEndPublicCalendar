@@ -63,9 +63,9 @@ export function EventCard({ event, index }: EventCardProps) {
           <p className="ev-card-new-desc ev-card-no-desc">See event site for description</p>
         )}
 
-        {event.group_name && (
+        {event.org_name && (
           <div className="ev-card-new-footer">
-            <span className="ev-card-new-org">{event.group_name}</span>
+            <span className="ev-card-new-org">{event.org_name}</span>
           </div>
         )}
       </div>

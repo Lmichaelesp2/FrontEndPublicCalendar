@@ -194,7 +194,7 @@ export function CSVUpload({ onEventsLoaded }: CSVUploadProps) {
             <strong>Required columns:</strong> name, start_date
             <br />
             <strong>Optional columns:</strong> start_time, end_date, end_time, website, description,
-            paid, address, zipcode, group_name, participation, part_of_town, city_calendar, status
+            paid, address, zipcode, org_name, org_id, org_type, event_type, event_city, state, source, notes, internal_type, participation, part_of_town, city_calendar, status
           </div>
         </div>
       </div>

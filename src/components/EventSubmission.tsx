@@ -14,7 +14,7 @@ export function EventSubmission() {
     paid: 'Unknown',
     address: '',
     zipcode: '',
-    group_name: '',
+    org_name: '',
     participation: 'In-Person',
     part_of_town: '',
     city_calendar: 'San Antonio'
@@ -57,7 +57,7 @@ export function EventSubmission() {
         paid: 'Unknown',
         address: '',
         zipcode: '',
-        group_name: '',
+        org_name: '',
         participation: 'In-Person',
         part_of_town: '',
         city_calendar: 'San Antonio'
@@ -238,12 +238,12 @@ export function EventSubmission() {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="group_name">Organization Name</label>
+              <label htmlFor="org_name">Organization Name</label>
               <input
                 type="text"
-                id="group_name"
-                name="group_name"
-                value={formData.group_name}
+                id="org_name"
+                name="org_name"
+                value={formData.org_name}
                 onChange={handleChange}
                 placeholder="Your organization or group"
               />

@@ -32,7 +32,7 @@ export async function fetchApprovedEvents(options?: {
   }
 
   if (options?.groupType) {
-    query = query.eq('group_type', options.groupType);
+    query = query.eq('org_type', options.groupType);
   }
 
   const { data, error } = await query;

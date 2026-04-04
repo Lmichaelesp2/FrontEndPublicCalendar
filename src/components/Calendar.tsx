@@ -41,7 +41,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
 
   const cityFiltered = initialEvents.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
-    if (groupType && e.group_type !== groupType) return false;
+    if (groupType && e.org_type !== groupType) return false;
     if (minDate && e.start_date < minDate) return false;
     if (maxDate && e.start_date > maxDate) return false;
     return true;
@@ -69,7 +69,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     const q = searchQuery.toLowerCase();
     displayEvents = cityFiltered
       .filter((e) => {
-        const text = `${e.name} ${e.description ?? ''} ${e.group_name ?? ''} ${e.address ?? ''} ${e.participation ?? ''} ${e.paid ?? ''}`.toLowerCase();
+        const text = `${e.name} ${e.description ?? ''} ${e.org_name ?? ''} ${e.address ?? ''} ${e.participation ?? ''} ${e.paid ?? ''}`.toLowerCase();
         return text.includes(q) && e.start_date >= today;
       })
       .sort((a, b) => a.start_date.localeCompare(b.start_date));

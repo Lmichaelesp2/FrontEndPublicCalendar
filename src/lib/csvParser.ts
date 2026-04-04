@@ -63,6 +63,43 @@ function splitCSVIntoRows(text: string): string[][] {
   return rows;
 }
 
+const SKIP_COLUMNS = new Set(['subcategory', 'created_at', 'updated_at']);
+
+const COLUMN_MAP: Record<string, keyof EventInput | null> = {
+  name: 'name',
+  'start_date': 'start_date',
+  'start_time': 'start_time',
+  'end_date': 'end_date',
+  'end_time': 'end_time',
+  website: 'website',
+  description: 'description',
+  'city_calendar': 'city_calendar',
+  'event_type': 'event_type',
+  paid: 'paid',
+  address: 'address',
+  'event_city': 'event_city',
+  state: 'state',
+  zipcode: 'zipcode',
+  'zip_code': 'zipcode',
+  'group_name': 'org_name',
+  'org_name': 'org_name',
+  source: 'source',
+  notes: 'notes',
+  'group_id': 'org_id',
+  'id': 'org_id',
+  'org_id': 'org_id',
+  'group_type': 'org_type',
+  'org_type': 'org_type',
+  participation: 'participation',
+  'internal_type': 'internal_type',
+  'part_of_town': 'part_of_town',
+  status: 'status',
+};
+
+function normalizeHeader(header: string): string {
+  return header.replace(/^"|"$/g, '').trim().toLowerCase().replace(/\s+/g, '_');
+}
+
 function mapRowToEvent(headers: string[], values: string[]): EventInput | null {
   const event: EventInput = {
     name: '',
@@ -75,90 +112,38 @@ function mapRowToEvent(headers: string[], values: string[]): EventInput | null {
     paid: 'Unknown',
     address: null,
     zipcode: null,
-    group_name: null,
+    org_name: null,
     participation: 'In-Person',
     part_of_town: null,
     time_of_day: null,
-    group_type: null,
+    org_type: null,
+    org_id: null,
+    event_type: null,
+    event_city: null,
+    state: null,
+    source: null,
+    notes: null,
+    internal_type: null,
     city_calendar: null,
     status: 'approved'
   };
 
   headers.forEach((header, index) => {
+    const normalized = normalizeHeader(header);
+
+    if (SKIP_COLUMNS.has(normalized)) return;
+
+    const field = COLUMN_MAP[normalized];
+    if (!field) return;
+
     const raw = values[index] || '';
     const value = raw.replace(/^"|"$/g, '').trim() || null;
     if (!value) return;
 
-    switch (header) {
-      case 'name':
-      case 'event_name':
-      case 'title':
-        event.name = value;
-        break;
-      case 'start_date':
-      case 'startdate':
-      case 'date':
-        event.start_date = convertDateToISO(value);
-        break;
-      case 'start_time':
-      case 'starttime':
-      case 'time':
-        event.start_time = value;
-        break;
-      case 'end_date':
-      case 'enddate':
-        event.end_date = convertDateToISO(value);
-        break;
-      case 'end_time':
-      case 'endtime':
-        event.end_time = value;
-        break;
-      case 'website':
-      case 'url':
-      case 'link':
-        event.website = value;
-        break;
-      case 'description':
-      case 'desc':
-        event.description = value;
-        break;
-      case 'paid':
-      case 'cost':
-      case 'price':
-        event.paid = value;
-        break;
-      case 'address':
-      case 'location':
-        event.address = value;
-        break;
-      case 'zipcode':
-      case 'zip':
-        event.zipcode = value;
-        break;
-      case 'group_name':
-      case 'groupname':
-      case 'organization':
-      case 'org':
-        event.group_name = value;
-        break;
-      case 'participation':
-      case 'format':
-      case 'type':
-        event.participation = value;
-        break;
-      case 'part_of_town':
-      case 'partoftown':
-      case 'area':
-        event.part_of_town = value;
-        break;
-      case 'city_calendar':
-      case 'citycalendar':
-      case 'city':
-        event.city_calendar = value;
-        break;
-      case 'status':
-        event.status = value;
-        break;
+    if (field === 'start_date' || field === 'end_date') {
+      (event as Record<string, unknown>)[field] = convertDateToISO(value);
+    } else {
+      (event as Record<string, unknown>)[field] = value;
     }
   });
 
@@ -175,7 +160,7 @@ export function parseCSV(csvText: string): EventInput[] {
     throw new Error('CSV must have at least a header row and one data row');
   }
 
-  const headers = rows[0].map(h => h.replace(/^"|"$/g, '').trim().toLowerCase().replace(/\s+/g, '_'));
+  const headers = rows[0];
   const events: EventInput[] = [];
 
   for (let i = 1; i < rows.length; i++) {
