@@ -41,10 +41,6 @@ const TEXAS_FAQ_ITEMS = [
     question: 'What do I get with a free subscription?',
     answer: 'Access to your city\'s full events calendar plus a weekly email every Monday with the best upcoming networking and business events in your area.',
   },
-  {
-    question: 'What is the Personal Event Assistant?',
-    answer: 'It\'s an upcoming AI-powered tool that learns your industry, professional goals, and schedule to recommend the best events for you personally — so you spend less time searching and more time networking. Join the waitlist above to be first in line when it launches.',
-  },
 ];
 
 function TexasFaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
