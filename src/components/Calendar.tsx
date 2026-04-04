@@ -70,7 +70,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     displayEvents = cityFiltered
       .filter((e) => {
         const text = `${e.name} ${e.description ?? ''} ${e.org_name ?? ''} ${e.address ?? ''} ${e.participation ?? ''} ${e.paid ?? ''}`.toLowerCase();
-        return text.includes(q) && e.start_date >= today;
+        return text.includes(q);
       })
       .sort((a, b) => a.start_date.localeCompare(b.start_date));
   } else if (rangeStart) {
@@ -79,7 +79,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       cityFiltered.filter((e) => e.start_date >= rangeStart && e.start_date <= end)
     ).sort((a, b) => a.start_date.localeCompare(b.start_date) || 0);
   } else {
-    displayEvents = sortEventsByTime(cityFiltered.filter((e) => e.start_date >= today));
+    displayEvents = sortEventsByTime(cityFiltered);
   }
 
   const eventCount = displayEvents.length;

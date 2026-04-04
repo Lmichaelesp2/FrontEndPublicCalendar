@@ -2,6 +2,8 @@ import { CityProvider } from '../../../../src/contexts/CityContext';
 import { SanAntonioTechnologyPage } from '../../../../src/components/cities/SanAntonioTechnologyPage';
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 
+export const revalidate = 60;
+
 export default async function Page() {
   const events = await fetchApprovedEvents({ city: 'San Antonio', groupType: 'technology' });
   return (
