@@ -85,7 +85,7 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
           </Link>
         </nav>
       )}
-      {getCitySpecificText() && (
+      {variant !== 'homepage' && getCitySpecificText() && (
         <p style={{ marginBottom: '0.8rem', fontSize: '0.95rem', color: '#f0f0f0', fontWeight: '500' }}>
           {getCitySpecificText()}
         </p>
