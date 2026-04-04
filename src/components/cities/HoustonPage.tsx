@@ -174,25 +174,25 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
       <section className="features-section">
         <div className="features-inner">
           <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate sources across Houston so you don't have to — then deliver the best event opportunities straight to your inbox every Monday.</p>
+          <p className="features-subtitle">See today's events now, unlock the full weekly calendar when you sign up, and get the Monday email with the week's top networking and business events in Houston.</p>
 
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
               <h3>Sign up free in 10 seconds</h3>
-              <p>Enter your email — no account, no credit card, no setup. You're in.</p>
+              <p>Enter your email and get instant access. No credit card, no setup, and no complicated account process.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
               <h3>Unlock the full week of events</h3>
-              <p>The calendar shows today's events to everyone. Sign up free and instantly see everything happening this week in Houston — all event types, all days.</p>
+              <p>See more than just today's events. Unlock the full weekly calendar for Houston in one quick step.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">3</div>
               <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning, a curated digest of that week's best business and networking events in Houston lands in your inbox. We do the research — you show up.</p>
+              <p>Every Monday, get a curated email with the week's top networking and business events in Houston.</p>
             </div>
           </div>
         </div>
