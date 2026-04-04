@@ -31,10 +31,10 @@ const CITY_HEADINGS: Record<City, string> = {
 };
 
 const CITY_LINK_TEXT: Record<City, string> = {
-  'San Antonio': 'View This Week\'s San Antonio Events',
-  'Austin': 'View This Week\'s Austin Events',
-  'Dallas': 'View This Week\'s Dallas Events',
-  'Houston': 'View This Week\'s Houston Events',
+  'San Antonio': 'San Antonio Business Calendars',
+  'Austin': 'Austin Business Calendars',
+  'Dallas': 'Dallas Business Calendars',
+  'Houston': 'Houston Business Calendars',
 };
 
 const HOME_LIMIT = 10;
