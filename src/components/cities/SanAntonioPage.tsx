@@ -292,15 +292,13 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         <div className="sa-subscribe-inner">
           <div className="sa-subscribe-badge">
             <Clock size={14} />
-            Free · Takes 30 seconds
+            Free • Takes 30 Seconds
           </div>
-          <h2>Don't Want to Check Back Every Week?</h2>
-          <p>Get the full week's San Antonio events delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
+          <h2>Get the Full Week of San Antonio Events</h2>
+          <p>Sign up free to unlock the full weekly calendar and get the Monday email with top networking and business events in San Antonio.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/submit" className="btn sa-btn-outline">Submit an Event</Link>
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week + Newsletter</Link>
+            <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week</Link>
           </div>
-          <p className="sa-subscribe-note">Work across multiple Texas cities? <Link href="/texas/austin">Austin</Link>, <Link href="/texas/dallas">Dallas</Link>, and <Link href="/texas/houston">Houston</Link> are free too.</p>
         </div>
       </section>
 
