@@ -1,3 +1,25 @@
+import { useState, useEffect } from 'react';
+
+export function useMidnightReset(): string {
+  const [today, setToday] = useState(() => dateKey(new Date()));
+
+  useEffect(() => {
+    function scheduleReset() {
+      const now = new Date();
+      const msUntilMidnight =
+        new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).getTime() - now.getTime();
+      return setTimeout(() => {
+        setToday(dateKey(new Date()));
+        scheduleReset();
+      }, msUntilMidnight);
+    }
+    const timer = scheduleReset();
+    return () => clearTimeout(timer);
+  }, []);
+
+  return today;
+}
+
 export function parseDate(dateString: string): Date {
   const [year, month, day] = dateString.split('-').map(Number);
   return new Date(year, month - 1, day);

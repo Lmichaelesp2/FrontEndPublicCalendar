@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
 import type { Event, City } from '../lib/supabase';
-import { dateKey, formatDate, parseDate, sortEventsByTime } from '../lib/utils';
+import { dateKey, formatDate, parseDate, sortEventsByTime, useMidnightReset } from '../lib/utils';
 import { EventCard } from './EventCard';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
@@ -36,6 +36,7 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
 
 export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, minDate, showGateBanner, onAuthClick, cityName }: CalendarProps) {
   const { user } = useAuth();
+  const today = useMidnightReset();
   const [searchQuery, setSearchQuery] = useState('');
   const [calMonth, setCalMonth] = useState(() => {
     const now = new Date();
@@ -46,7 +47,11 @@ export function Calendar({ initialEvents, forcedCity, eventCategory, maxDate, mi
   const [hoverDate, setHoverDate] = useState<string | null>(null);
   const [inlineAuthOpen, setInlineAuthOpen] = useState(false);
 
-  const today = dateKey(new Date());
+  useEffect(() => {
+    setRangeStart(today);
+    setRangeEnd(null);
+    setCalMonth({ year: new Date().getFullYear(), month: new Date().getMonth() });
+  }, [today]);
 
   function triggerAuth() {
     if (onAuthClick) {

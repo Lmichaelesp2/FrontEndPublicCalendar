@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Calendar } from './Calendar';
 import { AuthModal } from './auth/AuthModal';
-import { getTodayKey, getWeekRangeFromToday } from '../lib/utils';
+import { getWeekRangeFromToday, useMidnightReset } from '../lib/utils';
 import type { City, Event } from '../lib/supabase';
 
 interface EventGateProps {
@@ -18,7 +18,7 @@ export function EventGate({ initialEvents, forcedCity, eventCategory, cityName }
   const [authOpen, setAuthOpen] = useState(false);
 
   const resolvedCityName = cityName ?? forcedCity;
-  const today = getTodayKey();
+  const today = useMidnightReset();
   const weekRange = getWeekRangeFromToday();
 
   if (loading) {
