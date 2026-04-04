@@ -76,6 +76,7 @@ export function Navigation() {
             <Link href="/about">About</Link>
             <Link href="/contact">Contact</Link>
             <Link href="/submit">Submit Event</Link>
+            <Link href="/admin">Admin</Link>
             {user ? (
               <button
                 className="nav-logout-btn"
