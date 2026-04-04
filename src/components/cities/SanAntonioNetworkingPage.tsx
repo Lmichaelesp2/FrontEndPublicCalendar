@@ -295,18 +295,6 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <section className="sa-category-nav">
-        <div className="sa-category-nav-inner">
-          <span className="sa-category-nav-label">Also in San Antonio:</span>
-          <div className="sa-category-nav-links">
-            <Link href="/texas/san-antonio/technology" className="sa-category-link">Technology Events</Link>
-            <Link href="/texas/san-antonio/real-estate" className="sa-category-link">Real Estate Events</Link>
-            <Link href="/texas/san-antonio/chamber" className="sa-category-link">Chamber Events</Link>
-            <Link href="/texas/san-antonio/small-business" className="sa-category-link">Small Business Events</Link>
-          </div>
-        </div>
-      </section>
-
       <div className="sa-back-link">
         <Link href="/texas/san-antonio">See all San Antonio business events &rarr;</Link>
       </div>
@@ -328,7 +316,17 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <Footer />
+      <Footer
+        categoryNav={{
+          cityLabel: "Also in San Antonio:",
+          links: [
+            { label: "Technology Events", href: "/texas/san-antonio/technology" },
+            { label: "Real Estate Events", href: "/texas/san-antonio/real-estate" },
+            { label: "Chamber Events", href: "/texas/san-antonio/chamber" },
+            { label: "Small Business Events", href: "/texas/san-antonio/small-business" }
+          ]
+        }}
+      />
     </div>
   );
 }

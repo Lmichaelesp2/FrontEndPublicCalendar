@@ -308,18 +308,6 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <section className="sa-category-nav">
-        <div className="sa-category-nav-inner">
-          <span className="sa-category-nav-label">Also in Houston:</span>
-          <div className="sa-category-nav-links">
-            <Link href="/texas/houston/technology" className="sa-category-link">Technology Events</Link>
-            <Link href="/texas/houston/real-estate" className="sa-category-link">Real Estate Events</Link>
-            <Link href="/texas/houston/networking" className="sa-category-link">Networking Events</Link>
-            <Link href="/texas/houston/small-business" className="sa-category-link">Small Business Events</Link>
-          </div>
-        </div>
-      </section>
-
       <div className="sa-back-link">
         <Link href="/texas/houston">See all Houston business events &rarr;</Link>
       </div>
@@ -341,7 +329,17 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <Footer />
+      <Footer
+        categoryNav={{
+          cityLabel: "Also in Houston:",
+          links: [
+            { label: "Technology Events", href: "/texas/houston/technology" },
+            { label: "Real Estate Events", href: "/texas/houston/real-estate" },
+            { label: "Small Business Events", href: "/texas/houston/small-business" },
+            { label: "Networking Events", href: "/texas/houston/networking" }
+          ]
+        }}
+      />
     </div>
   );
 }

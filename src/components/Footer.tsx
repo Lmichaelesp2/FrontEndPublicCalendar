@@ -4,15 +4,24 @@ import Link from 'next/link';
 import { Monitor, Home, Landmark, Briefcase, Users } from 'lucide-react';
 import { CITY_CONFIGS } from '../lib/cities';
 
+interface CategoryLink {
+  label: string;
+  href: string;
+}
+
 type FooterProps = {
   showIndustryCalendars?: boolean;
   variant?: 'default' | 'homepage';
   citySlug?: string;
   cityName?: string;
   isTexasPage?: boolean;
+  categoryNav?: {
+    cityLabel: string;
+    links: CategoryLink[];
+  };
 };
 
-export function Footer({ showIndustryCalendars = false, variant = 'default', citySlug = 'san-antonio', cityName = 'San Antonio', isTexasPage = false }: FooterProps) {
+export function Footer({ showIndustryCalendars = false, variant = 'default', citySlug = 'san-antonio', cityName = 'San Antonio', isTexasPage = false, categoryNav }: FooterProps) {
   const getCitySpecificText = () => {
     if (isTexasPage) {
       return 'Texas Business Calendars is part of the Local Business Calendars network.';
@@ -30,7 +39,16 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
   };
   return (
     <footer className="footer">
-      {variant === 'homepage' ? (
+      {categoryNav ? (
+        <nav className="footer-category-nav" aria-label="Category pages">
+          <span className="footer-category-label">{categoryNav.cityLabel}</span>
+          <div className="footer-category-links">
+            {categoryNav.links.map((link) => (
+              <Link key={link.href} href={link.href} className="footer-category-link">{link.label}</Link>
+            ))}
+          </div>
+        </nav>
+      ) : variant === 'homepage' ? (
         <nav className="footer-cities" aria-label="City pages">
           <Link href="/texas">Texas</Link>
           {CITY_CONFIGS.map((c) => (

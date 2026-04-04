@@ -307,18 +307,6 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <section className="sa-category-nav">
-        <div className="sa-category-nav-inner">
-          <span className="sa-category-nav-label">Also in San Antonio:</span>
-          <div className="sa-category-nav-links">
-            <Link href="/texas/san-antonio/chamber" className="sa-category-link">Chamber Events</Link>
-            <Link href="/texas/san-antonio/small-business" className="sa-category-link">Small Business Events</Link>
-            <Link href="/texas/san-antonio/networking" className="sa-category-link">Networking Events</Link>
-            <Link href="/texas/san-antonio/technology" className="sa-category-link">Technology Events</Link>
-          </div>
-        </div>
-      </section>
-
       <div className="sa-back-link">
         <Link href="/texas/san-antonio">See all San Antonio business events &rarr;</Link>
       </div>
@@ -340,7 +328,17 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <Footer />
+      <Footer
+        categoryNav={{
+          cityLabel: "Also in San Antonio:",
+          links: [
+            { label: "Technology Events", href: "/texas/san-antonio/technology" },
+            { label: "Chamber Events", href: "/texas/san-antonio/chamber" },
+            { label: "Small Business Events", href: "/texas/san-antonio/small-business" },
+            { label: "Networking Events", href: "/texas/san-antonio/networking" }
+          ]
+        }}
+      />
     </div>
   );
 }

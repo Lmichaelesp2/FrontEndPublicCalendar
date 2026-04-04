@@ -298,18 +298,6 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <section className="sa-category-nav">
-        <div className="sa-category-nav-inner">
-          <span className="sa-category-nav-label">Also in Austin:</span>
-          <div className="sa-category-nav-links">
-            <Link href="/texas/austin/technology" className="sa-category-link">Technology Events</Link>
-            <Link href="/texas/austin/real-estate" className="sa-category-link">Real Estate Events</Link>
-            <Link href="/texas/austin/networking" className="sa-category-link">Networking Events</Link>
-            <Link href="/texas/austin/chamber" className="sa-category-link">Chamber Events</Link>
-          </div>
-        </div>
-      </section>
-
       <div className="sa-back-link">
         <Link href="/texas/austin">See all Austin business events &rarr;</Link>
       </div>
@@ -331,7 +319,17 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <Footer />
+      <Footer
+        categoryNav={{
+          cityLabel: "Also in Austin:",
+          links: [
+            { label: "Technology Events", href: "/texas/austin/technology" },
+            { label: "Real Estate Events", href: "/texas/austin/real-estate" },
+            { label: "Chamber Events", href: "/texas/austin/chamber" },
+            { label: "Networking Events", href: "/texas/austin/networking" }
+          ]
+        }}
+      />
     </div>
   );
 }

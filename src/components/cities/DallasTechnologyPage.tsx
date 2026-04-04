@@ -297,18 +297,6 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="sa-category-nav">
-        <div className="sa-category-nav-inner">
-          <span className="sa-category-nav-label">Also in Dallas:</span>
-          <div className="sa-category-nav-links">
-            <Link href="/texas/dallas/real-estate" className="sa-category-link">Real Estate Events</Link>
-            <Link href="/texas/dallas/networking" className="sa-category-link">Networking Events</Link>
-            <Link href="/texas/dallas/chamber" className="sa-category-link">Chamber Events</Link>
-            <Link href="/texas/dallas/small-business" className="sa-category-link">Small Business Events</Link>
-          </div>
-        </div>
-      </section>
-
       <div className="sa-back-link">
         <Link href="/texas/dallas">See all Dallas business events &rarr;</Link>
       </div>
@@ -330,7 +318,17 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <Footer showIndustryCalendars={true} citySlug="dallas" cityName="Dallas" />
+      <Footer
+        categoryNav={{
+          cityLabel: "Also in Dallas:",
+          links: [
+            { label: "Real Estate Events", href: "/texas/dallas/real-estate" },
+            { label: "Chamber Events", href: "/texas/dallas/chamber" },
+            { label: "Small Business Events", href: "/texas/dallas/small-business" },
+            { label: "Networking Events", href: "/texas/dallas/networking" }
+          ]
+        }}
+      />
     </div>
   );
 }
