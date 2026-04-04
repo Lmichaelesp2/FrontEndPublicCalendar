@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Trash2, CreditCard as Edit2, Check, X } from 'lucide-react';
 import { EventInput, validateEvent } from '../../lib/csvParser';
-import { supabaseAdmin, CITIES } from '../../lib/supabase';
+import { CITIES } from '../../lib/supabase';
 
 type EventPreviewProps = {
   events: EventInput[];
@@ -39,34 +39,47 @@ export function EventPreview({ events, onEventsChange, onPublish }: EventPreview
         return;
       }
 
-      const eventsToInsert = validEvents.map(event => ({
-        ...event,
-        status: 'approved'
-      }));
-
-      const { error } = await supabaseAdmin.from('events').insert(eventsToInsert);
-
-      if (error) {
-        console.error('Supabase insert error:', error);
-        throw error;
-      }
-
       const citySet = new Set(
         validEvents
           .map((e) => e.city_calendar)
           .filter(Boolean) as string[]
       );
 
-      await supabaseAdmin.from('upload_history').insert({
-        event_count: validEvents.length,
-        cities: Array.from(citySet),
-        source: 'csv',
-        notes: `${validEvents.length} events across ${citySet.size} ${citySet.size === 1 ? 'city' : 'cities'}`,
+      const adminPassword = localStorage.getItem('adminPassword');
+      if (!adminPassword) {
+        throw new Error('Admin authentication required');
+      }
+
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      const apiUrl = `${supabaseUrl}/functions/v1/admin-operations`;
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+        },
+        body: JSON.stringify({
+          action: 'upload_events',
+          adminPassword,
+          events: validEvents,
+          cities: Array.from(citySet),
+          source: 'csv'
+        })
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
+      }
+
+      const result = await response.json();
 
       setPublishMessage({
         type: 'success',
-        text: `Successfully published ${validEvents.length} events!`
+        text: result.message || `Successfully published ${validEvents.length} events!`
       });
 
       setTimeout(() => {

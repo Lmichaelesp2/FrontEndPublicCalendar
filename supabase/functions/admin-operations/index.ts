@@ -18,7 +18,25 @@ interface DeleteEventRequest {
   eventId: string;
 }
 
-type AdminRequest = DeleteAllEventsRequest | DeleteEventRequest;
+interface UploadEventsRequest {
+  action: "upload_events";
+  adminPassword: string;
+  events: Array<{
+    name: string;
+    start_date: string;
+    start_time?: string | null;
+    address?: string | null;
+    website?: string | null;
+    participation?: string | null;
+    paid?: string | null;
+    city_calendar?: string | null;
+    group_type?: string | null;
+  }>;
+  cities: string[];
+  source: string;
+}
+
+type AdminRequest = DeleteAllEventsRequest | DeleteEventRequest | UploadEventsRequest;
 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
@@ -91,6 +109,39 @@ Deno.serve(async (req: Request) => {
 
       return new Response(
         JSON.stringify({ success: true }),
+        {
+          status: 200,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    } else if (body.action === "upload_events") {
+      const eventsToInsert = body.events.map(event => ({
+        ...event,
+        status: "approved"
+      }));
+
+      const { error, data } = await supabase
+        .from("events")
+        .insert(eventsToInsert)
+        .select();
+
+      if (error) {
+        throw error;
+      }
+
+      await supabase.from("upload_history").insert({
+        event_count: eventsToInsert.length,
+        cities: body.cities,
+        source: body.source,
+        notes: `${eventsToInsert.length} events across ${body.cities.length} ${body.cities.length === 1 ? 'city' : 'cities'}`,
+      });
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          count: data?.length || 0,
+          message: `Successfully published ${data?.length || 0} events`
+        }),
         {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
