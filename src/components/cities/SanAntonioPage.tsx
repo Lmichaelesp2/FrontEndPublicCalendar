@@ -193,8 +193,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
       <WhySection
         heading="Why San Antonio Professionals Use This Calendar"
         subtitle="San Antonio business events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
-        problemText="Business events in San Antonio are scattered across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and association websites. Most professionals miss events simply because they didn't know they were happening."
-        whatWeDoText="We track business event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week."
+        problemText="Business events in San Antonio are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."
+        whatWeDoText="We track local business event hosts and organize their public events into one simple San Antonio calendar and weekly newsletter."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
 
