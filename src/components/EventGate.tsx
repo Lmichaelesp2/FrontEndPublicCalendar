@@ -28,7 +28,11 @@ export function EventGate({ initialEvents, forcedCity, eventCategory, cityName, 
     return (
       <>
         {showMonthCalendar && (
-          <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+          <section className="cal-section" style={{ paddingBottom: 0 }}>
+            <div className="cal-inner">
+              <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+            </div>
+          </section>
         )}
         <Calendar
           initialEvents={initialEvents}
@@ -48,7 +52,11 @@ export function EventGate({ initialEvents, forcedCity, eventCategory, cityName, 
     return (
       <>
         {showMonthCalendar && (
-          <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+          <section className="cal-section" style={{ paddingBottom: 0 }}>
+            <div className="cal-inner">
+              <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+            </div>
+          </section>
         )}
         <Calendar
           initialEvents={initialEvents}
@@ -65,7 +73,11 @@ export function EventGate({ initialEvents, forcedCity, eventCategory, cityName, 
   return (
     <>
       {showMonthCalendar && (
-        <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+        <section className="cal-section" style={{ paddingBottom: 0 }}>
+          <div className="cal-inner">
+            <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+          </div>
+        </section>
       )}
       <Calendar
         initialEvents={initialEvents}
