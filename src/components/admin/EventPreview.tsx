@@ -39,7 +39,12 @@ export function EventPreview({ events, onEventsChange, onPublish }: EventPreview
         return;
       }
 
-      const { error } = await supabase.from('events').insert(validEvents);
+      const eventsToInsert = validEvents.map(event => ({
+        ...event,
+        status: 'approved'
+      }));
+
+      const { error } = await supabase.from('events').insert(eventsToInsert);
 
       if (error) {
         console.error('Supabase insert error:', error);

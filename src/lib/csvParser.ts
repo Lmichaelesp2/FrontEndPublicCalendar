@@ -63,7 +63,7 @@ function splitCSVIntoRows(text: string): string[][] {
   return rows;
 }
 
-const SKIP_COLUMNS = new Set(['subcategory', 'created_at', 'updated_at']);
+const SKIP_COLUMNS = new Set(['subcategory', 'created_at', 'updated_at', 'status']);
 
 const COLUMN_MAP: Record<string, keyof EventInput | null> = {
   name: 'name',
@@ -93,7 +93,6 @@ const COLUMN_MAP: Record<string, keyof EventInput | null> = {
   participation: 'participation',
   'internal_type': 'internal_type',
   'part_of_town': 'part_of_town',
-  status: 'status',
 };
 
 function normalizeHeader(header: string): string {
