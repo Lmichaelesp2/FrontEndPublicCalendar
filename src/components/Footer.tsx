@@ -49,17 +49,16 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
           </div>
         </nav>
       ) : variant === 'homepage' ? (
-        <nav className="footer-cities" aria-label="City pages">
-          <Link href="/texas">Texas</Link>
-          {CITY_CONFIGS.map((c) => (
-            <Link key={c.slug} href={`/texas/${c.slug}`}>{c.name}</Link>
-          ))}
+        <nav className="footer-cities" aria-label="State pages">
+          <Link href="/texas">Texas Calendars</Link>
+          <span className="footer-cities-coming">Florida Coming Soon</span>
+          <span className="footer-cities-coming">More Coming Soon</span>
         </nav>
       ) : !showIndustryCalendars ? (
-        <nav className="footer-cities" aria-label="City pages">
-          {CITY_CONFIGS.map((c) => (
-            <Link key={c.slug} href={`/texas/${c.slug}`}>{c.name}</Link>
-          ))}
+        <nav className="footer-cities" aria-label="State pages">
+          <Link href="/texas">Texas Calendars</Link>
+          <span className="footer-cities-coming">Florida Coming Soon</span>
+          <span className="footer-cities-coming">More Coming Soon</span>
         </nav>
       ) : (
         <nav className="footer-cities footer-industry-calendars" aria-label="Industry calendars">
