@@ -35,7 +35,7 @@ const TESTIMONIALS = [
 const FAQ_ITEMS = [
   {
     question: 'Which cities do you currently cover?',
-    answer: 'We currently cover San Antonio, Austin, Dallas, and Houston, Texas. Each city has its own dedicated calendar with locally sourced business and networking events.',
+    answer: 'We currently cover San Antonio, Austin, Dallas, and Houston. Each city has its own dedicated calendar with locally sourced business and networking events.',
   },
   {
     question: 'Are the city business calendars free?',
@@ -152,8 +152,8 @@ export function Homepage() {
       </section>
 
       <WhySection
-        heading="Why Use Texas Business Calendars?"
-        subtitle="Business events are spread across too many platforms and websites. Here's how Texas Business Calendars helps you keep up."
+        heading="Why Use Local Business Calendars?"
+        subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
         problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
         whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
@@ -174,7 +174,7 @@ export function Homepage() {
             <div className="feature-card">
               <div className="feature-step">1</div>
               <h3>Choose your city</h3>
-              <p>Pick your city from our Texas calendars. We handle all the event research so you don't have to.</p>
+              <p>Pick your city from our local calendars. We handle all the event research so you don't have to.</p>
             </div>
             <div className="feature-card">
               <div className="feature-step">2</div>
@@ -192,7 +192,7 @@ export function Homepage() {
 
 <section className="sp-section">
         <div className="sp-inner">
-          <h2>Trusted by Business Professionals Across Texas</h2>
+          <h2>Trusted by Business Professionals Across the Country</h2>
 
           <div className="sp-stats">
             {STATS.map((stat) => (
