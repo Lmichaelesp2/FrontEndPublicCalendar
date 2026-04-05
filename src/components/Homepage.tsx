@@ -162,7 +162,7 @@ export function Homepage() {
       <section className="hp-intro-section">
         <div className="hp-intro-inner">
           <p>
-            Texas Business Calendars is a free network of city-specific event calendars. Browse networking events, chamber meetings, tech meetups, real estate gatherings, and small business events happening in San Antonio, Austin, Dallas, and Houston — updated weekly. Sign up free to unlock the full week's calendar and get your city's events delivered to your inbox every Monday morning.
+            Local Business Calendars is a free network of city-specific event calendars built for entrepreneurs, connectors, and community leaders. Browse networking events, chamber meetings, tech meetups, real estate gatherings, and small business events happening in your city — updated every week.
           </p>
         </div>
       </section>
