@@ -12,6 +12,7 @@ import { AuthModal } from './auth/AuthModal';
 export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [texasDropdownOpen, setTexasDropdownOpen] = useState(false);
+  const [floridaDropdownOpen, setFloridaDropdownOpen] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -61,7 +62,20 @@ export function Navigation() {
                     </div>
                   )}
                 </div>
-                <span className="nav-coming-soon-link">Florida</span>
+                <div className="nav-dropdown-wrapper">
+                  <button
+                    className="nav-dropdown-trigger"
+                    onClick={() => setFloridaDropdownOpen(!floridaDropdownOpen)}
+                    aria-expanded={floridaDropdownOpen}
+                  >
+                    Florida <ChevronDown size={16} />
+                  </button>
+                  {floridaDropdownOpen && (
+                    <div className="nav-dropdown-menu">
+                      <div className="nav-dropdown-item nav-coming-soon-item">Coming Soon</div>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <>
