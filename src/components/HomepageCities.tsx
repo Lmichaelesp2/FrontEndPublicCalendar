@@ -105,14 +105,12 @@ function CitySection({
 
   return (
     <>
-      <h2 className="hpc-city-heading">{CITY_HEADINGS[city]}</h2>
       <div className="hpc-city-block">
         <div className="hpc-city-header" onClick={() => setExpanded(!expanded)}>
         <div className="hpc-city-title-row">
           <span className="hpc-city-dot" />
           <div className="hpc-city-info">
             <h3 className="hpc-city-name">{city}</h3>
-            <p className="hpc-city-descriptor">{CITY_DESCRIPTORS[city]}</p>
           </div>
           <span className="hpc-city-count">
             {events.length} of {totalCount} event{totalCount !== 1 ? 's' : ''}
