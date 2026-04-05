@@ -57,7 +57,6 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
     <section className="hpc-section" id="calendar">
       <div className="hpc-inner">
         <div className="hpc-header">
-          <div className="hpc-date-day">{isToday ? 'Today' : dayName}</div>
           <div className="hpc-date-full hpc-header-date">{dateDisplay}</div>
           <h2>Today's Networking & Business Events Across Texas</h2>
           <p className="hpc-subtitle">
