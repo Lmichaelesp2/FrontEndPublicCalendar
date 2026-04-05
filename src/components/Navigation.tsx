@@ -108,19 +108,21 @@ export function Navigation() {
             <Link href="/admin">Admin</Link>
             {user ? (
               <button
-                className="nav-logout-btn"
+                className="nav-auth-badge nav-auth-logged-in"
                 onClick={handleLogout}
                 title="Logout"
               >
-                <LogOut size={18} />
+                <User size={16} />
+                <span>Logged In</span>
               </button>
             ) : (
               <button
-                className="nav-user-btn"
+                className="nav-auth-badge nav-auth-logged-out"
                 onClick={() => setAuthModalOpen(true)}
                 title="Sign In"
               >
-                <User size={18} />
+                <User size={16} />
+                <span>Sign In</span>
               </button>
             )}
           </div>
