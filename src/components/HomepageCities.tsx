@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, Mail, Lock } from 'lucide-react';
-import { supabase, Event, CITIES, City } from '../lib/supabase';
+import { ChevronRight, Mail } from 'lucide-react';
+import { Event, CITIES, City } from '../lib/supabase';
 import { dateKey, parseDate, sortEventsByTime } from '../lib/utils';
 import { EventCard } from './EventCard';
-import { useAuth } from '../contexts/AuthContext';
-import { AuthModal } from './auth/AuthModal';
 
 const CITY_ROUTES: Record<City, string> = {
   'San Antonio': '/texas/san-antonio',
@@ -45,108 +43,26 @@ interface HomepageCitiesProps {
 
 export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
   const today = dateKey(new Date());
-  const { user } = useAuth();
-  const [authOpen, setAuthOpen] = useState(false);
 
-  const [events, setEvents] = useState<Event[]>(initialEvents);
-  const [fetchedDates, setFetchedDates] = useState<Set<string>>(() => new Set([today]));
-  const [selectedDate, setSelectedDate] = useState<string>(today);
+  const [events] = useState<Event[]>(initialEvents);
 
-  async function fetchEventsForDate(date: string) {
-    if (fetchedDates.has(date)) return;
-    try {
-      const { data, error } = await supabase
-        .from('events')
-        .select('*')
-        .eq('status', 'approved')
-        .eq('start_date', date)
-        .order('start_date', { ascending: true });
-      if (error) throw error;
-      setEvents((prev) => {
-        const existing = new Set(prev.map((e) => e.id));
-        const newEvents = (data || []).filter((e) => !existing.has(e.id));
-        return [...prev, ...newEvents];
-      });
-      setFetchedDates((prev) => new Set([...prev, date]));
-    } catch (err) {
-      console.error('Error fetching events:', err);
-    }
-  }
-
-  useEffect(() => {
-    if (selectedDate !== today) {
-      fetchEventsForDate(selectedDate);
-    }
-  }, [selectedDate]);
-
-  function goToToday() {
-    setSelectedDate(today);
-  }
-
-  function handleDayClick(dk: string) {
-    if (dk < today) return;
-    if (dk > today && !user) {
-      setAuthOpen(true);
-      return;
-    }
-    setSelectedDate(dk);
-  }
-
-  function stepDay(direction: 1 | -1) {
-    if (direction === 1 && !user) {
-      setAuthOpen(true);
-      return;
-    }
-    const current = parseDate(selectedDate);
-    current.setDate(current.getDate() + direction);
-    if (dateKey(current) < today) return;
-    const dk = dateKey(current);
-    setSelectedDate(dk);
-  }
-
-  const selectedParsed = parseDate(selectedDate);
-  const isToday = selectedDate === today;
+  const selectedParsed = parseDate(today);
+  const isToday = true;
   const dayName = selectedParsed.toLocaleDateString('en-US', { weekday: 'long' });
   const dateDisplay = selectedParsed.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-  const filteredEvents = events.filter((e) => e.start_date === selectedDate);
+  const filteredEvents = events.filter((e) => e.start_date === today);
 
   return (
     <section className="hpc-section" id="calendar">
       <div className="hpc-inner">
         <div className="hpc-header">
-          <h2>Today's Business & Networking Events Across Texas</h2>
+          <div className="hpc-date-day">{isToday ? 'Today' : dayName}</div>
+          <div className="hpc-date-full hpc-header-date">{dateDisplay}</div>
+          <h2>Today's Networking & Business Events Across Texas</h2>
           <p className="hpc-subtitle">
             Showing today's events. Get a free account to see the full week in San Antonio, Austin, Dallas, or Houston — plus the weekly Monday newsletter.
           </p>
-        </div>
-
-
-        <div className="hpc-date-nav">
-          <button
-            className="hpc-day-arrow"
-            onClick={() => stepDay(-1)}
-            disabled={selectedDate === today}
-            aria-label="Previous day"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          <div className="hpc-date-center">
-            <div className="hpc-date-day">{isToday ? 'Today' : dayName}</div>
-            <div className="hpc-date-full">{dateDisplay}</div>
-            <div className="hpc-date-count">
-              {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''}
-            </div>
-          </div>
-
-          <button
-            className={['hpc-day-arrow', !user ? 'hpc-day-arrow-gated' : ''].filter(Boolean).join(' ')}
-            onClick={() => stepDay(1)}
-            aria-label={!user ? 'Create a free account to see future events' : 'Next day'}
-          >
-            {!user ? <Lock size={18} /> : <ChevronRight size={20} />}
-          </button>
         </div>
 
         <div className="hpc-cities">
@@ -165,20 +81,13 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
                 totalCount={cityEvents.length}
                 hasMore={hasMore}
                 cityRoute={CITY_ROUTES[city]}
-                selectedDate={selectedDate}
+                selectedDate={today}
               />
             );
           })}
         </div>
       </div>
 
-      {authOpen && (
-        <AuthModal
-          isOpen={authOpen}
-          onClose={() => setAuthOpen(false)}
-          onSuccess={() => setAuthOpen(false)}
-        />
-      )}
     </section>
   );
 }

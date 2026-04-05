@@ -299,10 +299,12 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .cal-results-count{font-weight:700;color:#1a4f8a}
 
 /* HOMEPAGE CITIES */
-.hpc-section{padding:3rem 1.5rem 5rem;background:#F0F2F5}
+.hpc-section{padding:2.5rem 1.5rem 5rem;background:#F0F2F5}
 .hpc-inner{max-width:900px;margin:0 auto}
-.hpc-header{text-align:center;margin-bottom:1.75rem}
-.hpc-header h2{font-size:1.6rem;color:var(--navy);font-weight:800;letter-spacing:-.02em;margin-bottom:.25rem}
+.hpc-header{text-align:center;margin-bottom:1.5rem}
+.hpc-header .hpc-date-day{margin-bottom:.15rem}
+.hpc-header-date{margin-bottom:.6rem}
+.hpc-header h2{font-size:1.6rem;color:var(--navy);font-weight:800;letter-spacing:-.02em;margin-bottom:.3rem}
 .hpc-date-label{font-size:.95rem;color:var(--navy);font-weight:600;margin-bottom:.3rem}
 .hpc-subtitle{font-size:.85rem;color:var(--gray-500)}
 .hpc-login-text{font-weight:700;color:#004080}
