@@ -62,8 +62,7 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
           initialEvents={initialEvents}
           forcedCity={forcedCity}
           groupType={groupType}
-          minDate={weekRange.start}
-          maxDate={weekRange.end}
+          minDate={today}
           cityName={resolvedCityName}
         />
       </>
