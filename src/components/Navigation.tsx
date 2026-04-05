@@ -26,6 +26,21 @@ export function Navigation() {
     return () => document.removeEventListener('open-auth-modal', handleOpenAuth);
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.nav-dropdown-wrapper')) {
+        setTexasDropdownOpen(false);
+        setFloridaDropdownOpen(false);
+      }
+    }
+
+    if (texasDropdownOpen || floridaDropdownOpen) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [texasDropdownOpen, floridaDropdownOpen]);
+
   async function handleLogout() {
     await signOut();
     router.push('/');
