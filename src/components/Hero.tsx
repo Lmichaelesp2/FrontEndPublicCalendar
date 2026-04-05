@@ -16,28 +16,38 @@ export function Hero() {
     ? { title: cityConfig.title, description: cityConfig.description }
     : { title: HOME_SEO.title, description: HOME_SEO.description };
 
+  const todayDate = new Date();
+  const formattedDate = todayDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
   return (
     <>
       <SEOHead title={seo.title} description={seo.description} />
       <section className="hero">
         <div className="hero-inner">
-          <div className="hero-badge">
-            {cityConfig
-              ? `${cityConfig.name} Business Calendar`
-              : 'We Do The Searching \u00b7 You Do The Networking'}
-          </div>
+          {!cityConfig && (
+            <div className="hero-date">TODAY</div>
+          )}
 
           {cityConfig ? (
-            <h1>
-              Networking &amp; Business Events
-              <br />
-              in the <em>{cityConfig.name}</em> area
-            </h1>
+            <div>
+              <div className="hero-badge">
+                {cityConfig.name} Business Calendar
+              </div>
+              <h1>
+                Networking &amp; Business Events
+                <br />
+                in the <em>{cityConfig.name}</em> area
+              </h1>
+            </div>
           ) : (
             <h1>
-              Networking &amp; Business Events in
+              Today's Networking &amp; Business Events
               <br />
-              <em>San Antonio, Austin, Dallas &amp; Houston</em>
+              Across <em>Texas</em>
             </h1>
           )}
 
