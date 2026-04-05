@@ -24,13 +24,15 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
   const today = useMidnightReset();
   const weekRange = getWeekRangeFromToday();
 
+  const eventDates = new Set(initialEvents.map(e => e.start_date));
+
   if (loading) {
     return (
       <>
         {showMonthCalendar && (
           <section className="cal-section" style={{ paddingBottom: 0 }}>
             <div className="cal-inner">
-              <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+              <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} eventDates={eventDates} />
             </div>
           </section>
         )}
@@ -54,7 +56,7 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
         {showMonthCalendar && (
           <section className="cal-section" style={{ paddingBottom: 0 }}>
             <div className="cal-inner">
-              <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+              <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} eventDates={eventDates} />
             </div>
           </section>
         )}
@@ -74,7 +76,7 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
       {showMonthCalendar && (
         <section className="cal-section" style={{ paddingBottom: 0 }}>
           <div className="cal-inner">
-            <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} />
+            <MonthCalendar onDateSelect={setSelectedDate} onAuthClick={() => setAuthOpen(true)} eventDates={eventDates} />
           </div>
         </section>
       )}

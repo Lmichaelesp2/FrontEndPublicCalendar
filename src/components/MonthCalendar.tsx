@@ -1,15 +1,16 @@
 'use client';
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Lock } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMidnightReset } from '../lib/utils';
 import { useAuth } from '../contexts/AuthContext';
 
 interface MonthCalendarProps {
   onDateSelect?: (date: string) => void;
   onAuthClick?: () => void;
+  eventDates?: Set<string>;
 }
 
-export function MonthCalendar({ onDateSelect, onAuthClick }: MonthCalendarProps) {
+export function MonthCalendar({ onDateSelect, onAuthClick, eventDates }: MonthCalendarProps) {
   const { user } = useAuth();
   const today = useMidnightReset();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -93,11 +94,13 @@ export function MonthCalendar({ onDateSelect, onAuthClick }: MonthCalendarProps)
           const isPast = dk < today;
           const isToday = isCurrentMonth && day === todayDay;
           const isFutureGated = !user && !isPast && !isToday;
+          const hasEvents = eventDates ? eventDates.has(dk) : false;
 
           let cellClass = 'cal-cell';
           if (isPast) cellClass += ' past';
           if (isToday) cellClass += ' is-today';
           if (isFutureGated) cellClass += ' future-gated';
+          if (hasEvents) cellClass += ' has-events';
 
           return (
             <button
@@ -107,11 +110,7 @@ export function MonthCalendar({ onDateSelect, onAuthClick }: MonthCalendarProps)
               aria-label={`${day} ${monthNames[month]}`}
             >
               <span className="cal-cell-num">{day}</span>
-              {isFutureGated && (
-                <span className="cal-cell-lock">
-                  <Lock size={10} />
-                </span>
-              )}
+              {hasEvents && <span className="cal-cell-dot" />}
             </button>
           );
         })}
