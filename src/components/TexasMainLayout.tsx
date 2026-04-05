@@ -111,16 +111,6 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
         </div>
       </section>
 
-      {!citySlug && (
-        <section className="hp-intro-section">
-          <div className="hp-intro-inner">
-            <p>
-              Local Business Calendars is a free network of city-specific event calendars. Browse networking events, chamber meetings, tech meetups, real estate gatherings, and small business events happening in San Antonio, Austin, Dallas, and Houston — updated weekly. Sign up free to unlock the full week's calendar and get your city's events delivered to your inbox every Monday morning.
-            </p>
-          </div>
-        </section>
-      )}
-
       <section className="why-section">
         <div className="why-inner">
           <h2>Why Use Texas Business Calendars?</h2>
@@ -144,6 +134,16 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
           </div>
         </div>
       </section>
+
+      {!citySlug && (
+        <section className="hp-intro-section">
+          <div className="hp-intro-inner">
+            <p>
+              Texas Business Calendars is a free network of city-specific event calendars. Browse networking events, chamber meetings, tech meetups, real estate gatherings, and small business events happening in San Antonio, Austin, Dallas, and Houston — updated weekly. Sign up free to unlock the full week's calendar and get your city's events delivered to your inbox every Monday morning.
+            </p>
+          </div>
+        </section>
+      )}
 
       <section className="features-section">
         <div className="features-inner">
