@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
 import type { Event, City } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime, useMidnightReset } from '../lib/utils';
 import { EventCard } from './EventCard';
 import { useAuth } from '../contexts/AuthContext';
@@ -21,6 +22,26 @@ interface CalendarProps {
 export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, onAuthClick, cityName }: CalendarProps) {
   const { user } = useAuth();
   const today = useMidnightReset();
+  const [liveEvents, setLiveEvents] = useState<Event[] | null>(null);
+
+  useEffect(() => {
+    async function fetchLive() {
+      const todayStr = new Date().toISOString().split('T')[0];
+      let query = supabase
+        .from('events')
+        .select('*')
+        .eq('status', 'approved')
+        .gte('start_date', todayStr)
+        .order('start_date', { ascending: true });
+
+      if (forcedCity) query = query.eq('city_calendar', forcedCity);
+      if (groupType) query = query.eq('org_type', groupType);
+
+      const { data } = await query;
+      if (data) setLiveEvents(data as Event[]);
+    }
+    fetchLive();
+  }, [forcedCity, groupType]);
   const [searchQuery, setSearchQuery] = useState('');
   const [rangeStart, setRangeStart] = useState<string | null>(() => dateKey(new Date()));
   const [rangeEnd, setRangeEnd] = useState<string | null>(null);
@@ -39,7 +60,8 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     }
   }
 
-  const cityFiltered = initialEvents.filter((e) => {
+  const eventsSource = liveEvents ?? initialEvents;
+  const cityFiltered = eventsSource.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
     if (groupType && e.org_type !== groupType) return false;
     if (minDate && e.start_date < minDate) return false;
