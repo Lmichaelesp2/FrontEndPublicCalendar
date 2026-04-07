@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: 'Local Business Calendars | Free Business & Networking Event Calendars by City',
   description: 'Local Business Calendars is a free network of business event calendars organized by city. Find networking events, chamber meetings, tech meetups, real estate events, and small business gatherings in your city.',
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
   openGraph: {
     type: 'website',
