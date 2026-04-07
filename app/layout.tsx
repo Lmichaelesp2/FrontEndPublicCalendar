@@ -3,18 +3,22 @@ import { Providers } from '../src/components/Providers';
 import '../src/index.css';
 
 export const metadata: Metadata = {
-  title: 'Local Business Calendars | Free Business & Networking Event Calendars by City',
-  description: 'Local Business Calendars is a free network of business event calendars organized by city. Find networking events, chamber meetings, tech meetups, real estate events, and small business gatherings in your city.',
+  title: 'Local Business Calendars – Find Events by City & Industry',
+  description: 'Find business and networking events by state, city, and industry. Get weekly newsletters with the events that matter to you.',
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
     type: 'website',
+    title: 'Local Business Calendars – Find Events by City & Industry',
+    description: 'Browse business events by state, city, and industry. Subscribe to weekly newsletters.',
     images: ['https://bolt.new/static/og_default.png'],
   },
   twitter: {
     card: 'summary_large_image',
+    title: 'Local Business Calendars – Find Events by City & Industry',
+    description: 'Browse business events by state, city, and industry.',
     images: ['https://bolt.new/static/og_default.png'],
   },
 };
