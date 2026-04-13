@@ -8,7 +8,7 @@ import { SEOHead } from './SEOHead';
 import { CalendarPlus, Handshake, HelpCircle, MapPin, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-type InquiryType = 'general' | 'sponsorship' | 'media' | 'technical' | 'other';
+type InquiryType = 'general' | 'sponsorship' | 'city_request' | 'media' | 'technical' | 'other';
 
 export function ContactPage() {
   const [formData, setFormData] = useState({
@@ -186,6 +186,7 @@ export function ContactPage() {
                 >
                   <option value="general">General Question</option>
                   <option value="sponsorship">Sponsorship Inquiry</option>
+                  <option value="city_request">New City Request</option>
                   <option value="media">Media</option>
                   <option value="technical">Technical Issue</option>
                   <option value="other">Other</option>
