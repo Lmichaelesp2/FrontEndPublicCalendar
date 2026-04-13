@@ -319,6 +319,8 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
       </section>
 
       <Footer
+        citySlug="dallas"
+        cityName="Dallas"
         categoryNav={{
           cityLabel: "Also in Dallas:",
           links: [

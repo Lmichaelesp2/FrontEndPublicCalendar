@@ -320,6 +320,8 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
       <Footer
+        citySlug="austin"
+        cityName="Austin"
         categoryNav={{
           cityLabel: "Also in Austin:",
           links: [

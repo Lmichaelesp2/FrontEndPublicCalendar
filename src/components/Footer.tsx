@@ -21,7 +21,7 @@ type FooterProps = {
   };
 };
 
-export function Footer({ showIndustryCalendars = false, variant = 'default', citySlug = 'san-antonio', cityName = 'San Antonio', isTexasPage = false, categoryNav }: FooterProps) {
+export function Footer({ showIndustryCalendars = false, variant = 'default', citySlug, cityName, isTexasPage = false, categoryNav }: FooterProps) {
   const getCitySpecificText = () => {
     if (isTexasPage) {
       return 'Texas Business Calendars is part of the Local Business Calendars network.';

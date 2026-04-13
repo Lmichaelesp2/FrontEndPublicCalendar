@@ -328,6 +328,8 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
       </section>
 
       <Footer
+        citySlug="san-antonio"
+        cityName="San Antonio"
         categoryNav={{
           cityLabel: "Also in San Antonio:",
           links: [

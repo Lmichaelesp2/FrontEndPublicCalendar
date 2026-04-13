@@ -330,6 +330,8 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
       <Footer
+        citySlug="houston"
+        cityName="Houston"
         categoryNav={{
           cityLabel: "Also in Houston:",
           links: [
