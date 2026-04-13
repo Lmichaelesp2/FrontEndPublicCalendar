@@ -93,7 +93,7 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
         &copy; 2026 Local Business Calendars — <Link href="/texas/san-antonio">San Antonio</Link> &middot; <Link href="/texas/austin">Austin</Link> &middot; <Link href="/texas/dallas">Dallas</Link> &middot; <Link href="/texas/houston">Houston</Link>
       </p>
       <p style={{ marginTop: '0.4rem' }}>
-        <a href="#privacy">Privacy Policy</a> &middot; <a href="#terms">Terms &amp; Conditions</a>
+        <Link href="/privacy">Privacy Policy</Link> &middot; <Link href="/terms">Terms &amp; Conditions</Link>
       </p>
       <div className="footer-disc">
         This website is not affiliated with meetup.com, eventbrite.com, facebook.com, LinkedIn.com,
