@@ -36,6 +36,22 @@ export function SEOHead({ title, description, canonical, robots }: SEOHeadProps)
     }
     ogDesc.setAttribute('content', description);
 
+    let ogImage = document.querySelector('meta[property="og:image"]');
+    if (!ogImage) {
+      ogImage = document.createElement('meta');
+      ogImage.setAttribute('property', 'og:image');
+      document.head.appendChild(ogImage);
+    }
+    ogImage.setAttribute('content', '/logos/local-business-calendars-01.png');
+
+    let twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (!twitterImage) {
+      twitterImage = document.createElement('meta');
+      twitterImage.setAttribute('name', 'twitter:image');
+      document.head.appendChild(twitterImage);
+    }
+    twitterImage.setAttribute('content', '/logos/local-business-calendars-01.png');
+
     if (canonical) {
       let link = document.querySelector('link[rel="canonical"]');
       if (!link) {

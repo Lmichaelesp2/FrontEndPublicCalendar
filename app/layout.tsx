@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     type: 'website',
     title: 'Local Business Calendars – Find Events by City & Industry',
     description: 'Browse business events by state, city, and industry. Subscribe to weekly newsletters.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/local-business-calendars-01.png'],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Local Business Calendars – Find Events by City & Industry',
     description: 'Browse business events by state, city, and industry.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/local-business-calendars-01.png'],
   },
 };
 
