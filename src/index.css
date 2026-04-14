@@ -55,6 +55,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .nav-dropdown-trigger{display:flex;align-items:center;gap:.3rem;color:var(--gray-600);background:none;border:none;font-size:.82rem;font-weight:500;padding:.4rem .8rem;border-radius:var(--radius-xs);cursor:pointer;transition:all .2s;font-family:inherit}
 .nav-dropdown-trigger:hover{color:var(--navy);background:var(--gray-100)}
 .nav-dropdown-trigger svg{transition:transform .2s}
+.nav-dropdown-trigger[aria-expanded="true"] svg{transform:rotate(180deg)}
 .nav-dropdown-menu{position:absolute;top:calc(100% + .4rem);left:0;min-width:200px;background:var(--white);border-radius:var(--radius-sm);box-shadow:0 12px 40px rgba(0,0,0,.15),0 2px 8px rgba(0,0,0,.08);border:1px solid var(--gray-200);padding:.35rem;z-index:200;animation:dropIn .15s ease}
 .nav-dropdown-menu .nav-dropdown-item{display:block;padding:.55rem .85rem;font-size:.84rem;font-weight:500;color:var(--gray-700);text-decoration:none;border-radius:var(--radius-xs);transition:all .12s}
 .nav-dropdown-menu .nav-dropdown-item:hover{background:var(--sky-light);color:var(--navy)}
@@ -73,6 +74,28 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .nav-cal-tab{color:var(--gray-600);text-decoration:none;font-size:.82rem;font-weight:500;padding:.4rem .8rem;border-radius:var(--radius-xs);transition:all .2s;border:1.5px solid transparent}
 .nav-cal-tab:hover{color:var(--navy);background:var(--gray-100)}
 .nav-cal-tab-active{color:var(--navy)!important;background:var(--sky-light)!important;border-color:var(--navy)!important;font-weight:700!important}
+
+.nav-mobile-toggle{display:none;background:none;border:none;color:var(--navy);cursor:pointer;padding:.5rem;border-radius:var(--radius-xs);transition:all .2s;font-family:inherit}
+
+@media(max-width:768px){
+  .nav-inner{height:auto;flex-wrap:wrap;gap:0}
+  .nav-logo-text{font-size:.9rem}
+  .nav-mobile-toggle{display:flex;align-items:center;justify-content:center;margin-left:auto}
+  .nav-links{position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--white);border-bottom:1px solid var(--gray-200);box-shadow:0 4px 12px rgba(0,0,0,.08);max-height:0;overflow:hidden;transition:max-height .3s ease;border-radius:0;gap:0;align-items:stretch;width:100%;z-index:99}
+  .nav-links-mobile-open{max-height:500px}
+  .nav-links a,.nav-links button,.nav-dropdown-trigger{width:100%;text-align:left;border-radius:0;padding:.75rem 1rem;border:none;background:none;font-size:.85rem}
+  .nav-links a:hover,.nav-links button:hover,.nav-dropdown-trigger:hover{background:var(--gray-50);color:var(--navy)}
+  .nav-auth-badge{width:100%;justify-content:flex-start}
+  .nav-dropdown-wrapper{width:100%}
+  .nav-dropdown-menu{position:static;box-shadow:none;border:none;background:var(--gray-50);border-radius:0;padding:0;min-width:auto;animation:none;margin-top:0;left:auto;top:auto}
+  .nav-dropdown-menu .nav-dropdown-item,.nav-dropdown-menu a{padding:.6rem 1.5rem;font-size:.8rem;background:none;border-radius:0;display:block}
+  .nav-dropdown-menu .nav-dropdown-item:hover,.nav-dropdown-menu a:hover{background:var(--gray-100)}
+  .nav-links .nav-city-link{width:100%;border-radius:0;padding:.75rem 1rem;display:block}
+}
+
+@media(max-width:500px){
+  .nav-logo-text{font-size:.8rem}
+}
 
 /* CITY LOGIN BANNER */
 .city-login-banner{background:linear-gradient(135deg,#0f2b5b 0%,#0056b3 100%);border-bottom:3px solid var(--gold)}

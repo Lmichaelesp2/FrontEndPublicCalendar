@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import { User, LogOut, ChevronDown } from 'lucide-react';
+import { User, LogOut, ChevronDown, Menu, X } from 'lucide-react';
 import { CITY_CONFIGS } from '../lib/cities';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
@@ -13,6 +13,7 @@ export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [texasDropdownOpen, setTexasDropdownOpen] = useState(false);
   const [floridaDropdownOpen, setFloridaDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -41,6 +42,10 @@ export function Navigation() {
     }
   }, [texasDropdownOpen, floridaDropdownOpen]);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   async function handleLogout() {
     await signOut();
     router.push('/');
@@ -55,7 +60,16 @@ export function Navigation() {
               Local <span>Business Calendars</span>
             </span>
           </Link>
-          <div className="nav-links">
+
+          <button
+            className="nav-mobile-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          <div className={`nav-links${mobileMenuOpen ? ' nav-links-mobile-open' : ''}`}>
             {isHomepage ? (
               <>
                 <div className="nav-dropdown-wrapper">
