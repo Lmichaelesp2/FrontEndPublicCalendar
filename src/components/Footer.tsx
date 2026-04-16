@@ -51,13 +51,11 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
       ) : variant === 'homepage' ? (
         <nav className="footer-cities" aria-label="State pages">
           <Link href="/texas">Texas Calendars</Link>
-          <span className="footer-cities-coming">Florida Coming Soon</span>
           <span className="footer-cities-coming">More Coming Soon</span>
         </nav>
       ) : !showIndustryCalendars ? (
         <nav className="footer-cities" aria-label="State pages">
           <Link href="/texas">Texas Calendars</Link>
-          <span className="footer-cities-coming">Florida Coming Soon</span>
           <span className="footer-cities-coming">More Coming Soon</span>
         </nav>
       ) : (

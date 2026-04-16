@@ -11,8 +11,8 @@ import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
 
 const STATS = [
-  { number: '500+', label: 'Austin professionals subscribed' },
-  { number: '200+', label: 'Austin business organizations tracked' },
+  { number: '1,000+', label: 'Austin professionals subscribed' },
+  { number: '250+', label: 'Austin business organizations tracked' },
 ];
 
 const TESTIMONIALS = [

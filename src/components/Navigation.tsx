@@ -11,13 +11,14 @@ import { AuthModal } from './auth/AuthModal';
 
 export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [texasDropdownOpen, setTexasDropdownOpen] = useState(false);
-  const [floridaDropdownOpen, setFloridaDropdownOpen] = useState(false);
+  const [citiesDropdownOpen, setCitiesDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const isHomepage = pathname === '/';
+  const isMainTexasPage = pathname === '/texas';
+  const isOnCityOrSubcategoryPage = pathname.startsWith('/texas/') && pathname !== '/texas/';
 
   useEffect(() => {
     function handleOpenAuth() {
@@ -31,16 +32,15 @@ export function Navigation() {
     function handleClickOutside(e: MouseEvent) {
       const target = e.target as HTMLElement;
       if (!target.closest('.nav-dropdown-wrapper')) {
-        setTexasDropdownOpen(false);
-        setFloridaDropdownOpen(false);
+        setCitiesDropdownOpen(false);
       }
     }
 
-    if (texasDropdownOpen || floridaDropdownOpen) {
+    if (citiesDropdownOpen) {
       document.addEventListener('click', handleClickOutside);
       return () => document.removeEventListener('click', handleClickOutside);
     }
-  }, [texasDropdownOpen, floridaDropdownOpen]);
+  }, [citiesDropdownOpen]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -70,17 +70,17 @@ export function Navigation() {
           </button>
 
           <div className={`nav-links${mobileMenuOpen ? ' nav-links-mobile-open' : ''}`}>
-            {isHomepage ? (
+            {isHomepage || isMainTexasPage ? (
               <>
                 <div className="nav-dropdown-wrapper">
                   <button
                     className="nav-dropdown-trigger"
-                    onClick={() => setTexasDropdownOpen(!texasDropdownOpen)}
-                    aria-expanded={texasDropdownOpen}
+                    onClick={() => setCitiesDropdownOpen(!citiesDropdownOpen)}
+                    aria-expanded={citiesDropdownOpen}
                   >
-                    Texas <ChevronDown size={16} />
+                    Cities <ChevronDown size={16} />
                   </button>
-                  {texasDropdownOpen && (
+                  {citiesDropdownOpen && (
                     <div className="nav-dropdown-menu">
                       <Link href="/texas" className="nav-dropdown-item">All Texas Cities</Link>
                       {CITY_CONFIGS.map((c) => (
@@ -91,29 +91,28 @@ export function Navigation() {
                     </div>
                   )}
                 </div>
-                <div className="nav-dropdown-wrapper">
-                  <button
-                    className="nav-dropdown-trigger"
-                    onClick={() => setFloridaDropdownOpen(!floridaDropdownOpen)}
-                    aria-expanded={floridaDropdownOpen}
-                  >
-                    Florida <ChevronDown size={16} />
-                  </button>
-                  {floridaDropdownOpen && (
-                    <div className="nav-dropdown-menu">
-                      <div className="nav-dropdown-item nav-coming-soon-item">Coming Soon</div>
-                    </div>
-                  )}
-                </div>
               </>
             ) : (
               <>
-                <Link href="/texas" className="nav-city-link">Texas</Link>
-                {CITY_CONFIGS.map((c) => (
-                  <Link key={c.slug} href={`/texas/${c.slug}`} className="nav-city-link">
-                    {c.name}
-                  </Link>
-                ))}
+                <div className="nav-dropdown-wrapper">
+                  <button
+                    className="nav-dropdown-trigger"
+                    onClick={() => setCitiesDropdownOpen(!citiesDropdownOpen)}
+                    aria-expanded={citiesDropdownOpen}
+                  >
+                    Texas <ChevronDown size={16} />
+                  </button>
+                  {citiesDropdownOpen && (
+                    <div className="nav-dropdown-menu">
+                      <Link href="/texas" className="nav-dropdown-item">All Texas Cities</Link>
+                      {CITY_CONFIGS.map((c) => (
+                        <Link key={c.slug} href={`/texas/${c.slug}`} className="nav-dropdown-item">
+                          {c.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </>
             )}
             <Link href="/about">About</Link>

@@ -12,8 +12,8 @@ import type { Event } from '../../lib/supabase';
 import SponsorSection from '../SponsorSection';
 
 const SA_STATS = [
-  { number: '500+', label: 'San Antonio professionals subscribed' },
-  { number: '800+', label: 'Business organizations tracked' },
+  { number: '2,500+', label: 'San Antonio professionals subscribed' },
+  { number: '250+', label: 'San Antonio business organizations tracked' },
 ];
 
 const SA_TESTIMONIALS = [
