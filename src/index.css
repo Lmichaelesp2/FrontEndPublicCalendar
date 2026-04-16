@@ -1032,16 +1032,34 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 /* EVENT GATE BANNER */
 .ev-gate-banner{margin:.75rem auto;max-width:900px;border-radius:12px;background:#f8f9fa;border:1px solid #e5e7eb;overflow:hidden}
 .ev-gate-banner-above{background:#e3f0ff;border:none;margin:0 0 .7rem}
-.ev-gate-banner-inner{display:flex;align-items:center;gap:1rem;padding:.75rem 1.25rem;text-align:left}
+.ev-gate-banner-inner{display:flex;align-items:center;justify-content:space-between;gap:1.2rem;padding:1rem 1.5rem;text-align:left}
 .ev-gate-icon{width:32px;height:32px;border-radius:8px;background:#0066cc;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ev-gate-text{flex:1;min-width:0}
 .ev-gate-heading{font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;color:#06255e;margin:0}
 .ev-gate-sub{font-family:'Inter',sans-serif;font-size:.8rem;color:#6b7280;margin:0;display:none}
-.ev-gate-banner-buttons{display:flex;gap:.5rem;flex-wrap:wrap}
-.ev-gate-btn{background:var(--white);color:#1a365d;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;padding:.55rem 1.1rem;border:none;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08)}
+.ev-gate-banner-buttons{display:flex;gap:.6rem;flex-wrap:nowrap;flex-shrink:0}
+.ev-gate-btn{background:var(--white);color:#1a365d;font-family:'Inter',sans-serif;font-size:.81rem;font-weight:600;padding:.5rem 1rem;border:none;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08)}
 .ev-gate-btn:hover{background:#fffbeb;box-shadow:0 4px 12px rgba(255,222,89,.2),0 2px 5px rgba(0,0,0,.08)}
-.ev-gate-signin{background:transparent;border:1px solid #1a365d;color:#1a365d;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;padding:.55rem 1.1rem;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.ev-gate-signin{background:transparent;border:1.5px solid #1a365d;color:#1a365d;font-family:'Inter',sans-serif;font-size:.81rem;font-weight:600;padding:.5rem 1rem;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .ev-gate-signin:hover{background:rgba(26,54,93,.06)}
+
+@media(max-width:768px){
+  .ev-gate-banner-inner{padding:.85rem 1.25rem;gap:1rem}
+  .ev-gate-heading{font-size:.9rem}
+  .ev-gate-btn,.ev-gate-signin{padding:.45rem .9rem;font-size:.78rem}
+  .ev-gate-banner-buttons{gap:.5rem}
+}
+
+@media(max-width:640px){
+  .ev-gate-banner-inner{flex-wrap:wrap;padding:1rem 1.25rem}
+  .ev-gate-icon{width:28px;height:28px}
+  .ev-gate-icon svg{width:18px;height:18px}
+  .ev-gate-text{flex-basis:100%;order:2}
+  .ev-gate-heading{font-size:.9rem}
+  .ev-gate-banner-buttons{flex-basis:100%;order:3;margin-top:.6rem;gap:.5rem}
+  .ev-gate-btn,.ev-gate-signin{flex:1;padding:.5rem .75rem;font-size:.77rem;text-align:center}
+}
+
 .ev-gate-loading{display:flex;justify-content:center;padding:4rem 0}
 .ev-gate-spinner{width:32px;height:32px;border:3px solid var(--gray-200);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
