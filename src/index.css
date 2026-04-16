@@ -308,18 +308,18 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .cal-guest-login-btn:hover{color:#0d3060}
 
 /* Day-by-day navigation */
-.cal-day-nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.6rem 0 .15rem;text-align:center}
+.cal-day-nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.35rem 0 .1rem;text-align:center}
 .cal-day-arrow{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;border:2px solid #c5d3e8;background:var(--white);color:#1a3a6b;cursor:pointer;flex-shrink:0;transition:background .15s,border-color .15s,transform .1s,box-shadow .15s;box-shadow:0 2px 6px rgba(0,0,0,.08)}
 .cal-day-arrow:hover:not(:disabled){background:#edf2fa;border-color:#1a3a6b;transform:scale(1.08);box-shadow:0 3px 10px rgba(0,0,0,.12)}
 .cal-day-arrow:active:not(:disabled){transform:scale(.95)}
 .cal-day-arrow:disabled{opacity:.25;cursor:default}
 .cal-day-center{flex:1;min-width:0}
-.cal-day-name{font-size:1.35rem;font-weight:800;color:#1a3a6b;letter-spacing:-.01em}
-.cal-day-full{font-size:1.05rem;color:#5a6b80;margin-top:.1rem;font-weight:600}
-.cal-day-count{font-size:.9rem;font-weight:700;color:#1a4f8a;margin-top:.2rem;background:#edf2fa;display:inline-block;padding:.25rem .8rem;border-radius:20px}
+.cal-day-name{font-size:1.35rem;font-weight:800;color:#1a3a6b;letter-spacing:-.01em;margin:0}
+.cal-day-full{font-size:1.05rem;color:#5a6b80;margin-top:.05rem;font-weight:600}
+.cal-day-count{font-size:.9rem;font-weight:700;color:#1a4f8a;margin-top:.15rem;background:#edf2fa;display:inline-block;padding:.25rem .8rem;border-radius:20px}
 
 /* Results label */
-.cal-results-label{display:flex;align-items:center;justify-content:space-between;padding:.35rem .25rem .5rem;font-size:.82rem;color:#6b7c93;border-bottom:1px solid #eef1f6;margin-bottom:.5rem}
+.cal-results-label{display:flex;align-items:center;justify-content:space-between;padding:.25rem .25rem .35rem;font-size:.82rem;color:#6b7c93;border-bottom:1px solid #eef1f6;margin-bottom:.3rem}
 .cal-results-count{font-weight:700;color:#1a4f8a}
 
 /* HOMEPAGE CITIES */
@@ -1031,7 +1031,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 
 /* EVENT GATE BANNER */
 .ev-gate-banner{margin:.75rem auto;max-width:900px;border-radius:12px;background:#f8f9fa;border:1px solid #e5e7eb;overflow:hidden}
-.ev-gate-banner-above{background:#e3f0ff;border:none;margin:0 0 .7rem}
+.ev-gate-banner-above{background:#e3f0ff;border:none;margin:0 0 .4rem}
 .ev-gate-banner-inner{display:flex;align-items:center;justify-content:space-between;gap:1.2rem;padding:1rem 1.5rem;text-align:left}
 .ev-gate-icon{width:32px;height:32px;border-radius:8px;background:#0066cc;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ev-gate-text{flex:1;min-width:0}

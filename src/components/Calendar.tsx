@@ -202,7 +202,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           </button>
         </div>
 
-        <div className="ev-list" style={{ marginTop: '1rem' }}>
+        <div className="ev-list" style={{ marginTop: '0.5rem' }}>
           {displayEvents.length === 0 ? (
             <div className="no-ev">
               <p>{searchActive ? 'No events match your search.' : 'No events for the selected date range.'}</p>
