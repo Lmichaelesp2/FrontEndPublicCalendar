@@ -294,7 +294,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .cal-cell-num{font-size:.9rem;font-weight:500;color:#344563;line-height:1;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .12s,color .12s}
 .cal-cell.range-selected .cal-cell-num{background:#1a3a6b;color:var(--white)}
 .cal-cell.is-today:not(.range-edge) .cal-cell-num{background:#e8f0fc}
-.cal-cell-dot{width:5px;height:5px;border-radius:50%;background:#ffde59;margin-top:4px}
+.cal-cell-dot{width:7px;height:7px;border-radius:50%;background:#ffd700;margin-top:4px;box-shadow:0 0 4px rgba(255,215,0,0.6);opacity:1}
 .cal-cell.has-events:not(.range-edge):hover .cal-cell-num{background:#d0e8ff}
 .cal-cell.future-gated{cursor:pointer;opacity:.55}
 .cal-cell.future-gated:hover{background:#fef3e2}
