@@ -31,15 +31,10 @@ export function EventCard({ event, index }: EventCardProps) {
             <Calendar size={14} className="ev-card-new-time-icon" />
             <span>{timeLabel}</span>
           </div>
-          {event.address ? (
+          {event.address && (
             <div className="ev-card-new-location">
               <MapPin size={14} className="ev-card-new-location-icon" />
               <span>{event.address}</span>
-            </div>
-          ) : (
-            <div className="ev-card-new-location">
-              <MapPin size={14} className="ev-card-new-location-icon" />
-              <span>Visit site for location details</span>
             </div>
           )}
         </div>
@@ -63,11 +58,6 @@ export function EventCard({ event, index }: EventCardProps) {
           <p className="ev-card-new-desc ev-card-no-desc">See event site for description</p>
         )}
 
-        {event.org_name && (
-          <div className="ev-card-new-footer">
-            <span className="ev-card-new-org">{event.org_name}</span>
-          </div>
-        )}
       </div>
     </div>
   );
