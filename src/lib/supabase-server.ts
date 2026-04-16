@@ -7,6 +7,18 @@ function getServerSupabase() {
   return createClient(url || 'https://placeholder.supabase.co', key || 'placeholder');
 }
 
+const GROUP_TYPE_TO_ORG_TYPE: Record<string, string> = {
+  chamber: 'Chambers',
+  networking: 'Dedicated Networking',
+  real_estate: 'Real Estate',
+  small_business: 'Small Business',
+  technology: 'Technology',
+};
+
+export function resolveOrgType(groupType: string): string {
+  return GROUP_TYPE_TO_ORG_TYPE[groupType] ?? groupType;
+}
+
 export async function fetchApprovedEvents(options?: {
   city?: string;
   groupType?: string;
@@ -32,7 +44,7 @@ export async function fetchApprovedEvents(options?: {
   }
 
   if (options?.groupType) {
-    query = query.eq('org_type', options.groupType);
+    query = query.eq('org_type', resolveOrgType(options.groupType));
   }
 
   const { data, error } = await query;

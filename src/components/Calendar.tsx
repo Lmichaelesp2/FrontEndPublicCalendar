@@ -4,9 +4,22 @@ import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
 import type { Event, City } from '../lib/supabase';
 import { supabase } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime, useMidnightReset } from '../lib/utils';
+
 import { EventCard } from './EventCard';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+
+const GROUP_TYPE_TO_ORG_TYPE: Record<string, string> = {
+  chamber: 'Chambers',
+  networking: 'Dedicated Networking',
+  real_estate: 'Real Estate',
+  small_business: 'Small Business',
+  technology: 'Technology',
+};
+
+function resolveOrgType(groupType: string): string {
+  return GROUP_TYPE_TO_ORG_TYPE[groupType] ?? groupType;
+}
 
 interface CalendarProps {
   initialEvents: Event[];
@@ -35,7 +48,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         .order('start_date', { ascending: true });
 
       if (forcedCity) query = query.eq('city_calendar', forcedCity);
-      if (groupType) query = query.eq('org_type', groupType);
+      if (groupType) query = query.eq('org_type', resolveOrgType(groupType));
 
       const { data } = await query;
       if (data) setLiveEvents(data as Event[]);
