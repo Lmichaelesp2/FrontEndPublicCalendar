@@ -64,3 +64,15 @@ export function getSlugForCity(city: City): string {
 export function getCityConfig(slug: string): CityConfig | null {
   return CITY_CONFIGS.find((c) => c.slug === slug) ?? null;
 }
+
+const GROUP_TYPE_TO_CATEGORY: Record<string, string> = {
+  chamber: 'Chambers',
+  networking: 'Networking',
+  real_estate: 'Real Estate',
+  small_business: 'Small Business',
+  technology: 'Technology',
+};
+
+export function resolveGroupType(groupType: string): string {
+  return GROUP_TYPE_TO_CATEGORY[groupType.toLowerCase()] ?? groupType;
+}

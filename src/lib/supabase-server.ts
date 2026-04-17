@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Event } from './supabase';
+import { resolveGroupType } from './cities';
 
 function getServerSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
@@ -34,7 +35,7 @@ export async function fetchApprovedEvents(options?: {
   }
 
   if (options?.groupType) {
-    query = query.ilike('event_category', options.groupType);
+    query = query.eq('event_category', resolveGroupType(options.groupType));
   }
 
   const { data, error } = await query;

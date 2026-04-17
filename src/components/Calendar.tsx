@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
 import type { Event, City } from '../lib/supabase';
 import { supabase } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime, useMidnightReset } from '../lib/utils';
+import { resolveGroupType } from '../lib/cities';
 
 import { EventCard } from './EventCard';
 import { useAuth } from '../contexts/AuthContext';
@@ -42,7 +43,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         .order('start_date', { ascending: true });
 
       if (forcedCity) query = query.eq('city_calendar', forcedCity);
-      if (groupType) query = query.ilike('event_category', groupType);
+      if (groupType) query = query.eq('event_category', resolveGroupType(groupType));
 
       const { data } = await query;
       if (data) setLiveEvents(data as Event[]);
@@ -70,7 +71,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const eventsSource = liveEvents ?? initialEvents;
   const cityFiltered = eventsSource.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
-    if (groupType && e.event_category?.toLowerCase() !== groupType.toLowerCase()) return false;
+    if (groupType && e.event_category !== resolveGroupType(groupType)) return false;
     if (minDate && e.start_date < minDate) return false;
     if (maxDate && e.start_date > maxDate) return false;
     return true;
