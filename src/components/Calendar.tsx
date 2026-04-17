@@ -43,7 +43,6 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       let query = supabase
         .from('events')
         .select('*')
-        .eq('status', 'approved')
         .gte('start_date', todayStr)
         .order('start_date', { ascending: true });
 
