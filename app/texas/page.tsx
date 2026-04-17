@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const today = new Date().toISOString().split('T')[0];
-  const initialEvents = await fetchApprovedEvents({ date: today });
+  const initialEvents = await fetchApprovedEvents();
   return <TexasMainLayout initialEvents={initialEvents} />;
 }
