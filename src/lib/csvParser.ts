@@ -94,6 +94,9 @@ const COLUMN_MAP: Record<string, keyof EventInput | null> = {
   participation: 'participation',
   'internal_type': 'internal_type',
   'part_of_town': 'part_of_town',
+  'event_category': 'event_category',
+  'eventcategory': 'event_category',
+  'category': 'event_category',
 };
 
 function normalizeHeader(header: string): string {
@@ -123,6 +126,7 @@ function mapRowToEvent(headers: string[], values: string[]): EventInput | null {
     source: null,
     notes: null,
     internal_type: null,
+    event_category: null,
     city_calendar: null,
     status: 'approved'
   };
