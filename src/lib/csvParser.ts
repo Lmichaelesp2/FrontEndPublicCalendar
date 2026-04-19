@@ -63,7 +63,7 @@ function splitCSVIntoRows(text: string): string[][] {
   return rows;
 }
 
-const SKIP_COLUMNS = new Set(['subcategory', 'created_at', 'updated_at', 'status']);
+const SKIP_COLUMNS = new Set(['created_at', 'updated_at', 'status']);
 
 const COLUMN_MAP: Record<string, keyof EventInput | null> = {
   name: 'name',
@@ -97,6 +97,11 @@ const COLUMN_MAP: Record<string, keyof EventInput | null> = {
   'event_category': 'event_category',
   'eventcategory': 'event_category',
   'category': 'event_category',
+  'subcategory': 'event_category',
+  'sub_category': 'event_category',
+  'time_of_day': 'time_of_day',
+  'timeofday': 'time_of_day',
+  'time_period': 'time_of_day',
 };
 
 function normalizeHeader(header: string): string {
@@ -127,6 +132,7 @@ function mapRowToEvent(headers: string[], values: string[]): EventInput | null {
     notes: null,
     internal_type: null,
     event_category: null,
+    time_of_day: null,
     city_calendar: null,
     status: 'approved'
   };
