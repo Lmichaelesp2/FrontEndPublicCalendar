@@ -44,6 +44,8 @@ interface UploadEventsRequest {
     notes?: string | null;
     internal_type?: string | null;
     part_of_town?: string | null;
+    event_category?: string | null;
+    time_of_day?: string | null;
     status?: string;
   }>;
   cities: string[];

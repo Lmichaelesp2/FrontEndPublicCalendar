@@ -71,8 +71,14 @@ export function EventPreview({ events, onEventsChange, onPublish }: EventPreview
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Upload failed');
+        let errorData: { error?: string; message?: string; details?: string } = {};
+        try {
+          errorData = await response.json();
+        } catch {
+          errorData = { error: `HTTP ${response.status} ${response.statusText}` };
+        }
+        const detail = errorData.details ? ` — ${errorData.details}` : '';
+        throw new Error(`${errorData.error || errorData.message || 'Upload failed'}${detail} (HTTP ${response.status})`);
       }
 
       const result = await response.json();
