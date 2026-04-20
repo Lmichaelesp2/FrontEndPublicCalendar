@@ -209,7 +209,14 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Find Your Next San Antonio Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" groupType="chamber" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="San Antonio"
+          groupType="chamber"
+          initialEvents={initialEvents}
+          newsletterHeading="Get San Antonio Chamber Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's chamber events in San Antonio, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/san-antonio/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

@@ -197,7 +197,14 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Today's Networking Events in Houston</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="Houston" groupType="networking" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Houston"
+          groupType="networking"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Houston Networking Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's networking events in Houston, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/houston/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

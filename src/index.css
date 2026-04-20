@@ -322,6 +322,27 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .cal-results-label{display:flex;align-items:center;justify-content:space-between;padding:.25rem .25rem .35rem;font-size:.82rem;color:#6b7c93;border-bottom:1px solid #eef1f6;margin-bottom:.3rem}
 .cal-results-count{font-weight:700;color:#1a4f8a}
 
+/* CALENDAR NEWSLETTER BAR */
+.cal-newsletter-bar{margin:.25rem auto 1rem;max-width:900px;background:linear-gradient(135deg,#1a4f8a 0%,#1e6fc8 100%);border-radius:12px;overflow:hidden}
+.cal-newsletter-bar-inner{display:flex;align-items:center;justify-content:space-between;gap:1.25rem;padding:1rem 1.5rem;flex-wrap:wrap}
+.cal-newsletter-bar-text{display:flex;align-items:flex-start;gap:.75rem;flex:1;min-width:0}
+.cal-newsletter-bar-icon{color:#93c5fd;flex-shrink:0;margin-top:.15rem}
+.cal-newsletter-bar-heading{font-size:.88rem;font-weight:700;color:#fff;margin:0;line-height:1.3}
+.cal-newsletter-bar-sub{font-size:.76rem;color:rgba(255,255,255,.75);margin:.18rem 0 0;line-height:1.4}
+.cal-newsletter-bar-form{display:flex;gap:.5rem;flex-shrink:0;align-items:center;flex-wrap:wrap}
+.cal-newsletter-bar-input{padding:.48rem .9rem;border-radius:8px;border:none;font-size:.82rem;font-family:inherit;outline:none;width:200px;background:#fff;color:#1f2937}
+.cal-newsletter-bar-input::placeholder{color:#9ca3af}
+.cal-newsletter-bar-input:focus{box-shadow:0 0 0 2px #93c5fd}
+.cal-newsletter-bar-btn{padding:.48rem 1.1rem;background:#ffde59;color:#1a365d;font-family:inherit;font-size:.82rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0}
+.cal-newsletter-bar-btn:hover{background:#fcd34d;transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.cal-newsletter-bar-success{color:#bbf7d0;font-size:.85rem;font-weight:600;flex-shrink:0}
+@media(max-width:640px){
+  .cal-newsletter-bar-inner{flex-direction:column;align-items:flex-start;gap:.9rem;padding:.9rem 1.1rem}
+  .cal-newsletter-bar-form{width:100%;flex-wrap:nowrap}
+  .cal-newsletter-bar-input{flex:1;min-width:0;width:auto}
+  .cal-newsletter-bar-btn{flex-shrink:0}
+}
+
 /* HOMEPAGE CITIES */
 .hpc-section{padding:2.5rem 1.5rem 5rem;background:#F0F2F5}
 .hpc-inner{max-width:900px;margin:0 auto}

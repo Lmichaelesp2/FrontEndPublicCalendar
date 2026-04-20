@@ -197,7 +197,14 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
           <h2>Today's Networking Events in San Antonio</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="San Antonio" groupType="networking" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="San Antonio"
+          groupType="networking"
+          initialEvents={initialEvents}
+          newsletterHeading="Get San Antonio Networking Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's networking events in San Antonio, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/san-antonio/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

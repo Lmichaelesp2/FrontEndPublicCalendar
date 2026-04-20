@@ -210,7 +210,14 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Find Your Next Houston Tech Event</h2>
           <p>Browse developer meetups, energy tech events, health tech gatherings, and more</p>
         </div>
-        <EventGate forcedCity="Houston" groupType="technology" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Houston"
+          groupType="technology"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Houston Technology Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's tech events in Houston, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/houston/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

@@ -210,7 +210,14 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next Houston Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <EventGate forcedCity="Houston" groupType="chamber" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Houston"
+          groupType="chamber"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Houston Chamber Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's chamber events in Houston, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/houston/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

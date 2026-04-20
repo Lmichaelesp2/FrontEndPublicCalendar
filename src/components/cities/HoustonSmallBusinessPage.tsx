@@ -210,7 +210,14 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
           <h2>Find Your Next Houston Small Business Event</h2>
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
-        <EventGate forcedCity="Houston" groupType="small_business" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Houston"
+          groupType="small_business"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Houston Small Business Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's small business events in Houston, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/houston/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

@@ -199,7 +199,14 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Find Your Next Dallas Real Estate Event</h2>
           <p>Browse investor meetups, networking events, CE classes, and more</p>
         </div>
-        <EventGate forcedCity="Dallas" groupType="real_estate" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Dallas"
+          groupType="real_estate"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Dallas Real Estate Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's real estate events in Dallas, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/dallas/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

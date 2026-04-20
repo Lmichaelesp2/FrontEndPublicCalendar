@@ -197,7 +197,14 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Today's Networking Events in Dallas</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="Dallas" groupType="networking" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Dallas"
+          groupType="networking"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Dallas Networking Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's networking events in Dallas, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/dallas/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

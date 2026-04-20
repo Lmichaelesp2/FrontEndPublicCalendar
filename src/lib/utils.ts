@@ -96,3 +96,14 @@ export function getWeekRangeFromToday(): { start: string; end: string } {
     end: dateKey(saturday),
   };
 }
+
+export function getMondayWeekRange(referenceDate?: Date): { start: string; end: string } {
+  const now = referenceDate ?? new Date();
+  const day = now.getDay();
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diffToMonday);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  return { start: dateKey(monday), end: dateKey(sunday) };
+}

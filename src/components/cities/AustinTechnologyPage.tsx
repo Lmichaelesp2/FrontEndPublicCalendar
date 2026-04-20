@@ -199,7 +199,14 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Find Your Next Austin Tech Event</h2>
           <p>Browse developer meetups, startup events, hackathons, and more</p>
         </div>
-        <EventGate forcedCity="Austin" groupType="technology" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Austin"
+          groupType="technology"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Technology Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's tech events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

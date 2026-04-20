@@ -200,7 +200,14 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
           <h2>Find Your Next Austin Small Business Event</h2>
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
-        <EventGate forcedCity="Austin" groupType="small_business" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Austin"
+          groupType="small_business"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Small Business Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's small business events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

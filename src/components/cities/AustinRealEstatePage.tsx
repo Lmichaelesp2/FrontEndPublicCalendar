@@ -211,7 +211,14 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Find Your Next Austin Real Estate Event</h2>
           <p>Browse investor meetups, broker networking, property tours, and more</p>
         </div>
-        <EventGate forcedCity="Austin" groupType="real_estate" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Austin"
+          groupType="real_estate"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Real Estate Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's real estate events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

@@ -200,7 +200,14 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next Austin Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <EventGate forcedCity="Austin" groupType="chamber" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Austin"
+          groupType="chamber"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Chamber Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's chamber events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

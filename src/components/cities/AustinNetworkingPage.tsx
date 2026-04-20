@@ -197,7 +197,14 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Today's Networking Events in Austin</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventGate forcedCity="Austin" groupType="networking" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Austin"
+          groupType="networking"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Networking Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's networking events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

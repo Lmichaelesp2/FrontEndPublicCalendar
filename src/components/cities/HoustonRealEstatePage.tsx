@@ -210,7 +210,14 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Find Your Next Houston Real Estate Event</h2>
           <p>Browse investor meetups, HAR events, broker tours, and more</p>
         </div>
-        <EventGate forcedCity="Houston" groupType="real_estate" initialEvents={initialEvents} />
+        <EventGate
+          forcedCity="Houston"
+          groupType="real_estate"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Houston Real Estate Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's real estate events in Houston, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/houston/subscribe"
+        />
       </section>
 
       <section className="sa-orgs-section">

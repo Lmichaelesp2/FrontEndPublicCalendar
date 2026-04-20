@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Search, X, Lock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, X, Mail } from 'lucide-react';
 import type { Event, City } from '../lib/supabase';
 import { supabase } from '../lib/supabase';
-import { dateKey, formatDate, parseDate, sortEventsByTime, useMidnightReset } from '../lib/utils';
+import { dateKey, formatDate, parseDate, sortEventsByTime, useMidnightReset, getMondayWeekRange } from '../lib/utils';
 import { resolveGroupType } from '../lib/cities';
 
 import { EventCard } from './EventCard';
@@ -20,9 +20,12 @@ interface CalendarProps {
   showGateBanner?: boolean;
   onAuthClick?: () => void;
   cityName?: string;
+  newsletterHeading?: string;
+  newsletterSubtext?: string;
+  subscribeHref?: string;
 }
 
-export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, onAuthClick, cityName }: CalendarProps) {
+export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref }: CalendarProps) {
   const { user } = useAuth();
   const today = useMidnightReset();
   const [liveEvents, setLiveEvents] = useState<Event[] | null>(null);
@@ -50,15 +53,24 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     }
     fetchLive();
   }, [forcedCity, groupType]);
+
+  const initialWeek = getMondayWeekRange();
   const [searchQuery, setSearchQuery] = useState('');
-  const [rangeStart, setRangeStart] = useState<string | null>(() => dateKey(new Date()));
-  const [rangeEnd, setRangeEnd] = useState<string | null>(null);
+  const [rangeStart, setRangeStart] = useState<string>(initialWeek.start);
+  const [rangeEnd, setRangeEnd] = useState<string>(initialWeek.end);
+  const [weekOffset, setWeekOffset] = useState(0);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
   const [inlineAuthOpen, setInlineAuthOpen] = useState(false);
 
   useEffect(() => {
-    setRangeStart(today);
-    setRangeEnd(null);
-  }, [today]);
+    const ref = new Date();
+    ref.setDate(ref.getDate() + weekOffset * 7);
+    const week = getMondayWeekRange(ref);
+    setRangeStart(week.start);
+    setRangeEnd(week.end);
+    setSearchQuery('');
+  }, [weekOffset, today]);
 
   function triggerAuth() {
     if (onAuthClick) {
@@ -66,6 +78,12 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     } else {
       setInlineAuthOpen(true);
     }
+  }
+
+  function stepWeek(direction: 1 | -1) {
+    const next = weekOffset + direction;
+    if (next < 0) return;
+    setWeekOffset(next);
   }
 
   const eventsSource = liveEvents ?? initialEvents;
@@ -76,21 +94,6 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     if (maxDate && e.start_date > maxDate) return false;
     return true;
   });
-
-  function stepDay(direction: 1 | -1) {
-    if (!user) {
-      triggerAuth();
-      return;
-    }
-    const current = parseDate(rangeStart ?? today);
-    current.setDate(current.getDate() + direction);
-    const dk = dateKey(current);
-    if (dk < today) return;
-    if (maxDate && dk > maxDate) return;
-    setRangeStart(dk);
-    setRangeEnd(null);
-    setSearchQuery('');
-  }
 
   const searchActive = searchQuery.trim().length > 0;
 
@@ -103,33 +106,30 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         return text.includes(q);
       })
       .sort((a, b) => a.start_date.localeCompare(b.start_date));
-  } else if (rangeStart) {
-    const end = rangeEnd ?? rangeStart;
-    displayEvents = sortEventsByTime(
-      cityFiltered.filter((e) => e.start_date >= rangeStart && e.start_date <= end)
-    ).sort((a, b) => a.start_date.localeCompare(b.start_date) || 0);
   } else {
-    displayEvents = sortEventsByTime(cityFiltered);
+    displayEvents = sortEventsByTime(
+      cityFiltered.filter((e) => e.start_date >= rangeStart && e.start_date <= rangeEnd)
+    ).sort((a, b) => a.start_date.localeCompare(b.start_date) || 0);
   }
 
   const eventCount = displayEvents.length;
 
-  const rangeLabel = rangeStart
-    ? rangeEnd && rangeEnd !== rangeStart
-      ? `${formatDate(parseDate(rangeStart))} – ${formatDate(parseDate(rangeEnd))}`
-      : formatDate(parseDate(rangeStart))
-    : 'All Upcoming';
+  const rangeLabel = searchActive
+    ? 'Search results'
+    : `${formatDate(parseDate(rangeStart))} – ${formatDate(parseDate(rangeEnd))}`;
 
-  const isMultiDay = !!(rangeEnd && rangeEnd !== rangeStart) || searchActive;
+  const isMultiDay = true;
 
-  const selectedParsed = rangeStart ? parseDate(rangeStart) : new Date();
-  const isSingleDay = rangeStart && !rangeEnd && !searchActive;
-  const selectedDayName = selectedParsed.toLocaleDateString('en-US', { weekday: 'long' });
-  const selectedDateDisplay = selectedParsed.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  const selectedIsToday = rangeStart === today;
-  const singleDayCount = isSingleDay
-    ? cityFiltered.filter((e) => e.start_date === rangeStart).length
-    : 0;
+  async function handleNewsletterSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newsletterEmail.trim()) return;
+    try {
+      await supabase.from('assistant_waitlist').insert({ email: newsletterEmail.trim() });
+    } catch (_) {}
+    setNewsletterSubmitted(true);
+  }
+
+  const showNewsletter = !!(newsletterHeading || newsletterSubtext || subscribeHref);
 
   return (
     <section className="cal-section" id="calendar">
@@ -159,24 +159,33 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           </div>
         )}
 
-        {showGateBanner && (
-          <div className="ev-gate-banner ev-gate-banner-above">
-            <div className="ev-gate-banner-inner">
-              <div className="ev-gate-icon">
-                <Lock size={24} />
+        {showNewsletter && (
+          <div className="cal-newsletter-bar">
+            <div className="cal-newsletter-bar-inner">
+              <div className="cal-newsletter-bar-text">
+                <Mail size={18} className="cal-newsletter-bar-icon" />
+                <div>
+                  <p className="cal-newsletter-bar-heading">{newsletterHeading}</p>
+                  {newsletterSubtext && <p className="cal-newsletter-bar-sub">{newsletterSubtext}</p>}
+                </div>
               </div>
-              <div className="ev-gate-text">
-                <p className="ev-gate-heading">See the Full Week</p>
-                <p className="ev-gate-sub">Create a free account to unlock the full weekly calendar.</p>
-              </div>
-              <div className="ev-gate-banner-buttons">
-                <button className="ev-gate-btn" onClick={triggerAuth}>
-                  Create Free Account
-                </button>
-                <button className="ev-gate-signin" onClick={triggerAuth}>
-                  Sign in
-                </button>
-              </div>
+              {!newsletterSubmitted ? (
+                <form className="cal-newsletter-bar-form" onSubmit={handleNewsletterSubmit}>
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    className="cal-newsletter-bar-input"
+                  />
+                  <button type="submit" className="cal-newsletter-bar-btn">
+                    Subscribe — Free
+                  </button>
+                </form>
+              ) : (
+                <p className="cal-newsletter-bar-success">You're on the list!</p>
+              )}
             </div>
           </div>
         )}
@@ -184,27 +193,25 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         <div className="cal-day-nav">
           <button
             className="cal-day-arrow"
-            onClick={() => stepDay(-1)}
-            disabled={user ? (rangeStart === today || !rangeStart) : false}
-            aria-label={!user ? 'Create a free account to see the full week' : 'Previous day'}
+            onClick={() => stepWeek(-1)}
+            disabled={weekOffset === 0}
+            aria-label="Previous week"
           >
             <ChevronLeft size={24} />
           </button>
 
           <div className="cal-day-center">
-            <div className="cal-day-name">{isSingleDay ? (selectedIsToday ? 'Today' : selectedDayName) : rangeLabel}</div>
-            <div className="cal-day-full">{isSingleDay ? selectedDateDisplay : `${eventCount} event${eventCount !== 1 ? 's' : ''}`}</div>
-            {isSingleDay && (
-              <div className="cal-day-count">
-                {singleDayCount} event{singleDayCount !== 1 ? 's' : ''}
-              </div>
-            )}
+            <div className="cal-day-name">{searchActive ? 'Search Results' : 'This Week'}</div>
+            <div className="cal-day-full">{rangeLabel}</div>
+            <div className="cal-day-count">
+              {eventCount} event{eventCount !== 1 ? 's' : ''}
+            </div>
           </div>
 
           <button
             className="cal-day-arrow"
-            onClick={() => stepDay(1)}
-            aria-label={!user ? 'Create a free account to see the full week' : 'Next day'}
+            onClick={() => stepWeek(1)}
+            aria-label="Next week"
           >
             <ChevronRight size={24} />
           </button>
@@ -213,7 +220,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         <div className="ev-list" style={{ marginTop: '0.5rem' }}>
           {displayEvents.length === 0 ? (
             <div className="no-ev">
-              <p>{searchActive ? 'No events match your search.' : 'No events for the selected date range.'}</p>
+              <p>{searchActive ? 'No events match your search.' : 'No events for this week.'}</p>
             </div>
           ) : (
             <>
