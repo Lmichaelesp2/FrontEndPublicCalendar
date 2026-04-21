@@ -25,7 +25,7 @@ export async function fetchApprovedEvents(options?: {
   let query = supabase
     .from('events')
     .select('*')
-    .eq('status', 'approved')
+    .in('status', ['approved', 'active'])
     .gte('start_date', from)
     .lte('start_date', to)
     .order('start_date', { ascending: true });
