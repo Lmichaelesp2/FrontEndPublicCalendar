@@ -41,16 +41,13 @@ export function MonthCalendar({ onDateSelect, onAuthClick, eventDates }: MonthCa
 
   function handleToday() {
     setCurrentDate(new Date());
+    if (onDateSelect) onDateSelect(today);
   }
 
   function handleDayClick(day: number) {
     const dk = cellDateKey(day);
     const isPast = dk < today;
     if (isPast) return;
-    if (!user) {
-      if (onAuthClick) onAuthClick();
-      return;
-    }
     if (onDateSelect) onDateSelect(dk);
   }
 

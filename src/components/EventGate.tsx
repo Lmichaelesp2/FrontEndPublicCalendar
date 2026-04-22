@@ -11,12 +11,13 @@ interface EventGateProps {
   groupType?: string;
   cityName?: string;
   showMonthCalendar?: boolean;
+  weekMode?: boolean;
   newsletterHeading?: string;
   newsletterSubtext?: string;
   subscribeHref?: string;
 }
 
-export function EventGate({ initialEvents, forcedCity, groupType, cityName, showMonthCalendar = false, newsletterHeading, newsletterSubtext, subscribeHref }: EventGateProps) {
+export function EventGate({ initialEvents, forcedCity, groupType, cityName, showMonthCalendar = false, weekMode = false, newsletterHeading, newsletterSubtext, subscribeHref }: EventGateProps) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const resolvedCityName = cityName ?? forcedCity;
@@ -42,6 +43,9 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
         newsletterHeading={newsletterHeading}
         newsletterSubtext={newsletterSubtext}
         subscribeHref={subscribeHref}
+        externalSelectedDate={selectedDate}
+        onExternalDateClear={() => setSelectedDate(null)}
+        weekMode={weekMode || !!groupType}
       />
     </>
   );

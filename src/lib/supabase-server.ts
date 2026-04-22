@@ -5,7 +5,7 @@ import { resolveGroupType } from './cities';
 function getServerSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
-  return createClient(url || 'https://placeholder.supabase.co', key || 'placeholder');
+  return createClient(url, key);
 }
 
 export async function fetchApprovedEvents(options?: {
@@ -25,7 +25,6 @@ export async function fetchApprovedEvents(options?: {
   let query = supabase
     .from('events')
     .select('*')
-    .in('status', ['approved', 'active'])
     .gte('start_date', from)
     .lte('start_date', to)
     .order('start_date', { ascending: true });
@@ -40,7 +39,7 @@ export async function fetchApprovedEvents(options?: {
 
   const { data, error } = await query;
   if (error) {
-    console.error('Error fetching events:', error);
+    console.error('fetchApprovedEvents ERROR:', error);
     return [];
   }
   return data || [];
