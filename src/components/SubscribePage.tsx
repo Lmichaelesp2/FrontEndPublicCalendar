@@ -210,6 +210,8 @@ export function SubscribePage() {
       </div>
 
       <div className="sub-body">
+
+        {/* Two-column section: perks + form */}
         <div className="sub-body-inner">
 
           {/* Perks */}
@@ -304,8 +306,10 @@ export function SubscribePage() {
             </div>
           </div>
 
-          {/* ── Other Calendars Section ── */}
-          <div className="sub-other-cals">
+        </div>{/* end sub-body-inner */}
+
+        {/* ── Other Calendars Section — full width below the two-column grid ── */}
+        <div className="sub-other-cals">
             <h2 className="sub-other-title">Explore other calendars</h2>
             <p className="sub-other-desc">
               Feel free to sign up for any of our other city and industry-specific newsletters — each one is a free, independent weekly email.
@@ -376,8 +380,7 @@ export function SubscribePage() {
             </div>
           </div>
 
-        </div>
-      </div>
+      </div>{/* end sub-body */}
 
       <Footer />
     </div>
