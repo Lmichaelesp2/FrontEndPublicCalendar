@@ -1,142 +1,116 @@
 'use client';
+
 import { useState } from 'react';
 import { X, MapPin } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
-type AuthModalProps = {
+interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: () => void;
-  defaultMode?: 'signin' | 'signup';
+  onSuccess?: () => void;
+  defaultMode?: 'signup' | 'signin';
   cityName?: string;
-};
+}
 
 export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup', cityName }: AuthModalProps) {
-  const [mode, setMode] = useState<'signin' | 'signup'>(defaultMode);
-  const [email, setEmail] = useState('');
+  const { signUp, signIn } = useAuth();
+  const [mode, setMode]       = useState<'signup' | 'signin'>(defaultMode);
+  const [email, setEmail]     = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError]     = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp } = useAuth();
 
   if (!isOpen) return null;
+
+  function switchMode(newMode: 'signup' | 'signin') {
+    setMode(newMode);
+    setError('');
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       const { error } = mode === 'signup'
-        ? await signUp(email, password)
+        ? await signUp(email, password, '')   // no first name needed in modal
         : await signIn(email, password);
 
       if (error) {
         setError(error.message);
       } else {
-        onSuccess();
+        onSuccess?.();
+        onClose();
       }
     } catch {
-      setError('An unexpected error occurred');
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
   }
 
-  function switchMode(next: 'signin' | 'signup') {
-    setMode(next);
-    setError('');
-  }
-
   return (
-    <div className="auth-overlay" onClick={onClose}>
-      <div className="auth-modal-card" onClick={(e) => e.stopPropagation()}>
-        <button className="auth-modal-close" onClick={onClose} aria-label="Close">
-          <X size={18} />
-        </button>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-card" onClick={e => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}><X size={18} /></button>
 
-        <div className="auth-modal-hero">
-          <div className="auth-modal-hero-inner">
-            {cityName && (
-              <div className="auth-modal-city-badge">
-                <MapPin size={14} />
-                <span>{cityName}</span>
-              </div>
-            )}
-            <h2 className="auth-modal-city-name">
-              {cityName ? `${cityName} Business Calendar` : 'Local Business Calendar'}
-            </h2>
-            <p className="auth-modal-hero-sub">
-              {mode === 'signup'
-                ? 'Create a free account to unlock the full weekly calendar'
-                : 'Welcome back — sign in to view the full calendar'}
-            </p>
+        {cityName && (
+          <div className="modal-city">
+            <MapPin size={14} />
+            {cityName}
           </div>
+        )}
+
+        <div className="modal-tabs">
+          <button className={`modal-tab ${mode === 'signup' ? 'active' : ''}`} onClick={() => switchMode('signup')}>
+            Sign up
+          </button>
+          <button className={`modal-tab ${mode === 'signin' ? 'active' : ''}`} onClick={() => switchMode('signin')}>
+            Sign in
+          </button>
         </div>
 
-        <div className="auth-modal-body">
-          <div className="auth-tab-row">
-            <button
-              className={`auth-tab${mode === 'signup' ? ' active' : ''}`}
-              onClick={() => switchMode('signup')}
-              type="button"
-            >
-              Create Account
-            </button>
-            <button
-              className={`auth-tab${mode === 'signin' ? ' active' : ''}`}
-              onClick={() => switchMode('signin')}
-              type="button"
-            >
-              Sign In
-            </button>
+        <p className="modal-sub">
+          {mode === 'signup'
+            ? 'Create a free account to unlock the full weekly calendar'
+            : 'Welcome back — sign in to view the full calendar'}
+        </p>
+
+        <form onSubmit={handleSubmit} className="modal-form">
+          <div className="modal-field">
+            <label htmlFor="modal-email">Email address</label>
+            <input
+              id="modal-email"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div className="modal-field">
+            <label htmlFor="modal-password">Password</label>
+            <input
+              id="modal-password"
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              minLength={6}
+            />
           </div>
 
-          <form onSubmit={handleSubmit} className="auth-modal-form">
-            <div className="auth-field">
-              <label htmlFor="am-email">Email</label>
-              <input
-                id="am-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="you@example.com"
-                autoComplete="email"
-              />
-            </div>
+          {error && <div className="modal-error">{error}</div>}
 
-            <div className="auth-field">
-              <label htmlFor="am-password">Password</label>
-              <input
-                id="am-password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="••••••••"
-                minLength={6}
-                autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-              />
-            </div>
+          <button type="submit" className="modal-submit" disabled={loading}>
+            {loading ? 'Please wait...' : mode === 'signup' ? 'Create free account' : 'Sign in'}
+          </button>
+        </form>
 
-            {error && <div className="auth-error">{error}</div>}
-
-            <button type="submit" className="auth-submit-btn" disabled={loading}>
-              {loading
-                ? 'Please wait...'
-                : mode === 'signup'
-                ? 'Create Free Account'
-                : 'Sign In'}
-            </button>
-          </form>
-
-          {mode === 'signup' && (
-            <p className="auth-modal-disclaimer">
-              Free forever. No credit card required.
-            </p>
-          )}
-        </div>
+        {mode === 'signup' && (
+          <p className="modal-fine-print">Free forever. No credit card required.</p>
+        )}
       </div>
     </div>
   );
