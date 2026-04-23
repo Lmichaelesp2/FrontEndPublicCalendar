@@ -1676,3 +1676,116 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   .month-gate-banner-inner{flex-direction:column;gap:1rem}
   .month-gate-btn{width:100%}
 }
+/* ============================================================
+   NEW SUBSCRIBE PAGE STYLES
+   Paste these at the bottom of your src/index.css file
+   ============================================================ */
+
+/* ── What they're subscribing to label ── */
+.sub-subscribing-to {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background: var(--color-bg-secondary);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.sub-subscribing-to strong {
+  color: var(--color-primary);
+}
+
+/* ── Success redirect text ── */
+.sub-success-redirect {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 8px 0 16px;
+}
+
+/* ── Other Calendars Section ── */
+.sub-other-cals {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--color-border);
+}
+
+.sub-other-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--color-text-primary);
+}
+
+.sub-other-desc {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 0 0 28px;
+  max-width: 560px;
+}
+
+/* ── Grid of cities ── */
+.sub-other-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* ── Each city block ── */
+.sub-other-city-block {
+  background: var(--color-bg-secondary);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.sub-other-city-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ── Individual links ── */
+.sub-other-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sub-other-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding: 5px 6px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sub-other-link:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-primary);
+}
+
+.sub-other-link--city {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .sub-other-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .sub-other-grid {
+    grid-template-columns: 1fr;
+  }
+}
