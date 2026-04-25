@@ -71,15 +71,23 @@ export function Hero() {
           {!cityConfig && (
             <>
               <p className="hero-subtext">
-                Stop missing the events that grow your network and your business.
+                Find business, networking, chamber, technology, real estate, and small business events in San Antonio, Austin, Dallas, and Houston — all in one weekly calendar.
               </p>
+              <p className="hero-choose">Choose a city to view the full calendar or create your free account.</p>
               <nav className="hero-cities" aria-label="Browse by city">
-                <div className="hero-cities-row">
+                <div className="hero-cities-grid">
                   {CITY_CONFIGS.map((c) => (
-                    <Link key={c.slug} href={`/texas/${c.slug}/subscribe`} className="hero-city-link">
+                    <div key={c.slug} className="hero-city-card">
                       <span className="hero-city-name">{c.name}</span>
-                      <span className="hero-city-subscribe">Sign up free</span>
-                    </Link>
+                      <div className="hero-city-btns">
+                        <Link href={`/texas/${c.slug}`} className="hero-btn-calendar">
+                          Full Calendar
+                        </Link>
+                        <Link href={`/texas/${c.slug}/subscribe`} className="hero-btn-account">
+                          Create Account
+                        </Link>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </nav>

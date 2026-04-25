@@ -175,6 +175,25 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   .hero-city-name{font-size:.9rem}
 }
 
+/* Hero city grid — new design */
+.hero-choose{font-size:.9rem;color:rgba(255,255,255,.7);margin:.5rem 0 0;text-align:center}
+.hero-cities-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%;max-width:900px;margin-top:1.5rem}
+.hero-city-card{display:flex;flex-direction:column;align-items:center;gap:.75rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:1.25rem 1rem;backdrop-filter:blur(4px)}
+.hero-city-card .hero-city-name{font-size:1rem;font-weight:800;color:#ffde59;letter-spacing:.01em}
+.hero-city-btns{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center}
+.hero-btn-calendar{display:inline-flex;align-items:center;justify-content:center;padding:.45rem .9rem;border-radius:8px;background:#fff;color:#003d82;font-size:.8rem;font-weight:800;text-decoration:none;transition:all .15s;white-space:nowrap;border:2px solid #fff}
+.hero-btn-calendar:hover{background:#f0f4ff;transform:translateY(-1px)}
+.hero-btn-account{display:inline-flex;align-items:center;justify-content:center;padding:.45rem .9rem;border-radius:8px;background:transparent;color:#fff;font-size:.8rem;font-weight:700;text-decoration:none;transition:all .15s;white-space:nowrap;border:2px solid rgba(255,255,255,.5)}
+.hero-btn-account:hover{background:rgba(255,255,255,.15);border-color:#fff;transform:translateY(-1px)}
+@media(max-width:768px){
+  .hero-cities-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}
+  .hero-city-card{padding:1rem .75rem}
+}
+@media(max-width:480px){
+  .hero-cities-grid{grid-template-columns:1fr 1fr}
+  .hero-btn-calendar,.hero-btn-account{font-size:.75rem;padding:.4rem .65rem}
+}
+
 /* VALUE SECTION */
 .value-section{padding:4rem 2rem 2rem;margin:0;background:#ffffff;position:relative;overflow:hidden}
 .value-section::before{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;background:radial-gradient(circle,rgba(255,222,89,.08) 0%,transparent 70%);border-radius:50%;pointer-events:none}
