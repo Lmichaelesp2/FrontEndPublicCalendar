@@ -1,11 +1,10 @@
 'use client';
 import { useState } from 'react';
-import { LogOut, Home } from 'lucide-react';
+import { LogOut, Home, Users } from 'lucide-react';
 import Link from 'next/link';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
 import { AdminDashboard } from './AdminDashboard';
-import { SubscriberManager } from './SubscriberManager';
 import { CSVUpload } from './CSVUpload';
 import { EventPreview } from './EventPreview';
 import { PendingEvents } from './PendingEvents';
@@ -30,6 +29,10 @@ export function AdminPanel() {
               <Home size={16} />
               Back to Home
             </Link>
+            <Link href="/admin/subscribers" className="btn-secondary flex items-center gap-2">
+              <Users size={16} />
+              Subscribers
+            </Link>
             <button onClick={logout} className="btn-logout">
               <LogOut size={16} />
               Logout
@@ -40,7 +43,6 @@ export function AdminPanel() {
 
       <div className="admin-content">
         <AdminDashboard />
-        <SubscriberManager />
         <PendingEvents />
         <ClearPastEvents />
         <CSVUpload onEventsLoaded={setEvents} />
