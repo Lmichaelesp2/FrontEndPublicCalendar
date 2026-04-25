@@ -2092,3 +2092,26 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .subs-modal-delete{background:#dc2626;color:#fff;border:none;font-size:.85rem;font-weight:700;padding:.5rem 1.25rem;border-radius:6px;cursor:pointer}
 .subs-modal-delete:hover{background:#b91c1c}
 .subs-modal-delete:disabled{opacity:.5;cursor:default}
+
+/* ── Edit Modal — Calendar Management ───────────────────────────────────── */
+.subs-modal-lg{max-width:580px}
+.subs-modal-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.subs-modal-cal-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem;align-items:flex-start}
+.subs-modal-cal-item{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .65rem;border-radius:20px;border:1px solid;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .15s;background:#fff}
+.subs-modal-cal-active:hover{opacity:.7;text-decoration:line-through}
+.subs-modal-cal-x{opacity:.6;flex-shrink:0}
+.subs-modal-cal-removing{background:#fef2f2!important;border-color:#fca5a5!important;color:#dc2626!important;opacity:.7}
+.subs-modal-cal-new{outline:2px dashed currentColor;outline-offset:1px}
+.subs-modal-strikethrough{text-decoration:line-through;opacity:.6}
+.subs-modal-undo{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-left:.25rem;opacity:.8}
+.subs-modal-add-wrap{position:relative}
+.subs-modal-add-btn{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .75rem;border-radius:20px;border:1px dashed var(--navy);color:var(--navy);background:#fff;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .15s}
+.subs-modal-add-btn:hover{background:#eff6ff}
+.subs-modal-picker{position:absolute;left:0;top:calc(100% + .5rem);background:#fff;border:1px solid var(--gray-200);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.12);z-index:100;min-width:220px;max-height:300px;overflow-y:auto;padding:.5rem}
+.subs-modal-picker-group{margin-bottom:.5rem}
+.subs-modal-picker-city{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.3rem .5rem .1rem;opacity:.8}
+.subs-modal-picker-opt{display:block;width:100%;text-align:left;padding:.4rem .75rem;border:none;background:none;font-size:.82rem;color:var(--gray-700);cursor:pointer;border-radius:6px}
+.subs-modal-picker-opt:hover{background:var(--gray-50);color:var(--navy)}
+.subs-modal-warning{font-size:.78rem;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:.4rem .75rem;margin-top:.25rem;width:100%}
+.subs-modal-info{font-size:.78rem;color:#065f46;background:#ecfdf5;border:1px solid #6ee7b7;border-radius:6px;padding:.4rem .75rem;margin-top:.25rem;width:100%}
+@media(max-width:480px){.subs-modal-row{grid-template-columns:1fr}}

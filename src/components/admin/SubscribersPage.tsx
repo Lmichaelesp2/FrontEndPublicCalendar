@@ -54,22 +54,87 @@ function formatDate(iso: string) {
 
 // ── Edit Modal ────────────────────────────────────────────────────────────────
 
+// All possible calendars a subscriber can be on
+const ALL_CITIES = ['Austin', 'Dallas', 'Houston', 'San Antonio'];
+const ALL_SUBCALS = ['Networking', 'Technology', 'Real Estate', 'Chamber', 'Small Business'];
+
+// Every possible calendar combination (4 cities × 6 options each = 24)
+const ALL_CALENDARS: { city: string; sub_calendar: string | null; label: string }[] = [];
+for (const city of ALL_CITIES) {
+  ALL_CALENDARS.push({ city, sub_calendar: null, label: `${city} (city-wide)` });
+  for (const sub of ALL_SUBCALS) {
+    ALL_CALENDARS.push({ city, sub_calendar: sub, label: `${city} — ${sub}` });
+  }
+}
+
 function EditModal({ subscriber, onClose, onSave }: {
   subscriber: Subscriber;
   onClose: () => void;
-  onSave: (oldEmail: string, newFirstName: string, newEmail: string) => Promise<void>;
+  onSave: (
+    oldEmail: string,
+    newFirstName: string,
+    newEmail: string,
+    toAdd: { city: string; sub_calendar: string | null }[],
+    toRemove: string[]
+  ) => Promise<void>;
 }) {
-  const [firstName, setFirstName] = useState(subscriber.first_name ?? '');
-  const [email, setEmail]         = useState(subscriber.email);
-  const [saving, setSaving]       = useState(false);
-  const [error, setError]         = useState('');
+  const [firstName, setFirstName]   = useState(subscriber.first_name ?? '');
+  const [email, setEmail]           = useState(subscriber.email);
+  const [saving, setSaving]         = useState(false);
+  const [error, setError]           = useState('');
+  const [showAddPicker, setShowAddPicker] = useState(false);
+
+  // Track which subscription rows to remove (by id)
+  const [toRemove, setToRemove]     = useState<Set<string>>(new Set());
+  // Track new calendars to add
+  const [toAdd, setToAdd]           = useState<{ city: string; sub_calendar: string | null }[]>([]);
+
+  // Existing subs not marked for removal
+  const existingActive = subscriber.subscriptions.filter(r => !toRemove.has(r.id));
+
+  // Calendars already subscribed to (active) — for filtering the picker
+  const alreadySubbed = new Set(
+    existingActive.map(r => `${r.city}|${r.sub_calendar ?? ''}`)
+  );
+  // Also exclude ones we've already added this session
+  const alreadyAdded = new Set(
+    toAdd.map(a => `${a.city}|${a.sub_calendar ?? ''}`)
+  );
+
+  const availableToAdd = ALL_CALENDARS.filter(
+    c => !alreadySubbed.has(`${c.city}|${c.sub_calendar ?? ''}`) &&
+         !alreadyAdded.has(`${c.city}|${c.sub_calendar ?? ''}`)
+  );
+
+  function toggleRemove(id: string) {
+    setToRemove(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }
+
+  function addCalendar(cal: { city: string; sub_calendar: string | null }) {
+    setToAdd(prev => [...prev, cal]);
+    setShowAddPicker(false);
+  }
+
+  function removeFromToAdd(idx: number) {
+    setToAdd(prev => prev.filter((_, i) => i !== idx));
+  }
 
   async function handleSave() {
     if (!email.trim()) { setError('Email is required.'); return; }
     setSaving(true);
     setError('');
     try {
-      await onSave(subscriber.email, firstName.trim(), email.trim().toLowerCase());
+      await onSave(
+        subscriber.email,
+        firstName.trim(),
+        email.trim().toLowerCase(),
+        toAdd,
+        Array.from(toRemove)
+      );
       onClose();
     } catch (e: any) {
       setError(e.message ?? 'Failed to save. Please try again.');
@@ -78,48 +143,111 @@ function EditModal({ subscriber, onClose, onSave }: {
     }
   }
 
+  const totalSubs = existingActive.length + toAdd.length;
+
   return (
     <div className="subs-modal-overlay" onClick={onClose}>
-      <div className="subs-modal" onClick={e => e.stopPropagation()}>
+      <div className="subs-modal subs-modal-lg" onClick={e => e.stopPropagation()}>
         <div className="subs-modal-header">
           <h2>Edit Subscriber</h2>
           <button className="subs-modal-close" onClick={onClose}><X size={18} /></button>
         </div>
         <div className="subs-modal-body">
-          <div className="subs-modal-field">
-            <label>First Name</label>
-            <input
-              type="text"
-              value={firstName}
-              onChange={e => setFirstName(e.target.value)}
-              placeholder="First name"
-              className="subs-modal-input"
-            />
-          </div>
-          <div className="subs-modal-field">
-            <label>Email Address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="email@example.com"
-              className="subs-modal-input"
-            />
-          </div>
-          <div className="subs-modal-subs-list">
-            <label>Subscriptions ({subscriber.subscriptions.length})</label>
-            <div className="subs-modal-tags">
-              {subscriber.subscriptions.map(r => (
-                <span
-                  key={r.id}
-                  className="subs-tag"
-                  style={{ background: calColor(r) + '18', color: calColor(r), borderColor: calColor(r) + '44' }}
-                >
-                  {calLabel(r)}
-                </span>
-              ))}
+
+          {/* Name + Email */}
+          <div className="subs-modal-row">
+            <div className="subs-modal-field">
+              <label>First Name</label>
+              <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First name" className="subs-modal-input" />
+            </div>
+            <div className="subs-modal-field">
+              <label>Email Address</label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email@example.com" className="subs-modal-input" />
             </div>
           </div>
+
+          {/* Subscriptions */}
+          <div className="subs-modal-field">
+            <label>Subscriptions ({totalSubs}) — click a calendar to remove it</label>
+
+            <div className="subs-modal-cal-list">
+              {/* Existing active subs */}
+              {existingActive.map(r => (
+                <button
+                  key={r.id}
+                  className="subs-modal-cal-item subs-modal-cal-active"
+                  style={{ borderColor: calColor(r) + '66', color: calColor(r), background: calColor(r) + '12' }}
+                  onClick={() => toggleRemove(r.id)}
+                  title="Click to remove"
+                >
+                  {calLabel(r)}
+                  <X size={12} className="subs-modal-cal-x" />
+                </button>
+              ))}
+
+              {/* Subs marked for removal — shown crossed out */}
+              {subscriber.subscriptions.filter(r => toRemove.has(r.id)).map(r => (
+                <button
+                  key={r.id}
+                  className="subs-modal-cal-item subs-modal-cal-removing"
+                  onClick={() => toggleRemove(r.id)}
+                  title="Click to undo removal"
+                >
+                  <span className="subs-modal-strikethrough">{calLabel(r)}</span>
+                  <span className="subs-modal-undo">undo</span>
+                </button>
+              ))}
+
+              {/* Newly added subs */}
+              {toAdd.map((a, i) => (
+                <button
+                  key={i}
+                  className="subs-modal-cal-item subs-modal-cal-new"
+                  style={{ borderColor: (CITY_COLORS[a.city] ?? '#6b7280') + '66', color: CITY_COLORS[a.city] ?? '#6b7280', background: (CITY_COLORS[a.city] ?? '#6b7280') + '12' }}
+                  onClick={() => removeFromToAdd(i)}
+                  title="Click to remove"
+                >
+                  + {a.sub_calendar ? `${a.city} — ${a.sub_calendar}` : `${a.city} (city-wide)`}
+                  <X size={12} className="subs-modal-cal-x" />
+                </button>
+              ))}
+
+              {/* Add button */}
+              {availableToAdd.length > 0 && (
+                <div className="subs-modal-add-wrap">
+                  <button className="subs-modal-add-btn" onClick={() => setShowAddPicker(p => !p)}>
+                    + Add Calendar
+                  </button>
+                  {showAddPicker && (
+                    <div className="subs-modal-picker">
+                      {ALL_CITIES.map(city => {
+                        const cityOpts = availableToAdd.filter(c => c.city === city);
+                        if (cityOpts.length === 0) return null;
+                        return (
+                          <div key={city} className="subs-modal-picker-group">
+                            <div className="subs-modal-picker-city" style={{ color: CITY_COLORS[city] }}>{city}</div>
+                            {cityOpts.map((c, i) => (
+                              <button key={i} className="subs-modal-picker-opt" onClick={() => addCalendar(c)}>
+                                {c.sub_calendar ?? 'City-wide (all events)'}
+                              </button>
+                            ))}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {toRemove.size > 0 && (
+              <p className="subs-modal-warning">⚠ {toRemove.size} subscription{toRemove.size > 1 ? 's' : ''} will be removed.</p>
+            )}
+            {toAdd.length > 0 && (
+              <p className="subs-modal-info">✓ {toAdd.length} new subscription{toAdd.length > 1 ? 's' : ''} will be added.</p>
+            )}
+          </div>
+
           {error && <p className="subs-modal-error">{error}</p>}
         </div>
         <div className="subs-modal-footer">
@@ -256,19 +384,54 @@ export function SubscribersPage() {
     });
   }
 
-  // Edit: update first_name and email on all rows for this subscriber
-  async function handleSave(oldEmail: string, newFirstName: string, newEmail: string) {
-    const ids = rows.filter(r => r.email.toLowerCase() === oldEmail.toLowerCase()).map(r => r.id);
-    const { error } = await supabaseAdmin
-      .from('newsletter_subscriptions')
-      .update({ first_name: newFirstName || null, email: newEmail })
-      .in('id', ids);
-    if (error) throw new Error(error.message);
-    setRows(prev => prev.map(r =>
-      r.email.toLowerCase() === oldEmail.toLowerCase()
-        ? { ...r, first_name: newFirstName || null, email: newEmail }
-        : r
-    ));
+  // Edit: update name/email, remove subs, add new subs
+  async function handleSave(
+    oldEmail: string,
+    newFirstName: string,
+    newEmail: string,
+    toAdd: { city: string; sub_calendar: string | null }[],
+    toRemoveIds: string[]
+  ) {
+    // 1. Update name + email on all existing rows
+    const existingIds = rows
+      .filter(r => r.email.toLowerCase() === oldEmail.toLowerCase())
+      .map(r => r.id);
+
+    if (existingIds.length > 0) {
+      const { error } = await supabaseAdmin
+        .from('newsletter_subscriptions')
+        .update({ first_name: newFirstName || null, email: newEmail })
+        .in('id', existingIds);
+      if (error) throw new Error(error.message);
+    }
+
+    // 2. Delete removed subscriptions
+    if (toRemoveIds.length > 0) {
+      const { error } = await supabaseAdmin
+        .from('newsletter_subscriptions')
+        .delete()
+        .in('id', toRemoveIds);
+      if (error) throw new Error(error.message);
+    }
+
+    // 3. Insert new subscriptions
+    if (toAdd.length > 0) {
+      const newRows = toAdd.map(a => ({
+        email: newEmail,
+        first_name: newFirstName || null,
+        city: a.city,
+        sub_calendar: a.sub_calendar,
+        status: 'active',
+        source: 'admin_added',
+      }));
+      const { error } = await supabaseAdmin
+        .from('newsletter_subscriptions')
+        .insert(newRows);
+      if (error) throw new Error(error.message);
+    }
+
+    // 4. Refresh local state
+    await fetchSubs();
   }
 
   // Delete: remove all rows for this subscriber
