@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { LogOut, Home, Users } from 'lucide-react';
+import { LogOut, Home, Users, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
@@ -32,6 +32,10 @@ export function AdminPanel() {
             <Link href="/admin/subscribers" className="btn-secondary flex items-center gap-2">
               <Users size={16} />
               Subscribers
+            </Link>
+            <Link href="/admin/newsletters" className="btn-secondary flex items-center gap-2">
+              <Mail size={16} />
+              Newsletters
             </Link>
             <button onClick={logout} className="btn-logout">
               <LogOut size={16} />
