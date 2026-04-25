@@ -73,6 +73,7 @@ export function Hero() {
               <p className="hero-subtext">
                 Find business, networking, chamber, technology, real estate, and small business events in San Antonio, Austin, Dallas, and Houston — all in one weekly calendar.
               </p>
+              <div className="hero-divider" />
               <p className="hero-choose">Choose a city to view the full calendar or create your free account.</p>
               <nav className="hero-cities" aria-label="Browse by city">
                 <div className="hero-cities-grid">
