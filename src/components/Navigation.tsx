@@ -123,10 +123,10 @@ export function Navigation() {
               <button
                 className="nav-auth-badge nav-auth-logged-in"
                 onClick={handleLogout}
-                title="Logout"
+                title="Log Out"
               >
-                <User size={16} />
-                <span>Logged In</span>
+                <LogOut size={16} />
+                <span>Log Out</span>
               </button>
             ) : (
               <button
