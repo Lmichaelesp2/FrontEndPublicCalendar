@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
 import { AdminDashboard } from './AdminDashboard';
+import { SubscriberManager } from './SubscriberManager';
 import { CSVUpload } from './CSVUpload';
 import { EventPreview } from './EventPreview';
 import { PendingEvents } from './PendingEvents';
@@ -39,6 +40,7 @@ export function AdminPanel() {
 
       <div className="admin-content">
         <AdminDashboard />
+        <SubscriberManager />
         <PendingEvents />
         <ClearPastEvents />
         <CSVUpload onEventsLoaded={setEvents} />
