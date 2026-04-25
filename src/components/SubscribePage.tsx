@@ -86,7 +86,9 @@ export function SubscribePage() {
     ? SUB_DESCRIPTIONS[subCalName!]
     : cityName ? CITY_DESCRIPTIONS[cityName] : '';
 
-  const cityRoute = citySlug ? `/texas/${citySlug}` : '/';
+  const cityRoute = citySlug
+    ? (subSlug ? `/texas/${citySlug}/${subSlug}` : `/texas/${citySlug}`)
+    : '/';
 
   // ── Form state
   const [mode,       setMode]      = useState<'signup' | 'signin'>('signup');
@@ -149,7 +151,7 @@ export function SubscribePage() {
       }
 
       setSuccess(true);
-      setTimeout(() => router.push(cityRoute), 3000);
+      setTimeout(() => router.push(cityRoute), 5000);
 
     } catch {
       setError('An unexpected error occurred. Please try again.');
@@ -175,7 +177,7 @@ export function SubscribePage() {
             </p>
             <p className="sub-success-redirect">Taking you to the calendar...</p>
             <Link href={cityRoute} className="sub-go-btn">
-              Go to {cityName} calendar <ArrowRight size={16} />
+              Go to {isSubCal ? `${cityName} ${subCalName}` : cityName} calendar <ArrowRight size={16} />
             </Link>
           </div>
         </div>
