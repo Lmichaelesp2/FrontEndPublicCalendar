@@ -14,17 +14,19 @@ interface AuthModalProps {
 
 export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup', cityName }: AuthModalProps) {
   const { signUp, signIn } = useAuth();
-  const [mode, setMode]       = useState<'signup' | 'signin'>(defaultMode);
-  const [email, setEmail]     = useState('');
+  const [mode, setMode]         = useState<'signup' | 'signin'>(defaultMode);
+  const [firstName, setFirstName] = useState('');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError]     = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError]       = useState('');
+  const [loading, setLoading]   = useState(false);
 
   if (!isOpen) return null;
 
   function switchMode(newMode: 'signup' | 'signin') {
     setMode(newMode);
     setError('');
+    setFirstName('');
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -33,7 +35,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup', 
     setLoading(true);
     try {
       const { error } = mode === 'signup'
-        ? await signUp(email, password, '')   // no first name needed in modal
+        ? await signUp(email, password, firstName)
         : await signIn(email, password);
 
       if (error) {
@@ -77,6 +79,19 @@ export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup', 
         </p>
 
         <form onSubmit={handleSubmit} className="modal-form">
+          {mode === 'signup' && (
+            <div className="modal-field">
+              <label htmlFor="modal-firstname">First name</label>
+              <input
+                id="modal-firstname"
+                type="text"
+                value={firstName}
+                onChange={e => setFirstName(e.target.value)}
+                placeholder="Your first name"
+                required
+              />
+            </div>
+          )}
           <div className="modal-field">
             <label htmlFor="modal-email">Email address</label>
             <input
