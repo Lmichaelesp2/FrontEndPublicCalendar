@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Users, RefreshCw, Search, X, ChevronDown, ChevronUp, ArrowUpDown } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { supabase, supabaseAdmin } from '../../lib/supabase';
 
 type SortKey = 'name' | 'email' | 'count' | 'since';
 type SortDir = 'asc' | 'desc';
@@ -62,10 +62,11 @@ export function SubscriberManager() {
 
   async function fetchSubs() {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('newsletter_subscriptions')
       .select('id, email, first_name, city, sub_calendar, status, source, created_at')
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .limit(10000);
 
     if (!error && data) setRows(data as SubRow[]);
     setLoading(false);
