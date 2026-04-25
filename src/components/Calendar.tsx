@@ -219,33 +219,16 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           </div>
         )}
 
-        {showNewsletter && (
+        {showNewsletter && subscribeHref && (
           <div className="cal-newsletter-bar">
             <div className="cal-newsletter-bar-inner">
               <div className="cal-newsletter-bar-text">
                 <Mail size={18} className="cal-newsletter-bar-icon" />
-                <div>
-                  <p className="cal-newsletter-bar-heading">{newsletterHeading}</p>
-                  {newsletterSubtext && <p className="cal-newsletter-bar-sub">{newsletterSubtext}</p>}
-                </div>
+                <p className="cal-newsletter-bar-heading">{newsletterHeading}</p>
               </div>
-              {!newsletterSubmitted ? (
-                <form className="cal-newsletter-bar-form" onSubmit={handleNewsletterSubmit}>
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter your email"
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
-                    className="cal-newsletter-bar-input"
-                  />
-                  <button type="submit" className="cal-newsletter-bar-btn">
-                    Subscribe — Free
-                  </button>
-                </form>
-              ) : (
-                <p className="cal-newsletter-bar-success">You're on the list!</p>
-              )}
+              <a href={subscribeHref} className="cal-newsletter-bar-btn">
+                Get the Free Weekly Email →
+              </a>
             </div>
           </div>
         )}
