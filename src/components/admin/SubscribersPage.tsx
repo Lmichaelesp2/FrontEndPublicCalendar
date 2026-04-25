@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Users, RefreshCw, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft } from 'lucide-react';
+import { Users, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft } from 'lucide-react';
 import { supabaseAdmin } from '../../lib/supabase';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
@@ -66,8 +66,6 @@ export function SubscribersPage() {
   const [sortKey, setSortKey]       = useState<SortKey>('since');
   const [sortDir, setSortDir]       = useState<SortDir>('desc');
 
-  if (!isAuthenticated) return <AdminLogin />;
-
   async function fetchSubs() {
     setLoading(true);
     const { data, error } = await supabaseAdmin
@@ -80,6 +78,8 @@ export function SubscribersPage() {
   }
 
   useEffect(() => { fetchSubs(); }, []);
+
+  if (!isAuthenticated) return <AdminLogin />;
 
   // Group rows by email
   const subscribers: Subscriber[] = (() => {
