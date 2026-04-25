@@ -68,12 +68,21 @@ export function SubscribersPage() {
 
   async function fetchSubs() {
     setLoading(true);
-    const { data, error } = await supabaseAdmin
-      .from('newsletter_subscriptions')
-      .select('id, email, first_name, city, sub_calendar, status, source, created_at')
-      .order('created_at', { ascending: false })
-      .limit(10000);
-    if (!error && data) setRows(data as SubRow[]);
+    const PAGE = 1000;
+    let all: SubRow[] = [];
+    let from = 0;
+    while (true) {
+      const { data, error } = await supabaseAdmin
+        .from('newsletter_subscriptions')
+        .select('id, email, first_name, city, sub_calendar, status, source, created_at')
+        .order('created_at', { ascending: false })
+        .range(from, from + PAGE - 1);
+      if (error || !data || data.length === 0) break;
+      all = [...all, ...(data as SubRow[])];
+      if (data.length < PAGE) break;
+      from += PAGE;
+    }
+    setRows(all);
     setLoading(false);
   }
 
