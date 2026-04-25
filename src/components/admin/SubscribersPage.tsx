@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Users, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft } from 'lucide-react';
+import { Users, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft, Pencil, Trash2 } from 'lucide-react';
 import { supabaseAdmin } from '../../lib/supabase';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
@@ -52,19 +52,141 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// ── Edit Modal ────────────────────────────────────────────────────────────────
+
+function EditModal({ subscriber, onClose, onSave }: {
+  subscriber: Subscriber;
+  onClose: () => void;
+  onSave: (oldEmail: string, newFirstName: string, newEmail: string) => Promise<void>;
+}) {
+  const [firstName, setFirstName] = useState(subscriber.first_name ?? '');
+  const [email, setEmail]         = useState(subscriber.email);
+  const [saving, setSaving]       = useState(false);
+  const [error, setError]         = useState('');
+
+  async function handleSave() {
+    if (!email.trim()) { setError('Email is required.'); return; }
+    setSaving(true);
+    setError('');
+    try {
+      await onSave(subscriber.email, firstName.trim(), email.trim().toLowerCase());
+      onClose();
+    } catch (e: any) {
+      setError(e.message ?? 'Failed to save. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="subs-modal-overlay" onClick={onClose}>
+      <div className="subs-modal" onClick={e => e.stopPropagation()}>
+        <div className="subs-modal-header">
+          <h2>Edit Subscriber</h2>
+          <button className="subs-modal-close" onClick={onClose}><X size={18} /></button>
+        </div>
+        <div className="subs-modal-body">
+          <div className="subs-modal-field">
+            <label>First Name</label>
+            <input
+              type="text"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              placeholder="First name"
+              className="subs-modal-input"
+            />
+          </div>
+          <div className="subs-modal-field">
+            <label>Email Address</label>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="email@example.com"
+              className="subs-modal-input"
+            />
+          </div>
+          <div className="subs-modal-subs-list">
+            <label>Subscriptions ({subscriber.subscriptions.length})</label>
+            <div className="subs-modal-tags">
+              {subscriber.subscriptions.map(r => (
+                <span
+                  key={r.id}
+                  className="subs-tag"
+                  style={{ background: calColor(r) + '18', color: calColor(r), borderColor: calColor(r) + '44' }}
+                >
+                  {calLabel(r)}
+                </span>
+              ))}
+            </div>
+          </div>
+          {error && <p className="subs-modal-error">{error}</p>}
+        </div>
+        <div className="subs-modal-footer">
+          <button className="subs-modal-cancel" onClick={onClose}>Cancel</button>
+          <button className="subs-modal-save" onClick={handleSave} disabled={saving}>
+            {saving ? 'Saving…' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Delete Confirm Modal ──────────────────────────────────────────────────────
+
+function DeleteModal({ subscriber, onClose, onConfirm }: {
+  subscriber: Subscriber;
+  onClose: () => void;
+  onConfirm: () => Promise<void>;
+}) {
+  const [deleting, setDeleting] = useState(false);
+
+  async function handleDelete() {
+    setDeleting(true);
+    await onConfirm();
+    onClose();
+  }
+
+  return (
+    <div className="subs-modal-overlay" onClick={onClose}>
+      <div className="subs-modal subs-modal-sm" onClick={e => e.stopPropagation()}>
+        <div className="subs-modal-header">
+          <h2>Delete Subscriber</h2>
+          <button className="subs-modal-close" onClick={onClose}><X size={18} /></button>
+        </div>
+        <div className="subs-modal-body">
+          <p className="subs-modal-confirm-text">
+            This will permanently delete <strong>{subscriber.first_name ?? subscriber.email}</strong> and all <strong>{subscriber.subscriptions.length}</strong> of their subscription{subscriber.subscriptions.length !== 1 ? 's' : ''}. This cannot be undone.
+          </p>
+          <p className="subs-modal-confirm-email">{subscriber.email}</p>
+        </div>
+        <div className="subs-modal-footer">
+          <button className="subs-modal-cancel" onClick={onClose}>Cancel</button>
+          <button className="subs-modal-delete" onClick={handleDelete} disabled={deleting}>
+            {deleting ? 'Deleting…' : 'Yes, Delete'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
 
 export function SubscribersPage() {
   const { isAuthenticated, logout } = useAdmin();
 
-  const [rows, setRows]             = useState<SubRow[]>([]);
-  const [loading, setLoading]       = useState(true);
-  const [search, setSearch]         = useState('');
-  const [cityFilter, setCityFilter] = useState('All');
-  const [calFilter, setCalFilter]   = useState('All');
-  const [expanded, setExpanded]     = useState<Set<string>>(new Set());
-  const [sortKey, setSortKey]       = useState<SortKey>('since');
-  const [sortDir, setSortDir]       = useState<SortDir>('desc');
+  const [rows, setRows]               = useState<SubRow[]>([]);
+  const [loading, setLoading]         = useState(true);
+  const [search, setSearch]           = useState('');
+  const [cityFilter, setCityFilter]   = useState('All');
+  const [calFilter, setCalFilter]     = useState('All');
+  const [expanded, setExpanded]       = useState<Set<string>>(new Set());
+  const [sortKey, setSortKey]         = useState<SortKey>('since');
+  const [sortDir, setSortDir]         = useState<SortDir>('desc');
+  const [editTarget, setEditTarget]   = useState<Subscriber | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Subscriber | null>(null);
 
   async function fetchSubs() {
     setLoading(true);
@@ -134,6 +256,28 @@ export function SubscribersPage() {
     });
   }
 
+  // Edit: update first_name and email on all rows for this subscriber
+  async function handleSave(oldEmail: string, newFirstName: string, newEmail: string) {
+    const ids = rows.filter(r => r.email.toLowerCase() === oldEmail.toLowerCase()).map(r => r.id);
+    const { error } = await supabaseAdmin
+      .from('newsletter_subscriptions')
+      .update({ first_name: newFirstName || null, email: newEmail })
+      .in('id', ids);
+    if (error) throw new Error(error.message);
+    setRows(prev => prev.map(r =>
+      r.email.toLowerCase() === oldEmail.toLowerCase()
+        ? { ...r, first_name: newFirstName || null, email: newEmail }
+        : r
+    ));
+  }
+
+  // Delete: remove all rows for this subscriber
+  async function handleDelete(email: string) {
+    const ids = rows.filter(r => r.email.toLowerCase() === email.toLowerCase()).map(r => r.id);
+    await supabaseAdmin.from('newsletter_subscriptions').delete().in('id', ids);
+    setRows(prev => prev.filter(r => r.email.toLowerCase() !== email.toLowerCase()));
+  }
+
   // Filter + sort
   const filtered = subscribers
     .filter(s => {
@@ -159,6 +303,22 @@ export function SubscribersPage() {
 
   return (
     <div className="subs-page">
+
+      {/* Modals */}
+      {editTarget && (
+        <EditModal
+          subscriber={editTarget}
+          onClose={() => setEditTarget(null)}
+          onSave={handleSave}
+        />
+      )}
+      {deleteTarget && (
+        <DeleteModal
+          subscriber={deleteTarget}
+          onClose={() => setDeleteTarget(null)}
+          onConfirm={() => handleDelete(deleteTarget.email)}
+        />
+      )}
 
       {/* Header */}
       <div className="subs-page-header">
@@ -188,11 +348,7 @@ export function SubscribersPage() {
             <span className="subs-stat-lbl">Total Subscriptions</span>
           </div>
           {cityStats.map(cs => (
-            <div
-              key={cs.city}
-              className="subs-stat-card"
-              style={{ borderTop: `3px solid ${CITY_COLORS[cs.city]}` }}
-            >
+            <div key={cs.city} className="subs-stat-card" style={{ borderTop: `3px solid ${CITY_COLORS[cs.city]}` }}>
               <span className="subs-stat-val">{cs.people.toLocaleString()}</span>
               <span className="subs-stat-lbl">{cs.city}</span>
               <span className="subs-stat-sublbl">{cs.subs} subscriptions</span>
@@ -212,38 +368,22 @@ export function SubscribersPage() {
               className="subs-search"
             />
             {search && (
-              <button onClick={() => setSearch('')} className="subs-search-clear">
-                <X size={13} />
-              </button>
+              <button onClick={() => setSearch('')} className="subs-search-clear"><X size={13} /></button>
             )}
           </div>
-
           <div className="subs-filter-group">
             <span className="subs-filter-lbl">City:</span>
             <div className="subs-filter-tabs">
               {cities.map(c => (
-                <button
-                  key={c}
-                  className={`subs-filter-tab${cityFilter === c ? ' active' : ''}`}
-                  onClick={() => setCityFilter(c)}
-                >
-                  {c}
-                </button>
+                <button key={c} className={`subs-filter-tab${cityFilter === c ? ' active' : ''}`} onClick={() => setCityFilter(c)}>{c}</button>
               ))}
             </div>
           </div>
-
           <div className="subs-filter-group">
             <span className="subs-filter-lbl">Calendar:</span>
             <div className="subs-filter-tabs">
               {subCalOptions.map(c => (
-                <button
-                  key={c}
-                  className={`subs-filter-tab${calFilter === c ? ' active' : ''}`}
-                  onClick={() => setCalFilter(c)}
-                >
-                  {c}
-                </button>
+                <button key={c} className={`subs-filter-tab${calFilter === c ? ' active' : ''}`} onClick={() => setCalFilter(c)}>{c}</button>
               ))}
             </div>
           </div>
@@ -269,20 +409,12 @@ export function SubscribersPage() {
             <table className="subs-table">
               <thead>
                 <tr>
-                  <th className={sortKey === 'name' ? 'sorted' : ''} onClick={() => handleSort('name')}>
-                    Name {sortIcon('name')}
-                  </th>
-                  <th className={sortKey === 'email' ? 'sorted' : ''} onClick={() => handleSort('email')}>
-                    Email {sortIcon('email')}
-                  </th>
-                  <th className={sortKey === 'count' ? 'sorted' : ''} onClick={() => handleSort('count')}>
-                    Subscribed To {sortIcon('count')}
-                  </th>
-                  <th className={sortKey === 'since' ? 'sorted' : ''} onClick={() => handleSort('since')}>
-                    Since {sortIcon('since')}
-                  </th>
+                  <th className={sortKey === 'name' ? 'sorted' : ''} onClick={() => handleSort('name')}>Name {sortIcon('name')}</th>
+                  <th className={sortKey === 'email' ? 'sorted' : ''} onClick={() => handleSort('email')}>Email {sortIcon('email')}</th>
+                  <th className={sortKey === 'count' ? 'sorted' : ''} onClick={() => handleSort('count')}>Subscribed To {sortIcon('count')}</th>
+                  <th className={sortKey === 'since' ? 'sorted' : ''} onClick={() => handleSort('since')}>Since {sortIcon('since')}</th>
                   <th>Source</th>
-                  <th></th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -296,23 +428,15 @@ export function SubscribersPage() {
                       <td className="subs-td-email">{s.email}</td>
                       <td className="subs-td-tags">
                         {visibleSubs.map(r => (
-                          <span
-                            key={r.id}
-                            className="subs-tag"
-                            style={{ background: calColor(r) + '18', color: calColor(r), borderColor: calColor(r) + '44' }}
-                          >
+                          <span key={r.id} className="subs-tag" style={{ background: calColor(r) + '18', color: calColor(r), borderColor: calColor(r) + '44' }}>
                             {calLabel(r)}
                           </span>
                         ))}
                         {!isOpen && extra > 0 && (
-                          <button className="subs-more-btn" onClick={() => toggleExpand(s.email)}>
-                            +{extra} more
-                          </button>
+                          <button className="subs-more-btn" onClick={() => toggleExpand(s.email)}>+{extra} more</button>
                         )}
                         {isOpen && s.subscriptions.length > 3 && (
-                          <button className="subs-more-btn" onClick={() => toggleExpand(s.email)}>
-                            Show less
-                          </button>
+                          <button className="subs-more-btn" onClick={() => toggleExpand(s.email)}>Show less</button>
                         )}
                       </td>
                       <td className="subs-td-date">{formatDate(s.since)}</td>
@@ -321,9 +445,12 @@ export function SubscribersPage() {
                           {s.subscriptions[0]?.source === 'migrated' ? 'migrated' : 'new signup'}
                         </span>
                       </td>
-                      <td>
-                        <button className="subs-expand-btn" onClick={() => toggleExpand(s.email)}>
-                          {isOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                      <td className="subs-td-actions">
+                        <button className="subs-action-btn subs-edit-btn" onClick={() => setEditTarget(s)} title="Edit">
+                          <Pencil size={14} />
+                        </button>
+                        <button className="subs-action-btn subs-delete-btn" onClick={() => setDeleteTarget(s)} title="Delete">
+                          <Trash2 size={14} />
                         </button>
                       </td>
                     </tr>

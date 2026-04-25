@@ -2056,3 +2056,39 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
   .subs-table th:nth-child(4),.subs-table td:nth-child(4),
   .subs-table th:nth-child(5),.subs-table td:nth-child(5){display:none}
 }
+
+/* ── Subscriber Edit/Delete ──────────────────────────────────────────────── */
+.subs-td-actions{white-space:nowrap;display:flex;gap:.35rem;align-items:center}
+.subs-action-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:1px solid var(--gray-200);background:#fff;cursor:pointer;transition:all .15s}
+.subs-edit-btn{color:var(--navy)}
+.subs-edit-btn:hover{background:#eff6ff;border-color:#93c5fd}
+.subs-delete-btn{color:#dc2626}
+.subs-delete-btn:hover{background:#fef2f2;border-color:#fca5a5}
+
+/* Modal overlay */
+.subs-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem}
+.subs-modal{background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.2);width:100%;max-width:480px;overflow:hidden}
+.subs-modal-sm{max-width:400px}
+.subs-modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--gray-100)}
+.subs-modal-header h2{font-size:1.05rem;font-weight:800;color:var(--navy);margin:0}
+.subs-modal-close{background:none;border:none;cursor:pointer;color:var(--gray-400);display:flex;align-items:center;padding:.25rem;border-radius:4px}
+.subs-modal-close:hover{color:var(--gray-700);background:var(--gray-100)}
+.subs-modal-body{padding:1.5rem;display:flex;flex-direction:column;gap:1rem}
+.subs-modal-field{display:flex;flex-direction:column;gap:.4rem}
+.subs-modal-field label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gray-500)}
+.subs-modal-input{padding:.55rem .75rem;border:1px solid var(--gray-200);border-radius:var(--radius-xs);font-size:.9rem;color:var(--gray-800);width:100%}
+.subs-modal-input:focus{outline:none;border-color:var(--navy)}
+.subs-modal-subs-list{display:flex;flex-direction:column;gap:.5rem}
+.subs-modal-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+.subs-modal-error{font-size:.82rem;color:#dc2626;background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:.5rem .75rem}
+.subs-modal-confirm-text{font-size:.9rem;color:var(--gray-700);line-height:1.5}
+.subs-modal-confirm-email{font-size:.82rem;color:var(--gray-500);font-family:monospace;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:6px;padding:.4rem .75rem}
+.subs-modal-footer{display:flex;align-items:center;justify-content:flex-end;gap:.75rem;padding:1rem 1.5rem;border-top:1px solid var(--gray-100);background:var(--gray-50)}
+.subs-modal-cancel{background:none;border:1px solid var(--gray-200);color:var(--gray-600);font-size:.85rem;font-weight:600;padding:.5rem 1rem;border-radius:6px;cursor:pointer}
+.subs-modal-cancel:hover{background:var(--gray-100)}
+.subs-modal-save{background:var(--navy);color:#fff;border:none;font-size:.85rem;font-weight:700;padding:.5rem 1.25rem;border-radius:6px;cursor:pointer}
+.subs-modal-save:hover{opacity:.9}
+.subs-modal-save:disabled{opacity:.5;cursor:default}
+.subs-modal-delete{background:#dc2626;color:#fff;border:none;font-size:.85rem;font-weight:700;padding:.5rem 1.25rem;border-radius:6px;cursor:pointer}
+.subs-modal-delete:hover{background:#b91c1c}
+.subs-modal-delete:disabled{opacity:.5;cursor:default}
