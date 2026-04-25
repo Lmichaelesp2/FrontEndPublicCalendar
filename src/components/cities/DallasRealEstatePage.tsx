@@ -131,7 +131,7 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
             Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link href="/texas/dallas/subscribe" className="btn btn-white">
+            <Link href="/texas/dallas/real-estate/subscribe" className="btn btn-white">
               Get My Free Dallas Real Estate Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -205,7 +205,7 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           initialEvents={initialEvents}
           newsletterHeading="Get Dallas Real Estate Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's real estate events in Dallas, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/dallas/subscribe"
+          subscribeHref="/texas/dallas/real-estate/subscribe"
         />
       </section>
 
@@ -295,7 +295,7 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Get Dallas Real Estate Events Every Monday — Free</h2>
           <p>A curated digest of that week's real estate events in Dallas, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/dallas/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/dallas/real-estate/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Dallas business events</p>
           <div className="sa-subscribe-secondary-cta">

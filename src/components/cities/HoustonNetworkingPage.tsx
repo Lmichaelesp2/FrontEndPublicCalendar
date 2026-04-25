@@ -129,7 +129,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
           </p>
           <p className="hero-category-tags">NETWORKING & REFERRAL GROUPS</p>
           <div className="hero-cta-group">
-            <Link href="/texas/houston/subscribe" className="btn btn-white">
+            <Link href="/texas/houston/networking/subscribe" className="btn btn-white">
               Get My Free Houston Networking Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -203,7 +203,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
           initialEvents={initialEvents}
           newsletterHeading="Get Houston Networking Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's networking events in Houston, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/houston/subscribe"
+          subscribeHref="/texas/houston/networking/subscribe"
         />
       </section>
 
@@ -293,7 +293,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Get Houston Networking Events Every Monday — Free</h2>
           <p>A curated digest of that week's networking events in Houston, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/houston/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/houston/networking/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Houston business events</p>
           <div className="sa-subscribe-secondary-cta">

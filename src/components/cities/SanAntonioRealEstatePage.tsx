@@ -141,7 +141,7 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
             Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-white">
+            <Link href="/texas/san-antonio/real-estate/subscribe" className="btn btn-white">
               Get My Free San Antonio Real Estate Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -215,7 +215,7 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
           initialEvents={initialEvents}
           newsletterHeading="Get San Antonio Real Estate Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's real estate events in San Antonio, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/san-antonio/subscribe"
+          subscribeHref="/texas/san-antonio/real-estate/subscribe"
         />
       </section>
 
@@ -305,7 +305,7 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
           <h2>Get San Antonio Real Estate Events Every Monday — Free</h2>
           <p>A curated digest of that week's real estate events in San Antonio, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/san-antonio/real-estate/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
           <div className="sa-subscribe-secondary-cta">

@@ -129,7 +129,7 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           </p>
           <p className="hero-category-tags">NETWORKING & REFERRAL GROUPS</p>
           <div className="hero-cta-group">
-            <Link href="/texas/austin/subscribe" className="btn btn-white">
+            <Link href="/texas/austin/networking/subscribe" className="btn btn-white">
               Get My Free Austin Networking Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -203,7 +203,7 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           initialEvents={initialEvents}
           newsletterHeading="Get Austin Networking Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's networking events in Austin, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/austin/subscribe"
+          subscribeHref="/texas/austin/networking/subscribe"
         />
       </section>
 
@@ -293,7 +293,7 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Get Austin Networking Events Every Monday — Free</h2>
           <p>A curated digest of that week's networking events in Austin, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/austin/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/austin/networking/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Austin business events</p>
           <div className="sa-subscribe-secondary-cta">

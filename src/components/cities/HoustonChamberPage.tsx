@@ -142,7 +142,7 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
             Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link href="/texas/houston/subscribe" className="btn btn-white">
+            <Link href="/texas/houston/chamber/subscribe" className="btn btn-white">
               Get My Free Houston Chamber Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -216,7 +216,7 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           initialEvents={initialEvents}
           newsletterHeading="Get Houston Chamber Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's chamber events in Houston, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/houston/subscribe"
+          subscribeHref="/texas/houston/chamber/subscribe"
         />
       </section>
 
@@ -306,7 +306,7 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Get Houston Chamber Events Every Monday — Free</h2>
           <p>A curated digest of that week's chamber events in Houston, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/houston/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/houston/chamber/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Houston business events</p>
           <div className="sa-subscribe-secondary-cta">

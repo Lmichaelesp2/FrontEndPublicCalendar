@@ -140,7 +140,7 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
             Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-white">
+            <Link href="/texas/san-antonio/technology/subscribe" className="btn btn-white">
               Get My Free San Antonio Technology Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -214,7 +214,7 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
           initialEvents={initialEvents}
           newsletterHeading="Get San Antonio Technology Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's tech events in San Antonio, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/san-antonio/subscribe"
+          subscribeHref="/texas/san-antonio/technology/subscribe"
         />
       </section>
 
@@ -304,7 +304,7 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
           <h2>Get San Antonio Tech Events Every Monday — Free</h2>
           <p>A curated digest of that week's technology events in San Antonio, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/san-antonio/technology/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
           <div className="sa-subscribe-secondary-cta">

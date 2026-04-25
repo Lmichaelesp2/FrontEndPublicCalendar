@@ -131,7 +131,7 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
             Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more
           </div>
           <div className="hero-cta-group">
-            <Link href="/texas/austin/subscribe" className="btn btn-white">
+            <Link href="/texas/austin/technology/subscribe" className="btn btn-white">
               Get My Free Austin Technology Events Newsletter
             </Link>
             <p className="hero-subtext-below">
@@ -205,7 +205,7 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           initialEvents={initialEvents}
           newsletterHeading="Get Austin Technology Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's tech events in Austin, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/austin/subscribe"
+          subscribeHref="/texas/austin/technology/subscribe"
         />
       </section>
 
@@ -295,7 +295,7 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Get Austin Tech Events Every Monday — Free</h2>
           <p>A curated digest of that week's technology events in Austin, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/austin/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/austin/technology/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Austin business events</p>
           <div className="sa-subscribe-secondary-cta">
