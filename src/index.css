@@ -190,9 +190,16 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 @media(max-width:900px){
   .hero-cities-grid{grid-template-columns:repeat(2,1fr);gap:1rem}
 }
-@media(max-width:480px){
-  .hero-cities-grid{grid-template-columns:1fr 1fr;gap:.75rem}
-  .hero-btn-calendar,.hero-btn-account{font-size:.75rem;padding:.4rem .75rem}
+@media(max-width:600px){
+  .hero-cities-grid{grid-template-columns:1fr 1fr;gap:.65rem}
+  .hero-city-card{padding:.9rem .65rem;gap:.5rem}
+  .hero-city-card .hero-city-name{font-size:.88rem}
+  .hero-city-btns{flex-direction:column;gap:.4rem;width:100%}
+  .hero-btn-calendar,.hero-btn-account{font-size:.78rem;padding:.45rem .5rem;width:100%;justify-content:center}
+}
+@media(max-width:400px){
+  .hero-cities-grid{grid-template-columns:1fr}
+  .hero-city-btns{flex-direction:row}
 }
 
 /* VALUE SECTION */
