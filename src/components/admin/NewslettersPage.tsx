@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Copy, Check, Mail, ChevronDown, ChevronUp, LogOut, Home, Users } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase';
@@ -202,11 +202,43 @@ function CopyButton({ text, label }: { text: string; label: string }) {
   );
 }
 
+// ─── GmailCopyButton ──────────────────────────────────────────────────────────
+
+function GmailCopyButton({ html }: { html: string }) {
+  const [status, setStatus] = useState<'idle' | 'copied' | 'error'>('idle');
+
+  async function handleCopy() {
+    try {
+      // Use ClipboardItem with both HTML and plain-text MIME types so Gmail
+      // accepts it as rich content when you paste into the compose window.
+      const htmlBlob = new Blob([html], { type: 'text/html' });
+      const textBlob = new Blob([html.replace(/<[^>]+>/g, '')], { type: 'text/plain' });
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'text/html': htmlBlob, 'text/plain': textBlob }),
+      ]);
+      setStatus('copied');
+      setTimeout(() => setStatus('idle'), 2500);
+    } catch {
+      // Fallback: focus the iframe body and let the browser copy selection
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 3000);
+    }
+  }
+
+  return (
+    <button onClick={handleCopy} className="nl-gmail-btn">
+      {status === 'copied' ? <Check size={14} /> : <Mail size={14} />}
+      {status === 'copied' ? 'Copied! Paste into Gmail' : status === 'error' ? 'Try selecting inside preview' : 'Copy for Gmail (keeps formatting)'}
+    </button>
+  );
+}
+
 // ─── NewsletterCard ────────────────────────────────────────────────────────────
 
 function NewsletterCard({ newsletter, weekLabel }: { newsletter: Newsletter; weekLabel: string }) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<'html' | 'text'>('html');
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const html = buildHtmlEmail(newsletter.label, weekLabel, newsletter.events);
   const plain = buildPlainText(newsletter.label, weekLabel, newsletter.events);
@@ -227,22 +259,30 @@ function NewsletterCard({ newsletter, weekLabel }: { newsletter: Newsletter; wee
           {/* Tab switcher */}
           <div className="nl-tabs">
             <button className={`nl-tab ${tab === 'html' ? 'active' : ''}`} onClick={() => setTab('html')}>
-              HTML (SendGrid / paste into email)
+              HTML (SendGrid)
             </button>
             <button className={`nl-tab ${tab === 'text' ? 'active' : ''}`} onClick={() => setTab('text')}>
-              Plain text (Gmail / personal email)
+              Plain text
             </button>
           </div>
 
-          {/* Copy button */}
+          {/* Copy buttons */}
           <div className="nl-copy-row">
-            <CopyButton text={tab === 'html' ? html : plain} label={`Copy ${tab === 'html' ? 'HTML' : 'plain text'}`} />
+            {tab === 'html' ? (
+              <>
+                <GmailCopyButton html={html} />
+                <CopyButton text={html} label="Copy raw HTML (SendGrid)" />
+              </>
+            ) : (
+              <CopyButton text={plain} label="Copy plain text" />
+            )}
           </div>
 
           {/* Preview / raw */}
           {tab === 'html' ? (
             <div className="nl-preview-wrap">
               <iframe
+                ref={iframeRef}
                 srcDoc={html}
                 title={`${newsletter.label} preview`}
                 className="nl-iframe"

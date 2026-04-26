@@ -2167,9 +2167,11 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--gray-800);background:v
 .nl-tab:hover:not(.active){background:var(--gray-50)}
 
 /* Copy button */
-.nl-copy-row{margin-bottom:.75rem}
-.nl-copy-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem 1rem;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
+.nl-copy-row{margin-bottom:.75rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.nl-copy-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem 1rem;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
 .nl-copy-btn:hover{opacity:.88}
+.nl-gmail-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem 1.1rem;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
+.nl-gmail-btn:hover{opacity:.88}
 
 /* Preview iframe */
 .nl-preview-wrap{border:1px solid var(--gray-200);border-radius:8px;overflow:hidden;background:#f5f5f5}
