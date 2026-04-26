@@ -118,6 +118,7 @@ export function Navigation() {
             <Link href="/about">About</Link>
             <Link href="/contact">Contact</Link>
             <Link href="/submit">Submit Event</Link>
+            <Link href="/sponsor" className="nav-sponsor-link">Sponsor</Link>
             <Link href="/admin">Admin</Link>
             {user ? (
               <button

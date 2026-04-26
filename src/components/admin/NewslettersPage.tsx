@@ -90,7 +90,7 @@ function buildHtmlEmail(label: string, weekLabel: string, events: Event[], isSub
           The <strong style="color:#999;">${label}</strong> newsletter has an open sponsorship slot.
           Your brand reaches active local professionals every week —
           people who show up to events, make buying decisions, and support local businesses.
-          <a href="mailto:louis@localbusinesscalendars.com?subject=Newsletter Sponsorship Interest" style="color:#1a3a5c;text-decoration:none;font-weight:600;">Become a founding sponsor →</a>
+          <a href="https://localbusinesscalendars.com/sponsor" style="color:#1a3a5c;text-decoration:none;font-weight:600;">Become a founding sponsor →</a>
         </p>
         <p style="font-size:11px;color:#bbb;margin:8px 0 0;font-style:italic;">
           Sponsors also get placement on the ${label} calendar page at localbusinesscalendars.com.
@@ -104,7 +104,7 @@ function buildHtmlEmail(label: string, weekLabel: string, events: Event[], isSub
         <p style="font-size:13px;color:#aaa;margin:0;line-height:1.6;">
           This calendar has an open sponsorship slot. Reach thousands of ${label.split('(')[0].trim()} professionals every week —
           decision-makers who attend local events and support local businesses.
-          <a href="mailto:louis@localbusinesscalendars.com?subject=Newsletter Sponsorship Interest" style="color:#1a3a5c;text-decoration:none;font-weight:600;">Learn about founding sponsorship →</a>
+          <a href="https://localbusinesscalendars.com/sponsor" style="color:#1a3a5c;text-decoration:none;font-weight:600;">Learn about founding sponsorship →</a>
         </p>
       </td>
     </tr>`;
@@ -198,7 +198,7 @@ function buildHtmlEmail(label: string, weekLabel: string, events: Event[], isSub
       <td style="padding:14px 24px;border-top:1px solid #e8e8e8;text-align:center;">
         <p style="font-size:11px;color:#aaa;margin:0;line-height:1.8;">
           You're receiving this because you subscribed to the free ${label} newsletter.<br>
-          <a href="mailto:louis@localbusinesscalendars.com?subject=Newsletter Sponsorship Interest" style="color:#1a3a5c;text-decoration:none;">Interested in sponsoring this calendar?</a>
+          <a href="https://localbusinesscalendars.com/sponsor" style="color:#1a3a5c;text-decoration:none;">Interested in sponsoring this calendar?</a>
           &nbsp;·&nbsp;
           <a href="https://localbusinesscalendars.com" style="color:#1a3a5c;text-decoration:none;">Visit the calendar</a>
           &nbsp;·&nbsp;
