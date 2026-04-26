@@ -63,89 +63,153 @@ function eventCategoryMatchesSubCal(event: Event, subCal: string): boolean {
 
 // ─── HTML email template ───────────────────────────────────────────────────────
 
-function buildHtmlEmail(label: string, weekLabel: string, events: Event[]): string {
-  const eventRows = events.map(e => {
-    const dateStr = formatEventDate(e.start_date, e.start_time);
-    const location = e.address ? `<br><span style="color:#888;font-size:13px;">📍 ${e.address}</span>` : '';
-    const cost = e.paid ? `<span style="color:#888;font-size:12px;">${e.paid === 'Free' ? '🎟 Free' : `💵 ${e.paid}`}</span>` : '';
-    const format = e.participation ? `<span style="color:#888;font-size:12px;"> · ${e.participation}</span>` : '';
-    const link = e.website
-      ? `<br><a href="${e.website}" style="color:#B8860B;font-size:13px;">Register / Learn More →</a>`
-      : '';
-    return `
-      <tr>
-        <td style="padding:16px 0;border-bottom:1px solid #f0f0f0;">
-          <strong style="font-size:16px;color:#1a1a1a;">${e.name}</strong><br>
-          <span style="color:#555;font-size:14px;">📅 ${dateStr}</span>
-          ${location}
-          ${link}
-          <br>${cost}${format}
-        </td>
-      </tr>`;
-  }).join('');
+function shortDayLabel(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  const weekday = d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+  const mon = d.toLocaleDateString('en-US', { month: 'numeric' });
+  return `${weekday} ${mon}/${day}`;
+}
+
+function buildHtmlEmail(label: string, weekLabel: string, events: Event[], isSubCal: boolean): string {
+  const badgeText = isSubCal
+    ? `${label.split('—')[1]?.trim() ?? label} Calendar`
+    : 'Weekly Edition';
+
+  const eventsHeading = isSubCal
+    ? `${label.split('—')[1]?.trim() ?? label} Events This Week`
+    : "This Week's Events";
+
+  // Sponsor block — open slot state (no active sponsor yet)
+  const sponsorBlock = isSubCal ? `
+    <!-- E2 Sponsor block — open slot -->
+    <tr>
+      <td style="background:#fafafa;border-bottom:1px solid #e8e8e8;padding:18px 24px 16px;border-left:3px dashed #ccc;">
+        <p style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;margin:0 0 6px 0;">Sponsorship Opportunity</p>
+        <p style="font-size:13px;color:#aaa;margin:0;line-height:1.6;">
+          The <strong style="color:#999;">${label}</strong> newsletter has an open sponsorship slot.
+          Your brand reaches active local professionals every week —
+          people who show up to events, make buying decisions, and support local businesses.
+          <a href="mailto:louis@localbusinesscalendars.com?subject=Newsletter Sponsorship Interest" style="color:#1a3a5c;text-decoration:none;font-weight:600;">Become a founding sponsor →</a>
+        </p>
+        <p style="font-size:11px;color:#bbb;margin:8px 0 0;font-style:italic;">
+          Sponsors also get placement on the ${label} calendar page at localbusinesscalendars.com.
+        </p>
+      </td>
+    </tr>` : `
+    <!-- E1 Sponsor block — open slot -->
+    <tr>
+      <td style="background:#fafafa;border-bottom:1px solid #e8e8e8;padding:16px 24px;border-left:3px dashed #ccc;">
+        <p style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;margin:0 0 5px 0;">Sponsorship Opportunity</p>
+        <p style="font-size:13px;color:#aaa;margin:0;line-height:1.6;">
+          This calendar has an open sponsorship slot. Reach thousands of ${label.split('(')[0].trim()} professionals every week —
+          decision-makers who attend local events and support local businesses.
+          <a href="mailto:louis@localbusinesscalendars.com?subject=Newsletter Sponsorship Interest" style="color:#1a3a5c;text-decoration:none;font-weight:600;">Learn about founding sponsorship →</a>
+        </p>
+      </td>
+    </tr>`;
+
+  // Event rows — clean table layout matching the design: DAY DATE | Event Name / Venue · Time
+  const eventRows = events.length === 0
+    ? `<tr><td style="padding:16px 0;color:#aaa;font-size:13px;font-style:italic;">No events found for this week.</td></tr>`
+    : events.map(e => {
+        const dayLabel = shortDayLabel(e.start_date);
+        const venue = e.org_name || e.address || '';
+        const time = e.start_time || '';
+        const meta = [venue, time].filter(Boolean).join(' · ');
+        const link = e.website ? e.website : null;
+        return `
+        <tr>
+          <td style="padding:10px 0;border-bottom:1px solid #f0f0f0;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="60" style="vertical-align:top;padding-top:1px;">
+                  <span style="font-size:11px;font-weight:700;color:#1a3a5c;letter-spacing:0.04em;text-transform:uppercase;">${dayLabel}</span>
+                </td>
+                <td style="vertical-align:top;">
+                  ${link
+                    ? `<a href="${link}" style="font-size:13px;font-weight:600;color:#1a1a1a;text-decoration:none;">${e.name}</a>`
+                    : `<span style="font-size:13px;font-weight:600;color:#1a1a1a;">${e.name}</span>`
+                  }
+                  ${meta ? `<br><span style="font-size:11px;color:#888;">${meta}</span>` : ''}
+                  ${e.paid && e.paid !== 'Free' ? `<br><span style="font-size:11px;color:#b45309;">${e.paid}</span>` : ''}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>`;
+      }).join('');
 
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:32px 0;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;max-width:600px;width:100%;">
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:24px 0;">
+  <tr><td align="center">
+  <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e0e0e0;max-width:600px;width:100%;">
 
-        <!-- Header -->
-        <tr>
-          <td style="background:#1a1a1a;padding:28px 32px;text-align:center;">
-            <h1 style="margin:0;color:#B8860B;font-size:22px;letter-spacing:1px;">LOCAL BUSINESS CALENDARS</h1>
-            <p style="margin:6px 0 0;color:#cccccc;font-size:14px;">${label} · Weekly Digest</p>
-          </td>
-        </tr>
+    <!-- ── HEADER ── -->
+    <tr>
+      <td style="padding:16px 24px;border-bottom:1px solid #e8e8e8;">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td>
+              <span style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#888;display:block;margin-bottom:3px;">Local Business Calendars</span>
+              <span style="font-size:18px;font-weight:700;color:#1a1a1a;">${label} — This Week</span>
+            </td>
+            <td align="right" style="vertical-align:middle;">
+              <span style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#1a3a5c;font-weight:700;">${badgeText}</span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
 
-        <!-- Week label -->
-        <tr>
-          <td style="background:#B8860B;padding:10px 32px;text-align:center;">
-            <span style="color:#ffffff;font-size:13px;font-weight:bold;letter-spacing:0.5px;">${weekLabel}</span>
-          </td>
-        </tr>
+    <!-- ── WEEK LABEL ── -->
+    <tr>
+      <td style="background:#1a3a5c;padding:7px 24px;">
+        <span style="font-size:11px;color:#ffffff;letter-spacing:0.04em;">${weekLabel}</span>
+      </td>
+    </tr>
 
-        <!-- Intro -->
-        <tr>
-          <td style="padding:24px 32px 8px;">
-            <p style="margin:0;color:#444;font-size:15px;line-height:1.6;">
-              Here's what's happening in <strong>${label}</strong> this week.
-              Mark your calendar, register early, and we'll see you out there.
-            </p>
-          </td>
-        </tr>
+    ${sponsorBlock}
 
-        <!-- Events -->
-        <tr>
-          <td style="padding:8px 32px 24px;">
-            <table width="100%" cellpadding="0" cellspacing="0">
-              ${eventRows}
-            </table>
-          </td>
-        </tr>
+    <!-- ── EVENTS SECTION ── -->
+    <tr>
+      <td style="padding:20px 24px 4px;">
+        <p style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#888;margin:0 0 14px 0;padding-bottom:6px;border-bottom:1px solid #e8e8e8;">${eventsHeading}</p>
+        <table width="100%" cellpadding="0" cellspacing="0">
+          ${eventRows}
+        </table>
+      </td>
+    </tr>
 
-        ${events.length === 0 ? `
-        <tr>
-          <td style="padding:24px 32px;text-align:center;color:#888;">
-            No events found for this week.
-          </td>
-        </tr>` : ''}
+    <!-- ── INTRO NOTE ── -->
+    <tr>
+      <td style="padding:16px 24px 20px;">
+        <p style="font-size:13px;color:#555;line-height:1.6;margin:0;">
+          See something missing? <a href="https://localbusinesscalendars.com/submit" style="color:#1a3a5c;text-decoration:none;">Submit an event →</a>
+        </p>
+      </td>
+    </tr>
 
-        <!-- Footer -->
-        <tr>
-          <td style="background:#f9f9f9;padding:20px 32px;border-top:1px solid #eee;text-align:center;">
-            <p style="margin:0;color:#888;font-size:12px;">
-              You're receiving this because you subscribed to the ${label} newsletter.<br>
-              <a href="https://localbusinesscalendars.com" style="color:#B8860B;">localbusinesscalendars.com</a>
-            </p>
-          </td>
-        </tr>
+    <!-- ── FOOTER ── -->
+    <tr>
+      <td style="padding:14px 24px;border-top:1px solid #e8e8e8;text-align:center;">
+        <p style="font-size:11px;color:#aaa;margin:0;line-height:1.8;">
+          You're receiving this because you subscribed to the free ${label} newsletter.<br>
+          <a href="mailto:louis@localbusinesscalendars.com?subject=Newsletter Sponsorship Interest" style="color:#1a3a5c;text-decoration:none;">Interested in sponsoring this calendar?</a>
+          &nbsp;·&nbsp;
+          <a href="https://localbusinesscalendars.com" style="color:#1a3a5c;text-decoration:none;">Visit the calendar</a>
+          &nbsp;·&nbsp;
+          <a href="https://localbusinesscalendars.com/unsubscribe" style="color:#1a3a5c;text-decoration:none;">Unsubscribe</a>
+        </p>
+      </td>
+    </tr>
 
-      </table>
-    </td></tr>
   </table>
+  </td></tr>
+</table>
 </body>
 </html>`;
 }
@@ -155,10 +219,16 @@ function buildHtmlEmail(label: string, weekLabel: string, events: Event[]): stri
 function buildPlainText(label: string, weekLabel: string, events: Event[]): string {
   const lines = [
     `LOCAL BUSINESS CALENDARS`,
-    `${label} — Weekly Digest`,
+    `${label} — This Week`,
     `${weekLabel}`,
     ``,
-    `Here's what's happening in ${label} this week:`,
+    `────────────────────────────────────`,
+    `SPONSORSHIP OPPORTUNITY`,
+    `This newsletter has an open sponsorship slot. Reach local professionals every week.`,
+    `Interested? Email louis@localbusinesscalendars.com`,
+    `────────────────────────────────────`,
+    ``,
+    `THIS WEEK'S EVENTS`,
     ``,
   ];
 
@@ -166,21 +236,25 @@ function buildPlainText(label: string, weekLabel: string, events: Event[]): stri
     lines.push('No events found for this week.');
   } else {
     events.forEach(e => {
-      lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      lines.push(`${e.name}`);
-      lines.push(`📅 ${formatEventDate(e.start_date, e.start_time)}`);
-      if (e.address) lines.push(`📍 ${e.address}`);
-      if (e.paid) lines.push(`${e.paid === 'Free' ? '🎟 Free' : `💵 ${e.paid}`}`);
-      if (e.participation) lines.push(`${e.participation}`);
-      if (e.website) lines.push(`🔗 ${e.website}`);
+      const dayLabel = shortDayLabel(e.start_date);
+      const venue = e.org_name || e.address || '';
+      const time = e.start_time || '';
+      const meta = [venue, time].filter(Boolean).join(' · ');
+      lines.push(`${dayLabel}  ${e.name}`);
+      if (meta) lines.push(`        ${meta}`);
+      if (e.website) lines.push(`        ${e.website}`);
       lines.push('');
     });
   }
 
-  lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(`────────────────────────────────────`);
   lines.push(``);
-  lines.push(`You're receiving this because you subscribed to the ${label} newsletter.`);
-  lines.push(`Unsubscribe: https://localbusinesscalendars.com`);
+  lines.push(`See something missing? Submit an event at localbusinesscalendars.com/submit`);
+  lines.push(``);
+  lines.push(`You're receiving this because you subscribed to the free ${label} newsletter.`);
+  lines.push(`Interested in sponsoring? Email louis@localbusinesscalendars.com`);
+  lines.push(`Visit the calendar: https://localbusinesscalendars.com`);
+  lines.push(`Unsubscribe: https://localbusinesscalendars.com/unsubscribe`);
 
   return lines.join('\n');
 }
@@ -240,7 +314,7 @@ function NewsletterCard({ newsletter, weekLabel }: { newsletter: Newsletter; wee
   const [tab, setTab] = useState<'html' | 'text'>('html');
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const html = buildHtmlEmail(newsletter.label, weekLabel, newsletter.events);
+  const html = buildHtmlEmail(newsletter.label, weekLabel, newsletter.events, newsletter.subCal !== null);
   const plain = buildPlainText(newsletter.label, weekLabel, newsletter.events);
 
   return (
