@@ -9,6 +9,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
+import { SponsorCard } from '../SponsorSection';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -175,6 +176,8 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
           </div>
         </div>
       </section>
+
+      <SponsorCard cityName="San Antonio" category="Technology" />
 
       <section className="features-section">
         <div className="features-inner">

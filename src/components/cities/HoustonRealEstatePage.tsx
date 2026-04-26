@@ -9,6 +9,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
+import { SponsorCard } from '../SponsorSection';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -177,6 +178,8 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
           </div>
         </div>
       </section>
+
+      <SponsorCard cityName="Houston" category="Real Estate" />
 
       <section className="features-section">
         <div className="features-inner">

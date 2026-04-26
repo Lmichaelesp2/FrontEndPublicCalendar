@@ -9,6 +9,7 @@ import { Footer } from './Footer';
 import { HomepageCities } from './HomepageCities';
 import { SEOHead } from './SEOHead';
 import { CityProvider } from '../contexts/CityContext';
+import { SponsorInstitutional } from './SponsorSection';
 import { SocialProof } from './SocialProof';
 import type { Event } from '../lib/supabase';
 import { Plus, Minus, AlertTriangle, Target, Star, Mail, CalendarDays } from 'lucide-react';
@@ -192,6 +193,7 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
           </div>
         </section>
       )}
+      {!citySlug && <SponsorInstitutional />}
       <Footer showIndustryCalendars={showIndustryCalendars} citySlug={citySlug} cityName={cityName} isTexasPage={!citySlug} />
     </div>
   );

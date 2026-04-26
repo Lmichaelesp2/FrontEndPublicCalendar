@@ -9,6 +9,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
+import { SponsorCard } from '../SponsorSection';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -167,6 +168,8 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
           </div>
         </div>
       </section>
+
+      <SponsorCard cityName="Austin" category="Small Business" />
 
       <section className="features-section">
         <div className="features-inner">

@@ -9,6 +9,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
+import { SponsorCard } from '../SponsorSection';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'San Antonio professionals subscribed' },
@@ -164,6 +165,8 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
           </div>
         </div>
       </section>
+
+      <SponsorCard cityName="San Antonio" category="Networking" />
 
       <section className="features-section">
         <div className="features-inner">

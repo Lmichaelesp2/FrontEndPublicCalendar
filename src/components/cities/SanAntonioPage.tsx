@@ -9,7 +9,7 @@ import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
-import SponsorSection from '../SponsorSection';
+import { SponsorBanner } from '../SponsorSection';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },
@@ -162,6 +162,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
+
+      <SponsorBanner cityName="San Antonio" />
 
       <section className="features-section">
         <div className="features-inner">
