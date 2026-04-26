@@ -11,68 +11,76 @@ interface SponsorBannerProps {
 export function SponsorBanner({ cityName }: SponsorBannerProps) {
   return (
     <div style={{
-      background: '#fff',
-      borderTop: '1px solid #e5e7eb',
-      borderBottom: '1px solid #e5e7eb',
-      padding: '12px 28px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 0,
-      flexWrap: 'wrap',
+      background: '#f0f5ff',
+      borderTop: '1px solid #c7d9f5',
+      borderBottom: '1px solid #c7d9f5',
+      padding: '14px 24px',
     }}>
       <div style={{
-        fontSize: '8px',
-        letterSpacing: '0.18em',
-        textTransform: 'uppercase' as const,
-        color: '#9ca3af',
-        whiteSpace: 'nowrap' as const,
-        paddingRight: '16px',
-        borderRight: '1px solid #e5e7eb',
-        lineHeight: 1.4,
-        flexShrink: 0,
+        maxWidth: '780px',
+        margin: '0 auto',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 0,
+        flexWrap: 'wrap' as const,
       }}>
-        Sponsorship<br />Opportunity
-      </div>
-
-      <div style={{
-        flex: 1,
-        padding: '0 18px',
-        fontSize: '13px',
-        color: '#6b7280',
-        lineHeight: 1.55,
-        minWidth: '220px',
-      }}>
-        This calendar has an open founding sponsorship. Reach thousands of {cityName} professionals —
-        entrepreneurs, executives, and community leaders — every week at no cost to readers.
-      </div>
-
-      <a
-        href="/sponsorship"
-        style={{
-          display: 'inline-block',
-          fontSize: '10px',
-          fontWeight: 700,
-          letterSpacing: '0.1em',
+        <div style={{
+          fontSize: '8px',
+          letterSpacing: '0.18em',
           textTransform: 'uppercase' as const,
-          color: '#1a3a5c',
-          border: '1.5px solid #1a3a5c',
-          padding: '7px 14px',
-          textDecoration: 'none',
+          color: '#4a6fa5',
           whiteSpace: 'nowrap' as const,
+          paddingRight: '16px',
+          borderRight: '1px solid #c7d9f5',
+          lineHeight: 1.4,
           flexShrink: 0,
-          transition: 'all 0.15s',
-        }}
-        onMouseOver={(e) => {
-          e.currentTarget.style.background = '#1a3a5c';
-          e.currentTarget.style.color = '#fff';
-        }}
-        onMouseOut={(e) => {
-          e.currentTarget.style.background = 'transparent';
-          e.currentTarget.style.color = '#1a3a5c';
-        }}
-      >
-        Inquire Now
-      </a>
+          fontWeight: 700,
+        }}>
+          Sponsorship<br />Opportunity
+        </div>
+
+        <div style={{
+          flex: 1,
+          padding: '0 18px',
+          fontSize: '13px',
+          color: '#374151',
+          lineHeight: 1.55,
+          minWidth: '200px',
+        }}>
+          This calendar has an open founding sponsorship. Reach thousands of {cityName} professionals —
+          entrepreneurs, executives, and community leaders — every week at no cost to readers.
+        </div>
+
+        <a
+          href="/sponsorship"
+          style={{
+            display: 'inline-block',
+            fontSize: '10px',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase' as const,
+            color: '#1a3a5c',
+            border: '1.5px solid #1a3a5c',
+            borderRadius: '4px',
+            padding: '7px 16px',
+            textDecoration: 'none',
+            whiteSpace: 'nowrap' as const,
+            flexShrink: 0,
+            background: 'transparent',
+            transition: 'all 0.15s',
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = '#1a3a5c';
+            e.currentTarget.style.color = '#fff';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = '#1a3a5c';
+          }}
+        >
+          Inquire Now
+        </a>
+      </div>
     </div>
   );
 }
@@ -88,73 +96,71 @@ interface SponsorCardProps {
 
 export function SponsorCard({ cityName, category }: SponsorCardProps) {
   return (
-    <div style={{ padding: '18px 28px 4px' }}>
+    <div style={{
+      padding: '20px 24px 8px',
+      background: '#f8faff',
+      borderTop: '1px solid #e5eaf5',
+      borderBottom: '1px solid #e5eaf5',
+    }}>
       <div style={{
-        background: '#fafafa',
-        border: '1px solid #e5e7eb',
-        borderLeft: '3px solid #1a3a5c',
-        padding: '20px 22px',
+        maxWidth: '720px',
+        margin: '0 auto',
+        background: '#fff',
+        border: '1px solid #c7d9f5',
+        borderLeft: '4px solid #1a3a5c',
+        borderRadius: '0 6px 6px 0',
+        padding: '20px 24px',
         display: 'flex',
         gap: '24px',
         alignItems: 'flex-start',
         flexWrap: 'wrap' as const,
+        boxShadow: '0 2px 8px rgba(26,58,92,0.07)',
       }}>
-        <div style={{ flex: 1, minWidth: '220px' }}>
+        {/* Left: copy */}
+        <div style={{ flex: 1, minWidth: '200px' }}>
           <p style={{
             fontSize: '8px',
-            letterSpacing: '0.18em',
+            letterSpacing: '0.2em',
             textTransform: 'uppercase' as const,
-            color: '#9ca3af',
-            marginBottom: '8px',
-            margin: '0 0 8px 0',
+            color: '#4a6fa5',
+            fontWeight: 700,
+            margin: '0 0 7px 0',
           }}>
             Sponsorship Opportunity
           </p>
           <h3 style={{
             fontSize: '14px',
             fontWeight: 700,
-            color: '#6b7280',
-            marginBottom: '8px',
+            color: '#1a3a5c',
             lineHeight: 1.3,
-            margin: '0 0 8px 0',
+            margin: '0 0 9px 0',
           }}>
             This calendar is currently seeking a founding sponsor.
           </h3>
           <p style={{
             fontSize: '12.5px',
-            color: '#6b7280',
+            color: '#4b5563',
             lineHeight: 1.65,
-            marginBottom: '12px',
-            margin: '0 0 12px 0',
+            margin: '0 0 13px 0',
           }}>
             The {cityName} {category} Calendar reaches professionals who actively attend events in this space.
             Sponsoring gives your organization prominent placement on this page{' '}
-            <strong style={{ color: '#4b5563' }}>and</strong> in the weekly {cityName} {category} email —
-            a focused, niche audience delivered directly to their inbox, at no cost to the reader.
+            <strong style={{ color: '#1a3a5c' }}>and</strong> in the weekly {cityName} {category} email —
+            a focused audience delivered to their inbox every week, at no cost to the reader.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' as const }}>
             <a
               href="/sponsorship"
-              style={{
-                fontSize: '12px',
-                fontWeight: 600,
-                color: '#1a3a5c',
-                textDecoration: 'none',
-                letterSpacing: '0.03em',
-              }}
+              style={{ fontSize: '12px', fontWeight: 600, color: '#1a3a5c', textDecoration: 'none' }}
               onMouseOver={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
               onMouseOut={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
             >
               Inquire about sponsorship →
             </a>
-            <span style={{ color: '#d1d5db', fontSize: '13px' }}>|</span>
+            <span style={{ color: '#d1d5db' }}>|</span>
             <a
               href="/sponsorship"
-              style={{
-                fontSize: '12px',
-                color: '#9ca3af',
-                textDecoration: 'none',
-              }}
+              style={{ fontSize: '12px', color: '#9ca3af', textDecoration: 'none' }}
               onMouseOver={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
               onMouseOut={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
             >
@@ -163,23 +169,25 @@ export function SponsorCard({ cityName, category }: SponsorCardProps) {
           </div>
         </div>
 
+        {/* Right: logo placeholder + CTA */}
         <div style={{
           display: 'flex',
           flexDirection: 'column' as const,
           alignItems: 'center',
-          gap: '12px',
+          gap: '10px',
           minWidth: '110px',
         }}>
           <div style={{
             width: '110px',
-            height: '46px',
-            background: '#fff',
-            border: '1px dashed #d1d5db',
+            height: '44px',
+            background: '#f0f5ff',
+            border: '1px dashed #c7d9f5',
+            borderRadius: '4px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '9px',
-            color: '#d1d5db',
+            color: '#a8c0e0',
             fontStyle: 'italic',
           }}>
             Your Logo
@@ -190,18 +198,20 @@ export function SponsorCard({ cityName, category }: SponsorCardProps) {
               display: 'inline-block',
               fontSize: '9px',
               fontWeight: 700,
-              letterSpacing: '0.12em',
+              letterSpacing: '0.1em',
               textTransform: 'uppercase' as const,
               color: '#fff',
-              background: '#9ca3af',
+              background: '#1a3a5c',
+              borderRadius: '4px',
               padding: '8px 12px',
               textDecoration: 'none',
               width: '100%',
               textAlign: 'center' as const,
               transition: 'background 0.15s',
+              boxSizing: 'border-box' as const,
             }}
-            onMouseOver={(e) => { e.currentTarget.style.background = '#1a3a5c'; }}
-            onMouseOut={(e) => { e.currentTarget.style.background = '#9ca3af'; }}
+            onMouseOver={(e) => { e.currentTarget.style.background = '#2c527a'; }}
+            onMouseOut={(e) => { e.currentTarget.style.background = '#1a3a5c'; }}
           >
             Become a Sponsor
           </a>
@@ -213,113 +223,126 @@ export function SponsorCard({ cityName, category }: SponsorCardProps) {
 
 // ─────────────────────────────────────────────────────────────
 // SponsorInstitutional — Variant C
-// Texas hub page: full-width section just above the footer
+// Texas hub page: section just above the footer
 // ─────────────────────────────────────────────────────────────
 export function SponsorInstitutional() {
   return (
     <div style={{
-      background: '#f7f7f6',
-      border: '1px dashed #d1d5db',
-      padding: '32px 40px',
-      display: 'flex',
-      gap: '28px',
-      alignItems: 'flex-start',
-      flexWrap: 'wrap' as const,
+      background: '#f0f5ff',
+      borderTop: '1px solid #c7d9f5',
+      borderBottom: '1px solid #c7d9f5',
+      padding: '36px 24px',
     }}>
-      <div style={{ flex: 1, minWidth: '260px' }}>
-        <p style={{
-          fontSize: '8px',
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase' as const,
-          color: '#bbb',
-          marginBottom: '10px',
-          margin: '0 0 10px 0',
+      <div style={{
+        maxWidth: '760px',
+        margin: '0 auto',
+        background: '#fff',
+        border: '1px solid #c7d9f5',
+        borderLeft: '4px solid #1a3a5c',
+        borderRadius: '0 8px 8px 0',
+        padding: '28px 32px',
+        display: 'flex',
+        gap: '32px',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap' as const,
+        boxShadow: '0 2px 12px rgba(26,58,92,0.08)',
+      }}>
+        <div style={{ flex: 1, minWidth: '240px' }}>
+          <p style={{
+            fontSize: '8px',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase' as const,
+            color: '#4a6fa5',
+            fontWeight: 700,
+            margin: '0 0 10px 0',
+          }}>
+            Sponsorship Opportunity
+          </p>
+          <h3 style={{
+            fontSize: '17px',
+            fontWeight: 700,
+            color: '#1a3a5c',
+            lineHeight: 1.3,
+            margin: '0 0 10px 0',
+          }}>
+            Support the Texas business community — and be seen across every city.
+          </h3>
+          <p style={{
+            fontSize: '13px',
+            color: '#4b5563',
+            lineHeight: 1.7,
+            margin: 0,
+          }}>
+            Local Business Calendars is a free resource connecting professionals across San Antonio, Austin,
+            Dallas, and Houston with the events that grow businesses and careers — no paywalls, no subscriptions,
+            no barriers. We rely on respected organizations to support that mission. If your company operates
+            across Texas and wants to be seen by thousands of active professionals every week,{' '}
+            <a
+              href="/sponsorship"
+              style={{ color: '#1a3a5c', textDecoration: 'none', fontWeight: 600 }}
+              onMouseOver={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
+              onMouseOut={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
+            >
+              a founding Texas sponsorship is available
+            </a>.
+          </p>
+        </div>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column' as const,
+          alignItems: 'center',
+          gap: '12px',
+          minWidth: '130px',
         }}>
-          Sponsorship Opportunity
-        </p>
-        <h3 style={{
-          fontSize: '18px',
-          fontWeight: 700,
-          color: '#6b7280',
-          lineHeight: 1.3,
-          marginBottom: '10px',
-          margin: '0 0 10px 0',
-        }}>
-          Support the Texas business community — and be seen across every city.
-        </h3>
-        <p style={{
-          fontSize: '13px',
-          color: '#9ca3af',
-          lineHeight: 1.7,
-          maxWidth: '460px',
-          margin: 0,
-        }}>
-          Local Business Calendars is a free resource connecting professionals across San Antonio, Austin,
-          Dallas, and Houston with the events that grow businesses and careers — no paywalls, no subscriptions,
-          no barriers. We rely on respected organizations to support that mission. If your company operates
-          across Texas and wants to be seen by thousands of active professionals every week,{' '}
+          <div style={{
+            width: '130px',
+            height: '52px',
+            background: '#f0f5ff',
+            border: '1px dashed #c7d9f5',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '9px',
+            color: '#a8c0e0',
+            fontStyle: 'italic',
+          }}>
+            Your Logo
+          </div>
           <a
             href="/sponsorship"
-            style={{ color: '#1a3a5c', textDecoration: 'none', fontWeight: 600 }}
-            onMouseOver={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
-            onMouseOut={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
+            style={{
+              display: 'inline-block',
+              fontSize: '10px',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase' as const,
+              color: '#fff',
+              background: '#1a3a5c',
+              borderRadius: '4px',
+              padding: '10px 16px',
+              textDecoration: 'none',
+              width: '100%',
+              textAlign: 'center' as const,
+              transition: 'background 0.15s',
+              boxSizing: 'border-box' as const,
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.background = '#2c527a'; }}
+            onMouseOut={(e) => { e.currentTarget.style.background = '#1a3a5c'; }}
           >
-            a founding Texas sponsorship is available
-          </a>.
-        </p>
-      </div>
-
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column' as const,
-        alignItems: 'center',
-        gap: '12px',
-        minWidth: '140px',
-      }}>
-        <div style={{
-          width: '140px',
-          height: '54px',
-          background: '#fff',
-          border: '1px dashed #d1d5db',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '9px',
-          color: '#ccc',
-          fontStyle: 'italic',
-        }}>
-          Your Logo
-        </div>
-        <a
-          href="/sponsorship"
-          style={{
-            display: 'inline-block',
+            Become a Sponsor
+          </a>
+          <p style={{
             fontSize: '10px',
-            fontWeight: 700,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase' as const,
-            color: '#fff',
-            background: '#9ca3af',
-            padding: '10px 16px',
-            textDecoration: 'none',
-            width: '100%',
+            color: '#9ca3af',
             textAlign: 'center' as const,
-            transition: 'background 0.15s',
-          }}
-          onMouseOver={(e) => { e.currentTarget.style.background = '#1a3a5c'; }}
-          onMouseOut={(e) => { e.currentTarget.style.background = '#9ca3af'; }}
-        >
-          Become a Sponsor
-        </a>
-        <p style={{
-          fontSize: '10px',
-          color: '#bbb',
-          textAlign: 'center' as const,
-          lineHeight: 1.4,
-          margin: 0,
-        }}>
-          Placement on Texas hub<br />+ all four city newsletters
-        </p>
+            lineHeight: 1.4,
+            margin: 0,
+          }}>
+            Website placement +<br />all four city newsletters
+          </p>
+        </div>
       </div>
     </div>
   );
