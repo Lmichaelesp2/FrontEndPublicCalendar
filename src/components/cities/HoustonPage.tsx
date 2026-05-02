@@ -151,7 +151,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
               <ul className="hero-city-panel-list">
                 {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'and many more'].map((tag) => {
                   const slug = {'Networking': 'networking', 'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business', 'Healthcare': 'healthcare'};
-                  const href = slug[tag] ? `/texas/houston/${slug[tag]}` : null;
+                  const href = slug[tag as keyof typeof slug] ? `/texas/houston/${slug[tag as keyof typeof slug]}` : null;
                   return (
                     <li key={tag} className="hero-city-panel-row">
                       {href ? (

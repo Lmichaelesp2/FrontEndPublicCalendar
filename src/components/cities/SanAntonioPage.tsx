@@ -142,7 +142,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
               <ul className="hero-city-panel-list">
                 {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'and many more'].map((tag) => {
                   const slug = {'Networking': 'networking', 'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business', 'Healthcare': 'healthcare'};
-                  const href = slug[tag] ? `/texas/san-antonio/${slug[tag]}` : null;
+                  const href = slug[tag as keyof typeof slug] ? `/texas/san-antonio/${slug[tag as keyof typeof slug]}` : null;
                   return (
                     <li key={tag} className="hero-city-panel-row">
                       {href ? (
