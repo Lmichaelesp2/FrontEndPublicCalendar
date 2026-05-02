@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
@@ -16,6 +16,40 @@ function getDayDateline(): string {
     day: 'numeric',
     year: 'numeric',
   }).toUpperCase();
+}
+
+const CITY_SLUG_TO_NAME: Record<string, string> = {
+  'san-antonio': 'San Antonio',
+  'austin': 'Austin',
+  'dallas': 'Dallas',
+  'houston': 'Houston',
+};
+
+function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
+  // /texas/san-antonio, /texas/austin/technology, etc.
+  const cityMatch = pathname.match(/^\/texas\/([a-z-]+)/);
+  if (cityMatch) {
+    const citySlug = cityMatch[1];
+    const cityName = CITY_SLUG_TO_NAME[citySlug];
+    if (cityName) {
+      return {
+        wordmark: <><em>{cityName}</em> Business Calendar</>,
+        tagline: 'Part of the Local Business Calendars Network',
+      };
+    }
+  }
+  // /texas
+  if (pathname === '/texas' || pathname.startsWith('/texas')) {
+    return {
+      wordmark: <>Texas <em>Business</em> Calendars</>,
+      tagline: 'Part of the Local Business Calendars Network',
+    };
+  }
+  // Home / everything else
+  return {
+    wordmark: <>Local <em>Business</em> Calendars</>,
+    tagline: 'Networking & Business Events · By City & Industry',
+  };
 }
 
 export function Navigation() {
@@ -41,6 +75,7 @@ export function Navigation() {
   }
 
   const dateline = getDayDateline();
+  const { wordmark, tagline } = getWordmarkAndTagline(pathname ?? '/');
 
   return (
     <>
@@ -53,10 +88,10 @@ export function Navigation() {
           {/* ── Wordmark (center) ── */}
           <Link href="/" className="nav-logo">
             <span className="nav-logo-text wordmark">
-              Local <em>Business</em> Calendars
+              {wordmark}
             </span>
             <span className="nav-tagline">
-              Networking &amp; Business Events&nbsp;&middot;&nbsp;By City &amp; Industry
+              {tagline}
             </span>
           </Link>
 
