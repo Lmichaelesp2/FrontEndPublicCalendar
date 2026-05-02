@@ -47,7 +47,7 @@ function getSubscribeUrl(pathname: string): string {
     if (!base.endsWith('/subscribe')) return `${base}/subscribe`;
   }
   // Homepage or /texas → use San Antonio as a sensible default
-  return '/texas/san-antonio/subscribe';
+  return '/subscribe';
 }
 
 function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
