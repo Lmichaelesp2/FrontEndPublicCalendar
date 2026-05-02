@@ -152,20 +152,20 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
-              <h3>Subscribe to Austin Tech</h3>
-              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+              <h3>Subscribe — free, 10 seconds</h3>
+              <p>Enter your email address. No account, no credit card, no setup. You're in.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's tech meetups, startup events, and developer gatherings in Austin.</p>
+              <h3>Browse the calendar anytime</h3>
+              <p>The Austin Technology Calendar is always live and open — no login needed. Check back anytime to see what's coming up this week, next week, or next month.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">3</div>
-              <h3>Pick events &amp; show up</h3>
-              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday morning a curated digest of that week's Austin tech events lands in your inbox — organized and ready to act on. We do the searching so you don't have to.</p>
             </div>
           </div>
         </div>
