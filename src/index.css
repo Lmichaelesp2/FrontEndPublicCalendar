@@ -1135,14 +1135,15 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 /* FOOTER */
 .footer{background:var(--color-ink);padding:2.5rem 2rem;text-align:center}
 .footer p{color:rgba(255,255,255,.58);font-size:.76rem;line-height:1.7}
-.footer a{color:var(--color-primary);text-decoration:none}
+.footer a{color:rgba(255,255,255,.75);text-decoration:none}
+.footer a:hover{color:#ffffff}
 .footer-cities{display:flex;justify-content:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
 .footer-cities a{color:var(--color-ink);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .7rem;border-radius:var(--radius-xs);background:var(--color-paper);border:1px solid var(--color-paper);transition:all .2s;display:inline-block}
 .footer-cities a:hover{color:var(--color-ink);border-color:var(--color-paper);background:#e8e6df}
 .footer-cities-coming{color:rgba(255,255,255,.6);text-decoration:none;font-size:.82rem;font-weight:500;padding:.3rem .7rem;border-radius:var(--radius-xs);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);display:inline-block;cursor:default;transition:all .2s}
 .footer-ea{color:rgba(255,255,255,.5);font-size:.72rem;margin-bottom:1rem;font-weight:400}
-.footer-ea a{color:var(--color-primary);text-decoration:none;font-weight:600}
-.footer-ea a:hover{text-decoration:underline}
+.footer-ea a{color:rgba(255,255,255,.8);text-decoration:none;font-weight:600}
+.footer-ea a:hover{color:#ffffff;text-decoration:underline}
 .footer-disc{max-width:650px;margin:.75rem auto 0;font-size:.68rem;color:rgba(255,255,255,.42);line-height:1.5}
 
 /* FOOTER INDUSTRY CALENDARS */
