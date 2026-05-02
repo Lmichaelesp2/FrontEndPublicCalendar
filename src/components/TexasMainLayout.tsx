@@ -12,7 +12,8 @@ import { CityProvider } from '../contexts/CityContext';
 import { SponsorInstitutional } from './SponsorSection';
 import { SocialProof } from './SocialProof';
 import type { Event } from '../lib/supabase';
-import { Plus, Minus, AlertTriangle, Target, Star, Mail, CalendarDays } from 'lucide-react';
+import { Plus, Minus, Mail, CalendarDays } from 'lucide-react';
+import { WhySection } from './WhySection';
 
 const CITY_NAMES: Record<string, string> = {
   austin: 'Austin',
@@ -112,29 +113,13 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
         </div>
       </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Why Use Texas Business Calendars?</h2>
-          <p className="why-subtitle">Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We track business event hosts and organize their public events into one simple calendar per city.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Use Texas Business Calendars?"
+        subtitle="Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly."
+        problemText="Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending."
+        whatWeDoText="We track business event hosts and organize their public events into one simple calendar per city."
+        whatYouGetText="Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent."
+      />
 
       {!citySlug && (
         <section className="hp-intro-section">

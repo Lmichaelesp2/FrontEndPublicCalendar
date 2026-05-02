@@ -1087,12 +1087,12 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 
 /* SUBSCRIBE PAGE */
 .sub-not-found{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;text-align:center;padding:3rem}
-.sub-hero{background:linear-gradient(135deg,#0a2040 0%,#0f2b5b 60%,#1a3a6b 100%);padding:4rem 1.5rem 3.5rem;text-align:center;position:relative;overflow:hidden}
-.sub-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-bright) 50%,var(--gold) 100%)}
+.sub-hero{background:var(--color-paper);padding:4rem 1.5rem 3.5rem;text-align:center;position:relative;overflow:hidden;border-bottom:2px solid var(--color-ink)}
+.sub-hero::after{display:none}
 .sub-hero-inner{max-width:680px;margin:0 auto}
-.sub-hero-badge{display:inline-block;background:rgba(255,222,89,.18);color:var(--gold-bright);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .85rem;border-radius:20px;border:1px solid rgba(255,222,89,.3);margin-bottom:1.2rem}
-.sub-hero h1{font-size:clamp(2rem,5vw,2.9rem);font-weight:800;color:var(--white);line-height:1.15;letter-spacing:-.02em;margin-bottom:.9rem;font-family:var(--font-serif);}
-.sub-hero-desc{font-size:1.05rem;color:rgba(255,255,255,.72);line-height:1.6;max-width:520px;margin:0 auto}
+.sub-hero-badge{display:inline-block;background:transparent;color:var(--color-terra);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:3px;border:1px solid var(--color-terra);margin-bottom:1.2rem}
+.sub-hero h1{font-size:clamp(1.9rem,5vw,2.6rem);font-weight:600;color:var(--color-ink);line-height:1.15;letter-spacing:-.025em;margin-bottom:.9rem;font-family:var(--font-serif);}
+.sub-hero-desc{font-size:1.05rem;color:var(--fg-3);line-height:1.6;max-width:520px;margin:0 auto}
 .sub-body{background:var(--gray-50);padding:3.5rem 1.5rem 5rem}
 .sub-body-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
 @media(max-width:700px){.sub-body-inner{grid-template-columns:1fr;gap:2rem}}
