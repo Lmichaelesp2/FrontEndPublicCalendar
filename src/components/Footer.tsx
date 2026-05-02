@@ -1,15 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Monitor, Home, Landmark, Briefcase, Users } from 'lucide-react';
-import { CITY_CONFIGS } from '../lib/cities';
 
 interface CategoryLink {
   label: string;
   href: string;
 }
 
-type FooterProps = {
+interface FooterProps {
   showIndustryCalendars?: boolean;
   variant?: 'default' | 'homepage';
   citySlug?: string;
@@ -19,7 +17,7 @@ type FooterProps = {
     cityLabel: string;
     links: CategoryLink[];
   };
-};
+}
 
 export function Footer({ showIndustryCalendars = false, variant = 'default', citySlug, cityName, isTexasPage = false, categoryNav }: FooterProps) {
   const getCitySpecificText = () => {
@@ -61,23 +59,18 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
       ) : (
         <nav className="footer-cities footer-industry-calendars" aria-label="Industry calendars">
           <Link href={`/texas/${citySlug}/technology`} className="industry-calendar-button">
-            <Monitor size={18} />
             {cityName} Technology Events
           </Link>
           <Link href={`/texas/${citySlug}/real-estate`} className="industry-calendar-button">
-            <Home size={18} />
             {cityName} Real Estate Events
           </Link>
           <Link href={`/texas/${citySlug}/networking`} className="industry-calendar-button">
-            <Users size={18} />
             {cityName} Networking Events
           </Link>
           <Link href={`/texas/${citySlug}/chamber`} className="industry-calendar-button">
-            <Landmark size={18} />
             {cityName} Chamber Events
           </Link>
           <Link href={`/texas/${citySlug}/small-business`} className="industry-calendar-button">
-            <Briefcase size={18} />
             {cityName} Small Business Events
           </Link>
         </nav>
