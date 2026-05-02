@@ -976,7 +976,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 .ev-card-new{background:var(--white);border-radius:14px;box-shadow:0 1px 8px rgba(0,0,0,.07);border:1px solid #dde3ec;overflow:hidden;transition:all .2s ease;animation:fadeUp .28s ease forwards}
 .ev-card-new:hover{box-shadow:0 3px 16px rgba(0,0,0,.1);transform:translateY(-1px)}
 
-.ev-card-new-header{background:var(--color-primary);padding:1.5rem 1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.ev-card-new-header{background:var(--color-ink);padding:1.5rem 1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
 .ev-card-new-header-content{flex:1;min-width:0}
 .ev-card-new-title{font-size:1.15rem;font-weight:700;color:var(--white);line-height:1.35;margin:0 0 .4rem 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ev-card-new-time{display:flex;align-items:flex-start;gap:.5rem;font-size:.88rem;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:.01em;line-height:1.4;margin-bottom:.5rem}
@@ -989,7 +989,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 
 .ev-card-new-body{padding:1.1rem 1.5rem 1.25rem}
 
-.ev-card-new-addr{display:flex;align-items:flex-start;gap:.6rem;padding:.6rem .85rem;background:#f3f5f8;border-radius:8px;margin-bottom:.85rem}
+.ev-card-new-addr{display:none}
 .ev-card-new-addr-icon{color:var(--gold);flex-shrink:0;margin-top:.15rem}
 .ev-card-new-addr span{font-size:.88rem;color:#3a4a5c;line-height:1.45}
 
