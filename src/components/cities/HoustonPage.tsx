@@ -163,7 +163,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
           <span className="hero-strip-divider">|</span>
           <span>NEXT NEWSLETTER: MONDAY, MAY 4 &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
-          <span>TRACKED ORGANIZATIONS: 800+</span>
+          <span>TRACKED ORGANIZATIONS: 300+</span>
         </div>
       </section>
 
