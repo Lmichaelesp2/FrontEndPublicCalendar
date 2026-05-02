@@ -122,28 +122,49 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <section className="hero">
         <div className="hero-inner">
-          <div className="hero-badge">
-            Austin Business Calendar
-          </div>
-          <h1>
-            Networking &amp; Business Events
-            <br />
-            in the <em>Austin</em> area
-          </h1>
-          <p className="hero-subtext">
-            Stop missing the events that grow your network and your business.
-          </p>
-          <div className="hero-category-tags">
-            Technology · Startups · Networking · Real Estate · Small Business · Marketing · Chamber
-          </div>
-          <div className="hero-cta-group">
-            <Link href="/texas/austin/subscribe" className="btn btn-white">
-              Sign Up Free — See the Full Week of Austin Events
-            </Link>
-            <p className="hero-subtext-below">
-              Free access to the full weekly calendar + the Monday newsletter. No credit card. Cancel anytime.
+          <div className="hero-left">
+            <div className="hero-badge">
+              <span className="hero-badge-dot" />
+              THIS WEEK IN AUSTIN &middot; 18 EVENTS
+            </div>
+            <h1>
+              Find the rooms where Austin business{' '}
+              <em>actually</em> happens.
+            </h1>
+            <p className="hero-sub">
+              Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top Austin organizations and delivered to your calendar.
+            </p>
+            <div className="hero-cta-group">
+              <Link href="/texas/austin/subscribe" className="btn btn-gold">
+                Sign Up Free — See This Week's Events
+              </Link>
+              <Link href="/texas/austin" className="btn btn-ghost">
+                Browse Austin &rarr;
+              </Link>
+            </div>
+            <p className="hero-trust">
+              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
             </p>
           </div>
+          <div className="hero-right">
+            <div className="hero-city-panel">
+              <div className="hero-city-panel-header">EVENT TYPES</div>
+              <ul className="hero-city-panel-list">
+                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'Finance'].map((tag) => (
+                  <li key={tag} className="hero-city-panel-row">
+                    <span className="hero-city-panel-tag">{tag}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="hero-strip">
+          <span>VOL. 3 &middot; APR 28 – MAY 4, 2026</span>
+          <span className="hero-strip-divider">|</span>
+          <span>NEXT NEWSLETTER: MONDAY, MAY 4 &middot; 6:00 A.M. CT</span>
+          <span className="hero-strip-divider">|</span>
+          <span>TRACKED ORGANIZATIONS: 800+</span>
         </div>
       </section>
 
