@@ -143,9 +143,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
             <Link href="/texas/san-antonio/small-business/subscribe" className="btn btn-gold">
               Get the Free San Antonio Small Business Events Newsletter
             </Link>
-            <Link href="#calendar" className="btn btn-ghost">
-              Browse the Calendar &rarr;
-            </Link>
+            <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>

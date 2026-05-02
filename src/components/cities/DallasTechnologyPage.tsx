@@ -134,9 +134,7 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
             <Link href="/texas/dallas/technology/subscribe" className="btn btn-gold">
               Get the Free Dallas Technology Events Newsletter
             </Link>
-            <Link href="#calendar" className="btn btn-ghost">
-              Browse the Calendar &rarr;
-            </Link>
+            <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>

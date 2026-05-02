@@ -145,9 +145,7 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
             <Link href="/texas/houston/chamber/subscribe" className="btn btn-gold">
               Get the Free Houston Chamber Events Newsletter
             </Link>
-            <Link href="#calendar" className="btn btn-ghost">
-              Browse the Calendar &rarr;
-            </Link>
+            <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>
