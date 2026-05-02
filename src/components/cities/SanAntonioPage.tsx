@@ -158,7 +158,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorBanner cityName="San Antonio" />
+      <SponsorCityCard cityName="San Antonio" />
 
       <section className="features-section">
         <div className="features-inner">
