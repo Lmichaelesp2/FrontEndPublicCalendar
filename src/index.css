@@ -177,7 +177,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 2px solid var(--color-ink);
+  /* border-bottom removed — nav-inner rule provides the separator */
 }
 
 /* Top row: dateline | wordmark | live indicator */
@@ -270,7 +270,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 /* ── Bottom nav bar ── */
 .nav-links{
   background: #ffffff;
-  border-top: 1px solid var(--color-rule);
+
 }
 .nav-links-inner{
   max-width: var(--container-nav);
