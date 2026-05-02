@@ -137,9 +137,9 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
               <Link href="/texas/dallas/subscribe" className="btn btn-gold">
                 Sign Up Free — See This Week's Events
               </Link>
-              <Link href="/texas/dallas" className="btn btn-ghost">
+              <a href="#calendar" className="btn btn-ghost">
                 Browse Dallas &rarr;
-              </Link>
+              </a>
             </div>
             <p className="hero-trust">
               Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
