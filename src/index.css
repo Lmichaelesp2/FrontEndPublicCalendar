@@ -2704,8 +2704,8 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 /* ── Subscribe Choose Page (/subscribe) ─────────────────────────────────────── */
 .scp-hero{background:var(--color-paper);padding:4rem 2rem 3rem;text-align:center;border-bottom:1px solid var(--color-rule)}
 .scp-hero-inner{max-width:580px;margin:0 auto}
-.scp-overline{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--color-terra);margin-bottom:1rem}
-.scp-overline-dot{width:7px;height:7px;border-radius:50%;background:var(--color-terra);display:inline-block;flex-shrink:0}
+.scp-overline{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:1rem}
+.scp-overline-dot{width:7px;height:7px;border-radius:50%;background:var(--color-accent);display:inline-block;flex-shrink:0}
 .scp-hero h1{font-family:var(--font-serif);font-size:clamp(2rem,5vw,2.8rem);font-weight:600;color:var(--color-ink);line-height:1.15;margin:0 0 1rem}
 .scp-hero-sub{font-size:1rem;color:var(--fg-3);line-height:1.7;margin:0 0 1rem;max-width:480px;margin-left:auto;margin-right:auto}
 .scp-trust{font-size:.8rem;color:var(--fg-3);letter-spacing:.01em}
@@ -2724,8 +2724,8 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 .scp-city-tagline{font-size:.85rem;color:var(--fg-3);line-height:1.5;margin:0}
 
 /* Main CTA button */
-.scp-city-main-cta{display:flex;align-items:center;justify-content:space-between;gap:1rem;background:var(--color-terra);color:#fff;padding:1rem 1.25rem;border-radius:8px;text-decoration:none;transition:background .15s}
-.scp-city-main-cta:hover{background:var(--color-terra-dark)}
+.scp-city-main-cta{display:flex;align-items:center;justify-content:space-between;gap:1rem;background:var(--color-accent);color:#fff;padding:1rem 1.25rem;border-radius:8px;text-decoration:none;transition:background .15s}
+.scp-city-main-cta:hover{background:var(--color-accent-dark)}
 .scp-city-main-cta strong{display:block;font-size:.95rem;font-weight:700;line-height:1.2}
 .scp-cta-sub{display:block;font-size:.75rem;font-weight:400;opacity:.85;margin-top:.2rem}
 .scp-cta-arrow{flex-shrink:0}
@@ -2746,7 +2746,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 /* Coming soon */
 .scp-coming-soon{background:var(--color-ink);padding:3.5rem 2rem}
 .scp-coming-inner{max-width:680px;margin:0 auto;text-align:center}
-.scp-coming-header{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--color-terra);margin-bottom:.6rem}
+.scp-coming-header{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:.6rem}
 .scp-coming-icon{flex-shrink:0}
 .scp-coming-sub{font-size:.95rem;color:rgba(255,255,255,.6);margin:0 0 1.75rem;line-height:1.6}
 .scp-coming-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-bottom:1.75rem}
