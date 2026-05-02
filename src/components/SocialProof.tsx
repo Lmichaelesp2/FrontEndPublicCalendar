@@ -31,7 +31,11 @@ export function SocialProof() {
   return (
     <section className="sp-section">
       <div className="sp-inner">
-        <h2>Trusted by Business Professionals Across Texas</h2>
+        <p className="sp-overline">BY THE NUMBERS &middot; TEXAS, 2026</p>
+        <h2>
+          Local Business Calendars is read by professionals across{' '}
+          <em>every major Texas metro</em> — and we&rsquo;re just getting started.
+        </h2>
 
         <div className="sp-stats">
           {STATS.map((stat) => (

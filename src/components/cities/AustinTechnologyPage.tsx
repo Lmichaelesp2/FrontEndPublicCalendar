@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, Star } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Monitor, Users, Clock, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -115,9 +115,10 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         { label: 'Technology Events' },
       ]} />
 
-      <section className="hero">
-        <div className="hero-inner">
+            <section className="se-hero">
+        <div className="se-hero-inner">
           <div className="hero-badge">
+            <span className="hero-badge-dot" />
             AUSTIN TECHNOLOGY CALENDAR
           </div>
           <h1>
@@ -125,46 +126,17 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
             <br />
             <em>Austin</em> Area
           </h1>
-          <p className="hero-subtext">
+          <p className="hero-sub">
             Stop missing the tech events that grow your network and your career.
           </p>
-          <div className="hero-category-tags">
-            Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more
-          </div>
+          <p className="se-hero-tags">Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more</p>
           <div className="hero-cta-group">
-            <Link href="/texas/austin/technology/subscribe" className="btn btn-white">
-              Get My Free Austin Technology Events Newsletter
+            <Link href="/texas/austin/technology/subscribe" className="btn btn-gold">
+              Get the Free Austin Technology Events Newsletter
             </Link>
-            <p className="hero-subtext-below">
-              Browse the calendar anytime between newsletters. Always free.
-            </p>
+            <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
           </div>
-        </div>
-      </section>
-
-      <section className="benefits-bar">
-        <div className="benefits-bar-inner">
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <CalendarDays size={20} strokeWidth={2} />
-            </div>
-            <span>Tech events aggregated every week</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <Mail size={20} strokeWidth={2} />
-            </div>
-            <span>Delivered every Monday morning</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <span>Access calendar anytime</span>
-          </div>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 
@@ -172,26 +144,26 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
 
       <section className="features-section">
         <div className="features-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate tech sources across Austin so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.</p>
+          <h2>How It Works</h2>
+          <p className="features-subtitle">Three steps to never missing an Austin tech event again.</p>
 
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
-              <h3>Subscribe to Austin Tech</h3>
-              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
+              <h3>Subscribe — free, 10 seconds</h3>
+              <p>Enter your email. No account, no credit card, no setup required. You'll be subscribed before you finish your coffee.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's tech meetups, startup events, and developer gatherings in Austin.</p>
+              <h3>Browse the calendar anytime</h3>
+              <p>The calendar is always live and open — no login needed. Check back anytime to see what's coming up across the Austin tech scene.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">3</div>
-              <h3>Pick events &amp; show up</h3>
-              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday, that week's Austin tech events land in your inbox — curated, organized, and ready to act on.</p>
             </div>
           </div>
         </div>
@@ -229,22 +201,22 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
-          <h2>Never Miss a Tech Event That Matters</h2>
+          <h2>What You Get — Completely Free</h2>
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Monitor size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly newsletter</h3>
-              <p>Sign up for Austin tech events and get that week's opportunities in your inbox every Monday. Free.</p>
+              <h3>A curated weekly digest</h3>
+              <p>Every Monday morning, that week's best Austin tech events land in your inbox — organized, scannable, ready to act on.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check the calendar anytime</h3>
-              <p>No signup needed. Browse Austin's tech events on the calendar whenever you want.</p>
+              <h3>A live event calendar</h3>
+              <p>Browse Austin tech events anytime — no account, no signup. Just open it and see what's coming up this week.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Never miss what matters</h3>
-              <p>The newsletter and the calendar work together so you always know what's coming up.</p>
+              <h3>Your time back</h3>
+              <p>Stop hunting across Meetup, Eventbrite, LinkedIn, and Slack. We aggregate every Austin tech event so you don't have to.</p>
             </div>
           </div>
         </div>

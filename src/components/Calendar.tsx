@@ -12,6 +12,7 @@ import { AuthModal } from './auth/AuthModal';
 
 
 interface CalendarProps {
+  showSearch?: boolean;
   initialEvents: Event[];
   forcedCity?: City;
   groupType?: string;
@@ -28,7 +29,7 @@ interface CalendarProps {
   weekMode?: boolean;
 }
 
-export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false }: CalendarProps) {
+export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, showSearch, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false }: CalendarProps) {
   const { user } = useAuth();
   const today = useMidnightReset();
   const [liveEvents, setLiveEvents] = useState<Event[] | null>(null);
@@ -195,7 +196,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     <section className="cal-section" id="calendar">
       <div className="cal-inner">
 
-        {user && (
+        {user && showSearch && (
           <div className="cal-search-row">
             <div className="cal-search-wrap">
               <Search size={15} className="cal-search-icon" />
@@ -245,7 +246,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           </button>
 
           <div className="cal-day-center">
-            {!weekMode && isToday && <div className="cal-day-name" style={{ color: '#f5a623', fontWeight: 700 }}>Today</div>}
+            {!weekMode && isToday && <div className="cal-day-name">Today</div>}
             {weekMode && <div className="cal-day-name">{weekOffset === 0 ? 'This Week' : `Week ${weekOffset + 1}`}</div>}
             <div className="cal-day-full">{dayLabel}</div>
             <div className="cal-day-count">

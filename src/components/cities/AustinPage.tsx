@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Minus, CalendarDays, Mail, Users, Clock, Monitor, Home, Landmark, Briefcase, Search, Building2, Star } from 'lucide-react';
+import { Plus, Minus, Users, Clock, Monitor, Home, Landmark, Briefcase, Search, Building2, Star, Mail } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
@@ -9,7 +9,7 @@ import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
-import { SponsorBanner } from '../SponsorSection';
+import { SponsorCityCard } from '../SponsorSection';
 
 const STATS = [
   { number: '1,000+', label: 'Austin professionals subscribed' },
@@ -122,58 +122,61 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <section className="hero">
         <div className="hero-inner">
-          <div className="hero-badge">
-            Austin Business Calendar
-          </div>
-          <h1>
-            Networking &amp; Business Events
-            <br />
-            in the <em>Austin</em> area
-          </h1>
-          <p className="hero-subtext">
-            Stop missing the events that grow your network and your business.
-          </p>
-          <div className="hero-category-tags">
-            Technology · Startups · Networking · Real Estate · Small Business · Marketing · Chamber
-          </div>
-          <div className="hero-cta-group">
-            <Link href="/texas/austin/subscribe" className="btn btn-white">
-              Sign Up Free — See the Full Week of Austin Events
-            </Link>
-            <p className="hero-subtext-below">
-              Free access to the full weekly calendar + the Monday newsletter. No credit card. Cancel anytime.
+          <div className="hero-left">
+            <div className="hero-badge">
+              <span className="hero-badge-dot" />
+              THIS WEEK IN AUSTIN &middot; 18 EVENTS
+            </div>
+            <h1>
+              Find the rooms where Austin business{' '}
+              <em>actually</em> happens.
+            </h1>
+            <p className="hero-sub">
+              Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top Austin organizations and delivered to your calendar.
+            </p>
+            <div className="hero-cta-group">
+              <Link href="/texas/austin/subscribe" className="btn btn-gold">
+                Sign Up Free — See This Week's Events
+              </Link>
+              <a href="#calendar" className="btn btn-ghost">
+                Browse Austin &rarr;
+              </a>
+            </div>
+            <p className="hero-trust">
+              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
             </p>
           </div>
+          <div className="hero-right">
+            <div className="hero-city-panel">
+              <div className="hero-city-panel-header">EVENT TYPES</div>
+              <ul className="hero-city-panel-list">
+                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'and many more'].map((tag) => {
+                  const slug = {'Networking': 'networking', 'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business', 'Healthcare': 'healthcare'};
+                  const href = slug[tag as keyof typeof slug] ? `/texas/austin/${slug[tag as keyof typeof slug]}` : null;
+                  return (
+                    <li key={tag} className="hero-city-panel-row">
+                      {href ? (
+                        <a href={href} className="hero-city-panel-tag">{tag}</a>
+                      ) : (
+                        <span className="hero-city-panel-tag">{tag}</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="hero-strip">
+          <span>VOL. 3 &middot; APR 28 – MAY 4, 2026</span>
+          <span className="hero-strip-divider">|</span>
+          <span>NEXT NEWSLETTER: MONDAY, MAY 4 &middot; 6:00 A.M. CT</span>
+          <span className="hero-strip-divider">|</span>
+          <span>TRACKED ORGANIZATIONS: 250+</span>
         </div>
       </section>
 
-      <section className="benefits-bar">
-        <div className="benefits-bar-inner">
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <CalendarDays size={20} strokeWidth={2} />
-            </div>
-            <span>Events aggregated every week</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <Mail size={20} strokeWidth={2} />
-            </div>
-            <span>Delivered every Monday morning</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <span>Access calendar anytime</span>
-          </div>
-        </div>
-      </section>
-
-      <SponsorBanner cityName="Austin" />
+      <SponsorCityCard cityName="Austin" />
 
       <section className="features-section">
         <div className="features-inner">

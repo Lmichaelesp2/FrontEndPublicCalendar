@@ -12,7 +12,8 @@ import { CityProvider } from '../contexts/CityContext';
 import { SponsorInstitutional } from './SponsorSection';
 import { SocialProof } from './SocialProof';
 import type { Event } from '../lib/supabase';
-import { Plus, Minus, AlertTriangle, Target, Star, Mail, CalendarDays } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
+import { WhySection } from './WhySection';
 
 const CITY_NAMES: Record<string, string> = {
   austin: 'Austin',
@@ -77,64 +78,28 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
     <div>
       <SEOHead title={seoTitle} description={seoDescription} />
       <Navigation />
-      {citySlug && (
-        <Breadcrumb items={[
-          { label: 'Local Business Calendars', href: '/' },
-          { label: 'Texas', href: '/texas' },
-          { label: cityName ?? citySlug },
-        ]} />
-      )}
+      <Breadcrumb items={
+        citySlug
+          ? [
+              { label: 'Local Business Calendars', href: '/' },
+              { label: 'Texas', href: '/texas' },
+              { label: cityName ?? citySlug },
+            ]
+          : [
+              { label: 'Local Business Calendars', href: '/' },
+              { label: 'Texas', href: '/texas' },
+            ]
+      } />
       <Hero />
 
-      <section className="benefits-bar">
-        <div className="benefits-bar-inner">
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <CalendarDays size={20} strokeWidth={2} />
-            </div>
-            <span>Events aggregated every week</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <Mail size={20} strokeWidth={2} />
-            </div>
-            <span>Delivered every Monday morning</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <span>Access calendar anytime</span>
-          </div>
-        </div>
-      </section>
 
-      <section className="why-section">
-        <div className="why-inner">
-          <h2>Why Use Texas Business Calendars?</h2>
-          <p className="why-subtitle">Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly.</p>
-          <div className="why-grid">
-            <div className="why-card">
-              <div className="why-card-icon"><AlertTriangle size={26} strokeWidth={2} /></div>
-              <h3>The problem</h3>
-              <p>Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Target size={26} strokeWidth={2} /></div>
-              <h3>What we do</h3>
-              <p>We track business event hosts and organize their public events into one simple calendar per city.</p>
-            </div>
-            <div className="why-card">
-              <div className="why-card-icon"><Star size={26} strokeWidth={2} /></div>
-              <h3>What you get</h3>
-              <p>Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection
+        heading="Why Use Texas Business Calendars?"
+        subtitle="Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly."
+        problemText="Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending."
+        whatWeDoText="We track business event hosts and organize their public events into one simple calendar per city."
+        whatYouGetText="Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent."
+      />
 
       {!citySlug && (
         <section className="hp-intro-section">

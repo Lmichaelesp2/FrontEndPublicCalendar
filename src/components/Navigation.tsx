@@ -1,46 +1,114 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import { User, LogOut, ChevronDown, Menu, X } from 'lucide-react';
+import { LogOut, Menu, X } from 'lucide-react';
 import { CITY_CONFIGS } from '../lib/cities';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 
+function getDayDateline(): string {
+  return new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).toUpperCase();
+}
+
+const CITY_SLUG_TO_NAME: Record<string, string> = {
+  'san-antonio': 'San Antonio',
+  'austin': 'Austin',
+  'dallas': 'Dallas',
+  'houston': 'Houston',
+};
+
+const CAT_SLUG_TO_NAME: Record<string, string> = {
+  'technology': 'Technology',
+  'chamber': 'Chamber',
+  'networking': 'Networking',
+  'real-estate': 'Real Estate',
+  'small-business': 'Small Business',
+};
+
+function getSubscribeUrl(pathname: string): string {
+  // /texas/city/category → /texas/city/category/subscribe
+  const subCatMatch = pathname.match(/^(\/texas\/[a-z-]+\/[a-z-]+)/);
+  if (subCatMatch) {
+    const base = subCatMatch[1];
+    if (!base.endsWith('/subscribe')) return `${base}/subscribe`;
+  }
+  // /texas/city → /texas/city/subscribe
+  const cityMatch = pathname.match(/^(\/texas\/[a-z-]+)/);
+  if (cityMatch) {
+    const base = cityMatch[1];
+    if (!base.endsWith('/subscribe')) return `${base}/subscribe`;
+  }
+  // Homepage or /texas → use San Antonio as a sensible default
+  return '/subscribe';
+}
+
+function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
+  // /texas/san-antonio/technology, /texas/austin/chamber, etc.
+  const subCatMatch = pathname.match(/^\/texas\/([a-z-]+)\/([a-z-]+)/);
+  if (subCatMatch) {
+    const citySlug = subCatMatch[1];
+    const catSlug = subCatMatch[2];
+    const cityName = CITY_SLUG_TO_NAME[citySlug];
+    const catName = CAT_SLUG_TO_NAME[catSlug];
+    if (cityName && catName) {
+      return {
+        wordmark: <><em>{cityName}</em> {catName} Calendar</>,
+        tagline: 'Part of the Local Business Calendars Network',
+      };
+    }
+    if (cityName) {
+      return {
+        wordmark: <><em>{cityName}</em> Business Calendar</>,
+        tagline: 'Part of the Local Business Calendars Network',
+      };
+    }
+  }
+  // /texas/san-antonio etc.
+  const cityMatch = pathname.match(/^\/texas\/([a-z-]+)/);
+  if (cityMatch) {
+    const cityName = CITY_SLUG_TO_NAME[cityMatch[1]];
+    if (cityName) {
+      return {
+        wordmark: <><em>{cityName}</em> Business Calendar</>,
+        tagline: 'Part of the Local Business Calendars Network',
+      };
+    }
+  }
+  // /texas
+  if (pathname === '/texas' || pathname.startsWith('/texas')) {
+    return {
+      wordmark: <>Texas <em>Business</em> Calendars</>,
+      tagline: 'Part of the Local Business Calendars Network',
+    };
+  }
+  // Home / everything else
+  return {
+    wordmark: <>Local <em>Business</em> Calendars</>,
+    tagline: 'Networking & Business Events · By City & Industry',
+  };
+};
+
+
 export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [citiesDropdownOpen, setCitiesDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const isHomepage = pathname === '/';
-  const isMainTexasPage = pathname === '/texas';
-  const isOnCityOrSubcategoryPage = pathname.startsWith('/texas/') && pathname !== '/texas/';
 
   useEffect(() => {
-    function handleOpenAuth() {
-      setAuthModalOpen(true);
-    }
+    function handleOpenAuth() { setAuthModalOpen(true); }
     document.addEventListener('open-auth-modal', handleOpenAuth);
     return () => document.removeEventListener('open-auth-modal', handleOpenAuth);
   }, []);
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      const target = e.target as HTMLElement;
-      if (!target.closest('.nav-dropdown-wrapper')) {
-        setCitiesDropdownOpen(false);
-      }
-    }
-
-    if (citiesDropdownOpen) {
-      document.addEventListener('click', handleClickOutside);
-      return () => document.removeEventListener('click', handleClickOutside);
-    }
-  }, [citiesDropdownOpen]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -51,97 +119,81 @@ export function Navigation() {
     router.push('/');
   }
 
+  const dateline = getDayDateline();
+  const { wordmark, tagline } = getWordmarkAndTagline(pathname ?? '/');
+  const subscribeUrl = getSubscribeUrl(pathname ?? '/');
+
   return (
     <>
-      <nav className={`nav${isHomepage ? ' nav-homepage' : ''}`}>
+      <header className="nav">
         <div className="nav-inner">
+
+          {/* ── Dateline (left) ── */}
+          <span className="nav-dateline">{dateline}</span>
+
+          {/* ── Wordmark (center) ── */}
           <Link href="/" className="nav-logo">
-            <span className={`nav-logo-text${isHomepage ? ' nav-logo-text-hp' : ''}`}>
-              Local <span>Business Calendars</span>
+            <span className="nav-logo-text wordmark">
+              {wordmark}
+            </span>
+            <span className="nav-tagline">
+              {tagline}
             </span>
           </Link>
 
+          {/* ── Live indicator ── */}
+          <span className="nav-live">
+            <span className="nav-live-dot" />
+            This Week's Events&nbsp;&middot;&nbsp;Live
+          </span>
+
+          {/* ── Mobile toggle ── */}
           <button
             className="nav-mobile-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
+        </div>
 
-          <div className={`nav-links${mobileMenuOpen ? ' nav-links-mobile-open' : ''}`}>
-            {isHomepage || isMainTexasPage ? (
-              <>
-                <div className="nav-dropdown-wrapper">
-                  <button
-                    className="nav-dropdown-trigger"
-                    onClick={() => setCitiesDropdownOpen(!citiesDropdownOpen)}
-                    aria-expanded={citiesDropdownOpen}
-                  >
-                    Cities <ChevronDown size={16} />
-                  </button>
-                  {citiesDropdownOpen && (
-                    <div className="nav-dropdown-menu">
-                      <Link href="/texas" className="nav-dropdown-item">All Texas Cities</Link>
-                      {CITY_CONFIGS.map((c) => (
-                        <Link key={c.slug} href={`/texas/${c.slug}`} className="nav-dropdown-item">
-                          {c.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="nav-dropdown-wrapper">
-                  <button
-                    className="nav-dropdown-trigger"
-                    onClick={() => setCitiesDropdownOpen(!citiesDropdownOpen)}
-                    aria-expanded={citiesDropdownOpen}
-                  >
-                    Texas <ChevronDown size={16} />
-                  </button>
-                  {citiesDropdownOpen && (
-                    <div className="nav-dropdown-menu">
-                      <Link href="/texas" className="nav-dropdown-item">All Texas Cities</Link>
-                      {CITY_CONFIGS.map((c) => (
-                        <Link key={c.slug} href={`/texas/${c.slug}`} className="nav-dropdown-item">
-                          {c.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </>
-            )}
-            <Link href="/about">About</Link>
-            <Link href="/contact">Contact</Link>
-            <Link href="/submit">Submit Event</Link>
-            <Link href="/sponsor" className="nav-sponsor-link">Sponsor</Link>
-            <Link href="/admin">Admin</Link>
-            {user ? (
-              <button
-                className="nav-auth-badge nav-auth-logged-in"
-                onClick={handleLogout}
-                title="Log Out"
-              >
-                <LogOut size={16} />
-                <span>Log Out</span>
-              </button>
-            ) : (
-              <button
-                className="nav-auth-badge nav-auth-logged-out"
-                onClick={() => setAuthModalOpen(true)}
-                title="Sign In"
-              >
-                <User size={16} />
-                <span>Sign In</span>
-              </button>
-            )}
+        {/* ── Bottom nav bar ── */}
+        <div className={`nav-links${mobileMenuOpen ? ' nav-links-mobile-open' : ''}`}>
+          <div className="nav-links-inner">
+
+            <nav className="nav-city-links" aria-label="Browse by city">
+              <Link href="/texas" className="nav-link">Texas</Link>
+              {CITY_CONFIGS.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/texas/${c.slug}`}
+                  className="nav-link"
+                >
+                  {c.name}
+                </Link>
+              ))}
+              <Link href="/submit" className="nav-link">Submit Event</Link>
+            </nav>
+
+            <div className="nav-actions">
+              {user ? (
+                <button
+                  className="nav-auth-badge nav-auth-logged-in"
+                  onClick={handleLogout}
+                  title="Log Out"
+                >
+                  <LogOut size={15} />
+                  <span>Log Out</span>
+                </button>
+              ) : (
+                <Link href={subscribeUrl} className="nav-cta">
+                  Sign Up — Free →
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      </nav>
+      </header>
 
       <AuthModal
         isOpen={authModalOpen}

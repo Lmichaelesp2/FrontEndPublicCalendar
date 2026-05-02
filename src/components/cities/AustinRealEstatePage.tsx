@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Minus, Search, Mail, Users, Clock, CalendarDays, Building2, Star } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Users, Clock, Building2, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -126,10 +126,10 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         { label: 'Real Estate Events' },
       ]} />
 
-      <section className="hero">
-        <div className="hero-inner">
+            <section className="se-hero">
+        <div className="se-hero-inner">
           <div className="hero-badge">
-            <span className="dot" style={{ background: '#f59e0b' }}></span>
+            <span className="hero-badge-dot" />
             AUSTIN REAL ESTATE CALENDAR
           </div>
           <h1>
@@ -137,46 +137,17 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
             <br />
             <em>Austin</em> Area
           </h1>
-          <p className="hero-subtext">
+          <p className="hero-sub">
             Stop missing the real estate events that grow your network and your deals.
           </p>
-          <div className="hero-category-tags">
-            Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more
-          </div>
+          <p className="se-hero-tags">Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more</p>
           <div className="hero-cta-group">
-            <Link href="/texas/austin/real-estate/subscribe" className="btn btn-white">
-              Get My Free Austin Real Estate Events Newsletter
+            <Link href="/texas/austin/real-estate/subscribe" className="btn btn-gold">
+              Get the Free Austin Real Estate Events Newsletter
             </Link>
-            <p className="hero-subtext-below">
-              Browse the calendar anytime between newsletters. Always free.
-            </p>
+            <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
           </div>
-        </div>
-      </section>
-
-      <section className="benefits-bar">
-        <div className="benefits-bar-inner">
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <CalendarDays size={20} strokeWidth={2} />
-            </div>
-            <span>Events aggregated every week</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <Mail size={20} strokeWidth={2} />
-            </div>
-            <span>Delivered every Monday morning</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <span>Access calendar anytime</span>
-          </div>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 

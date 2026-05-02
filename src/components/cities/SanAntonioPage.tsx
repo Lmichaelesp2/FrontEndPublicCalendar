@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Minus, CalendarDays, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase, Star } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
@@ -9,7 +9,7 @@ import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
-import { SponsorBanner } from '../SponsorSection';
+import { SponsorCityCard } from '../SponsorSection';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },
@@ -112,58 +112,61 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <section className="hero">
         <div className="hero-inner">
-          <div className="hero-badge">
-            San Antonio Business Calendar
-          </div>
-          <h1>
-            Networking &amp; Business Events in
-            <br />
-            the <em>San Antonio</em> area
-          </h1>
-          <p className="hero-subtext">
-            Stop missing the events that grow your network and your business.
-          </p>
-          <div className="hero-category-tags">
-            Networking · Chamber · Technology · Real Estate · Small Business · Healthcare · Finance
-          </div>
-          <div className="hero-cta-group">
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-white">
-              Sign Up Free — See the Full Week of San Antonio Events
-            </Link>
-            <p className="hero-subtext-below">
-              Free access to the full weekly calendar + the Monday newsletter. No credit card. Cancel anytime.
+          <div className="hero-left">
+            <div className="hero-badge">
+              <span className="hero-badge-dot" />
+              THIS WEEK IN SAN ANTONIO &middot; 14 EVENTS
+            </div>
+            <h1>
+              Find the rooms where San Antonio business{' '}
+              <em>actually</em> happens.
+            </h1>
+            <p className="hero-sub">
+              Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top San Antonio organizations and delivered to your calendar.
+            </p>
+            <div className="hero-cta-group">
+              <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">
+                Sign Up Free — See This Week's Events
+              </Link>
+              <a href="#calendar" className="btn btn-ghost">
+                Browse San Antonio &rarr;
+              </a>
+            </div>
+            <p className="hero-trust">
+              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
             </p>
           </div>
+          <div className="hero-right">
+            <div className="hero-city-panel">
+              <div className="hero-city-panel-header">EVENT TYPES</div>
+              <ul className="hero-city-panel-list">
+                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'and many more'].map((tag) => {
+                  const slug = {'Networking': 'networking', 'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business', 'Healthcare': 'healthcare'};
+                  const href = slug[tag as keyof typeof slug] ? `/texas/san-antonio/${slug[tag as keyof typeof slug]}` : null;
+                  return (
+                    <li key={tag} className="hero-city-panel-row">
+                      {href ? (
+                        <a href={href} className="hero-city-panel-tag">{tag}</a>
+                      ) : (
+                        <span className="hero-city-panel-tag">{tag}</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="hero-strip">
+          <span>VOL. 3 &middot; APR 28 – MAY 4, 2026</span>
+          <span className="hero-strip-divider">|</span>
+          <span>NEXT NEWSLETTER: MONDAY, MAY 4 &middot; 6:00 A.M. CT</span>
+          <span className="hero-strip-divider">|</span>
+          <span>TRACKED ORGANIZATIONS: 250+</span>
         </div>
       </section>
 
-      <section className="benefits-bar">
-        <div className="benefits-bar-inner">
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <CalendarDays size={20} strokeWidth={2} />
-            </div>
-            <span>Events aggregated every week</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <Mail size={20} strokeWidth={2} />
-            </div>
-            <span>Delivered every Monday morning</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <span>Access calendar anytime</span>
-          </div>
-        </div>
-      </section>
-
-      <SponsorBanner cityName="San Antonio" />
+      <SponsorCityCard cityName="San Antonio" />
 
       <section className="features-section">
         <div className="features-inner">

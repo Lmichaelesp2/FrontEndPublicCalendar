@@ -93,7 +93,7 @@ export function AboutPage() {
                 Browse Events by City
                 <ArrowRight size={16} />
               </Link>
-              <Link href="/texas" className="about-cta-btn about-cta-btn-secondary">
+              <Link href="/texas/san-antonio/subscribe" className="about-cta-btn about-cta-btn-secondary">
                 Subscribe Free
                 <ArrowRight size={16} />
               </Link>

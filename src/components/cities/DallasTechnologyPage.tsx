@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Minus, CalendarDays, Search, Mail, Monitor, Users, Clock, Star } from 'lucide-react';
+import { Plus, Minus, Search, Mail, Monitor, Users, Clock, Star } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Breadcrumb } from '../Breadcrumb';
 import { Footer } from '../Footer';
@@ -115,9 +115,10 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         { label: 'Technology Events' },
       ]} />
 
-      <section className="hero">
-        <div className="hero-inner">
+            <section className="se-hero">
+        <div className="se-hero-inner">
           <div className="hero-badge">
+            <span className="hero-badge-dot" />
             DALLAS TECHNOLOGY CALENDAR
           </div>
           <h1>
@@ -125,46 +126,17 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
             <br />
             the <em>Dallas</em> Area
           </h1>
-          <p className="hero-subtext">
+          <p className="hero-sub">
             Stop missing the tech events that grow your network and your career.
           </p>
-          <div className="hero-category-tags">
-            Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more
-          </div>
+          <p className="se-hero-tags">Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more</p>
           <div className="hero-cta-group">
-            <Link href="/texas/dallas/technology/subscribe" className="btn btn-white">
-              Get My Free Dallas Technology Events Newsletter
+            <Link href="/texas/dallas/technology/subscribe" className="btn btn-gold">
+              Get the Free Dallas Technology Events Newsletter
             </Link>
-            <p className="hero-subtext-below">
-              Browse the calendar anytime between newsletters. Always free.
-            </p>
+            <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
           </div>
-        </div>
-      </section>
-
-      <section className="benefits-bar">
-        <div className="benefits-bar-inner">
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <CalendarDays size={20} strokeWidth={2} />
-            </div>
-            <span>Tech events aggregated every week</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <Mail size={20} strokeWidth={2} />
-            </div>
-            <span>Delivered every Monday morning</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <span>Access calendar anytime</span>
-          </div>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 
