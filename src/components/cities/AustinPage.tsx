@@ -9,7 +9,7 @@ import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
-import { SponsorBanner } from '../SponsorSection';
+import { SponsorCityCard } from '../SponsorSection';
 
 const STATS = [
   { number: '1,000+', label: 'Austin professionals subscribed' },
@@ -168,7 +168,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorBanner cityName="Austin" />
+      <SponsorCityCard cityName="Austin" />
 
       <section className="features-section">
         <div className="features-inner">

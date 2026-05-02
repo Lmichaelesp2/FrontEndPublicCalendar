@@ -9,7 +9,7 @@ import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import type { Event } from '../../lib/supabase';
-import { SponsorBanner } from '../SponsorSection';
+import { SponsorCityCard } from '../SponsorSection';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },

@@ -348,6 +348,141 @@ export function SponsorInstitutional() {
   );
 }
 
+
+// ─────────────────────────────────────────────────────────────
+// SponsorCityCard — Variant D
+// Main city pages: centered card matching sub-calendar style
+// ─────────────────────────────────────────────────────────────
+interface SponsorCityCardProps {
+  cityName: string;
+}
+
+export function SponsorCityCard({ cityName }: SponsorCityCardProps) {
+  return (
+    <div style={{
+      padding: '20px 24px 8px',
+      background: '#f8faff',
+      borderTop: '1px solid #e5eaf5',
+      borderBottom: '1px solid #e5eaf5',
+    }}>
+      <div style={{
+        maxWidth: '720px',
+        margin: '0 auto',
+        background: '#fff',
+        border: '1px solid #c7d9f5',
+        borderLeft: '4px solid #1a3a5c',
+        borderRadius: '0 6px 6px 0',
+        padding: '20px 24px',
+        display: 'flex',
+        gap: '24px',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap' as const,
+        boxShadow: '0 2px 8px rgba(26,58,92,0.07)',
+      }}>
+        {/* Left: copy */}
+        <div style={{ flex: 1, minWidth: '200px' }}>
+          <p style={{
+            fontSize: '8px',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase' as const,
+            color: '#4a6fa5',
+            fontWeight: 700,
+            margin: '0 0 7px 0',
+          }}>
+            Sponsorship Opportunity
+          </p>
+          <h3 style={{
+            fontSize: '14px',
+            fontWeight: 700,
+            color: '#1a3a5c',
+            lineHeight: 1.3,
+            margin: '0 0 9px 0',
+          }}>
+            This calendar is currently seeking a founding sponsor.
+          </h3>
+          <p style={{
+            fontSize: '12.5px',
+            color: '#4b5563',
+            lineHeight: 1.65,
+            margin: '0 0 13px 0',
+          }}>
+            The {cityName} Calendar reaches professionals who actively attend events in this space. Sponsoring gives your organization prominent placement on this page{' '}
+            <strong style={{ color: '#1a3a5c' }}>and</strong> in the weekly {cityName} email —
+            a focused audience delivered to their inbox every week, at no cost to the reader.
+          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' as const }}>
+            <a
+              href="/sponsorship"
+              style={{ fontSize: '12px', fontWeight: 600, color: '#1a3a5c', textDecoration: 'none' }}
+              onMouseOver={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
+              onMouseOut={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
+            >
+              Inquire about sponsorship →
+            </a>
+            <span style={{ color: '#d1d5db' }}>|</span>
+            <a
+              href="/sponsorship"
+              style={{ fontSize: '12px', color: '#9ca3af', textDecoration: 'none' }}
+              onMouseOver={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
+              onMouseOut={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
+            >
+              About calendar sponsorships
+            </a>
+          </div>
+        </div>
+
+        {/* Right: logo placeholder + CTA */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column' as const,
+          alignItems: 'center',
+          gap: '10px',
+          minWidth: '110px',
+        }}>
+          <div style={{
+            width: '110px',
+            height: '44px',
+            background: '#f0f5ff',
+            border: '1px dashed #c7d9f5',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '9px',
+            color: '#a8c0e0',
+            fontStyle: 'italic',
+          }}>
+            Your Logo
+          </div>
+          <a
+            href="/sponsorship"
+            style={{
+              display: 'inline-block',
+              fontSize: '9px',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase' as const,
+              color: '#fff',
+              background: '#1a3a5c',
+              borderRadius: '4px',
+              padding: '8px 12px',
+              textDecoration: 'none',
+              width: '100%',
+              textAlign: 'center' as const,
+              transition: 'background 0.15s',
+              boxSizing: 'border-box' as const,
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.background = '#2c527a'; }}
+            onMouseOut={(e) => { e.currentTarget.style.background = '#1a3a5c'; }}
+          >
+            Become a Sponsor
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Default export kept for backward compatibility
 export default function SponsorSection({ cityName }: { cityName: string }) {
   return <SponsorBanner cityName={cityName} />;
