@@ -153,19 +153,19 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
             <div className="feature-card">
               <div className="feature-step">1</div>
               <h3>Subscribe — free, 10 seconds</h3>
-              <p>Enter your email address. No account, no credit card, no setup. You're in.</p>
+              <p>Enter your email. No account, no credit card, no setup required. You'll be subscribed before you finish your coffee.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
               <h3>Browse the calendar anytime</h3>
-              <p>The Austin Technology Calendar is always live and open — no login needed. Check back anytime to see what's coming up this week, next week, or next month.</p>
+              <p>The calendar is always live and open — no login needed. Check back anytime to see what's coming up this week or next month.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">3</div>
               <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning a curated digest of that week's Austin tech events lands in your inbox — organized and ready to act on. We do the searching so you don't have to.</p>
+              <p>Every Monday, that week's Austin tech events land in your inbox — curated, organized, and ready to act on.</p>
             </div>
           </div>
         </div>
