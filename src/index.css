@@ -228,6 +228,14 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   color: var(--color-primary);
   font-family: var(--font-serif);
 }
+.wm-city{
+  color: #1652f0;
+  font-weight: 800;
+}
+.wm-rest{
+  color: #0a1628;
+  font-weight: 800;
+}
 
 .nav-tagline{
   font-family: var(--font-sans);

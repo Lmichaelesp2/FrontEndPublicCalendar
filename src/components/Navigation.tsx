@@ -60,13 +60,13 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
     const catName = CAT_SLUG_TO_NAME[catSlug];
     if (cityName && catName) {
       return {
-        wordmark: <><em>{cityName}</em> {catName} Calendar</>,
+        wordmark: <><span className="wm-city">{cityName}</span><span className="wm-rest"> {catName} Calendar</span></>,
         tagline: 'Part of the Local Business Calendars Network',
       };
     }
     if (cityName) {
       return {
-        wordmark: <><em>{cityName}</em> Business Calendar</>,
+        wordmark: <><span className="wm-city">{cityName}</span><span className="wm-rest"> Business Calendar</span></>,
         tagline: 'Part of the Local Business Calendars Network',
       };
     }
@@ -77,7 +77,7 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
     const cityName = CITY_SLUG_TO_NAME[cityMatch[1]];
     if (cityName) {
       return {
-        wordmark: <><em>{cityName}</em> Business Calendar</>,
+        wordmark: <><span className="wm-city">{cityName}</span><span className="wm-rest"> Business Calendar</span></>,
         tagline: 'Part of the Local Business Calendars Network',
       };
     }
@@ -85,13 +85,13 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
   // /texas
   if (pathname === '/texas' || pathname.startsWith('/texas')) {
     return {
-      wordmark: <>Texas <em>Business</em> Calendars</>,
+      wordmark: <><span className="wm-city">Texas</span><span className="wm-rest"> Business Calendars</span></>,
       tagline: 'Part of the Local Business Calendars Network',
     };
   }
   // Home / everything else
   return {
-    wordmark: <>Local <em>Business</em> Calendars</>,
+    wordmark: <><span className="wm-city">Local</span><span className="wm-rest"> Business Calendars</span></>,
     tagline: 'Networking & Business Events · By City & Industry',
   };
 };
