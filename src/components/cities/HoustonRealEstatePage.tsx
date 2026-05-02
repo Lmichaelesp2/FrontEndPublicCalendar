@@ -140,9 +140,7 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
           <p className="hero-sub">
             Stop missing the real estate events that grow your network and your deals.
           </p>
-          <p className="se-hero-tags">
-            Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more
-          </p>
+          <p className="se-hero-tags">Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more</p>
           <div className="hero-cta-group">
             <Link href="/texas/houston/real-estate/subscribe" className="btn btn-gold">
               Get the Free Houston Real Estate Events Newsletter

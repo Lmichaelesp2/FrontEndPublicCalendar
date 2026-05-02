@@ -138,9 +138,7 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
           <p className="hero-sub">
             Stop missing the events that grow your network and your career.
           </p>
-          <p className="se-hero-tags">
-            Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more
-          </p>
+          <p className="se-hero-tags">Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more</p>
           <div className="hero-cta-group">
             <Link href="/texas/san-antonio/technology/subscribe" className="btn btn-gold">
               Get the Free San Antonio Technology Events Newsletter

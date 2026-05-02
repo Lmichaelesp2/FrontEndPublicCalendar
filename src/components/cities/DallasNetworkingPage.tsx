@@ -129,9 +129,7 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           <p className="hero-sub">
             Stop missing the networking events that grow your referrals and your business.
           </p>
-          <p className="se-hero-tags">
-            
-          </p>
+          
           <div className="hero-cta-group">
             <Link href="/texas/dallas/networking/subscribe" className="btn btn-gold">
               Get the Free Dallas Networking Events Newsletter

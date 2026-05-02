@@ -138,9 +138,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
           <p className="hero-sub">
             Stop missing the events that grow your network and your business.
           </p>
-          <p className="se-hero-tags">
-            Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more
-          </p>
+          <p className="se-hero-tags">Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more</p>
           <div className="hero-cta-group">
             <Link href="/texas/san-antonio/small-business/subscribe" className="btn btn-gold">
               Get the Free San Antonio Small Business Events Newsletter

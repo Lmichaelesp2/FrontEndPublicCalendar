@@ -138,9 +138,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
           <p className="hero-sub">
             Stop missing the events that grow your network and your business.
           </p>
-          <p className="se-hero-tags">
-            Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more
-          </p>
+          <p className="se-hero-tags">Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more</p>
           <div className="hero-cta-group">
             <Link href="/texas/san-antonio/chamber/subscribe" className="btn btn-gold">
               Get the Free San Antonio Chamber Events Newsletter

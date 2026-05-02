@@ -140,9 +140,7 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
           <p className="hero-sub">
             Stop missing the tech events that grow your network and your career.
           </p>
-          <p className="se-hero-tags">
-            Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more
-          </p>
+          <p className="se-hero-tags">Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more</p>
           <div className="hero-cta-group">
             <Link href="/texas/houston/technology/subscribe" className="btn btn-gold">
               Get the Free Houston Technology Events Newsletter

@@ -140,9 +140,7 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
           <p className="hero-sub">
             Stop missing the small business events that help you grow your business.
           </p>
-          <p className="se-hero-tags">
-            Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more
-          </p>
+          <p className="se-hero-tags">Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more</p>
           <div className="hero-cta-group">
             <Link href="/texas/houston/small-business/subscribe" className="btn btn-gold">
               Get the Free Houston Small Business Events Newsletter

@@ -129,9 +129,7 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           <p className="hero-sub">
             Stop missing the chamber events that connect you to Dallas's business community.
           </p>
-          <p className="se-hero-tags">
-            Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more
-          </p>
+          <p className="se-hero-tags">Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more</p>
           <div className="hero-cta-group">
             <Link href="/texas/dallas/chamber/subscribe" className="btn btn-gold">
               Get the Free Dallas Chamber Events Newsletter
