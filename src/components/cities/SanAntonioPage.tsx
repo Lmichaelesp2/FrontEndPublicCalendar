@@ -140,7 +140,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
             <div className="hero-city-panel">
               <div className="hero-city-panel-header">EVENT TYPES</div>
               <ul className="hero-city-panel-list">
-                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'Finance'].map((tag) => (
+                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'and many more'].map((tag) => (
                   <li key={tag} className="hero-city-panel-row">
                     <span className="hero-city-panel-tag">{tag}</span>
                   </li>
