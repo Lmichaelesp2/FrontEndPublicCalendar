@@ -93,12 +93,14 @@ export function Hero() {
               >
                 Sign Up Free — See This Week's Events
               </Link>
-              <Link
-                href={cityConfig ? `/texas/${cityConfig.slug}` : '/texas'}
-                className="btn btn-ghost"
-              >
-                Browse {cityConfig ? cityConfig.name : 'Texas'} &rarr;
-              </Link>
+              {cityConfig && (
+                <Link
+                  href={`/texas/${cityConfig.slug}`}
+                  className="btn btn-ghost"
+                >
+                  Browse {cityConfig.name} &rarr;
+                </Link>
+              )}
             </div>
 
             <p className="hero-trust">

@@ -103,11 +103,8 @@ export function Homepage() {
             </p>
 
             <div className="hero-cta-group">
-              <Link href="/texas" className="btn btn-gold">
+              <Link href="/subscribe" className="btn btn-gold">
                 Sign Up Free — See This Week's Events
-              </Link>
-              <Link href="/texas" className="btn btn-ghost">
-                Browse Texas &rarr;
               </Link>
             </div>
 

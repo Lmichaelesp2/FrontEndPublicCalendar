@@ -2700,3 +2700,29 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
   .sponsor-audience-inner{flex-direction:column;gap:.5rem}
   .sponsor-audience-divider{width:48px;height:1px}
 }
+
+/* ── Subscribe Choose Page (/subscribe) ─────────────────────────────────────── */
+.scp-hero{background:var(--color-paper);padding:4rem 2rem 3rem;text-align:center;border-bottom:1px solid var(--color-rule)}
+.scp-hero-inner{max-width:600px;margin:0 auto}
+.scp-overline{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--color-terra);margin-bottom:1rem}
+.scp-overline-dot{width:7px;height:7px;border-radius:50%;background:var(--color-terra);display:inline-block;flex-shrink:0}
+.scp-hero h1{font-family:var(--font-serif);font-size:clamp(2rem,5vw,3rem);font-weight:600;color:var(--color-ink);line-height:1.15;margin:0 0 1rem}
+.scp-hero-sub{font-size:1.05rem;color:var(--fg-3);line-height:1.7;margin:0 0 1.25rem;max-width:500px;margin-left:auto;margin-right:auto}
+.scp-trust{font-size:.82rem;color:var(--fg-3);letter-spacing:.01em}
+
+.scp-cities{background:var(--color-paper-2);padding:3.5rem 2rem 5rem}
+.scp-cities-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.scp-city-card{background:#fff;border:1px solid var(--color-rule);border-radius:10px;padding:2rem;display:flex;flex-direction:column;gap:1.25rem;text-decoration:none;transition:box-shadow .2s,transform .15s;cursor:pointer}
+.scp-city-card:hover{box-shadow:0 6px 24px rgba(10,22,40,.1);transform:translateY(-2px);border-color:var(--color-terra)}
+.scp-city-top{display:flex;flex-direction:column;gap:.4rem}
+.scp-city-location{display:flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3)}
+.scp-city-name{font-family:var(--font-serif);font-size:1.6rem;font-weight:600;color:var(--color-ink);margin:0;line-height:1.1}
+.scp-city-tagline{font-size:.88rem;color:var(--fg-3);line-height:1.5;margin:0}
+.scp-city-cats{display:flex;flex-wrap:wrap;gap:.4rem}
+.scp-cat-tag{font-size:.72rem;font-weight:600;color:var(--color-primary);background:#eef3fe;padding:.25rem .6rem;border-radius:3px;letter-spacing:.02em}
+.scp-city-cta{display:flex;align-items:center;gap:.4rem;font-size:.88rem;font-weight:700;color:var(--color-terra);margin-top:auto}
+
+@media(max-width:640px){
+  .scp-cities-inner{grid-template-columns:1fr}
+  .scp-hero{padding:3rem 1.25rem 2.5rem}
+}
