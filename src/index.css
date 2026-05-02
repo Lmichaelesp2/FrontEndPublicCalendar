@@ -4,7 +4,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root {
-  /* === DIRECTION A — EDITORIAL LOCAL === */
+  /* === DIRECTION A -- EDITORIAL LOCAL === */
 
   /* Fonts */
   --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
@@ -25,7 +25,7 @@
   --color-primary-light: #5b82f7;
   --color-primary-bg:    #eef3fe;
 
-  /* CTA — Texas Terracotta */
+  /* CTA -- Texas Terracotta */
   --color-accent:        #c2410c;
   --color-accent-dark:   #9a3412;
 
@@ -139,6 +139,28 @@
   --duration-pulse: 2s;
   --duration-spin:  0.8s;
   --easing-base:    ease;
+  /* === LEGACY VARIABLE ALIASES (compatibility) === */
+  --navy:          #0a1628;
+  --navy-dark:     #0a1628;
+  --navy-mid:      #1652f0;
+  --blue:          #1652f0;
+  --gold:          #c2410c;
+  --gold-bright:   #c2410c;
+  --white:         #ffffff;
+  --sky:           #eef3fe;
+  --sky-light:     #eef3fe;
+  --gray-50:       #f8fafc;
+  --gray-100:      #f1f5f9;
+  --gray-200:      #e2e8f0;
+  --gray-300:      #cbd5e1;
+  --gray-400:      #94a3b8;
+  --gray-500:      #64748b;
+  --gray-600:      #475569;
+  --gray-700:      #334155;
+  --gray-800:      #1e293b;
+  --green:         #10b981;
+  --green-light:   #dcfce7;
+
 }
 
 html{scroll-behavior:smooth}
@@ -285,7 +307,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   .hero-city-name{font-size:.9rem}
 }
 
-/* Hero city grid — new design */
+/* Hero city grid -- new design */
 .hero-divider{width:60px;height:2px;background:rgba(255,255,255,.25);margin:1.5rem auto .65rem;border-radius:2px}
 .hero-choose{font-size:1rem;font-weight:700;color:#ffde59;margin:0;text-align:center;letter-spacing:.01em}
 .hero-cities-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;width:100%;max-width:1100px;margin-top:.75rem}
@@ -322,7 +344,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .value-card{text-align:center;padding:0 .5rem}
 .value-icon{width:90px;height:90px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;color:var(--white);background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:24px;box-shadow:0 8px 24px rgba(0,86,179,.25),0 2px 8px rgba(0,0,0,.1);position:relative;transition:all .3s ease}
 .value-card:hover .value-icon{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,86,179,.35),0 4px 12px rgba(0,0,0,.15)}
-.value-card h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem;color:var(--navy-dark)font-family:var(--font-serif);}
+.value-card h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem;color:var(--fg-1);font-family:var(--font-serif);}
 .value-card p{font-size:1rem;color:var(--gray-600);line-height:1.65}
 
 /* FEATURES SECTION */
@@ -366,10 +388,10 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .why-card:hover::before{transform:scaleX(1)}
 .why-card-icon{width:56px;height:56px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;color:var(--white);background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:50%;box-shadow:0 6px 18px rgba(0,86,179,.28),0 2px 6px rgba(0,0,0,.1);flex-shrink:0;transition:all .3s ease}
 .why-card:hover .why-card-icon{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,86,179,.38),0 3px 10px rgba(0,0,0,.14)}
-.why-card h3{font-size:1.1rem;font-weight:800;margin-bottom:.85rem;color:var(--navy-dark)font-family:var(--font-serif);}
+.why-card h3{font-size:1.1rem;font-weight:800;margin-bottom:.85rem;color:var(--fg-1);font-family:var(--font-serif);}
 .why-card p{font-size:.98rem;color:var(--gray-600);line-height:1.7}
 
-/* WHAT'S INCLUDED SECTION */
+/* WHATS INCLUDED SECTION */
 .whats-included-section{padding:5rem 2rem;background:var(--white)}
 .whats-included-inner{max-width:850px;margin:0 auto;text-align:center}
 .whats-included-inner h2{font-size:1.75rem;color:var(--navy);margin-bottom:.75rem;font-weight:800;letter-spacing:-.02em;font-family:var(--font-serif);}
@@ -873,7 +895,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 /* ADMIN DASHBOARD */
 .admin-dashboard{background:var(--white);border-radius:var(--radius);padding:1.75rem;box-shadow:var(--shadow);margin-bottom:2rem;border:1px solid var(--gray-200)}
 .dash-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
-.dash-title-row h3{font-size:1.15rem;font-weight:800;color:var(--gray-800)font-family:var(--font-serif);}
+.dash-title-row h3{font-size:1.15rem;font-weight:800;color:var(--gray-800);font-family:var(--font-serif);}
 .dash-refresh{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:var(--radius-xs);border:1px solid var(--gray-200);background:var(--white);cursor:pointer;color:var(--gray-500);transition:all .2s}
 .dash-refresh:hover{background:var(--gray-50);color:var(--navy);border-color:var(--gray-300)}
 .dash-refresh:disabled{opacity:.5;cursor:default}
@@ -914,7 +936,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   .dash-stats{grid-template-columns:repeat(2,1fr)}
 }
 
-/* ── Subscriber Manager ─────────────────────────────────────────────────── */
+/* -- Subscriber Manager --------------------------------------------------- */
 .subscriber-manager{margin-top:2rem}
 
 /* Stats row */
@@ -1602,7 +1624,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   .sa-subscribe-secondary-cta .btn{width:100%;justify-content:center}
 }
 
-/* HOMEPAGE — STATE CARDS */
+/* HOMEPAGE -- STATE CARDS */
 .hp-state-cards{display:flex;justify-content:center;gap:1.25rem;margin-top:1.5rem;flex-wrap:wrap}
 .hp-state-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;padding:1.5rem 2.5rem;border-radius:1rem;background:#e8f0ff;border:none;color:#003d82;text-decoration:none;transition:all .2s ease;min-width:160px;position:relative}
 .hp-state-card:hover:not(.hp-state-card-coming-soon){background:#dce7ff;transform:translateY(-2px)}
@@ -1613,12 +1635,12 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .hp-state-card-coming-soon .hp-state-icon{background:rgba(153,153,153,.08);color:#999}
 .hp-coming-soon{color:rgba(255,255,255,.55);font-size:.85rem;font-weight:500;margin-top:1.25rem;letter-spacing:.01em}
 
-/* HOMEPAGE — INTRO PARAGRAPH */
+/* HOMEPAGE -- INTRO PARAGRAPH */
 .hp-intro-section{padding:3.5rem 2rem;background:var(--gray-50);border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)}
 .hp-intro-inner{max-width:780px;margin:0 auto;text-align:center}
 .hp-intro-inner p{font-size:1.05rem;color:var(--gray-600);line-height:1.75;font-weight:400}
 
-/* HOMEPAGE — STATE SELECTION SECTION */
+/* HOMEPAGE -- STATE SELECTION SECTION */
 .hp-states-section{padding:5rem 2rem;background:var(--white)}
 .hp-states-inner{max-width:1200px;margin:0 auto;text-align:center}
 .hp-states-inner h2{font-size:1.85rem;color:var(--navy-dark);margin-bottom:2.5rem;font-weight:800;letter-spacing:-.02em;font-family:var(--font-serif);}
@@ -1643,7 +1665,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   .hp-state-feature-content h3{font-size:1.25rem;font-family:var(--font-serif);}
 }
 
-/* HOMEPAGE — NEW HERO (Inter font, photo state buttons) */
+/* HOMEPAGE -- NEW HERO (Inter font, photo state buttons) */
 .hp-hero{
   font-family:'Inter',sans-serif;
   background:linear-gradient(160deg, #0a1e42 0%, #0f2b5b 30%, #1652f0 70%, #0067d6 100%);
@@ -1774,7 +1796,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   .hp-hero{padding:4rem 1.5rem 3.5rem}
 }
 
-/* NAV — Homepage override for Inter */
+/* NAV -- Homepage override for Inter */
 .nav-homepage{font-family:'Inter',sans-serif}
 .nav-homepage .nav-logo-text-hp{font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:#ffffff}
 .nav-homepage .nav-logo-text-hp span{color:#ffde59}
@@ -1783,7 +1805,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .nav-homepage .nav-dropdown-menu .nav-dropdown-item,.nav-homepage .nav-dropdown-menu a{color:#003e80!important}
 .nav-homepage .nav-dropdown-menu .nav-dropdown-item:hover,.nav-homepage .nav-dropdown-menu a:hover{background:#E5F2FF!important;color:#003e80!important}
 
-/* NAV — Non-homepage dropdown trigger text color */
+/* NAV -- Non-homepage dropdown trigger text color */
 .nav:not(.nav-homepage) .nav-dropdown-trigger{color:rgba(255,255,255,.8)!important}
 .nav:not(.nav-homepage) .nav-dropdown-trigger:hover{color:#ffffff!important;background:rgba(255,255,255,.1)}
 
@@ -1889,7 +1911,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
    Paste these at the bottom of your src/index.css file
    ============================================================ */
 
-/* ── What they're subscribing to label ── */
+/* -- What they are subscribing to label -- */
 .sub-subscribing-to {
   font-size: 13px;
   color: var(--color-text-muted);
@@ -1904,14 +1926,14 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   color: var(--color-primary);
 }
 
-/* ── Success redirect text ── */
+/* -- Success redirect text -- */
 .sub-success-redirect {
   font-size: 12px;
   color: var(--color-text-muted);
   margin: 8px 0 16px;
 }
 
-/* ── Other Calendars Section ── */
+/* -- Other Calendars Section -- */
 .sub-other-cals {
   margin-top: 56px;
   padding-top: 40px;
@@ -1932,14 +1954,14 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   max-width: 560px;
 }
 
-/* ── Grid of cities ── */
+/* -- Grid of cities -- */
 .sub-other-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
 }
 
-/* ── Each city block ── */
+/* -- Each city block -- */
 .sub-other-city-block {
   background: var(--color-bg-secondary);
   border-radius: 10px;
@@ -1955,7 +1977,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   border-bottom: 1px solid var(--color-border);
 }
 
-/* ── Individual links ── */
+/* -- Individual links -- */
 .sub-other-links {
   display: flex;
   flex-direction: column;
@@ -1985,7 +2007,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   margin-bottom: 4px;
 }
 
-/* ── Mobile ── */
+/* -- Mobile -- */
 @media (max-width: 640px) {
   .sub-other-grid {
     grid-template-columns: 1fr 1fr;
@@ -2002,7 +2024,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
    Paste these at the bottom of your src/index.css file
    ============================================================ */
 
-/* ── What they're subscribing to label ── */
+/* -- What they are subscribing to label -- */
 .sub-subscribing-to {
   font-size: 13px;
   color: var(--color-text-muted);
@@ -2017,14 +2039,14 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   color: var(--color-primary);
 }
 
-/* ── Success redirect text ── */
+/* -- Success redirect text -- */
 .sub-success-redirect {
   font-size: 12px;
   color: var(--color-text-muted);
   margin: 8px 0 16px;
 }
 
-/* ── Other Calendars Section — full width below form/perks ── */
+/* -- Other Calendars Section -- full width below form/perks -- */
 .sub-other-cals {
   max-width: 960px;
   margin: 0 auto;
@@ -2047,14 +2069,14 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   line-height: 1.5;
 }
 
-/* ── Grid: 4 columns on desktop, 2 on tablet, 1 on mobile ── */
+/* -- Grid: 4 columns on desktop, 2 on tablet, 1 on mobile -- */
 .sub-other-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 
-/* ── Each city block ── */
+/* -- Each city block -- */
 .sub-other-city-block {
   background: var(--color-bg-secondary);
   border-radius: 10px;
@@ -2072,7 +2094,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   letter-spacing: 0.04em;
 }
 
-/* ── Individual links ── */
+/* -- Individual links -- */
 .sub-other-links {
   display: flex;
   flex-direction: column;
@@ -2104,14 +2126,14 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   font-size: 12px;
 }
 
-/* ── Tablet: 2 columns ── */
+/* -- Tablet: 2 columns -- */
 @media (max-width: 768px) {
   .sub-other-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* ── Mobile: 1 column ── */
+/* -- Mobile: 1 column -- */
 @media (max-width: 480px) {
   .sub-other-grid {
     grid-template-columns: 1fr;
@@ -2122,7 +2144,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   }
 }
 
-/* ── Subscribers Full Page ───────────────────────────────────────────────── */
+/* -- Subscribers Full Page ------------------------------------------------- */
 .subs-page{min-height:100vh;background:var(--gray-50)}
 .subs-page-header{background:var(--navy);color:#fff;padding:1rem 2rem;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 .subs-page-header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
@@ -2193,7 +2215,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   .subs-table th:nth-child(5),.subs-table td:nth-child(5){display:none}
 }
 
-/* ── Subscriber Edit/Delete ──────────────────────────────────────────────── */
+/* -- Subscriber Edit/Delete ------------------------------------------------ */
 .subs-td-actions{white-space:nowrap;display:flex;gap:.35rem;align-items:center}
 .subs-action-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:1px solid var(--gray-200);background:#fff;cursor:pointer;transition:all .15s}
 .subs-edit-btn{color:var(--navy)}
@@ -2229,7 +2251,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .subs-modal-delete:hover{background:#b91c1c}
 .subs-modal-delete:disabled{opacity:.5;cursor:default}
 
-/* ── Edit Modal — Calendar Management ───────────────────────────────────── */
+/* -- Edit Modal -- Calendar Management ------------------------------------- */
 .subs-modal-lg{max-width:580px}
 .subs-modal-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .subs-modal-cal-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem;align-items:flex-start}
@@ -2252,7 +2274,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .subs-modal-info{font-size:.78rem;color:#065f46;background:#ecfdf5;border:1px solid #6ee7b7;border-radius:6px;padding:.4rem .75rem;margin-top:.25rem;width:100%}
 @media(max-width:480px){.subs-modal-row{grid-template-columns:1fr}}
 
-/* ── Newsletter Generator Page ───────────────────────────────────────────── */
+/* -- Newsletter Generator Page --------------------------------------------- */
 .nl-page{max-width:860px;margin:0 auto;padding:2rem}
 .nl-header{margin-bottom:1.75rem}
 .nl-header h2{font-size:1.4rem;font-weight:800;color:var(--navy);margin:0 0 .25rem;font-family:var(--font-serif);}
@@ -2295,7 +2317,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   .nl-tabs{flex-wrap:wrap}
 }
 
-/* ── Sponsor Page ────────────────────────────────────────────────────────── */
+/* -- Sponsor Page ---------------------------------------------------------- */
 .sponsor-page{min-height:100vh;background:#fff}
 
 /* Hero */
