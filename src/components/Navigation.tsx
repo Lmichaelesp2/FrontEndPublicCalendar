@@ -33,6 +33,23 @@ const CAT_SLUG_TO_NAME: Record<string, string> = {
   'small-business': 'Small Business',
 };
 
+function getSubscribeUrl(pathname: string): string {
+  // /texas/city/category → /texas/city/category/subscribe
+  const subCatMatch = pathname.match(/^(\/texas\/[a-z-]+\/[a-z-]+)/);
+  if (subCatMatch) {
+    const base = subCatMatch[1];
+    if (!base.endsWith('/subscribe')) return `${base}/subscribe`;
+  }
+  // /texas/city → /texas/city/subscribe
+  const cityMatch = pathname.match(/^(\/texas\/[a-z-]+)/);
+  if (cityMatch) {
+    const base = cityMatch[1];
+    if (!base.endsWith('/subscribe')) return `${base}/subscribe`;
+  }
+  // Homepage or /texas → use San Antonio as a sensible default
+  return '/texas/san-antonio/subscribe';
+}
+
 function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
   // /texas/san-antonio/technology, /texas/austin/chamber, etc.
   const subCatMatch = pathname.match(/^\/texas\/([a-z-]+)\/([a-z-]+)/);
@@ -75,7 +92,7 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
   // Home / everything else
   return {
     wordmark: <>Local <em>Business</em> Calendars</>,
-    tagline: 'Networking & Business Events · By City & Industry',
+    tagline: 'Networking & Business Events · By City & Industry',
   };
 };
 
@@ -104,6 +121,7 @@ export function Navigation() {
 
   const dateline = getDayDateline();
   const { wordmark, tagline } = getWordmarkAndTagline(pathname ?? '/');
+  const subscribeUrl = getSubscribeUrl(pathname ?? '/');
 
   return (
     <>
@@ -168,12 +186,9 @@ export function Navigation() {
                   <span>Log Out</span>
                 </button>
               ) : (
-                <button
-                  className="nav-cta"
-                  onClick={() => setAuthModalOpen(true)}
-                >
+                <Link href={subscribeUrl} className="nav-cta">
                   Sign Up — Free →
-                </button>
+                </Link>
               )}
             </div>
           </div>
