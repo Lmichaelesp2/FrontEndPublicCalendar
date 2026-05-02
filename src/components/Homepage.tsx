@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CalendarDays, Mail, MapPin, Search, Star, Plus, Minus, Globe } from 'lucide-react';
+import { CalendarDays, Mail, Star, Plus, Minus } from 'lucide-react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
@@ -84,37 +84,80 @@ export function Homepage() {
       />
       <Navigation />
 
-      <section className="hp-hero">
-        <div className="hp-hero-inner">
-          <div className="hp-hero-badge">
-            WE DO THE SEARCHING &middot; YOU DO THE NETWORKING
+      <section className="hero">
+        <div className="hero-inner">
+
+          {/* Left column */}
+          <div className="hero-left">
+            <div className="hero-badge">
+              <span className="hero-badge-dot" />
+              THIS WEEK IN TEXAS &middot; 47 EVENTS
+            </div>
+
+            <h1>
+              Find the rooms where business <em>actually</em> happens.
+            </h1>
+
+            <p className="hero-sub">
+              Networking mixers, chamber events, real-estate gatherings, tech meetups — every public business event in your city, organized into one calendar and one Monday email.
+            </p>
+
+            <div className="hero-cta-group">
+              <Link href="/texas" className="btn btn-gold">
+                Sign Up Free — See This Week's Events
+              </Link>
+              <Link href="/texas" className="btn btn-ghost">
+                Browse Texas &rarr;
+              </Link>
+            </div>
+
+            <p className="hero-trust">
+              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
+            </p>
           </div>
 
-          <h1 className="hp-hero-h1">
-            Find Business &amp; Networking Events <em>in Your City</em>
-          </h1>
-
-          <p className="hp-hero-sub">
-            Stop missing the events that grow your network and your business.
-          </p>
-
-          <div className="hp-state-btns">
-            <Link href="/texas/" className="hp-state-btn hp-state-btn-active">
-              <div className="hp-state-btn-content">
-                <span className="hp-state-btn-label">Texas</span>
-                <span className="hp-state-btn-live">Live now</span>
-              </div>
-            </Link>
-
-            <div className="hp-state-btn">
-              <div className="hp-state-btn-content">
-                <span className="hp-state-btn-label">More States</span>
-                <span className="hp-state-btn-coming-soon">COMING SOON</span>
-              </div>
+          {/* Right column — city panel */}
+          <div className="hero-right">
+            <div className="hero-city-panel">
+              <div className="hero-city-panel-header">THIS WEEK, BY CITY</div>
+              <ul className="hero-city-panel-list">
+                <li className="hero-city-panel-row">
+                  <Link href="/texas/san-antonio" className="hero-city-panel-link">
+                    <span className="hero-city-panel-name">San Antonio</span>
+                    <span className="hero-city-panel-count">14 events</span>
+                  </Link>
+                </li>
+                <li className="hero-city-panel-row">
+                  <Link href="/texas/austin" className="hero-city-panel-link">
+                    <span className="hero-city-panel-name">Austin</span>
+                    <span className="hero-city-panel-count">18 events</span>
+                  </Link>
+                </li>
+                <li className="hero-city-panel-row">
+                  <Link href="/texas/dallas" className="hero-city-panel-link">
+                    <span className="hero-city-panel-name">Dallas</span>
+                    <span className="hero-city-panel-count">9 events</span>
+                  </Link>
+                </li>
+                <li className="hero-city-panel-row">
+                  <Link href="/texas/houston" className="hero-city-panel-link">
+                    <span className="hero-city-panel-name">Houston</span>
+                    <span className="hero-city-panel-count">6 events</span>
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <p className="hp-hero-note">Check the calendar anytime — or get events delivered to your inbox every Monday. Free.</p>
+        </div>
+
+        {/* Bottom editorial strip */}
+        <div className="hero-strip">
+          <span>VOL. 3 &middot; APR 28 – MAY 4, 2026</span>
+          <span className="hero-strip-divider">|</span>
+          <span>NEXT NEWSLETTER: MONDAY, MAY 4 &middot; 6:00 A.M. CT</span>
+          <span className="hero-strip-divider">|</span>
+          <span>TRACKED ORGANIZATIONS: 800+</span>
         </div>
       </section>
 
