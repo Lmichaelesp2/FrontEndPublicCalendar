@@ -12,7 +12,7 @@ import { CityProvider } from '../contexts/CityContext';
 import { SponsorInstitutional } from './SponsorSection';
 import { SocialProof } from './SocialProof';
 import type { Event } from '../lib/supabase';
-import { Plus, Minus, Mail, CalendarDays } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { WhySection } from './WhySection';
 
 const CITY_NAMES: Record<string, string> = {
@@ -87,31 +87,6 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
       )}
       <Hero />
 
-      <section className="benefits-bar">
-        <div className="benefits-bar-inner">
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <CalendarDays size={20} strokeWidth={2} />
-            </div>
-            <span>Events aggregated every week</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <Mail size={20} strokeWidth={2} />
-            </div>
-            <span>Delivered every Monday morning</span>
-          </div>
-          <div className="benefit-item">
-            <div className="benefit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <span>Access calendar anytime</span>
-          </div>
-        </div>
-      </section>
 
       <WhySection
         heading="Why Use Texas Business Calendars?"
