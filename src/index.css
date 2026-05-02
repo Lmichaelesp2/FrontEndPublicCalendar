@@ -524,9 +524,14 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 /* CTA group */
 .hero-cta-group{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin-bottom:1rem}
 
-/* Ghost / outline button */
-.btn-ghost{background:transparent;color:var(--color-ink);border:1.5px solid var(--color-ink);padding:.75rem 1.5rem;border-radius:var(--radius);font-weight:var(--fw-semi);font-size:var(--fs-base);transition:all .2s ease}
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.75rem;border-radius:var(--radius);font-weight:var(--fw-semi);font-size:var(--fs-base);text-decoration:none;cursor:pointer;border:none;transition:all .25s ease;font-family:inherit;white-space:nowrap}
+.btn-gold{background:var(--color-accent);color:#ffffff;box-shadow:var(--shadow-sm)}
+.btn-gold:hover{background:var(--color-accent-dark);box-shadow:0 4px 16px rgba(194,65,12,.25);transform:translateY(-1px);text-decoration:none;color:#fff}
+.btn-ghost{background:transparent;color:var(--color-ink);border:1.5px solid var(--color-ink);padding:.85rem 1.75rem;border-radius:var(--radius);font-weight:var(--fw-semi);font-size:var(--fs-base);transition:all .2s ease}
 .btn-ghost:hover{background:var(--color-ink);color:#fff;text-decoration:none}
+.btn-white{background:#ffffff;color:var(--color-ink);border:1.5px solid var(--color-rule);box-shadow:var(--shadow-sm)}
+.btn-white:hover{background:var(--color-paper-2);text-decoration:none}
 
 /* Trust line */
 .hero-trust{font-size:var(--fs-sm);color:var(--fg-3);margin-top:.25rem}
