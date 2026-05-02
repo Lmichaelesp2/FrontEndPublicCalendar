@@ -159,7 +159,7 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
             <div className="feature-card">
               <div className="feature-step">2</div>
               <h3>Browse the calendar anytime</h3>
-              <p>The calendar is always live and open — no login needed. Check back anytime to see what's coming up this week or next month.</p>
+              <p>The calendar is always live and open — no login needed. Check back anytime to see what's coming up across the Austin tech scene.</p>
             </div>
 
             <div className="feature-card">
