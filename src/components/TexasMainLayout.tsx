@@ -78,13 +78,18 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
     <div>
       <SEOHead title={seoTitle} description={seoDescription} />
       <Navigation />
-      {citySlug && (
-        <Breadcrumb items={[
-          { label: 'Local Business Calendars', href: '/' },
-          { label: 'Texas', href: '/texas' },
-          { label: cityName ?? citySlug },
-        ]} />
-      )}
+      <Breadcrumb items={
+        citySlug
+          ? [
+              { label: 'Local Business Calendars', href: '/' },
+              { label: 'Texas', href: '/texas' },
+              { label: cityName ?? citySlug },
+            ]
+          : [
+              { label: 'Local Business Calendars', href: '/' },
+              { label: 'Texas', href: '/texas' },
+            ]
+      } />
       <Hero />
 
 
