@@ -246,7 +246,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           </button>
 
           <div className="cal-day-center">
-            {!weekMode && isToday && <div className="cal-day-name" style={{ color: 'var(--color-ink)', fontWeight: 600, fontFamily: 'var(--font-sans)' }}>Today</div>}
+            {!weekMode && isToday && <div className="cal-day-name">Today</div>}
             {weekMode && <div className="cal-day-name">{weekOffset === 0 ? 'This Week' : `Week ${weekOffset + 1}`}</div>}
             <div className="cal-day-full">{dayLabel}</div>
             <div className="cal-day-count">
