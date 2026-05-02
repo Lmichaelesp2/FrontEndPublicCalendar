@@ -29,7 +29,7 @@ interface CalendarProps {
   weekMode?: boolean;
 }
 
-export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false }: CalendarProps) {
+export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, showSearch, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false }: CalendarProps) {
   const { user } = useAuth();
   const today = useMidnightReset();
   const [liveEvents, setLiveEvents] = useState<Event[] | null>(null);
