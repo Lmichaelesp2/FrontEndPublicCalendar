@@ -12,6 +12,7 @@ import { AuthModal } from './auth/AuthModal';
 
 
 interface CalendarProps {
+  showSearch?: boolean;
   initialEvents: Event[];
   forcedCity?: City;
   groupType?: string;
@@ -195,7 +196,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     <section className="cal-section" id="calendar">
       <div className="cal-inner">
 
-        {user && (
+        {user && showSearch && (
           <div className="cal-search-row">
             <div className="cal-search-wrap">
               <Search size={15} className="cal-search-icon" />

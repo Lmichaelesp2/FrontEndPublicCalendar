@@ -46,6 +46,7 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
         externalSelectedDate={selectedDate}
         onExternalDateClear={() => setSelectedDate(null)}
         weekMode={weekMode || !!groupType}
+        showSearch={!showMonthCalendar}
       />
     </>
   );
