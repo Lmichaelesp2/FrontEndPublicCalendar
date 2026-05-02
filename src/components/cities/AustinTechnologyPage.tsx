@@ -146,8 +146,8 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
 
       <section className="features-section">
         <div className="features-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate tech sources across Austin so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.</p>
+          <h2>How It Works</h2>
+          <p className="features-subtitle">Three steps to never missing an Austin tech event again.</p>
 
           <div className="features-grid">
             <div className="feature-card">
@@ -203,22 +203,22 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
 
       <section className="value-section" style={{ paddingTop: '2rem' }}>
         <div className="value-inner">
-          <h2>Never Miss a Tech Event That Matters</h2>
+          <h2>What You Get — Completely Free</h2>
           <div className="value-grid">
             <div className="value-card">
               <div className="value-icon"><Monitor size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly newsletter</h3>
-              <p>Sign up for Austin tech events and get that week's opportunities in your inbox every Monday. Free.</p>
+              <h3>A curated weekly digest</h3>
+              <p>Every Monday morning, that week's best Austin tech events land in your inbox — organized, scannable, ready to act on.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check the calendar anytime</h3>
-              <p>No signup needed. Browse Austin's tech events on the calendar whenever you want.</p>
+              <h3>A live event calendar</h3>
+              <p>Browse Austin tech events anytime — no account, no signup. Just open it and see what's coming up this week.</p>
             </div>
             <div className="value-card">
               <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Never miss what matters</h3>
-              <p>The newsletter and the calendar work together so you always know what's coming up.</p>
+              <h3>Your time back</h3>
+              <p>Stop hunting across Meetup, Eventbrite, LinkedIn, and Slack. We aggregate every Austin tech event so you don't have to.</p>
             </div>
           </div>
         </div>
