@@ -115,9 +115,10 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         { label: 'Networking Events' },
       ]} />
 
-      <section className="hero">
-        <div className="hero-inner">
+            <section className="se-hero">
+        <div className="se-hero-inner">
           <div className="hero-badge">
+            <span className="hero-badge-dot" />
             DALLAS NETWORKING CALENDAR
           </div>
           <h1>
@@ -125,18 +126,21 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
             <br />
             the <em>Dallas</em> Area
           </h1>
-          <p className="hero-subtext">
+          <p className="hero-sub">
             Stop missing the networking events that grow your referrals and your business.
           </p>
-          <p className="hero-category-tags">NETWORKING & REFERRAL GROUPS</p>
+          <p className="se-hero-tags">
+            
+          </p>
           <div className="hero-cta-group">
-            <Link href="/texas/dallas/networking/subscribe" className="btn btn-white">
-              Get My Free Dallas Networking Events Newsletter
+            <Link href="/texas/dallas/networking/subscribe" className="btn btn-gold">
+              Get the Free Dallas Networking Events Newsletter
             </Link>
-            <p className="hero-subtext-below">
-              Browse the calendar anytime between newsletters. Always free.
-            </p>
+            <Link href="#calendar" className="btn btn-ghost">
+              Browse the Calendar &rarr;
+            </Link>
           </div>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 

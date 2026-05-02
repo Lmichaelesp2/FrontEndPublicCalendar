@@ -25,6 +25,60 @@ const CITY_SLUG_TO_NAME: Record<string, string> = {
   'houston': 'Houston',
 };
 
+const CAT_SLUG_TO_NAME: Record<string, string> = {
+  'technology': 'Technology',
+  'chamber': 'Chamber',
+  'networking': 'Networking',
+  'real-estate': 'Real Estate',
+  'small-business': 'Small Business',
+};
+
+function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
+  // /texas/san-antonio/technology, /texas/austin/chamber, etc.
+  const subCatMatch = pathname.match(/^\/texas\/([a-z-]+)\/([a-z-]+)/);
+  if (subCatMatch) {
+    const citySlug = subCatMatch[1];
+    const catSlug = subCatMatch[2];
+    const cityName = CITY_SLUG_TO_NAME[citySlug];
+    const catName = CAT_SLUG_TO_NAME[catSlug];
+    if (cityName && catName) {
+      return {
+        wordmark: <><em>{cityName}</em> {catName} Calendar</>,
+        tagline: 'Part of the Local Business Calendars Network',
+      };
+    }
+    if (cityName) {
+      return {
+        wordmark: <><em>{cityName}</em> Business Calendar</>,
+        tagline: 'Part of the Local Business Calendars Network',
+      };
+    }
+  }
+  // /texas/san-antonio etc.
+  const cityMatch = pathname.match(/^\/texas\/([a-z-]+)/);
+  if (cityMatch) {
+    const cityName = CITY_SLUG_TO_NAME[cityMatch[1]];
+    if (cityName) {
+      return {
+        wordmark: <><em>{cityName}</em> Business Calendar</>,
+        tagline: 'Part of the Local Business Calendars Network',
+      };
+    }
+  }
+  // /texas
+  if (pathname === '/texas' || pathname.startsWith('/texas')) {
+    return {
+      wordmark: <>Texas <em>Business</em> Calendars</>,
+      tagline: 'Part of the Local Business Calendars Network',
+    };
+  }
+  // Home / everything else
+  return {
+    wordmark: <>Local <em>Business</em> Calendars</>,
+    tagline: 'Networking & Business Events · By City & Industry',
+  };
+};
+
 function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
   // /texas/san-antonio, /texas/austin/technology, etc.
   const cityMatch = pathname.match(/^\/texas\/([a-z-]+)/);

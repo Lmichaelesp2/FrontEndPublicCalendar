@@ -126,9 +126,10 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         { label: 'Chamber Events' },
       ]} />
 
-      <section className="hero">
-        <div className="hero-inner">
+            <section className="se-hero">
+        <div className="se-hero-inner">
           <div className="hero-badge">
+            <span className="hero-badge-dot" />
             HOUSTON CHAMBER CALENDAR
           </div>
           <h1>
@@ -136,20 +137,21 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
             <br />
             <em>Houston</em> Area
           </h1>
-          <p className="hero-subtext">
+          <p className="hero-sub">
             Stop missing the chamber events that connect you to Houston's business community.
           </p>
-          <div className="hero-category-tags">
+          <p className="se-hero-tags">
             Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more
-          </div>
+          </p>
           <div className="hero-cta-group">
-            <Link href="/texas/houston/chamber/subscribe" className="btn btn-white">
-              Get My Free Houston Chamber Events Newsletter
+            <Link href="/texas/houston/chamber/subscribe" className="btn btn-gold">
+              Get the Free Houston Chamber Events Newsletter
             </Link>
-            <p className="hero-subtext-below">
-              Browse the calendar anytime between newsletters. Always free.
-            </p>
+            <Link href="#calendar" className="btn btn-ghost">
+              Browse the Calendar &rarr;
+            </Link>
           </div>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 

@@ -124,31 +124,32 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         { label: 'Chamber Events' },
       ]} />
 
-      <section className="hero">
-        <div className="hero-inner">
+            <section className="se-hero">
+        <div className="se-hero-inner">
           <div className="hero-badge">
-            <span className="dot" style={{ background: '#10b981' }}></span>
-            San Antonio Chamber Calendar
+            <span className="hero-badge-dot" />
+            SAN ANTONIO CHAMBER CALENDAR
           </div>
           <h1>
             Chamber Events in
             <br />
             the <em>San Antonio</em> area
           </h1>
-          <p className="hero-subtext">
+          <p className="hero-sub">
             Stop missing the events that grow your network and your business.
           </p>
-          <div className="hero-category-tags">
+          <p className="se-hero-tags">
             Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more
-          </div>
+          </p>
           <div className="hero-cta-group">
-            <Link href="/texas/san-antonio/chamber/subscribe" className="btn btn-white">
-              Get My Free San Antonio Chamber Events Newsletter
+            <Link href="/texas/san-antonio/chamber/subscribe" className="btn btn-gold">
+              Get the Free San Antonio Chamber Events Newsletter
             </Link>
-            <p className="hero-subtext-below">
-              Browse the calendar anytime between newsletters. Always free.
-            </p>
+            <Link href="#calendar" className="btn btn-ghost">
+              Browse the Calendar &rarr;
+            </Link>
           </div>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 

@@ -124,31 +124,32 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         { label: 'Small Business Events' },
       ]} />
 
-      <section className="hero">
-        <div className="hero-inner">
+            <section className="se-hero">
+        <div className="se-hero-inner">
           <div className="hero-badge">
-            <span className="dot" style={{ background: '#3b82f6' }}></span>
-            San Antonio Small Business Calendar
+            <span className="hero-badge-dot" />
+            SAN ANTONIO SMALL BUSINESS CALENDAR
           </div>
           <h1>
             Small Business Events in
             <br />
             the <em>San Antonio</em> area
           </h1>
-          <p className="hero-subtext">
+          <p className="hero-sub">
             Stop missing the events that grow your network and your business.
           </p>
-          <div className="hero-category-tags">
+          <p className="se-hero-tags">
             Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more
-          </div>
+          </p>
           <div className="hero-cta-group">
-            <Link href="/texas/san-antonio/small-business/subscribe" className="btn btn-white">
-              Get My Free San Antonio Small Business Events Newsletter
+            <Link href="/texas/san-antonio/small-business/subscribe" className="btn btn-gold">
+              Get the Free San Antonio Small Business Events Newsletter
             </Link>
-            <p className="hero-subtext-below">
-              Browse the calendar anytime between newsletters. Always free.
-            </p>
+            <Link href="#calendar" className="btn btn-ghost">
+              Browse the Calendar &rarr;
+            </Link>
           </div>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 
