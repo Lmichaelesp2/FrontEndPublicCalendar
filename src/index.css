@@ -554,7 +554,9 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .hero-city-panel-link:hover{background:var(--color-paper-2);text-decoration:none}
 .hero-city-panel-name{font-size:var(--fs-base);font-weight:var(--fw-medium);color:var(--color-ink)}
 .hero-city-panel-count{font-size:var(--fs-sm);color:var(--color-primary);font-weight:var(--fw-semi)}
-.hero-city-panel-tag{display:block;padding:.65rem 1.25rem;font-size:var(--fs-base);color:var(--color-ink-2);font-weight:var(--fw-medium)}
+.hero-city-panel-tag{display:block;padding:.65rem 1.25rem;font-size:var(--fs-base);color:var(--color-ink-2);font-weight:var(--fw-medium);transition:all .2s}
+a.hero-city-panel-tag{color:var(--color-ink-2);text-decoration:none;cursor:pointer}
+a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)}
 
 /* Bottom editorial strip */
 .hero-strip{background:var(--color-ink);color:rgba(255,255,255,.65);font-family:var(--font-sans);font-size:var(--fs-xs);font-weight:var(--fw-medium);letter-spacing:var(--ls-overline);text-transform:uppercase;padding:.6rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;justify-content:center}
