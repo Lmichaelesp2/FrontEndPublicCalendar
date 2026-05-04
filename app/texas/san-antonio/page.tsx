@@ -8,15 +8,18 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'San Antonio Business Calendar – Events & Networking',
   description: 'San Antonio business events by industry – Technology, Real Estate, Chamber, Small Business, Networking. Weekly newsletters.',
+    alternates: {
+    canonical: '/texas/san-antonio',
+  },
   openGraph: {
     title: 'San Antonio Business Calendar – Events & Networking',
-    description: 'Discover San Antonio business events by industry category with weekly newsletter signup.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Discover San Antonio business events across technology, real estate, chamber, networking, and small business categories. Subscribe to weekly business event newsletters.',
+    images: ['/logos/san-antonio-business-calendar-01.png'],
   },
   twitter: {
     title: 'San Antonio Business Calendar',
     description: 'Browse San Antonio business events by industry.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/san-antonio-business-calendar-01.png'],
   },
 };
 

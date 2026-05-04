@@ -8,15 +8,18 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Austin Business Calendar – Events & Networking',
   description: 'Austin business events by industry – Technology, Real Estate, Chamber, Small Business, Networking. Weekly newsletters.',
+    alternates: {
+    canonical: '/texas/austin',
+  },
   openGraph: {
     title: 'Austin Business Calendar – Events & Networking',
-    description: 'Discover Austin business events by industry category with weekly newsletter signup.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Discover Austin business events across technology, real estate, chamber, networking, and small business categories. Subscribe to weekly business event newsletters.',
+    images: ['/logos/austin-business-calendar-01.png'],
   },
   twitter: {
     title: 'Austin Business Calendar',
     description: 'Browse Austin business events by industry.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/austin-business-calendar-01.png'],
   },
 };
 

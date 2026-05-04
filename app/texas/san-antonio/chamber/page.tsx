@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'San Antonio Chamber Events – Networking & Business',
-  description: 'San Antonio Chamber events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'San Antonio Chamber of Commerce events calendar — browse upcoming chamber of commerce mixers, ribbon cuttings, and member networking events in San Antonio, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/san-antonio/chamber',
+  },
   openGraph: {
     title: 'San Antonio Chamber Events – Networking & Business',
-    description: 'San Antonio-based Chamber events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse San Antonio Chamber of Commerce events — chamber of commerce mixers, ribbon cuttings, and member networking events. Subscribe free.',
+    images: ['/logos/san-antonio-chamber-calendar-01.png'],
   },
   twitter: {
     title: 'San Antonio Chamber Events',
     description: 'Chamber professionals in San Antonio – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/san-antonio-chamber-calendar-01.png'],
   },
 };
 

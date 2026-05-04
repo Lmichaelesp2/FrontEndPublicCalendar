@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Austin Networking Events – Networking & Business',
-  description: 'Austin Networking events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'Austin Networking events calendar — browse upcoming professional networking mixers, B2B introductions, and industry happy hours in Austin, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/austin/networking',
+  },
   openGraph: {
     title: 'Austin Networking Events – Networking & Business',
-    description: 'Austin-based Networking events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse Austin Networking events — professional networking mixers, B2B introductions, and industry happy hours. Subscribe free.',
+    images: ['/logos/austin-networking-calendar-01.png'],
   },
   twitter: {
     title: 'Austin Networking Events',
     description: 'Networking professionals in Austin – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/austin-networking-calendar-01.png'],
   },
 };
 

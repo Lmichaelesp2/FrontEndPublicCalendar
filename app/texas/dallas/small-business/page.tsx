@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Dallas Small Business Events – Networking & Business',
-  description: 'Dallas Small Business events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'Dallas Small Business events calendar — browse upcoming small business workshops, entrepreneur meetups, and local business owner events in Dallas, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/dallas/small-business',
+  },
   openGraph: {
     title: 'Dallas Small Business Events – Networking & Business',
-    description: 'Dallas-based Small Business events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse Dallas Small Business events — small business workshops, entrepreneur meetups, and local business owner events. Subscribe free.',
+    images: ['/logos/dallas-small-business-calendar-01.png'],
   },
   twitter: {
     title: 'Dallas Small Business Events',
     description: 'Small Business professionals in Dallas – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/dallas-small-business-calendar-01.png'],
   },
 };
 

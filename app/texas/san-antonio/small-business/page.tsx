@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'San Antonio Small Business Events – Networking & Business',
-  description: 'San Antonio Small Business events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'San Antonio Small Business events calendar — browse upcoming small business workshops, entrepreneur meetups, and local business owner events in San Antonio, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/san-antonio/small-business',
+  },
   openGraph: {
     title: 'San Antonio Small Business Events – Networking & Business',
-    description: 'San Antonio-based Small Business events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse San Antonio Small Business events — small business workshops, entrepreneur meetups, and local business owner events. Subscribe free.',
+    images: ['/logos/san-antonio-small-business-calendar-01.png'],
   },
   twitter: {
     title: 'San Antonio Small Business Events',
     description: 'Small Business professionals in San Antonio – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/san-antonio-small-business-calendar-01.png'],
   },
 };
 

@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Austin Technology Events – Networking & Business',
-  description: 'Austin Technology events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'Austin Technology events calendar — browse upcoming tech meetups, startup events, and innovation conferences in Austin, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/austin/technology',
+  },
   openGraph: {
     title: 'Austin Technology Events – Networking & Business',
-    description: 'Austin-based Technology events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse Austin Technology events — tech meetups, startup events, and innovation conferences. Subscribe free.',
+    images: ['/logos/austin-technology-calendar-01.png'],
   },
   twitter: {
     title: 'Austin Technology Events',
     description: 'Technology professionals in Austin – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/austin-technology-calendar-01.png'],
   },
 };
 

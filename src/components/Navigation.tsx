@@ -121,6 +121,62 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
 };
 
 
+
+function ResourcesDropdown() {
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div className="nav-resources-wrap" ref={ref}>
+      <button
+        className="nav-link nav-resources-btn"
+        onClick={() => setOpen(o => !o)}
+        aria-expanded={open}
+      >
+        Resources <ChevronDown size={12} className={open ? 'nav-chevron-open' : ''} />
+      </button>
+      {open && (
+        <div className="nav-resources-drop">
+          <Link
+            href="/right-room-method"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Right Room Method</span>
+            <span className="nav-resources-item-desc">Choose better events in 10 seconds</span>
+          </Link>
+          <Link
+            href="/submit"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Submit an Event</span>
+            <span className="nav-resources-item-desc">Add your event to the calendar</span>
+          </Link>
+          <Link
+            href="/sponsor"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Sponsor the Calendar</span>
+            <span className="nav-resources-item-desc">Reach local business professionals</span>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signup' | 'signin'>('signup');
@@ -206,6 +262,7 @@ export function Navigation() {
                 </Link>
               ))}
               <Link href="/submit" className="nav-link">Submit Event</Link>
+              <ResourcesDropdown />
             </nav>
 
             <div className="nav-actions">

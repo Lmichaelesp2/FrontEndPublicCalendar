@@ -3,9 +3,12 @@ import { Providers } from '../src/components/Providers';
 import '../src/index.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://localbusinesscalendars.com'),
+  metadataBase: new URL('https://www.businesscalendar.link'),
   title: 'Local Business Calendars – Find Events by City & Industry',
   description: 'Find business and networking events by state, city, and industry. Get weekly newsletters with the events that matter to you.',
+  alternates: {
+    canonical: '/',
+  },
   robots: {
     index: true,
     follow: true,

@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Dallas Networking Events – Networking & Business',
-  description: 'Dallas Networking events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'Dallas Networking events calendar — browse upcoming professional networking mixers, B2B introductions, and industry happy hours in Dallas, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/dallas/networking',
+  },
   openGraph: {
     title: 'Dallas Networking Events – Networking & Business',
-    description: 'Dallas-based Networking events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse Dallas Networking events — professional networking mixers, B2B introductions, and industry happy hours. Subscribe free.',
+    images: ['/logos/dallas-networking-calendar-01.png'],
   },
   twitter: {
     title: 'Dallas Networking Events',
     description: 'Networking professionals in Dallas – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/dallas-networking-calendar-01.png'],
   },
 };
 
