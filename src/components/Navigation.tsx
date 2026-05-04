@@ -198,6 +198,14 @@ export function Navigation() {
                   {accountDropOpen && (
                     <div className="nav-account-drop">
                       <div className="nav-account-email">{user.email}</div>
+                      <Link
+                        href="/account"
+                        className="nav-account-drop-item"
+                        onClick={() => setAccountDropOpen(false)}
+                      >
+                        <User size={13} />
+                        My Account
+                      </Link>
                       <button
                         className="nav-account-drop-item nav-account-signout"
                         onClick={() => { setAccountDropOpen(false); handleLogout(); }}
