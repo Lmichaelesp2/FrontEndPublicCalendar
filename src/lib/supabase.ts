@@ -48,6 +48,7 @@ export type Event = {
   notes: string | null;
   internal_type: string | null;
   event_category: string | null;
+  group_type: string | null;
   time_of_day: string | null;
   status: string;
   created_at: string;
