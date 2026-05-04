@@ -66,10 +66,13 @@ export function getCityConfig(slug: string): CityConfig | null {
 }
 
 const GROUP_TYPE_TO_CATEGORY: Record<string, string> = {
-  chamber: 'Chambers',
+  chamber: 'Chamber',
+  chambers: 'Chamber',
   networking: 'Networking',
   real_estate: 'Real Estate',
+  'real-estate': 'Real Estate',
   small_business: 'Small Business',
+  'small-business': 'Small Business',
   technology: 'Technology',
 };
 
