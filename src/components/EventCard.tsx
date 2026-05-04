@@ -69,7 +69,7 @@ export function EventCard({ event, index, isLoggedIn = false }: EventCardProps) 
             </p>
             <div className="ev-card-gate-overlay">
               <Lock size={13} className="ev-card-gate-icon" />
-              <span>Sign in to see full details &amp; end time</span>
+              <span>Sign up / Sign in — unlock full event details</span>
             </div>
           </div>
         )}
