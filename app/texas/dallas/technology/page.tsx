@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Dallas Technology Events – Networking & Business',
-  description: 'Dallas Technology events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'Dallas Technology events calendar — browse upcoming tech meetups, startup events, and innovation conferences in Dallas, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/dallas/technology',
+  },
   openGraph: {
     title: 'Dallas Technology Events – Networking & Business',
-    description: 'Dallas-based Technology events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse Dallas Technology events — tech meetups, startup events, and innovation conferences. Subscribe free.',
+    images: ['/logos/dallas-technology-calendar-01.png'],
   },
   twitter: {
     title: 'Dallas Technology Events',
     description: 'Technology professionals in Dallas – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/dallas-technology-calendar-01.png'],
   },
 };
 

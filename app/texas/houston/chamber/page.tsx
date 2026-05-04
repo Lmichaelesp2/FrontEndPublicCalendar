@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Houston Chamber Events – Networking & Business',
-  description: 'Houston Chamber events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'Houston Chamber of Commerce events calendar — browse upcoming chamber of commerce mixers, ribbon cuttings, and member networking events in Houston, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/houston/chamber',
+  },
   openGraph: {
     title: 'Houston Chamber Events – Networking & Business',
-    description: 'Houston-based Chamber events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse Houston Chamber of Commerce events — chamber of commerce mixers, ribbon cuttings, and member networking events. Subscribe free.',
+    images: ['/logos/houston-chamber-calendar-01.png'],
   },
   twitter: {
     title: 'Houston Chamber Events',
     description: 'Chamber professionals in Houston – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/houston-chamber-calendar-01.png'],
   },
 };
 

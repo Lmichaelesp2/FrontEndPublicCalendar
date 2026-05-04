@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Houston Real Estate Events – Networking & Business',
-  description: 'Houston Real Estate events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'Houston Real Estate events calendar — browse upcoming real estate investment events, agent networking, and market update meetings in Houston, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/houston/real-estate',
+  },
   openGraph: {
     title: 'Houston Real Estate Events – Networking & Business',
-    description: 'Houston-based Real Estate events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse Houston Real Estate events — real estate investment events, agent networking, and market update meetings. Subscribe free.',
+    images: ['/logos/houston-real-estate-calendar-01.png'],
   },
   twitter: {
     title: 'Houston Real Estate Events',
     description: 'Real Estate professionals in Houston – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/houston-real-estate-calendar-01.png'],
   },
 };
 

@@ -7,16 +7,18 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Austin Chamber Events – Networking & Business',
-  description: 'Austin Chamber events – networking, conferences, and business opportunities. Weekly newsletter for professionals.',
+  description: 'Austin Chamber of Commerce events calendar — browse upcoming chamber of commerce mixers, ribbon cuttings, and member networking events in Austin, Texas. Free weekly newsletter for professionals.',  alternates: {
+    canonical: '/texas/austin/chamber',
+  },
   openGraph: {
     title: 'Austin Chamber Events – Networking & Business',
-    description: 'Austin-based Chamber events and networking opportunities with curated weekly newsletter.',
-    images: ['https://bolt.new/static/og_default.png'],
+    description: 'Browse Austin Chamber of Commerce events — chamber of commerce mixers, ribbon cuttings, and member networking events. Subscribe free.',
+    images: ['/logos/austin-chamber-calendar-01.png'],
   },
   twitter: {
     title: 'Austin Chamber Events',
     description: 'Chamber professionals in Austin – curated events.',
-    images: ['https://bolt.new/static/og_default.png'],
+    images: ['/logos/austin-chamber-calendar-01.png'],
   },
 };
 
