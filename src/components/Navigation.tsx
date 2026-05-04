@@ -51,6 +51,11 @@ function getSubscribeUrl(pathname: string): string {
   return '/subscribe';
 }
 
+function isCityPage(pathname: string): boolean {
+  // True for /texas/[city] and /texas/[city]/[subcategory] — NOT for / or /texas
+  return /^\/texas\/[a-z-]+(\/[a-z-]+)?$/.test(pathname);
+}
+
 function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
   // /texas/san-antonio/technology, /texas/austin/chamber, etc.
   const subCatMatch = pathname.match(/^\/texas\/([a-z-]+)\/([a-z-]+)/);
@@ -185,7 +190,7 @@ export function Navigation() {
             </nav>
 
             <div className="nav-actions">
-              {user ? (
+              {user && isCityPage(pathname ?? '') ? (
                 <div className="nav-account-wrap" ref={dropRef}>
                   <button
                     className="nav-account-btn"
@@ -216,11 +221,17 @@ export function Navigation() {
                     </div>
                   )}
                 </div>
+              ) : user ? (
+                <Link href={subscribeUrl} className="nav-cta">
+                  Sign Up — Free →
+                </Link>
               ) : (
                 <>
-                  <button className="nav-signin-btn" onClick={() => openAuth('signin')}>
-                    Sign In
-                  </button>
+                  {isCityPage(pathname ?? '') && (
+                    <button className="nav-signin-btn" onClick={() => openAuth('signin')}>
+                      Sign In
+                    </button>
+                  )}
                   <Link href={subscribeUrl} className="nav-cta">
                     Sign Up — Free →
                   </Link>
