@@ -2844,3 +2844,98 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
   .auth-modal-hero{padding:1.5rem 1.25rem 1.25rem}
   .auth-modal-body{padding:1.25rem}
 }
+
+/* ═══════════════════════════════════════════════════════
+   RIGHT ROOM METHOD — all components
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Resources dropdown in nav ─────────────────────────── */
+.nav-resources-wrap{position:relative}
+.nav-resources-btn{display:flex;align-items:center;gap:.25rem;background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--color-ink-2);padding:.25rem .5rem;border-radius:4px;transition:color .15s ease}
+.nav-resources-btn:hover{color:var(--color-primary)}
+.nav-resources-drop{position:absolute;top:calc(100% + .5rem);left:0;background:#fff;border:1.5px solid var(--color-rule);border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.10);min-width:220px;z-index:200;overflow:hidden}
+.nav-resources-item{display:flex;flex-direction:column;gap:.15rem;padding:.75rem 1rem;text-decoration:none;border-bottom:1px solid var(--color-rule);transition:background .15s ease}
+.nav-resources-item:last-child{border-bottom:none}
+.nav-resources-item:hover{background:var(--bg-tint)}
+.nav-resources-item-title{font-size:.82rem;font-weight:700;color:var(--color-ink)}
+.nav-resources-item-desc{font-size:.75rem;color:var(--color-muted)}
+
+/* ── RightRoomMethodSection (homepage) ─────────────────── */
+.rrm-home-section{background:var(--color-paper-2);border-top:1.5px solid var(--color-rule);border-bottom:1.5px solid var(--color-rule);padding:4rem 1.5rem}
+.rrm-home-inner{max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:2.5rem;text-align:center}
+.rrm-home-overline{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent);margin-bottom:-.5rem}
+.rrm-home-section h2{font-family:var(--font-serif);font-size:clamp(1.6rem,4vw,2.2rem);font-weight:600;color:var(--color-ink);line-height:1.25}
+.rrm-home-section h2 em{font-style:italic;color:var(--color-primary)}
+.rrm-home-sub{font-size:1rem;color:var(--color-muted);max-width:540px}
+.rrm-home-steps{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;justify-content:center}
+.rrm-home-step{display:flex;align-items:center;gap:.75rem;background:#fff;border:1.5px solid var(--color-rule);border-radius:8px;padding:.875rem 1.25rem}
+.rrm-home-step-num{font-family:var(--font-serif);font-size:1.1rem;font-style:italic;color:var(--color-primary);font-weight:600;line-height:1}
+.rrm-home-step-content{display:flex;flex-direction:column;gap:.1rem;text-align:left}
+.rrm-home-step-content strong{font-size:.85rem;font-weight:700;color:var(--color-ink)}
+.rrm-home-step-content span{font-size:.78rem;color:var(--color-muted)}
+.rrm-home-step-arrow{font-size:1.1rem;color:var(--color-rule);font-weight:300}
+.rrm-home-ctas{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+@media(max-width:640px){
+  .rrm-home-step-arrow{display:none}
+  .rrm-home-steps{gap:.6rem}
+}
+
+/* ── RightRoomCalendarHelper (city pages) ──────────────── */
+.rrm-cal-helper{background:var(--bg-tint);border:1.5px solid #c5d4fd;border-radius:8px;padding:.875rem 1.25rem;margin-bottom:1.5rem}
+.rrm-cal-helper-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.rrm-cal-helper-text{display:flex;flex-direction:column;gap:.2rem}
+.rrm-cal-helper-headline{font-size:.82rem;font-weight:700;color:var(--color-ink);letter-spacing:.02em}
+.rrm-cal-helper-body{font-size:.8rem;color:var(--color-ink-2)}
+.rrm-cal-helper-link{font-size:.8rem;font-weight:700;color:var(--color-primary);text-decoration:none;white-space:nowrap;flex-shrink:0}
+.rrm-cal-helper-link:hover{text-decoration:underline}
+
+/* ── RightRoomMethodPage (/right-room-method) ───────────── */
+.rrm-hero{background:var(--color-paper);border-bottom:1.5px solid var(--color-rule);padding:4rem 1.5rem 3rem}
+.rrm-hero-inner{max-width:760px;margin:0 auto}
+.rrm-overline{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent);margin-bottom:.75rem}
+.rrm-hero h1{font-family:var(--font-serif);font-size:clamp(2rem,5vw,3rem);font-weight:600;color:var(--color-ink);line-height:1.2;margin-bottom:.75rem}
+.rrm-subtitle{font-size:1.1rem;color:var(--color-muted);margin-bottom:2rem}
+.rrm-intro-block{border-left:3px solid var(--color-primary);padding:1.25rem 1.5rem;background:#fff;border-radius:0 8px 8px 0;display:flex;flex-direction:column;gap:.75rem}
+.rrm-intro-block p{font-size:.95rem;color:var(--color-ink-2);line-height:1.6}
+.rrm-three-qs{list-style:none;padding:0;display:flex;flex-direction:column;gap:.35rem;margin:.25rem 0}
+.rrm-three-qs li{font-size:.95rem;color:var(--color-ink-2);padding-left:.25rem}
+.rrm-three-qs li strong{color:var(--color-ink);font-weight:700}
+
+.rrm-pillars{background:var(--color-ink);padding:2.5rem 1.5rem;border-bottom:1.5px solid var(--color-rule)}
+.rrm-pillars-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+.rrm-pillar{text-align:center;color:#fff;flex:1;min-width:140px}
+.rrm-pillar-icon{font-size:1.75rem;margin-bottom:.5rem}
+.rrm-pillar h3{font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:.25rem}
+.rrm-pillar p{font-size:.82rem;color:#a8b8d4;text-transform:uppercase;letter-spacing:.07em}
+.rrm-pillar-divider{font-size:1.5rem;color:#2a3d5a;font-weight:300}
+
+.rrm-modules{background:var(--color-paper);padding:4rem 1.5rem}
+.rrm-modules-inner{max-width:760px;margin:0 auto}
+.rrm-modules-label{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent);margin-bottom:.5rem}
+.rrm-modules-inner h2{font-family:var(--font-serif);font-size:clamp(1.4rem,3vw,1.9rem);font-weight:600;color:var(--color-ink);margin-bottom:2.5rem}
+.rrm-module{display:flex;gap:2rem;padding:2rem 0;border-top:1.5px solid var(--color-rule)}
+.rrm-module:last-child{border-bottom:1.5px solid var(--color-rule)}
+.rrm-module-num{font-family:var(--font-serif);font-size:2.5rem;font-style:italic;color:var(--color-primary);font-weight:600;line-height:1;flex-shrink:0;width:3rem;padding-top:.15rem}
+.rrm-module-content{display:flex;flex-direction:column;gap:.75rem}
+.rrm-module-content h3{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--color-ink)}
+.rrm-module-body{font-size:.92rem;color:var(--color-ink-2);line-height:1.65}
+.rrm-module-examples{list-style:none;padding:0;display:flex;flex-direction:column;gap:.35rem}
+.rrm-module-examples li{font-size:.87rem;color:var(--color-ink-2);padding-left:1rem;position:relative;line-height:1.5}
+.rrm-module-examples li::before{content:"·";position:absolute;left:0;color:var(--color-primary);font-weight:700}
+.rrm-module-prompt{background:var(--bg-tint);border:1.5px solid #c5d4fd;border-radius:6px;padding:.75rem 1rem;display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap}
+.rrm-prompt-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--color-primary)}
+.rrm-prompt-text{font-size:.88rem;color:var(--color-ink);font-style:italic}
+
+.rrm-cta-section{background:var(--color-ink);padding:4rem 1.5rem}
+.rrm-cta-inner{max-width:600px;margin:0 auto;text-align:center;display:flex;flex-direction:column;gap:1.25rem}
+.rrm-cta-section h2{font-family:var(--font-serif);font-size:clamp(1.4rem,3vw,2rem);font-weight:600;color:#fff}
+.rrm-cta-section p{font-size:.95rem;color:#a8b8d4;line-height:1.6}
+.rrm-cta-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+@media(max-width:640px){
+  .rrm-module{flex-direction:column;gap:1rem}
+  .rrm-module-num{font-size:1.75rem;width:auto}
+  .rrm-pillars-inner{gap:.75rem}
+  .rrm-pillar-divider{display:none}
+  .rrm-cal-helper-inner{flex-direction:column;align-items:flex-start}
+}
