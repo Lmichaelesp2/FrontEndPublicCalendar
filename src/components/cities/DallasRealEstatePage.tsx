@@ -103,7 +103,6 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         title="Dallas Real Estate Events Calendar | Free Weekly Real Estate Events Email"
         description="Find real estate networking, investor meetups, construction events, and design industry gatherings in Dallas. Free weekly email every Monday."
         canonical="https://businesseventscalendars.com/texas/dallas/real-estate/"
-        robots="noindex"
       />
 
       <Navigation />
@@ -131,7 +130,7 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           </p>
           <p className="se-hero-tags">Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more</p>
           <div className="hero-cta-group">
-            <Link href="/texas/dallas/real-estate/subscribe" className="btn btn-gold">
+            <Link href="/texas/dallas/real-estate/subscribe" className="btn btn-primary">
               Get the Free Dallas Real Estate Events Newsletter
             </Link>
             <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
@@ -270,11 +269,11 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Get Dallas Real Estate Events Every Monday — Free</h2>
           <p>A curated digest of that week's real estate events in Dallas, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/dallas/real-estate/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/dallas/real-estate/subscribe" className="btn btn-primary">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Dallas business events</p>
           <div className="sa-subscribe-secondary-cta">
-            <Link href="/submit" className="btn btn-accent">Submit a Real Estate Event</Link>
+            <Link href="/submit" className="btn btn-ghost">Submit a Real Estate Event</Link>
           </div>
         </div>
       </section>

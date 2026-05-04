@@ -103,7 +103,6 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         title="Houston Networking Events Calendar | Free Weekly Networking Events Email"
         description="Find BNI chapters, leads groups, referral networks, and professional networking events in Houston. Free weekly email every Monday."
         canonical="https://businesseventscalendars.com/texas/houston/networking/"
-        robots="noindex"
       />
 
       <Navigation />
@@ -131,7 +130,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
           </p>
           
           <div className="hero-cta-group">
-            <Link href="/texas/houston/networking/subscribe" className="btn btn-gold">
+            <Link href="/texas/houston/networking/subscribe" className="btn btn-primary">
               Get the Free Houston Networking Events Newsletter
             </Link>
             <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
@@ -270,11 +269,11 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Get Houston Networking Events Every Monday — Free</h2>
           <p>A curated digest of that week's networking events in Houston, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/houston/networking/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/houston/networking/subscribe" className="btn btn-primary">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Houston business events</p>
           <div className="sa-subscribe-secondary-cta">
-            <Link href="/submit" className="btn btn-accent">Submit a Networking Event</Link>
+            <Link href="/submit" className="btn btn-ghost">Submit a Networking Event</Link>
           </div>
         </div>
       </section>

@@ -553,6 +553,8 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.75rem;border-radius:var(--radius);font-weight:var(--fw-semi);font-size:var(--fs-base);text-decoration:none;cursor:pointer;border:none;transition:all .25s ease;font-family:inherit;white-space:nowrap}
 .btn-gold{background:var(--color-accent);color:#ffffff;box-shadow:var(--shadow-sm)}
 .btn-gold:hover{background:var(--color-accent-dark);box-shadow:0 4px 16px rgba(194,65,12,.25);transform:translateY(-1px);text-decoration:none;color:#fff}
+.btn-primary{background:var(--color-accent);color:#ffffff;box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:var(--color-accent-dark);box-shadow:0 4px 16px rgba(194,65,12,.25);transform:translateY(-1px);text-decoration:none;color:#fff}
 .btn-ghost{background:transparent;color:var(--color-ink);border:1.5px solid var(--color-ink);padding:.85rem 1.75rem;border-radius:var(--radius);font-weight:var(--fw-semi);font-size:var(--fs-base);transition:all .2s ease}
 .btn-ghost:hover{background:var(--color-ink);color:#fff;text-decoration:none}
 .btn-white{background:#ffffff;color:var(--color-ink);border:1.5px solid var(--color-rule);box-shadow:var(--shadow-sm)}
