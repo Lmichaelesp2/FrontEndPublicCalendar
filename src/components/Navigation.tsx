@@ -56,6 +56,24 @@ function isCityPage(pathname: string): boolean {
   return /^\/texas\/[a-z-]+(\/[a-z-]+)?$/.test(pathname);
 }
 
+function getModalContext(pathname: string): { cityName: string; calendarLabel: string } {
+  const subCatMatch = pathname.match(/^\/texas\/([a-z-]+)\/([a-z-]+)/);
+  if (subCatMatch) {
+    const city = CITY_SLUG_TO_NAME[subCatMatch[1]] || '';
+    const cat  = CAT_SLUG_TO_NAME[subCatMatch[2]]  || '';
+    return {
+      cityName:      city,
+      calendarLabel: city && cat ? `${city} ${cat} Calendar` : city ? `${city} Business Calendar` : '',
+    };
+  }
+  const cityMatch = pathname.match(/^\/texas\/([a-z-]+)/);
+  if (cityMatch) {
+    const city = CITY_SLUG_TO_NAME[cityMatch[1]] || '';
+    return { cityName: city, calendarLabel: city ? `${city} Business Calendar` : '' };
+  }
+  return { cityName: '', calendarLabel: '' };
+}
+
 function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
   // /texas/san-antonio/technology, /texas/austin/chamber, etc.
   const subCatMatch = pathname.match(/^\/texas\/([a-z-]+)\/([a-z-]+)/);
@@ -136,6 +154,7 @@ export function Navigation() {
   const dateline = getDayDateline();
   const { wordmark, tagline } = getWordmarkAndTagline(pathname ?? '/');
   const subscribeUrl = getSubscribeUrl(pathname ?? '/');
+  const modalContext = getModalContext(pathname ?? '/');
 
   return (
     <>
@@ -247,6 +266,7 @@ export function Navigation() {
         onClose={() => setAuthModalOpen(false)}
         onSuccess={() => setAuthModalOpen(false)}
         defaultMode={authModalMode}
+        cityName={modalContext.calendarLabel}
       />
     </>
   );

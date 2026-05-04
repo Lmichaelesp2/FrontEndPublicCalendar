@@ -449,7 +449,13 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           isOpen={inlineAuthOpen}
           onClose={() => setInlineAuthOpen(false)}
           onSuccess={() => setInlineAuthOpen(false)}
-          cityName={cityName}
+          cityName={
+            cityName && groupType
+              ? `${cityName} ${groupType.replace(/-/g,' ').replace(/\w/g,c=>c.toUpperCase())} Calendar`
+              : cityName
+              ? `${cityName} Business Calendar`
+              : undefined
+          }
         />
       )}
     </section>

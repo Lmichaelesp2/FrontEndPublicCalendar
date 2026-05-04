@@ -70,8 +70,12 @@ export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup', 
             </h2>
             <p className="auth-modal-hero-sub">
               {mode === 'signup'
-                ? 'Unlock full event details, end times & more'
-                : 'Sign in to access your full calendar'}
+                ? cityName
+                  ? `Sign up to unlock full event details for the ${cityName}`
+                  : 'Unlock full event details, end times & more'
+                : cityName
+                  ? `Sign in to access your ${cityName}`
+                  : 'Sign in to access your full calendar'}
             </p>
           </div>
         </div>
