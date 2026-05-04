@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import { LogOut, Menu, X } from 'lucide-react';
+import { LogOut, Menu, X, ChevronDown, User } from 'lucide-react';
+import { useRef } from 'react';
 import { CITY_CONFIGS } from '../lib/cities';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
@@ -100,8 +101,10 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
 export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signup' | 'signin'>('signup');
+  const [accountDropOpen, setAccountDropOpen] = useState(false);
+  const dropRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -183,14 +186,28 @@ export function Navigation() {
 
             <div className="nav-actions">
               {user ? (
-                <button
-                  className="nav-auth-badge nav-auth-logged-in"
-                  onClick={handleLogout}
-                  title="Log Out"
-                >
-                  <LogOut size={15} />
-                  <span>Log Out</span>
-                </button>
+                <div className="nav-account-wrap" ref={dropRef}>
+                  <button
+                    className="nav-account-btn"
+                    onClick={() => setAccountDropOpen(o => !o)}
+                  >
+                    <User size={14} />
+                    <span>Hi, {profile?.first_name || 'Member'}</span>
+                    <ChevronDown size={13} className={accountDropOpen ? 'nav-chevron-open' : ''} />
+                  </button>
+                  {accountDropOpen && (
+                    <div className="nav-account-drop">
+                      <div className="nav-account-email">{user.email}</div>
+                      <button
+                        className="nav-account-drop-item nav-account-signout"
+                        onClick={() => { setAccountDropOpen(false); handleLogout(); }}
+                      >
+                        <LogOut size={13} />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <>
                   <button className="nav-signin-btn" onClick={() => openAuth('signin')}>

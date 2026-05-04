@@ -316,6 +316,16 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 
 /* Terracotta Sign Up CTA */
 
+/* Nav account dropdown */
+.nav-account-wrap{position:relative}
+.nav-account-btn{display:flex;align-items:center;gap:.35rem;background:transparent;border:1.5px solid var(--color-ink);color:var(--color-ink);font-size:.78rem;font-weight:700;padding:.35rem .9rem;border-radius:6px;cursor:pointer;letter-spacing:.02em;transition:all .18s ease;white-space:nowrap}
+.nav-account-btn:hover{background:var(--color-ink);color:var(--white)}
+.nav-chevron-open{transform:rotate(180deg);transition:transform .18s ease}
+.nav-account-drop{position:absolute;top:calc(100% + .5rem);right:0;min-width:200px;background:var(--white);border:1.5px solid var(--color-rule);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:200;overflow:hidden}
+.nav-account-email{padding:.6rem 1rem;font-size:.75rem;color:#6b7a8d;border-bottom:1px solid var(--color-rule);word-break:break-all}
+.nav-account-drop-item{display:flex;align-items:center;gap:.5rem;width:100%;padding:.65rem 1rem;font-size:.82rem;font-weight:600;background:transparent;border:none;cursor:pointer;text-align:left;transition:background .15s ease}
+.nav-account-drop-item:hover{background:var(--color-paper-2)}
+.nav-account-signout{color:var(--color-terra)}
 /* Nav Sign In button */
 .nav-signin-btn{background:transparent;border:1.5px solid var(--color-ink);color:var(--color-ink);font-size:.78rem;font-weight:700;padding:.35rem .9rem;border-radius:6px;cursor:pointer;letter-spacing:.02em;transition:all .18s ease;white-space:nowrap}
 .nav-signin-btn:hover{background:var(--color-ink);color:var(--white)}
