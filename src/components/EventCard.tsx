@@ -6,9 +6,10 @@ type EventCardProps = {
   event: Event;
   index: number;
   isLoggedIn?: boolean;
+  onAuthClick?: () => void;
 };
 
-export function EventCard({ event, index, isLoggedIn = false }: EventCardProps) {
+export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: EventCardProps) {
   const hasRealDesc =
     event.description && event.description !== 'Please find more details at the Event Website.';
   const rawDesc = hasRealDesc ? event.description! : '';
@@ -67,10 +68,10 @@ export function EventCard({ event, index, isLoggedIn = false }: EventCardProps) 
             <p className="ev-card-new-desc ev-card-gate-text" aria-hidden="true">
               {rawDesc || 'Full event details including description, end time, and location are available to members.'}
             </p>
-            <div className="ev-card-gate-overlay">
+            <button className="ev-card-gate-overlay ev-card-gate-btn" onClick={onAuthClick}>
               <Lock size={13} className="ev-card-gate-icon" />
               <span>Sign up / Sign in — unlock full event details</span>
-            </div>
+            </button>
           </div>
         )}
       </div>

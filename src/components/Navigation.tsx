@@ -99,6 +99,7 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
 
 export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<'signup' | 'signin'>('signup');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const router = useRouter();
@@ -113,6 +114,11 @@ export function Navigation() {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
+
+  function openAuth(mode: 'signup' | 'signin') {
+    setAuthModalMode(mode);
+    setAuthModalOpen(true);
+  }
 
   async function handleLogout() {
     await signOut();
@@ -186,9 +192,14 @@ export function Navigation() {
                   <span>Log Out</span>
                 </button>
               ) : (
-                <Link href={subscribeUrl} className="nav-cta">
-                  Sign Up — Free →
-                </Link>
+                <>
+                  <button className="nav-signin-btn" onClick={() => openAuth('signin')}>
+                    Sign In
+                  </button>
+                  <Link href={subscribeUrl} className="nav-cta">
+                    Sign Up — Free →
+                  </Link>
+                </>
               )}
             </div>
           </div>
@@ -199,6 +210,7 @@ export function Navigation() {
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         onSuccess={() => setAuthModalOpen(false)}
+        defaultMode={authModalMode}
       />
     </>
   );

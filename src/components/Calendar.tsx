@@ -434,7 +434,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                         {formatDate(parseDate(event.start_date))}
                       </div>
                     )}
-                    <EventCard event={event} index={index} isLoggedIn={!!user} />
+                    <EventCard event={event} index={index} isLoggedIn={!!user} onAuthClick={triggerAuth} />
                   </div>
                 );
               })}
