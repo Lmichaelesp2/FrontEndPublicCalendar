@@ -95,7 +95,7 @@ export function PrivacyPage() {
         <section className="about-cta-section">
           <div className="about-cta-inner">
             <h2>Privacy Questions?</h2>
-            <p style={{ marginBottom: '1.5rem', color: 'var(--color-text-secondary, #6b7280)' }}>
+            <p style={{ marginBottom: '1.5rem', color: 'var(--fg-3)' }}>
               If you have any questions about this policy or how your data is handled, contact us at{' '}
               <a href="mailto:events@localbusinesscalendars.com" className="contact-link">
                 events@localbusinesscalendars.com

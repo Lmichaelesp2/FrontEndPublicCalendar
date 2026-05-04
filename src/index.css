@@ -1270,14 +1270,14 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 .sub-mgr-city-tabs{display:flex;flex-wrap:wrap;gap:.35rem}
 .sub-mgr-city-tab{padding:.35rem .75rem;border-radius:20px;border:1px solid var(--gray-200);background:var(--white);font-size:.78rem;font-weight:600;color:var(--gray-500);cursor:pointer;transition:all .15s}
 .sub-mgr-city-tab:hover{border-color:var(--color-ink);color:var(--color-ink)}
-.sub-mgr-city-tab.active{background:var(--navy);color:#fff;border-color:var(--color-ink)}
+.sub-mgr-city-tab.active{background:var(--color-ink);color:var(--white);border-color:var(--color-ink)}
 
 /* Sort controls */
 .sub-mgr-sort-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
 .sub-mgr-sort-lbl{font-size:.75rem;color:var(--gray-500);font-weight:600}
 .sub-mgr-sort-btn{padding:.3rem .65rem;border-radius:20px;border:1px solid var(--gray-200);background:var(--white);font-size:.75rem;font-weight:600;color:var(--gray-500);cursor:pointer;display:flex;align-items:center;gap:.25rem;transition:all .15s}
 .sub-mgr-sort-btn:hover{border-color:var(--color-ink);color:var(--color-ink)}
-.sub-mgr-sort-btn.active{background:var(--navy);color:#fff;border-color:var(--color-ink)}
+.sub-mgr-sort-btn.active{background:var(--color-ink);color:var(--white);border-color:var(--color-ink)}
 
 .sub-mgr-count{font-size:.8rem;color:var(--gray-400);margin-bottom:.75rem}
 
@@ -1443,7 +1443,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 .se-success-icon{color:var(--green);margin-bottom:1.25rem}
 .se-success h2{font-size:1.75rem;font-weight:800;color:var(--gray-800);margin-bottom:.75rem;letter-spacing:-.02em;font-family:var(--font-serif);}
 .se-success p{font-size:1rem;color:var(--gray-500);line-height:1.7;max-width:440px;margin:0 auto 2rem}
-.se-submit-another{padding:.7rem 1.75rem;background:var(--navy);color:var(--white);font-size:.88rem;font-weight:600;border:none;border-radius:var(--radius-xs);cursor:pointer;font-family:inherit;transition:background .2s}
+.se-submit-another{padding:.7rem 1.75rem;background:var(--color-ink);color:var(--white);font-size:.88rem;font-weight:600;border:none;border-radius:var(--radius-xs);cursor:pointer;font-family:inherit;transition:background .2s}
 .se-submit-another:hover{background:var(--navy-mid)}
 .se-sidebar{display:flex;flex-direction:column;gap:1.25rem;position:sticky;top:80px}
 .se-guidelines-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow)}
@@ -2158,19 +2158,19 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 .contact-hero h1{font-size:2.5rem;font-weight:600;color:var(--color-ink);margin-bottom:1rem;line-height:1.2;font-family:var(--font-serif);}
 .contact-hero p{font-size:1.05rem;color:var(--fg-3);line-height:1.6}
 .contact-body{flex:1;padding:4rem 1.5rem}
-.contact-info-section{background:#f8fafc;padding:4rem 1.5rem;border-bottom:1px solid #e2e8f0}
+.contact-info-section{background:var(--color-paper-2);padding:4rem 1.5rem;border-bottom:1px solid var(--color-rule)}
 .contact-info-inner{max-width:1000px;margin:0 auto}
 .contact-info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-bottom:2rem}
-.contact-info-card{background:#fff;padding:2.5rem 2rem;border-radius:12px;border:1.5px solid #e2e8f0;text-align:center;transition:all .2s;display:flex;flex-direction:column;min-height:320px;justify-content:space-between}
+.contact-info-card{background:var(--white);padding:2.5rem 2rem;border-radius:12px;border:1.5px solid var(--color-rule);text-align:center;transition:all .2s;display:flex;flex-direction:column;min-height:320px;justify-content:space-between}
 .contact-info-card:hover{border-color:var(--color-primary);box-shadow:0 4px 16px rgba(22,82,240,.08)}
 .contact-info-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:var(--color-paper-2);border-radius:12px;color:var(--color-primary);margin:0 auto 1rem;flex-shrink:0}
-.contact-info-card h3{font-size:1.1rem;font-weight:700;color:#0f2a4a;margin-bottom:.75rem;font-family:var(--font-serif);}
+.contact-info-card h3{font-size:1.1rem;font-weight:700;color:var(--color-ink);margin-bottom:.75rem;font-family:var(--font-serif);}
 .contact-info-card p{color:#6b7280;font-size:.95rem;line-height:1.6}
 .contact-email{color:var(--color-primary);font-weight:600;font-size:1rem;margin-top:auto;padding-top:1.5rem;display:block;border-top:1px solid var(--color-rule);word-break:break-all}
 .contact-link{color:var(--color-primary);text-decoration:none;font-weight:600;transition:color .2s}
 .contact-link:hover{color:#1652f0}
 .contact-form-section{max-width:600px;margin:0 auto;padding:3rem 1.5rem}
-.contact-form-section h2{font-size:1.75rem;font-weight:700;color:#0f2a4a;margin-bottom:2rem;text-align:center;font-family:var(--font-serif);}
+.contact-form-section h2{font-size:1.75rem;font-weight:700;color:var(--color-ink);margin-bottom:2rem;text-align:center;font-family:var(--font-serif);}
 .contact-success-message{background:#dcfce7;border:1.5px solid #16a34a;border-radius:12px;padding:1.25rem;margin-bottom:2rem;text-align:center;color:#15803d;font-weight:500}
 .contact-error-message{background:#fee2e2;border:1.5px solid #dc2626;border-radius:12px;padding:1.25rem;margin-bottom:2rem;text-align:center;color:#991b1b;font-weight:500}
 .contact-form{display:flex;flex-direction:column;gap:1.5rem}
@@ -2668,7 +2668,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 
 /* Who benefits grid */
 .sponsor-who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-.sponsor-who-card{background:#fff;border:1px solid #e8e0d0;border-radius:10px;padding:1.5rem}
+.sponsor-who-card{background:var(--white);border:1px solid var(--color-rule);border-radius:10px;padding:1.5rem}
 .sponsor-who-icon{color:var(--color-ink);margin-bottom:.75rem}
 .sponsor-who-card h3{font-size:.95rem;font-weight:800;color:var(--color-ink);margin:0 0 .5rem;font-family:var(--font-serif);}
 .sponsor-who-card p{font-size:.85rem;color:#555;line-height:1.6;margin:0}
@@ -2676,12 +2676,12 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 /* Benefits list */
 .sponsor-benefits-list{display:flex;flex-direction:column;gap:.85rem}
 .sponsor-benefit-row{display:flex;align-items:flex-start;gap:.75rem}
-.sponsor-benefit-check{color:var(--gold);flex-shrink:0;margin-top:2px}
+.sponsor-benefit-check{color:var(--color-primary);flex-shrink:0;margin-top:2px}
 .sponsor-benefit-row p{font-size:.95rem;color:#333;line-height:1.6;margin:0}
 
 /* Calendar grid */
 .sponsor-cal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
-.sponsor-cal-card{background:#fff;border:1px solid #e8e0d0;border-radius:10px;padding:1.25rem}
+.sponsor-cal-card{background:var(--white);border:1px solid var(--color-rule);border-radius:10px;padding:1.25rem}
 .sponsor-cal-city{display:flex;align-items:center;gap:.35rem;font-size:.8rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--color-ink);margin-bottom:.6rem}
 .sponsor-cal-citywide{font-size:.82rem;font-weight:600;color:#555;margin-bottom:.75rem;padding-bottom:.6rem;border-bottom:1px solid #f0e8d8}
 .sponsor-cal-subs{display:flex;flex-direction:column;gap:.35rem}
@@ -2691,9 +2691,9 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 .sponsor-founding-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 .sponsor-founding-text p{font-size:.95rem;color:#444;line-height:1.75;margin:0 0 1rem}
 .sponsor-founding-text h2{margin-bottom:1rem;font-family:var(--font-serif);}
-.sponsor-founding-card{background:var(--navy);border-radius:12px;padding:2rem;text-align:center}
+.sponsor-founding-card{background:var(--color-ink);border-radius:12px;padding:2rem;text-align:center}
 .sponsor-founding-card-label{font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.75rem}
-.sponsor-founding-card-name{font-size:1.4rem;font-weight:900;color:var(--gold);margin-bottom:.75rem;font-style:italic}
+.sponsor-founding-card-name{font-size:1.4rem;font-weight:900;color:var(--color-terra);margin-bottom:.75rem;font-style:italic}
 .sponsor-founding-card-desc{font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:1.25rem}
 .sponsor-founding-card-cta{font-size:.75rem;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.04em;border-top:1px solid rgba(255,255,255,.1);padding-top:1rem}
 
@@ -2706,7 +2706,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 .sponsor-cta-email{display:inline-flex;align-items:center;gap:.5rem;background:var(--color-terra);color:#fff;font-size:.9rem;font-weight:700;padding:.75rem 1.5rem;border-radius:6px;text-decoration:none;transition:opacity .15s}
 .sponsor-cta-email:hover{opacity:.88}
 .sponsor-cta-note{font-size:.82rem;color:rgba(255,255,255,.45);margin:0}
-.sponsor-link{color:var(--gold);text-decoration:none}
+.sponsor-link{color:var(--color-primary);text-decoration:none}
 .sponsor-link:hover{text-decoration:underline}
 
 @media(max-width:900px){
