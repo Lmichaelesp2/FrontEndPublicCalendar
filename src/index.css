@@ -973,7 +973,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 
 /* New Event Card Design */
-.ev-card-new{background:var(--white);border-radius:14px;box-shadow:0 1px 8px rgba(0,0,0,.07);border:1px solid #dde3ec;overflow:hidden;transition:all .2s ease;animation:fadeUp .28s ease forwards}
+.ev-card-new{background:var(--white);border-radius:14px;box-shadow:0 1px 8px rgba(0,0,0,.07);border:1px solid #dde3ec;overflow:hidden;transition:all .2s ease;animation:fadeUp .28s ease forwards;margin-bottom:1.25rem}
 .ev-card-new:hover{box-shadow:0 3px 16px rgba(0,0,0,.1);transform:translateY(-1px)}
 
 .ev-card-new-header{background:var(--color-ink);padding:1.5rem 1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
@@ -995,6 +995,11 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.05);color:var(--color-ink)
 
 .ev-card-new-desc{font-size:.9rem;color:var(--fg-2);line-height:1.6;margin:0 0 .75rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .ev-card-no-desc{color:#8a96a8;font-style:italic}
+/* Event card gate — blur overlay for logged-out users */
+.ev-card-gate{position:relative;overflow:hidden;border-radius:4px}
+.ev-card-gate-text{filter:blur(4px);user-select:none;pointer-events:none;margin:0;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+.ev-card-gate-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:.4rem;font-size:.8rem;font-weight:600;color:var(--color-primary);background:rgba(250,250,247,.55);backdrop-filter:blur(1px);letter-spacing:.01em}
+.ev-card-gate-icon{flex-shrink:0;color:var(--color-primary)}
 
 .ev-card-new-footer{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
 .ev-card-new-org{font-size:.8rem;font-weight:600;color:#5a6b80}
