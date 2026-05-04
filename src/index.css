@@ -30,6 +30,10 @@
   --color-accent-dark:   #9a3412;
   --color-terra:         #c2410c;
   --color-terra-dark:    #9a3412;
+  /* Text color aliases — mapped to existing foreground tokens */
+  --color-text-primary:   var(--fg-1);
+  --color-text-secondary: var(--fg-3);
+  --color-text-muted:     var(--fg-4);
 
   /* Neutrals */
   --color-neutral-50:    #f8fafc;
