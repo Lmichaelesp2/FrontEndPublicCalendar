@@ -88,7 +88,7 @@ const COLUMN_MAP: Record<string, keyof EventInput | null> = {
   'group_id': 'org_id',
   'id': 'org_id',
   'org_id': 'org_id',
-  'group_type': 'org_type',
+  'group_type': 'group_type',
   'organization_type': 'org_type',
   'org_type': 'org_type',
   participation: 'participation',
@@ -132,6 +132,7 @@ function mapRowToEvent(headers: string[], values: string[]): EventInput | null {
     notes: null,
     internal_type: null,
     event_category: null,
+    group_type: null,
     time_of_day: null,
     city_calendar: null,
     status: 'approved'
