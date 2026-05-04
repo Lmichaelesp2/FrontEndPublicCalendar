@@ -125,7 +125,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
               Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top San Antonio organizations and delivered to your calendar.
             </p>
             <div className="hero-cta-group">
-              <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">
+              <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">
                 Sign Up Free — See This Week's Events
               </Link>
               <a href="#calendar" className="btn btn-ghost">
@@ -302,7 +302,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Get the Full Week of San Antonio Events</h2>
           <p>Sign up free to unlock the full weekly calendar and get the Monday email with top networking and business events in San Antonio.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week</Link>
+            <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">Sign Up Free — Unlock the Full Week</Link>
           </div>
         </div>
       </section>

@@ -91,7 +91,7 @@ export function TermsPage() {
             <p>
               We may update these Terms &amp; Conditions from time to time. When we do, we will update the date at the bottom of this page. Continued use of the site after changes are posted constitutes your acceptance of the revised terms. If you have questions about any change, contact us before continuing to use the service.
             </p>
-            <p style={{ marginTop: '1rem', color: 'var(--color-text-secondary, #6b7280)', fontSize: '0.9rem' }}>
+            <p style={{ marginTop: '1rem', color: 'var(--fg-3)', fontSize: '0.9rem' }}>
               Last updated: April 2026
             </p>
           </div>
@@ -100,7 +100,7 @@ export function TermsPage() {
         <section className="about-cta-section">
           <div className="about-cta-inner">
             <h2>Questions About These Terms?</h2>
-            <p style={{ marginBottom: '1.5rem', color: 'var(--color-text-secondary, #6b7280)' }}>
+            <p style={{ marginBottom: '1.5rem', color: 'var(--fg-3)' }}>
               If you have any questions, reach us at{' '}
               <a href="mailto:events@localbusinesscalendars.com" className="contact-link">
                 events@localbusinesscalendars.com

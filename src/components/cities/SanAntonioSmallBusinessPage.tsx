@@ -113,6 +113,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
       <SEOHead
         title="San Antonio Small Business Events Calendar | Free Weekly Small Business Events Email"
         description="Find SCORE workshops, SBA seminars, entrepreneur meetups, and small business networking events in San Antonio, Texas. Updated weekly."
+        canonical="https://businesseventscalendars.com/texas/san-antonio/small-business/"
       />
 
       <Navigation />
@@ -140,7 +141,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
           </p>
           <p className="se-hero-tags">Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more</p>
           <div className="hero-cta-group">
-            <Link href="/texas/san-antonio/small-business/subscribe" className="btn btn-gold">
+            <Link href="/texas/san-antonio/small-business/subscribe" className="btn btn-primary">
               Get the Free San Antonio Small Business Events Newsletter
             </Link>
             <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
@@ -279,11 +280,11 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
           <h2>Get San Antonio Small Business Events Every Monday — Free</h2>
           <p>A curated digest of that week's small business events in San Antonio, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/san-antonio/small-business/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/san-antonio/small-business/subscribe" className="btn btn-primary">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all San Antonio business events</p>
           <div className="sa-subscribe-secondary-cta">
-            <Link href="/submit" className="btn btn-accent">Submit a Small Business Event</Link>
+            <Link href="/submit" className="btn btn-ghost">Submit a Small Business Event</Link>
           </div>
         </div>
       </section>

@@ -114,7 +114,6 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
         title="Houston Technology Events Calendar | Free Weekly Tech Events Email"
         description="Find tech meetups, developer groups, startup events, and technology networking in Houston. Free weekly email every Monday."
         canonical="https://businesseventscalendars.com/texas/houston/technology/"
-        robots="noindex"
       />
 
       <Navigation />
@@ -142,7 +141,7 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
           </p>
           <p className="se-hero-tags">Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more</p>
           <div className="hero-cta-group">
-            <Link href="/texas/houston/technology/subscribe" className="btn btn-gold">
+            <Link href="/texas/houston/technology/subscribe" className="btn btn-primary">
               Get the Free Houston Technology Events Newsletter
             </Link>
             <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
@@ -281,11 +280,11 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Get Houston Tech Events Every Monday — Free</h2>
           <p>A curated digest of that week's technology events in Houston, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/houston/technology/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/houston/technology/subscribe" className="btn btn-primary">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Houston business events</p>
           <div className="sa-subscribe-secondary-cta">
-            <Link href="/submit" className="btn btn-accent">Submit a Tech Event</Link>
+            <Link href="/submit" className="btn btn-ghost">Submit a Tech Event</Link>
           </div>
         </div>
       </section>

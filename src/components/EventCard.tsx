@@ -1,13 +1,15 @@
-import { MapPin, Calendar } from 'lucide-react';
+import { MapPin, Calendar, Lock } from 'lucide-react';
 import { Event } from '../lib/supabase';
 import { parseDate } from '../lib/utils';
 
 type EventCardProps = {
   event: Event;
   index: number;
+  isLoggedIn?: boolean;
+  onAuthClick?: () => void;
 };
 
-export function EventCard({ event, index }: EventCardProps) {
+export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: EventCardProps) {
   const hasRealDesc =
     event.description && event.description !== 'Please find more details at the Event Website.';
   const rawDesc = hasRealDesc ? event.description! : '';
@@ -17,7 +19,11 @@ export function EventCard({ event, index }: EventCardProps) {
   const eventDate = parseDate(event.start_date);
   const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'short' });
   const monthDay = eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  const timeLabel = `${dayOfWeek}. ${monthDay} | ${event.start_time}${event.end_time ? ` - ${event.end_time}` : ''}`;
+
+  // Logged-out: start time only. Logged-in: full start – end time.
+  const timeLabel = isLoggedIn
+    ? `${dayOfWeek}. ${monthDay} | ${event.start_time}${event.end_time ? ` - ${event.end_time}` : ''}`
+    : `${dayOfWeek}. ${monthDay} | ${event.start_time}`;
 
   return (
     <div
@@ -51,13 +57,23 @@ export function EventCard({ event, index }: EventCardProps) {
       </div>
 
       <div className="ev-card-new-body">
-
-        {rawDesc ? (
-          <p className="ev-card-new-desc">{rawDesc}</p>
+        {isLoggedIn ? (
+          rawDesc ? (
+            <p className="ev-card-new-desc">{rawDesc}</p>
+          ) : (
+            <p className="ev-card-new-desc ev-card-no-desc">See event site for description</p>
+          )
         ) : (
-          <p className="ev-card-new-desc ev-card-no-desc">See event site for description</p>
+          <div className="ev-card-gate">
+            <p className="ev-card-new-desc ev-card-gate-text" aria-hidden="true">
+              {rawDesc || 'Full event details including description, end time, and location are available to members.'}
+            </p>
+            <button className="ev-card-gate-overlay ev-card-gate-btn" onClick={onAuthClick}>
+              <Lock size={13} className="ev-card-gate-icon" />
+              <span>Sign up / Sign in — unlock full event details</span>
+            </button>
+          </div>
         )}
-
       </div>
     </div>
   );

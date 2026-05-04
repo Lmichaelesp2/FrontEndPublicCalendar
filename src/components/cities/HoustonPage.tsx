@@ -134,7 +134,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
               Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top Houston organizations and delivered to your calendar.
             </p>
             <div className="hero-cta-group">
-              <Link href="/texas/houston/subscribe" className="btn btn-gold">
+              <Link href="/texas/houston/subscribe" className="btn btn-primary">
                 Sign Up Free — See This Week's Events
               </Link>
               <a href="#calendar" className="btn btn-ghost">
@@ -298,7 +298,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Get the Full Week of Houston Events</h2>
           <p>Sign up free to unlock the full weekly calendar and get the Monday email with top networking and business events in Houston.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/houston/subscribe" className="btn btn-gold">Sign Up Free — Unlock the Full Week</Link>
+            <Link href="/texas/houston/subscribe" className="btn btn-primary">Sign Up Free — Unlock the Full Week</Link>
           </div>
         </div>
       </section>

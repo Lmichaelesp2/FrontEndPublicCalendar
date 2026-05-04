@@ -55,7 +55,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         .order('start_date', { ascending: true });
 
       if (forcedCity) query = query.eq('city_calendar', forcedCity);
-      if (groupType) query = query.eq('event_category', resolveGroupType(groupType));
+      if (groupType) query = query.eq('group_type', resolveGroupType(groupType));
 
       const { data } = await query;
       if (data) setLiveEvents(data as Event[]);
@@ -131,7 +131,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const cityFiltered = eventsSource.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
     // In week mode, server already filtered by groupType — skip client-side category filter
-    if (!weekMode && groupType && e.event_category !== resolveGroupType(groupType)) return false;
+    if (!weekMode && groupType && e.group_type !== resolveGroupType(groupType)) return false;
     if (minDate && e.start_date < minDate) return false;
     if (maxDate && e.start_date > maxDate) return false;
     return true;
@@ -434,7 +434,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                         {formatDate(parseDate(event.start_date))}
                       </div>
                     )}
-                    <EventCard event={event} index={index} />
+                    <EventCard event={event} index={index} isLoggedIn={!!user} onAuthClick={triggerAuth} />
                   </div>
                 );
               })}
@@ -449,7 +449,13 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           isOpen={inlineAuthOpen}
           onClose={() => setInlineAuthOpen(false)}
           onSuccess={() => setInlineAuthOpen(false)}
-          cityName={cityName}
+          cityName={
+            cityName && groupType
+              ? `${cityName} ${groupType.replace(/-/g,' ').replace(/\w/g,c=>c.toUpperCase())} Calendar`
+              : cityName
+              ? `${cityName} Business Calendar`
+              : undefined
+          }
         />
       )}
     </section>

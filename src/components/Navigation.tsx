@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import { LogOut, Menu, X } from 'lucide-react';
+import { LogOut, Menu, X, ChevronDown, User } from 'lucide-react';
+import { useRef } from 'react';
 import { CITY_CONFIGS } from '../lib/cities';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
@@ -48,6 +49,29 @@ function getSubscribeUrl(pathname: string): string {
   }
   // Homepage or /texas → use San Antonio as a sensible default
   return '/subscribe';
+}
+
+function isCityPage(pathname: string): boolean {
+  // True for /texas/[city] and /texas/[city]/[subcategory] — NOT for / or /texas
+  return /^\/texas\/[a-z-]+(\/[a-z-]+)?$/.test(pathname);
+}
+
+function getModalContext(pathname: string): { cityName: string; calendarLabel: string } {
+  const subCatMatch = pathname.match(/^\/texas\/([a-z-]+)\/([a-z-]+)/);
+  if (subCatMatch) {
+    const city = CITY_SLUG_TO_NAME[subCatMatch[1]] || '';
+    const cat  = CAT_SLUG_TO_NAME[subCatMatch[2]]  || '';
+    return {
+      cityName:      city,
+      calendarLabel: city && cat ? `${city} ${cat} Calendar` : city ? `${city} Business Calendar` : '',
+    };
+  }
+  const cityMatch = pathname.match(/^\/texas\/([a-z-]+)/);
+  if (cityMatch) {
+    const city = CITY_SLUG_TO_NAME[cityMatch[1]] || '';
+    return { cityName: city, calendarLabel: city ? `${city} Business Calendar` : '' };
+  }
+  return { cityName: '', calendarLabel: '' };
 }
 
 function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
@@ -99,8 +123,11 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
 
 export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<'signup' | 'signin'>('signup');
+  const [accountDropOpen, setAccountDropOpen] = useState(false);
+  const dropRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -114,6 +141,11 @@ export function Navigation() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  function openAuth(mode: 'signup' | 'signin') {
+    setAuthModalMode(mode);
+    setAuthModalOpen(true);
+  }
+
   async function handleLogout() {
     await signOut();
     router.push('/');
@@ -122,6 +154,7 @@ export function Navigation() {
   const dateline = getDayDateline();
   const { wordmark, tagline } = getWordmarkAndTagline(pathname ?? '/');
   const subscribeUrl = getSubscribeUrl(pathname ?? '/');
+  const modalContext = getModalContext(pathname ?? '/');
 
   return (
     <>
@@ -176,19 +209,52 @@ export function Navigation() {
             </nav>
 
             <div className="nav-actions">
-              {user ? (
-                <button
-                  className="nav-auth-badge nav-auth-logged-in"
-                  onClick={handleLogout}
-                  title="Log Out"
-                >
-                  <LogOut size={15} />
-                  <span>Log Out</span>
-                </button>
-              ) : (
+              {user && isCityPage(pathname ?? '') ? (
+                <div className="nav-account-wrap" ref={dropRef}>
+                  <button
+                    className="nav-account-btn"
+                    onClick={() => setAccountDropOpen(o => !o)}
+                  >
+                    <User size={14} />
+                    <span>Hi, {profile?.first_name || 'Member'}</span>
+                    <ChevronDown size={13} className={accountDropOpen ? 'nav-chevron-open' : ''} />
+                  </button>
+                  {accountDropOpen && (
+                    <div className="nav-account-drop">
+                      <div className="nav-account-email">{user.email}</div>
+                      <Link
+                        href="/account"
+                        className="nav-account-drop-item"
+                        onClick={() => setAccountDropOpen(false)}
+                      >
+                        <User size={13} />
+                        My Account
+                      </Link>
+                      <button
+                        className="nav-account-drop-item nav-account-signout"
+                        onClick={() => { setAccountDropOpen(false); handleLogout(); }}
+                      >
+                        <LogOut size={13} />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : user ? (
                 <Link href={subscribeUrl} className="nav-cta">
                   Sign Up — Free →
                 </Link>
+              ) : (
+                <>
+                  {isCityPage(pathname ?? '') && (
+                    <button className="nav-signin-btn" onClick={() => openAuth('signin')}>
+                      Sign In
+                    </button>
+                  )}
+                  <Link href={subscribeUrl} className="nav-cta">
+                    Sign Up — Free →
+                  </Link>
+                </>
               )}
             </div>
           </div>
@@ -199,6 +265,8 @@ export function Navigation() {
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         onSuccess={() => setAuthModalOpen(false)}
+        defaultMode={authModalMode}
+        cityName={modalContext.calendarLabel}
       />
     </>
   );

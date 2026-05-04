@@ -25,6 +25,7 @@ export async function fetchApprovedEvents(options?: {
   let query = supabase
     .from('events')
     .select('*')
+    .eq('status', 'approved')
     .gte('start_date', from)
     .lte('start_date', to)
     .order('start_date', { ascending: true });
@@ -34,7 +35,7 @@ export async function fetchApprovedEvents(options?: {
   }
 
   if (options?.groupType) {
-    query = query.eq('event_category', resolveGroupType(options.groupType));
+    query = query.eq('group_type', resolveGroupType(options.groupType));
   }
 
   const { data, error } = await query;

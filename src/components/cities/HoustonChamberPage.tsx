@@ -114,7 +114,6 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         title="Houston Chamber Events Calendar | Free Weekly Chamber Events Email"
         description="Find Houston Chamber of Commerce events, chamber mixers, ribbon cuttings, and chamber networking in Houston. Free weekly email every Monday."
         canonical="https://businesseventscalendars.com/texas/houston/chamber/"
-        robots="noindex"
       />
 
       <Navigation />
@@ -142,7 +141,7 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           </p>
           <p className="se-hero-tags">Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more</p>
           <div className="hero-cta-group">
-            <Link href="/texas/houston/chamber/subscribe" className="btn btn-gold">
+            <Link href="/texas/houston/chamber/subscribe" className="btn btn-primary">
               Get the Free Houston Chamber Events Newsletter
             </Link>
             <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
@@ -281,11 +280,11 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Get Houston Chamber Events Every Monday — Free</h2>
           <p>A curated digest of that week's chamber events in Houston, delivered to your inbox every Monday morning. No spam, no fluff — just the events worth your time.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/houston/chamber/subscribe" className="btn btn-gold">Get the Weekly Newsletter — Free</Link>
+            <Link href="/texas/houston/chamber/subscribe" className="btn btn-primary">Get the Weekly Newsletter — Free</Link>
           </div>
           <p className="sa-subscribe-note">Also available for all Houston business events</p>
           <div className="sa-subscribe-secondary-cta">
-            <Link href="/submit" className="btn btn-accent">Submit a Chamber Event</Link>
+            <Link href="/submit" className="btn btn-ghost">Submit a Chamber Event</Link>
           </div>
         </div>
       </section>
