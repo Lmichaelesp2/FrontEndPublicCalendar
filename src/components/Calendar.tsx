@@ -42,7 +42,8 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         .from('events')
         .select('*')
         .eq('status', 'approved')
-        .order('start_date', { ascending: true });
+        .order('start_date', { ascending: true })
+        .limit(2000);
 
       if (forcedCity) query = query.eq('city_calendar', forcedCity);
       if (groupType) query = query.eq('event_category', resolveGroupType(groupType));
@@ -154,7 +155,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const eventCount = displayEvents.length;
   const selectedDateObj = parseDate(effectiveDate);
   const dayLabel = weekMode
-    ? `${formatDate(parseDate(rangeStart))} – ${formatDate(parseDate(rangeEnd))}`
+    ? 'All Upcoming Events'
     : formatDate(selectedDateObj);
   const isToday = effectiveDate === today;
 

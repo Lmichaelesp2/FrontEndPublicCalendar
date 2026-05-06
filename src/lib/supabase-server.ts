@@ -20,7 +20,8 @@ export async function fetchApprovedEvents(options?: {
     .from('events')
     .select('*')
     .eq('status', 'approved')
-    .order('start_date', { ascending: true });
+    .order('start_date', { ascending: true })
+    .limit(2000);
 
   if (options?.city) {
     query = query.eq('city_calendar', options.city);
