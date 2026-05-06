@@ -142,9 +142,9 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       })
       .sort((a, b) => a.start_date.localeCompare(b.start_date));
   } else if (weekMode) {
-    displayEvents = sortEventsByTime(
-      cityFiltered.filter((e) => e.start_date >= today)
-    ).sort((a, b) => a.start_date.localeCompare(b.start_date) || 0);
+    displayEvents = cityFiltered
+      .filter((e) => e.start_date >= today)
+      .sort((a, b) => a.start_date.localeCompare(b.start_date) || a.start_time?.localeCompare(b.start_time ?? '') || 0);
   } else {
     displayEvents = sortEventsByTime(
       cityFiltered.filter((e) => e.start_date === effectiveDate)
@@ -414,14 +414,43 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                 <span className="cal-results-count">{eventCount} event{eventCount !== 1 ? 's' : ''}</span>
               </div>
               {displayEvents.map((event, index) => {
-                const showDivider = weekMode && (
-                  index === 0 || displayEvents[index - 1].start_date !== event.start_date
-                );
+                // For week mode: group by Monday–Sunday week header
+                // For day mode: group by date
+                let showDivider = false;
+                let dividerLabel = '';
+
+                if (weekMode) {
+                  const eventDate = parseDate(event.start_date);
+                  const dow = eventDate.getDay(); // 0=Sun
+                  const monday = new Date(eventDate);
+                  monday.setDate(eventDate.getDate() - ((dow + 6) % 7)); // Monday of this week
+                  const sunday = new Date(monday);
+                  sunday.setDate(monday.getDate() + 6);
+                  const weekKey = dateKey(monday);
+
+                  const prevDate = index > 0 ? parseDate(displayEvents[index - 1].start_date) : null;
+                  let prevWeekKey = '';
+                  if (prevDate) {
+                    const prevDow = prevDate.getDay();
+                    const prevMonday = new Date(prevDate);
+                    prevMonday.setDate(prevDate.getDate() - ((prevDow + 6) % 7));
+                    prevWeekKey = dateKey(prevMonday);
+                  }
+
+                  if (index === 0 || weekKey !== prevWeekKey) {
+                    showDivider = true;
+                    dividerLabel = `Week of ${formatDate(monday)} – ${formatDate(sunday)}`;
+                  }
+                } else {
+                  showDivider = index === 0 || displayEvents[index - 1].start_date !== event.start_date;
+                  dividerLabel = formatDate(parseDate(event.start_date));
+                }
+
                 return (
                   <div key={event.id}>
                     {showDivider && (
                       <div className="date-div" style={index === 0 ? { marginTop: 0 } : undefined}>
-                        {formatDate(parseDate(event.start_date))}
+                        {dividerLabel}
                       </div>
                     )}
                     <EventCard event={event} index={index} isLoggedIn={!!user} onAuthClick={triggerAuth} />
