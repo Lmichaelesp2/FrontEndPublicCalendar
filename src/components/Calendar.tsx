@@ -38,17 +38,10 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
 
   useEffect(() => {
     async function fetchLive() {
-      const past30 = new Date();
-      past30.setDate(past30.getDate() - 30);
-      const past30Str = past30.toISOString().split('T')[0];
-      const future60 = new Date();
-      future60.setDate(future60.getDate() + 60);
-      const future60Str = future60.toISOString().split('T')[0];
       let query = supabase
         .from('events')
         .select('*')
-        .gte('start_date', past30Str)
-        .lte('start_date', future60Str)
+        .eq('status', 'approved')
         .order('start_date', { ascending: true });
 
       if (forcedCity) query = query.eq('city_calendar', forcedCity);
