@@ -37,9 +37,6 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const pickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // In week mode, skip live fetch — use the server-fetched initialEvents instead
-    if (weekMode) return;
-
     async function fetchLive() {
       const past30 = new Date();
       past30.setDate(past30.getDate() - 30);
@@ -61,7 +58,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       if (data) setLiveEvents(data as Event[]);
     }
     fetchLive();
-  }, [forcedCity, groupType, weekMode]);
+  }, [forcedCity, groupType]);
 
   // Day-based navigation — starts on today
   const [selectedDate, setSelectedDate] = useState<string>(today);
