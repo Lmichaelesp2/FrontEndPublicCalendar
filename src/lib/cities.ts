@@ -66,8 +66,8 @@ export function getCityConfig(slug: string): CityConfig | null {
 }
 
 const GROUP_TYPE_TO_CATEGORY: Record<string, string> = {
-  chamber: 'Chamber',
-  chambers: 'Chamber',
+  chamber: 'Chambers',
+  chambers: 'Chambers',
   networking: 'Networking',
   real_estate: 'Real Estate',
   'real-estate': 'Real Estate',
