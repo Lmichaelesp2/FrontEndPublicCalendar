@@ -143,7 +143,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       .sort((a, b) => a.start_date.localeCompare(b.start_date));
   } else if (weekMode) {
     displayEvents = sortEventsByTime(
-      cityFiltered.filter((e) => e.start_date >= rangeStart && e.start_date <= rangeEnd)
+      cityFiltered.filter((e) => e.start_date >= today)
     ).sort((a, b) => a.start_date.localeCompare(b.start_date) || 0);
   } else {
     displayEvents = sortEventsByTime(
@@ -226,19 +226,19 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
 
         {/* Day navigation */}
         <div className="cal-day-nav" style={{ position: 'relative' }}>
-          <button
+          {!weekMode && <button
             className="cal-day-arrow"
-            onClick={() => weekMode ? setWeekOffset(w => Math.max(0, w - 1)) : stepDay(-1)}
-            disabled={weekMode ? weekOffset === 0 : effectiveDate <= today}
-            aria-label={weekMode ? 'Previous week' : 'Previous day'}
+            onClick={() => stepDay(-1)}
+            disabled={effectiveDate <= today}
+            aria-label="Previous day"
           >
             <ChevronLeft size={24} />
-          </button>
+          </button>}
 
           <div className="cal-day-center">
             {!weekMode && isToday && <div className="cal-day-name">Today</div>}
-            {weekMode && <div className="cal-day-name">{weekOffset === 0 ? 'This Week' : `Week ${weekOffset + 1}`}</div>}
-            <div className="cal-day-full">{dayLabel}</div>
+            {weekMode && <div className="cal-day-name">All Upcoming Events</div>}
+            <div className="cal-day-full">{weekMode ? '' : dayLabel}</div>
             <div className="cal-day-count">
               {eventCount} event{eventCount !== 1 ? 's' : ''}
             </div>
@@ -266,13 +266,13 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
             </button>}
           </div>
 
-          <button
+          {!weekMode && <button
             className="cal-day-arrow"
-            onClick={() => weekMode ? setWeekOffset(w => w + 1) : stepDay(1)}
-            aria-label={weekMode ? 'Next week' : 'Next day'}
+            onClick={() => stepDay(1)}
+            aria-label="Next day"
           >
             <ChevronRight size={24} />
-          </button>
+          </button>}
 
           {/* Month picker dropdown */}
           {showMonthPicker && (
@@ -403,7 +403,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                 {searchActive
                   ? 'No events match your search.'
                   : weekMode
-                  ? 'No events this week. Try the next week using the arrow.'
+                  ? 'No upcoming events found.'
                   : `No events on ${dayLabel}. Use the arrows to check another day.`}
               </p>
             </div>
