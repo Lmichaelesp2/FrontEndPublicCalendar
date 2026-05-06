@@ -35,7 +35,7 @@ export async function fetchApprovedEvents(options?: {
   }
 
   if (options?.groupType) {
-    query = query.eq('group_type', resolveGroupType(options.groupType));
+    query = query.eq('event_category', resolveGroupType(options.groupType));
   }
 
   const { data, error } = await query;
