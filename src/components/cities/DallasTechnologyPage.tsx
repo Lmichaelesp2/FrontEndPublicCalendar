@@ -8,7 +8,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
-import { EventNetworkingCalendarHelper } from '../EventNetworkingCalendarHelper';
+import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorCard } from '../SponsorSection';
 
@@ -147,7 +147,7 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Find Your Next Dallas Tech Event</h2>
           <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
         </div>
-        <EventNetworkingCalendarHelper />
+        <EventNetworkingMethodSection city="Dallas" category="Technology" />
 
         <EventGate
           forcedCity="Dallas"

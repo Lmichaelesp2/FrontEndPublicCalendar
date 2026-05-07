@@ -8,7 +8,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
-import { EventNetworkingCalendarHelper } from '../EventNetworkingCalendarHelper';
+import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorCard } from '../SponsorSection';
 
@@ -158,7 +158,7 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
           <h2>Find Your Next Houston Tech Event</h2>
           <p>Browse developer meetups, energy tech events, health tech gatherings, and more</p>
         </div>
-        <EventNetworkingCalendarHelper />
+        <EventNetworkingMethodSection city="Houston" category="Technology" />
 
         <EventGate
           forcedCity="Houston"

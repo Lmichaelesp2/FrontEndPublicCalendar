@@ -8,7 +8,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
-import { EventNetworkingCalendarHelper } from '../EventNetworkingCalendarHelper';
+import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorCard } from '../SponsorSection';
 
@@ -147,7 +147,7 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next Austin Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <EventNetworkingCalendarHelper />
+        <EventNetworkingMethodSection city="Austin" category="Chamber" />
 
         <EventGate
           forcedCity="Austin"

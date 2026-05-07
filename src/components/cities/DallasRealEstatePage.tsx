@@ -8,7 +8,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
-import { EventNetworkingCalendarHelper } from '../EventNetworkingCalendarHelper';
+import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorCard } from '../SponsorSection';
 
@@ -147,7 +147,7 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           <h2>Find Your Next Dallas Real Estate Event</h2>
           <p>Browse investor meetups, networking events, CE classes, and more</p>
         </div>
-        <EventNetworkingCalendarHelper />
+        <EventNetworkingMethodSection city="Dallas" category="Real Estate" />
 
         <EventGate
           forcedCity="Dallas"

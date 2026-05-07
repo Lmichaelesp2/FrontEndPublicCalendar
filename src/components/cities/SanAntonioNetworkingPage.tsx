@@ -8,7 +8,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
-import { EventNetworkingCalendarHelper } from '../EventNetworkingCalendarHelper';
+import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorCard } from '../SponsorSection';
 
@@ -147,7 +147,7 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
           <h2>Today's Networking Events in San Antonio</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventNetworkingCalendarHelper />
+        <EventNetworkingMethodSection city="San Antonio" category="Networking" />
 
         <EventGate
           forcedCity="San Antonio"
