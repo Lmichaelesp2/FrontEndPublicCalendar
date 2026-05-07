@@ -7,7 +7,7 @@ import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
 import { WhySection } from './WhySection';
-import { RightRoomMethodSection } from './RightRoomMethodSection';
+import { EventNetworkingMethodSection } from './EventNetworkingMethodSection';
 
 const STATS = [
   { number: '500+', label: 'Events every week' },
@@ -70,7 +70,7 @@ function HomepageFaqItem({ question, answer, open, onToggle }: { question: strin
   );
 }
 
-export function Homepage() {
+export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, number> }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -92,25 +92,25 @@ export function Homepage() {
           <div className="hero-left">
             <div className="hero-badge">
               <span className="hero-badge-dot" />
-              THIS WEEK IN TEXAS &middot; 47 EVENTS
+              THIS WEEK IN TEXAS &middot; {Object.values(cityCounts).reduce((a, b) => a + b, 0)} EVENTS
             </div>
 
             <h1>
-              Find the rooms where business <em>actually</em> happens.
+              Find the events where business <em>actually</em> happens.
             </h1>
 
             <p className="hero-sub">
-              Networking mixers, chamber events, real-estate gatherings, tech meetups — every public business event in your city, organized into one calendar and one Monday email.
+              Networking mixers, chamber events, real-estate gatherings, tech meetups — organized into one calendar and one weekly email.
             </p>
 
             <div className="hero-cta-group">
               <Link href="/subscribe" className="btn btn-gold">
-                Sign Up Free — See This Week's Events
+                Sign Up Free — Pick Your City
               </Link>
             </div>
 
             <p className="hero-trust">
-              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
+              Free forever&nbsp;&middot;&nbsp;No credit card
             </p>
           </div>
 
@@ -122,25 +122,25 @@ export function Homepage() {
                 <li className="hero-city-panel-row">
                   <Link href="/texas/san-antonio" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">San Antonio</span>
-                    <span className="hero-city-panel-count">14 events</span>
+                    <span className="hero-city-panel-count">{cityCounts['San Antonio'] ?? 0} events</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/austin" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Austin</span>
-                    <span className="hero-city-panel-count">18 events</span>
+                    <span className="hero-city-panel-count">{cityCounts['Austin'] ?? 0} events</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/dallas" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Dallas</span>
-                    <span className="hero-city-panel-count">9 events</span>
+                    <span className="hero-city-panel-count">{cityCounts['Dallas'] ?? 0} events</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/houston" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Houston</span>
-                    <span className="hero-city-panel-count">6 events</span>
+                    <span className="hero-city-panel-count">{cityCounts['Houston'] ?? 0} events</span>
                   </Link>
                 </li>
               </ul>
@@ -160,16 +160,6 @@ export function Homepage() {
       </section>
 
 
-      <WhySection
-        heading="Why Use Local Business Calendars?"
-        subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
-        problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
-        whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
-
-      <RightRoomMethodSection />
-
       <section className="hp-intro-section">
         <div className="hp-intro-inner">
           <p>
@@ -178,30 +168,7 @@ export function Homepage() {
         </div>
       </section>
 
-      <section className="features-section">
-        <div className="features-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-step">1</div>
-              <h3>Choose your city</h3>
-              <p>Pick your city from our local calendars. We handle all the event research so you don't have to.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's networking events and business gatherings in your city.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-step">3</div>
-              <h3>Pick events &amp; show up</h3>
-              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-<section className="sp-section">
+      <section className="sp-section">
         <div className="sp-inner">
           <p className="sp-overline">BY THE NUMBERS &middot; TEXAS, 2026</p>
           <h2>
@@ -230,6 +197,64 @@ export function Homepage() {
                 <div className="sp-author">
                   <span className="sp-name">&mdash; {t.name}</span>
                   <span className="sp-location">{t.location}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+<section className="features-section">
+        <div className="features-inner">
+          <h2>We Do the Searching So You Don't Have To</h2>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Choose your city</h3>
+              <p>Pick your city from our local calendars. We handle all the event research so you don't have to.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday morning you'll receive a curated digest of that week's networking events and business gatherings in your city.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events &amp; show up</h3>
+              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <WhySection
+        heading="Why Use Local Business Calendars?"
+        subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
+        problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
+        whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
+
+      <EventNetworkingMethodSection />
+
+      {/* ── Sponsor teaser ── */}
+      <section className="hp-sponsor-teaser">
+        <div className="hp-sponsor-teaser-inner">
+          <div className="hp-sponsor-teaser-left">
+            <div className="hp-sponsor-teaser-label">Sponsorship</div>
+            <h2>Put Your Brand in Front of Local Business Professionals</h2>
+            <p>Each city calendar has one exclusive sponsor slot — your brand in the weekly newsletter, every Monday, to an audience that shows up.</p>
+            <Link href="/sponsor" className="hp-sponsor-teaser-btn">
+              See How It Works →
+            </Link>
+          </div>
+          <div className="hp-sponsor-teaser-cards">
+            {(['San Antonio', 'Austin', 'Dallas', 'Houston'] as const).map((city) => (
+              <div key={city} className="hp-sponsor-teaser-card">
+                <div className="hp-sponsor-teaser-card-city">{city}</div>
+                <div className="hp-sponsor-teaser-card-slot">
+                  <div className="hp-sponsor-teaser-card-tag">CITY CALENDAR SPONSOR</div>
+                  <div className="hp-sponsor-teaser-card-name">Your Brand Here</div>
                 </div>
               </div>
             ))}

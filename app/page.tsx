@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import { Homepage } from '../src/components/Homepage';
+import { fetchThisWeekCounts } from '../src/lib/supabase-server';
+
+export const revalidate = 300; // revalidate every 5 minutes
 
 export const metadata: Metadata = {
   title: 'Local Business Calendars | Free Business & Networking Event Calendars by City',
@@ -14,6 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
-  return <Homepage />;
+export default async function Page() {
+  const cityCounts = await fetchThisWeekCounts();
+  return <Homepage cityCounts={cityCounts} />;
 }

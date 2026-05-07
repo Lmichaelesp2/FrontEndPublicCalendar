@@ -8,6 +8,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
+import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorCityCard } from '../SponsorSection';
 
@@ -118,11 +119,11 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
               THIS WEEK IN SAN ANTONIO &middot; 14 EVENTS
             </div>
             <h1>
-              Find the rooms where San Antonio business{' '}
+              Find the events where San Antonio business{' '}
               <em>actually</em> happens.
             </h1>
             <p className="hero-sub">
-              Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top San Antonio organizations and delivered to your calendar.
+              Chamber events, business mixers, real estate gatherings, and tech meetups — San Antonio's public business events organized into one calendar and one weekly email.
             </p>
             <div className="hero-cta-group">
               <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">
@@ -133,15 +134,15 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
               </a>
             </div>
             <p className="hero-trust">
-              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
+              Free forever&nbsp;&middot;&nbsp;No credit card
             </p>
           </div>
           <div className="hero-right">
             <div className="hero-city-panel">
               <div className="hero-city-panel-header">EVENT TYPES</div>
               <ul className="hero-city-panel-list">
-                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'and many more'].map((tag) => {
-                  const slug = {'Networking': 'networking', 'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business', 'Healthcare': 'healthcare'};
+                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'and many more'].map((tag) => {
+                  const slug = {'Networking': 'networking', 'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business'};
                   const href = slug[tag as keyof typeof slug] ? `/texas/san-antonio/${slug[tag as keyof typeof slug]}` : null;
                   return (
                     <li key={tag} className="hero-city-panel-row">
@@ -166,34 +167,6 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCityCard cityName="San Antonio" />
-
-      <section className="features-section">
-        <div className="features-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">See today's events now, unlock the full weekly calendar when you sign up, and get the Monday email with the week's top networking and business events in San Antonio.</p>
-
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-step">1</div>
-              <h3>Sign up free in 10 seconds</h3>
-              <p>Enter your email and get instant access. No credit card, no setup, and no complicated account process.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">2</div>
-              <h3>Unlock the full week of events</h3>
-              <p>See more than just today's events. Unlock the full weekly calendar for San Antonio in one quick step.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">3</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday, get a curated email with the week's top networking and business events in San Antonio.</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
@@ -203,87 +176,31 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} />
       </section>
 
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>San Antonio Organizations We Track</h2>
-          <p>We monitor events from San Antonio's top business networks so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {[
-              'San Antonio Chamber of Commerce',
-              'North SA Chamber',
-              'Hispanic Chamber of Commerce',
-              'SCORE San Antonio',
-              'SA Young Professionals',
-              'Tech Bloc',
-              'Venture San Antonio',
-              'NAWBO San Antonio',
-              'SA Entrepreneurs',
-              'SA BizConnect',
-              'Small Business Development Center',
-              '... and many more',
-            ].map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="value-section" style={{ paddingTop: '2rem' }}>
-        <div className="value-inner">
-          <h2>Never Miss a Networking or Business Event That Matters</h2>
-          <div className="value-grid">
-            <div className="value-card">
-              <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>Start the week with a reminder</h3>
-              <p>Start each week with a curated email so upcoming networking and business events do not slip past you.</p>
+      <section className="features-section">
+        <div className="features-inner">
+          <h2>We Track San Antonio Business Events So You Don't Have To</h2>
+          <p className="features-subtitle">San Antonio business events are scattered across chambers, Eventbrite, Meetup, LinkedIn, and military/business community sites. We organize them into one weekly calendar.</p>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Sign up free</h3>
+              <p>Enter your email and get instant access to the full San Antonio business events calendar. No credit card, no setup.</p>
             </div>
-            <div className="value-card">
-              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check events anytime</h3>
-              <p>Visit your city calendar anytime to see what's happening today and stay connected to local opportunities.</p>
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday, get a curated digest of that week's top networking and business events in San Antonio.</p>
             </div>
-            <div className="value-card">
-              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Plan your week ahead</h3>
-              <p>Look ahead at upcoming events so you can choose the right rooms, protect your time, and show up prepared.</p>
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events and show up</h3>
+              <p>Scan the list, choose what fits your schedule, and walk in ready to meet the right San Antonio professionals.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by San Antonio Business Professionals</h2>
-          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
-          <div className="sp-stats">
-            {SA_STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {SA_TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCityCard cityName="San Antonio" />
 
       <WhySection
         heading="Why San Antonio Professionals Use This Calendar"
@@ -292,6 +209,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         whatWeDoText="We track local business event hosts and organize their public events into one simple San Antonio calendar and weekly newsletter."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="San Antonio" />
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">
@@ -306,8 +225,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
-
-      <section className="faq-section">
+            <section className="faq-section">
         <div className="faq-inner">
           <h2>Frequently Asked Questions</h2>
           <div className="faq-list">

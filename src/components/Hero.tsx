@@ -83,7 +83,7 @@ export function Hero() {
             <p className="hero-sub">
               {cityConfig
                 ? cityConfig.heroSub
-                : 'Networking mixers, chamber events, real-estate gatherings, tech meetups — every public business event in your city, organized into one calendar and one Monday email.'}
+                : 'Networking mixers, chamber events, real-estate gatherings, tech meetups — organized into one calendar and one weekly email.'}
             </p>
 
             <div className="hero-cta-group">
@@ -104,7 +104,7 @@ export function Hero() {
             </div>
 
             <p className="hero-trust">
-              weekly event newsletter and full event details
+              Free forever&nbsp;&middot;&nbsp;No credit card
             </p>
           </div>
 

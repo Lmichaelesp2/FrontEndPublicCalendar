@@ -8,6 +8,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
+import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorCard } from '../SponsorSection';
 
@@ -137,7 +138,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
             the <em>San Antonio</em> area
           </h1>
           <p className="hero-sub">
-            Stop missing the events that grow your network and your business.
+            Ribbon cuttings, business luncheons, member mixers, and chamber networking events — San Antonio chamber events organized and delivered every week.
           </p>
           <p className="se-hero-tags">Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more</p>
           <div className="hero-cta-group">
@@ -146,36 +147,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
             </Link>
             <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
           </div>
-          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
-        </div>
-      </section>
-
-      <SponsorCard cityName="San Antonio" category="Chamber" />
-
-      <section className="features-section">
-        <div className="features-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate chamber event sources across San Antonio so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.</p>
-
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-step">1</div>
-              <h3>Subscribe to Chamber Events</h3>
-              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's chamber luncheons, Business After Hours, and ribbon cuttings in San Antonio.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">3</div>
-              <h3>Pick events & show up</h3>
-              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
-            </div>
-          </div>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 
@@ -194,74 +166,31 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         />
       </section>
 
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>San Antonio Chambers & Associations We Track</h2>
-          <p>We monitor events from San Antonio's chambers and business associations so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {ORGS.map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="value-section" style={{ paddingTop: '2rem' }}>
-        <div className="value-inner">
-          <h2>Never Miss a Chamber Event That Matters</h2>
-          <div className="value-grid">
-            <div className="value-card">
-              <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly newsletter</h3>
-              <p>Sign up for San Antonio chamber events and get that week's luncheons, Business After Hours, and ribbon cuttings in your inbox every Monday. Free.</p>
+      <section className="features-section">
+        <div className="features-inner">
+          <h2>We Track San Antonio Chamber Events So You Don't Have To</h2>
+          <p className="features-subtitle">San Antonio chamber events — luncheons, ribbon cuttings, mixers — are spread across multiple chamber websites. We organize them into one weekly calendar.</p>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Sign up free</h3>
+              <p>Enter your email and get instant access. No credit card, no setup.</p>
             </div>
-            <div className="value-card">
-              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check the calendar anytime</h3>
-              <p>No signup needed. Browse San Antonio's chamber and association events on the calendar whenever you want.</p>
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday, get a curated digest of that week's top San Antonio chamber events.</p>
             </div>
-            <div className="value-card">
-              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Never miss what matters</h3>
-              <p>The newsletter and the calendar work together so you always know what's coming up in the chamber community.</p>
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events and show up</h3>
+              <p>Scan the list, choose what fits your schedule, and show up ready to connect.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by San Antonio Chamber Members</h2>
-          <p className="sp-subtitle">San Antonio Chamber Calendar — By the Numbers</p>
-          <div className="sp-stats">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCard cityName="San Antonio" category="Chamber" />
 
       <WhySection
         heading="Why San Antonio Chamber Professionals Use This Calendar"
@@ -270,6 +199,9 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         whatWeDoText="We track chamber event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="San Antonio" category="Chamber" />
+
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

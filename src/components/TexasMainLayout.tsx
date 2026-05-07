@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { Navigation } from './Navigation';
 import { Breadcrumb } from './Breadcrumb';
@@ -9,8 +10,6 @@ import { Footer } from './Footer';
 import { HomepageCities } from './HomepageCities';
 import { SEOHead } from './SEOHead';
 import { CityProvider } from '../contexts/CityContext';
-import { SponsorInstitutional } from './SponsorSection';
-import { SocialProof } from './SocialProof';
 import type { Event } from '../lib/supabase';
 import { Plus, Minus } from 'lucide-react';
 import { WhySection } from './WhySection';
@@ -92,15 +91,6 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
       } />
       <Hero />
 
-
-      <WhySection
-        heading="Why Use Texas Business Calendars?"
-        subtitle="Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly."
-        problemText="Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending."
-        whatWeDoText="We track business event hosts and organize their public events into one simple calendar per city."
-        whatYouGetText="Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent."
-      />
-
       {!citySlug && (
         <section className="hp-intro-section">
           <div className="hp-intro-inner">
@@ -110,6 +100,16 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
           </div>
         </section>
       )}
+
+      <HomepageCities initialEvents={initialEvents} />
+
+      <WhySection
+        heading="Why Use Texas Business Calendars?"
+        subtitle="Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly."
+        problemText="Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending."
+        whatWeDoText="We track business event hosts and organize their public events into one simple calendar per city."
+        whatYouGetText="Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent."
+      />
 
       <section className="features-section">
         <div className="features-inner">
@@ -138,8 +138,32 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
         </div>
       </section>
 
-      <HomepageCities initialEvents={initialEvents} />
-      <SocialProof />
+      {!citySlug && (
+        <section className="hp-sponsor-teaser">
+          <div className="hp-sponsor-teaser-inner">
+            <div className="hp-sponsor-teaser-left">
+              <div className="hp-sponsor-teaser-label">Sponsorship</div>
+              <h2>Put Your Brand in Front of Texas Business Professionals</h2>
+              <p>Each city calendar has one exclusive sponsor slot — your brand in the weekly newsletter, every Monday, to an audience that shows up.</p>
+              <Link href="/sponsor" className="hp-sponsor-teaser-btn">
+                See How It Works →
+              </Link>
+            </div>
+            <div className="hp-sponsor-teaser-cards">
+              {(['San Antonio', 'Austin', 'Dallas', 'Houston'] as const).map((city) => (
+                <div key={city} className="hp-sponsor-teaser-card">
+                  <div className="hp-sponsor-teaser-card-city">{city}</div>
+                  <div className="hp-sponsor-teaser-card-slot">
+                    <div className="hp-sponsor-teaser-card-tag">CITY CALENDAR SPONSOR</div>
+                    <div className="hp-sponsor-teaser-card-name">Your Brand Here</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {!citySlug && (
         <section className="faq-section">
           <div className="faq-inner">
@@ -158,7 +182,6 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
           </div>
         </section>
       )}
-      {!citySlug && <SponsorInstitutional />}
       <Footer showIndustryCalendars={showIndustryCalendars} citySlug={citySlug} cityName={cityName} isTexasPage={!citySlug} />
     </div>
   );
