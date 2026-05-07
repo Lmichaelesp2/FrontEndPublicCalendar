@@ -142,38 +142,13 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
 
       <SponsorCard cityName="Austin" category="Technology" />
 
-      <section className="features-section">
-        <div className="features-inner">
-          <h2>How It Works</h2>
-          <p className="features-subtitle">Three steps to never missing an Austin tech event again.</p>
-
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-step">1</div>
-              <h3>Subscribe — free, 10 seconds</h3>
-              <p>Enter your email. No account, no credit card, no setup required. You'll be subscribed before you finish your coffee.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">2</div>
-              <h3>Browse the calendar anytime</h3>
-              <p>The calendar is always live and open — no login needed. Check back anytime to see what's coming up across the Austin tech scene.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">3</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday, that week's Austin tech events land in your inbox — curated, organized, and ready to act on.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Austin Tech Event</h2>
           <p>Browse developer meetups, startup events, hackathons, and more</p>
         </div>
+        <EventNetworkingCalendarHelper />
+
         <EventGate
           forcedCity="Austin"
           groupType="technology"
@@ -182,44 +157,6 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           newsletterSubtext="A curated digest of that week's tech events in Austin, delivered to your inbox every Monday morning."
           subscribeHref="/texas/austin/technology/subscribe"
         />
-      </section>
-
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>Austin Tech Organizations We Track</h2>
-          <p>We monitor events from Austin's top technology communities so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {TECH_ORGS.map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="value-section" style={{ paddingTop: '2rem' }}>
-        <div className="value-inner">
-          <h2>What You Get — Completely Free</h2>
-          <div className="value-grid">
-            <div className="value-card">
-              <div className="value-icon"><Monitor size={40} strokeWidth={2} /></div>
-              <h3>A curated weekly digest</h3>
-              <p>Every Monday morning, that week's best Austin tech events land in your inbox — organized, scannable, ready to act on.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>A live event calendar</h3>
-              <p>Browse Austin tech events anytime — no account, no signup. Just open it and see what's coming up this week.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Your time back</h3>
-              <p>Stop hunting across Meetup, Eventbrite, LinkedIn, and Slack. We aggregate every Austin tech event so you don't have to.</p>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section className="sp-section">

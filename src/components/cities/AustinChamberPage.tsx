@@ -142,38 +142,13 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <SponsorCard cityName="Austin" category="Chamber" />
 
-      <section className="features-section">
-        <div className="features-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate chamber event sources across Austin so you don't have to — then deliver the best event opportunities straight to your newsletter every Monday.</p>
-
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-step">1</div>
-              <h3>Subscribe to Chamber Events</h3>
-              <p>Click subscribe above. Enter your email address. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's chamber luncheons, Business After Hours, and ribbon cuttings in Austin.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">3</div>
-              <h3>Pick events &amp; show up</h3>
-              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people. We handle the research — you handle the relationships.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Austin Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
+        <EventNetworkingCalendarHelper />
+
         <EventGate
           forcedCity="Austin"
           groupType="chamber"
@@ -182,44 +157,6 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           newsletterSubtext="A curated digest of that week's chamber events in Austin, delivered to your inbox every Monday morning."
           subscribeHref="/texas/austin/chamber/subscribe"
         />
-      </section>
-
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>Austin Chambers &amp; Associations We Track</h2>
-          <p>We monitor events from Austin's chambers and business associations so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {ORGS.map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="value-section" style={{ paddingTop: '2rem' }}>
-        <div className="value-inner">
-          <h2>Never Miss a Chamber Event That Matters</h2>
-          <div className="value-grid">
-            <div className="value-card">
-              <div className="value-icon"><Building2 size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly newsletter</h3>
-              <p>Sign up for Austin chamber events and get that week's luncheons, Business After Hours, and ribbon cuttings in your inbox every Monday. Free.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check the calendar anytime</h3>
-              <p>No signup needed. Browse Austin's chamber and association events on the calendar whenever you want.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Never miss what matters</h3>
-              <p>The newsletter and the calendar work together so you always know what's coming up in the chamber community.</p>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section className="sp-section">

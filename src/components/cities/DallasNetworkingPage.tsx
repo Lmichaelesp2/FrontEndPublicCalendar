@@ -142,38 +142,13 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
 
       <SponsorCard cityName="Dallas" category="Networking" />
 
-      <section className="features-section">
-        <div className="features-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <p className="features-subtitle">We aggregate networking sources across Dallas-Fort Worth so you don't have to — then deliver the best opportunities straight to your inbox every Monday.</p>
-
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-step">1</div>
-              <h3>Subscribe to Dallas Networking</h3>
-              <p>Click subscribe above. Enter your email. That's it — no account, no credit card, no setup. Takes 10 seconds.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated list of that week's networking events, leads groups, and referral gatherings in Dallas.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-step">3</div>
-              <h3>Pick events &amp; show up</h3>
-              <p>Scan the list, click the events that fit your schedule, and walk in ready to build relationships and grow your referral network.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Today's Networking Events in Dallas</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
+        <EventNetworkingCalendarHelper />
+
         <EventGate
           forcedCity="Dallas"
           groupType="networking"
@@ -182,44 +157,6 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           newsletterSubtext="A curated digest of that week's networking events in Dallas, delivered to your inbox every Monday morning."
           subscribeHref="/texas/dallas/networking/subscribe"
         />
-      </section>
-
-      <section className="sa-orgs-section">
-        <div className="sa-orgs-inner">
-          <h2>Dallas Networking Organizations We Track</h2>
-          <p>We monitor events from Dallas-Fort Worth's top networking and referral organizations so nothing slips through the cracks.</p>
-          <div className="sa-orgs-grid">
-            {ORGS.map((org, i) => (
-              <div key={i} className="sa-org-tag">
-                <Users size={14} strokeWidth={2} />
-                {org}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="value-section" style={{ paddingTop: '2rem' }}>
-        <div className="value-inner">
-          <h2>Never Miss a Networking Event That Matters</h2>
-          <div className="value-grid">
-            <div className="value-card">
-              <div className="value-icon"><Users size={40} strokeWidth={2} /></div>
-              <h3>Get the free weekly newsletter</h3>
-              <p>Sign up for Dallas networking events and get that week's opportunities in your inbox every Monday. Free.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Search size={40} strokeWidth={2} /></div>
-              <h3>Check the calendar anytime</h3>
-              <p>No signup needed. Browse Dallas's networking events on the calendar whenever you want.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon"><Mail size={40} strokeWidth={2} /></div>
-              <h3>Never miss what matters</h3>
-              <p>The newsletter and the calendar work together so you always know what networking opportunities are coming up.</p>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section className="sp-section">
