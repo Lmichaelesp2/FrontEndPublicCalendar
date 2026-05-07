@@ -142,7 +142,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
               </a>
             </div>
             <p className="hero-trust">
-              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
+              Free forever&nbsp;&middot;&nbsp;No credit card
             </p>
           </div>
           <div className="hero-right">

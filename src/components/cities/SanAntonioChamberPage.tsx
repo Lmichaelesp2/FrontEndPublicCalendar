@@ -146,7 +146,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
             </Link>
             <a href="#calendar" className="btn btn-ghost">Browse the Calendar &rarr;</a>
           </div>
-          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;Delivered every Monday&nbsp;&middot;&nbsp;No credit card</p>
+          <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
       </section>
 

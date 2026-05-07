@@ -110,7 +110,7 @@ export function Homepage() {
             </div>
 
             <p className="hero-trust">
-              weekly event newsletter and full event details
+              Free forever&nbsp;&middot;&nbsp;No credit card
             </p>
           </div>
 
