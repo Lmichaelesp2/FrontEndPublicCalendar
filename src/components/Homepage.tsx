@@ -96,7 +96,7 @@ export function Homepage() {
             </div>
 
             <h1>
-              Find the rooms where business <em>actually</em> happens.
+              Find the events where business <em>actually</em> happens.
             </h1>
 
             <p className="hero-sub">
@@ -105,12 +105,12 @@ export function Homepage() {
 
             <div className="hero-cta-group">
               <Link href="/subscribe" className="btn btn-gold">
-                Sign Up Free — See This Week's Events
+                Sign Up Free — Pick Your City
               </Link>
             </div>
 
             <p className="hero-trust">
-              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
+              weekly event newsletter and full event details
             </p>
           </div>
 
