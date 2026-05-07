@@ -151,15 +151,11 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <SponsorCard cityName="Houston" category="Small Business" />
-
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Houston Small Business Event</h2>
           <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
         </div>
-        <EventNetworkingMethodSection city="Houston" category="Small Business" />
-
         <EventGate
           forcedCity="Houston"
           groupType="small_business"
@@ -194,36 +190,7 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by Houston Small Business Owners</h2>
-          <p className="sp-subtitle">Houston Small Business Calendar — By the Numbers</p>
-          <div className="sp-stats">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCard cityName="Houston" category="Small Business" />
 
       <WhySection
         heading="Why Houston Small Business Professionals Use This Calendar"
@@ -232,6 +199,9 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
         whatWeDoText="We track small business event hosts across Houston and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="Houston" category="Small Business" />
+
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

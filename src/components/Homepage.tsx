@@ -160,16 +160,6 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
       </section>
 
 
-      <WhySection
-        heading="Why Use Local Business Calendars?"
-        subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
-        problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
-        whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
-      />
-
-      <EventNetworkingMethodSection />
-
       <section className="hp-intro-section">
         <div className="hp-intro-inner">
           <p>
@@ -237,6 +227,15 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
         </div>
       </section>
 
+      <WhySection
+        heading="Why Use Local Business Calendars?"
+        subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
+        problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
+        whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
+        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+      />
+
+      <EventNetworkingMethodSection />
 
       {/* ── Sponsor teaser ── */}
       <section className="hp-sponsor-teaser">

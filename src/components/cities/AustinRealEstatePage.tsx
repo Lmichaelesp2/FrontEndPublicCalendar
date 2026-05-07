@@ -151,15 +151,11 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorCard cityName="Austin" category="Real Estate" />
-
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Austin Real Estate Event</h2>
           <p>Browse investor meetups, broker networking, property tours, and more</p>
         </div>
-        <EventNetworkingMethodSection city="Austin" category="Real Estate" />
-
         <EventGate
           forcedCity="Austin"
           groupType="real_estate"
@@ -194,36 +190,7 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by Austin Real Estate Professionals</h2>
-          <p className="sp-subtitle">Austin Real Estate Calendar — By the Numbers</p>
-          <div className="sp-stats">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCard cityName="Austin" category="Real Estate" />
 
       <WhySection
         heading="Why Austin Real Estate Professionals Use This Calendar"
@@ -232,6 +199,9 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         whatWeDoText="We track real estate event hosts across Austin and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="Austin" category="Real Estate" />
+
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

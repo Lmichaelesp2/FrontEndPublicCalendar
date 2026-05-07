@@ -140,15 +140,11 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorCard cityName="Dallas" category="Technology" />
-
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Dallas Tech Event</h2>
           <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
         </div>
-        <EventNetworkingMethodSection city="Dallas" category="Technology" />
-
         <EventGate
           forcedCity="Dallas"
           groupType="technology"
@@ -183,36 +179,7 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by Dallas Tech Professionals</h2>
-          <p className="sp-subtitle">Dallas Technology Calendar — By the Numbers</p>
-          <div className="sp-stats">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCard cityName="Dallas" category="Technology" />
 
       <WhySection
         heading="Why Dallas Tech Professionals Use This Calendar"
@@ -221,6 +188,9 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         whatWeDoText="We track tech event hosts across Dallas and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="Dallas" category="Technology" />
+
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

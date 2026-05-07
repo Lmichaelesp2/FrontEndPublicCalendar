@@ -177,14 +177,12 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCityCard cityName="Austin" />
 
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Austin Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventNetworkingMethodSection city="Austin" />
         <EventGate forcedCity="Austin" initialEvents={initialEvents} showMonthCalendar={true} />
       </section>
 
@@ -212,36 +210,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by Austin Business Professionals</h2>
-          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
-          <div className="sp-stats">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCityCard cityName="Austin" />
 
       <WhySection
         heading="Why Austin Professionals Use This Calendar"
@@ -250,6 +219,8 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         whatWeDoText="We track local business event hosts and organize their public events into one simple Austin calendar and weekly newsletter."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="Austin" />
 
       <section className="sa-subscribe-section" id="austin-subscribe">
         <div className="sa-subscribe-inner">
@@ -264,8 +235,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
-
-      <section className="faq-section">
+            <section className="faq-section">
         <div className="faq-inner">
           <h2>Frequently Asked Questions</h2>
           <div className="faq-list">

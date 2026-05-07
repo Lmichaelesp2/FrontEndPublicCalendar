@@ -151,15 +151,11 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <SponsorCard cityName="San Antonio" category="Chamber" />
-
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next San Antonio Chamber Event</h2>
           <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
         </div>
-        <EventNetworkingMethodSection city="San Antonio" category="Chamber" />
-
         <EventGate
           forcedCity="San Antonio"
           groupType="chamber"
@@ -194,36 +190,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by San Antonio Chamber Members</h2>
-          <p className="sp-subtitle">San Antonio Chamber Calendar — By the Numbers</p>
-          <div className="sp-stats">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCard cityName="San Antonio" category="Chamber" />
 
       <WhySection
         heading="Why San Antonio Chamber Professionals Use This Calendar"
@@ -232,6 +199,9 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         whatWeDoText="We track chamber event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="San Antonio" category="Chamber" />
+
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

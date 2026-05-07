@@ -140,15 +140,11 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <SponsorCard cityName="Houston" category="Networking" />
-
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Today's Networking Events in Houston</h2>
           <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
         </div>
-        <EventNetworkingMethodSection city="Houston" category="Networking" />
-
         <EventGate
           forcedCity="Houston"
           groupType="networking"
@@ -183,36 +179,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by Houston Networking Professionals</h2>
-          <p className="sp-subtitle">Houston Networking Calendar — By the Numbers</p>
-          <div className="sp-stats">
-            {NETWORKING_STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {NETWORKING_TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCard cityName="Houston" category="Networking" />
 
       <WhySection
         heading="Why Houston Networking Professionals Use This Calendar"
@@ -221,6 +188,9 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         whatWeDoText="We track networking event hosts across Houston and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="Houston" category="Networking" />
+
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

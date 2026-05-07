@@ -167,21 +167,19 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCityCard cityName="San Antonio" />
 
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next San Antonio Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventNetworkingMethodSection city="San Antonio" />
         <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} />
       </section>
 
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track San Antonio Business Events So You Don't Have To</h2>
-          <p className="features-subtitle">San Antonio business events are spread across chambers, Eventbrite, Meetup, and dozens of organization websites. We pull them together into one calendar.</p>
+          <p className="features-subtitle">San Antonio business events are scattered across chambers, Eventbrite, Meetup, LinkedIn, and military/business community sites. We organize them into one weekly calendar.</p>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
@@ -202,36 +200,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <section className="sp-section">
-        <div className="sp-inner">
-          <h2>Trusted by San Antonio Business Professionals</h2>
-          <p className="sp-subtitle">Numbers from across the Texas Business Calendars network.</p>
-          <div className="sp-stats">
-            {SA_STATS.map((stat) => (
-              <div key={stat.label} className="sp-stat">
-                <span className="sp-stat-number">{stat.number}</span>
-                <span className="sp-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="sp-testimonials">
-            {SA_TESTIMONIALS.map((t) => (
-              <div key={t.name} className="sp-card">
-                <div className="sp-stars">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <blockquote className="sp-quote">&ldquo;{t.quote}&rdquo;</blockquote>
-                <div className="sp-author">
-                  <span className="sp-name">&mdash; {t.name}</span>
-                  <span className="sp-location">{t.location}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SponsorCityCard cityName="San Antonio" />
 
       <WhySection
         heading="Why San Antonio Professionals Use This Calendar"
@@ -240,6 +209,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         whatWeDoText="We track local business event hosts and organize their public events into one simple San Antonio calendar and weekly newsletter."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
+
+      <EventNetworkingMethodSection city="San Antonio" />
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">
@@ -254,8 +225,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
-
-      <section className="faq-section">
+            <section className="faq-section">
         <div className="faq-inner">
           <h2>Frequently Asked Questions</h2>
           <div className="faq-list">
