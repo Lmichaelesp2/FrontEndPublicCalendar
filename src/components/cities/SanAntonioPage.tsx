@@ -8,6 +8,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
+import { EventNetworkingCalendarHelper } from '../EventNetworkingCalendarHelper';
 import type { Event } from '../../lib/supabase';
 import { SponsorCityCard } from '../SponsorSection';
 
@@ -200,6 +201,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next San Antonio Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
+        <EventNetworkingCalendarHelper />
         <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} />
       </section>
 

@@ -148,12 +148,12 @@ function ResourcesDropdown() {
       {open && (
         <div className="nav-resources-drop">
           <Link
-            href="/right-room-method"
+            href="/event-networking-method"
             className="nav-resources-item"
             onClick={() => setOpen(false)}
           >
-            <span className="nav-resources-item-title">Right Room Method</span>
-            <span className="nav-resources-item-desc">Choose better events in 10 seconds</span>
+            <span className="nav-resources-item-title">Event Networking Method</span>
+            <span className="nav-resources-item-desc">Choose better events with intention</span>
           </Link>
           <Link
             href="/submit"

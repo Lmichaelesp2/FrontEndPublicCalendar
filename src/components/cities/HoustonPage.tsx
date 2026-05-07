@@ -8,6 +8,7 @@ import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
+import { EventNetworkingCalendarHelper } from '../EventNetworkingCalendarHelper';
 import type { Event } from '../../lib/supabase';
 import { SponsorCityCard } from '../SponsorSection';
 
@@ -209,6 +210,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next Houston Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
+        <EventNetworkingCalendarHelper />
         <EventGate forcedCity="Houston" initialEvents={initialEvents} showMonthCalendar={true} />
       </section>
 

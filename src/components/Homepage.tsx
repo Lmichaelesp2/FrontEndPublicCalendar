@@ -7,7 +7,7 @@ import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
 import { WhySection } from './WhySection';
-import { RightRoomMethodSection } from './RightRoomMethodSection';
+import { EventNetworkingMethodSection } from './EventNetworkingMethodSection';
 
 const STATS = [
   { number: '500+', label: 'Events every week' },
@@ -168,7 +168,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
 
-      <RightRoomMethodSection />
+      <EventNetworkingMethodSection />
 
       <section className="hp-intro-section">
         <div className="hp-intro-inner">

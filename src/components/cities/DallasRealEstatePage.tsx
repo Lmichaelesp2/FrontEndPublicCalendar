@@ -8,6 +8,7 @@ import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
 import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
+import { EventNetworkingCalendarHelper } from '../EventNetworkingCalendarHelper';
 import type { Event } from '../../lib/supabase';
 import { SponsorCard } from '../SponsorSection';
 
