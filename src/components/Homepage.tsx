@@ -70,7 +70,7 @@ function HomepageFaqItem({ question, answer, open, onToggle }: { question: strin
   );
 }
 
-export function Homepage() {
+export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, number> }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export function Homepage() {
           <div className="hero-left">
             <div className="hero-badge">
               <span className="hero-badge-dot" />
-              THIS WEEK IN TEXAS &middot; 47 EVENTS
+              THIS WEEK IN TEXAS &middot; {Object.values(cityCounts).reduce((a, b) => a + b, 0)} EVENTS
             </div>
 
             <h1>
@@ -122,25 +122,25 @@ export function Homepage() {
                 <li className="hero-city-panel-row">
                   <Link href="/texas/san-antonio" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">San Antonio</span>
-                    <span className="hero-city-panel-count">14 events</span>
+                    <span className="hero-city-panel-count">{cityCounts['San Antonio'] ?? 0} events</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/austin" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Austin</span>
-                    <span className="hero-city-panel-count">18 events</span>
+                    <span className="hero-city-panel-count">{cityCounts['Austin'] ?? 0} events</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/dallas" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Dallas</span>
-                    <span className="hero-city-panel-count">9 events</span>
+                    <span className="hero-city-panel-count">{cityCounts['Dallas'] ?? 0} events</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/houston" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Houston</span>
-                    <span className="hero-city-panel-count">6 events</span>
+                    <span className="hero-city-panel-count">{cityCounts['Houston'] ?? 0} events</span>
                   </Link>
                 </li>
               </ul>
