@@ -70,12 +70,12 @@ export function Hero() {
 
             {cityConfig ? (
               <h1>
-                Find the rooms where {cityConfig.name} business{' '}
+                Find the events where {cityConfig.name} business{' '}
                 <em>actually</em> happens.
               </h1>
             ) : (
               <h1>
-                Find the rooms where business{' '}
+                Find the events where business{' '}
                 <em>actually</em> happens.
               </h1>
             )}
@@ -104,7 +104,7 @@ export function Hero() {
             </div>
 
             <p className="hero-trust">
-              Free forever&nbsp;&middot;&nbsp;Delivered every Monday morning&nbsp;&middot;&nbsp;No credit card
+              weekly event newsletter and full event details
             </p>
           </div>
 
