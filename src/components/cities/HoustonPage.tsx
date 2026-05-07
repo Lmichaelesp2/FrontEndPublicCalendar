@@ -187,6 +187,30 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
         <EventGate forcedCity="Houston" initialEvents={initialEvents} showMonthCalendar={true} />
       </section>
 
+      <section className="features-section">
+        <div className="features-inner">
+          <h2>We Track Houston Business Events So You Don't Have To</h2>
+          <p className="features-subtitle">Houston business events are scattered across chambers, Eventbrite, industry associations, and energy sector organizations. We organize them into one weekly calendar.</p>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Sign up free</h3>
+              <p>Enter your email and get instant access to the full Houston business events calendar. No credit card, no setup.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday, get a curated digest of that week's top networking and business events in Houston.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events and show up</h3>
+              <p>Scan the list, choose what fits your schedule, and walk in ready to meet the right Houston professionals.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="sp-section">
         <div className="sp-inner">
           <h2>Trusted by Houston Business Professionals</h2>

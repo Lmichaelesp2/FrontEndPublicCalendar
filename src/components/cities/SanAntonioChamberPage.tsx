@@ -170,6 +170,30 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         />
       </section>
 
+      <section className="features-section">
+        <div className="features-inner">
+          <h2>We Track San Antonio Chamber Events So You Don't Have To</h2>
+          <p className="features-subtitle">San Antonio chamber events — luncheons, ribbon cuttings, mixers — are spread across multiple chamber websites. We organize them into one weekly calendar.</p>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Sign up free</h3>
+              <p>Enter your email and get instant access. No credit card, no setup.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday, get a curated digest of that week's top San Antonio chamber events.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events and show up</h3>
+              <p>Scan the list, choose what fits your schedule, and show up ready to connect.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="sp-section">
         <div className="sp-inner">
           <h2>Trusted by San Antonio Chamber Members</h2>
