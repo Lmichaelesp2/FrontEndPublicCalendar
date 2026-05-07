@@ -127,7 +127,7 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
             <em>Austin</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the chamber events that connect you to Austin's business community.
+            Business luncheons, member mixers, ribbon cuttings, and chamber networking events — Austin chamber events tracked and delivered every week.
           </p>
           <p className="se-hero-tags">Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more</p>
           <div className="hero-cta-group">

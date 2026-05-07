@@ -138,7 +138,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
             the <em>San Antonio</em> area
           </h1>
           <p className="hero-sub">
-            Stop missing the events that grow your network and your business.
+            Entrepreneur workshops, small business panels, mentorship events, and funding meetups — San Antonio small business events organized and delivered every week.
           </p>
           <p className="se-hero-tags">Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more</p>
           <div className="hero-cta-group">

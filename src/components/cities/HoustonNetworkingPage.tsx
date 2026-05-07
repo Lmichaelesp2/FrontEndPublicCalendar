@@ -127,7 +127,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
             <em>Houston</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the networking events that grow your referrals and your business.
+            Business mixers, referral groups, professional happy hours, and networking luncheons — Houston networking events tracked and delivered every week.
           </p>
           
           <div className="hero-cta-group">

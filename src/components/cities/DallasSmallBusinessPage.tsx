@@ -127,7 +127,7 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
             the <em>Dallas</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the small business events that help you grow your business.
+            Entrepreneur workshops, small business panels, mentorship events, and funding meetups — Dallas small business events organized and delivered every week.
           </p>
           <p className="se-hero-tags">Small Business &middot; Entrepreneur &middot; Workshops &middot; Mentorship &middot; Funding &middot; and more</p>
           <div className="hero-cta-group">

@@ -127,7 +127,7 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
             <em>Austin</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the networking events that grow your referrals and your business.
+            Business mixers, referral groups, professional happy hours, and networking luncheons — Austin networking events tracked and delivered every week.
           </p>
           
           <div className="hero-cta-group">

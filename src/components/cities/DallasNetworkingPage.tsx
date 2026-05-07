@@ -127,7 +127,7 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
             the <em>Dallas</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the networking events that grow your referrals and your business.
+            Professional mixers, referral groups, business happy hours, and networking luncheons — Dallas networking events organized and delivered every week.
           </p>
           
           <div className="hero-cta-group">

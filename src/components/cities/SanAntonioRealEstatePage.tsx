@@ -138,7 +138,7 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
             the <em>San Antonio</em> area
           </h1>
           <p className="hero-sub">
-            Stop missing the events that grow your network and your business.
+            Investor meetups, agent networking events, property tours, and real estate luncheons — San Antonio real estate events organized and delivered every week.
           </p>
           <p className="se-hero-tags">Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more</p>
           <div className="hero-cta-group">

@@ -132,7 +132,7 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
               <em>actually</em> happens.
             </h1>
             <p className="hero-sub">
-              Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top Dallas organizations and delivered to your calendar.
+              Chamber mixers, technology meetups, real estate events, and small business gatherings — Dallas business events organized into one calendar and one weekly email.
             </p>
             <div className="hero-cta-group">
               <Link href="/texas/dallas/subscribe" className="btn btn-primary">

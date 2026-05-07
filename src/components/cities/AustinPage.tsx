@@ -133,7 +133,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
               <em>actually</em> happens.
             </h1>
             <p className="hero-sub">
-              Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top Austin organizations and delivered to your calendar.
+              Startup meetups, chamber luncheons, real estate networking, and small business workshops — Austin's business events in one calendar and one weekly email.
             </p>
             <div className="hero-cta-group">
               <Link href="/texas/austin/subscribe" className="btn btn-primary">

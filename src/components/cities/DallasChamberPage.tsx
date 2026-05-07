@@ -127,7 +127,7 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
             the <em>Dallas</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the chamber events that connect you to Dallas's business community.
+            Member mixers, business luncheons, ribbon cuttings, and chamber networking events — Dallas chamber events organized and delivered every week.
           </p>
           <p className="se-hero-tags">Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more</p>
           <div className="hero-cta-group">

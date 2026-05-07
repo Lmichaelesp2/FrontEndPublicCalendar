@@ -123,7 +123,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
               <em>actually</em> happens.
             </h1>
             <p className="hero-sub">
-              Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top San Antonio organizations and delivered to your calendar.
+              Chamber events, business mixers, real estate gatherings, and tech meetups — San Antonio's public business events organized into one calendar and one weekly email.
             </p>
             <div className="hero-cta-group">
               <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">

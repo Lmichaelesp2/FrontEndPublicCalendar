@@ -138,7 +138,7 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
             <em>Houston</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the real estate events that grow your network and your deals.
+            Investor meetups, agent networking events, property tours, and real estate luncheons — Houston real estate events tracked and delivered every week.
           </p>
           <p className="se-hero-tags">Real Estate &middot; Networking &middot; Property Trends &middot; Investor Meetups &middot; Commercial Deals &middot; and more</p>
           <div className="hero-cta-group">

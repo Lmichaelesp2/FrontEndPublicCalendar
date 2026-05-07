@@ -138,7 +138,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
             the <em>San Antonio</em> area
           </h1>
           <p className="hero-sub">
-            Stop missing the events that grow your network and your business.
+            Ribbon cuttings, business luncheons, member mixers, and chamber networking events — San Antonio chamber events organized and delivered every week.
           </p>
           <p className="se-hero-tags">Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more</p>
           <div className="hero-cta-group">

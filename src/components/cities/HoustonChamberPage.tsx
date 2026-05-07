@@ -138,7 +138,7 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
             <em>Houston</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the chamber events that connect you to Houston's business community.
+            Business luncheons, ribbon cuttings, member mixers, and chamber networking events — Houston chamber events tracked and delivered every week.
           </p>
           <p className="se-hero-tags">Chamber &middot; Networking &middot; Business Mixers &middot; Ribbon Cuttings &middot; Luncheons &middot; and more</p>
           <div className="hero-cta-group">

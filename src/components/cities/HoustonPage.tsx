@@ -132,7 +132,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
               <em>actually</em> happens.
             </h1>
             <p className="hero-sub">
-              Chamber events, business mixers, lunch-and-learns, and professional networking — all gathered from top Houston organizations and delivered to your calendar.
+              Energy sector events, chamber meetings, real estate networking, and business mixers — Houston's professional events in one calendar and one weekly email.
             </p>
             <div className="hero-cta-group">
               <Link href="/texas/houston/subscribe" className="btn btn-primary">

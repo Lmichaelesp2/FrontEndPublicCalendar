@@ -138,7 +138,7 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
             <em>Houston</em> Area
           </h1>
           <p className="hero-sub">
-            Stop missing the tech events that grow your network and your career.
+            Developer meetups, startup events, tech talks, and innovation panels — Houston technology events tracked and delivered every week.
           </p>
           <p className="se-hero-tags">Technology &middot; Software &middot; Startups &middot; Dev Meetups &middot; Tech Talks &middot; and more</p>
           <div className="hero-cta-group">
