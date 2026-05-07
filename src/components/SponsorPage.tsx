@@ -185,6 +185,42 @@ export function SponsorPage() {
         </div>
       </div>
 
+
+      {/* ── What sponsorship looks like ── */}
+      <div className="sponsor-section">
+        <div className="sponsor-section-inner sponsor-mockup-inner">
+          <div className="sponsor-section-label">What It Looks Like</div>
+          <h2>See How Your Brand Appears Across the Network</h2>
+          <p className="sponsor-section-desc">
+            Each city calendar has one exclusive sponsor slot. Your brand appears at the top of the weekly newsletter and on the live calendar page — the only sponsor your audience sees, every week.
+          </p>
+
+          <div className="sponsor-mockup-grid">
+            {CALENDARS.map(({ city, subs }) => (
+              <div key={city} className="sponsor-mockup-card">
+                <div className="sponsor-mockup-city-label">{city}</div>
+                <div className="sponsor-mockup-slot">
+                  <div className="sponsor-mockup-slot-tag">CITY CALENDAR SPONSOR</div>
+                  <div className="sponsor-mockup-calendar-name">{city} Business Calendar</div>
+                  <div className="sponsor-mockup-brand">Your Brand Here</div>
+                </div>
+                <div className="sponsor-mockup-subs">
+                  {subs.map(s => (
+                    <div key={s} className="sponsor-mockup-sub-row">
+                      <span className="sponsor-mockup-sub-cat">{s}</span>
+                      <span className="sponsor-mockup-sub-brand">Available</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="sponsor-mockup-note">
+            City calendar sponsors receive the strongest placement. Sub-calendar sponsors appear within their specific industry newsletter — focused reach for a focused audience.
+          </p>
+        </div>
+      </div>
+
       {/* ── Why now / founding sponsor ── */}
       <div className="sponsor-section">
         <div className="sponsor-section-inner sponsor-founding-inner">

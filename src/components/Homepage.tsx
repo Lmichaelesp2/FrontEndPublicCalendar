@@ -237,6 +237,32 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
         </div>
       </section>
 
+
+      {/* ── Sponsor teaser ── */}
+      <section className="hp-sponsor-teaser">
+        <div className="hp-sponsor-teaser-inner">
+          <div className="hp-sponsor-teaser-left">
+            <div className="hp-sponsor-teaser-label">Sponsorship</div>
+            <h2>Put Your Brand in Front of Local Business Professionals</h2>
+            <p>Each city calendar has one exclusive sponsor slot — your brand in the weekly newsletter, every Monday, to an audience that shows up.</p>
+            <Link href="/sponsor" className="hp-sponsor-teaser-btn">
+              See How It Works →
+            </Link>
+          </div>
+          <div className="hp-sponsor-teaser-cards">
+            {(['San Antonio', 'Austin', 'Dallas', 'Houston'] as const).map((city) => (
+              <div key={city} className="hp-sponsor-teaser-card">
+                <div className="hp-sponsor-teaser-card-city">{city}</div>
+                <div className="hp-sponsor-teaser-card-slot">
+                  <div className="hp-sponsor-teaser-card-tag">CITY CALENDAR SPONSOR</div>
+                  <div className="hp-sponsor-teaser-card-name">Your Brand Here</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="faq-section">
         <div className="faq-inner">
           <h2>Frequently Asked Questions About Local Business Calendars</h2>
