@@ -128,7 +128,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
               THIS WEEK IN AUSTIN &middot; 18 EVENTS
             </div>
             <h1>
-              Find the rooms where Austin business{' '}
+              Find the events where Austin business{' '}
               <em>actually</em> happens.
             </h1>
             <p className="hero-sub">

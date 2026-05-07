@@ -118,7 +118,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
               THIS WEEK IN SAN ANTONIO &middot; 14 EVENTS
             </div>
             <h1>
-              Find the rooms where San Antonio business{' '}
+              Find the events where San Antonio business{' '}
               <em>actually</em> happens.
             </h1>
             <p className="hero-sub">
