@@ -151,8 +151,8 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
             <div className="hero-city-panel">
               <div className="hero-city-panel-header">EVENT TYPES</div>
               <ul className="hero-city-panel-list">
-                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'Healthcare', 'and many more'].map((tag) => {
-                  const slug = {'Networking': 'networking', 'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business', 'Healthcare': 'healthcare'};
+                {['Networking', 'Chamber', 'Technology', 'Real Estate', 'Small Business', 'and many more'].map((tag) => {
+                  const slug = {'Networking': 'networking', 'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business'};
                   const href = slug[tag as keyof typeof slug] ? `/texas/austin/${slug[tag as keyof typeof slug]}` : null;
                   return (
                     <li key={tag} className="hero-city-panel-row">
