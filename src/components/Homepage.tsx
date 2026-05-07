@@ -100,7 +100,7 @@ export function Homepage() {
             </h1>
 
             <p className="hero-sub">
-              Networking mixers, chamber events, real-estate gatherings, tech meetups — every public business event in your city, organized into one calendar and one Monday email.
+              Networking mixers, chamber events, real-estate gatherings, tech meetups — organized into one calendar and one weekly email.
             </p>
 
             <div className="hero-cta-group">
