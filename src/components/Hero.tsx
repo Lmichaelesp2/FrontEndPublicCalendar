@@ -91,7 +91,7 @@ export function Hero() {
                 href={cityConfig ? `/texas/${cityConfig.slug}/subscribe` : '/subscribe'}
                 className="btn btn-gold"
               >
-                Sign Up Free — See This Week's Events
+                Sign Up Free — Pick Your City
               </Link>
               {cityConfig && (
                 <Link
