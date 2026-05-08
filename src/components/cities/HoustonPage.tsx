@@ -10,7 +10,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCityCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '1,000+', label: 'Houston professionals subscribed' },
@@ -177,6 +177,8 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
+      <SponsorPatronSection city="Houston" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Houston Event</h2>
@@ -209,7 +211,6 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCityCard cityName="Houston" />
 
       <WhySection
         heading="Why Houston Professionals Use This Calendar"

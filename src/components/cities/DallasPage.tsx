@@ -10,7 +10,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCityCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '1,000+', label: 'Dallas professionals subscribed' },
@@ -177,6 +177,8 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
+      <SponsorPatronSection city="Dallas" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Dallas Event</h2>
@@ -209,7 +211,6 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCityCard cityName="Dallas" />
 
       <WhySection
         heading="Why Dallas Professionals Use This Calendar"

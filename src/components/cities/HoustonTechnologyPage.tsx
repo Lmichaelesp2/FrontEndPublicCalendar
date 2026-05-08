@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -151,6 +151,8 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
+      <SponsorPatronSection city="Houston" category="Technology" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Houston Tech Event</h2>
@@ -190,7 +192,6 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <SponsorCard cityName="Houston" category="Technology" />
 
       <WhySection
         heading="Why Houston Tech Professionals Use This Calendar"

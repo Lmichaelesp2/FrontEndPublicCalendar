@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -151,6 +151,8 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         </div>
       </section>
 
+      <SponsorPatronSection city="San Antonio" category="Small Business" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next San Antonio Small Business Event</h2>
@@ -190,7 +192,6 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         </div>
       </section>
 
-      <SponsorCard cityName="San Antonio" category="Small Business" />
 
       <WhySection
         heading="Why San Antonio Small Business Professionals Use This Calendar"

@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Chamber members subscribed' },
@@ -151,6 +151,8 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <SponsorPatronSection city="Houston" category="Chamber" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Houston Chamber Event</h2>
@@ -190,7 +192,6 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCard cityName="Houston" category="Chamber" />
 
       <WhySection
         heading="Why Houston Chamber Professionals Use This Calendar"

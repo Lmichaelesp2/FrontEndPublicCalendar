@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -140,6 +140,8 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
+      <SponsorPatronSection city="Dallas" category="Small Business" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Dallas Small Business Event</h2>
@@ -179,7 +181,6 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <SponsorCard cityName="Dallas" category="Small Business" />
 
       <WhySection
         heading="Why Dallas Small Business Professionals Use This Calendar"

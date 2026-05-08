@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -140,6 +140,8 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
+      <SponsorPatronSection city="Dallas" category="Real Estate" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next Dallas Real Estate Event</h2>
@@ -179,7 +181,6 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorCard cityName="Dallas" category="Real Estate" />
 
       <WhySection
         heading="Why Dallas Real Estate Professionals Use This Calendar"

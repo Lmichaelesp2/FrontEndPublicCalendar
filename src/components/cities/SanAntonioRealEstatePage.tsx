@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -151,6 +151,8 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
+      <SponsorPatronSection city="San Antonio" category="Real Estate" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next San Antonio Real Estate Event</h2>
@@ -190,7 +192,6 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <SponsorCard cityName="San Antonio" category="Real Estate" />
 
       <WhySection
         heading="Why San Antonio Real Estate Professionals Use This Calendar"

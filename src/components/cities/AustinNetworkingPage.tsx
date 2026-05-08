@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'Austin professionals subscribed' },
@@ -140,6 +140,8 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
+      <SponsorPatronSection city="Austin" category="Networking" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Today's Networking Events in Austin</h2>
@@ -179,7 +181,6 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorCard cityName="Austin" category="Networking" />
 
       <WhySection
         heading="Why Austin Networking Professionals Use This Calendar"
