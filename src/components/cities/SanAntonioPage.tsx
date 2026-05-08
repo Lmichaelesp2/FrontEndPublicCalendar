@@ -169,6 +169,9 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
 
 
       <SponsorPatronSection city="San Antonio" />
+      <EventNetworkingMethodSection city="San Antonio" />
+
+
 
       <section className="features-section">
         <div className="features-inner">
@@ -210,9 +213,6 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         whatWeDoText="We track local business event hosts and organize their public events into one simple San Antonio calendar and weekly newsletter."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
-
-      <EventNetworkingMethodSection city="San Antonio" />
-
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">
           <div className="sa-subscribe-badge">

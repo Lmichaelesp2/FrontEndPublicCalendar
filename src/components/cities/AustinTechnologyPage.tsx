@@ -141,6 +141,9 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
       </section>
 
       <SponsorPatronSection city="Austin" category="Technology" />
+      <EventNetworkingMethodSection city="Austin" category="Technology" />
+
+
 
       <section className="features-section">
         <div className="features-inner">
@@ -189,9 +192,6 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         whatWeDoText="We monitor Austin's top tech organizations and platforms, then organize their events into one focused calendar updated weekly."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
-
-      <EventNetworkingMethodSection city="Austin" category="Technology" />
-
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

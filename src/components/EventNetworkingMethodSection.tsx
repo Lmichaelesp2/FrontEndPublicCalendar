@@ -37,34 +37,33 @@ export function EventNetworkingMethodSection({ city, category }: Props = {}) {
   const cityLabel = city || 'your city';
   const categoryLabel = category ? ` ${category.toLowerCase()}` : '';
   const subText = city
-    ? `The Event Networking Method gives ${cityLabel}${categoryLabel} professionals a repeatable system for turning every event they attend into content, connections, and lasting relationships.`
-    : `The Event Networking Method gives business professionals a repeatable system for turning every event they attend into content, connections, and lasting relationships.`;
+    ? `A repeatable system for turning every event you attend into content, connections, and lasting relationships — used by ${cityLabel}${categoryLabel} professionals to grow intentional networks.`
+    : `A repeatable system for turning every event you attend into content, connections, and lasting relationships.`;
 
   return (
-    <section className="enm-home-section">
-      <div className="enm-home-inner">
-        <div className="enm-home-left">
-          <p className="enm-home-overline">Free Resource</p>
-          <h2>The Event Networking Method</h2>
-          <p className="enm-home-sub">{subText}</p>
-          <Link href="/event-networking-method" className="btn btn-gold">
-            Learn the Method
-          </Link>
+    <section className="enm-mini-section">
+      <div className="enm-mini-inner">
+        <div className="enm-mini-top">
+          <p className="enm-mini-overline">Free Resource</p>
+          <h2 className="enm-mini-title">The Event Networking Method</h2>
+          <p className="enm-mini-sub">{subText}</p>
         </div>
-        <div className="enm-home-steps">
-          {STEPS.map((step, i, arr) => (
-            <div key={step.num} className="enm-home-steps-row">
-              <div className="enm-home-step">
-                <div className="enm-home-step-num">{step.num}</div>
-                <div className="enm-home-step-content">
-                  <strong>{step.label}</strong>
-                  <em className="enm-home-step-sub">{step.sub}</em>
-                  <span>{step.desc}</span>
-                </div>
+        <div className="enm-mini-grid">
+          {STEPS.map((step) => (
+            <div key={step.num} className="enm-mini-card">
+              <div className="enm-mini-card-header">
+                <div className="enm-mini-num">{step.num}</div>
+                <span className="enm-mini-label">{step.label}</span>
               </div>
-              {i < arr.length - 1 && <div className="enm-home-step-arrow">↓</div>}
+              <p className="enm-mini-phase-sub">{step.sub}</p>
+              <p className="enm-mini-desc">{step.desc}</p>
             </div>
           ))}
+        </div>
+        <div className="enm-mini-cta">
+          <Link href="/event-networking-method" className="btn btn-gold">
+            Learn the Method →
+          </Link>
         </div>
       </div>
     </section>

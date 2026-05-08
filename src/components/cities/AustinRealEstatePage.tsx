@@ -152,6 +152,9 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
       </section>
 
       <SponsorPatronSection city="Austin" category="Real Estate" />
+      <EventNetworkingMethodSection city="Austin" category="Real Estate" />
+
+
 
       <section className="features-section">
         <div className="features-inner">
@@ -200,9 +203,6 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         whatWeDoText="We track real estate event hosts across Austin and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
-
-      <EventNetworkingMethodSection city="Austin" category="Real Estate" />
-
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

@@ -179,6 +179,9 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
 
 
       <SponsorPatronSection city="Austin" />
+      <EventNetworkingMethodSection city="Austin" />
+
+
 
       <section className="features-section">
         <div className="features-inner">
@@ -220,9 +223,6 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         whatWeDoText="We track local business event hosts and organize their public events into one simple Austin calendar and weekly newsletter."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
-
-      <EventNetworkingMethodSection city="Austin" />
-
       <section className="sa-subscribe-section" id="austin-subscribe">
         <div className="sa-subscribe-inner">
           <div className="sa-subscribe-badge">

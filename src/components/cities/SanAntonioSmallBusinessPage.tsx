@@ -152,6 +152,9 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
       </section>
 
       <SponsorPatronSection city="San Antonio" category="Small Business" />
+      <EventNetworkingMethodSection city="San Antonio" category="Small Business" />
+
+
 
       <section className="features-section">
         <div className="features-inner">
@@ -200,9 +203,6 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         whatWeDoText="We track small business event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
-
-      <EventNetworkingMethodSection city="San Antonio" category="Small Business" />
-
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

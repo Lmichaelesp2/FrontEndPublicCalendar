@@ -152,6 +152,9 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
       <SponsorPatronSection city="Houston" category="Chamber" />
+      <EventNetworkingMethodSection city="Houston" category="Chamber" />
+
+
 
       <section className="features-section">
         <div className="features-inner">
@@ -200,9 +203,6 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         whatWeDoText="We track chamber event hosts across Houston and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
-
-      <EventNetworkingMethodSection city="Houston" category="Chamber" />
-
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">

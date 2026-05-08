@@ -141,6 +141,9 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
       </section>
 
       <SponsorPatronSection city="Houston" category="Networking" />
+      <EventNetworkingMethodSection city="Houston" category="Networking" />
+
+
 
       <section className="features-section">
         <div className="features-inner">
@@ -189,9 +192,6 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         whatWeDoText="We track networking event hosts across Houston and organize their public events into one city-focused calendar — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
-
-      <EventNetworkingMethodSection city="Houston" category="Networking" />
-
 
       <section className="sa-subscribe-section" id="sa-subscribe">
         <div className="sa-subscribe-inner">
