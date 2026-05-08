@@ -10,7 +10,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCityCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },
@@ -168,6 +168,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
+      <SponsorPatronSection city="San Antonio" />
+
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
           <h2>Find Your Next San Antonio Event</h2>
@@ -200,7 +202,6 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCityCard cityName="San Antonio" />
 
       <WhySection
         heading="Why San Antonio Professionals Use This Calendar"
