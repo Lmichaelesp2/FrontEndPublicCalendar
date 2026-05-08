@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'Austin professionals subscribed' },
@@ -140,20 +140,7 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Today's Networking Events in Austin</h2>
-          <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
-        </div>
-        <EventGate
-          forcedCity="Austin"
-          groupType="networking"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Austin Networking Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's networking events in Austin, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/austin/networking/subscribe"
-        />
-      </section>
+      <SponsorPatronSection city="Austin" category="Networking" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -179,9 +166,23 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorCard cityName="Austin" category="Networking" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Today's Networking Events in Austin</h2>
+          <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
+        </div>
+        <EventGate
+          forcedCity="Austin"
+          groupType="networking"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Networking Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's networking events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/networking/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Austin Networking Professionals Use This Calendar"
         subtitle="Austin networking events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
         problemText="Networking events in Austin are scattered across BNI chapter websites, Meetup groups, LinkedIn, Facebook, and individual organization pages. Most professionals miss events simply because they didn't know they were happening."

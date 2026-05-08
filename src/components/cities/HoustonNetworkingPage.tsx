@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'Houston professionals subscribed' },
@@ -140,20 +140,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Today's Networking Events in Houston</h2>
-          <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
-        </div>
-        <EventGate
-          forcedCity="Houston"
-          groupType="networking"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Houston Networking Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's networking events in Houston, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/houston/networking/subscribe"
-        />
-      </section>
+      <SponsorPatronSection city="Houston" category="Networking" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -179,9 +166,23 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <SponsorCard cityName="Houston" category="Networking" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Today's Networking Events in Houston</h2>
+          <p>Browse BNI chapters, leads groups, referral networks, and professional mixers</p>
+        </div>
+        <EventGate
+          forcedCity="Houston"
+          groupType="networking"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Houston Networking Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's networking events in Houston, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/houston/networking/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Houston Networking Professionals Use This Calendar"
         subtitle="Houston networking events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston professionals keep up."
         problemText="Networking events in Houston are scattered across BNI chapter websites, Meetup groups, LinkedIn, Facebook, and individual organization pages. Most professionals miss events simply because they didn't know they were happening."

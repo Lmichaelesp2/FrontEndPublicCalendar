@@ -1,0 +1,144 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+
+interface Props {
+  city: string;
+  category?: string;
+}
+
+const DURATION = 6000;
+
+export function SponsorPatronSection({ city, category }: Props) {
+  const [state, setState] = useState<'sponsor' | 'vacant'>('sponsor');
+  const [visible, setVisible] = useState(true);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [progress, setProgress] = useState(0);
+  const progRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const startCycle = (current: 'sponsor' | 'vacant') => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (progRef.current) clearInterval(progRef.current);
+
+    setProgress(0);
+    const start = Date.now();
+    progRef.current = setInterval(() => {
+      const elapsed = Date.now() - start;
+      setProgress(Math.min((elapsed / DURATION) * 100, 100));
+    }, 50);
+
+    timerRef.current = setTimeout(() => {
+      setVisible(false);
+      setTimeout(() => {
+        const next = current === 'sponsor' ? 'vacant' : 'sponsor';
+        setState(next);
+        setVisible(true);
+        startCycle(next);
+      }, 700);
+    }, DURATION);
+  };
+
+  useEffect(() => {
+    startCycle('sponsor');
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (progRef.current) clearInterval(progRef.current);
+    };
+  }, []);
+
+  const goTo = (target: 'sponsor' | 'vacant') => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (progRef.current) clearInterval(progRef.current);
+    setVisible(false);
+    setTimeout(() => {
+      setState(target);
+      setVisible(true);
+      startCycle(target);
+    }, 700);
+  };
+
+  return (
+    <div style={{ borderTop: '3px solid #c2410c', background: '#fff7f4', borderBottom: '1px solid #f5cfc4' }}>
+      {/* Progress bar */}
+      <div style={{ height: '2px', background: '#f5cfc4' }}>
+        <div style={{ height: '100%', background: '#c2410c', width: `${progress}%`, transition: 'width 0.05s linear' }} />
+      </div>
+
+      <div style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(8px)',
+        transition: 'opacity 0.7s ease, transform 0.7s ease',
+        padding: '1.75rem 1.5rem 1.5rem',
+        maxWidth: '640px',
+        margin: '0 auto',
+      }}>
+        {state === 'sponsor' ? (
+          <>
+            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9a3412', textAlign: 'center', marginBottom: '1.25rem' }}>
+              This free calendar is made possible by
+            </p>
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '1.25rem' }}>
+              {/* Event Assistant SVG logo */}
+              <div style={{ width: '72px', height: '72px', flexShrink: 0, background: '#fff', borderRadius: '12px', border: '1px solid #f5cfc4', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px' }}>
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="52" height="52" rx="10" fill="#fff7f4"/>
+                  <rect x="8" y="10" width="36" height="26" rx="4" fill="#042C53"/>
+                  <rect x="12" y="14" width="28" height="3" rx="1.5" fill="#85B7EB"/>
+                  <rect x="12" y="20" width="20" height="2.5" rx="1.25" fill="#B5D4F4"/>
+                  <rect x="12" y="25" width="16" height="2.5" rx="1.25" fill="#B5D4F4"/>
+                  <circle cx="38" cy="36" r="8" fill="#c2410c"/>
+                  <path d="M35 36l2 2 4-4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <rect x="19" y="38" width="14" height="3" rx="1.5" fill="#042C53" fillOpacity="0.2"/>
+                </svg>
+              </div>
+
+              <div style={{ textAlign: 'left' }}>
+                <div style={{ fontSize: '18px', fontWeight: 600, color: '#042C53', marginBottom: '3px' }}>Event Assistant</div>
+                <div style={{ fontSize: '12px', color: '#185FA5', fontWeight: 500 }}>
+                  Helping {city}{category ? ` ${category.toLowerCase()}` : ''} professionals find the right events
+                </div>
+              </div>
+            </div>
+
+            <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #f5cfc4', padding: '1rem 1.1rem', marginBottom: '1.1rem' }}>
+              <p style={{ fontSize: '13px', color: '#444', lineHeight: 1.8, fontStyle: 'italic', margin: 0 }}>
+                &ldquo;{city}&rsquo;s business community is one of the most active in Texas. We sponsor this calendar because we believe every professional deserves to know what&rsquo;s happening in their city — for free.&rdquo;
+              </p>
+              <p style={{ fontSize: '12px', color: '#888', marginTop: '8px', fontWeight: 500 }}>— Louis Espinoza, Founder · Event Assistant</p>
+              <div style={{ marginTop: '12px' }}>
+                <Link href="/subscribe" style={{ fontSize: '12px', fontWeight: 600, color: '#fff', background: '#c2410c', borderRadius: '6px', padding: '7px 16px', textDecoration: 'none', display: 'inline-block' }}>
+                  Sign up free — get this week&rsquo;s events →
+                </Link>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9a3412', textAlign: 'center', marginBottom: '0.85rem' }}>
+              Community supported · Free to all {city} professionals
+            </p>
+            <p style={{ fontSize: '15px', fontWeight: 600, color: '#042C53', textAlign: 'center', marginBottom: '0.6rem' }}>
+              Become the founding patron of this calendar.
+            </p>
+            <p style={{ fontSize: '13px', color: '#555', lineHeight: 1.75, textAlign: 'center', maxWidth: '400px', margin: '0 auto 1.25rem' }}>
+              This free resource is kept alive by community sponsors. If your organization is committed to the {city} business community, we&rsquo;d be honored to feature you right here — above every event listing, in every weekly newsletter.
+            </p>
+            <div style={{ textAlign: 'center' }}>
+              <Link href="/sponsor" style={{ fontSize: '12px', fontWeight: 600, color: '#fff', background: '#c2410c', borderRadius: '6px', padding: '10px 24px', textDecoration: 'none', display: 'inline-block' }}>
+                Become the Founding Patron →
+              </Link>
+            </div>
+          </>
+        )}
+
+        {/* Dot nav */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginTop: '1.1rem' }}>
+          <button onClick={() => goTo('sponsor')} style={{ width: '7px', height: '7px', borderRadius: '50%', background: state === 'sponsor' ? '#c2410c' : '#f5cfc4', border: 'none', padding: 0, cursor: 'pointer', transition: 'background 0.4s' }} />
+          <button onClick={() => goTo('vacant')} style={{ width: '7px', height: '7px', borderRadius: '50%', background: state === 'vacant' ? '#c2410c' : '#f5cfc4', border: 'none', padding: 0, cursor: 'pointer', transition: 'background 0.4s' }} />
+        </div>
+      </div>
+    </div>
+  );
+}

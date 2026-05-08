@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -151,20 +151,7 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Houston Tech Event</h2>
-          <p>Browse developer meetups, energy tech events, health tech gatherings, and more</p>
-        </div>
-        <EventGate
-          forcedCity="Houston"
-          groupType="technology"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Houston Technology Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's tech events in Houston, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/houston/technology/subscribe"
-        />
-      </section>
+      <SponsorPatronSection city="Houston" category="Technology" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -190,9 +177,23 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <SponsorCard cityName="Houston" category="Technology" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Houston Tech Event</h2>
+          <p>Browse developer meetups, energy tech events, health tech gatherings, and more</p>
+        </div>
+        <EventGate
+          forcedCity="Houston"
+          groupType="technology"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Houston Technology Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's tech events in Houston, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/houston/technology/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Houston Tech Professionals Use This Calendar"
         subtitle="Houston tech events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston professionals keep up."
         problemText="Tech events in Houston are scattered across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. Most professionals miss events simply because they didn't know they were happening."

@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -151,20 +151,7 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Houston Real Estate Event</h2>
-          <p>Browse investor meetups, HAR events, broker tours, and more</p>
-        </div>
-        <EventGate
-          forcedCity="Houston"
-          groupType="real_estate"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Houston Real Estate Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's real estate events in Houston, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/houston/real-estate/subscribe"
-        />
-      </section>
+      <SponsorPatronSection city="Houston" category="Real Estate" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -190,9 +177,23 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <SponsorCard cityName="Houston" category="Real Estate" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Houston Real Estate Event</h2>
+          <p>Browse investor meetups, HAR events, broker tours, and more</p>
+        </div>
+        <EventGate
+          forcedCity="Houston"
+          groupType="real_estate"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Houston Real Estate Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's real estate events in Houston, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/houston/real-estate/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Houston Real Estate Professionals Use This Calendar"
         subtitle="Houston real estate events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston professionals keep up."
         problemText="Real estate events in Houston are scattered across HAR, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. Most professionals miss events simply because they didn't know they were happening."

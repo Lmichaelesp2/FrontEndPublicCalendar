@@ -101,16 +101,6 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
         </section>
       )}
 
-      <HomepageCities initialEvents={initialEvents} />
-
-      <WhySection
-        heading="Why Use Texas Business Calendars?"
-        subtitle="Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly."
-        problemText="Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending."
-        whatWeDoText="We track business event hosts and organize their public events into one simple calendar per city."
-        whatYouGetText="Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent."
-      />
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Do the Searching So You Don't Have To</h2>
@@ -137,6 +127,16 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
           </div>
         </div>
       </section>
+
+      <HomepageCities initialEvents={initialEvents} />
+
+      <WhySection
+        heading="Why Use Texas Business Calendars?"
+        subtitle="Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly."
+        problemText="Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending."
+        whatWeDoText="We track business event hosts and organize their public events into one simple calendar per city."
+        whatYouGetText="Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent."
+      />
 
       {!citySlug && (
         <section className="hp-sponsor-teaser">

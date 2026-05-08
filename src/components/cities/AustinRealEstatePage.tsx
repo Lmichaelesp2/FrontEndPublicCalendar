@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -151,20 +151,7 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Real Estate Event</h2>
-          <p>Browse investor meetups, broker networking, property tours, and more</p>
-        </div>
-        <EventGate
-          forcedCity="Austin"
-          groupType="real_estate"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Austin Real Estate Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's real estate events in Austin, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/austin/real-estate/subscribe"
-        />
-      </section>
+      <SponsorPatronSection city="Austin" category="Real Estate" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -190,9 +177,23 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorCard cityName="Austin" category="Real Estate" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Austin Real Estate Event</h2>
+          <p>Browse investor meetups, broker networking, property tours, and more</p>
+        </div>
+        <EventGate
+          forcedCity="Austin"
+          groupType="real_estate"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Real Estate Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's real estate events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/real-estate/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Austin Real Estate Professionals Use This Calendar"
         subtitle="Austin real estate events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
         problemText="Real estate events in Austin are scattered across Austin Board of Realtors, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. Most professionals miss events simply because they didn't know they were happening."

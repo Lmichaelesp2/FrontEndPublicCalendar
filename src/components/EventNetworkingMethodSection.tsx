@@ -1,5 +1,4 @@
 'use client';
-
 import Link from 'next/link';
 
 interface Props {
@@ -7,19 +6,45 @@ interface Props {
   category?: string;
 }
 
+const STEPS = [
+  {
+    num: '1',
+    label: 'People',
+    sub: 'Identify your target network',
+    desc: 'Build a profile of your ideal connection — their role, the organizations they belong to, and the events they already attend.',
+  },
+  {
+    num: '2',
+    label: 'Content',
+    sub: 'Produce it from events',
+    desc: 'Each event becomes audio, video, text, or graphics you can share across your network — the fuel that powers everything that follows.',
+  },
+  {
+    num: '3',
+    label: 'Events',
+    sub: 'Connect through them',
+    desc: 'Find the events your ideal connections already attend, then go beyond showing up — join, speak, and eventually host your own.',
+  },
+  {
+    num: '4',
+    label: 'Relationships',
+    sub: 'Maintain across channels',
+    desc: 'Share what you produce across email, social media, your podcast, and your own events so your network stays warm consistently.',
+  },
+];
+
 export function EventNetworkingMethodSection({ city, category }: Props = {}) {
   const cityLabel = city || 'your city';
   const categoryLabel = category ? ` ${category.toLowerCase()}` : '';
-
   const subText = city
-    ? `Most ${cityLabel}${categoryLabel} professionals choose events randomly. This method helps you choose with intention — so you show up to the right${categoryLabel} events and meet the right people.`
-    : `Most people choose events randomly. This method helps you choose with intention — so you show up to the right rooms and meet the right people.`;
+    ? `The Event Networking Method gives ${cityLabel}${categoryLabel} professionals a repeatable system for turning every event they attend into content, connections, and lasting relationships.`
+    : `The Event Networking Method gives business professionals a repeatable system for turning every event they attend into content, connections, and lasting relationships.`;
 
   return (
     <section className="enm-home-section">
       <div className="enm-home-inner">
         <div className="enm-home-left">
-          <p className="enm-home-overline">FREE RESOURCE</p>
+          <p className="enm-home-overline">Free Resource</p>
           <h2>The Event Networking Method</h2>
           <p className="enm-home-sub">{subText}</p>
           <Link href="/event-networking-method" className="btn btn-gold">
@@ -27,17 +52,13 @@ export function EventNetworkingMethodSection({ city, category }: Props = {}) {
           </Link>
         </div>
         <div className="enm-home-steps">
-          {[
-            { num: '1', title: 'Goal', desc: `What are you trying to accomplish in ${cityLabel}?` },
-            { num: '2', title: 'People', desc: 'Who do you want to meet?' },
-            { num: '3', title: 'Event', desc: city ? `Which ${cityLabel}${categoryLabel} event are they likely at?` : 'Which event are they likely to attend?' },
-            { num: '4', title: 'Attend', desc: 'Show up prepared to connect.' },
-          ].map((step, i, arr) => (
+          {STEPS.map((step, i, arr) => (
             <div key={step.num} className="enm-home-steps-row">
               <div className="enm-home-step">
                 <div className="enm-home-step-num">{step.num}</div>
                 <div className="enm-home-step-content">
-                  <strong>{step.title}</strong>
+                  <strong>{step.label}</strong>
+                  <em className="enm-home-step-sub">{step.sub}</em>
                   <span>{step.desc}</span>
                 </div>
               </div>

@@ -160,6 +160,29 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
       </section>
 
 
+<section className="features-section">
+        <div className="features-inner">
+          <h2>We Do the Searching So You Don't Have To</h2>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-step">1</div>
+              <h3>Choose your city</h3>
+              <p>Pick your city from our local calendars. We handle all the event research so you don't have to.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-step">2</div>
+              <h3>Get your Monday newsletter</h3>
+              <p>Every Monday morning you'll receive a curated digest of that week's networking events and business gatherings in your city.</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-step">3</div>
+              <h3>Pick events &amp; show up</h3>
+              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="hp-intro-section">
         <div className="hp-intro-inner">
           <p>
@@ -200,29 +223,6 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-<section className="features-section">
-        <div className="features-inner">
-          <h2>We Do the Searching So You Don't Have To</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-step">1</div>
-              <h3>Choose your city</h3>
-              <p>Pick your city from our local calendars. We handle all the event research so you don't have to.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's networking events and business gatherings in your city.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-step">3</div>
-              <h3>Pick events &amp; show up</h3>
-              <p>Scan the list, click the events that fit your schedule, and walk in ready to meet the right people.</p>
-            </div>
           </div>
         </div>
       </section>

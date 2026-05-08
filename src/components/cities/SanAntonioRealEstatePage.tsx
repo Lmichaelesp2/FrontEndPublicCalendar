@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -151,20 +151,7 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next San Antonio Real Estate Event</h2>
-          <p>Browse investor meetups, SABOR events, broker tours, and more</p>
-        </div>
-        <EventGate
-          forcedCity="San Antonio"
-          groupType="real_estate"
-          initialEvents={initialEvents}
-          newsletterHeading="Get San Antonio Real Estate Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's real estate events in San Antonio, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/san-antonio/real-estate/subscribe"
-        />
-      </section>
+      <SponsorPatronSection city="San Antonio" category="Real Estate" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -190,9 +177,23 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <SponsorCard cityName="San Antonio" category="Real Estate" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next San Antonio Real Estate Event</h2>
+          <p>Browse investor meetups, SABOR events, broker tours, and more</p>
+        </div>
+        <EventGate
+          forcedCity="San Antonio"
+          groupType="real_estate"
+          initialEvents={initialEvents}
+          newsletterHeading="Get San Antonio Real Estate Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's real estate events in San Antonio, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/san-antonio/real-estate/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why San Antonio Real Estate Professionals Use This Calendar"
         subtitle="San Antonio real estate events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
         problemText="Real estate events in San Antonio are scattered across SABOR, Meetup groups, Eventbrite, LinkedIn, and individual brokerage websites. Most professionals miss events simply because they didn't know they were happening."

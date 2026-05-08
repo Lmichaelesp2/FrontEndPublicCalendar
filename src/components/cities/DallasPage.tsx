@@ -10,7 +10,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCityCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '1,000+', label: 'Dallas professionals subscribed' },
@@ -177,13 +177,7 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Dallas Event</h2>
-          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
-        </div>
-        <EventGate forcedCity="Dallas" initialEvents={initialEvents} showMonthCalendar={true} />
-      </section>
+      <SponsorPatronSection city="Dallas" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -209,9 +203,16 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCityCard cityName="Dallas" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Dallas Event</h2>
+          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
+        </div>
+        <EventGate forcedCity="Dallas" initialEvents={initialEvents} showMonthCalendar={true} />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Dallas Professionals Use This Calendar"
         subtitle="Dallas business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
         problemText="Business events in Dallas are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."

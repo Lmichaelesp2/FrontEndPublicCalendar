@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -140,20 +140,7 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Tech Event</h2>
-          <p>Browse developer meetups, startup events, hackathons, and more</p>
-        </div>
-        <EventGate
-          forcedCity="Austin"
-          groupType="technology"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Austin Technology Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's tech events in Austin, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/austin/technology/subscribe"
-        />
-      </section>
+      <SponsorPatronSection city="Austin" category="Technology" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -179,9 +166,23 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorCard cityName="Austin" category="Technology" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Austin Tech Event</h2>
+          <p>Browse developer meetups, startup events, hackathons, and more</p>
+        </div>
+        <EventGate
+          forcedCity="Austin"
+          groupType="technology"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Technology Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's tech events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/technology/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Austin's Technology Community"
         subtitle="Austin technology events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin tech professionals keep up."
         problemText="Tech events are buried across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. It's impossible to track them all."

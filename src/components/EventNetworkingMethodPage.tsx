@@ -7,232 +7,204 @@ import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
 import { supabase } from '../lib/supabase';
 
-const STEPS = [
+const CARDS = [
   {
-    num: '1',
-    title: 'Goal',
-    question: 'What are you trying to accomplish?',
-    items: [
-      'Meet potential clients',
-      'Build referral relationships',
-      'Learn something useful',
-      'Increase local visibility',
-      'Reconnect with existing contacts',
-      'Find speaking or partnership opportunities',
-    ],
+    id: 'method',
+    accent: '#c2410c',
+    icon: 'EN',
+    label: 'The Method',
+    sub: 'What is the Event Networking Method?',
+    subColor: '#c2410c',
+    stmt: 'A system that turns the events you attend into content, connections, and lasting relationships.',
+    body: 'Most professionals walk out of events and lose every contact they made. This method gives you four repeatable phases so every room you enter compounds into a network that keeps growing long after the event ends.',
+    videoTitle: 'Overview: The Event Networking Method',
   },
   {
-    num: '2',
-    title: 'People',
-    question: 'Who do you want in your network?',
-    items: [
-      'Business owners',
-      'Executives and founders',
-      'Industry professionals',
-      'Local community leaders',
-      'Referral partners',
-      'Decision-makers',
-    ],
+    id: 'traits',
+    accent: '#7c3aed',
+    icon: 'T',
+    label: 'Traits',
+    sub: 'Practice for great networking',
+    subColor: '#7c3aed',
+    stmt: 'Before the system, the mindset. Four traits that make every phase of this method work.',
+    body: 'Empathy, Active Listening, Curiosity, and Inquiry are the foundation of every meaningful business relationship. Practice them in every conversation and the four phases that follow become dramatically more effective.',
+    videoTitle: 'The Four Traits of Great Networking',
   },
   {
-    num: '3',
-    title: 'Event',
-    question: 'What kind of event are those people likely to attend?',
-    items: [
-      'Look at the event title and host',
-      'Check the industry and category',
-      'Read the description and format',
-      'Notice the location and recurring vs one-time',
-    ],
-    note: 'The right event is not always the biggest event. It is the event most likely to put you in the room with the people you need to meet.',
+    id: 'people',
+    accent: '#042C53',
+    icon: '1',
+    label: 'People',
+    sub: 'Identify your target network',
+    subColor: '#c2410c',
+    stmt: 'Get clear on exactly who you want in your network — before you walk into any room.',
+    body: 'Build a profile of your ideal connection — their role, the organizations they belong to, and the events they already attend. The more specific you are, the more intentional every move that follows will be.',
+    videoTitle: 'How to Identify Your Ideal Network',
   },
   {
-    num: '4',
-    title: 'Attend',
-    question: 'Show up with intention.',
-    items: [
-      'Know why you are attending',
-      'Have a few conversation starters ready',
-      'Aim for a few quality conversations',
-      'Follow up within 24–48 hours',
-    ],
+    id: 'content',
+    accent: '#042C53',
+    icon: '2',
+    label: 'Content',
+    sub: 'Produce it from events',
+    subColor: '#c2410c',
+    stmt: 'Turn every event you discover into content that keeps your name in front of the right people.',
+    body: 'Each event becomes audio, video, text, or graphics you can share across your network. The content you produce from events is the fuel that powers everything that comes next.',
+    videoTitle: 'How to Produce Content from Events',
   },
-];
-
-const GUIDE_STEPS = [
-  'Pick one networking goal for the week.',
-  'Decide who you want to meet.',
-  'Scan the calendar for events that match those people.',
-  'Use the event title, host, category, and description as clues.',
-  'Choose one or two events worth attending.',
-  'Show up with a purpose.',
-  'Follow up after the event.',
+  {
+    id: 'events',
+    accent: '#042C53',
+    icon: '3',
+    label: 'Events',
+    sub: 'Connect through them',
+    subColor: '#c2410c',
+    stmt: 'Show up in the right rooms — as an attendee, a speaker, a supporter, or a host.',
+    body: 'Find the events your ideal connections already attend, then go beyond just showing up. Join their organizations, get on stage, and eventually host your own gatherings.',
+    videoTitle: 'How to Connect Through Events',
+  },
+  {
+    id: 'relationships',
+    accent: '#042C53',
+    icon: '4',
+    label: 'Relationships',
+    sub: 'Maintain across channels',
+    subColor: '#c2410c',
+    stmt: 'Use event content to stay in touch with everyone you meet — consistently, not occasionally.',
+    body: 'Share what you produce across email, social media, your podcast, and your own events. Different people pay attention in different places, so the more channels you use, the warmer your network stays.',
+    videoTitle: 'How to Maintain Relationships with Event Content',
+  },
 ];
 
 export function EventNetworkingMethodPage() {
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [city, setCity] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  async function handleWaitlist(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     if (!email) return;
-    setStatus('loading');
-    const { error } = await supabase
-      .from('event_assistant_waitlist')
-      .insert({ email, name: name || null, city: city || null });
-    if (error) {
-      if (error.code === '23505') {
-        setStatus('success'); // already on list
-      } else {
-        setStatus('error');
-        setErrorMsg('Something went wrong. Please try again.');
-      }
+    const { error: sbError } = await supabase
+      .from('subscribers')
+      .insert([{ email, source: 'enm-page' }]);
+    if (sbError && sbError.code !== '23505') {
+      setError('Something went wrong. Please try again.');
     } else {
-      setStatus('success');
+      setSubmitted(true);
     }
-  }
+  };
 
   return (
-    <div className="enm-page">
+    <>
       <SEOHead
         title="The Event Networking Method | Local Business Calendars"
-        description="A simple way to use the calendar to find better business events and meet the right people. Goal, People, Event, Attend."
+        description="A four-phase system that turns the events you attend into content, connections, and lasting relationships. People · Content · Events · Relationships."
       />
       <Navigation />
 
-      {/* ── Hero ── */}
-      <section className="enm-hero">
-        <div className="enm-hero-inner">
-          <p className="enm-overline">FREE RESOURCE</p>
-          <h1>The Event Networking Method</h1>
-          <p className="enm-subtitle">
-            A simple way to use the calendar to find better business events and meet the right people.
-          </p>
-          <div className="enm-steps-line">
-            Goal &nbsp;·&nbsp; People &nbsp;·&nbsp; Event &nbsp;·&nbsp; Attend
-          </div>
-          <p className="enm-hero-body">
-            Most people choose events randomly. The Event Networking Method helps you choose with intention. Start with who you want to meet, find the events they are most likely to attend, then show up prepared to build real business relationships.
-          </p>
-          <div className="enm-hero-ctas">
-            <Link href="/subscribe" className="btn btn-gold">Sign Up for Your City's Calendar</Link>
-            <a href="#event-assistant" className="btn btn-outline-dark">Get Weekly Event Matches</a>
-          </div>
-        </div>
-      </section>
+      <main className="enm-page">
 
-      {/* ── Intro ── */}
-      <section className="enm-intro">
-        <div className="enm-intro-inner">
-          <h2>Choose Events With a Purpose</h2>
-          <p>The calendar shows you what is happening. The Event Networking Method helps you decide which events are worth your time.</p>
-          <p className="enm-intro-ask">Before you choose an event, ask four questions:</p>
-        </div>
-      </section>
+        {/* Hero */}
+        <section className="enm-hero">
+          <div className="enm-hero-inner">
+            <p className="enm-hero-overline">Free Resource</p>
+            <h1 className="enm-hero-title">The Event Networking Method</h1>
+            <p className="enm-hero-tagline">Relationships First | Technology Powered</p>
+            <p className="enm-hero-sub">
+              A repeatable system for turning the events you discover into content, connections,
+              and relationships that compound over time.
+            </p>
+          </div>
+        </section>
 
-      {/* ── Four steps ── */}
-      <section className="enm-steps">
-        <div className="enm-steps-inner">
-          {STEPS.map((step) => (
-            <div key={step.num} className="enm-step-card">
-              <div className="enm-step-num">{step.num}</div>
-              <div className="enm-step-content">
-                <h3>{step.title}</h3>
-                <p className="enm-step-question">{step.question}</p>
-                <ul className="enm-step-list">
-                  {step.items.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-                {step.note && <p className="enm-step-note">{step.note}</p>}
-              </div>
+        {/* Six Cards */}
+        <section className="enm-cards-section">
+          <div className="enm-cards-inner">
+            <div className="enm-cards-grid">
+              {CARDS.map((card) => (
+                <div
+                  key={card.id}
+                  className="enm-card"
+                  style={{ borderTop: `3px solid ${card.accent}` }}
+                >
+                  <div className="enm-card-header">
+                    <div
+                      className="enm-card-icon"
+                      style={{ background: card.accent }}
+                    >
+                      {card.icon}
+                    </div>
+                    <span className="enm-card-label">{card.label}</span>
+                  </div>
+                  <p className="enm-card-sub" style={{ color: card.subColor }}>
+                    {card.sub}
+                  </p>
+                  <p className="enm-card-stmt">{card.stmt}</p>
+                  <p className="enm-card-body">{card.body}</p>
+                  <div className="enm-video-placeholder">
+                    <div className="enm-play-btn">
+                      <div className="enm-play-tri" />
+                    </div>
+                    <div className="enm-video-text">
+                      <span className="enm-video-label">Video placeholder</span>
+                      <span className="enm-video-title">{card.videoTitle}</span>
+                      <span className="enm-video-dur">~90 sec</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Formula ── */}
-      <section className="enm-formula">
-        <div className="enm-formula-inner">
-          <p className="enm-formula-label">THE METHOD</p>
-          <h2>Right Event = Goal + People + Event + Attend</h2>
-          <p>Start with your goal. Know who you want to meet. Find the events they are likely to attend. Then show up prepared to connect.</p>
-        </div>
-      </section>
-
-      {/* ── Calendar guide ── */}
-      <section className="enm-guide">
-        <div className="enm-guide-inner">
-          <h2>How to Use This Method With the Calendar</h2>
-          <ol className="enm-guide-list">
-            {GUIDE_STEPS.map((step, i) => (
-              <li key={i}>{step}</li>
-            ))}
-          </ol>
-          <Link href="/subscribe" className="btn btn-gold enm-guide-cta">
-            Sign Up for Your City's Calendar
-          </Link>
-        </div>
-      </section>
-
-      {/* ── Event Assistant bridge ── */}
-      <section className="enm-assistant" id="event-assistant">
-        <div className="enm-assistant-inner">
-          <div className="enm-assistant-text">
-            <p className="enm-overline" style={{color:'rgba(255,255,255,.5)'}}>COMING SOON</p>
-            <h2>Want Event Assistant to Do This for You?</h2>
-            <p>
-              The Event Networking Method shows you how to choose events manually. Event Assistant will apply the method for you — matching your goals, ideal connections, location, and schedule with upcoming local business events.
-            </p>
-            <p>
-              Instead of sorting through every event yourself, you will receive weekly event matches based on who you want to meet and what you are trying to accomplish.
-            </p>
           </div>
-          <div className="enm-assistant-form-wrap">
-            {status === 'success' ? (
-              <div className="enm-assistant-success">
-                <p className="enm-success-headline">You're on the list.</p>
-                <p className="enm-success-sub">We'll reach out when Event Assistant is ready.</p>
-              </div>
+        </section>
+
+        {/* Agency Bridge */}
+        <section className="enm-agency-bridge">
+          <div className="enm-agency-inner">
+            <p className="enm-agency-overline">Done For You</p>
+            <h2 className="enm-agency-title">Ready to put the method to work?</h2>
+            <p className="enm-agency-body">
+              You can run every phase of this method yourself — if you have the time, the
+              infrastructure, and the tools to pull it off. Or we handle the events, the content,
+              and the follow-up so you can focus on showing up.
+            </p>
+            <a href="mailto:themobilecoach@gmail.com" className="btn btn-terra">
+              Talk to us about done-for-you →
+            </a>
+          </div>
+        </section>
+
+        {/* Subscribe */}
+        <section className="enm-subscribe">
+          <div className="enm-subscribe-inner">
+            <h2 className="enm-subscribe-title">Get the free weekly event calendar</h2>
+            <p className="enm-subscribe-body">
+              Every week we curate the best business events in your city — networking, chamber,
+              real estate, technology, and small business. Free, always.
+            </p>
+            {submitted ? (
+              <p className="enm-subscribe-thanks">You are on the list. See you at the events.</p>
             ) : (
-              <form className="enm-assistant-form" onSubmit={handleWaitlist}>
-                <p className="enm-form-label">Join the Event Assistant Waitlist</p>
-                <input
-                  type="text"
-                  placeholder="Your name (optional)"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  className="enm-form-input"
-                />
+              <form className="enm-subscribe-form" onSubmit={handleSubmit}>
                 <input
                   type="email"
                   placeholder="Your email address"
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="enm-form-input"
+                  className="enm-subscribe-input"
                 />
-                <select value={city} onChange={e => setCity(e.target.value)} className="enm-form-input enm-form-select">
-                  <option value="">Your city (optional)</option>
-                  <option>San Antonio</option>
-                  <option>Austin</option>
-                  <option>Dallas</option>
-                  <option>Houston</option>
-                </select>
-                <button type="submit" className="enm-form-btn" disabled={status === 'loading'}>
-                  {status === 'loading' ? 'Joining…' : 'Join the Waitlist'}
+                <button type="submit" className="btn btn-terra">
+                  Subscribe free
                 </button>
-                {status === 'error' && <p className="enm-form-error">{errorMsg}</p>}
+                {error && <p className="enm-subscribe-error">{error}</p>}
               </form>
             )}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <Footer variant="homepage" />
-    </div>
+      </main>
+      <Footer />
+    </>
   );
 }

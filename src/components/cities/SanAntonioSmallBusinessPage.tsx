@@ -10,7 +10,7 @@ import { EventGate } from '../EventGate';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -151,20 +151,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         </div>
       </section>
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next San Antonio Small Business Event</h2>
-          <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
-        </div>
-        <EventGate
-          forcedCity="San Antonio"
-          groupType="small_business"
-          initialEvents={initialEvents}
-          newsletterHeading="Get San Antonio Small Business Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's small business events in San Antonio, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/san-antonio/small-business/subscribe"
-        />
-      </section>
+      <SponsorPatronSection city="San Antonio" category="Small Business" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -190,9 +177,23 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         </div>
       </section>
 
-      <SponsorCard cityName="San Antonio" category="Small Business" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next San Antonio Small Business Event</h2>
+          <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
+        </div>
+        <EventGate
+          forcedCity="San Antonio"
+          groupType="small_business"
+          initialEvents={initialEvents}
+          newsletterHeading="Get San Antonio Small Business Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's small business events in San Antonio, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/san-antonio/small-business/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why San Antonio Small Business Professionals Use This Calendar"
         subtitle="San Antonio small business events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
         problemText="Small business events in San Antonio are scattered across SCORE, SBA, SBDC, LiftFund, Meetup, and individual organizations. Most professionals miss events simply because they didn't know they were happening."

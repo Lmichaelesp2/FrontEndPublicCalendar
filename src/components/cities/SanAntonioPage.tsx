@@ -10,7 +10,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
-import { SponsorCityCard } from '../SponsorSection';
+import { SponsorPatronSection } from '../SponsorPatronSection';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },
@@ -168,13 +168,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next San Antonio Event</h2>
-          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
-        </div>
-        <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} />
-      </section>
+      <SponsorPatronSection city="San Antonio" />
 
       <section className="features-section">
         <div className="features-inner">
@@ -200,9 +194,16 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <SponsorCityCard cityName="San Antonio" />
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next San Antonio Event</h2>
+          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
+        </div>
+        <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why San Antonio Professionals Use This Calendar"
         subtitle="San Antonio business events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
         problemText="Business events in San Antonio are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."
