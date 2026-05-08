@@ -12,8 +12,35 @@ export function EventNetworkingMethodSection({ city, category }: Props = {}) {
   const categoryLabel = category ? ` ${category.toLowerCase()}` : '';
 
   const subText = city
-    ? `Most ${cityLabel}${categoryLabel} professionals choose events randomly. This method helps you choose with intention — so you show up to the right${categoryLabel} events and meet the right people.`
-    : `Most people choose events randomly. This method helps you choose with intention — so you show up to the right rooms and meet the right people.`;
+    ? `The Event Networking Method gives ${cityLabel}${categoryLabel} professionals a simple system for turning local events into lasting business relationships — intentionally, not by accident.`
+    : `The Event Networking Method gives business professionals a simple system for turning local events into lasting business relationships — intentionally, not by accident.`;
+
+  const steps = [
+    {
+      num: '1',
+      title: 'People',
+      desc: city
+        ? `Who do you want in your ${cityLabel}${categoryLabel} network? Start by getting clear on the people, industries, and organizations you want to connect with.`
+        : 'Who do you want in your network? Start by getting clear on the people, industries, and organizations you want to connect with.',
+    },
+    {
+      num: '2',
+      title: 'Content',
+      desc: 'What will you share to stay top-of-mind? Build a simple content habit that keeps your name in front of the people you meet — before, during, and after every event.',
+    },
+    {
+      num: '3',
+      title: 'Events',
+      desc: city
+        ? `Where do those people show up in ${cityLabel}? Find the${categoryLabel} events your ideal connections already attend — and show up with a plan.`
+        : 'Where do those people show up? Find the events your ideal connections already attend — and show up with a plan.',
+    },
+    {
+      num: '4',
+      title: 'Relationships',
+      desc: 'How do you keep every connection alive? Use event content and consistent follow-up to turn one-time meetings into real, ongoing professional relationships.',
+    },
+  ];
 
   return (
     <section className="enm-home-section">
@@ -27,12 +54,7 @@ export function EventNetworkingMethodSection({ city, category }: Props = {}) {
           </Link>
         </div>
         <div className="enm-home-steps">
-          {[
-            { num: '1', title: 'Goal', desc: `What are you trying to accomplish in ${cityLabel}?` },
-            { num: '2', title: 'People', desc: 'Who do you want to meet?' },
-            { num: '3', title: 'Event', desc: city ? `Which ${cityLabel}${categoryLabel} event are they likely at?` : 'Which event are they likely to attend?' },
-            { num: '4', title: 'Attend', desc: 'Show up prepared to connect.' },
-          ].map((step, i, arr) => (
+          {steps.map((step, i, arr) => (
             <div key={step.num} className="enm-home-steps-row">
               <div className="enm-home-step">
                 <div className="enm-home-step-num">{step.num}</div>
