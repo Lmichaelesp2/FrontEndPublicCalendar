@@ -142,21 +142,6 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <SponsorPatronSection city="Austin" category="Chamber" />
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Chamber Event</h2>
-          <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
-        </div>
-        <EventGate
-          forcedCity="Austin"
-          groupType="chamber"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Austin Chamber Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's chamber events in Austin, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/austin/chamber/subscribe"
-        />
-      </section>
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track Austin Chamber Events So You Don't Have To</h2>
@@ -181,8 +166,23 @@ function AustinChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Austin Chamber Event</h2>
+          <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
+        </div>
+        <EventGate
+          forcedCity="Austin"
+          groupType="chamber"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Austin Chamber Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's chamber events in Austin, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/austin/chamber/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Austin Chamber Professionals Use This Calendar"
         subtitle="Austin chamber events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin chamber professionals keep up."
         problemText="Chamber events in Austin are scattered across chamber websites, Eventbrite, LinkedIn, Facebook, and individual association pages. Most professionals miss events simply because they didn't know they were happening."

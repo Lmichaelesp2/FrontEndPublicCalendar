@@ -180,14 +180,6 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <SponsorPatronSection city="Austin" />
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Austin Event</h2>
-          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
-        </div>
-        <EventGate forcedCity="Austin" initialEvents={initialEvents} showMonthCalendar={true} />
-      </section>
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track Austin Business Events So You Don't Have To</h2>
@@ -212,8 +204,16 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Austin Event</h2>
+          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
+        </div>
+        <EventGate forcedCity="Austin" initialEvents={initialEvents} showMonthCalendar={true} />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Austin Professionals Use This Calendar"
         subtitle="Austin business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Austin professionals keep up."
         problemText="Business events in Austin are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."

@@ -142,21 +142,6 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
 
       <SponsorPatronSection city="Dallas" category="Technology" />
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Dallas Tech Event</h2>
-          <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
-        </div>
-        <EventGate
-          forcedCity="Dallas"
-          groupType="technology"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Dallas Technology Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's tech events in Dallas, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/dallas/technology/subscribe"
-        />
-      </section>
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Tech Events So You Don't Have To</h2>
@@ -181,8 +166,23 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Dallas Tech Event</h2>
+          <p>Browse developer meetups, cybersecurity events, hackathons, and more</p>
+        </div>
+        <EventGate
+          forcedCity="Dallas"
+          groupType="technology"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Dallas Technology Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's tech events in Dallas, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/dallas/technology/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Dallas Tech Professionals Use This Calendar"
         subtitle="Dallas tech events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
         problemText="Tech events in Dallas are scattered across Meetup groups, Eventbrite, LinkedIn, Slack channels, and individual org websites. Most professionals miss events simply because they didn't know they were happening."

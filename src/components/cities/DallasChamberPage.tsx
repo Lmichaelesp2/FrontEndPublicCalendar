@@ -142,21 +142,6 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <SponsorPatronSection city="Dallas" category="Chamber" />
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Dallas Chamber Event</h2>
-          <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
-        </div>
-        <EventGate
-          forcedCity="Dallas"
-          groupType="chamber"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Dallas Chamber Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's chamber events in Dallas, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/dallas/chamber/subscribe"
-        />
-      </section>
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Chamber Events So You Don't Have To</h2>
@@ -181,8 +166,23 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Dallas Chamber Event</h2>
+          <p>Browse luncheons, Business After Hours, ribbon cuttings, and more</p>
+        </div>
+        <EventGate
+          forcedCity="Dallas"
+          groupType="chamber"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Dallas Chamber Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's chamber events in Dallas, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/dallas/chamber/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Dallas Chamber Professionals Use This Calendar"
         subtitle="Dallas chamber events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas chamber professionals keep up."
         problemText="Chamber events in Dallas are scattered across chamber websites, Eventbrite, LinkedIn, Facebook, and individual association pages. Most professionals miss events simply because they didn't know they were happening."

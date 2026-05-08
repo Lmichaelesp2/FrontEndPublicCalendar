@@ -179,14 +179,6 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <SponsorPatronSection city="Dallas" />
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Dallas Event</h2>
-          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
-        </div>
-        <EventGate forcedCity="Dallas" initialEvents={initialEvents} showMonthCalendar={true} />
-      </section>
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Business Events So You Don't Have To</h2>
@@ -211,8 +203,16 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Dallas Event</h2>
+          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
+        </div>
+        <EventGate forcedCity="Dallas" initialEvents={initialEvents} showMonthCalendar={true} />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Dallas Professionals Use This Calendar"
         subtitle="Dallas business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
         problemText="Business events in Dallas are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."

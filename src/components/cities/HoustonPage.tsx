@@ -179,14 +179,6 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <SponsorPatronSection city="Houston" />
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Houston Event</h2>
-          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
-        </div>
-        <EventGate forcedCity="Houston" initialEvents={initialEvents} showMonthCalendar={true} />
-      </section>
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track Houston Business Events So You Don't Have To</h2>
@@ -211,8 +203,16 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Houston Event</h2>
+          <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
+        </div>
+        <EventGate forcedCity="Houston" initialEvents={initialEvents} showMonthCalendar={true} />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Houston Professionals Use This Calendar"
         subtitle="Houston business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Houston professionals keep up."
         problemText="Business events in Houston are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."

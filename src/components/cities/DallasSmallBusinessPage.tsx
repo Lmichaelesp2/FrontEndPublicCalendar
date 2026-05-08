@@ -142,21 +142,6 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
 
       <SponsorPatronSection city="Dallas" category="Small Business" />
 
-      <section className="sa-calendar-section" id="calendar">
-        <div className="sa-calendar-header">
-          <h2>Find Your Next Dallas Small Business Event</h2>
-          <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
-        </div>
-        <EventGate
-          forcedCity="Dallas"
-          groupType="small_business"
-          initialEvents={initialEvents}
-          newsletterHeading="Get Dallas Small Business Events Every Monday — Free"
-          newsletterSubtext="A curated digest of that week's small business events in Dallas, delivered to your inbox every Monday morning."
-          subscribeHref="/texas/dallas/small-business/subscribe"
-        />
-      </section>
-
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Small Business Events So You Don't Have To</h2>
@@ -181,8 +166,23 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
+      <section className="sa-calendar-section" id="calendar">
+        <div className="sa-calendar-header">
+          <h2>Find Your Next Dallas Small Business Event</h2>
+          <p>Browse SCORE workshops, SBA seminars, entrepreneur meetups, and more</p>
+        </div>
+        <EventGate
+          forcedCity="Dallas"
+          groupType="small_business"
+          initialEvents={initialEvents}
+          newsletterHeading="Get Dallas Small Business Events Every Monday — Free"
+          newsletterSubtext="A curated digest of that week's small business events in Dallas, delivered to your inbox every Monday morning."
+          subscribeHref="/texas/dallas/small-business/subscribe"
+        />
+      </section>
 
-      <WhySection
+
+            <WhySection
         heading="Why Dallas Small Business Professionals Use This Calendar"
         subtitle="Dallas small business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
         problemText="Small business events in Dallas are scattered across SCORE, SBA, SBDC, Meetup, coworking spaces, and individual organizations. Most professionals miss events simply because they didn't know they were happening."
