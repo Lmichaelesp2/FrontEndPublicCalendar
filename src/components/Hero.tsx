@@ -70,7 +70,7 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
               </h1>
             ) : (
               <h1>
-                Find the events where business{' '}
+                Find the events where Texas business{' '}
                 <em>actually</em> happens.
               </h1>
             )}

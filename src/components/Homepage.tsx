@@ -96,7 +96,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
             </div>
 
             <h1>
-              Find the events where business <em>actually</em> happens.
+              Find the events where local business <em>actually</em> happens.
             </h1>
 
             <p className="hero-sub">
