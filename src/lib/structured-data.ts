@@ -18,14 +18,14 @@ const CATEGORY_LABELS: Record<string, string> = {
 export interface EventRow {
   id?: string;
   name: string;
-  description?: string;
-  start_date?: string;
-  start_time?: string;
-  end_date?: string;
-  end_time?: string;
-  address?: string;
-  city_calendar?: string;
-  website?: string;
+  description?: string | null;
+  start_date?: string | null;
+  start_time?: string | null;
+  end_date?: string | null;
+  end_time?: string | null;
+  address?: string | null;
+  city_calendar?: string | null;
+  website?: string | null;
 }
 
 /** LocalBusiness schema — one per city or sub-cal page */
