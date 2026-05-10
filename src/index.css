@@ -3158,3 +3158,41 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   .enm-cal-helper-inner{flex-direction:column;align-items:flex-start}
   .enm-cards-grid{grid-template-columns:1fr}
 }
+
+/* ── Subscribe page — How It Works ── */
+.scp-how-section{background:var(--color-paper);padding:4rem 1.5rem}
+.scp-how-inner{max-width:860px;margin:0 auto}
+.scp-how-section h2{font-family:var(--font-serif);font-size:2rem;color:var(--color-ink);margin-bottom:1rem}
+.scp-how-intro{font-size:1.05rem;color:var(--color-ink);opacity:.8;line-height:1.7;margin-bottom:2.5rem;max-width:700px}
+.scp-how-steps{display:flex;flex-direction:column;gap:2rem}
+.scp-how-step{display:flex;gap:1.25rem;align-items:flex-start}
+.scp-how-num{flex-shrink:0;width:2rem;height:2rem;border-radius:50%;background:var(--color-accent);color:#fff;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center}
+.scp-how-step h3{font-family:var(--font-serif);font-size:1.1rem;color:var(--color-ink);margin-bottom:.35rem}
+.scp-how-step p{font-size:.95rem;color:var(--color-ink);opacity:.75;line-height:1.65;margin:0}
+
+/* ── Subscribe page — Who This Is For ── */
+.scp-who-section{background:var(--color-paper-2);padding:4rem 1.5rem}
+.scp-who-inner{max-width:960px;margin:0 auto}
+.scp-who-section h2{font-family:var(--font-serif);font-size:2rem;color:var(--color-ink);margin-bottom:1rem}
+.scp-who-intro{font-size:1.05rem;color:var(--color-ink);opacity:.8;line-height:1.7;margin-bottom:2.5rem;max-width:700px}
+.scp-who-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.scp-who-card{display:flex;gap:1rem;align-items:flex-start;background:var(--color-paper);border:1px solid rgba(10,22,40,.08);border-radius:8px;padding:1.25rem}
+.scp-who-icon{flex-shrink:0;color:var(--color-accent);margin-top:.2rem}
+.scp-who-card h3{font-size:.95rem;font-weight:700;color:var(--color-ink);margin-bottom:.3rem}
+.scp-who-card p{font-size:.88rem;color:var(--color-ink);opacity:.72;line-height:1.6;margin:0}
+
+/* ── Subscribe page — FAQ ── */
+.scp-faq-section{background:var(--color-paper);padding:4rem 1.5rem}
+.scp-faq-inner{max-width:760px;margin:0 auto}
+.scp-faq-section h2{font-family:var(--font-serif);font-size:2rem;color:var(--color-ink);margin-bottom:2rem}
+.scp-faq-list{display:flex;flex-direction:column;gap:1.75rem}
+.scp-faq-item{border-bottom:1px solid rgba(10,22,40,.1);padding-bottom:1.75rem}
+.scp-faq-item:last-child{border-bottom:none;padding-bottom:0}
+.scp-faq-item h3{font-size:1rem;font-weight:700;color:var(--color-ink);margin-bottom:.5rem}
+.scp-faq-item p{font-size:.93rem;color:var(--color-ink);opacity:.75;line-height:1.7;margin:0}
+
+/* Responsive */
+@media(max-width:640px){
+  .scp-who-grid{grid-template-columns:1fr}
+  .scp-how-section h2,.scp-who-section h2,.scp-faq-section h2{font-size:1.5rem}
+}
