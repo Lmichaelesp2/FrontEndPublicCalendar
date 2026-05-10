@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { CityProvider } from '../../../../src/contexts/CityContext';
 import { DallasSmallBusinessPage } from '../../../../src/components/cities/DallasSmallBusinessPage';
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
+import { buildPageSchema } from '../../../../src/lib/structured-data';
 
 export const revalidate = 60;
 
@@ -24,9 +25,19 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const events = await fetchApprovedEvents({ city: 'Dallas', groupType: 'small_business' });
+
+  const schemaJson = buildPageSchema({
+    city: 'Dallas', category: 'small-business'
+    url: '/texas/dallas/small-business',
+    description: metadata.description ?? '',
+    events,
+  });
   return (
-    <CityProvider>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaJson }} />
+      <CityProvider>
       <DallasSmallBusinessPage initialEvents={events} />
     </CityProvider>
+    </>
   );
 }

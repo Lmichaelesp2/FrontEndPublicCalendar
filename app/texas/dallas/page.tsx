@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { CityProvider } from '../../../src/contexts/CityContext';
 import { DallasPage } from '../../../src/components/cities/DallasPage';
 import { fetchApprovedEvents } from '../../../src/lib/supabase-server';
+import { buildPageSchema } from '../../../src/lib/structured-data';
 
 export const revalidate = 60;
 
@@ -25,9 +26,19 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const events = await fetchApprovedEvents({ city: 'Dallas' });
+
+  const schemaJson = buildPageSchema({
+    city: 'Dallas',
+    url: '/texas/dallas',
+    description: metadata.description ?? '',
+    events,
+  });
   return (
-    <CityProvider>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaJson }} />
+      <CityProvider>
       <DallasPage initialEvents={events} />
     </CityProvider>
+    </>
   );
 }

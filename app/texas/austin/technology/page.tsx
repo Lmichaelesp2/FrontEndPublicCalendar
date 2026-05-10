@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { CityProvider } from '../../../../src/contexts/CityContext';
 import { AustinTechnologyPage } from '../../../../src/components/cities/AustinTechnologyPage';
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
+import { buildPageSchema } from '../../../../src/lib/structured-data';
 
 export const revalidate = 60;
 
@@ -24,9 +25,19 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const events = await fetchApprovedEvents({ city: 'Austin', groupType: 'technology' });
+
+  const schemaJson = buildPageSchema({
+    city: 'Austin', category: 'technology'
+    url: '/texas/austin/technology',
+    description: metadata.description ?? '',
+    events,
+  });
   return (
-    <CityProvider>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaJson }} />
+      <CityProvider>
       <AustinTechnologyPage initialEvents={events} />
     </CityProvider>
+    </>
   );
 }
