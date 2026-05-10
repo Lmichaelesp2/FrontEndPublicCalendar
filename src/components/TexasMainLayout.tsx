@@ -28,7 +28,7 @@ const TEXAS_FAQ_ITEMS = [
   },
   {
     question: 'Is this free?',
-    answer: 'Yes — browsing the calendar and subscribing to the weekly email are both completely free. No credit card, no trial, no catch.',
+    answer: 'Yes — completely free. Sign up and you get full event details unlocked on the calendar plus every upcoming event in your Monday newsletter. No credit card, no trial, no catch.',
   },
   {
     question: 'How often are events updated?',
@@ -40,7 +40,7 @@ const TEXAS_FAQ_ITEMS = [
   },
   {
     question: 'What do I get with a free subscription?',
-    answer: 'Access to your city\'s full events calendar plus a weekly email every Monday with the best upcoming networking and business events in your area.',
+    answer: 'Full event details for every upcoming event on the calendar — description, end time, and location — plus every event delivered in your Monday newsletter.',
   },
 ];
 
@@ -95,7 +95,7 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
         <section className="hp-intro-section">
           <div className="hp-intro-inner">
             <p>
-              Texas Business Calendars is a free network of city-specific event calendars. Browse networking events, chamber meetings, tech meetups, real estate gatherings, and small business events happening in San Antonio, Austin, Dallas, and Houston — updated weekly. Sign up free to unlock the full week's calendar and get your city's events delivered to your inbox every Monday morning.
+              Texas Business Calendars is a free network of city-specific event calendars. Browse networking events, chamber meetings, tech meetups, real estate gatherings, and small business events happening in San Antonio, Austin, Dallas, and Houston — updated weekly. Sign up free to see full event details for every upcoming event and get them all in your Monday newsletter.
             </p>
           </div>
         </section>
@@ -116,7 +116,7 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
             <div className="feature-card">
               <div className="feature-step">2</div>
               <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's networking events, meetups, and business gatherings in your city.</p>
+              <p>Every Monday your newsletter arrives with every upcoming event in your city. Sign up free to also unlock full event details — description, end time, and location — on the calendar.</p>
             </div>
 
             <div className="feature-card">
@@ -135,7 +135,7 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
         subtitle="Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly."
         problemText="Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending."
         whatWeDoText="We track business event hosts and organize their public events into one simple calendar per city."
-        whatYouGetText="Faster discovery, fewer missed opportunities, and a weekly reminder that keeps you consistent."
+        whatYouGetText="Full event details unlocked on the calendar the moment you sign up, plus every upcoming event in your Monday newsletter."
       />
 
       {!citySlug && (

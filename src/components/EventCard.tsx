@@ -66,11 +66,11 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
         ) : (
           <div className="ev-card-gate">
             <p className="ev-card-new-desc ev-card-gate-text" aria-hidden="true">
-              {rawDesc || 'Full event details including description, end time, and location are available to members.'}
+              {rawDesc || 'Sign up to see full event details — description, end time, and location — plus get every upcoming event in your Monday newsletter.'}
             </p>
             <button className="ev-card-gate-overlay ev-card-gate-btn" onClick={onAuthClick}>
               <Lock size={13} className="ev-card-gate-icon" />
-              <span>Sign up / Sign in — unlock full event details</span>
+              <span>Sign up free — see full event details + Monday newsletter</span>
             </button>
           </div>
         )}

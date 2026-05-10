@@ -60,7 +60,7 @@ export function HomepageCities({ initialEvents = [] }: HomepageCitiesProps) {
           <div className="hpc-date-full hpc-header-date">{dateDisplay}</div>
           <h2>Today's Networking & Business Events Across Texas</h2>
           <p className="hpc-subtitle">
-            Showing today's events. Get a free account to see the full week in San Antonio, Austin, Dallas, or Houston — plus the weekly Monday newsletter.
+            Showing today's events. Sign up free to see full event details and get every upcoming event in your city delivered every Monday.
           </p>
         </div>
 
@@ -139,7 +139,7 @@ function CitySection({
               {hasMore && (
                 <div className="hpc-city-cta">
                   <div className="hpc-city-cta-text">
-                    Don't want to check back every week? Get {city}'s full week of events delivered to your inbox every Monday morning.
+                    Sign up free — see full details for every upcoming {city} event and get them all in your Monday newsletter.
                   </div>
                   <div className="hpc-city-cta-btns">
                     <Link href={cityRoute} className="hpc-cta-btn hpc-cta-login">
@@ -147,7 +147,7 @@ function CitySection({
                     </Link>
                     <Link href={`${cityRoute}/subscribe`} className="hpc-cta-btn hpc-cta-subscribe">
                       <Mail size={15} />
-                      Get the weekly email
+                      Get the Monday newsletter
                     </Link>
                   </div>
                 </div>

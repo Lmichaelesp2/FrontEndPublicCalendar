@@ -64,8 +64,8 @@ export function SubscribeChoosePage() {
           </p>
           <h1>Choose Your City</h1>
           <p className="scp-hero-sub">
-            Subscribe to your city's full calendar or pick a specific industry.
-            Every Monday morning we deliver the week's best business events straight to your inbox.
+            Sign up free — see full event details on the calendar and get every upcoming event in your Monday newsletter.
+            Pick your city or narrow it down to a specific industry.
           </p>
           <p className="scp-trust">Free forever · No credit card · Unsubscribe anytime</p>
         </div>
@@ -89,8 +89,8 @@ export function SubscribeChoosePage() {
             <div className="scp-how-step">
               <div className="scp-how-num">2</div>
               <div>
-                <h3>Get your Monday morning digest</h3>
-                <p>Every Monday at 6 a.m. CT, we send a curated list of that week's best business events in your city. No fluff — just events worth showing up to, organized by date and category.</p>
+                <h3>Get full event details + your Monday newsletter</h3>
+                <p>Every Monday at 6 a.m. CT, your newsletter arrives with every upcoming event in your city. Sign up free and full event details — description, end time, and location — are unlocked on the calendar too.</p>
               </div>
             </div>
             <div className="scp-how-step">
@@ -190,7 +190,7 @@ export function SubscribeChoosePage() {
           <div className="scp-who-grid">
             {[
               { title: 'Business owners & entrepreneurs', body: 'Stay visible in your local market by showing up to the right chambers, mixers, and industry events in San Antonio, Austin, Dallas, or Houston.' },
-              { title: 'Sales & business development professionals', body: 'Never miss a networking event where your next client might be in the room. Our weekly digest keeps your pipeline opportunities in sight.' },
+              { title: 'Sales & business development professionals', body: 'Never miss a networking event where your next client might be in the room. Our weekly newsletter keeps your pipeline opportunities in sight.' },
               { title: 'Commercial real estate professionals', body: 'Track ULI events, CCIM meetings, real estate roundtables, and investment gatherings across all four Texas markets.' },
               { title: "Tech founders & startup community members", body: "Stay plugged into the Austin startup scene, San Antonio tech ecosystem, Dallas innovation community, and Houston emerging tech sector." },
               { title: 'Chamber & association members', body: 'Get a consolidated view of every chamber of commerce event, ribbon cutting, and member mixer across your city — all in one Monday email.' },
@@ -216,11 +216,11 @@ export function SubscribeChoosePage() {
             {[
               {
                 q: 'Is the newsletter really free?',
-                a: 'Yes — completely free. No credit card, no trial period, no catch. Browse the full calendar and receive the weekly digest at no cost.',
+                a: 'Yes — completely free. No credit card, no trial, no catch. Sign up and full event details are unlocked on the calendar plus every upcoming event arrives in your Monday newsletter.',
               },
               {
                 q: 'How do I choose between the full city calendar and a sub-calendar?',
-                a: 'The full city calendar (e.g. San Antonio Business Calendar) covers all industries — networking, technology, real estate, chamber, and small business events in one digest. The sub-calendars (e.g. San Antonio Technology Calendar) are narrower and ideal if you only want events from one specific industry.',
+                a: 'The full city calendar (e.g. San Antonio Business Calendar) covers all industries — networking, technology, real estate, chamber, and small business events in one newsletter. The sub-calendars (e.g. San Antonio Technology Calendar) are narrower and ideal if you only want events from one specific industry.',
               },
               {
                 q: 'Can I subscribe to more than one city or calendar?',
@@ -228,7 +228,7 @@ export function SubscribeChoosePage() {
               },
               {
                 q: 'When does the newsletter go out?',
-                a: "Every Monday morning at 6 a.m. Central Time. You will have the full week of events in your inbox before your first meeting of the week.",
+                a: "Every Monday at 6 a.m. Central Time. Sign up free and your newsletter arrives with every upcoming event in your city, plus full event details are unlocked on the calendar.",
               },
               {
                 q: 'What cities are covered right now?',

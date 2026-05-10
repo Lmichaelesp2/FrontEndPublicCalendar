@@ -100,7 +100,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
             </h1>
 
             <p className="hero-sub">
-              Networking mixers, chamber events, real-estate gatherings, tech meetups — organized into one calendar and one weekly email.
+              Networking mixers, chamber events, real-estate gatherings, tech meetups — sign up free to see full event details and get every event in your Monday newsletter.
             </p>
 
             <div className="hero-cta-group">
@@ -172,7 +172,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
             <div className="feature-card">
               <div className="feature-step">2</div>
               <h3>Get your Monday newsletter</h3>
-              <p>Every Monday morning you'll receive a curated digest of that week's networking events and business gatherings in your city.</p>
+              <p>Every Monday morning your newsletter arrives with every upcoming networking event and business gathering in your city. Sign up free and full event details are unlocked on the calendar too.</p>
             </div>
             <div className="feature-card">
               <div className="feature-step">3</div>
@@ -232,7 +232,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
         subtitle="Business events are spread across too many platforms and websites. Here's how Local Business Calendars helps you keep up."
         problemText="Business events are spread across Eventbrite, Meetup, LinkedIn, chambers, and associations. Finding the right ones takes time."
         whatWeDoText="We track local business event hosts and organize their public events into one local calendar and weekly newsletter."
-        whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
+        whatYouGetText="Full event details unlocked on the calendar the moment you sign up, plus every upcoming event in your Monday newsletter."
       />
 
       <EventNetworkingMethodSection />
