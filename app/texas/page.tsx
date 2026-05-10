@@ -24,5 +24,60 @@ export default async function Page() {
     fetchApprovedEvents(),
     fetchThisWeekCounts(),
   ]);
-  return <TexasMainLayout initialEvents={initialEvents} cityCounts={cityCounts} />;
+
+// Structured data for Texas hub page
+const texasSchema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Texas Business Calendars",
+    "url": "https://www.localbusinesscalendars.com/texas",
+    "description": "Free weekly business event newsletters for San Antonio, Austin, Dallas, and Houston, Texas.",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Local Business Calendars", "item": "https://www.localbusinesscalendars.com" },
+        { "@type": "ListItem", "position": 2, "name": "Texas", "item": "https://www.localbusinesscalendars.com/texas" }
+      ]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Texas Business Calendars by City",
+    "itemListElement": [
+      {
+        "@type": "SiteNavigationElement",
+        "position": 1,
+        "name": "San Antonio Business Calendar",
+        "url": "https://www.localbusinesscalendars.com/texas/san-antonio"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "position": 2,
+        "name": "Austin Business Calendar",
+        "url": "https://www.localbusinesscalendars.com/texas/austin"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "position": 3,
+        "name": "Dallas Business Calendar",
+        "url": "https://www.localbusinesscalendars.com/texas/dallas"
+      },
+      {
+        "@type": "SiteNavigationElement",
+        "position": 4,
+        "name": "Houston Business Calendar",
+        "url": "https://www.localbusinesscalendars.com/texas/houston"
+      }
+    ]
+  }
+]);
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: texasSchema }} />
+      <TexasMainLayout initialEvents={initialEvents} cityCounts={cityCounts} />
+    </>
+  );
 }
