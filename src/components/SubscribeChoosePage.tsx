@@ -228,11 +228,11 @@ export function SubscribeChoosePage() {
               },
               {
                 q: 'When does the newsletter go out?',
-                a: 'Every Monday morning at 6 a.m. Central Time. You'll have the full week's events in your inbox before your first meeting of the week.',
+                a: "Every Monday morning at 6 a.m. Central Time. You will have the full week of events in your inbox before your first meeting of the week.",
               },
               {
                 q: 'What cities are covered right now?',
-                a: 'We currently publish weekly newsletters for San Antonio, Austin, Dallas, and Houston, Texas. We're actively expanding to additional cities — San Diego, Phoenix, Denver, Nashville, Atlanta, and Chicago are next.',
+                a: "We currently publish weekly newsletters for San Antonio, Austin, Dallas, and Houston, Texas. We are actively expanding to additional cities - San Diego, Phoenix, Denver, Nashville, Atlanta, and Chicago are next.",
               },
               {
                 q: 'How do you find all these events?',
