@@ -5,10 +5,7 @@ import { SEOHead } from './SEOHead';
 import { HOME_SEO, CITY_CONFIGS } from '../lib/cities';
 import Link from 'next/link';
 
-// Event counts per city — passed in as live data or falls back to 0
-const CITY_EVENT_COUNTS: Record<string, number> = cityCounts ?? {};
 
-const TOTAL_EVENTS = Object.values(CITY_EVENT_COUNTS).reduce((a, b) => a + b, 0);
 
 function getWeekRange(): string {
   const now = new Date();
@@ -42,6 +39,9 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
   const seo = cityConfig
     ? { title: cityConfig.title, description: cityConfig.description }
     : { title: HOME_SEO.title, description: HOME_SEO.description };
+
+  const CITY_EVENT_COUNTS: Record<string, number> = cityCounts ?? {};
+  const TOTAL_EVENTS = Object.values(CITY_EVENT_COUNTS).reduce((a, b) => a + b, 0);
 
   const weekRange = getWeekRange();
   const nextMonday = getNextMonday();
