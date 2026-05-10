@@ -27,7 +27,7 @@ export default async function Page() {
   const events = await fetchApprovedEvents({ city: 'Houston', groupType: 'real_estate' });
 
   const schemaJson = buildPageSchema({
-    city: 'Houston', category: 'real-estate'
+    city: 'Houston', category: 'real-estate',
     url: '/texas/houston/real-estate',
     description: metadata.description ?? '',
     events,

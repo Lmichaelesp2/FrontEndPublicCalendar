@@ -27,7 +27,7 @@ export default async function Page() {
   const events = await fetchApprovedEvents({ city: 'San Antonio', groupType: 'small_business' });
 
   const schemaJson = buildPageSchema({
-    city: 'San Antonio', category: 'small-business'
+    city: 'San Antonio', category: 'small-business',
     url: '/texas/san-antonio/small-business',
     description: metadata.description ?? '',
     events,

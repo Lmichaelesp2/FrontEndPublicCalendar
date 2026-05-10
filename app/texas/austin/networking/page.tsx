@@ -27,7 +27,7 @@ export default async function Page() {
   const events = await fetchApprovedEvents({ city: 'Austin', groupType: 'networking' });
 
   const schemaJson = buildPageSchema({
-    city: 'Austin', category: 'networking'
+    city: 'Austin', category: 'networking',
     url: '/texas/austin/networking',
     description: metadata.description ?? '',
     events,
