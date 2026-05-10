@@ -192,7 +192,7 @@ export function SubscribeChoosePage() {
               { title: 'Business owners & entrepreneurs', body: 'Stay visible in your local market by showing up to the right chambers, mixers, and industry events in San Antonio, Austin, Dallas, or Houston.' },
               { title: 'Sales & business development professionals', body: 'Never miss a networking event where your next client might be in the room. Our weekly digest keeps your pipeline opportunities in sight.' },
               { title: 'Commercial real estate professionals', body: 'Track ULI events, CCIM meetings, real estate roundtables, and investment gatherings across all four Texas markets.' },
-              { title: 'Tech founders & startup community members', body: 'Stay plugged into Austin's startup scene, San Antonio's tech ecosystem, Dallas's innovation community, and Houston's emerging tech sector.' },
+              { title: "Tech founders & startup community members", body: "Stay plugged into the Austin startup scene, San Antonio tech ecosystem, Dallas innovation community, and Houston emerging tech sector." },
               { title: 'Chamber & association members', body: 'Get a consolidated view of every chamber of commerce event, ribbon cutting, and member mixer across your city — all in one Monday email.' },
               { title: 'Small business owners', body: 'Find SBDC workshops, co-working events, small business meetups, and local business development opportunities without spending hours searching.' },
             ].map((item) => (
