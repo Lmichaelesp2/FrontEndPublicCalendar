@@ -5,13 +5,8 @@ import { SEOHead } from './SEOHead';
 import { HOME_SEO, CITY_CONFIGS } from '../lib/cities';
 import Link from 'next/link';
 
-// Event counts per city — update weekly or wire to live data
-const CITY_EVENT_COUNTS: Record<string, number> = {
-  'San Antonio': 14,
-  'Austin': 18,
-  'Dallas': 9,
-  'Houston': 6,
-};
+// Event counts per city — passed in as live data or falls back to 0
+const CITY_EVENT_COUNTS: Record<string, number> = cityCounts ?? {};
 
 const TOTAL_EVENTS = Object.values(CITY_EVENT_COUNTS).reduce((a, b) => a + b, 0);
 
@@ -37,7 +32,7 @@ function getNextMonday(): string {
   return next.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
 }
 
-export function Hero() {
+export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {}) {
   const { selectedCity } = useCity();
 
   const cityConfig = selectedCity !== 'All'

@@ -58,7 +58,7 @@ function TexasFaqItem({ question, answer, open, onToggle }: { question: string; 
   );
 }
 
-function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
+function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[]; cityCounts?: Record<string, number> }) {
   const params = useParams();
   const citySlug = params?.citySlug as string | undefined;
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -89,7 +89,7 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
               { label: 'Texas', href: '/texas' },
             ]
       } />
-      <Hero />
+      <Hero cityCounts={cityCounts} />
 
       {!citySlug && (
         <section className="hp-intro-section">
@@ -187,10 +187,10 @@ function MainLayoutInner({ initialEvents }: { initialEvents?: Event[] }) {
   );
 }
 
-export function TexasMainLayout({ initialEvents }: { initialEvents?: Event[] }) {
+export function TexasMainLayout({ initialEvents, cityCounts }: { initialEvents?: Event[]; cityCounts?: Record<string, number> }) {
   return (
     <CityProvider>
-      <MainLayoutInner initialEvents={initialEvents} />
+      <MainLayoutInner initialEvents={initialEvents} cityCounts={cityCounts} />
     </CityProvider>
   );
 }

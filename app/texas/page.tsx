@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { TexasMainLayout } from '../../src/components/TexasMainLayout';
-import { fetchApprovedEvents } from '../../src/lib/supabase-server';
+import { fetchApprovedEvents, fetchThisWeekCounts } from '../../src/lib/supabase-server';
 
 export const metadata: Metadata = {
   title: 'Texas Business Calendars – Events by City & Industry',
@@ -17,7 +17,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 300; // revalidate every 5 minutes
+
 export default async function Page() {
-  const initialEvents = await fetchApprovedEvents();
-  return <TexasMainLayout initialEvents={initialEvents} />;
+  const [initialEvents, cityCounts] = await Promise.all([
+    fetchApprovedEvents(),
+    fetchThisWeekCounts(),
+  ]);
+  return <TexasMainLayout initialEvents={initialEvents} cityCounts={cityCounts} />;
 }
