@@ -71,6 +71,39 @@ export function SubscribeChoosePage() {
         </div>
       </div>
 
+      {/* ── How It Works ── */}
+      <section className="scp-how-section">
+        <div className="scp-how-inner">
+          <h2>How It Works</h2>
+          <p className="scp-how-intro">
+            Local Business Calendars is a free weekly newsletter that brings every business event in your city into one place — so you stop missing the networking mixers, chamber meetings, tech meetups, and real estate gatherings that actually move your career forward.
+          </p>
+          <div className="scp-how-steps">
+            <div className="scp-how-step">
+              <div className="scp-how-num">1</div>
+              <div>
+                <h3>Pick your city and calendar</h3>
+                <p>Choose from San Antonio, Austin, Dallas, or Houston. Subscribe to the full city calendar or narrow it down to a specific industry — networking, technology, real estate, chamber of commerce, or small business.</p>
+              </div>
+            </div>
+            <div className="scp-how-step">
+              <div className="scp-how-num">2</div>
+              <div>
+                <h3>Get your Monday morning digest</h3>
+                <p>Every Monday at 6 a.m. CT, we send a curated list of that week's best business events in your city. No fluff — just events worth showing up to, organized by date and category.</p>
+              </div>
+            </div>
+            <div className="scp-how-step">
+              <div className="scp-how-num">3</div>
+              <div>
+                <h3>Show up and build relationships</h3>
+                <p>Pick the events that fit your schedule, walk in prepared, and let consistency do the work. The professionals who show up regularly are the ones who get referrals, partnerships, and opportunities first.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── City Cards ── */}
       <section className="scp-cities">
         <div className="scp-cities-inner">
@@ -144,39 +177,6 @@ export function SubscribeChoosePage() {
           <p className="scp-coming-note">
             Want your city added? <a href="/contact" className="scp-coming-link">Let us know →</a>
           </p>
-        </div>
-      </section>
-
-      {/* ── How It Works ── */}
-      <section className="scp-how-section">
-        <div className="scp-how-inner">
-          <h2>How It Works</h2>
-          <p className="scp-how-intro">
-            Local Business Calendars is a free weekly newsletter that brings every business event in your city into one place — so you stop missing the networking mixers, chamber meetings, tech meetups, and real estate gatherings that actually move your career forward.
-          </p>
-          <div className="scp-how-steps">
-            <div className="scp-how-step">
-              <div className="scp-how-num">1</div>
-              <div>
-                <h3>Pick your city and calendar</h3>
-                <p>Choose from San Antonio, Austin, Dallas, or Houston. Subscribe to the full city calendar or narrow it down to a specific industry — networking, technology, real estate, chamber of commerce, or small business.</p>
-              </div>
-            </div>
-            <div className="scp-how-step">
-              <div className="scp-how-num">2</div>
-              <div>
-                <h3>Get your Monday morning digest</h3>
-                <p>Every Monday at 6 a.m. CT, we send a curated list of that week's best business events in your city. No fluff — just events worth showing up to, organized by date and category.</p>
-              </div>
-            </div>
-            <div className="scp-how-step">
-              <div className="scp-how-num">3</div>
-              <div>
-                <h3>Show up and build relationships</h3>
-                <p>Pick the events that fit your schedule, walk in prepared, and let consistency do the work. The professionals who show up regularly are the ones who get referrals, partnerships, and opportunities first.</p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
