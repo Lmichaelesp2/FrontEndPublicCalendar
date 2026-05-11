@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { Copy, Check, Mail, ChevronDown, ChevronUp, LogOut, Home, Users } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { Copy, Check, Mail, ChevronDown, ChevronUp, LogOut, Home, Users, Send, AlertTriangle, CheckCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase';
 import { useAdmin } from '../../contexts/AdminContext';
@@ -259,6 +259,151 @@ function buildPlainText(label: string, weekLabel: string, events: Event[]): stri
   return lines.join('\n');
 }
 
+// ─── SendButton ───────────────────────────────────────────────────────────────
+
+interface SendStats {
+  sentToday: number;
+  totalSubscribers: number;
+  dailyCap: number | null;
+  remaining: number | null;
+}
+
+type SendStatus = 'idle' | 'checking' | 'confirm' | 'sending' | 'done' | 'error';
+
+interface SendResult {
+  sentCount: number;
+  eventsCount: number;
+  totalSubscribers: number;
+  skippedByRamp: number;
+  errors?: { email: string; error: string }[];
+}
+
+function SendButton({ city }: { city: string }) {
+  const [status, setStatus] = useState<SendStatus>('idle');
+  const [stats, setStats] = useState<SendStats | null>(null);
+  const [result, setResult] = useState<SendResult | null>(null);
+  const [errMsg, setErrMsg] = useState('');
+  const isSA = city === 'San Antonio';
+
+  const fetchStats = useCallback(async () => {
+    setStatus('checking');
+    try {
+      const res = await fetch(`/api/send-newsletter?city=${encodeURIComponent(city)}`);
+      const data = await res.json();
+      setStats(data);
+      setStatus('confirm');
+    } catch {
+      setErrMsg('Could not load send stats.');
+      setStatus('error');
+    }
+  }, [city]);
+
+  async function handleSend() {
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/send-newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ city }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setErrMsg(data.error ?? 'Send failed');
+        setStatus('error');
+        return;
+      }
+      setResult(data);
+      setStatus('done');
+    } catch (e: any) {
+      setErrMsg(e?.message ?? 'Send failed');
+      setStatus('error');
+    }
+  }
+
+  if (status === 'idle') {
+    return (
+      <button onClick={fetchStats} className="nl-send-btn">
+        <Send size={14} /> Send to {city} subscribers
+      </button>
+    );
+  }
+
+  if (status === 'checking') {
+    return (
+      <div className="nl-send-status nl-send-checking">
+        <Loader2 size={14} className="nl-spin" /> Checking send stats…
+      </div>
+    );
+  }
+
+  if (status === 'confirm' && stats) {
+    const willSend = isSA
+      ? Math.min(stats.remaining ?? stats.totalSubscribers, stats.totalSubscribers - stats.sentToday)
+      : stats.totalSubscribers - stats.sentToday;
+
+    return (
+      <div className="nl-send-confirm">
+        <div className="nl-send-confirm-info">
+          <strong>{city} — Ready to send</strong>
+          {isSA && (
+            <div className="nl-ramp-info">
+              <AlertTriangle size={13} />
+              <span>SA ramp mode: {stats.sentToday} sent today · {stats.remaining} remaining of {stats.dailyCap}/day cap</span>
+            </div>
+          )}
+          <div className="nl-send-confirm-detail">
+            {stats.totalSubscribers} active subscribers
+            {isSA && stats.sentToday > 0 ? ` · ${stats.sentToday} already sent today` : ''}
+            {' → '}<strong>will send to {willSend > 0 ? willSend : stats.totalSubscribers}</strong>
+          </div>
+        </div>
+        <div className="nl-send-confirm-btns">
+          <button onClick={handleSend} className="nl-send-btn nl-send-confirm-go">
+            <Send size={14} /> Confirm Send
+          </button>
+          <button onClick={() => setStatus('idle')} className="nl-send-cancel">
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === 'sending') {
+    return (
+      <div className="nl-send-status nl-send-checking">
+        <Loader2 size={14} className="nl-spin" /> Sending emails… do not close this tab
+      </div>
+    );
+  }
+
+  if (status === 'done' && result) {
+    return (
+      <div className="nl-send-status nl-send-done">
+        <CheckCircle size={14} />
+        <span>
+          ✓ Sent to <strong>{result.sentCount}</strong> subscribers
+          {result.skippedByRamp > 0 && <> · <span className="nl-ramp-badge">{result.skippedByRamp} held for ramp</span></>}
+          {result.errors && result.errors.length > 0 && <> · {result.errors.length} failed</>}
+        </span>
+        <button onClick={() => { setStatus('idle'); setResult(null); }} className="nl-send-reset">Send again</button>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="nl-send-status nl-send-error">
+        <AlertTriangle size={14} />
+        <span>{errMsg}</span>
+        <button onClick={() => setStatus('idle')} className="nl-send-reset">Retry</button>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 // ─── CopyButton ───────────────────────────────────────────────────────────────
 
 function CopyButton({ text, label }: { text: string; label: string }) {
@@ -339,6 +484,13 @@ function NewsletterCard({ newsletter, weekLabel }: { newsletter: Newsletter; wee
               Plain text
             </button>
           </div>
+
+          {/* Send button — city-wide newsletters only */}
+          {newsletter.subCal === null && (
+            <div className="nl-send-row">
+              <SendButton city={newsletter.city} />
+            </div>
+          )}
 
           {/* Copy buttons */}
           <div className="nl-copy-row">

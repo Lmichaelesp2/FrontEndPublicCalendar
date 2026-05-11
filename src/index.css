@@ -2714,6 +2714,29 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   .nl-tabs{flex-wrap:wrap}
 }
 
+/* -- Newsletter Send Button ------------------------------------------------- */
+.nl-send-row{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--gray-100)}
+.nl-send-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.5rem 1.1rem;background:#16a34a;color:#fff;border:none;border-radius:6px;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .15s}
+.nl-send-btn:hover{background:#15803d}
+.nl-send-confirm-go{background:#16a34a}
+.nl-send-confirm-go:hover{background:#15803d}
+.nl-send-cancel{display:inline-flex;align-items:center;padding:.5rem 1rem;background:none;border:1px solid var(--gray-300);border-radius:6px;font-size:.83rem;font-weight:600;color:var(--gray-600);cursor:pointer;transition:all .15s}
+.nl-send-cancel:hover{background:var(--gray-50)}
+.nl-send-confirm{background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.75rem}
+.nl-send-confirm-info{display:flex;flex-direction:column;gap:.35rem}
+.nl-send-confirm-info strong{font-size:.9rem;color:#14532d}
+.nl-send-confirm-detail{font-size:.83rem;color:#166534}
+.nl-send-confirm-btns{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.nl-ramp-info{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:5px;padding:.3rem .65rem;width:fit-content}
+.nl-ramp-badge{background:#fef3c7;color:#92400e;border-radius:4px;padding:.1rem .45rem;font-size:.78rem;font-weight:700}
+.nl-send-status{display:inline-flex;align-items:center;gap:.5rem;font-size:.83rem;font-weight:600;padding:.5rem .8rem;border-radius:6px}
+.nl-send-checking{color:var(--gray-600);background:var(--gray-50);border:1px solid var(--gray-200)}
+.nl-send-done{color:#14532d;background:#f0fdf4;border:1px solid #86efac}
+.nl-send-error{color:#991b1b;background:#fef2f2;border:1px solid #fca5a5}
+.nl-send-reset{margin-left:.5rem;font-size:.78rem;font-weight:600;color:inherit;background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.nl-spin{animation:spin .8s linear infinite}
+
 /* -- Sponsor Page ---------------------------------------------------------- */
 .sponsor-page{min-height:100vh;background:var(--color-paper)}
 
