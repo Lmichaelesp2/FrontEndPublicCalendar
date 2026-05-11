@@ -70,10 +70,13 @@ function buildNewsletterHtml(
   events: EventRow[],
   firstName: string | null,
   unsubToken: string,
+  subCalendar: string | null = null,
 ): string {
   const calUrl = CITY_CALENDAR_URL[city] ?? 'https://businesscalendar.link';
   const unsubUrl = `https://businesscalendar.link/unsubscribe?token=${unsubToken}`;
   const greeting = firstName ? `Hey ${firstName},` : 'Hey there,';
+  const headerLabel = subCalendar ? `${city} — ${subCalendar}` : `${city}`;
+  const eventsHeading = subCalendar ? `${subCalendar} Events This Week` : `This Week's Events`;
 
   const eventRows = events.length === 0
     ? `<tr><td style="padding:16px 0;color:#aaa;font-size:13px;font-style:italic;">No events found for this week — check back next Monday!</td></tr>`
@@ -124,7 +127,7 @@ function buildNewsletterHtml(
           <tr>
             <td>
               <span style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#888;display:block;margin-bottom:3px;">Local Business Calendars</span>
-              <span style="font-size:18px;font-weight:700;color:#1a1a1a;">${city} — This Week</span>
+              <span style="font-size:18px;font-weight:700;color:#1a1a1a;">${headerLabel} — This Week</span>
             </td>
             <td align="right" style="vertical-align:middle;">
               <span style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#1a3a5c;font-weight:700;">Weekly Edition</span>
@@ -157,7 +160,7 @@ function buildNewsletterHtml(
     <tr>
       <td style="padding:20px 24px 4px;">
         <p style="font-size:14px;color:#333;margin:0 0 16px;">${greeting}</p>
-        <p style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#888;margin:0 0 14px;padding-bottom:6px;border-bottom:1px solid #e8e8e8;">This Week's Events</p>
+        <p style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#888;margin:0 0 14px;padding-bottom:6px;border-bottom:1px solid #e8e8e8;">${eventsHeading}</p>
         <table width="100%" cellpadding="0" cellspacing="0">
           ${eventRows}
         </table>
@@ -233,7 +236,14 @@ function buildLabel(city: string, subCalendar: string | null): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const { city, subCalendar = null, dryRun, testEmails } = await req.json();
+    const body = await req.json();
+    const { city, dryRun, testEmails } = body;
+    // Explicitly handle subCalendar — treat missing/undefined/empty string all as null
+    const subCalendar: string | null = body.subCalendar && typeof body.subCalendar === 'string'
+      ? body.subCalendar
+      : null;
+
+    console.log('[send-newsletter] city:', city, '| subCalendar:', subCalendar, '| testEmails:', !!testEmails);
 
     if (!city) {
       return NextResponse.json({ error: 'city is required' }, { status: 400 });
@@ -283,7 +293,7 @@ export async function POST(req: NextRequest) {
 
       await Promise.all(testEmails.map(async (email: string) => {
         const unsubToken = Buffer.from(email).toString('base64');
-        const html = buildNewsletterHtml(city, weekLabel, events, null, unsubToken);
+        const html = buildNewsletterHtml(city, weekLabel, events, null, unsubToken, subCalendar);
         const testHtml = html.replace(
           '<!-- HEADER -->',
           `<!-- TEST BANNER -->
@@ -409,7 +419,7 @@ export async function POST(req: NextRequest) {
 
       await Promise.all(batch.map(async (sub) => {
         const unsubToken = Buffer.from(sub.email).toString('base64');
-        const html = buildNewsletterHtml(city, weekLabel, events, sub.first_name, unsubToken);
+        const html = buildNewsletterHtml(city, weekLabel, events, sub.first_name, unsubToken, subCalendar);
 
         try {
           await sgMail.send({
