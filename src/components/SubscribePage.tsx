@@ -150,6 +150,20 @@ export function SubscribePage() {
         // Non-fatal — account was created, subscription may already exist
       }
 
+      // Send welcome email via SendGrid (non-blocking)
+      if (mode === 'signup') {
+        fetch('/api/send-welcome', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email:       email.trim().toLowerCase(),
+            firstName:   firstName.trim() || null,
+            city:        cityName,
+            subCalendar: subCalName ?? null,
+          }),
+        }).catch(err => console.error('Welcome email error:', err));
+      }
+
       setSuccess(true);
       setTimeout(() => router.push(cityRoute), 5000);
 
