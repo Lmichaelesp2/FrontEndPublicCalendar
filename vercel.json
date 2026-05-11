@@ -1,0 +1,19 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/monday-reminder",
+      "schedule": "0 11 * * 1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/cron/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ]
+}

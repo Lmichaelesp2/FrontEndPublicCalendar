@@ -690,6 +690,178 @@ function NewsletterCard({ newsletter, weekLabel }: { newsletter: Newsletter; wee
   );
 }
 
+// ─── SendCityButton — sends city-wide + all sub-cals for one city ─────────────
+
+type BulkStatus = 'idle' | 'confirm' | 'sending' | 'done' | 'error';
+
+interface BulkResult {
+  label: string;
+  sentCount: number;
+  eventsCount: number;
+  skippedByRamp: number;
+  error?: string;
+}
+
+function SendCityButton({ city, newsletters }: { city: string; newsletters: Newsletter[] }) {
+  const [status, setStatus] = useState<BulkStatus>('idle');
+  const [results, setResults] = useState<BulkResult[]>([]);
+  const [errMsg, setErrMsg] = useState('');
+
+  const cityNewsletters = newsletters.filter(nl => nl.city === city);
+  const totalLists = cityNewsletters.length;
+
+  async function handleSendAll() {
+    setStatus('sending');
+    const out: BulkResult[] = [];
+
+    for (const nl of cityNewsletters) {
+      try {
+        const res = await fetch('/api/send-newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ city: nl.city, subCalendar: nl.subCal }),
+        });
+        const data = await res.json();
+        out.push({
+          label: nl.label,
+          sentCount: data.sentCount ?? 0,
+          eventsCount: data.eventsCount ?? 0,
+          skippedByRamp: data.skippedByRamp ?? 0,
+          error: !res.ok ? (data.error ?? 'Failed') : undefined,
+        });
+      } catch (e: any) {
+        out.push({ label: nl.label, sentCount: 0, eventsCount: 0, skippedByRamp: 0, error: e?.message ?? 'Failed' });
+      }
+    }
+
+    setResults(out);
+    setStatus('done');
+  }
+
+  if (status === 'idle') {
+    return (
+      <button onClick={() => setStatus('confirm')} className="nl-bulk-city-btn">
+        <Send size={13} /> Send All {city}
+      </button>
+    );
+  }
+
+  if (status === 'confirm') {
+    return (
+      <div className="nl-bulk-confirm">
+        <span>Send all <strong>{totalLists}</strong> {city} newsletters at once?</span>
+        <button onClick={handleSendAll} className="nl-bulk-go"><Send size={13} /> Confirm</button>
+        <button onClick={() => setStatus('idle')} className="nl-send-cancel">Cancel</button>
+      </div>
+    );
+  }
+
+  if (status === 'sending') {
+    return (
+      <div className="nl-send-status nl-send-checking">
+        <Loader2 size={13} className="nl-spin" /> Sending {city} newsletters…
+      </div>
+    );
+  }
+
+  if (status === 'done') {
+    const totalSent = results.reduce((s, r) => s + r.sentCount, 0);
+    const errors = results.filter(r => r.error);
+    return (
+      <div className="nl-send-status nl-send-done" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '.35rem' }}>
+        <span><CheckCircle size={13} /> {city} done — <strong>{totalSent}</strong> emails sent across {totalLists} lists</span>
+        {errors.length > 0 && <span style={{ color: '#b45309', fontSize: '.78rem' }}>{errors.length} list(s) had errors</span>}
+        <button onClick={() => { setStatus('idle'); setResults([]); }} className="nl-send-reset">Reset</button>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="nl-send-status nl-send-error">
+        <AlertTriangle size={13} /> {errMsg}
+        <button onClick={() => setStatus('idle')} className="nl-send-reset">Retry</button>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+// ─── SendAllCitiesButton — sends every city, every list ───────────────────────
+
+function SendAllCitiesButton({ newsletters }: { newsletters: Newsletter[] }) {
+  const [status, setStatus] = useState<BulkStatus>('idle');
+  const [progress, setProgress] = useState('');
+  const [totalSent, setTotalSent] = useState(0);
+  const [doneCount, setDoneCount] = useState(0);
+
+  const total = newsletters.length;
+
+  async function handleSendAll() {
+    setStatus('sending');
+    let sent = 0;
+    let done = 0;
+
+    for (const nl of newsletters) {
+      setProgress(`Sending ${nl.label}…`);
+      try {
+        const res = await fetch('/api/send-newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ city: nl.city, subCalendar: nl.subCal }),
+        });
+        const data = await res.json();
+        sent += data.sentCount ?? 0;
+      } catch {}
+      done++;
+      setDoneCount(done);
+      setTotalSent(sent);
+    }
+
+    setStatus('done');
+  }
+
+  if (status === 'idle') {
+    return (
+      <button onClick={() => setStatus('confirm')} className="nl-send-all-btn">
+        <Send size={14} /> Send All Cities
+      </button>
+    );
+  }
+
+  if (status === 'confirm') {
+    return (
+      <div className="nl-bulk-confirm nl-bulk-confirm--all">
+        <span>Send all <strong>{total}</strong> newsletters across all cities?</span>
+        <button onClick={handleSendAll} className="nl-bulk-go"><Send size={13} /> Yes, send all</button>
+        <button onClick={() => setStatus('idle')} className="nl-send-cancel">Cancel</button>
+      </div>
+    );
+  }
+
+  if (status === 'sending') {
+    return (
+      <div className="nl-send-status nl-send-checking">
+        <Loader2 size={14} className="nl-spin" />
+        <span>{progress} ({doneCount}/{total})</span>
+      </div>
+    );
+  }
+
+  if (status === 'done') {
+    return (
+      <div className="nl-send-status nl-send-done">
+        <CheckCircle size={14} />
+        <span>All done — <strong>{totalSent}</strong> emails sent across {total} lists</span>
+        <button onClick={() => { setStatus('idle'); setTotalSent(0); setDoneCount(0); }} className="nl-send-reset">Reset</button>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export function NewslettersPage() {
@@ -791,17 +963,33 @@ export function NewslettersPage() {
             <h2>Weekly Newsletter Drafts</h2>
             <p className="nl-week-label">{weekLabel}</p>
             <p className="nl-hint">
-              Click any newsletter to expand it. Copy the HTML to paste into SendGrid, or copy the plain text to paste into Gmail or any personal email account.
+              Test Send first to preview, then send to each city individually or all at once.
             </p>
+            {!loading && newsletters.length > 0 && (
+              <div className="nl-send-all-row">
+                <SendAllCitiesButton newsletters={newsletters} />
+              </div>
+            )}
           </div>
 
           {loading ? (
             <div className="nl-loading">Loading events...</div>
           ) : (
             <div className="nl-list">
-              {newsletters.map(nl => (
-                <NewsletterCard key={nl.key} newsletter={nl} weekLabel={weekLabel} />
-              ))}
+              {CITIES.map(city => {
+                const cityNls = newsletters.filter(nl => nl.city === city);
+                return (
+                  <div key={city} className="nl-city-group">
+                    <div className="nl-city-group-header">
+                      <span className="nl-city-group-label">{city}</span>
+                      <SendCityButton city={city} newsletters={newsletters} />
+                    </div>
+                    {cityNls.map(nl => (
+                      <NewsletterCard key={nl.key} newsletter={nl} weekLabel={weekLabel} />
+                    ))}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

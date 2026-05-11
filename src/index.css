@@ -3299,3 +3299,17 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .unsub-btn-primary:hover{opacity:.88}
 .unsub-btn-secondary{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;background:none;border:1px solid var(--gray-300);color:var(--gray-600);border-radius:6px;font-size:.9rem;font-weight:600;text-decoration:none;transition:all .15s}
 .unsub-btn-secondary:hover{background:var(--gray-50)}
+
+/* -- City group + bulk send buttons --------------------------------------- */
+.nl-send-all-row{margin-top:1rem}
+.nl-send-all-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1.2rem;background:#1a3a5c;color:#fff;border:none;border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s}
+.nl-send-all-btn:hover{opacity:.88}
+.nl-city-group{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.25rem}
+.nl-city-group-header{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:2px solid var(--color-ink)}
+.nl-city-group-label{font-size:1rem;font-weight:800;color:var(--color-ink);letter-spacing:.02em;font-family:var(--font-serif)}
+.nl-bulk-city-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .9rem;background:#1a3a5c;color:#fff;border:none;border-radius:5px;font-size:.8rem;font-weight:700;cursor:pointer;transition:opacity .15s}
+.nl-bulk-city-btn:hover{opacity:.85}
+.nl-bulk-confirm{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:.5rem .8rem;font-size:.83rem;color:#1e40af}
+.nl-bulk-confirm--all{background:#fef3c7;border-color:#fde68a;color:#92400e}
+.nl-bulk-go{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .85rem;background:#1a3a5c;color:#fff;border:none;border-radius:5px;font-size:.8rem;font-weight:700;cursor:pointer}
+.nl-bulk-confirm--all .nl-bulk-go{background:#d97706}
