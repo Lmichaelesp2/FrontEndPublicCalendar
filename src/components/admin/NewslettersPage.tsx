@@ -27,8 +27,18 @@ interface Newsletter {
 
 function getMondayThisSunday(): { monday: string; sunday: string } {
   const today = new Date();
-  const day = today.getDay(); // 0=Sun,1=Mon,...
-  const diffToMonday = day === 0 ? -6 : 1 - day;
+  const day = today.getDay(); // 0=Sun, 1=Mon, ... 6=Sat
+
+  // Fri/Sat/Sun → look ahead to next Monday's week so preview matches the send
+  let diffToMonday: number;
+  if (day === 0) {
+    diffToMonday = 1;        // Sun → next Mon
+  } else if (day >= 5) {
+    diffToMonday = 8 - day;  // Fri → +3, Sat → +2
+  } else {
+    diffToMonday = 1 - day;  // Mon → 0, Tue → -1, etc.
+  }
+
   const monday = new Date(today);
   monday.setDate(today.getDate() + diffToMonday);
   const sunday = new Date(monday);

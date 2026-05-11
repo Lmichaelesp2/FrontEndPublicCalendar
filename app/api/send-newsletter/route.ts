@@ -28,14 +28,28 @@ function getSupabaseAdmin() {
 
 // ─── Date helpers ─────────────────────────────────────────────────────────────
 function getMondayThisSunday(): { monday: string; sunday: string } {
-  const today = new Date();
-  const day = today.getDay();
-  const diffToMonday = day === 0 ? -6 : 1 - day;
+  // Always use CT date — server runs UTC
+  const todayStr = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
+  const [y, m, d] = todayStr.split('-').map(Number);
+  const today = new Date(y, m - 1, d);
+  const day = today.getDay(); // 0=Sun, 1=Mon, ... 6=Sat
+
+  // If Friday (5), Saturday (6), or Sunday (0) — look ahead to NEXT Monday's week
+  // If Monday–Thursday (1–4) — use the current week
+  let diffToMonday: number;
+  if (day === 0) {
+    diffToMonday = 1;        // Sun → next Mon
+  } else if (day >= 5) {
+    diffToMonday = 8 - day;  // Fri → +3, Sat → +2
+  } else {
+    diffToMonday = 1 - day;  // Mon → 0, Tue → -1, etc.
+  }
+
   const monday = new Date(today);
   monday.setDate(today.getDate() + diffToMonday);
   const sunday = new Date(monday);
   sunday.setDate(monday.getDate() + 6);
-  const fmt = (d: Date) => d.toISOString().split('T')[0];
+  const fmt = (dt: Date) => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
   return { monday: fmt(monday), sunday: fmt(sunday) };
 }
 
