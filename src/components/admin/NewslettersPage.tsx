@@ -404,6 +404,157 @@ function SendButton({ city }: { city: string }) {
   return null;
 }
 
+// ─── TestSendButton ───────────────────────────────────────────────────────────
+
+const DEFAULT_TEST_EMAILS = [
+  'themobilecoach@gmail.com',
+  'michael@localbusinesscalendars.com',
+  'michael@technologycoaching.com',
+  'michael@sabusinesscalendar.com',
+];
+
+type TestSendStatus = 'idle' | 'open' | 'sending' | 'done' | 'error';
+
+interface TestSendResult {
+  sentCount: number;
+  eventsCount: number;
+  sentTo: string[];
+  errors?: { email: string; error: string }[];
+}
+
+function TestSendButton({ city }: { city: string }) {
+  const [status, setStatus] = useState<TestSendStatus>('idle');
+  const [selected, setSelected] = useState<Set<string>>(new Set(DEFAULT_TEST_EMAILS));
+  const [customEmail, setCustomEmail] = useState('');
+  const [testList, setTestList] = useState<string[]>(DEFAULT_TEST_EMAILS);
+  const [result, setResult] = useState<TestSendResult | null>(null);
+  const [errMsg, setErrMsg] = useState('');
+
+  function toggleEmail(email: string) {
+    setSelected(prev => {
+      const next = new Set(prev);
+      next.has(email) ? next.delete(email) : next.add(email);
+      return next;
+    });
+  }
+
+  function addCustomEmail() {
+    const email = customEmail.trim().toLowerCase();
+    if (!email || !email.includes('@')) return;
+    if (!testList.includes(email)) setTestList(prev => [...prev, email]);
+    setSelected(prev => new Set([...prev, email]));
+    setCustomEmail('');
+  }
+
+  async function handleTestSend() {
+    const emails = testList.filter(e => selected.has(e));
+    if (emails.length === 0) return;
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/send-newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ city, testEmails: emails }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setErrMsg(data.error ?? 'Test send failed');
+        setStatus('error');
+        return;
+      }
+      setResult(data);
+      setStatus('done');
+    } catch (e: any) {
+      setErrMsg(e?.message ?? 'Test send failed');
+      setStatus('error');
+    }
+  }
+
+  if (status === 'idle') {
+    return (
+      <button onClick={() => setStatus('open')} className="nl-test-btn">
+        <Mail size={13} /> Test Send
+      </button>
+    );
+  }
+
+  if (status === 'open') {
+    const selectedEmails = testList.filter(e => selected.has(e));
+    return (
+      <div className="nl-test-panel">
+        <div className="nl-test-panel-header">
+          <span className="nl-test-label">Test Send — {city}</span>
+          <button onClick={() => setStatus('idle')} className="nl-test-close">✕</button>
+        </div>
+        <p className="nl-test-hint">Sends the real email HTML to these addresses only. Does not count against the SA ramp cap.</p>
+        <div className="nl-test-list">
+          {testList.map(email => (
+            <label key={email} className="nl-test-email-row">
+              <input
+                type="checkbox"
+                checked={selected.has(email)}
+                onChange={() => toggleEmail(email)}
+              />
+              <span>{email}</span>
+            </label>
+          ))}
+        </div>
+        <div className="nl-test-add-row">
+          <input
+            type="email"
+            value={customEmail}
+            onChange={e => setCustomEmail(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && addCustomEmail()}
+            placeholder="Add another email…"
+            className="nl-test-input"
+          />
+          <button onClick={addCustomEmail} className="nl-test-add-btn">Add</button>
+        </div>
+        <div className="nl-test-send-row">
+          <button
+            onClick={handleTestSend}
+            disabled={selectedEmails.length === 0}
+            className="nl-test-send-go"
+          >
+            <Send size={13} /> Send to {selectedEmails.length} address{selectedEmails.length !== 1 ? 'es' : ''}
+          </button>
+          <button onClick={() => setStatus('idle')} className="nl-send-cancel">Cancel</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === 'sending') {
+    return (
+      <div className="nl-send-status nl-send-checking">
+        <Loader2 size={14} className="nl-spin" /> Sending test emails…
+      </div>
+    );
+  }
+
+  if (status === 'done' && result) {
+    return (
+      <div className="nl-send-status nl-send-done">
+        <CheckCircle size={14} />
+        <span>Test sent to <strong>{result.sentCount}</strong> address{result.sentCount !== 1 ? 'es' : ''} · {result.eventsCount} events</span>
+        <button onClick={() => { setStatus('idle'); setResult(null); }} className="nl-send-reset">Done</button>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="nl-send-status nl-send-error">
+        <AlertTriangle size={14} />
+        <span>{errMsg}</span>
+        <button onClick={() => setStatus('open')} className="nl-send-reset">Retry</button>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 // ─── CopyButton ───────────────────────────────────────────────────────────────
 
 function CopyButton({ text, label }: { text: string; label: string }) {
@@ -485,10 +636,13 @@ function NewsletterCard({ newsletter, weekLabel }: { newsletter: Newsletter; wee
             </button>
           </div>
 
-          {/* Send button — city-wide newsletters only */}
+          {/* Send + Test Send buttons — city-wide newsletters only */}
           {newsletter.subCal === null && (
             <div className="nl-send-row">
-              <SendButton city={newsletter.city} />
+              <div className="nl-send-row-btns">
+                <SendButton city={newsletter.city} />
+                <TestSendButton city={newsletter.city} />
+              </div>
             </div>
           )}
 

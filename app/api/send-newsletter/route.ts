@@ -205,7 +205,7 @@ function buildNewsletterHtml(
 
 export async function POST(req: NextRequest) {
   try {
-    const { city, dryRun } = await req.json();
+    const { city, dryRun, testEmails } = await req.json();
 
     if (!city) {
       return NextResponse.json({ error: 'city is required' }, { status: 400 });
@@ -231,6 +231,61 @@ export async function POST(req: NextRequest) {
 
     const events = (eventsData ?? []) as EventRow[];
 
+    // ── Format week label (needed for both test and real sends) ───────────────
+    const fmtDate = (s: string) => {
+      const [y, m, d] = s.split('-').map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    };
+    const weekLabel = `Week of ${fmtDate(monday)} – ${fmtDate(sunday)}`;
+
+    // ── TEST SEND — bypass subscriber list and ramp logic entirely ─────────────
+    if (testEmails && Array.isArray(testEmails) && testEmails.length > 0) {
+      const errors: { email: string; error: string }[] = [];
+      let sentCount = 0;
+
+      await Promise.all(testEmails.map(async (email: string) => {
+        const unsubToken = Buffer.from(email).toString('base64');
+        const html = buildNewsletterHtml(city, weekLabel, events, null, unsubToken);
+        // Prepend a test banner so it's obvious this is a preview
+        const testHtml = html.replace(
+          '<body ',
+          `<body `,
+        ).replace(
+          '<!-- HEADER -->',
+          `<!-- TEST BANNER -->
+    <tr>
+      <td style="background:#f59e0b;padding:8px 24px;text-align:center;">
+        <span style="font-size:11px;font-weight:700;color:#1c1917;letter-spacing:0.05em;">
+          ⚠ TEST SEND — This is a preview. Not sent to real subscribers.
+        </span>
+      </td>
+    </tr>
+    <!-- HEADER -->`,
+        );
+
+        try {
+          await sgMail.send({
+            to:      email,
+            from:    { email: FROM_EMAIL, name: FROM_NAME },
+            subject: `[TEST] ${city} Business Events — This Week`,
+            html:    testHtml,
+          });
+          sentCount++;
+        } catch (err: any) {
+          errors.push({ email, error: err?.message ?? 'unknown' });
+        }
+      }));
+
+      return NextResponse.json({
+        testSend: true,
+        city,
+        eventsCount: events.length,
+        sentCount,
+        sentTo: testEmails,
+        errors: errors.length > 0 ? errors : undefined,
+      });
+    }
+
     // ── 2. Fetch active subscribers for this city ─────────────────────────────
     const { data: subsData, error: subsError } = await supabase
       .from('newsletter_subscriptions')
@@ -250,7 +305,6 @@ export async function POST(req: NextRequest) {
     let alreadySentToday = 0;
 
     if (city === 'San Antonio') {
-      // Count how many SA emails were sent today
       const { count } = await supabase
         .from('newsletter_sends')
         .select('*', { count: 'exact', head: true })
@@ -273,14 +327,7 @@ export async function POST(req: NextRequest) {
       cappedAt = SA_DAILY_CAP;
     }
 
-    // ── 4. Format week label ──────────────────────────────────────────────────
-    const fmtDate = (s: string) => {
-      const [y, m, d] = s.split('-').map(Number);
-      return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    };
-    const weekLabel = `Week of ${fmtDate(monday)} – ${fmtDate(sunday)}`;
-
-    // ── 5. Dry run — return stats without sending ─────────────────────────────
+    // ── 4. Dry run — return stats without sending ─────────────────────────────
     if (dryRun) {
       return NextResponse.json({
         dryRun: true,
