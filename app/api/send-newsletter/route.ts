@@ -324,17 +324,21 @@ export async function POST(req: NextRequest) {
     // ── 2. Fetch active subscribers for this list ─────────────────────────────
     // city-wide: sub_calendar IS NULL
     // sub-cal:   sub_calendar = 'Networking' (etc.)
-    let subsQuery = supabase
-      .from('newsletter_subscriptions')
-      .select('id, email, first_name')
-      .eq('city', city)
-      .eq('status', 'active');
-
-    subsQuery = subCalendar
-      ? subsQuery.eq('sub_calendar', subCalendar)
-      : subsQuery.is('sub_calendar', null);
-
-    const { data: subsData, error: subsError } = await subsQuery;
+    // NOTE: build the full query in one chain — Supabase query builder
+    // reassignment is unreliable; conditional chaining must be done inline.
+    const { data: subsData, error: subsError } = subCalendar
+      ? await supabase
+          .from('newsletter_subscriptions')
+          .select('id, email, first_name')
+          .eq('city', city)
+          .eq('status', 'active')
+          .eq('sub_calendar', subCalendar)
+      : await supabase
+          .from('newsletter_subscriptions')
+          .select('id, email, first_name')
+          .eq('city', city)
+          .eq('status', 'active')
+          .is('sub_calendar', null);
 
     if (subsError) {
       return NextResponse.json({ error: 'Failed to fetch subscribers', detail: subsError.message }, { status: 500 });
@@ -348,17 +352,19 @@ export async function POST(req: NextRequest) {
     let alreadySentToday = 0;
 
     if (city === 'San Antonio') {
-      let capQuery = supabase
-        .from('newsletter_sends')
-        .select('*', { count: 'exact', head: true })
-        .eq('city', city)
-        .eq('send_date', today);
-
-      capQuery = subCalendar
-        ? capQuery.eq('sub_calendar', subCalendar)
-        : capQuery.is('sub_calendar', null);
-
-      const { count } = await capQuery;
+      const { count } = subCalendar
+        ? await supabase
+            .from('newsletter_sends')
+            .select('*', { count: 'exact', head: true })
+            .eq('city', city)
+            .eq('send_date', today)
+            .eq('sub_calendar', subCalendar)
+        : await supabase
+            .from('newsletter_sends')
+            .select('*', { count: 'exact', head: true })
+            .eq('city', city)
+            .eq('send_date', today)
+            .is('sub_calendar', null);
       alreadySentToday = count ?? 0;
       const remaining = Math.max(0, SA_DAILY_CAP - alreadySentToday);
 
@@ -470,32 +476,38 @@ export async function GET(req: NextRequest) {
   const supabase = getSupabaseAdmin();
   const today = todayCST();
 
-  let sendsQuery = supabase
-    .from('newsletter_sends')
-    .select('count_sent, sent_at')
-    .eq('city', city)
-    .eq('send_date', today)
-    .order('sent_at', { ascending: false });
+  const { data } = subCalendar
+    ? await supabase
+        .from('newsletter_sends')
+        .select('count_sent, sent_at')
+        .eq('city', city)
+        .eq('send_date', today)
+        .eq('sub_calendar', subCalendar)
+        .order('sent_at', { ascending: false })
+    : await supabase
+        .from('newsletter_sends')
+        .select('count_sent, sent_at')
+        .eq('city', city)
+        .eq('send_date', today)
+        .is('sub_calendar', null)
+        .order('sent_at', { ascending: false });
 
-  sendsQuery = subCalendar
-    ? sendsQuery.eq('sub_calendar', subCalendar)
-    : sendsQuery.is('sub_calendar', null);
-
-  const { data } = await sendsQuery;
   const sentToday = (data ?? []).reduce((sum, r) => sum + (r.count_sent ?? 0), 0);
 
   // Total active subscribers for this specific list
-  let subsQuery = supabase
-    .from('newsletter_subscriptions')
-    .select('*', { count: 'exact', head: true })
-    .eq('city', city)
-    .eq('status', 'active');
-
-  subsQuery = subCalendar
-    ? subsQuery.eq('sub_calendar', subCalendar)
-    : subsQuery.is('sub_calendar', null);
-
-  const { count: totalSubs } = await subsQuery;
+  const { count: totalSubs } = subCalendar
+    ? await supabase
+        .from('newsletter_subscriptions')
+        .select('*', { count: 'exact', head: true })
+        .eq('city', city)
+        .eq('status', 'active')
+        .eq('sub_calendar', subCalendar)
+    : await supabase
+        .from('newsletter_subscriptions')
+        .select('*', { count: 'exact', head: true })
+        .eq('city', city)
+        .eq('status', 'active')
+        .is('sub_calendar', null);
 
   return NextResponse.json({
     city,
