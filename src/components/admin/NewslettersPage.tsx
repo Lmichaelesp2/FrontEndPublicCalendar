@@ -278,17 +278,20 @@ interface SendResult {
   errors?: { email: string; error: string }[];
 }
 
-function SendButton({ city }: { city: string }) {
+function SendButton({ city, subCalendar }: { city: string; subCalendar: string | null }) {
   const [status, setStatus] = useState<SendStatus>('idle');
   const [stats, setStats] = useState<SendStats | null>(null);
   const [result, setResult] = useState<SendResult | null>(null);
   const [errMsg, setErrMsg] = useState('');
   const isSA = city === 'San Antonio';
+  const listLabel = subCalendar ? `${city} — ${subCalendar}` : city;
 
   const fetchStats = useCallback(async () => {
     setStatus('checking');
     try {
-      const res = await fetch(`/api/send-newsletter?city=${encodeURIComponent(city)}`);
+      const params = new URLSearchParams({ city });
+      if (subCalendar) params.set('subCalendar', subCalendar);
+      const res = await fetch(`/api/send-newsletter?${params}`);
       const data = await res.json();
       setStats(data);
       setStatus('confirm');
@@ -296,7 +299,7 @@ function SendButton({ city }: { city: string }) {
       setErrMsg('Could not load send stats.');
       setStatus('error');
     }
-  }, [city]);
+  }, [city, subCalendar]);
 
   async function handleSend() {
     setStatus('sending');
@@ -304,7 +307,7 @@ function SendButton({ city }: { city: string }) {
       const res = await fetch('/api/send-newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ city }),
+        body: JSON.stringify({ city, subCalendar }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -323,7 +326,7 @@ function SendButton({ city }: { city: string }) {
   if (status === 'idle') {
     return (
       <button onClick={fetchStats} className="nl-send-btn">
-        <Send size={14} /> Send to {city} subscribers
+        <Send size={14} /> Send to {listLabel} subscribers
       </button>
     );
   }
@@ -344,7 +347,7 @@ function SendButton({ city }: { city: string }) {
     return (
       <div className="nl-send-confirm">
         <div className="nl-send-confirm-info">
-          <strong>{city} — Ready to send</strong>
+          <strong>{listLabel} — Ready to send</strong>
           {isSA && (
             <div className="nl-ramp-info">
               <AlertTriangle size={13} />
@@ -422,13 +425,14 @@ interface TestSendResult {
   errors?: { email: string; error: string }[];
 }
 
-function TestSendButton({ city }: { city: string }) {
+function TestSendButton({ city, subCalendar }: { city: string; subCalendar: string | null }) {
   const [status, setStatus] = useState<TestSendStatus>('idle');
   const [selected, setSelected] = useState<Set<string>>(new Set(DEFAULT_TEST_EMAILS));
   const [customEmail, setCustomEmail] = useState('');
   const [testList, setTestList] = useState<string[]>(DEFAULT_TEST_EMAILS);
   const [result, setResult] = useState<TestSendResult | null>(null);
   const [errMsg, setErrMsg] = useState('');
+  const listLabel = subCalendar ? `${city} — ${subCalendar}` : city;
 
   function toggleEmail(email: string) {
     setSelected(prev => {
@@ -454,7 +458,7 @@ function TestSendButton({ city }: { city: string }) {
       const res = await fetch('/api/send-newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ city, testEmails: emails }),
+        body: JSON.stringify({ city, subCalendar, testEmails: emails }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -483,7 +487,7 @@ function TestSendButton({ city }: { city: string }) {
     return (
       <div className="nl-test-panel">
         <div className="nl-test-panel-header">
-          <span className="nl-test-label">Test Send — {city}</span>
+          <span className="nl-test-label">Test Send — {listLabel}</span>
           <button onClick={() => setStatus('idle')} className="nl-test-close">✕</button>
         </div>
         <p className="nl-test-hint">Sends the real email HTML to these addresses only. Does not count against the SA ramp cap.</p>
@@ -636,15 +640,13 @@ function NewsletterCard({ newsletter, weekLabel }: { newsletter: Newsletter; wee
             </button>
           </div>
 
-          {/* Send + Test Send buttons — city-wide newsletters only */}
-          {newsletter.subCal === null && (
-            <div className="nl-send-row">
-              <div className="nl-send-row-btns">
-                <SendButton city={newsletter.city} />
-                <TestSendButton city={newsletter.city} />
-              </div>
+          {/* Send + Test Send buttons — all newsletters */}
+          <div className="nl-send-row">
+            <div className="nl-send-row-btns">
+              <SendButton city={newsletter.city} subCalendar={newsletter.subCal} />
+              <TestSendButton city={newsletter.city} subCalendar={newsletter.subCal} />
             </div>
-          )}
+          </div>
 
           {/* Copy buttons */}
           <div className="nl-copy-row">

@@ -201,11 +201,39 @@ function buildNewsletterHtml(
 </html>`;
 }
 
+// ─── Sub-cal event category filter (mirrors frontend logic) ──────────────────
+
+function eventCategoryMatchesSubCal(eventCategory: string | null, subCal: string): boolean {
+  if (!eventCategory) return false;
+  const cat = eventCategory.toLowerCase();
+  const sub = subCal.toLowerCase().replace(' ', '-');
+  const map: Record<string, string[]> = {
+    'networking':     ['networking'],
+    'technology':     ['technology', 'tech'],
+    'real-estate':    ['real estate', 'real-estate', 'realestate'],
+    'chamber':        ['chamber'],
+    'small-business': ['small business', 'small-business', 'smallbusiness'],
+  };
+  return (map[sub] || [sub]).some(v => cat.includes(v));
+}
+
+// ─── Subject line helper ──────────────────────────────────────────────────────
+
+function buildSubject(city: string, subCalendar: string | null): string {
+  return subCalendar
+    ? `${city} ${subCalendar} Events — This Week`
+    : `${city} Business Events — This Week`;
+}
+
+function buildLabel(city: string, subCalendar: string | null): string {
+  return subCalendar ? `${city} — ${subCalendar}` : `${city} (all events)`;
+}
+
 // ─── Main handler ─────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
   try {
-    const { city, dryRun, testEmails } = await req.json();
+    const { city, subCalendar = null, dryRun, testEmails } = await req.json();
 
     if (!city) {
       return NextResponse.json({ error: 'city is required' }, { status: 400 });
@@ -214,31 +242,41 @@ export async function POST(req: NextRequest) {
     const supabase = getSupabaseAdmin();
     const today = todayCST();
     const { monday, sunday } = getMondayThisSunday();
+    const label = buildLabel(city, subCalendar);
 
     // ── 1. Fetch this week's events for the city ──────────────────────────────
-    const { data: eventsData, error: eventsError } = await supabase
+    // For sub-cals we still pull all city events then filter by category,
+    // matching the same logic the newsletter preview uses.
+    let eventsQuery = supabase
       .from('events')
-      .select('id, name, start_date, start_time, org_name, address, website, paid')
+      .select('id, name, start_date, start_time, org_name, address, website, paid, event_category')
       .eq('city_calendar', city)
       .gte('start_date', monday)
       .lte('start_date', sunday)
       .order('start_date', { ascending: true })
       .order('start_time', { ascending: true });
 
+    const { data: eventsData, error: eventsError } = await eventsQuery;
+
     if (eventsError) {
       return NextResponse.json({ error: 'Failed to fetch events', detail: eventsError.message }, { status: 500 });
     }
 
-    const events = (eventsData ?? []) as EventRow[];
+    let allCityEvents = (eventsData ?? []) as (EventRow & { event_category: string | null })[];
 
-    // ── Format week label (needed for both test and real sends) ───────────────
+    // Filter to sub-cal category if needed
+    const events: EventRow[] = subCalendar
+      ? allCityEvents.filter(e => eventCategoryMatchesSubCal(e.event_category, subCalendar))
+      : allCityEvents;
+
+    // ── Format week label ─────────────────────────────────────────────────────
     const fmtDate = (s: string) => {
       const [y, m, d] = s.split('-').map(Number);
       return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     };
     const weekLabel = `Week of ${fmtDate(monday)} – ${fmtDate(sunday)}`;
 
-    // ── TEST SEND — bypass subscriber list and ramp logic entirely ─────────────
+    // ── TEST SEND — bypass subscriber list and ramp logic entirely ────────────
     if (testEmails && Array.isArray(testEmails) && testEmails.length > 0) {
       const errors: { email: string; error: string }[] = [];
       let sentCount = 0;
@@ -246,17 +284,13 @@ export async function POST(req: NextRequest) {
       await Promise.all(testEmails.map(async (email: string) => {
         const unsubToken = Buffer.from(email).toString('base64');
         const html = buildNewsletterHtml(city, weekLabel, events, null, unsubToken);
-        // Prepend a test banner so it's obvious this is a preview
         const testHtml = html.replace(
-          '<body ',
-          `<body `,
-        ).replace(
           '<!-- HEADER -->',
           `<!-- TEST BANNER -->
     <tr>
       <td style="background:#f59e0b;padding:8px 24px;text-align:center;">
         <span style="font-size:11px;font-weight:700;color:#1c1917;letter-spacing:0.05em;">
-          ⚠ TEST SEND — This is a preview. Not sent to real subscribers.
+          ⚠ TEST SEND — ${label} · Not sent to real subscribers.
         </span>
       </td>
     </tr>
@@ -267,7 +301,7 @@ export async function POST(req: NextRequest) {
           await sgMail.send({
             to:      email,
             from:    { email: FROM_EMAIL, name: FROM_NAME },
-            subject: `[TEST] ${city} Business Events — This Week`,
+            subject: `[TEST] ${buildSubject(city, subCalendar)}`,
             html:    testHtml,
           });
           sentCount++;
@@ -279,6 +313,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         testSend: true,
         city,
+        subCalendar,
         eventsCount: events.length,
         sentCount,
         sentTo: testEmails,
@@ -286,12 +321,20 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── 2. Fetch active subscribers for this city ─────────────────────────────
-    const { data: subsData, error: subsError } = await supabase
+    // ── 2. Fetch active subscribers for this list ─────────────────────────────
+    // city-wide: sub_calendar IS NULL
+    // sub-cal:   sub_calendar = 'Networking' (etc.)
+    let subsQuery = supabase
       .from('newsletter_subscriptions')
       .select('id, email, first_name')
       .eq('city', city)
       .eq('status', 'active');
+
+    subsQuery = subCalendar
+      ? subsQuery.eq('sub_calendar', subCalendar)
+      : subsQuery.is('sub_calendar', null);
+
+    const { data: subsData, error: subsError } = await subsQuery;
 
     if (subsError) {
       return NextResponse.json({ error: 'Failed to fetch subscribers', detail: subsError.message }, { status: 500 });
@@ -299,18 +342,23 @@ export async function POST(req: NextRequest) {
 
     const allSubs = (subsData ?? []) as { id: number; email: string; first_name: string | null }[];
 
-    // ── 3. Apply SA daily ramp cap ────────────────────────────────────────────
+    // ── 3. Apply SA daily ramp cap (per list — city-wide and each sub-cal tracked separately) ──
     let subsToSend = allSubs;
     let cappedAt: number | null = null;
     let alreadySentToday = 0;
 
     if (city === 'San Antonio') {
-      const { count } = await supabase
+      let capQuery = supabase
         .from('newsletter_sends')
         .select('*', { count: 'exact', head: true })
         .eq('city', city)
         .eq('send_date', today);
 
+      capQuery = subCalendar
+        ? capQuery.eq('sub_calendar', subCalendar)
+        : capQuery.is('sub_calendar', null);
+
+      const { count } = await capQuery;
       alreadySentToday = count ?? 0;
       const remaining = Math.max(0, SA_DAILY_CAP - alreadySentToday);
 
@@ -327,11 +375,12 @@ export async function POST(req: NextRequest) {
       cappedAt = SA_DAILY_CAP;
     }
 
-    // ── 4. Dry run — return stats without sending ─────────────────────────────
+    // ── 4. Dry run ────────────────────────────────────────────────────────────
     if (dryRun) {
       return NextResponse.json({
         dryRun: true,
         city,
+        subCalendar,
         eventsCount: events.length,
         totalSubscribers: allSubs.length,
         wouldSendTo: subsToSend.length,
@@ -342,30 +391,27 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── 6. Send emails via SendGrid ───────────────────────────────────────────
+    // ── 5. Send emails via SendGrid ───────────────────────────────────────────
     const errors: { email: string; error: string }[] = [];
     let sentCount = 0;
     const sentIds: number[] = [];
+    const subject = buildSubject(city, subCalendar);
 
-    // Send in batches of 50 to avoid overwhelming the API
     const BATCH_SIZE = 50;
     for (let i = 0; i < subsToSend.length; i += BATCH_SIZE) {
       const batch = subsToSend.slice(i, i + BATCH_SIZE);
 
       await Promise.all(batch.map(async (sub) => {
-        // Simple unsub token — email encoded in base64
         const unsubToken = Buffer.from(sub.email).toString('base64');
         const html = buildNewsletterHtml(city, weekLabel, events, sub.first_name, unsubToken);
 
-        const msg = {
-          to:      sub.email,
-          from:    { email: FROM_EMAIL, name: FROM_NAME },
-          subject: `${city} Business Events — This Week`,
-          html,
-        };
-
         try {
-          await sgMail.send(msg);
+          await sgMail.send({
+            to:      sub.email,
+            from:    { email: FROM_EMAIL, name: FROM_NAME },
+            subject,
+            html,
+          });
           sentCount++;
           sentIds.push(sub.id);
         } catch (err: any) {
@@ -374,10 +420,11 @@ export async function POST(req: NextRequest) {
       }));
     }
 
-    // ── 7. Record the send in newsletter_sends ────────────────────────────────
+    // ── 6. Record the send in newsletter_sends ────────────────────────────────
     if (sentCount > 0) {
       await supabase.from('newsletter_sends').insert({
         city,
+        sub_calendar: subCalendar,
         send_date: today,
         count_sent: sentCount,
         event_count: events.length,
@@ -386,7 +433,6 @@ export async function POST(req: NextRequest) {
         sent_at: new Date().toISOString(),
       });
 
-      // Update last_email_sent_at on each subscriber
       await supabase
         .from('newsletter_subscriptions')
         .update({ last_email_sent_at: new Date().toISOString() })
@@ -396,6 +442,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       city,
+      subCalendar,
       eventsCount: events.length,
       totalSubscribers: allSubs.length,
       sentCount,
@@ -412,30 +459,43 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// ─── GET — return today's send stats for a city ───────────────────────────────
+// ─── GET — return today's send stats for a list ───────────────────────────────
 
 export async function GET(req: NextRequest) {
-  const city = req.nextUrl.searchParams.get('city');
+  const city       = req.nextUrl.searchParams.get('city');
+  const subCalendar = req.nextUrl.searchParams.get('subCalendar') ?? null;
+
   if (!city) return NextResponse.json({ error: 'city required' }, { status: 400 });
 
   const supabase = getSupabaseAdmin();
   const today = todayCST();
 
-  const { data } = await supabase
+  let sendsQuery = supabase
     .from('newsletter_sends')
     .select('count_sent, sent_at')
     .eq('city', city)
     .eq('send_date', today)
     .order('sent_at', { ascending: false });
 
+  sendsQuery = subCalendar
+    ? sendsQuery.eq('sub_calendar', subCalendar)
+    : sendsQuery.is('sub_calendar', null);
+
+  const { data } = await sendsQuery;
   const sentToday = (data ?? []).reduce((sum, r) => sum + (r.count_sent ?? 0), 0);
 
-  // Also get total active subscribers
-  const { count: totalSubs } = await supabase
+  // Total active subscribers for this specific list
+  let subsQuery = supabase
     .from('newsletter_subscriptions')
     .select('*', { count: 'exact', head: true })
     .eq('city', city)
     .eq('status', 'active');
+
+  subsQuery = subCalendar
+    ? subsQuery.eq('sub_calendar', subCalendar)
+    : subsQuery.is('sub_calendar', null);
+
+  const { count: totalSubs } = await subsQuery;
 
   return NextResponse.json({
     city,
