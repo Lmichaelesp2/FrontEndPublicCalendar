@@ -92,7 +92,7 @@ function parseCSV(text: string): ImportRow[] {
       city: city ?? rawCity,
       status: 'active',
       active_subscription: status || 'trial',
-      source: 'csv_import',
+      source: 'import',
       subscribed_at: createdAt,
       migrated_from_id: oldId ? parseInt(oldId) : null,
       _rowNum: i,
