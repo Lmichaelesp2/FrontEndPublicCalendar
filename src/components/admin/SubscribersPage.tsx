@@ -1,10 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Users, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft, Pencil, Trash2 } from 'lucide-react';
+import { Users, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft, Pencil, Trash2, Upload } from 'lucide-react';
 import { supabaseAdmin } from '../../lib/supabase';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
+import { SubscriberImport } from './SubscriberImport';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -315,6 +316,7 @@ export function SubscribersPage() {
   const [sortDir, setSortDir]         = useState<SortDir>('desc');
   const [editTarget, setEditTarget]   = useState<Subscriber | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Subscriber | null>(null);
+  const [activeTab, setActiveTab]     = useState<'subscribers' | 'import'>('subscribers');
 
   async function fetchSubs() {
     setLoading(true);
@@ -498,7 +500,31 @@ export function SubscribersPage() {
         </div>
       </div>
 
+      {/* Tabs */}
+      <div className="subs-tabs">
+        <button
+          className={`subs-tab${activeTab === 'subscribers' ? ' active' : ''}`}
+          onClick={() => setActiveTab('subscribers')}
+        >
+          <Users size={15} /> Subscribers
+        </button>
+        <button
+          className={`subs-tab${activeTab === 'import' ? ' active' : ''}`}
+          onClick={() => setActiveTab('import')}
+        >
+          <Upload size={15} /> Import CSV
+        </button>
+      </div>
+
       <div className="subs-page-body">
+
+        {/* Import Tab */}
+        {activeTab === 'import' && (
+          <SubscriberImport onImportComplete={() => { fetchSubs(); setActiveTab('subscribers'); }} />
+        )}
+
+        {/* Subscribers Tab */}
+        {activeTab === 'subscribers' && <>
 
         {/* Stats */}
         <div className="subs-stats-row">
@@ -623,6 +649,7 @@ export function SubscribersPage() {
             </table>
           </div>
         )}
+        </> /* end subscribers tab */}
       </div>
     </div>
   );

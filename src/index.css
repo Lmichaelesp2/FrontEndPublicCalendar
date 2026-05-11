@@ -2499,6 +2499,49 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 
 /* -- Subscribers Full Page ------------------------------------------------- */
+/* ── Subscriber tabs ─────────────────────────────────────────────────────── */
+.subs-tabs{display:flex;gap:.5rem;padding:1rem 2rem 0;max-width:1400px;margin:0 auto;border-bottom:2px solid var(--gray-200)}
+.subs-tab{display:flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border:none;background:none;cursor:pointer;font-size:.875rem;font-weight:600;color:var(--gray-500);border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s}
+.subs-tab:hover{color:var(--color-ink)}
+.subs-tab.active{color:var(--color-gold);border-bottom-color:var(--color-gold)}
+
+/* ── Subscriber import ───────────────────────────────────────────────────── */
+.sub-import{padding:2rem 0}
+.sub-import-dropzone{border:2px dashed var(--gray-300);border-radius:var(--radius-sm);padding:3rem 2rem;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.sub-import-dropzone:hover,.sub-import-dropzone.active{border-color:var(--color-gold);background:rgba(212,175,55,.04)}
+.sub-import-dropzone-icon{color:var(--gray-400);margin-bottom:1rem}
+.sub-import-dropzone-title{font-size:1rem;font-weight:600;color:var(--color-ink);margin-bottom:.25rem}
+.sub-import-dropzone-sub{font-size:.85rem;color:var(--gray-500)}
+.sub-import-format-help{display:flex;gap:.75rem;align-items:flex-start;margin-top:1.5rem;padding:1rem;background:var(--gray-50);border-radius:var(--radius-sm);font-size:.8rem;color:var(--gray-600);line-height:1.6}
+.sub-import-format-help svg{flex-shrink:0;margin-top:2px;color:var(--gray-400)}
+.sub-import-warnings{display:flex;gap:.75rem;align-items:flex-start;margin-top:1rem;padding:1rem;background:#fff8f0;border:1px solid #f59e0b55;border-radius:var(--radius-sm);font-size:.82rem;color:#92400e}
+.sub-import-warn-row{margin-top:.25rem;font-family:monospace;font-size:.78rem}
+.sub-import-summary{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.sub-import-stat{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:.75rem 1.25rem;min-width:110px;text-align:center}
+.sub-import-stat.success{border-color:#10b98133;background:#f0fdf4}
+.sub-import-stat.error{border-color:#ef444433;background:#fef2f2}
+.sub-import-stat.neutral{border-color:var(--gray-200)}
+.sub-import-stat-val{display:block;font-size:1.5rem;font-weight:700;color:var(--color-ink)}
+.sub-import-stat-lbl{display:block;font-size:.72rem;color:var(--gray-500);text-transform:uppercase;letter-spacing:.04em;margin-top:.1rem}
+.sub-import-table-wrap{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm);overflow:auto;margin-bottom:1.5rem}
+.sub-import-more{padding:.5rem 1rem;font-size:.8rem;color:var(--gray-500);text-align:center}
+.sub-import-actions{display:flex;gap:1rem;align-items:center}
+.sub-import-preview-header{margin-bottom:1.5rem}
+.sub-import-file-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .75rem;background:var(--gray-100);border-radius:99px;font-size:.85rem;font-weight:500}
+.sub-import-remove{background:none;border:none;cursor:pointer;color:var(--gray-400);display:flex;align-items:center;padding:0}
+.sub-import-remove:hover{color:var(--color-ink)}
+.btn-import-run{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.5rem;background:var(--color-gold);color:#000;border:none;border-radius:var(--radius-sm);font-weight:700;font-size:.9rem;cursor:pointer;transition:opacity .15s}
+.btn-import-run:hover{opacity:.85}
+.btn-import-run:disabled{opacity:.5;cursor:not-allowed}
+.sub-import-result{text-align:center;padding:3rem 2rem}
+.sub-import-result h3{font-size:1.5rem;font-weight:700;margin:.75rem 0 1.5rem}
+.sub-import-result-icon.success{color:#10b981}
+.sub-import-result-stats{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.sub-import-errors{text-align:left;background:#fef2f2;border:1px solid #ef444433;border-radius:var(--radius-sm);padding:1rem;margin-top:1rem;font-size:.82rem}
+.sub-import-error-row{font-family:monospace;margin-top:.25rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .8s linear infinite}
+
 .subs-page{min-height:100vh;background:var(--color-paper)}
 .subs-page-header{background:var(--color-ink);color:#fff;padding:1rem 2rem;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.1)}
 .subs-page-header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
