@@ -3284,3 +3284,18 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   .scp-who-grid{grid-template-columns:1fr}
   .scp-how-section h2,.scp-who-section h2,.scp-faq-section h2{font-size:1.5rem}
 }
+
+/* -- Unsubscribe Page ------------------------------------------------------ */
+.unsub-page{min-height:60vh;display:flex;align-items:center;justify-content:center;padding:4rem 1.5rem;background:var(--color-paper)}
+.unsub-card{max-width:480px;width:100%;text-align:center}
+.unsub-icon{margin:0 auto 1.5rem;width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.unsub-icon--success{background:#f0fdf4;color:#16a34a}
+.unsub-icon--error{background:#fef2f2;color:#dc2626}
+.unsub-card h1{font-size:1.6rem;font-weight:700;color:var(--color-ink);margin:0 0 1rem;font-family:var(--font-serif)}
+.unsub-desc{font-size:1rem;color:var(--gray-600);line-height:1.7;margin:0 0 .75rem}
+.unsub-desc--small{font-size:.88rem;color:var(--gray-500)}
+.unsub-actions{margin-top:2rem;display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+.unsub-btn-primary{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;background:var(--navy);color:#fff;border-radius:6px;font-size:.9rem;font-weight:700;text-decoration:none;transition:opacity .15s}
+.unsub-btn-primary:hover{opacity:.88}
+.unsub-btn-secondary{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;background:none;border:1px solid var(--gray-300);color:var(--gray-600);border-radius:6px;font-size:.9rem;font-weight:600;text-decoration:none;transition:all .15s}
+.unsub-btn-secondary:hover{background:var(--gray-50)}
