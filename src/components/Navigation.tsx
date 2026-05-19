@@ -171,22 +171,6 @@ function ResourcesDropdown() {
             <span className="nav-resources-item-title">Sponsor the Calendar</span>
             <span className="nav-resources-item-desc">Reach local business professionals</span>
           </Link>
-          <Link
-            href="/about"
-            className="nav-resources-item"
-            onClick={() => setOpen(false)}
-          >
-            <span className="nav-resources-item-title">About Us</span>
-            <span className="nav-resources-item-desc">How Local Business Calendars works</span>
-          </Link>
-          <Link
-            href="/contact"
-            className="nav-resources-item"
-            onClick={() => setOpen(false)}
-          >
-            <span className="nav-resources-item-title">Contact Us</span>
-            <span className="nav-resources-item-desc">Questions, submissions & partnerships</span>
-          </Link>
         </div>
       )}
     </div>
@@ -278,6 +262,8 @@ export function Navigation() {
                 </Link>
               ))}
               <Link href="/submit" className="nav-link">Submit Event</Link>
+              <Link href="/about" className="nav-link">About</Link>
+              <Link href="/contact" className="nav-link">Contact</Link>
               <ResourcesDropdown />
             </nav>
 
