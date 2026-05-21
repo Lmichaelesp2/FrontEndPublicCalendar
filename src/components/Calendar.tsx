@@ -39,7 +39,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   useEffect(() => {
     async function fetchLive() {
       let query = supabase
-        .from('events')
+        .from('events_approved')
         .select('*')
         .eq('status', 'approved')
         .order('start_date', { ascending: true })

@@ -23,7 +23,7 @@ export function AdminDashboard() {
     setLoading(true);
 
     const [eventsRes, uploadsRes] = await Promise.all([
-      supabase.from('events').select('city_calendar', { count: 'exact' }),
+      supabase.from('events_approved').select('city_calendar', { count: 'exact' }),
       supabase
         .from('upload_history')
         .select('*')

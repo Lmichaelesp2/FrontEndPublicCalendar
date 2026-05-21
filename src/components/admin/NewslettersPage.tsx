@@ -885,7 +885,7 @@ export function NewslettersPage() {
 
       // Fetch all events for this week
       const { data, error } = await supabase
-        .from('events')
+        .from('events_approved')
         .select('*')
         .gte('start_date', monday)
         .lte('start_date', sunday)
