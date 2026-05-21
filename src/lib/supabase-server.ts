@@ -42,16 +42,18 @@ export async function fetchApprovedEvents(options?: {
 export async function fetchThisWeekCounts(): Promise<Record<string, number>> {
   const supabase = getServerSupabase();
 
-  // This week = today through end of Sunday
+  // Full week = always Sunday through Saturday of the current week
   const today = new Date();
-  const day = today.getDay(); // 0=Sun, 1=Mon...
+  const day = today.getDay(); // 0=Sun, 1=Mon...6=Sat
   const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - day); // back to Sunday
+  startOfWeek.setDate(today.getDate() - day); // rewind to Sunday
   const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 6); // through Saturday
+  endOfWeek.setDate(startOfWeek.getDate() + 6); // forward to Saturday
 
-  const from = startOfWeek.toISOString().split('T')[0];
-  const to = endOfWeek.toISOString().split('T')[0];
+  // Use local date strings to avoid UTC timezone shifting
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const from = `${startOfWeek.getFullYear()}-${pad(startOfWeek.getMonth() + 1)}-${pad(startOfWeek.getDate())}`;
+  const to = `${endOfWeek.getFullYear()}-${pad(endOfWeek.getMonth() + 1)}-${pad(endOfWeek.getDate())}`;
 
   const cities = ['San Antonio', 'Austin', 'Dallas', 'Houston'];
   const counts: Record<string, number> = {};
@@ -59,12 +61,9 @@ export async function fetchThisWeekCounts(): Promise<Record<string, number>> {
   await Promise.all(
     cities.map(async (city) => {
       const { count, error } = await supabase
-        .from('events_approved')
+        .from('events_week_counts')
         .select('*', { count: 'exact', head: true })
-        .eq('status', 'approved')
-        .eq('city_calendar', city)
-        .gte('start_date', from)
-        .lte('start_date', to);
+        .eq('city_calendar', city);
       counts[city] = error ? 0 : (count ?? 0);
     })
   );
