@@ -262,6 +262,8 @@ export function Navigation() {
                 </Link>
               ))}
               <Link href="/submit" className="nav-link">Submit Event</Link>
+              <Link href="/about" className="nav-link">About</Link>
+              <Link href="/contact" className="nav-link">Contact</Link>
               <ResourcesDropdown />
             </nav>
 
