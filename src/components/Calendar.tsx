@@ -122,7 +122,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const cityFiltered = eventsSource.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
     // In week mode, server already filtered by groupType — skip client-side category filter
-    if (!weekMode && groupType && e.event_category !== resolveGroupType(groupType)) return false;
+    if (!weekMode && groupType && !e.event_category?.includes(resolveGroupType(groupType))) return false;
     if (minDate && e.start_date < minDate) return false;
     if (maxDate && e.start_date > maxDate) return false;
     return true;

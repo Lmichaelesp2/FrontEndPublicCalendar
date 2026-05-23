@@ -28,7 +28,8 @@ export async function fetchApprovedEvents(options?: {
   }
 
   if (options?.groupType) {
-    query = query.eq('event_category', resolveGroupType(options.groupType));
+    // Use ilike so multi-category events ("Technology,Networking") match any sub-cal they belong to
+    query = query.ilike('event_category', `%${resolveGroupType(options.groupType)}%`);
   }
 
   const { data, error } = await query;
