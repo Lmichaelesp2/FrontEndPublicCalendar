@@ -143,8 +143,8 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       })
       .sort((a, b) => a.start_date.localeCompare(b.start_date));
   } else if (weekMode) {
+    // Show all events already filtered by minDate/maxDate (full Sun–Sat week for sub-cals)
     displayEvents = cityFiltered
-      .filter((e) => e.start_date >= today)
       .sort((a, b) => a.start_date.localeCompare(b.start_date) || a.start_time?.localeCompare(b.start_time ?? '') || 0);
   } else {
     displayEvents = sortEventsByTime(

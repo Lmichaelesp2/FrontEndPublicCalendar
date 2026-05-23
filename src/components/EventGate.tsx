@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Calendar } from './Calendar';
 import { MonthCalendar } from './MonthCalendar';
-import { useMidnightReset } from '../lib/utils';
+import { useMidnightReset, getCurrentWeekRange } from '../lib/utils';
 import type { City, Event } from '../lib/supabase';
 
 interface EventGateProps {
@@ -23,6 +23,13 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
   const resolvedCityName = cityName ?? forcedCity;
   const today = useMidnightReset();
 
+  // Sub-cal pages (groupType set) show the full current week Sun–Sat.
+  // Main city pages use today as the floor so past days are hidden.
+  const isSubCal = weekMode || !!groupType;
+  const { start: weekStart, end: weekEnd } = getCurrentWeekRange();
+  const effectiveMinDate = isSubCal ? weekStart : today;
+  const effectiveMaxDate = isSubCal ? weekEnd : undefined;
+
   const eventDates = new Set(initialEvents.map(e => e.start_date));
 
   return (
@@ -38,7 +45,8 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
         initialEvents={initialEvents}
         forcedCity={forcedCity}
         groupType={groupType}
-        minDate={today}
+        minDate={effectiveMinDate}
+        maxDate={effectiveMaxDate}
         cityName={resolvedCityName}
         newsletterHeading={newsletterHeading}
         newsletterSubtext={newsletterSubtext}
