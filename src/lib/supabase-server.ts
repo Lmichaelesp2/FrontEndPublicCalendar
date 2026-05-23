@@ -17,7 +17,7 @@ export async function fetchApprovedEvents(options?: {
   const supabase = getServerSupabase();
 
   let query = supabase
-    .from('events_approved')
+    .from('events_published_view')
     .select('*')
     .eq('status', 'approved')
     .order('start_date', { ascending: true })
@@ -61,9 +61,11 @@ export async function fetchThisWeekCounts(): Promise<Record<string, number>> {
   await Promise.all(
     cities.map(async (city) => {
       const { count, error } = await supabase
-        .from('events_week_counts')
+        .from('events_published')
         .select('*', { count: 'exact', head: true })
-        .eq('city_calendar', city);
+        .eq('city_calendar', city)
+        .gte('start_date', from)
+        .lte('start_date', to);
       counts[city] = error ? 0 : (count ?? 0);
     })
   );
