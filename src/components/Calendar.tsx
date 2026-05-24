@@ -10,6 +10,7 @@ import { EventCard } from './EventCard';
 import { FilterBar, FilterState, emptyFilters, hasActiveFilters } from './FilterBar';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import { useUpgrade } from '../hooks/useUpgrade';
 
 
 interface CalendarProps {
@@ -32,6 +33,7 @@ interface CalendarProps {
 
 export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, showSearch, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false }: CalendarProps) {
   const { user, profile, userFilters } = useAuth();
+  const { startCheckout, loading: upgradeLoading } = useUpgrade();
   const networkProfile = userFilters[0]?.filter_view ?? null;
   const today = useMidnightReset();
 
@@ -572,20 +574,22 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
               </p>
             </div>
             <button
-              onClick={triggerAuth}
+              onClick={() => user ? startCheckout(window.location.pathname) : triggerAuth()}
+              disabled={upgradeLoading}
               style={{
-                background: '#f5a623',
+                background: '#c2410c',
                 border: 'none',
                 borderRadius: '8px',
-                color: '#000',
-                cursor: 'pointer',
+                color: '#fff',
+                cursor: upgradeLoading ? 'not-allowed' : 'pointer',
                 fontSize: '13px',
                 fontWeight: 700,
                 padding: '8px 16px',
                 whiteSpace: 'nowrap',
+                opacity: upgradeLoading ? 0.7 : 1,
               }}
             >
-              Upgrade →
+              {upgradeLoading ? 'Redirecting…' : user ? 'Upgrade — $14.99/mo →' : 'Sign Up Free →'}
             </button>
           </div>
         )}
