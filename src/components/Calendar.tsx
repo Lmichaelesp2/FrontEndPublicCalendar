@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Search, X, Mail, Calendar as CalendarIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, X, Mail, Calendar as CalendarIcon, List, CalendarDays } from 'lucide-react';
 import type { Event, City } from '../lib/supabase';
 import { supabase } from '../lib/supabase';
 import { dateKey, formatDate, parseDate, sortEventsByTime, useMidnightReset, getMondayWeekRange } from '../lib/utils';
@@ -78,6 +78,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const [inlineAuthOpen, setInlineAuthOpen] = useState(false);
   const [showUpgradeNudge, setShowUpgradeNudge] = useState(false);
   const [isPersonalized, setIsPersonalized] = useState(true);
+  const [viewMode, setViewMode] = useState<'day' | 'list'>('day');
 
   // Week mode state — starts from today, shows next 7 days per page
   const [weekOffset, setWeekOffset] = useState(0);
@@ -181,6 +182,8 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   // Use external date from MonthCalendar if provided, otherwise use internal selectedDate
   const effectiveDate = externalSelectedDate ?? selectedDate;
 
+  const isListView = isPremium && !weekMode && viewMode === 'list';
+
   let displayEvents: Event[];
   if (searchActive) {
     const q = searchQuery.toLowerCase();
@@ -190,6 +193,10 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         return text.includes(q);
       })
       .sort((a, b) => a.start_date.localeCompare(b.start_date));
+  } else if (isListView) {
+    // Premium list view — all upcoming events sorted by date then time
+    displayEvents = cityFiltered
+      .sort((a, b) => a.start_date.localeCompare(b.start_date) || a.start_time?.localeCompare(b.start_time ?? '') || 0);
   } else if (weekMode) {
     // Show all events already filtered by minDate/maxDate (full Sun–Sat week for sub-cals)
     displayEvents = cityFiltered
@@ -202,7 +209,9 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
 
   const eventCount = displayEvents.length;
   const selectedDateObj = parseDate(effectiveDate);
-  const dayLabel = weekMode
+  const dayLabel = isListView
+    ? 'All Upcoming Events'
+    : weekMode
     ? 'All Upcoming Events'
     : formatDate(selectedDateObj);
   const isToday = effectiveDate === today;
@@ -273,8 +282,61 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           </div>
         )}
 
-        {/* Day navigation */}
-        <div className="cal-day-nav" style={{ position: 'relative' }}>
+        {/* Premium view toggle — Day vs List */}
+        {isPremium && !weekMode && (
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '4px' }}>
+            <div style={{
+              display: 'inline-flex',
+              background: '#1e2130',
+              border: '1px solid #2a2f45',
+              borderRadius: '8px',
+              padding: '3px',
+              gap: '2px',
+            }}>
+              <button
+                onClick={() => setViewMode('day')}
+                title="Day view"
+                style={{
+                  background: viewMode === 'day' ? '#2a3050' : 'none',
+                  border: 'none',
+                  borderRadius: '6px',
+                  color: viewMode === 'day' ? '#f5a623' : '#666',
+                  cursor: 'pointer',
+                  padding: '5px 10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  fontSize: '12px',
+                  fontWeight: viewMode === 'day' ? 700 : 400,
+                }}
+              >
+                <CalendarDays size={13} /> Day
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                title="List view"
+                style={{
+                  background: viewMode === 'list' ? '#2a3050' : 'none',
+                  border: 'none',
+                  borderRadius: '6px',
+                  color: viewMode === 'list' ? '#f5a623' : '#666',
+                  cursor: 'pointer',
+                  padding: '5px 10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  fontSize: '12px',
+                  fontWeight: viewMode === 'list' ? 700 : 400,
+                }}
+              >
+                <List size={13} /> List
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Day navigation — hidden in list view */}
+        <div className="cal-day-nav" style={{ position: 'relative', display: isListView ? 'none' : undefined }}>
           {!weekMode && <button
             className="cal-day-arrow"
             onClick={() => stepDay(-1)}
