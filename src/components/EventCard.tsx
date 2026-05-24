@@ -1,6 +1,6 @@
 import { MapPin, Calendar, Lock } from 'lucide-react';
 import { Event } from '../lib/supabase';
-import { parseDate } from '../lib/utils';
+import { parseDate, formatTime } from '../lib/utils';
 
 type EventCardProps = {
   event: Event;
@@ -21,9 +21,11 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
   const monthDay = eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
   // Logged-out: start time only. Logged-in: full start – end time.
+  const startFmt = formatTime(event.start_time)
+  const endFmt = formatTime(event.end_time)
   const timeLabel = isLoggedIn
-    ? `${dayOfWeek}. ${monthDay} | ${event.start_time}${event.end_time ? ` - ${event.end_time}` : ''}`
-    : `${dayOfWeek}. ${monthDay} | ${event.start_time}`;
+    ? `${dayOfWeek}. ${monthDay} | ${startFmt}${endFmt ? ` - ${endFmt}` : ''}`
+    : `${dayOfWeek}. ${monthDay} | ${startFmt}`;
 
   return (
     <div

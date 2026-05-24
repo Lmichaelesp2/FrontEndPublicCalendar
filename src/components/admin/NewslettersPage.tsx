@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { formatTime } from '../../lib/utils';
 import { Copy, Check, Mail, ChevronDown, ChevronUp, LogOut, Home, Users, Send, AlertTriangle, CheckCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase';
@@ -52,7 +53,7 @@ function formatEventDate(dateStr: string, timeStr: string | null): string {
   const d = new Date(year, month - 1, day);
   const weekday = d.toLocaleDateString('en-US', { weekday: 'long' });
   const monthName = d.toLocaleDateString('en-US', { month: 'long' });
-  const time = timeStr ? ` at ${timeStr}` : '';
+  const time = timeStr ? ` at ${formatTime(timeStr)}` : '';
   return `${weekday}, ${monthName} ${day}${time}`;
 }
 

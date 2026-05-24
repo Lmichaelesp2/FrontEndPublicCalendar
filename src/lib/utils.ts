@@ -44,6 +44,23 @@ export function dateKey(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
+// Converts 24-hour time string (e.g. "13:15") to 12-hour AM/PM (e.g. "1:15 PM")
+// Passes through already-formatted times (e.g. "1:15 PM") unchanged
+export function formatTime(timeString: string | null | undefined): string {
+  if (!timeString) return ''
+  const trimmed = timeString.trim()
+  // Already in AM/PM format — return as-is
+  if (/am|pm/i.test(trimmed)) return trimmed
+  const match = trimmed.match(/^(\d{1,2}):(\d{2})$/)
+  if (!match) return trimmed
+  let hours = parseInt(match[1], 10)
+  const minutes = match[2]
+  const period = hours >= 12 ? 'PM' : 'AM'
+  if (hours === 0) hours = 12
+  else if (hours > 12) hours -= 12
+  return `${hours}:${minutes} ${period}`
+}
+
 export function parseTime(timeString: string | null): { hours: number; minutes: number } {
   if (!timeString) return { hours: 0, minutes: 0 };
 
