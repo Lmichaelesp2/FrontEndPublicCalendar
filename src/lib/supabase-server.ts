@@ -5,7 +5,14 @@ import { resolveGroupType } from './cities';
 function getServerSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL || '';
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
-  return createClient(url, key);
+  // cache: 'no-store' prevents Next.js from caching Supabase fetch results
+  // so ISR revalidation always gets fresh data from the database
+  return createClient(url, key, {
+    global: {
+      fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+        fetch(input, { ...init, cache: 'no-store' }),
+    },
+  });
 }
 
 export async function fetchApprovedEvents(options?: {
