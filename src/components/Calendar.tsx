@@ -182,20 +182,30 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       if (manualFilters.cities.length > 0) {
         if (!e.city_calendar || !manualFilters.cities.includes(e.city_calendar)) return false;
       }
-      // Category — null-category events pass through (same logic as personalization)
-      if (manualFilters.categories.length > 0 && e.event_category) {
-        const hasMatch = manualFilters.categories.some(cat => e.event_category!.includes(cat));
-        if (!hasMatch) return false;
+      // Cost
+      if (manualFilters.costs.length > 0) {
+        const costVal = e.paid === 'Paid' ? 'Paid' : e.paid === 'Free' ? 'Free' : 'Unknown';
+        if (!manualFilters.costs.includes(costVal)) return false;
       }
       // Time of day
       if (manualFilters.times.length > 0 && e.start_time) {
         const hour = parseInt(e.start_time.split(':')[0] ?? '12', 10);
-        const tod = hour < 12 ? 'Morning' : hour < 17 ? 'Midday' : 'Evening';
+        const tod = hour < 12 ? 'Morning' : hour < 17 ? 'Afternoon' : 'Evening';
         if (!manualFilters.times.includes(tod)) return false;
       }
       // Participation
       if (manualFilters.participation.length > 0 && e.participation) {
         if (!manualFilters.participation.includes(e.participation)) return false;
+      }
+      // Location (part_of_town)
+      if (manualFilters.locations.length > 0) {
+        const loc = e.part_of_town ?? 'No Address';
+        if (!manualFilters.locations.includes(loc)) return false;
+      }
+      // Category — null-category events pass through
+      if (manualFilters.categories.length > 0 && e.event_category) {
+        const hasMatch = manualFilters.categories.some(cat => e.event_category!.includes(cat));
+        if (!hasMatch) return false;
       }
     }
 
