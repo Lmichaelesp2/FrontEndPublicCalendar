@@ -1,13 +1,114 @@
-import { MapPin, Calendar, Lock, Users, DollarSign, Tag } from 'lucide-react';
+'use client';
+import { useState } from 'react';
+import { MapPin, Calendar, Lock, Share2, CalendarPlus, X } from 'lucide-react';
 import { Event } from '../lib/supabase';
 import { parseDate, formatTime } from '../lib/utils';
 
-type EventCardProps = {
-  event: Event;
-  index: number;
-  isLoggedIn?: boolean;
-  onAuthClick?: () => void;
-};
+// ─── Calendar helpers ─────────────────────────────────────────────────────────
+
+function parseTime12(time: string | null): { h: number; m: number } {
+  if (!time) return { h: 0, m: 0 };
+  // Handle "2:00 PM", "14:00", "2:00pm"
+  const clean = time.trim();
+  const match12 = clean.match(/(\d+):(\d+)\s*(am|pm)/i);
+  if (match12) {
+    let h = parseInt(match12[1]);
+    const m = parseInt(match12[2]);
+    const isPM = match12[3].toLowerCase() === 'pm';
+    if (isPM && h !== 12) h += 12;
+    if (!isPM && h === 12) h = 0;
+    return { h, m };
+  }
+  const match24 = clean.match(/(\d+):(\d+)/);
+  if (match24) return { h: parseInt(match24[1]), m: parseInt(match24[2]) };
+  return { h: 0, m: 0 };
+}
+
+function toCalDT(date: string, time: string | null): string {
+  const [y, mo, d] = date.split('-');
+  const { h, m } = parseTime12(time);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${y}${mo}${d}T${pad(h)}${pad(m)}00`;
+}
+
+function googleCalUrl(event: Event): string {
+  const start = toCalDT(event.start_date, event.start_time);
+  const endDate = event.end_date ?? event.start_date;
+  const end = toCalDT(endDate, event.end_time ?? event.start_time);
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.name,
+    dates: `${start}/${end}`,
+    details: event.description ?? '',
+    location: event.address ?? '',
+  });
+  return `https://calendar.google.com/calendar/render?${params}`;
+}
+
+function outlookUrl(base: string, event: Event): string {
+  const start = toCalDT(event.start_date, event.start_time);
+  const endDate = event.end_date ?? event.start_date;
+  const end = toCalDT(endDate, event.end_time ?? event.start_time);
+  const fmt = (dt: string) =>
+    `${dt.slice(0,4)}-${dt.slice(4,6)}-${dt.slice(6,8)}T${dt.slice(9,11)}:${dt.slice(11,13)}:00`;
+  const params = new URLSearchParams({
+    subject: event.name,
+    startdt: fmt(start),
+    enddt: fmt(end),
+    location: event.address ?? '',
+    body: event.description ?? '',
+  });
+  return `${base}?${params}`;
+}
+
+function yahooUrl(event: Event): string {
+  const start = toCalDT(event.start_date, event.start_time);
+  const endDate = event.end_date ?? event.start_date;
+  const end = toCalDT(endDate, event.end_time ?? event.start_time);
+  const params = new URLSearchParams({
+    v: '60',
+    title: event.name,
+    st: start,
+    et: end,
+    in_loc: event.address ?? '',
+    desc: event.description ?? '',
+  });
+  return `https://calendar.yahoo.com/?${params}`;
+}
+
+function downloadIcs(event: Event) {
+  const start = toCalDT(event.start_date, event.start_time);
+  const endDate = event.end_date ?? event.start_date;
+  const end = toCalDT(endDate, event.end_time ?? event.start_time);
+  const ics = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
+    `DTSTART:${start}`,
+    `DTEND:${end}`,
+    `SUMMARY:${event.name}`,
+    `DESCRIPTION:${(event.description ?? '').replace(/\n/g, '\\n')}`,
+    `LOCATION:${event.address ?? ''}`,
+    'END:VEVENT', 'END:VCALENDAR',
+  ].join('\r\n');
+  const blob = new Blob([ics], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${event.name.replace(/[^a-z0-9]/gi, '_')}.ics`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── Time of day badge ────────────────────────────────────────────────────────
+
+function getTimeOfDay(time: string | null): string | null {
+  if (!time) return null;
+  const { h } = parseTime12(time);
+  if (h < 12) return 'Morning';
+  if (h < 17) return 'Afternoon';
+  return 'Evening';
+}
+
+// ─── Badges ───────────────────────────────────────────────────────────────────
 
 function PaidBadge({ paid }: { paid: string }) {
   const isFree = paid?.toLowerCase() === 'free';
@@ -15,14 +116,10 @@ function PaidBadge({ paid }: { paid: string }) {
   if (isUnknown) return null;
   return (
     <span style={{
-      background: isFree ? '#16a34a20' : '#f5a62320',
+      background: isFree ? '#16a34a18' : '#f5a62318',
       border: `1px solid ${isFree ? '#16a34a40' : '#f5a62340'}`,
       color: isFree ? '#4ade80' : '#f5a623',
-      borderRadius: '6px',
-      fontSize: '11px',
-      fontWeight: 600,
-      padding: '2px 8px',
-      whiteSpace: 'nowrap' as const,
+      borderRadius: '20px', fontSize: '11px', fontWeight: 600, padding: '3px 10px',
     }}>
       {isFree ? 'Free' : 'Paid'}
     </span>
@@ -32,20 +129,150 @@ function PaidBadge({ paid }: { paid: string }) {
 function Badge({ label, color = '#888' }: { label: string; color?: string }) {
   return (
     <span style={{
-      background: '#1e2130',
-      border: '1px solid #2a2f45',
-      color,
-      borderRadius: '6px',
-      fontSize: '11px',
-      padding: '2px 8px',
-      whiteSpace: 'nowrap' as const,
+      background: '#1e2130', border: '1px solid #2a2f45', color,
+      borderRadius: '20px', fontSize: '11px', padding: '3px 10px',
     }}>
       {label}
     </span>
   );
 }
 
+// ─── Action button ────────────────────────────────────────────────────────────
+
+function ActionBtn({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
+  return (
+    <button onClick={onClick} style={{
+      display: 'flex', alignItems: 'center', gap: '6px',
+      background: 'none', border: '1px solid #2a2f45', borderRadius: '8px',
+      color: '#aaa', cursor: 'pointer', fontSize: '12px', padding: '6px 12px',
+      transition: 'border-color 0.15s, color 0.15s',
+    }}
+      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#f5a62360'; (e.currentTarget as HTMLButtonElement).style.color = '#ddd'; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#2a2f45'; (e.currentTarget as HTMLButtonElement).style.color = '#aaa'; }}
+    >
+      {icon} {label}
+    </button>
+  );
+}
+
+// ─── Add to Calendar dropdown ─────────────────────────────────────────────────
+
+const CAL_ICONS: Record<string, string> = {
+  Google: '🗓️', Apple: '🍎', iCal: '📅',
+  'Microsoft 365': '🟦', 'Outlook.com': '📧', Yahoo: '🟣',
+};
+
+function AddToCalendarMenu({ event, onClose }: { event: Event; onClose: () => void }) {
+  const options = [
+    { label: 'Google',        action: () => window.open(googleCalUrl(event), '_blank') },
+    { label: 'Apple',         action: () => downloadIcs(event) },
+    { label: 'iCal File',     action: () => downloadIcs(event) },
+    { label: 'Microsoft 365', action: () => window.open(outlookUrl('https://outlook.office.com/calendar/0/deeplink/compose', event), '_blank') },
+    { label: 'Outlook.com',   action: () => window.open(outlookUrl('https://outlook.live.com/calendar/0/deeplink/compose', event), '_blank') },
+    { label: 'Yahoo',         action: () => window.open(yahooUrl(event), '_blank') },
+  ];
+  return (
+    <div style={{
+      position: 'absolute', bottom: '110%', left: 0, zIndex: 50,
+      background: '#1e2130', border: '1px solid #2a2f45', borderRadius: '12px',
+      padding: '6px', minWidth: '180px', boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+    }}>
+      {options.map(o => (
+        <button key={o.label} onClick={() => { o.action(); onClose(); }} style={{
+          display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
+          background: 'none', border: 'none', borderRadius: '8px',
+          color: '#ddd', cursor: 'pointer', fontSize: '13px', padding: '8px 12px',
+          textAlign: 'left',
+        }}
+          onMouseEnter={e => (e.currentTarget.style.background = '#2a2f45')}
+          onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+        >
+          <span>{CAL_ICONS[o.label] ?? '📅'}</span> {o.label}
+        </button>
+      ))}
+      <button onClick={onClose} style={{
+        display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
+        background: 'none', border: 'none', borderRadius: '8px',
+        color: '#666', cursor: 'pointer', fontSize: '13px', padding: '8px 12px',
+      }}>
+        <X size={13} /> Close
+      </button>
+    </div>
+  );
+}
+
+// ─── Share menu ───────────────────────────────────────────────────────────────
+
+function ShareMenu({ event, onClose }: { event: Event; onClose: () => void }) {
+  const shareUrl = event.website ?? typeof window !== 'undefined' ? window.location.href : '';
+  const text = `${event.name} — ${event.start_date}`;
+
+  const options = [
+    {
+      label: 'Facebook', color: '#1877F2',
+      icon: '𝗳',
+      action: () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank'),
+    },
+    {
+      label: 'LinkedIn', color: '#0A66C2',
+      icon: 'in',
+      action: () => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank'),
+    },
+    {
+      label: 'Email', color: '#aaa',
+      icon: '✉',
+      action: () => window.open(`mailto:?subject=${encodeURIComponent(text)}&body=${encodeURIComponent(`${text}\n\n${shareUrl}`)}`, '_blank'),
+    },
+    {
+      label: 'Copy Link', color: '#aaa',
+      icon: '🔗',
+      action: () => { navigator.clipboard.writeText(shareUrl); onClose(); },
+    },
+  ];
+
+  return (
+    <div style={{
+      position: 'absolute', bottom: '110%', left: 0, zIndex: 50,
+      background: '#1e2130', border: '1px solid #2a2f45', borderRadius: '12px',
+      padding: '6px', minWidth: '160px', boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+    }}>
+      {options.map(o => (
+        <button key={o.label} onClick={() => { o.action(); onClose(); }} style={{
+          display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
+          background: 'none', border: 'none', borderRadius: '8px',
+          color: o.color, cursor: 'pointer', fontSize: '13px', padding: '8px 12px',
+          textAlign: 'left',
+        }}
+          onMouseEnter={e => (e.currentTarget.style.background = '#2a2f45')}
+          onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+        >
+          <span style={{ width: '16px', textAlign: 'center' }}>{o.icon}</span> {o.label}
+        </button>
+      ))}
+      <button onClick={onClose} style={{
+        display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
+        background: 'none', border: 'none', borderRadius: '8px',
+        color: '#666', cursor: 'pointer', fontSize: '13px', padding: '8px 12px',
+      }}>
+        <X size={13} /> Close
+      </button>
+    </div>
+  );
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
+type EventCardProps = {
+  event: Event;
+  index: number;
+  isLoggedIn?: boolean;
+  onAuthClick?: () => void;
+};
+
 export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: EventCardProps) {
+  const [addOpen, setAddOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+
   const hasRealDesc =
     event.description && event.description !== 'Please find more details at the Event Website.';
   const rawDesc = hasRealDesc ? event.description! : '';
@@ -56,20 +283,23 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
   const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'short' });
   const monthDay = eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-  // Logged-out: start time only. Logged-in: full start – end time.
   const startFmt = formatTime(event.start_time);
   const endFmt = formatTime(event.end_time);
   const timeLabel = isLoggedIn
     ? `${dayOfWeek}. ${monthDay} | ${startFmt}${endFmt ? ` - ${endFmt}` : ''}`
     : `${dayOfWeek}. ${monthDay} | ${startFmt}`;
 
-  // Participation display
+  const timeOfDay = getTimeOfDay(event.start_time);
+
   const participationLabel = (() => {
     const p = event.participation?.toLowerCase() ?? '';
     if (p === 'virtual') return 'Virtual';
     if (p === 'hybrid') return 'Hybrid';
-    return null; // In-Person is the default, no need to label it
+    return 'In-Person';
   })();
+
+  function toggleAdd() { setAddOpen(o => !o); setShareOpen(false); }
+  function toggleShare() { setShareOpen(o => !o); setAddOpen(false); }
 
   return (
     <div
@@ -79,15 +309,6 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
       <div className="ev-card-new-header">
         <div className="ev-card-new-header-content">
           <h3 className="ev-card-new-title">{event.name}</h3>
-
-          {/* Org name — shown when logged in */}
-          {isLoggedIn && event.org_name && (
-            <div style={{ color: '#888', fontSize: '12px', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <Users size={11} style={{ flexShrink: 0 }} />
-              <span>{event.org_name}</span>
-            </div>
-          )}
-
           <div className="ev-card-new-time">
             <Calendar size={14} className="ev-card-new-time-icon" />
             <span>{timeLabel}</span>
@@ -98,6 +319,11 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
               <span>{event.address}{event.part_of_town && isLoggedIn ? ` · ${event.part_of_town}` : ''}</span>
             </div>
           )}
+          {isLoggedIn && event.org_name && (
+            <div style={{ color: '#888', fontSize: '12px', marginTop: '4px' }}>
+              Organized by: <span style={{ color: '#60a5fa' }}>{event.org_name}</span>
+            </div>
+          )}
         </div>
         {event.website && (
           <a
@@ -106,7 +332,7 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
             rel="noopener noreferrer"
             className="ev-card-new-btn"
           >
-            Event Site
+            {isLoggedIn ? 'View Details' : 'Event Site'}
           </a>
         )}
       </div>
@@ -114,19 +340,39 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
       <div className="ev-card-new-body">
         {isLoggedIn ? (
           <>
+            {/* Badges */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
+              <PaidBadge paid={event.paid} />
+              {timeOfDay && <Badge label={timeOfDay} color="#94a3b8" />}
+              <Badge label={participationLabel} color={participationLabel === 'Virtual' ? '#60a5fa' : participationLabel === 'Hybrid' ? '#a78bfa' : '#94a3b8'} />
+              {event.event_category && <Badge label={event.event_category} color="#a78bfa" />}
+            </div>
+
+            {/* Description */}
             {rawDesc ? (
               <p className="ev-card-new-desc">{rawDesc}</p>
             ) : (
               <p className="ev-card-new-desc ev-card-no-desc">See event site for description</p>
             )}
 
-            {/* Tag row — cost, participation, category */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '10px' }}>
-              <PaidBadge paid={event.paid} />
-              {participationLabel && <Badge label={participationLabel} color="#60a5fa" />}
-              {event.event_category && (
-                <Badge label={event.event_category} color="#a78bfa" />
-              )}
+            {/* Action buttons */}
+            <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap', position: 'relative' }}>
+              <div style={{ position: 'relative' }}>
+                <ActionBtn
+                  icon={<CalendarPlus size={13} />}
+                  label="Add"
+                  onClick={toggleAdd}
+                />
+                {addOpen && <AddToCalendarMenu event={event} onClose={() => setAddOpen(false)} />}
+              </div>
+              <div style={{ position: 'relative' }}>
+                <ActionBtn
+                  icon={<Share2 size={13} />}
+                  label="Share"
+                  onClick={toggleShare}
+                />
+                {shareOpen && <ShareMenu event={event} onClose={() => setShareOpen(false)} />}
+              </div>
             </div>
           </>
         ) : (
