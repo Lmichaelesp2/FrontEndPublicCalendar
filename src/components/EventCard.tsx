@@ -116,9 +116,9 @@ function PaidBadge({ paid }: { paid: string }) {
   if (isUnknown) return null;
   return (
     <span style={{
-      background: isFree ? '#16a34a18' : '#f5a62318',
-      border: `1px solid ${isFree ? '#16a34a40' : '#f5a62340'}`,
-      color: isFree ? '#4ade80' : '#f5a623',
+      background: isFree ? 'transparent' : '#c2410c',
+      border: '1px solid #c2410c',
+      color: isFree ? '#c2410c' : '#fff',
       borderRadius: '20px', fontSize: '11px', fontWeight: 600, padding: '3px 10px',
     }}>
       {isFree ? 'Free' : 'Paid'}
@@ -126,10 +126,10 @@ function PaidBadge({ paid }: { paid: string }) {
   );
 }
 
-function Badge({ label, color = '#888' }: { label: string; color?: string }) {
+function Badge({ label }: { label: string }) {
   return (
     <span style={{
-      background: '#1e2130', border: '1px solid #2a2f45', color,
+      background: 'transparent', border: '1px solid #c2410c', color: '#c2410c',
       borderRadius: '20px', fontSize: '11px', padding: '3px 10px',
     }}>
       {label}
@@ -343,9 +343,9 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
             {/* Badges */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
               <PaidBadge paid={event.paid} />
-              {timeOfDay && <Badge label={timeOfDay} color="#94a3b8" />}
-              <Badge label={participationLabel} color={participationLabel === 'Virtual' ? '#60a5fa' : participationLabel === 'Hybrid' ? '#a78bfa' : '#94a3b8'} />
-              {event.event_category && <Badge label={event.event_category} color="#a78bfa" />}
+              {timeOfDay && <Badge label={timeOfDay} />}
+              <Badge label={participationLabel} />
+              {event.event_category && <Badge label={event.event_category} />}
             </div>
 
             {/* Description */}
