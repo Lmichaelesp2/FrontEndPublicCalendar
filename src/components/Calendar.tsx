@@ -159,10 +159,12 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       if (!forcedCity && networkProfile.city) {
         if (e.city_calendar !== networkProfile.city) return false;
       }
-      // Category filter — event must match at least one chosen category
-      if (networkProfile.categories.length > 0) {
-        const eventCat = e.event_category ?? '';
-        const hasMatch = networkProfile.categories.some(cat => eventCat.includes(cat));
+      // Category filter — only filter events that HAVE a category and it doesn't match.
+      // Uncategorized events (null) always pass through.
+      if (networkProfile.categories.length > 0 && e.event_category) {
+        const hasMatch = networkProfile.categories.some(cat =>
+          e.event_category!.includes(cat)
+        );
         if (!hasMatch) return false;
       }
       // Participation filter
