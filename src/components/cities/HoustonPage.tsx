@@ -86,6 +86,39 @@ const CATEGORY_LINKS = [
   { label: 'Small Business Events', href: '/texas/houston/small-business', icon: <Briefcase size={20} /> },
 ];
 
+
+// ── Dynamic week/newsletter helper ───────────────────────────────────────────
+function getWeekInfo(events: { start_date?: string }[]) {
+  const today = new Date();
+  const day = today.getDay(); // 0=Sun
+  const sun = new Date(today);
+  sun.setDate(today.getDate() - day);
+  const sat = new Date(sun);
+  sat.setDate(sun.getDate() + 6);
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const from = `${sun.getFullYear()}-${pad(sun.getMonth() + 1)}-${pad(sun.getDate())}`;
+  const to   = `${sat.getFullYear()}-${pad(sat.getMonth() + 1)}-${pad(sat.getDate())}`;
+
+  const count = events.filter(e => e.start_date && e.start_date >= from && e.start_date <= to).length;
+
+  const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const sunStr = `${MONTHS[sun.getMonth()]} ${sun.getDate()}`;
+  const satStr = `${MONTHS[sat.getMonth()]} ${sat.getDate()}, ${sat.getFullYear()}`;
+
+  // Next Monday = this Sunday + 8 days
+  const nextMon = new Date(sun);
+  nextMon.setDate(sun.getDate() + 8);
+  const nextMonStr = `MONDAY, ${MONTHS[nextMon.getMonth()]} ${nextMon.getDate()}`;
+
+  // Vol number anchored to week starting Sun Apr 12, 2026
+  const anchor = new Date('2026-04-12');
+  const weekNum = Math.floor((sun.getTime() - anchor.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+
+  return { count, weekRange: `${sunStr} – ${satStr}`, nextMonStr, vol: weekNum };
+}
+
+
 function FaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
   return (
     <div className={`faq-item${open ? ' open' : ''}`}>
@@ -104,6 +137,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
   const { profile } = useAuth();
   const isPremium = profile?.subscription_tier === 'premium';
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const weekInfo = getWeekInfo(initialEvents);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -133,7 +167,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
           <div className="hero-left">
             <div className="hero-badge">
               <span className="hero-badge-dot" />
-              THIS WEEK IN HOUSTON &middot; 6 EVENTS
+              THIS WEEK IN HOUSTON &middot; {weekInfo.count} EVENTS
             </div>
             <h1>
               Find the events where Houston business{' '}
@@ -176,9 +210,9 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
         <div className="hero-strip">
-          <span>VOL. 3 &middot; APR 28 – MAY 4, 2026</span>
+          <span>VOL. {weekInfo.vol} &middot; {weekInfo.weekRange}</span>
           <span className="hero-strip-divider">|</span>
-          <span>NEXT NEWSLETTER: MONDAY, MAY 4 &middot; 6:00 A.M. CT</span>
+          <span>NEXT NEWSLETTER: {weekInfo.nextMonStr} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
           <span>TRACKED ORGANIZATIONS: 300+</span>
         </div>

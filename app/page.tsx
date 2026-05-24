@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Homepage } from '../src/components/Homepage';
 import { fetchThisWeekCounts } from '../src/lib/supabase-server';
 
-export const revalidate = 300; // revalidate every 5 minutes
+export const revalidate = 60; // revalidate every 60 seconds
 
 export const metadata: Metadata = {
   title: 'Local Business Calendars | Free Business & Networking Event Calendars by City',
