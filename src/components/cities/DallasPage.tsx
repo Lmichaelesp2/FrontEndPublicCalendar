@@ -11,6 +11,8 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { useAuth } from '../../contexts/AuthContext';
+import { PremiumCityView } from '../PremiumCityView';
 
 const STATS = [
   { number: '1,000+', label: 'Dallas professionals subscribed' },
@@ -99,11 +101,17 @@ function FaqItem({ question, answer, open, onToggle }: { question: string; answe
 }
 
 function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
+  const { profile } = useAuth();
+  const isPremium = profile?.subscription_tier === 'premium';
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  if (isPremium) {
+    return <PremiumCityView city="Dallas" citySlug="dallas" initialEvents={initialEvents} />;
+  }
 
   return (
     <div className="sa-page">

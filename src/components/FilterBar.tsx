@@ -89,11 +89,11 @@ function toggle(arr: string[], val: string): string[] {
   return arr.includes(val) ? arr.filter(v => v !== val) : [...arr, val];
 }
 
-// Active blue palette (matches site's --color-primary / --color-primary-light)
-const BLUE_TEXT   = '#5b82f7';
-const BLUE_BG     = '#1652f014';
-const BLUE_BORDER = '#1652f055';
-const BLUE_BADGE  = '#1652f0';
+// Active palette — matches site's --color-terra / --color-accent (#c2410c)
+const BLUE_TEXT   = '#d4521c';   // slightly lightened for dark-bg readability
+const BLUE_BG     = '#c2410c16';
+const BLUE_BORDER = '#c2410c55';
+const BLUE_BADGE  = '#c2410c';
 
 type DropKey = 'city' | 'cost' | 'time' | 'participation' | 'location' | 'category';
 

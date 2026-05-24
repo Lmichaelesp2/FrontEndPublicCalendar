@@ -11,6 +11,8 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { useAuth } from '../../contexts/AuthContext';
+import { PremiumCityView } from '../PremiumCityView';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },
@@ -90,11 +92,17 @@ function SAFaqItem({ question, answer, open, onToggle }: { question: string; ans
 }
 
 function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
+  const { profile } = useAuth();
+  const isPremium = profile?.subscription_tier === 'premium';
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  if (isPremium) {
+    return <PremiumCityView city="San Antonio" citySlug="san-antonio" initialEvents={initialEvents} />;
+  }
 
   return (
     <div className="sa-page">
