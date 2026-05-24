@@ -51,6 +51,13 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
           <Link href="/texas">Texas Calendars</Link>
           <span className="footer-cities-coming">More Coming Soon</span>
         </nav>
+      ) : isTexasPage ? (
+        <nav className="footer-cities footer-industry-calendars" aria-label="City calendars">
+          <Link href="/texas/san-antonio" className="industry-calendar-button">San Antonio Business Calendar</Link>
+          <Link href="/texas/austin" className="industry-calendar-button">Austin Business Calendar</Link>
+          <Link href="/texas/dallas" className="industry-calendar-button">Dallas Business Calendar</Link>
+          <Link href="/texas/houston" className="industry-calendar-button">Houston Business Calendar</Link>
+        </nav>
       ) : !showIndustryCalendars ? (
         <nav className="footer-cities" aria-label="State pages">
           <Link href="/texas">Texas Calendars</Link>
