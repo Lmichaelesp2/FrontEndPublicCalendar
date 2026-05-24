@@ -789,6 +789,284 @@ function SendCityButton({ city, newsletters }: { city: string; newsletters: News
   return null;
 }
 
+// ─── PremiumDigestSection ─────────────────────────────────────────────────────
+
+interface PremiumStats {
+  premiumCount: number;
+  withProfile: number;
+  withoutProfile: number;
+}
+
+interface PremiumSendResult {
+  sentCount: number;
+  premiumCount: number;
+  skippedNoProfile: number;
+  errors?: { email: string; error: string }[];
+}
+
+type PremiumStatus = 'idle' | 'checking' | 'confirm' | 'sending' | 'done' | 'error';
+type PremiumTestStatus = 'idle' | 'open' | 'sending' | 'done' | 'error';
+
+function PremiumDigestSection() {
+  const [open, setOpen]             = useState(false);
+  const [stats, setStats]           = useState<PremiumStats | null>(null);
+  const [statsLoading, setStatsLoading] = useState(false);
+  const [sendStatus, setSendStatus] = useState<PremiumStatus>('idle');
+  const [sendResult, setSendResult] = useState<PremiumSendResult | null>(null);
+  const [sendErr, setSendErr]       = useState('');
+
+  // Test send state
+  const [testStatus, setTestStatus] = useState<PremiumTestStatus>('idle');
+  const [selected, setSelected]     = useState<Set<string>>(
+    new Set(['themobilecoach@gmail.com', 'michael@localbusinesscalendars.com']),
+  );
+  const [customEmail, setCustomEmail] = useState('');
+  const [testList, setTestList]     = useState([
+    'themobilecoach@gmail.com',
+    'michael@localbusinesscalendars.com',
+  ]);
+  const [testResult, setTestResult] = useState<{ sentCount: number; picksCount: number; totalEvents: number; city: string; categories: string[] } | null>(null);
+  const [testErr, setTestErr]       = useState('');
+
+  async function loadStats() {
+    setStatsLoading(true);
+    try {
+      const res  = await fetch('/api/send-premium-digest');
+      const data = await res.json();
+      setStats(data);
+    } catch {
+      // ignore
+    } finally {
+      setStatsLoading(false);
+    }
+  }
+
+  function handleToggle() {
+    const next = !open;
+    setOpen(next);
+    if (next && !stats) loadStats();
+  }
+
+  // ── Test send ──────────────────────────────────────────────────────────────
+  function toggleTestEmail(email: string) {
+    setSelected(prev => {
+      const next = new Set(prev);
+      next.has(email) ? next.delete(email) : next.add(email);
+      return next;
+    });
+  }
+
+  function addCustomTestEmail() {
+    const email = customEmail.trim().toLowerCase();
+    if (!email || !email.includes('@')) return;
+    if (!testList.includes(email)) setTestList(prev => [...prev, email]);
+    setSelected(prev => new Set([...prev, email]));
+    setCustomEmail('');
+  }
+
+  async function handleTestSend() {
+    const emails = testList.filter(e => selected.has(e));
+    if (emails.length === 0) return;
+    setTestStatus('sending');
+    try {
+      const res  = await fetch('/api/send-premium-digest', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ testEmails: emails }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setTestErr(data.error ?? 'Test send failed'); setTestStatus('error'); return; }
+      setTestResult(data);
+      setTestStatus('done');
+    } catch (e: any) {
+      setTestErr(e?.message ?? 'Test send failed');
+      setTestStatus('error');
+    }
+  }
+
+  // ── Real send ──────────────────────────────────────────────────────────────
+  async function handleConfirmSend() {
+    setSendStatus('sending');
+    try {
+      const res  = await fetch('/api/send-premium-digest', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({}),
+      });
+      const data = await res.json();
+      if (!res.ok) { setSendErr(data.error ?? 'Send failed'); setSendStatus('error'); return; }
+      setSendResult(data);
+      setSendStatus('done');
+    } catch (e: any) {
+      setSendErr(e?.message ?? 'Send failed');
+      setSendStatus('error');
+    }
+  }
+
+  return (
+    <div className="nl-premium-section">
+      <button className="nl-premium-header" onClick={handleToggle}>
+        <div className="nl-premium-title">
+          <span className="nl-premium-badge">★ Premium</span>
+          <span>Personalized Member Digest</span>
+          {stats && (
+            <span className="nl-event-count">
+              {stats.premiumCount} member{stats.premiumCount !== 1 ? 's' : ''}
+              {' · '}{stats.withProfile} with preferences set
+            </span>
+          )}
+          {statsLoading && <span className="nl-event-count">Loading…</span>}
+        </div>
+        {open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+      </button>
+
+      {open && (
+        <div className="nl-premium-body">
+          <p className="nl-hint" style={{ marginBottom: '1rem' }}>
+            Sends each premium member a personalized digest based on their city and category preferences.
+            Members without preferences set are skipped.
+          </p>
+
+          {/* Stats */}
+          {stats && (
+            <div className="nl-premium-stats">
+              <span><strong>{stats.premiumCount}</strong> premium members</span>
+              <span><strong>{stats.withProfile}</strong> with preferences → will receive digest</span>
+              {stats.withoutProfile > 0 && (
+                <span style={{ color: '#b45309' }}><strong>{stats.withoutProfile}</strong> skipped (no preferences set)</span>
+              )}
+            </div>
+          )}
+
+          {/* Test send */}
+          <div className="nl-send-row" style={{ marginTop: '1rem' }}>
+            <div className="nl-send-row-btns">
+
+              {/* Real send button */}
+              {sendStatus === 'idle' && (
+                <button onClick={() => setSendStatus('confirm')} className="nl-send-btn">
+                  <Send size={14} /> Send Premium Digest
+                </button>
+              )}
+              {sendStatus === 'confirm' && (
+                <div className="nl-send-confirm">
+                  <div className="nl-send-confirm-info">
+                    <strong>Send personalized digest to {stats?.withProfile ?? '?'} premium members?</strong>
+                  </div>
+                  <div className="nl-send-confirm-btns">
+                    <button onClick={handleConfirmSend} className="nl-send-btn nl-send-confirm-go">
+                      <Send size={14} /> Confirm Send
+                    </button>
+                    <button onClick={() => setSendStatus('idle')} className="nl-send-cancel">Cancel</button>
+                  </div>
+                </div>
+              )}
+              {sendStatus === 'checking' && (
+                <div className="nl-send-status nl-send-checking">
+                  <Loader2 size={14} className="nl-spin" /> Checking…
+                </div>
+              )}
+              {sendStatus === 'sending' && (
+                <div className="nl-send-status nl-send-checking">
+                  <Loader2 size={14} className="nl-spin" /> Sending premium digests… do not close this tab
+                </div>
+              )}
+              {sendStatus === 'done' && sendResult && (
+                <div className="nl-send-status nl-send-done">
+                  <CheckCircle size={14} />
+                  <span>
+                    ✓ Sent to <strong>{sendResult.sentCount}</strong> premium members
+                    {sendResult.skippedNoProfile > 0 && <> · {sendResult.skippedNoProfile} skipped (no preferences)</>}
+                    {sendResult.errors && sendResult.errors.length > 0 && <> · {sendResult.errors.length} failed</>}
+                  </span>
+                  <button onClick={() => { setSendStatus('idle'); setSendResult(null); loadStats(); }} className="nl-send-reset">
+                    Reset
+                  </button>
+                </div>
+              )}
+              {sendStatus === 'error' && (
+                <div className="nl-send-status nl-send-error">
+                  <AlertTriangle size={14} /> {sendErr}
+                  <button onClick={() => setSendStatus('idle')} className="nl-send-reset">Retry</button>
+                </div>
+              )}
+
+              {/* Test send button */}
+              {testStatus === 'idle' && (
+                <button onClick={() => setTestStatus('open')} className="nl-test-btn">
+                  <Mail size={13} /> Test Send
+                </button>
+              )}
+              {testStatus === 'open' && (
+                <div className="nl-test-panel">
+                  <div className="nl-test-panel-header">
+                    <span className="nl-test-label">Test Send — Premium Digest</span>
+                    <button onClick={() => setTestStatus('idle')} className="nl-test-close">✕</button>
+                  </div>
+                  <p className="nl-test-hint">
+                    Sends using the first premium member's preferences as a sample. Does not send to real subscribers.
+                  </p>
+                  <div className="nl-test-list">
+                    {testList.map(email => (
+                      <label key={email} className="nl-test-email-row">
+                        <input type="checkbox" checked={selected.has(email)} onChange={() => toggleTestEmail(email)} />
+                        <span>{email}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="nl-test-add-row">
+                    <input
+                      type="email"
+                      value={customEmail}
+                      onChange={e => setCustomEmail(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && addCustomTestEmail()}
+                      placeholder="Add another email…"
+                      className="nl-test-input"
+                    />
+                    <button onClick={addCustomTestEmail} className="nl-test-add-btn">Add</button>
+                  </div>
+                  <div className="nl-test-send-row">
+                    <button
+                      onClick={handleTestSend}
+                      disabled={testList.filter(e => selected.has(e)).length === 0}
+                      className="nl-test-send-go"
+                    >
+                      <Send size={13} /> Send to {testList.filter(e => selected.has(e)).length} address{testList.filter(e => selected.has(e)).length !== 1 ? 'es' : ''}
+                    </button>
+                    <button onClick={() => setTestStatus('idle')} className="nl-send-cancel">Cancel</button>
+                  </div>
+                </div>
+              )}
+              {testStatus === 'sending' && (
+                <div className="nl-send-status nl-send-checking">
+                  <Loader2 size={14} className="nl-spin" /> Sending test…
+                </div>
+              )}
+              {testStatus === 'done' && testResult && (
+                <div className="nl-send-status nl-send-done">
+                  <CheckCircle size={14} />
+                  <span>
+                    Test sent · {testResult.picksCount} picks + {testResult.totalEvents - testResult.picksCount} other · {testResult.city}
+                    {testResult.categories.length > 0 && ` · ${testResult.categories.join(', ')}`}
+                  </span>
+                  <button onClick={() => { setTestStatus('idle'); setTestResult(null); }} className="nl-send-reset">Done</button>
+                </div>
+              )}
+              {testStatus === 'error' && (
+                <div className="nl-send-status nl-send-error">
+                  <AlertTriangle size={14} /> {testErr}
+                  <button onClick={() => setTestStatus('open')} className="nl-send-reset">Retry</button>
+                </div>
+              )}
+
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── SendAllCitiesButton — sends every city, every list ───────────────────────
 
 function SendAllCitiesButton({ newsletters }: { newsletters: Newsletter[] }) {
@@ -972,6 +1250,9 @@ export function NewslettersPage() {
               </div>
             )}
           </div>
+
+          {/* Premium digest — always visible, loads its own data */}
+          <PremiumDigestSection />
 
           {loading ? (
             <div className="nl-loading">Loading events...</div>
