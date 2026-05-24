@@ -811,6 +811,7 @@ function PremiumDigestSection() {
   const [open, setOpen]             = useState(false);
   const [stats, setStats]           = useState<PremiumStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
+  const [statsError, setStatsError]     = useState('');
   const [sendStatus, setSendStatus] = useState<PremiumStatus>('idle');
   const [sendResult, setSendResult] = useState<PremiumSendResult | null>(null);
   const [sendErr, setSendErr]       = useState('');
@@ -830,12 +831,17 @@ function PremiumDigestSection() {
 
   async function loadStats() {
     setStatsLoading(true);
+    setStatsError('');
     try {
       const res  = await fetch('/api/send-premium-digest');
       const data = await res.json();
-      setStats(data);
-    } catch {
-      // ignore
+      if (!res.ok) {
+        setStatsError(data.error ?? `HTTP ${res.status}`);
+      } else {
+        setStats(data);
+      }
+    } catch (e: any) {
+      setStatsError(e?.message ?? 'Failed to load stats');
     } finally {
       setStatsLoading(false);
     }
@@ -875,7 +881,7 @@ function PremiumDigestSection() {
         body:    JSON.stringify({ testEmails: emails }),
       });
       const data = await res.json();
-      if (!res.ok) { setTestErr(data.error ?? 'Test send failed'); setTestStatus('error'); return; }
+      if (!res.ok) { setTestErr((data.error ?? 'Test send failed') + (data.detail ? ` — ${data.detail}` : '')); setTestStatus('error'); return; }
       setTestResult(data);
       setTestStatus('done');
     } catch (e: any) {
@@ -928,6 +934,12 @@ function PremiumDigestSection() {
           </p>
 
           {/* Stats */}
+          {statsError && (
+            <div className="nl-send-status nl-send-error" style={{ marginBottom: '.75rem' }}>
+              <AlertTriangle size={13} /> Stats error: {statsError}
+              <button onClick={loadStats} className="nl-send-reset">Retry</button>
+            </div>
+          )}
           {stats && (
             <div className="nl-premium-stats">
               <span><strong>{stats.premiumCount}</strong> premium members</span>
