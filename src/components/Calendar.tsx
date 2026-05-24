@@ -53,23 +53,28 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
 
   useEffect(() => {
     async function fetchLive() {
+      // For sub-cals (minDate = week start), fetch from the week start so the
+      // full Sun–Sat window is visible even on Saturday evening.
+      const fetchFrom = minDate && minDate < today ? minDate : today;
+
       let query = supabase
         .from('events_published_view')
         .select('*')
         .eq('status', 'approved')
-        .gte('start_date', today)
+        .gte('start_date', fetchFrom)
         .order('start_date', { ascending: true })
         .limit(2000);
 
       if (forcedCity) query = query.eq('city_calendar', forcedCity);
-      if (groupType) query = query.eq('event_category', resolveGroupType(groupType));
-      if (dateCap) query = query.lte('start_date', dateCap);
+      if (groupType) query = query.ilike('event_category', `%${resolveGroupType(groupType)}%`);
+      if (maxDate) query = query.lte('start_date', maxDate);
+      else if (dateCap) query = query.lte('start_date', dateCap);
 
       const { data } = await query;
       if (data) setLiveEvents(data as Event[]);
     }
     fetchLive();
-  }, [forcedCity, groupType, dateCap, today]);
+  }, [forcedCity, groupType, dateCap, minDate, maxDate, today]);
 
   // Day-based navigation — starts on today
   const [selectedDate, setSelectedDate] = useState<string>(today);
