@@ -30,7 +30,8 @@ interface CalendarProps {
 }
 
 export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, showSearch, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false }: CalendarProps) {
-  const { user, profile } = useAuth();
+  const { user, profile, userFilters } = useAuth();
+  const networkProfile = userFilters[0]?.filter_view ?? null;
   const today = useMidnightReset();
 
   // ── Free vs. Premium date cap ─────────────────────────────────────────────
@@ -76,6 +77,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
   const [inlineAuthOpen, setInlineAuthOpen] = useState(false);
   const [showUpgradeNudge, setShowUpgradeNudge] = useState(false);
+  const [isPersonalized, setIsPersonalized] = useState(true);
 
   // Week mode state — starts from today, shows next 7 days per page
   const [weekOffset, setWeekOffset] = useState(0);
@@ -140,12 +142,35 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   }
 
   const eventsSource = liveEvents ?? initialEvents;
+
+  // personalization active when: premium + has profile + not a sub-cal + user hasn't toggled it off
+  const personalizationActive = !weekMode && isPremium && !!networkProfile && isPersonalized;
+
   const cityFiltered = eventsSource.filter((e) => {
     if (forcedCity && e.city_calendar !== forcedCity) return false;
     // In week mode, server already filtered by groupType — skip client-side category filter
     if (!weekMode && groupType && !e.event_category?.includes(resolveGroupType(groupType))) return false;
     if (minDate && e.start_date < minDate) return false;
     if (dateCap && e.start_date > dateCap) return false;
+
+    // ── Personalization filters (premium only) ────────────────────────────
+    if (personalizationActive && networkProfile) {
+      // City filter — only apply if no forcedCity already set
+      if (!forcedCity && networkProfile.city) {
+        if (e.city_calendar !== networkProfile.city) return false;
+      }
+      // Category filter — event must match at least one chosen category
+      if (networkProfile.categories.length > 0) {
+        const eventCat = e.event_category ?? '';
+        const hasMatch = networkProfile.categories.some(cat => eventCat.includes(cat));
+        if (!hasMatch) return false;
+      }
+      // Participation filter
+      if (networkProfile.participation === 'In-Person') {
+        if (e.participation === 'Virtual') return false;
+      }
+    }
+
     return true;
   });
 
@@ -457,6 +482,43 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
               }}
             >
               Upgrade →
+            </button>
+          </div>
+        )}
+
+        {/* Personalization banner — shown to premium users with a saved network profile */}
+        {isPremium && networkProfile && !weekMode && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+            padding: '10px 14px',
+            margin: '8px 0',
+            background: isPersonalized ? '#f5a62312' : '#1e2130',
+            border: `1px solid ${isPersonalized ? '#f5a62340' : '#2a2f45'}`,
+            borderRadius: '10px',
+            flexWrap: 'wrap',
+          }}>
+            <span style={{ color: '#aaa', fontSize: '13px' }}>
+              {isPersonalized
+                ? `✦ Personalized · ${networkProfile.categories.join(', ')}${networkProfile.city ? ` · ${networkProfile.city}` : ''}`
+                : '⊙ Showing all events'}
+            </span>
+            <button
+              onClick={() => setIsPersonalized(p => !p)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#f5a623',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: 600,
+                padding: 0,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {isPersonalized ? 'View All Events →' : '← Back to My Events'}
             </button>
           </div>
         )}
