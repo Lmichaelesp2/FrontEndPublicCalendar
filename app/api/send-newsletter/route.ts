@@ -271,8 +271,9 @@ export async function POST(req: NextRequest) {
     // ── 1. Fetch this week's events for the city ──────────────────────────────
     // For sub-cals we still pull all city events then filter by category,
     // matching the same logic the newsletter preview uses.
+    // Uses events_approved (same view as the admin preview) to stay in sync.
     let eventsQuery = supabase
-      .from('events')
+      .from('events_approved')
       .select('id, name, start_date, start_time, org_name, address, website, paid, event_category')
       .eq('city_calendar', city)
       .gte('start_date', monday)

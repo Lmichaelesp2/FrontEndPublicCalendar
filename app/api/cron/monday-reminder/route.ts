@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
 
   for (const city of CITIES) {
     const { data: events } = await supabase
-      .from('events')
+      .from('events_approved')
       .select('name, event_category')
       .eq('city_calendar', city)
       .gte('start_date', monday)
