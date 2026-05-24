@@ -7,6 +7,7 @@ import { dateKey, formatDate, parseDate, sortEventsByTime, useMidnightReset, get
 import { resolveGroupType } from '../lib/cities';
 
 import { EventCard } from './EventCard';
+import { FilterBar, FilterState, emptyFilters, hasActiveFilters } from './FilterBar';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 
@@ -79,6 +80,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const [showUpgradeNudge, setShowUpgradeNudge] = useState(false);
   const [isPersonalized, setIsPersonalized] = useState(true);
   const [viewMode, setViewMode] = useState<'day' | 'list'>('day');
+  const [manualFilters, setManualFilters] = useState<FilterState>(emptyFilters());
 
   // Week mode state — starts from today, shows next 7 days per page
   const [weekOffset, setWeekOffset] = useState(0);
@@ -171,6 +173,29 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
       // Participation filter
       if (networkProfile.participation === 'In-Person') {
         if (e.participation === 'Virtual') return false;
+      }
+    }
+
+    // ── Manual filter bar (premium "View All Events" mode only) ───────────
+    if (isPremium && !isPersonalized && !weekMode && hasActiveFilters(manualFilters)) {
+      // City
+      if (manualFilters.cities.length > 0) {
+        if (!e.city_calendar || !manualFilters.cities.includes(e.city_calendar)) return false;
+      }
+      // Category — null-category events pass through (same logic as personalization)
+      if (manualFilters.categories.length > 0 && e.event_category) {
+        const hasMatch = manualFilters.categories.some(cat => e.event_category!.includes(cat));
+        if (!hasMatch) return false;
+      }
+      // Time of day
+      if (manualFilters.times.length > 0 && e.start_time) {
+        const hour = parseInt(e.start_time.split(':')[0] ?? '12', 10);
+        const tod = hour < 12 ? 'Morning' : hour < 17 ? 'Midday' : 'Evening';
+        if (!manualFilters.times.includes(tod)) return false;
+      }
+      // Participation
+      if (manualFilters.participation.length > 0 && e.participation) {
+        if (!manualFilters.participation.includes(e.participation)) return false;
       }
     }
 
@@ -570,7 +595,11 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                 : '⊙ Showing all events'}
             </span>
             <button
-              onClick={() => setIsPersonalized(p => !p)}
+              onClick={() => {
+                const next = !isPersonalized;
+                setIsPersonalized(next);
+                if (next) setManualFilters(emptyFilters()); // clear manual filters when going back to personalized
+              }}
               style={{
                 background: 'none',
                 border: 'none',
@@ -585,6 +614,11 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
               {isPersonalized ? 'View All Events →' : '← Back to My Events'}
             </button>
           </div>
+        )}
+
+        {/* Filter bar — premium "View All Events" mode only */}
+        {isPremium && !isPersonalized && !weekMode && (
+          <FilterBar filters={manualFilters} onChange={setManualFilters} />
         )}
 
         {/* Events list */}
