@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe((process.env.STRIPE_SECRET_KEY || process.env.Stripe)!);
 
 function getSupabaseAdmin() {
   return createClient(
