@@ -25,16 +25,34 @@ interface UserPreference {
   cost_preference?: string;
 }
 
+// filter_view shape saved by the questionnaire
+export interface NetworkProfile {
+  categories: string[];
+  city: string;
+  timeOfDay: string[];
+  participation: string;
+}
+
+interface UserFilter {
+  id: number;
+  user_id: string;
+  name: string;
+  filter_view: NetworkProfile;
+}
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   profile: UserProfile | null;
   preferences: UserPreference[];
+  userFilters: UserFilter[];
+  showQuestionnaire: boolean;
   loading: boolean;
   signUp: (email: string, password: string, firstName: string) => Promise<{ error: Error | null; data?: any }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data?: any }>;
   signOut: () => Promise<void>;
   updatePreferences: (prefs: Omit<UserPreference, 'id' | 'user_id'>[]) => Promise<void>;
+  saveNetworkProfile: (profile: NetworkProfile) => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
 
@@ -43,20 +61,25 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser]           = useState<User | null>(null);
-  const [session, setSession]     = useState<Session | null>(null);
-  const [profile, setProfile]     = useState<UserProfile | null>(null);
-  const [preferences, setPrefs]   = useState<UserPreference[]>([]);
-  const [loading, setLoading]     = useState(true);
+  const [user, setUser]               = useState<User | null>(null);
+  const [session, setSession]         = useState<Session | null>(null);
+  const [profile, setProfile]         = useState<UserProfile | null>(null);
+  const [preferences, setPrefs]       = useState<UserPreference[]>([]);
+  const [userFilters, setUserFilters] = useState<UserFilter[]>([]);
+  const [loading, setLoading]         = useState(true);
 
-  // ── Load profile + preferences
+  // showQuestionnaire: premium user who hasn't saved a network profile yet
+  const isPremium = profile?.subscription_tier === 'premium';
+  const showQuestionnaire = !loading && isPremium && userFilters.length === 0;
+
+  // ── Load profile + preferences + user_filters
   async function loadUserData(userId: string) {
-    const [{ data: profileData }, { data: prefsData }] = await Promise.all([
+    const [{ data: profileData }, { data: filtersData }] = await Promise.all([
       supabase.from('user_profiles').select('*').eq('id', userId).single(),
-      supabase.from('user_preferences').select('*').eq('user_id', userId),
+      supabase.from('user_filters').select('*').eq('user_id', userId),
     ]);
     if (profileData) setProfile(profileData);
-    if (prefsData)   setPrefs(prefsData);
+    if (filtersData) setUserFilters(filtersData as UserFilter[]);
   }
 
   // ── Session listener
@@ -124,6 +147,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setSession(null);
     setProfile(null);
     setPrefs([]);
+    setUserFilters([]);
+  }
+
+  // ── saveNetworkProfile — writes questionnaire answers to user_filters
+  async function saveNetworkProfile(networkProfile: NetworkProfile) {
+    if (!user) return;
+    // Upsert: delete existing default profile then insert fresh
+    await supabase.from('user_filters').delete().eq('user_id', user.id).eq('name', 'My Network Profile');
+    await supabase.from('user_filters').insert({
+      user_id: user.id,
+      name: 'My Network Profile',
+      filter_view: networkProfile,
+    });
+    await loadUserData(user.id);
   }
 
   // ── updatePreferences
@@ -145,8 +182,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{
-      user, session, profile, preferences, loading,
-      signUp, signIn, signOut, updatePreferences, refreshProfile,
+      user, session, profile, preferences, userFilters, showQuestionnaire, loading,
+      signUp, signIn, signOut, updatePreferences, saveNetworkProfile, refreshProfile,
     }}>
       {children}
     </AuthContext.Provider>
