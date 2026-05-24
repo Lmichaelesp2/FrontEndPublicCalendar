@@ -89,11 +89,11 @@ function toggle(arr: string[], val: string): string[] {
   return arr.includes(val) ? arr.filter(v => v !== val) : [...arr, val];
 }
 
-// Active palette — matches site's --color-terra / --color-accent (#c2410c)
-const BLUE_TEXT   = '#d4521c';   // slightly lightened for dark-bg readability
-const BLUE_BG     = '#c2410c16';
-const BLUE_BORDER = '#c2410c55';
-const BLUE_BADGE  = '#c2410c';
+// Active palette — solid terracotta (#c2410c) with white text
+const BLUE_TEXT   = '#ffffff';
+const BLUE_BG     = '#c2410c';
+const BLUE_BORDER = '#c2410c';
+const BLUE_BADGE  = '#7a1f05';   // darker shade for the count badge inside the button
 
 type DropKey = 'city' | 'cost' | 'time' | 'participation' | 'location' | 'category';
 

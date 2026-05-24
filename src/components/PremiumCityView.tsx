@@ -61,7 +61,7 @@ export function PremiumCityView({ city, citySlug, initialEvents }: PremiumCityVi
         />
       </div>
 
-      <Footer showIndustryCalendars={true} citySlug={citySlug} cityName={city} />
+      <Footer showIndustryCalendars={false} citySlug={citySlug} cityName={city} />
     </div>
   );
 }
