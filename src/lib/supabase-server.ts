@@ -50,15 +50,17 @@ export async function fetchApprovedEvents(options?: {
 export async function fetchThisWeekCounts(): Promise<Record<string, number>> {
   const supabase = getServerSupabase();
 
-  // Full week = always Sunday through Saturday of the current week
-  const today = new Date();
-  const day = today.getDay(); // 0=Sun, 1=Mon...6=Sat
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - day); // rewind to Sunday
+  // Compute current week (Sun–Sat) in US/Central time so Vercel's UTC clock
+  // doesn't flip to the next week before midnight CDT.
+  const nowCentral = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })
+  );
+  const day = nowCentral.getDay(); // 0=Sun, 1=Mon...6=Sat
+  const startOfWeek = new Date(nowCentral);
+  startOfWeek.setDate(nowCentral.getDate() - day);
   const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 6); // forward to Saturday
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
 
-  // Use local date strings to avoid UTC timezone shifting
   const pad = (n: number) => String(n).padStart(2, '0');
   const from = `${startOfWeek.getFullYear()}-${pad(startOfWeek.getMonth() + 1)}-${pad(startOfWeek.getDate())}`;
   const to = `${endOfWeek.getFullYear()}-${pad(endOfWeek.getMonth() + 1)}-${pad(endOfWeek.getDate())}`;
