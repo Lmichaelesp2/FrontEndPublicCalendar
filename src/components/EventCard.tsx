@@ -1,4 +1,4 @@
-import { MapPin, Calendar, Lock } from 'lucide-react';
+import { MapPin, Calendar, Lock, Users, DollarSign, Tag } from 'lucide-react';
 import { Event } from '../lib/supabase';
 import { parseDate, formatTime } from '../lib/utils';
 
@@ -8,6 +8,42 @@ type EventCardProps = {
   isLoggedIn?: boolean;
   onAuthClick?: () => void;
 };
+
+function PaidBadge({ paid }: { paid: string }) {
+  const isFree = paid?.toLowerCase() === 'free';
+  const isUnknown = !paid || paid?.toLowerCase() === 'unknown';
+  if (isUnknown) return null;
+  return (
+    <span style={{
+      background: isFree ? '#16a34a20' : '#f5a62320',
+      border: `1px solid ${isFree ? '#16a34a40' : '#f5a62340'}`,
+      color: isFree ? '#4ade80' : '#f5a623',
+      borderRadius: '6px',
+      fontSize: '11px',
+      fontWeight: 600,
+      padding: '2px 8px',
+      whiteSpace: 'nowrap' as const,
+    }}>
+      {isFree ? 'Free' : 'Paid'}
+    </span>
+  );
+}
+
+function Badge({ label, color = '#888' }: { label: string; color?: string }) {
+  return (
+    <span style={{
+      background: '#1e2130',
+      border: '1px solid #2a2f45',
+      color,
+      borderRadius: '6px',
+      fontSize: '11px',
+      padding: '2px 8px',
+      whiteSpace: 'nowrap' as const,
+    }}>
+      {label}
+    </span>
+  );
+}
 
 export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: EventCardProps) {
   const hasRealDesc =
@@ -21,11 +57,19 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
   const monthDay = eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
   // Logged-out: start time only. Logged-in: full start – end time.
-  const startFmt = formatTime(event.start_time)
-  const endFmt = formatTime(event.end_time)
+  const startFmt = formatTime(event.start_time);
+  const endFmt = formatTime(event.end_time);
   const timeLabel = isLoggedIn
     ? `${dayOfWeek}. ${monthDay} | ${startFmt}${endFmt ? ` - ${endFmt}` : ''}`
     : `${dayOfWeek}. ${monthDay} | ${startFmt}`;
+
+  // Participation display
+  const participationLabel = (() => {
+    const p = event.participation?.toLowerCase() ?? '';
+    if (p === 'virtual') return 'Virtual';
+    if (p === 'hybrid') return 'Hybrid';
+    return null; // In-Person is the default, no need to label it
+  })();
 
   return (
     <div
@@ -35,6 +79,15 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
       <div className="ev-card-new-header">
         <div className="ev-card-new-header-content">
           <h3 className="ev-card-new-title">{event.name}</h3>
+
+          {/* Org name — shown when logged in */}
+          {isLoggedIn && event.org_name && (
+            <div style={{ color: '#888', fontSize: '12px', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <Users size={11} style={{ flexShrink: 0 }} />
+              <span>{event.org_name}</span>
+            </div>
+          )}
+
           <div className="ev-card-new-time">
             <Calendar size={14} className="ev-card-new-time-icon" />
             <span>{timeLabel}</span>
@@ -42,7 +95,7 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
           {event.address && (
             <div className="ev-card-new-location">
               <MapPin size={14} className="ev-card-new-location-icon" />
-              <span>{event.address}</span>
+              <span>{event.address}{event.part_of_town && isLoggedIn ? ` · ${event.part_of_town}` : ''}</span>
             </div>
           )}
         </div>
@@ -60,11 +113,22 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
 
       <div className="ev-card-new-body">
         {isLoggedIn ? (
-          rawDesc ? (
-            <p className="ev-card-new-desc">{rawDesc}</p>
-          ) : (
-            <p className="ev-card-new-desc ev-card-no-desc">See event site for description</p>
-          )
+          <>
+            {rawDesc ? (
+              <p className="ev-card-new-desc">{rawDesc}</p>
+            ) : (
+              <p className="ev-card-new-desc ev-card-no-desc">See event site for description</p>
+            )}
+
+            {/* Tag row — cost, participation, category */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '10px' }}>
+              <PaidBadge paid={event.paid} />
+              {participationLabel && <Badge label={participationLabel} color="#60a5fa" />}
+              {event.event_category && (
+                <Badge label={event.event_category} color="#a78bfa" />
+              )}
+            </div>
+          </>
         ) : (
           <div className="ev-card-gate">
             <p className="ev-card-new-desc ev-card-gate-text" aria-hidden="true">
