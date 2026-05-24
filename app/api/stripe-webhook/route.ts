@@ -11,8 +11,7 @@ function getSupabaseAdmin() {
   );
 }
 
-// Required so Next.js doesn't parse the body — Stripe needs the raw bytes for signature verification
-export const config = { api: { bodyParser: false } };
+// Next.js App Router streams the raw body automatically — no bodyParser config needed
 
 export async function POST(req: NextRequest) {
   const sig = req.headers.get('stripe-signature');
