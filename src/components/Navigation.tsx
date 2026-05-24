@@ -204,7 +204,7 @@ export function Navigation() {
 
   async function handleLogout() {
     await signOut();
-    router.push('/');
+    window.location.href = '/';
   }
 
   const dateline = getDayDateline();
