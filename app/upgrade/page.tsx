@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { UpgradePageClient } from '../../src/components/UpgradePageClient';
 
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <UpgradePageClient />;
+  return (
+    <Suspense fallback={null}>
+      <UpgradePageClient />
+    </Suspense>
+  );
 }
