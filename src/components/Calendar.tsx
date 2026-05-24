@@ -30,8 +30,21 @@ interface CalendarProps {
 }
 
 export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, showSearch, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false }: CalendarProps) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const today = useMidnightReset();
+
+  // ── Free vs. Premium date cap ─────────────────────────────────────────────
+  // Free users: 7 days from today. Premium users: 30 days. weekMode (sub-cal
+  // pages) is not gated — they use their own minDate/maxDate.
+  const isPremium = profile?.subscription_tier === 'premium';
+  const dateCap = (() => {
+    if (weekMode) return maxDate ?? null; // sub-cal pages use their own range
+    const d = new Date();
+    d.setDate(d.getDate() + (isPremium ? 29 : 6)); // 30 days or 7 days
+    const cap = dateKey(d);
+    if (maxDate && maxDate < cap) return maxDate; // respect tighter passed maxDate
+    return cap;
+  })();
   const [liveEvents, setLiveEvents] = useState<Event[] | null>(null);
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const pickerRef = useRef<HTMLDivElement>(null);
@@ -42,17 +55,19 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         .from('events_published_view')
         .select('*')
         .eq('status', 'approved')
+        .gte('start_date', today)
         .order('start_date', { ascending: true })
         .limit(2000);
 
       if (forcedCity) query = query.eq('city_calendar', forcedCity);
       if (groupType) query = query.eq('event_category', resolveGroupType(groupType));
+      if (dateCap) query = query.lte('start_date', dateCap);
 
       const { data } = await query;
       if (data) setLiveEvents(data as Event[]);
     }
     fetchLive();
-  }, [forcedCity, groupType]);
+  }, [forcedCity, groupType, dateCap, today]);
 
   // Day-based navigation — starts on today
   const [selectedDate, setSelectedDate] = useState<string>(today);
@@ -60,6 +75,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
   const [inlineAuthOpen, setInlineAuthOpen] = useState(false);
+  const [showUpgradeNudge, setShowUpgradeNudge] = useState(false);
 
   // Week mode state — starts from today, shows next 7 days per page
   const [weekOffset, setWeekOffset] = useState(0);
@@ -96,6 +112,11 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     current.setDate(current.getDate() + direction);
     const newKey = dateKey(current);
     if (direction === -1 && newKey < today) return;
+    if (direction === 1 && dateCap && newKey > dateCap) {
+      setShowUpgradeNudge(true);
+      return;
+    }
+    if (showUpgradeNudge) setShowUpgradeNudge(false);
     setSelectedDate(newKey);
     if (onExternalDateClear) onExternalDateClear();
     setSearchQuery('');
@@ -124,7 +145,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     // In week mode, server already filtered by groupType — skip client-side category filter
     if (!weekMode && groupType && !e.event_category?.includes(resolveGroupType(groupType))) return false;
     if (minDate && e.start_date < minDate) return false;
-    if (maxDate && e.start_date > maxDate) return false;
+    if (dateCap && e.start_date > dateCap) return false;
     return true;
   });
 
@@ -369,18 +390,21 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                   if (!day) return <div key={i} />;
                   const key = dateKey(new Date(pickerYear, pickerMonth, day));
                   const isPast = key < today;
+                  const isPastCap = !!(dateCap && key > dateCap);
+                  const isBlocked = isPast || isPastCap;
                   const isSelected = key === selectedDate;
                   const isTodayCell = key === today;
                   return (
                     <button
                       key={i}
-                      onClick={() => !isPast && selectDayFromPicker(pickerYear, pickerMonth, day)}
+                      onClick={() => !isBlocked && selectDayFromPicker(pickerYear, pickerMonth, day)}
+                      title={isPastCap && !isPremium ? 'Upgrade to see a full month of events' : undefined}
                       style={{
                         background: isSelected ? '#f5a623' : isTodayCell ? '#2a3050' : 'none',
                         border: isTodayCell && !isSelected ? '1px solid #f5a623' : 'none',
                         borderRadius: '6px',
-                        color: isPast ? '#444' : isSelected ? '#000' : '#ddd',
-                        cursor: isPast ? 'not-allowed' : 'pointer',
+                        color: isBlocked ? '#444' : isSelected ? '#000' : '#ddd',
+                        cursor: isBlocked ? 'not-allowed' : 'pointer',
                         fontSize: '13px',
                         padding: '5px 2px',
                         textAlign: 'center',
@@ -395,6 +419,47 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
             </div>
           )}
         </div>
+
+        {/* Upgrade nudge — shown when free user tries to navigate past 7 days */}
+        {showUpgradeNudge && !isPremium && (
+          <div style={{
+            background: 'linear-gradient(135deg, #1e2130 0%, #252a42 100%)',
+            border: '1px solid #f5a62340',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            margin: '12px 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+            flexWrap: 'wrap',
+          }}>
+            <div>
+              <p style={{ color: '#f5a623', fontWeight: 700, fontSize: '14px', margin: 0 }}>
+                Free accounts show 7 days of events
+              </p>
+              <p style={{ color: '#aaa', fontSize: '13px', margin: '4px 0 0' }}>
+                Upgrade for a full month of personalized events matched to your goals.
+              </p>
+            </div>
+            <button
+              onClick={triggerAuth}
+              style={{
+                background: '#f5a623',
+                border: 'none',
+                borderRadius: '8px',
+                color: '#000',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: 700,
+                padding: '8px 16px',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Upgrade →
+            </button>
+          </div>
+        )}
 
         {/* Events list */}
         <div className="ev-list" style={{ marginTop: '0.5rem' }}>
