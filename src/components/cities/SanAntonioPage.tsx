@@ -102,10 +102,10 @@ function getWeekInfo(events: { start_date?: string }[]) {
   nextMon.setDate(sun.getDate() + 8);
   const nextMonStr = `MONDAY, ${MONTHS[nextMon.getMonth()]} ${nextMon.getDate()}`;
 
-  // Vol number: VOL 1 = week starting 2026-04-13 (Mon Apr 13)
-  // We anchor on Sundays: Sun Apr 12 is week 1 start
-  const anchor = new Date('2026-04-12');
-  const weekNum = Math.floor((sun.getTime() - anchor.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+  // ISO week number of the year (Week 1 = week containing Jan 4)
+  const thu = new Date(sun); thu.setDate(sun.getDate() + 4);
+  const yearStart = new Date(thu.getFullYear(), 0, 4);
+  const weekNum = 1 + Math.round(((thu.getTime() - yearStart.getTime()) / 86400000 - 3 + (yearStart.getDay() + 6) % 7) / 7);
 
   return { count, weekRange: `${sunStr} – ${satStr}`, nextMonStr, vol: weekNum };
 }
@@ -202,7 +202,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
         <div className="hero-strip">
-          <span>VOL. {weekInfo.vol} &middot; {weekInfo.weekRange}</span>
+          <span>WEEK {weekInfo.vol} &middot; {weekInfo.weekRange}</span>
           <span className="hero-strip-divider">|</span>
           <span>NEXT NEWSLETTER: {weekInfo.nextMonStr} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>

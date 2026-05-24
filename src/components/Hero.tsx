@@ -20,6 +20,19 @@ function getWeekRange(): string {
   return `${fmt(mon)} – ${fmt(sun)}, ${sun.getFullYear()}`;
 }
 
+function getISOWeekNumber(): number {
+  const now = new Date();
+  const day = now.getDay();
+  const diffToMon = day === 0 ? -6 : 1 - day;
+  const mon = new Date(now);
+  mon.setDate(now.getDate() + diffToMon);
+  // Thursday of this week determines the year
+  const thu = new Date(mon);
+  thu.setDate(mon.getDate() + 3);
+  const yearStart = new Date(thu.getFullYear(), 0, 4);
+  return 1 + Math.round(((thu.getTime() - yearStart.getTime()) / 86400000 - 3 + (yearStart.getDay() + 6) % 7) / 7);
+}
+
 function getNextMonday(): string {
   const now = new Date();
   const day = now.getDay();
@@ -43,8 +56,9 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
   const CITY_EVENT_COUNTS: Record<string, number> = cityCounts ?? {};
   const TOTAL_EVENTS = Object.values(CITY_EVENT_COUNTS).reduce((a, b) => a + b, 0);
 
-  const weekRange = getWeekRange();
-  const nextMonday = getNextMonday();
+  const weekRange   = getWeekRange();
+  const nextMonday  = getNextMonday();
+  const weekNumber  = getISOWeekNumber();
   const cityCount = cityConfig ? (CITY_EVENT_COUNTS[cityConfig.name] ?? 0) : TOTAL_EVENTS;
   const cityLabel = cityConfig ? cityConfig.name.toUpperCase() : 'TEXAS';
 
@@ -139,7 +153,7 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
 
         {/* ── Bottom editorial strip ── */}
         <div className="hero-strip">
-          <span>VOL. 3 &middot; {weekRange}</span>
+          <span>WEEK {weekNumber} &middot; {weekRange}</span>
           <span className="hero-strip-divider">|</span>
           <span>NEXT NEWSLETTER: MONDAY, {nextMonday.toUpperCase()} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
