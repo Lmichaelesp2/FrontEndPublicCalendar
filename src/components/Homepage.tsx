@@ -56,6 +56,31 @@ const FAQ_ITEMS = [
   },
 ];
 
+// ── Dynamic week/newsletter helper ───────────────────────────────────────────
+function getWeekInfo() {
+  const today = new Date();
+  const day = today.getDay(); // 0=Sun
+  const sun = new Date(today);
+  sun.setDate(today.getDate() - day);
+  const sat = new Date(sun);
+  sat.setDate(sun.getDate() + 6);
+
+  const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const sunStr = `${MONTHS[sun.getMonth()]} ${sun.getDate()}`;
+  const satStr = `${MONTHS[sat.getMonth()]} ${sat.getDate()}, ${sat.getFullYear()}`;
+
+  // Next Monday = this Sunday + 8 days
+  const nextMon = new Date(sun);
+  nextMon.setDate(sun.getDate() + 8);
+  const nextMonStr = `MONDAY, ${MONTHS[nextMon.getMonth()]} ${nextMon.getDate()}`;
+
+  // Vol number anchored to week starting Sun Apr 12, 2026
+  const anchor = new Date('2026-04-12');
+  const weekNum = Math.floor((sun.getTime() - anchor.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+
+  return { weekRange: `${sunStr} – ${satStr}`, nextMonStr, vol: weekNum };
+}
+
 function HomepageFaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
   return (
     <div className={`faq-item${open ? ' open' : ''}`}>
@@ -72,6 +97,7 @@ function HomepageFaqItem({ question, answer, open, onToggle }: { question: strin
 
 export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, number> }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const weekInfo = getWeekInfo();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -151,9 +177,9 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
 
         {/* Bottom editorial strip */}
         <div className="hero-strip">
-          <span>VOL. 3 &middot; APR 28 – MAY 4, 2026</span>
+          <span>VOL. {weekInfo.vol} &middot; {weekInfo.weekRange}</span>
           <span className="hero-strip-divider">|</span>
-          <span>NEXT NEWSLETTER: MONDAY, MAY 4 &middot; 6:00 A.M. CT</span>
+          <span>NEXT NEWSLETTER: {weekInfo.nextMonStr} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
           <span>TRACKED ORGANIZATIONS: 800+</span>
         </div>
