@@ -143,12 +143,12 @@ function ActionBtn({ icon, label, onClick }: { icon: React.ReactNode; label: str
   return (
     <button onClick={onClick} style={{
       display: 'flex', alignItems: 'center', gap: '6px',
-      background: 'none', border: '1px solid #2a2f45', borderRadius: '8px',
-      color: '#aaa', cursor: 'pointer', fontSize: '12px', padding: '6px 12px',
-      transition: 'border-color 0.15s, color 0.15s',
+      background: 'none', border: '1px solid #c2410c', borderRadius: '8px',
+      color: '#c2410c', cursor: 'pointer', fontSize: '12px', padding: '6px 12px',
+      transition: 'background 0.15s, color 0.15s',
     }}
-      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#f5a62360'; (e.currentTarget as HTMLButtonElement).style.color = '#ddd'; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#2a2f45'; (e.currentTarget as HTMLButtonElement).style.color = '#aaa'; }}
+      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#c2410c'; (e.currentTarget as HTMLButtonElement).style.color = '#fff'; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = '#c2410c'; }}
     >
       {icon} {label}
     </button>

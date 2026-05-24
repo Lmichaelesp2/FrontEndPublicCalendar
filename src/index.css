@@ -1031,8 +1031,8 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .ev-card-new-location{display:none}
 .ev-card-new-location-icon{color:rgba(255,255,255,.65);flex-shrink:0;margin-top:.15rem}
 
-.ev-card-new-btn{padding:.5rem 1.2rem;border-radius:6px;background:var(--white);color:var(--color-primary);font-size:.82rem;font-weight:700;text-decoration:none;white-space:nowrap;transition:all .2s;flex-shrink:0;border:none;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15)}
-.ev-card-new-btn:hover{background:#f0f4ff;transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.ev-card-new-btn{padding:.5rem 1.2rem;border-radius:6px;background:#c2410c;color:#fff;font-size:.82rem;font-weight:700;text-decoration:none;white-space:nowrap;transition:all .2s;flex-shrink:0;border:none;cursor:pointer;box-shadow:0 1px 4px rgba(194,65,12,.3)}
+.ev-card-new-btn:hover{background:#a83509;transform:translateY(-1px);box-shadow:0 2px 8px rgba(194,65,12,.4)}
 
 .ev-card-new-body{padding:1.1rem 1.5rem 1.25rem}
 
