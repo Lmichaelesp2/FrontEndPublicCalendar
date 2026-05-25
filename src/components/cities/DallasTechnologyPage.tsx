@@ -152,8 +152,8 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
-              <h3>Sign up free</h3>
-              <p>Enter your email and get instant access. No credit card, no setup.</p>
+              <h3>Enter your email</h3>
+              <p>Enter your email and we deliver every upcoming event to your inbox every Monday. No credit card, no setup.</p>
             </div>
             <div className="feature-card">
               <div className="feature-step">2</div>
