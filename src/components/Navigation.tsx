@@ -177,10 +177,73 @@ function ResourcesDropdown() {
   );
 }
 
+// ── Premium Login Modal ──────────────────────────────────────────
+function PremiumLoginModal({ isOpen, onClose, citySlug }: { isOpen: boolean; onClose: () => void; citySlug: string }) {
+  if (!isOpen) return null;
+
+  const oldCalendarUrl = citySlug
+    ? `https://www.localbusinesscalendars.app/${citySlug}/login`
+    : 'https://www.localbusinesscalendars.app/san-antonio/login';
+
+  return (
+    <div className="prem-modal-overlay" onClick={onClose}>
+      <div className="prem-modal" onClick={e => e.stopPropagation()}>
+        <button className="prem-modal-close" onClick={onClose} aria-label="Close">✕</button>
+
+        <div className="prem-modal-header">
+          <span className="prem-modal-crown">👑</span>
+          <h2 className="prem-modal-title">Premium Member Login</h2>
+          <p className="prem-modal-sub">Which calendar are you a member of?</p>
+        </div>
+
+        <div className="prem-modal-cards">
+          {/* New Calendar */}
+          <div className="prem-modal-card prem-modal-card--new" onClick={() => {
+            onClose();
+            document.dispatchEvent(new CustomEvent('open-auth-modal'));
+          }}>
+            <div className="prem-card-badge">NEW</div>
+            <div className="prem-card-icon">🗓️</div>
+            <div className="prem-card-title">New Calendar</div>
+            <div className="prem-card-desc">Personalized filters, 30-day view, weekly digest. Launched 2025.</div>
+            <div className="prem-card-cta">Log In →</div>
+          </div>
+
+          {/* Old Calendar */}
+          <a
+            className="prem-modal-card prem-modal-card--old"
+            href={oldCalendarUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onClose}
+          >
+            <div className="prem-card-badge prem-card-badge--gray">CLASSIC</div>
+            <div className="prem-card-icon">📅</div>
+            <div className="prem-card-title">Classic Calendar</div>
+            <div className="prem-card-desc">The original premium calendar at localbusinesscalendars.app.</div>
+            <div className="prem-card-cta">Log In →</div>
+          </a>
+        </div>
+
+        <p className="prem-modal-footer">
+          Not a member yet?&nbsp;
+          <button className="prem-modal-upgrade-link" onClick={() => {
+            onClose();
+            window.location.href = '/upgrade';
+          }}>
+            Upgrade to Premium
+          </button>
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signup' | 'signin'>('signup');
   const [accountDropOpen, setAccountDropOpen] = useState(false);
+  const [premiumModalOpen, setPremiumModalOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
@@ -211,6 +274,10 @@ export function Navigation() {
   const { wordmark, tagline } = getWordmarkAndTagline(pathname ?? '/');
   const subscribeUrl = getSubscribeUrl(pathname ?? '/');
   const modalContext = getModalContext(pathname ?? '/');
+
+  // Extract city slug for old-calendar URL in premium modal
+  const citySlugMatch = (pathname ?? '').match(/^\/texas\/([a-z-]+)/);
+  const currentCitySlug = citySlugMatch ? citySlugMatch[1] : 'san-antonio';
 
   return (
     <>
@@ -269,6 +336,22 @@ export function Navigation() {
             </nav>
 
             <div className="nav-actions">
+              {/* Premium Login — always visible, dimmed when already logged in */}
+              {user ? (
+                <div className="nav-premium-logged">
+                  <span className="nav-premium-crown">👑</span>
+                  <span>Premium</span>
+                </div>
+              ) : (
+                <button
+                  className="nav-premium-btn"
+                  onClick={() => setPremiumModalOpen(true)}
+                  title="Premium member login"
+                >
+                  👑 Premium Login
+                </button>
+              )}
+
               {user && isCityPage(pathname ?? '') ? (
                 <div className="nav-account-wrap" ref={dropRef}>
                   <button
@@ -327,6 +410,12 @@ export function Navigation() {
         onSuccess={() => setAuthModalOpen(false)}
         defaultMode={authModalMode}
         cityName={modalContext.calendarLabel}
+      />
+
+      <PremiumLoginModal
+        isOpen={premiumModalOpen}
+        onClose={() => setPremiumModalOpen(false)}
+        citySlug={currentCitySlug}
       />
     </>
   );

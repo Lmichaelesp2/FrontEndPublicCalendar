@@ -388,6 +388,178 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 /* Sponsor link (legacy — keep visible) */
 .nav-sponsor-link{ color: var(--color-accent) !important; font-weight: 700 !important; }
 
+/* ── Premium Login button (nav) ─────────────────────────────── */
+.nav-premium-btn{
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  background: #1e1b4b;
+  color: #e0d7ff;
+  border: 1.5px solid #4338ca;
+  font-family: var(--font-sans);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  padding: .35rem .85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .18s ease;
+  white-space: nowrap;
+}
+.nav-premium-btn:hover{
+  background: #312e81;
+  border-color: #6366f1;
+  color: #fff;
+}
+.nav-premium-logged{
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .75rem;
+  font-weight: 700;
+  color: #6366f1;
+  letter-spacing: .02em;
+  padding: .35rem .6rem;
+  border-radius: 6px;
+  border: 1.5px solid #c7d2fe;
+  background: #eef2ff;
+  white-space: nowrap;
+}
+
+/* ── Premium Login Modal ─────────────────────────────────────── */
+.prem-modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(10,22,40,.55);
+  backdrop-filter: blur(3px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.prem-modal{
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(10,22,40,.22);
+  width: 100%;
+  max-width: 520px;
+  padding: 2rem 2rem 1.5rem;
+  position: relative;
+  animation: premModalIn .2s ease;
+}
+@keyframes premModalIn{
+  from{ opacity:0; transform:translateY(12px) scale(.97); }
+  to{   opacity:1; transform:translateY(0)   scale(1); }
+}
+.prem-modal-close{
+  position: absolute;
+  top: .9rem; right: 1rem;
+  background: none; border: none;
+  font-size: 1rem; color: #94a3b8;
+  cursor: pointer; padding: .25rem .4rem;
+  border-radius: 4px;
+  transition: color .15s;
+}
+.prem-modal-close:hover{ color: #1e293b; }
+.prem-modal-header{
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.prem-modal-crown{ font-size: 1.8rem; display: block; margin-bottom: .4rem; }
+.prem-modal-title{
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin: 0 0 .3rem;
+}
+.prem-modal-sub{
+  font-size: .85rem;
+  color: #64748b;
+  margin: 0;
+}
+.prem-modal-cards{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .9rem;
+  margin-bottom: 1.2rem;
+}
+.prem-modal-card{
+  border-radius: 10px;
+  padding: 1.2rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .3rem;
+  transition: transform .15s ease, box-shadow .15s ease;
+  position: relative;
+}
+.prem-modal-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.12);
+}
+.prem-modal-card--new{
+  background: #1e1b4b;
+  border: 2px solid #4338ca;
+}
+.prem-modal-card--old{
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+}
+.prem-card-badge{
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  background: #4338ca;
+  color: #fff;
+  padding: .15rem .45rem;
+  border-radius: 3px;
+  margin-bottom: .2rem;
+}
+.prem-card-badge--gray{
+  background: #94a3b8;
+}
+.prem-card-icon{ font-size: 1.4rem; }
+.prem-card-title{
+  font-size: .95rem;
+  font-weight: 700;
+  color: #fff;
+}
+.prem-modal-card--old .prem-card-title{ color: #1e293b; }
+.prem-card-desc{
+  font-size: .78rem;
+  color: #c7d2fe;
+  line-height: 1.4;
+}
+.prem-modal-card--old .prem-card-desc{ color: #64748b; }
+.prem-card-cta{
+  font-size: .8rem;
+  font-weight: 700;
+  color: #a5b4fc;
+  margin-top: .4rem;
+}
+.prem-modal-card--old .prem-card-cta{ color: #4338ca; }
+.prem-modal-footer{
+  text-align: center;
+  font-size: .8rem;
+  color: #94a3b8;
+  margin: 0;
+}
+.prem-modal-upgrade-link{
+  background: none; border: none;
+  color: #4338ca; font-weight: 700;
+  font-size: .8rem; cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+@media (max-width: 480px){
+  .prem-modal-cards{ grid-template-columns: 1fr; }
+  .prem-modal{ padding: 1.5rem 1.2rem 1.2rem; }
+}
+
 /* Mobile toggle */
 .nav-mobile-toggle{
   display: none;
