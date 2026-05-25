@@ -37,6 +37,7 @@ type PremiumRow = {
   grace_period_ends_at: string | null;
   created_at: string;
   notes: string | null;
+  city?: string | null;
 };
 
 type SortKey = 'name' | 'email' | 'count' | 'since';
@@ -357,11 +358,34 @@ export function SubscribersPage() {
 
   async function fetchPremium() {
     setPremiumLoading(true);
-    const { data } = await supabaseAdmin
+
+    // 1. Fetch premium profiles
+    const { data: profiles } = await supabaseAdmin
       .from('user_profiles')
       .select('id, email, first_name, subscription_tier, subscription_status, stripe_customer_id, grace_period_ends_at, created_at, notes')
       .order('created_at', { ascending: false });
-    setPremiumRows((data as PremiumRow[]) ?? []);
+
+    const rows = (profiles as PremiumRow[]) ?? [];
+
+    // 2. Look up city from old `users` table by email
+    if (rows.length > 0) {
+      const emails = rows.map(r => r.email.toLowerCase());
+      const { data: userRows } = await supabaseAdmin
+        .from('users')
+        .select('email, city')
+        .in('email', emails);
+
+      const cityMap = new Map<string, string>();
+      for (const u of (userRows ?? []) as { email: string; city: string }[]) {
+        cityMap.set(u.email.toLowerCase(), u.city);
+      }
+
+      for (const r of rows) {
+        r.city = cityMap.get(r.email.toLowerCase()) ?? null;
+      }
+    }
+
+    setPremiumRows(rows);
     setPremiumLoading(false);
   }
 
@@ -706,6 +730,11 @@ export function SubscribersPage() {
             return (s === 'cancelled' || s === 'canceled') && !(r.grace_period_ends_at && new Date(r.grace_period_ends_at) > now);
           }).length;
 
+          const premiumCityStats = ['San Antonio', 'Austin', 'Dallas', 'Houston'].map(city => ({
+            city,
+            count: premiumRows.filter(r => r.city === city).length,
+          }));
+
           const filteredPremium = premiumRows.filter(r =>
             !premiumSearch ||
             r.email.toLowerCase().includes(premiumSearch.toLowerCase()) ||
@@ -732,6 +761,12 @@ export function SubscribersPage() {
                   <span className="subs-stat-val">{cancelledCount}</span>
                   <span className="subs-stat-lbl">Cancelled</span>
                 </div>
+                {premiumCityStats.map(cs => (
+                  <div key={cs.city} className="subs-stat-card" style={{ borderTop: `3px solid ${CITY_COLORS[cs.city] ?? '#6b7280'}` }}>
+                    <span className="subs-stat-val">{cs.count}</span>
+                    <span className="subs-stat-lbl">{cs.city}</span>
+                  </div>
+                ))}
               </div>
 
               {/* Search */}
@@ -767,6 +802,7 @@ export function SubscribersPage() {
                       <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>City</th>
                         <th>Status</th>
                         <th>Tier</th>
                         <th>Stripe Customer</th>
@@ -781,6 +817,11 @@ export function SubscribersPage() {
                           <tr key={r.id}>
                             <td className="subs-td-name">{r.first_name ?? <span className="subs-none">—</span>}</td>
                             <td className="subs-td-email">{r.email}</td>
+                            <td>
+                              {r.city
+                                ? <span className="subs-tag" style={{ background: (CITY_COLORS[r.city] ?? '#6b7280') + '18', color: CITY_COLORS[r.city] ?? '#6b7280', borderColor: (CITY_COLORS[r.city] ?? '#6b7280') + '44' }}>{r.city}</span>
+                                : <span className="subs-none">—</span>}
+                            </td>
                             <td><span className={`prem-badge ${cls}`}>{label}</span></td>
                             <td><span className="prem-tier">{r.subscription_tier ?? '—'}</span></td>
                             <td className="subs-td-email" style={{ fontSize: '11px', color: '#6b7280' }}>
