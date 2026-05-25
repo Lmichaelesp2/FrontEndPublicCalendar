@@ -335,7 +335,7 @@ export function EventCard({ event, index, isLoggedIn = false, isPremium = false,
             rel="noopener noreferrer"
             className="ev-card-new-btn"
           >
-            Visit Organizer Page
+            Event Page
           </a>
         )}
       </div>
