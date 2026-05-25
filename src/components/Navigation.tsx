@@ -122,6 +122,52 @@ function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; t
 
 
 
+function CitiesDropdown({ pathname }: { pathname: string }) {
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const cities = [
+    { name: 'San Antonio', slug: 'san-antonio' },
+    { name: 'Austin',      slug: 'austin' },
+    { name: 'Dallas',      slug: 'dallas' },
+    { name: 'Houston',     slug: 'houston' },
+  ];
+  const isActive = cities.some(c => pathname.startsWith(`/texas/${c.slug}`));
+
+  React.useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div className="nav-resources-wrap" ref={ref}>
+      <button
+        className={`nav-link nav-resources-btn${isActive ? ' nav-link--active' : ''}`}
+        onClick={() => setOpen(o => !o)}
+        aria-expanded={open}
+      >
+        Cities <ChevronDown size={12} className={open ? 'nav-chevron-open' : ''} />
+      </button>
+      {open && (
+        <div className="nav-resources-drop nav-cities-drop">
+          {cities.map(city => (
+            <Link
+              key={city.slug}
+              href={`/texas/${city.slug}`}
+              className={`nav-resources-item nav-cities-item${pathname.startsWith(`/texas/${city.slug}`) ? ' nav-cities-item--active' : ''}`}
+              onClick={() => setOpen(false)}
+            >
+              {city.name}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ResourcesDropdown() {
   const [open, setOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
@@ -317,20 +363,11 @@ export function Navigation() {
 
             <nav className="nav-city-links" aria-label="Browse by city">
               <Link href="/texas" className={`nav-link${pathname === '/texas' ? ' nav-link--active' : ''}`}>Texas</Link>
-              {CITY_CONFIGS.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={`/texas/${c.slug}`}
-                  className={`nav-link${(pathname ?? '').startsWith(`/texas/${c.slug}`) ? ' nav-link--active' : ''}`}
-                >
-                  {c.name}
-                </Link>
-              ))}
+              <CitiesDropdown pathname={pathname ?? '/'} />
               <Link href="/pricing" className="nav-link">Pricing</Link>
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
               <ResourcesDropdown />
-              <Link href="/submit" className="nav-link nav-link--submit">Submit Event</Link>
             </nav>
 
             <div className="nav-actions">

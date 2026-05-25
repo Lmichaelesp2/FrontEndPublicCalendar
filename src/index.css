@@ -3128,6 +3128,19 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .nav-resources-item-title{font-size:.82rem;font-weight:700;color:var(--color-ink)}
 .nav-resources-item-desc{font-size:.75rem;color:var(--color-muted)}
 
+/* Cities dropdown */
+.nav-cities-drop{min-width:160px}
+.nav-cities-item{display:block;padding:.6rem 1rem;font-size:.82rem;font-weight:500;color:var(--color-ink);text-decoration:none;border-bottom:1px solid var(--color-rule);transition:background .15s}
+.nav-cities-item:last-child{border-bottom:none}
+.nav-cities-item:hover{background:var(--bg-tint);color:var(--color-primary)}
+.nav-cities-item--active{color:var(--color-primary)!important;font-weight:700!important}
+
+/* Footer Submit Event CTA */
+.footer-submit-cta{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:1.25rem;flex-wrap:wrap}
+.footer-submit-btn{display:inline-block;background:#fff;color:#1a1a1a;font-size:.82rem;font-weight:700;padding:.5rem 1.25rem;border-radius:6px;text-decoration:none;letter-spacing:.02em;transition:background .15s,color .15s}
+.footer-submit-btn:hover{background:var(--color-primary);color:#fff}
+.footer-submit-note{font-size:.72rem;color:rgba(255,255,255,.55);letter-spacing:.02em}
+
 /* ── RightRoomMethodSection (homepage) ─────────────────── */
 .rrm-home-section{background:var(--color-paper-2);border-top:1.5px solid var(--color-rule);border-bottom:1.5px solid var(--color-rule);padding:4rem 1.5rem}
 .rrm-home-inner{max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:2.5rem;text-align:center}

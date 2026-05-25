@@ -87,6 +87,10 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
           {getCitySpecificText()}
         </p>
       )}
+      <div className="footer-submit-cta">
+        <Link href="/submit" className="footer-submit-btn">+ Submit an Event</Link>
+        <span className="footer-submit-note">Free to list · Reaches thousands of Texas professionals</span>
+      </div>
       <p>
         &copy; 2026 Local Business Calendars — <Link href="/texas/san-antonio">San Antonio</Link> &middot; <Link href="/texas/austin">Austin</Link> &middot; <Link href="/texas/dallas">Dallas</Link> &middot; <Link href="/texas/houston">Houston</Link>
       </p>
