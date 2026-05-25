@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Providers } from '../src/components/Providers';
+import { ChatWidget } from '../src/components/ChatWidget';
 import '../src/index.css';
 
 export const metadata: Metadata = {
@@ -42,6 +43,7 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>{children}</Providers>
+        <ChatWidget />
       </body>
     </html>
   );
