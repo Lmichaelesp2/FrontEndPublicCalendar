@@ -193,61 +193,51 @@ function ResourcesDropdown() {
   );
 }
 
-// ── Premium Login Modal ──────────────────────────────────────────
-function PremiumLoginModal({ isOpen, onClose, citySlug }: { isOpen: boolean; onClose: () => void; citySlug: string }) {
-  if (!isOpen) return null;
+// ── Classic Calendar Login Modal (city picker) ───────────────────
+const CLASSIC_CITIES = [
+  { name: 'San Antonio', slug: 'san-antonio' },
+  { name: 'Austin',      slug: 'austin' },
+  { name: 'Dallas',      slug: 'dallas' },
+  { name: 'Houston',     slug: 'houston' },
+];
 
-  const oldCalendarUrl = citySlug
-    ? `https://www.localbusinesscalendars.app/${citySlug}/login`
-    : 'https://www.localbusinesscalendars.app/san-antonio/login';
+function PremiumLoginModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; citySlug?: string }) {
+  if (!isOpen) return null;
 
   return (
     <div className="prem-modal-overlay" onClick={onClose}>
-      <div className="prem-modal" onClick={e => e.stopPropagation()}>
+      <div className="prem-modal prem-modal--city" onClick={e => e.stopPropagation()}>
         <button className="prem-modal-close" onClick={onClose} aria-label="Close">✕</button>
 
         <div className="prem-modal-header">
           <span className="prem-modal-crown">👑</span>
-          <h2 className="prem-modal-title">Premium Member Login</h2>
-          <p className="prem-modal-sub">Which calendar are you a member of?</p>
+          <h2 className="prem-modal-title">Classic Calendar Login</h2>
+          <p className="prem-modal-sub">Select your city to log in</p>
         </div>
 
-        <div className="prem-modal-cards">
-          {/* New Calendar */}
-          <div className="prem-modal-card prem-modal-card--new" onClick={() => {
-            onClose();
-            document.dispatchEvent(new CustomEvent('open-auth-modal'));
-          }}>
-            <div className="prem-card-badge">NEW</div>
-            <div className="prem-card-icon">🗓️</div>
-            <div className="prem-card-title">New Calendar</div>
-            <div className="prem-card-desc">Personalized filters, 30-day view, weekly digest. Launched 2025.</div>
-            <div className="prem-card-cta">Log In →</div>
-          </div>
-
-          {/* Old Calendar */}
-          <a
-            className="prem-modal-card prem-modal-card--old"
-            href={oldCalendarUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={onClose}
-          >
-            <div className="prem-card-badge prem-card-badge--gray">CLASSIC</div>
-            <div className="prem-card-icon">📅</div>
-            <div className="prem-card-title">Classic Calendar</div>
-            <div className="prem-card-desc">The original premium calendar at localbusinesscalendars.app.</div>
-            <div className="prem-card-cta">Log In →</div>
-          </a>
+        <div className="prem-city-grid">
+          {CLASSIC_CITIES.map(city => (
+            <a
+              key={city.slug}
+              className="prem-city-btn"
+              href={`https://www.localbusinesscalendars.app/${city.slug}/login`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onClose}
+            >
+              <span className="prem-city-name">{city.name}</span>
+              <span className="prem-city-arrow">→</span>
+            </a>
+          ))}
         </div>
 
         <p className="prem-modal-footer">
-          Not a member yet?&nbsp;
+          Looking for the new calendar?&nbsp;
           <button className="prem-modal-upgrade-link" onClick={() => {
             onClose();
-            window.location.href = '/upgrade';
+            document.dispatchEvent(new CustomEvent('open-auth-modal'));
           }}>
-            Upgrade to Premium
+            Sign in here
           </button>
         </p>
       </div>
@@ -424,7 +414,6 @@ export function Navigation() {
       <PremiumLoginModal
         isOpen={premiumModalOpen}
         onClose={() => setPremiumModalOpen(false)}
-        citySlug={currentCitySlug}
       />
     </>
   );
