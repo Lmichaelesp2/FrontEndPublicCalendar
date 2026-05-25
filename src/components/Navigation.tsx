@@ -316,21 +316,21 @@ export function Navigation() {
           <div className="nav-links-inner">
 
             <nav className="nav-city-links" aria-label="Browse by city">
-              <Link href="/texas" className="nav-link">Texas</Link>
+              <Link href="/texas" className={`nav-link${pathname === '/texas' ? ' nav-link--active' : ''}`}>Texas</Link>
               {CITY_CONFIGS.map((c) => (
                 <Link
                   key={c.slug}
                   href={`/texas/${c.slug}`}
-                  className="nav-link"
+                  className={`nav-link${(pathname ?? '').startsWith(`/texas/${c.slug}`) ? ' nav-link--active' : ''}`}
                 >
                   {c.name}
                 </Link>
               ))}
-              <Link href="/submit" className="nav-link nav-link--highlight">Submit Event</Link>
               <Link href="/pricing" className="nav-link">Pricing</Link>
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
               <ResourcesDropdown />
+              <Link href="/submit" className="nav-link nav-link--submit">Submit Event</Link>
             </nav>
 
             <div className="nav-actions">
