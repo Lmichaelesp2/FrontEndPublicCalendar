@@ -3468,3 +3468,196 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .prem-badge-pastdue{background:#fee2e2;color:#991b1b}
 .prem-badge-unknown{background:#e0e7ff;color:#3730a3}
 .prem-tier{display:inline-block;padding:.1rem .5rem;border-radius:6px;font-size:.72rem;font-weight:700;background:#1a1a2e;color:#c9a84c;text-transform:capitalize}
+
+/* ─── Agency / Event Networking Studio page ──────────────────────────────── */
+.agency-page{ background: var(--color-paper); }
+
+.agency-eyebrow{
+  font-size: .72rem; font-weight: 800; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--color-accent);
+  margin-bottom: .85rem;
+}
+
+/* Hero */
+.agency-hero{
+  background: #042C53;
+  padding: 5rem 1.5rem 4.5rem;
+  text-align: center;
+}
+.agency-hero-inner{ max-width: 720px; margin: 0 auto; }
+.agency-hero .agency-eyebrow{ color: #85B7EB; }
+.agency-h1{
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 1.25rem;
+}
+.agency-hero-sub{
+  font-size: 1.05rem; color: #b0c8e0;
+  line-height: 1.75; max-width: 560px;
+  margin: 0 auto 2rem;
+}
+.agency-hero-actions{
+  display: flex; align-items: center;
+  justify-content: center; gap: .85rem;
+  flex-wrap: wrap;
+}
+.agency-btn-primary{
+  display: inline-block;
+  background: var(--color-accent);
+  color: #fff; font-weight: 700;
+  font-size: .88rem; letter-spacing: .03em;
+  padding: .75rem 1.6rem; border-radius: 8px;
+  text-decoration: none;
+  transition: background .18s;
+}
+.agency-btn-primary:hover{ background: var(--color-accent-dark); color: #fff; }
+.agency-btn-primary--light{
+  background: #fff; color: #042C53;
+}
+.agency-btn-primary--light:hover{ background: #e8f0f8; color: #042C53; }
+.agency-btn-ghost{
+  display: inline-block;
+  background: transparent;
+  color: #85B7EB; font-weight: 700;
+  font-size: .88rem; letter-spacing: .03em;
+  padding: .75rem 1.4rem; border-radius: 8px;
+  border: 1.5px solid rgba(133,183,235,.4);
+  text-decoration: none;
+  transition: all .18s;
+}
+.agency-btn-ghost:hover{ border-color: #85B7EB; color: #fff; }
+.agency-btn-ghost--light{ color: rgba(255,255,255,.8); border-color: rgba(255,255,255,.3); }
+.agency-btn-ghost--light:hover{ color: #fff; border-color: #fff; }
+
+/* Sections */
+.agency-section{ padding: 4rem 1.5rem; }
+.agency-section--alt{ background: #fff; }
+.agency-inner{ max-width: 960px; margin: 0 auto; }
+.agency-h2{
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700; color: #042C53;
+  margin-bottom: .75rem;
+}
+.agency-lead{
+  font-size: 1.05rem; color: #444;
+  line-height: 1.75; max-width: 640px;
+  margin-bottom: 2.5rem;
+}
+.agency-body{
+  font-size: .95rem; color: #555;
+  line-height: 1.8; margin-bottom: 1rem;
+}
+
+/* What We Do cards */
+.agency-cards{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.25rem;
+}
+.agency-card{
+  background: #fff; border: 1.5px solid #e8ecf0;
+  border-radius: 12px; padding: 1.5rem;
+  transition: box-shadow .2s, transform .2s;
+}
+.agency-card:hover{
+  box-shadow: 0 6px 24px rgba(4,44,83,.09);
+  transform: translateY(-2px);
+}
+.agency-section--alt .agency-card{ background: var(--color-paper); }
+.agency-card-icon{ font-size: 1.6rem; margin-bottom: .75rem; }
+.agency-card-title{
+  font-size: .95rem; font-weight: 700;
+  color: #042C53; margin-bottom: .5rem;
+}
+.agency-card-body{
+  font-size: .84rem; color: #666; line-height: 1.7;
+}
+
+/* Method section */
+.agency-method-wrap{
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 3.5rem; align-items: center;
+}
+.agency-pillars{
+  list-style: none; margin-top: .75rem;
+  display: flex; flex-direction: column; gap: .5rem;
+}
+.agency-pillars li{
+  font-size: .92rem; color: #444;
+  padding-left: 1.1rem; position: relative;
+}
+.agency-pillars li::before{
+  content: '→'; position: absolute; left: 0;
+  color: var(--color-accent); font-weight: 700;
+}
+.agency-method-card{
+  background: #042C53; border-radius: 14px;
+  padding: 2rem 1.5rem; text-align: center;
+}
+.agency-method-card-label{
+  font-size: .7rem; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: #85B7EB; margin-bottom: 1.25rem;
+}
+.agency-method-pillars{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .6rem;
+}
+.agency-method-pillar{
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(133,183,235,.25);
+  border-radius: 8px; padding: .75rem .5rem;
+  font-size: .88rem; font-weight: 700;
+  color: #fff;
+}
+
+/* Who We Help */
+.agency-who-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem; margin-top: 1.5rem;
+}
+.agency-who-item{
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+}
+.agency-who-title{
+  font-size: .92rem; font-weight: 700;
+  color: #042C53; margin-bottom: .4rem;
+}
+.agency-who-desc{
+  font-size: .83rem; color: #666; line-height: 1.65;
+}
+
+/* CTA section */
+.agency-cta-section{
+  background: #042C53; padding: 4.5rem 1.5rem;
+  text-align: center;
+}
+.agency-cta-inner{ max-width: 640px; margin: 0 auto; }
+.agency-cta-h2{
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700; color: #fff;
+  margin-bottom: .75rem;
+}
+.agency-cta-sub{
+  font-size: .95rem; color: #b0c8e0;
+  line-height: 1.75; margin-bottom: 2rem;
+}
+.agency-cta-footer{
+  font-size: .75rem; color: #5a7a9a;
+  margin-top: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 700px){
+  .agency-method-wrap{ grid-template-columns: 1fr; }
+  .agency-method-visual{ display: none; }
+}
