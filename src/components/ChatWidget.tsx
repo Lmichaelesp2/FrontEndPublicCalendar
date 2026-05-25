@@ -15,6 +15,10 @@ export function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const MAX_INPUT = 400;
+  const MAX_TURNS = 10;
+  const userTurns = messages.filter(m => m.role === 'user').length;
+  const sessionLocked = userTurns >= MAX_TURNS;
 
   // Contact form state
   const [name, setName] = useState('');
@@ -33,7 +37,8 @@ export function ChatWidget() {
   }, [messages, open]);
 
   async function sendMessage() {
-    if (!input.trim() || loading) return;
+    if (!input.trim() || loading || sessionLocked) return;
+    if (input.length > MAX_INPUT) return;
     const userMsg: Message = { role: 'user', content: input.trim() };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
@@ -47,7 +52,13 @@ export function ChatWidget() {
         body: JSON.stringify({ messages: newMessages }),
       });
       const data = await res.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.reply || data.error || 'Sorry, something went wrong.' }]);
+      if (data.error === 'SESSION_LIMIT') {
+        setMessages(prev => [...prev, { role: 'assistant', content: 'You\'ve reached the limit for this session. Please use the Contact tab if you need more help.' }]);
+      } else if (data.error === 'INPUT_TOO_LONG') {
+        setMessages(prev => [...prev, { role: 'assistant', content: 'Your message was too long. Please keep questions under 400 characters.' }]);
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.reply || data.error || 'Sorry, something went wrong.' }]);
+      }
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
     } finally {
@@ -129,7 +140,12 @@ export function ChatWidget() {
               <div style={{ flex: 1, overflowY: 'auto', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {messages.length === 0 && (
                   <div style={{ color: '#888', fontSize: '13px', textAlign: 'center', marginTop: '20px', lineHeight: 1.6 }}>
-                    Ask me anything about the calendar — how it works, pricing, events, or how to subscribe.
+                    Ask me anything about this calendar — how it works, pricing, events, or how to subscribe.
+                  </div>
+                )}
+                {sessionLocked && (
+                  <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: '10px', padding: '10px 13px', fontSize: '12px', color: '#92400e', textAlign: 'center' }}>
+                    You've used all 10 questions for this session. Use the <strong>Contact Us</strong> tab for more help.
                   </div>
                 )}
                 {messages.map((m, i) => (
@@ -150,29 +166,38 @@ export function ChatWidget() {
                 )}
                 <div ref={messagesEndRef} />
               </div>
-              <div style={{ padding: '10px 12px', borderTop: '1px solid #eee', display: 'flex', gap: '8px' }}>
-                <input
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && sendMessage()}
-                  placeholder="Ask a question…"
-                  style={{
-                    flex: 1, border: '1px solid #ddd', borderRadius: '8px',
-                    padding: '9px 12px', fontSize: '13px', outline: 'none',
-                  }}
-                />
-                <button
-                  onClick={sendMessage}
-                  disabled={loading || !input.trim()}
-                  style={{
-                    background: loading || !input.trim() ? '#e5a07a' : '#c2410c',
-                    color: '#fff', border: 'none', borderRadius: '8px',
-                    padding: '9px 14px', fontSize: '13px', fontWeight: 700,
-                    cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
-                  }}
-                >
-                  Send
-                </button>
+              <div style={{ padding: '8px 12px 10px', borderTop: '1px solid #eee' }}>
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '5px' }}>
+                  <input
+                    value={input}
+                    onChange={e => setInput(e.target.value.slice(0, MAX_INPUT))}
+                    onKeyDown={e => e.key === 'Enter' && sendMessage()}
+                    placeholder={sessionLocked ? 'Session limit reached' : 'Ask about events, pricing, or how to subscribe…'}
+                    disabled={sessionLocked}
+                    style={{
+                      flex: 1, border: `1px solid ${input.length >= MAX_INPUT ? '#f87171' : '#ddd'}`, borderRadius: '8px',
+                      padding: '9px 12px', fontSize: '13px', outline: 'none',
+                      background: sessionLocked ? '#f9fafb' : '#fff',
+                      color: sessionLocked ? '#aaa' : '#111',
+                    }}
+                  />
+                  <button
+                    onClick={sendMessage}
+                    disabled={loading || !input.trim() || sessionLocked || input.length > MAX_INPUT}
+                    style={{
+                      background: loading || !input.trim() || sessionLocked ? '#e5a07a' : '#c2410c',
+                      color: '#fff', border: 'none', borderRadius: '8px',
+                      padding: '9px 14px', fontSize: '13px', fontWeight: 700,
+                      cursor: loading || !input.trim() || sessionLocked ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    Send
+                  </button>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: input.length >= MAX_INPUT ? '#ef4444' : '#bbb' }}>
+                  <span>{userTurns}/{MAX_TURNS} questions used</span>
+                  <span>{input.length}/{MAX_INPUT}</span>
+                </div>
               </div>
             </div>
           )}
