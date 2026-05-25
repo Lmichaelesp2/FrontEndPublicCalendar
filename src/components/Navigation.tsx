@@ -375,6 +375,7 @@ export function Navigation() {
               <Link href="/pricing" className="nav-link">Pricing</Link>
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
+              <Link href="/help" className={`nav-link${pathname === '/help' ? ' nav-link--active' : ''}`}>Help</Link>
               <ResourcesDropdown />
             </nav>
 
