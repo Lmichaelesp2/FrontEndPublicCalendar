@@ -28,7 +28,7 @@ const TEXAS_FAQ_ITEMS = [
   },
   {
     question: 'Is this free?',
-    answer: 'Yes — completely free. Sign up and you get full event details unlocked on the calendar plus every upcoming event in your Monday newsletter. No credit card, no trial, no catch.',
+    answer: 'Yes — completely free. The full calendar is open to everyone. Give us your email and we deliver every upcoming event in your city to your inbox every Monday. No credit card, no trial, no catch.',
   },
   {
     question: 'How often are events updated?',
@@ -40,7 +40,7 @@ const TEXAS_FAQ_ITEMS = [
   },
   {
     question: 'What do I get with a free subscription?',
-    answer: 'Full event details for every upcoming event on the calendar — description, end time, and location — plus every event delivered in your Monday newsletter.',
+    answer: 'Every upcoming event in your city delivered to your inbox every Monday morning — event name, date, time, location, and organizer link. The full calendar is also always available to browse free anytime.',
   },
 ];
 
@@ -95,7 +95,7 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
         <section className="hp-intro-section">
           <div className="hp-intro-inner">
             <p>
-              Texas Business Calendars is a free network of city-specific event calendars. Browse networking events, chamber meetings, tech meetups, real estate gatherings, and small business events happening in San Antonio, Austin, Dallas, and Houston — updated weekly. Sign up free to see full event details for every upcoming event and get them all in your Monday newsletter.
+              Texas Business Calendars is a free network of city-specific event calendars. Browse networking events, chamber meetings, tech meetups, real estate gatherings, and small business events happening in San Antonio, Austin, Dallas, and Houston — updated weekly. The full calendar is free and open. Give us your email and we deliver every upcoming event straight to your inbox every Monday morning.
             </p>
           </div>
         </section>
@@ -109,14 +109,14 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
-              <h3>Subscribe to your city</h3>
-              <p>Click your city above. Create your free account in 30 seconds. No credit card, no setup.</p>
+              <h3>Pick your city</h3>
+              <p>Click your city above and browse the full calendar — every upcoming business event, free, no account needed.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-step">2</div>
               <h3>Get your Monday newsletter</h3>
-              <p>Every Monday your newsletter arrives with every upcoming event in your city. Sign up free to also unlock full event details — description, end time, and location — on the calendar.</p>
+              <p>Give us your email and every Monday we send you every upcoming event in your city — so you never have to remember to check the calendar.</p>
             </div>
 
             <div className="feature-card">
@@ -135,7 +135,7 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
         subtitle="Most professionals miss events because they're scattered across multiple platforms and websites. We bring them together in one city-focused calendar — updated weekly."
         problemText="Events are spread across Eventbrite, Meetup, LinkedIn, Facebook, chambers, and associations. It takes time to find what's worth attending."
         whatWeDoText="We track business event hosts and organize their public events into one simple calendar per city."
-        whatYouGetText="Full event details unlocked on the calendar the moment you sign up, plus every upcoming event in your Monday newsletter."
+        whatYouGetText="The full calendar is free and open anytime. Sign up for the Monday newsletter and every upcoming event in your city arrives in your inbox automatically."
       />
 
       {!citySlug && (

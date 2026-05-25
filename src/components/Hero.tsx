@@ -92,7 +92,7 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
             <p className="hero-sub">
               {cityConfig
                 ? cityConfig.heroSub
-                : 'Networking mixers, chamber events, real-estate gatherings, tech meetups — sign up free to see full event details and get every event in your Monday newsletter.'}
+                : 'Networking mixers, chamber events, real-estate gatherings, tech meetups — browse the full calendar free and get every event delivered to your inbox every Monday.'}
             </p>
 
             <div className="hero-cta-group">

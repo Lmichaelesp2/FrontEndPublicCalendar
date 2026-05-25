@@ -40,7 +40,7 @@ const TESTIMONIALS = [
 const FAQ_ITEMS = [
   {
     question: 'Is this really free?',
-    answer: 'Yes! The Houston calendar and weekly email are completely free — no credit card required. Sign up free to unlock the full week of events and get the Monday newsletter.',
+    answer: 'Yes! The Houston calendar and weekly email are completely free — no credit card required. The full calendar is free and open to everyone. Give us your email and we deliver every upcoming event straight to your inbox every Monday morning.',
   },
   {
     question: 'What kinds of events are listed for Houston?',
@@ -272,7 +272,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
             Free • Takes 30 Seconds
           </div>
           <h2>Get the Full Week of Houston Events</h2>
-          <p>Sign up free to unlock the full weekly calendar and get the Monday email with top networking and business events in Houston.</p>
+          <p>Get Houston business events delivered to your inbox every Monday — free, no account needed.</p>
           <div className="sa-subscribe-actions">
             <Link href="/texas/houston/subscribe" className="btn btn-primary">Sign Up Free — Unlock the Full Week</Link>
           </div>

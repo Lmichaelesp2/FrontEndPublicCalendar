@@ -64,8 +64,8 @@ export function SubscribeChoosePage() {
           </p>
           <h1>Choose Your City</h1>
           <p className="scp-hero-sub">
-            Sign up free — see full event details on the calendar and get every upcoming event in your Monday newsletter.
-            Pick your city or narrow it down to a specific industry.
+            The full calendar is free — browse anytime. Pick your city and we'll deliver every upcoming business event straight to your inbox every Monday.
+            Choose a full city calendar or narrow it down to a specific industry.
           </p>
           <p className="scp-trust">Free forever · No credit card · Unsubscribe anytime</p>
         </div>
@@ -89,8 +89,8 @@ export function SubscribeChoosePage() {
             <div className="scp-how-step">
               <div className="scp-how-num">2</div>
               <div>
-                <h3>Get full event details + your Monday newsletter</h3>
-                <p>Every Monday at 6 a.m. CT, your newsletter arrives with every upcoming event in your city. Sign up free and full event details — description, end time, and location — are unlocked on the calendar too.</p>
+                <h3>Get your Monday newsletter</h3>
+                <p>Every Monday at 6 a.m. CT, your newsletter arrives with every upcoming business event in your city — delivered straight to your inbox so you never have to remember to check the calendar.</p>
               </div>
             </div>
             <div className="scp-how-step">
@@ -216,7 +216,7 @@ export function SubscribeChoosePage() {
             {[
               {
                 q: 'Is the newsletter really free?',
-                a: 'Yes — completely free. No credit card, no trial, no catch. Sign up and full event details are unlocked on the calendar plus every upcoming event arrives in your Monday newsletter.',
+                a: 'Yes — completely free. No credit card, no trial, no catch. The full calendar is open to everyone. Give us your email and every upcoming event in your city arrives in your inbox every Monday.',
               },
               {
                 q: 'How do I choose between the full city calendar and a sub-calendar?',
@@ -228,7 +228,7 @@ export function SubscribeChoosePage() {
               },
               {
                 q: 'When does the newsletter go out?',
-                a: "Every Monday at 6 a.m. Central Time. Sign up free and your newsletter arrives with every upcoming event in your city, plus full event details are unlocked on the calendar.",
+                a: "Every Monday at 6 a.m. Central Time. Your newsletter arrives with every upcoming event in your city — name, date, time, location, and organizer link included.",
               },
               {
                 q: 'What cities are covered right now?',

@@ -263,7 +263,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
             Free • Takes 30 Seconds
           </div>
           <h2>Get the Full Week of San Antonio Events</h2>
-          <p>Sign up free to unlock the full weekly calendar and get the Monday email with top networking and business events in San Antonio.</p>
+          <p>Get San Antonio business events delivered to your inbox every Monday — free, no account needed.</p>
           <div className="sa-subscribe-actions">
             <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">Sign Up Free — Unlock the Full Week</Link>
           </div>
