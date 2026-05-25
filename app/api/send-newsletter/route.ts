@@ -433,7 +433,7 @@ export async function POST(req: NextRequest) {
       const batch = subsToSend.slice(i, i + BATCH_SIZE);
 
       await Promise.all(batch.map(async (sub) => {
-        const unsubToken = Buffer.from(sub.email).toString('base64');
+        const unsubToken = Buffer.from(`id:${sub.id}`).toString('base64');
         const html = buildNewsletterHtml(city, weekLabel, events, sub.first_name, unsubToken, subCalendar);
 
         try {
