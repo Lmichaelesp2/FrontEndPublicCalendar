@@ -1579,12 +1579,88 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 /* SUB-CALENDAR HERO (Technology, Chamber, Networking, Real Estate, Small Business pages) */
 .se-hero{background:var(--color-paper);padding:4rem 2rem 3.5rem;border-bottom:1px solid var(--color-rule)}
-.se-hero-inner{max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:1rem}
+.se-hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 300px;gap:3rem;align-items:center}
+.se-hero-left{display:flex;flex-direction:column;align-items:flex-start;gap:1rem}
 .se-hero h1{font-family:var(--font-serif);font-size:clamp(2rem,4vw,2.75rem);font-weight:600;line-height:1.2;letter-spacing:-.025em;color:var(--color-ink);margin:0}
 .se-hero h1 em{font-style:italic;font-weight:400;color:var(--color-primary)}
 .se-hero .hero-sub{font-size:var(--fs-lg);color:var(--color-ink-2);line-height:1.65;margin:0;max-width:580px}
 .se-hero-tags{font-size:.82rem;color:var(--fg-3);font-weight:500;margin:0}
-@media(max-width:640px){.se-hero{padding:2.5rem 1.25rem 2.5rem}.se-hero h1{font-size:1.75rem}.se-hero-inner{align-items:flex-start}.se-cta-group{flex-direction:column;align-items:stretch}.se-cta-group a,.se-cta-group button{text-align:center;justify-content:center}}
+@media(max-width:860px){
+  .se-hero-inner{grid-template-columns:1fr;gap:2rem}
+  .se-hero-right{display:none}
+}
+@media(max-width:640px){.se-hero{padding:2.5rem 1.25rem 2.5rem}.se-hero h1{font-size:1.75rem}.se-hero-left{align-items:flex-start}.se-cta-group{flex-direction:column;align-items:stretch}.se-cta-group a,.se-cta-group button{text-align:center;justify-content:center}}
+
+/* ── Hero sponsor card ───────────────────────────────────────────── */
+.sp-hero-card{
+  background: #ffffff;
+  border: 1px solid #e7e2d8;
+  border-radius: 16px;
+  padding: 1.5rem 1.25rem 1.25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(23,23,23,.07);
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+.sp-hero-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:4px;
+  background:linear-gradient(90deg,#6f4b1f,#9a6a2f,#c9a84c);
+  border-radius:16px 16px 0 0;
+}
+.sp-hero-card--vacant::before{ background:#e7e2d8; }
+.sp-hero-label{
+  font-size:.65rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#6f4b1f;
+  background:#f4efe6;
+  border:1px solid #d8d0c2;
+  border-radius:999px;
+  padding:3px 10px;
+  display:inline-block;
+  width:fit-content;
+}
+.sp-hero-label--vacant{ color:#71717a;background:#f5f5f4;border-color:#e7e2d8; }
+.sp-hero-logo-wrap{
+  background:#fbfaf7;
+  border:1px solid #e7e2d8;
+  border-radius:10px;
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:.75rem;
+}
+.sp-hero-logo-wrap--vacant{ border-style:dashed;border-color:#d8d0c2;flex-direction:column;gap:.25rem; }
+.sp-hero-initials{ font-size:1.5rem;font-weight:800;color:#9a6a2f;letter-spacing:-.02em; }
+.sp-hero-vacant-icon{ font-size:1.4rem; }
+.sp-hero-vacant-text{ font-size:.68rem;font-weight:700;color:#a1a1aa;letter-spacing:.06em;text-transform:uppercase; }
+.sp-hero-name{ font-size:1rem;font-weight:700;color:#171717;line-height:1.2; }
+.sp-hero-name-link{ color:inherit;text-decoration:none; }
+.sp-hero-name-link:hover{ color:#9a6a2f; }
+.sp-hero-tagline{ font-size:.82rem;color:#52525b;line-height:1.55;margin:0; }
+.sp-hero-cta{
+  display:inline-block;
+  background:#171717;
+  color:#fff;
+  font-size:.78rem;
+  font-weight:700;
+  padding:.5rem 1rem;
+  border-radius:999px;
+  text-decoration:none;
+  text-align:center;
+  transition:background .15s;
+}
+.sp-hero-cta:hover{ background:#3f3f46;color:#fff; }
+.sp-hero-cta--vacant{ background:#9a6a2f; }
+.sp-hero-cta--vacant:hover{ background:#6f4b1f; }
+.sp-hero-fine{ font-size:.67rem;color:#a1a1aa;text-decoration:underline;text-align:center; }
 
 /* SUBMIT EVENT PAGE */
 .se-page{min-height:100vh;background:var(--white)}

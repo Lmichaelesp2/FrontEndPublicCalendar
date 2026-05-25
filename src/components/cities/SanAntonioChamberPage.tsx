@@ -128,6 +128,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
 
             <section className="se-hero">
         <div className="se-hero-inner">
+          <div className="se-hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
             SAN ANTONIO CHAMBER CALENDAR
@@ -149,9 +150,12 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
+          <div className="se-hero-right">
+            <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" variant="hero" />
+          </div>
+        </div>
       </section>
 
-      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" />
       <EventNetworkingMethodSection city="San Antonio" category="Chamber" />
 
 

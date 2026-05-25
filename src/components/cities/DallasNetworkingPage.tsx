@@ -117,6 +117,7 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
 
             <section className="se-hero">
         <div className="se-hero-inner">
+          <div className="se-hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
             DALLAS NETWORKING CALENDAR
@@ -138,9 +139,12 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
+          <div className="se-hero-right">
+            <SponsorPatronSection city="Dallas" citySlug="dallas" category="Networking" categorySlug="networking" variant="hero" />
+          </div>
+        </div>
       </section>
 
-      <SponsorPatronSection city="Dallas" citySlug="dallas" category="Networking" categorySlug="networking" />
       <EventNetworkingMethodSection city="Dallas" category="Networking" />
 
 

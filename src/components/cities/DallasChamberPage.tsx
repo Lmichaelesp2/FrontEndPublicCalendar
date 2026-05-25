@@ -117,6 +117,7 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
 
             <section className="se-hero">
         <div className="se-hero-inner">
+          <div className="se-hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
             DALLAS CHAMBER CALENDAR
@@ -138,9 +139,12 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
+          <div className="se-hero-right">
+            <SponsorPatronSection city="Dallas" citySlug="dallas" category="Chamber" categorySlug="chamber" variant="hero" />
+          </div>
+        </div>
       </section>
 
-      <SponsorPatronSection city="Dallas" citySlug="dallas" category="Chamber" categorySlug="chamber" />
       <EventNetworkingMethodSection city="Dallas" category="Chamber" />
 
 

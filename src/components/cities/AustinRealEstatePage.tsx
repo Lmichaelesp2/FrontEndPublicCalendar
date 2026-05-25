@@ -128,6 +128,7 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
 
             <section className="se-hero">
         <div className="se-hero-inner">
+          <div className="se-hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
             AUSTIN REAL ESTATE CALENDAR
@@ -149,9 +150,12 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
+          <div className="se-hero-right">
+            <SponsorPatronSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" variant="hero" />
+          </div>
+        </div>
       </section>
 
-      <SponsorPatronSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" />
       <EventNetworkingMethodSection city="Austin" category="Real Estate" />
 
 

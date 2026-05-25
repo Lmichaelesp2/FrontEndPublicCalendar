@@ -128,6 +128,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
 
             <section className="se-hero">
         <div className="se-hero-inner">
+          <div className="se-hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
             SAN ANTONIO SMALL BUSINESS CALENDAR
@@ -149,9 +150,12 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
+          <div className="se-hero-right">
+            <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Small Business" categorySlug="small-business" variant="hero" />
+          </div>
+        </div>
       </section>
 
-      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Small Business" categorySlug="small-business" />
       <EventNetworkingMethodSection city="San Antonio" category="Small Business" />
 
 
