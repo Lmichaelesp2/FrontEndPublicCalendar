@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { MapPin, Calendar, Lock, Share2, CalendarPlus, X } from 'lucide-react';
+import { MapPin, Calendar, Share2, CalendarPlus, X } from 'lucide-react';
 import { Event } from '../lib/supabase';
 import { parseDate, formatTime } from '../lib/utils';
 
@@ -265,11 +265,12 @@ function ShareMenu({ event, onClose }: { event: Event; onClose: () => void }) {
 type EventCardProps = {
   event: Event;
   index: number;
-  isLoggedIn?: boolean;
+  isLoggedIn?: boolean;  // true = hide the soft email CTA (already subscribed or premium)
+  isPremium?: boolean;   // true = show recommended badge and match info
   onAuthClick?: () => void;
 };
 
-export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: EventCardProps) {
+export function EventCard({ event, index, isLoggedIn = false, isPremium = false, onAuthClick }: EventCardProps) {
   const [addOpen, setAddOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
 
@@ -285,9 +286,8 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
 
   const startFmt = formatTime(event.start_time);
   const endFmt = formatTime(event.end_time);
-  const timeLabel = isLoggedIn
-    ? `${dayOfWeek}. ${monthDay} | ${startFmt}${endFmt ? ` - ${endFmt}` : ''}`
-    : `${dayOfWeek}. ${monthDay} | ${startFmt}`;
+  // Always show full time range — no content gating
+  const timeLabel = `${dayOfWeek}. ${monthDay} | ${startFmt}${endFmt ? ` – ${endFmt}` : ''}`;
 
   const timeOfDay = getTimeOfDay(event.start_time);
 
@@ -313,18 +313,21 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
             <Calendar size={14} className="ev-card-new-time-icon" />
             <span>{timeLabel}</span>
           </div>
+          {/* Address — visible to everyone */}
           {event.address && (
             <div className="ev-card-new-location">
               <MapPin size={14} className="ev-card-new-location-icon" />
-              <span>{event.address}{event.part_of_town && isLoggedIn ? ` · ${event.part_of_town}` : ''}</span>
+              <span>{event.address}{event.part_of_town ? ` · ${event.part_of_town}` : ''}</span>
             </div>
           )}
-          {isLoggedIn && event.org_name && (
+          {/* Organizer — visible to everyone */}
+          {event.org_name && (
             <div style={{ color: '#888', fontSize: '12px', marginTop: '4px' }}>
               Organized by: <span style={{ color: '#60a5fa' }}>{event.org_name}</span>
             </div>
           )}
         </div>
+        {/* External link — visible to everyone, labeled clearly */}
         {event.website && (
           <a
             href={event.website}
@@ -332,57 +335,83 @@ export function EventCard({ event, index, isLoggedIn = false, onAuthClick }: Eve
             rel="noopener noreferrer"
             className="ev-card-new-btn"
           >
-            {isLoggedIn ? 'View Details' : 'Event Site'}
+            Visit Organizer Page
           </a>
         )}
       </div>
 
       <div className="ev-card-new-body">
-        {isLoggedIn ? (
-          <>
-            {/* Badges */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
-              <PaidBadge paid={event.paid} />
-              {timeOfDay && <Badge label={timeOfDay} />}
-              <Badge label={participationLabel} />
-              {event.event_category && <Badge label={event.event_category} />}
-            </div>
+        {/* Badges — visible to everyone */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
+          <PaidBadge paid={event.paid} />
+          {timeOfDay && <Badge label={timeOfDay} />}
+          <Badge label={participationLabel} />
+          {event.event_category && <Badge label={event.event_category} />}
+          {isPremium && <span style={{
+            background: '#f5a623', color: '#000',
+            borderRadius: '20px', fontSize: '11px', fontWeight: 700, padding: '3px 10px',
+          }}>✦ Recommended</span>}
+        </div>
 
-            {/* Description */}
-            {rawDesc ? (
-              <p className="ev-card-new-desc">{rawDesc}</p>
-            ) : (
-              <p className="ev-card-new-desc ev-card-no-desc">See event site for description</p>
-            )}
-
-            {/* Action buttons */}
-            <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap', position: 'relative' }}>
-              <div style={{ position: 'relative' }}>
-                <ActionBtn
-                  icon={<CalendarPlus size={13} />}
-                  label="Add"
-                  onClick={toggleAdd}
-                />
-                {addOpen && <AddToCalendarMenu event={event} onClose={() => setAddOpen(false)} />}
-              </div>
-              <div style={{ position: 'relative' }}>
-                <ActionBtn
-                  icon={<Share2 size={13} />}
-                  label="Share"
-                  onClick={toggleShare}
-                />
-                {shareOpen && <ShareMenu event={event} onClose={() => setShareOpen(false)} />}
-              </div>
-            </div>
-          </>
+        {/* Description — visible to everyone */}
+        {rawDesc ? (
+          <p className="ev-card-new-desc">{rawDesc}</p>
         ) : (
-          <div className="ev-card-gate">
-            <p className="ev-card-new-desc ev-card-gate-text" aria-hidden="true">
-              {rawDesc || 'Sign up to see full event details — description, end time, and location — plus get every upcoming event in your Monday newsletter.'}
-            </p>
-            <button className="ev-card-gate-overlay ev-card-gate-btn" onClick={onAuthClick}>
-              <Lock size={13} className="ev-card-gate-icon" />
-              <span>Sign up free — see full event details + Monday newsletter</span>
+          <p className="ev-card-new-desc ev-card-no-desc">See organizer page for full details</p>
+        )}
+
+        {/* Action buttons — visible to everyone */}
+        <div style={{ display: 'flex', gap: '8px', marginTop: '12px', flexWrap: 'wrap', position: 'relative' }}>
+          <div style={{ position: 'relative' }}>
+            <ActionBtn
+              icon={<CalendarPlus size={13} />}
+              label="Add"
+              onClick={toggleAdd}
+            />
+            {addOpen && <AddToCalendarMenu event={event} onClose={() => setAddOpen(false)} />}
+          </div>
+          <div style={{ position: 'relative' }}>
+            <ActionBtn
+              icon={<Share2 size={13} />}
+              label="Share"
+              onClick={toggleShare}
+            />
+            {shareOpen && <ShareMenu event={event} onClose={() => setShareOpen(false)} />}
+          </div>
+        </div>
+
+        {/* Soft email CTA — only for non-subscribers, non-intrusive */}
+        {!isLoggedIn && (
+          <div style={{
+            marginTop: '12px',
+            paddingTop: '10px',
+            borderTop: '1px solid #1e2130',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '8px',
+            flexWrap: 'wrap',
+          }}>
+            <span style={{ color: '#666', fontSize: '12px' }}>
+              Get these events delivered every Monday
+            </span>
+            <button
+              onClick={onAuthClick}
+              style={{
+                background: 'none',
+                border: '1px solid #f5a623',
+                borderRadius: '6px',
+                color: '#f5a623',
+                cursor: 'pointer',
+                fontSize: '12px',
+                fontWeight: 600,
+                padding: '4px 12px',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#f5a623'; (e.currentTarget as HTMLButtonElement).style.color = '#000'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = '#f5a623'; }}
+            >
+              Get Monday Email →
             </button>
           </div>
         )}

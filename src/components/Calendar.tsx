@@ -44,7 +44,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
   const dateCap = (() => {
     if (weekMode) return maxDate ?? null; // sub-cal pages use their own range
     const d = new Date();
-    d.setDate(d.getDate() + (isPremium ? 29 : 6)); // 30 days or 7 days
+    d.setDate(d.getDate() + (isPremium ? 29 : 13)); // 30 days for Event Assistant, 14 days public
     const cap = dateKey(d);
     if (maxDate && maxDate < cap) return maxDate; // respect tighter passed maxDate
     return cap;
@@ -567,10 +567,10 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           }}>
             <div>
               <p style={{ color: '#f5a623', fontWeight: 700, fontSize: '14px', margin: 0 }}>
-                Free accounts show 7 days of events
+                Want to see further ahead?
               </p>
               <p style={{ color: '#aaa', fontSize: '13px', margin: '4px 0 0' }}>
-                Upgrade for a full month of personalized events matched to your goals.
+                The Event Assistant gives you 30 days across all four Texas cities, personalized to your goals.
               </p>
             </div>
             <button
@@ -589,7 +589,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                 opacity: upgradeLoading ? 0.7 : 1,
               }}
             >
-              {upgradeLoading ? 'Redirecting…' : user ? 'Upgrade — $14.99/mo →' : 'Sign Up Free →'}
+              {upgradeLoading ? 'Redirecting…' : user ? 'Get the Event Assistant →' : 'Get the Event Assistant →'}
             </button>
           </div>
         )}
@@ -610,8 +610,8 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
           }}>
             <span style={{ color: '#aaa', fontSize: '13px' }}>
               {isPersonalized
-                ? `✦ Personalized · ${networkProfile.categories.join(', ')}${networkProfile.city ? ` · ${networkProfile.city}` : ''}`
-                : '⊙ Showing all events'}
+                ? `✦ My Recommended Events · ${networkProfile.categories.join(', ')}${networkProfile.city ? ` · ${networkProfile.city}` : ''}`
+                : '⊙ Browse All Events — 30 days'}
             </span>
             <button
               onClick={() => {
@@ -630,7 +630,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                 whiteSpace: 'nowrap',
               }}
             >
-              {isPersonalized ? 'View All Events →' : '← Back to My Events'}
+              {isPersonalized ? 'Browse All Events →' : '← Back to My Recommended Events'}
             </button>
           </div>
         )}
@@ -698,7 +698,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                         {dividerLabel}
                       </div>
                     )}
-                    <EventCard event={event} index={index} isLoggedIn={!!user} onAuthClick={triggerAuth} />
+                    <EventCard event={event} index={index} isLoggedIn={!!user} isPremium={isPremium} onAuthClick={triggerAuth} />
                   </div>
                 );
               })}
