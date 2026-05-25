@@ -6,22 +6,24 @@ import { Footer } from '../../src/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Pricing | Local Business Calendars',
-  description: 'Free forever for the basics. Upgrade to Premium when you want personalized events, custom filters, and a weekly digest built for your industry.',
+  description: 'The full calendar is free. Get the Event Assistant when you want personalized events, advanced filters, and a weekly digest built for your goals.',
 };
 
 const FREE_FEATURES = [
-  'This week\'s events — all 4 Texas cities',
-  'Browse by day',
+  '14 days of events — all 4 Texas cities',
+  'Full event details — address, organizer, description',
   'Chamber, networking, real estate & more',
+  'Monday newsletter — just give us your email',
   'Free forever — no credit card',
 ];
 
 const PREMIUM_FEATURES = [
   '30 days of upcoming events',
-  'Personalized to your industry & goals',
-  'All filter options — city, cost, time, category',
-  'Custom weekly email digest',
-  'All 4 Texas cities',
+  'My Recommended Events — personalized to your goals',
+  'All 4 Texas cities in one view',
+  'Advanced filters — city, cost, time, category',
+  'Personalized Monday digest built for you',
+  'AI-powered event recommendations',
 ];
 
 export default function PricingPage() {
@@ -34,10 +36,10 @@ export default function PricingPage() {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '56px' }}>
           <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#111', margin: '0 0 14px', lineHeight: 1.2 }}>
-            Free to use. Premium when you're ready.
+            Free calendar. Event Assistant when you're ready.
           </h1>
           <p style={{ color: '#666', fontSize: '1.05rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.6 }}>
-            Start with the free calendar — no sign-up required. When you want more, Premium gives you a personalized view and weekly digest.
+            The full calendar is open to everyone. When you want events picked for you, the Event Assistant personalizes your view and builds a weekly digest around your goals.
           </p>
         </div>
 
@@ -94,7 +96,7 @@ export default function PricingPage() {
             display: 'flex',
             flexDirection: 'column',
           }}>
-            <div style={{ fontSize: '12px', fontWeight: 800, color: '#c2410c', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Premium</div>
+            <div style={{ fontSize: '12px', fontWeight: 800, color: '#c2410c', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Event Assistant</div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '4px' }}>
               <span style={{ fontSize: '2.2rem', fontWeight: 800, color: '#111' }}>$14.99</span>
               <span style={{ fontSize: '14px', color: '#888' }}>/month</span>

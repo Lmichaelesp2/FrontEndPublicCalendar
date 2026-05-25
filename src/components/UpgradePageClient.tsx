@@ -15,11 +15,11 @@ const FEATURES_FREE = [
 
 const FEATURES_PREMIUM = [
   '30 days of upcoming events',
-  'Personalized to your industry & goals',
-  'All filter options — city, cost, time, category',
-  'Custom weekly email digest',
-  'All 4 Texas cities',
-  'Priority support',
+  'My Recommended Events — personalized to your goals',
+  'All 4 Texas cities in one view',
+  'Advanced filters — city, cost, time, category',
+  'Personalized weekly email digest',
+  'AI-powered event recommendations',
 ];
 
 export function UpgradePageClient() {
@@ -43,13 +43,13 @@ export function UpgradePageClient() {
             textTransform: 'uppercase', borderRadius: '4px', padding: '3px 10px',
             display: 'inline-block', marginBottom: '16px',
           }}>
-            Premium
+            Event Assistant
           </span>
           <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#111', margin: '0 0 12px', lineHeight: 1.2 }}>
-            See more events. Find the right ones.
+            Stop browsing. Start getting the right events.
           </h1>
           <p style={{ color: '#555', fontSize: '1.05rem', maxWidth: '520px', margin: '0 auto' }}>
-            Upgrade to see 30 days of events personalized to your city, industry, and schedule — plus a weekly digest built just for you.
+            The Event Assistant learns your city, industry, and goals — then shows you the events worth your time and delivers a personalized digest every Monday.
           </p>
         </div>
 
@@ -60,10 +60,10 @@ export function UpgradePageClient() {
             padding: '32px', textAlign: 'center', maxWidth: '480px', margin: '0 auto',
           }}>
             <p style={{ fontSize: '1.1rem', fontWeight: 700, color: '#111', margin: '0 0 8px' }}>
-              You're already on Premium!
+              You're on the Event Assistant!
             </p>
             <p style={{ color: '#555', margin: '0 0 20px' }}>
-              Head back to your calendar to enjoy all your benefits.
+              Head back to your calendar to see your personalized events.
             </p>
             <Link href={returnUrl} style={{
               display: 'inline-block', background: '#c2410c', color: '#fff',
@@ -118,7 +118,7 @@ export function UpgradePageClient() {
               }}>
                 Most Popular
               </div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: '#c2410c', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Premium</div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: '#c2410c', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Event Assistant</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '4px' }}>
                 <span style={{ fontSize: '2rem', fontWeight: 800, color: '#111' }}>$14.99</span>
                 <span style={{ fontSize: '14px', color: '#888' }}>/month</span>
@@ -145,7 +145,7 @@ export function UpgradePageClient() {
                     transition: 'background 0.15s',
                   }}
                 >
-                  {loading ? 'Redirecting…' : 'Upgrade — $14.99/mo'}
+                  {loading ? 'Redirecting…' : 'Get the Event Assistant — $14.99/mo'}
                 </button>
               ) : (
                 <Link

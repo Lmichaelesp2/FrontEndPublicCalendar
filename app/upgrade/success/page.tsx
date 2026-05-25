@@ -42,10 +42,10 @@ export default function UpgradeSuccess() {
         }}>
           <CheckCircle size={56} style={{ color: '#c2410c', marginBottom: '20px' }} />
           <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#111', margin: '0 0 12px' }}>
-            Welcome to Premium!
+            Welcome to the Event Assistant!
           </h1>
           <p style={{ color: '#555', fontSize: '1rem', margin: '0 0 32px', lineHeight: 1.6 }}>
-            Your account is now active. You have 30 days of events, personalized filters, and your custom weekly digest is on the way.
+            You're all set. You now have 30 days of events across all four Texas cities, personalized recommendations, and your custom weekly digest is on the way every Monday.
           </p>
 
           {checking && profile?.subscription_tier !== 'premium' ? (

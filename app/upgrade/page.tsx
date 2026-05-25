@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { UpgradePageClient } from '../../src/components/UpgradePageClient';
 
 export const metadata: Metadata = {
-  title: 'Go Premium | Local Business Calendars',
-  description: 'Unlock 30 days of personalized business events, custom filters, and a weekly digest tailored to your industry and goals.',
+  title: 'Get the Event Assistant | Local Business Calendars',
+  description: 'The Event Assistant gives you 30 days of events across all four Texas cities, personalized recommendations, advanced filters, and a weekly digest built for your goals.',
 };
 
 export default function Page() {

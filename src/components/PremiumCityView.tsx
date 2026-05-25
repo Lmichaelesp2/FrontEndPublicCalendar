@@ -44,11 +44,11 @@ export function PremiumCityView({ city, citySlug, initialEvents }: PremiumCityVi
             borderRadius: '4px',
             padding: '2px 8px',
           }}>
-            Premium
+            Event Assistant
           </span>
         </div>
         <span style={{ color: '#555', fontSize: '12px' }}>
-          30 days of events · Personalized
+          30 days · Personalized to your goals
         </span>
       </div>
 
