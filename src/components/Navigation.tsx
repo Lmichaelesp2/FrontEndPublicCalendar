@@ -148,6 +148,22 @@ function ResourcesDropdown() {
       {open && (
         <div className="nav-resources-drop">
           <Link
+            href="/event-assistant"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Event Assistant</span>
+            <span className="nav-resources-item-desc">Personalized events & weekly digest — $14.99/mo</span>
+          </Link>
+          <Link
+            href="/agency"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Event Networking Studio</span>
+            <span className="nav-resources-item-desc">Strategic event networking for professionals</span>
+          </Link>
+          <Link
             href="/event-networking-method"
             className="nav-resources-item"
             onClick={() => setOpen(false)}
