@@ -305,11 +305,11 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 }
 .nav-link{
   font-family: var(--font-sans);
-  font-size: .8rem;
+  font-size: .78rem;
   font-weight: var(--fw-medium);
   color: var(--color-ink);
   text-decoration: none;
-  padding: .55rem .8rem;
+  padding: .5rem .6rem;
   border-radius: var(--radius-xs);
   transition: color .15s, background .15s;
   white-space: nowrap;
@@ -318,6 +318,14 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   color: var(--color-primary);
   background: transparent;
   text-decoration: none;
+}
+/* Submit Event highlight */
+.nav-link--highlight{
+  color: var(--color-accent) !important;
+  font-weight: 700 !important;
+}
+.nav-link--highlight:hover{
+  color: var(--color-accent-dark) !important;
 }
 
 /* Right actions */
@@ -388,42 +396,25 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 /* Sponsor link (legacy — keep visible) */
 .nav-sponsor-link{ color: var(--color-accent) !important; font-weight: 700 !important; }
 
-/* ── Premium Login button (nav) ─────────────────────────────── */
-.nav-premium-btn{
-  display: flex;
-  align-items: center;
-  gap: .3rem;
-  background: #1e1b4b;
-  color: #e0d7ff;
-  border: 1.5px solid #4338ca;
+/* ── Classic Login button (nav) ─────────────────────────────── */
+.nav-classic-btn{
+  background: transparent;
+  color: #4338ca;
+  border: 1.5px solid #a5b4fc;
   font-family: var(--font-sans);
-  font-size: .75rem;
+  font-size: .72rem;
   font-weight: 700;
-  letter-spacing: .03em;
-  padding: .35rem .85rem;
+  letter-spacing: .02em;
+  padding: .3rem .7rem;
   border-radius: 6px;
   cursor: pointer;
   transition: all .18s ease;
   white-space: nowrap;
 }
-.nav-premium-btn:hover{
-  background: #312e81;
-  border-color: #6366f1;
-  color: #fff;
-}
-.nav-premium-logged{
-  display: flex;
-  align-items: center;
-  gap: .3rem;
-  font-size: .75rem;
-  font-weight: 700;
-  color: #6366f1;
-  letter-spacing: .02em;
-  padding: .35rem .6rem;
-  border-radius: 6px;
-  border: 1.5px solid #c7d2fe;
+.nav-classic-btn:hover{
   background: #eef2ff;
-  white-space: nowrap;
+  border-color: #6366f1;
+  color: #3730a3;
 }
 
 /* ── Premium Login Modal ─────────────────────────────────────── */

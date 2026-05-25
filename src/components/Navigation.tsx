@@ -143,10 +143,18 @@ function ResourcesDropdown() {
         onClick={() => setOpen(o => !o)}
         aria-expanded={open}
       >
-        Resources <ChevronDown size={12} className={open ? 'nav-chevron-open' : ''} />
+        More <ChevronDown size={12} className={open ? 'nav-chevron-open' : ''} />
       </button>
       {open && (
         <div className="nav-resources-drop">
+          <Link
+            href="/texas"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">All Texas Calendars</span>
+            <span className="nav-resources-item-desc">Browse all cities & industries</span>
+          </Link>
           <Link
             href="/event-networking-method"
             className="nav-resources-item"
@@ -156,20 +164,28 @@ function ResourcesDropdown() {
             <span className="nav-resources-item-desc">Choose better events with intention</span>
           </Link>
           <Link
-            href="/submit"
-            className="nav-resources-item"
-            onClick={() => setOpen(false)}
-          >
-            <span className="nav-resources-item-title">Submit an Event</span>
-            <span className="nav-resources-item-desc">Add your event to the calendar</span>
-          </Link>
-          <Link
             href="/sponsor"
             className="nav-resources-item"
             onClick={() => setOpen(false)}
           >
             <span className="nav-resources-item-title">Sponsor the Calendar</span>
             <span className="nav-resources-item-desc">Reach local business professionals</span>
+          </Link>
+          <Link
+            href="/contact"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Contact</span>
+            <span className="nav-resources-item-desc">Get in touch with us</span>
+          </Link>
+          <Link
+            href="/about"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">About</span>
+            <span className="nav-resources-item-desc">About Local Business Calendars</span>
           </Link>
         </div>
       )}
@@ -318,7 +334,6 @@ export function Navigation() {
           <div className="nav-links-inner">
 
             <nav className="nav-city-links" aria-label="Browse by city">
-              <Link href="/texas" className="nav-link">Texas</Link>
               {CITY_CONFIGS.map((c) => (
                 <Link
                   key={c.slug}
@@ -328,27 +343,21 @@ export function Navigation() {
                   {c.name}
                 </Link>
               ))}
-              <Link href="/submit" className="nav-link">Submit Event</Link>
+              <Link href="/submit" className="nav-link nav-link--highlight">Submit Event</Link>
               <Link href="/pricing" className="nav-link">Pricing</Link>
               <Link href="/about" className="nav-link">About</Link>
-              <Link href="/contact" className="nav-link">Contact</Link>
               <ResourcesDropdown />
             </nav>
 
             <div className="nav-actions">
               {/* Premium Login — always visible, dimmed when already logged in */}
-              {user ? (
-                <div className="nav-premium-logged">
-                  <span className="nav-premium-crown">👑</span>
-                  <span>Premium</span>
-                </div>
-              ) : (
+              {!user && (
                 <button
-                  className="nav-premium-btn"
+                  className="nav-classic-btn"
                   onClick={() => setPremiumModalOpen(true)}
-                  title="Premium member login"
+                  title="Log in to your premium calendar account"
                 >
-                  👑 Premium Login
+                  Classic Login
                 </button>
               )}
 
