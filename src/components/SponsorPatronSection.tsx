@@ -2,15 +2,21 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { getSponsor } from '../lib/sponsorConfig';
 
 interface Props {
-  city: string;
-  category?: string;
+  city: string;      // Display name, e.g. "San Antonio"
+  citySlug: string;  // URL slug, e.g. "san-antonio"
+  category?: string; // Display name, e.g. "Networking"
+  categorySlug?: string; // URL slug, e.g. "networking"
 }
 
 const DURATION = 6000;
 
-export function SponsorPatronSection({ city, category }: Props) {
+// ─── No-sponsor: cycling carousel ────────────────────────────────────────────
+
+function VacantPatronSection({ city, category }: { city: string; category?: string }) {
   const [state, setState] = useState<'sponsor' | 'vacant'>('sponsor');
   const [visible, setVisible] = useState(true);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -80,7 +86,7 @@ export function SponsorPatronSection({ city, category }: Props) {
             </p>
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '1.25rem' }}>
-              {/* Event Assistant SVG logo */}
+              {/* Event Assistant logo */}
               <div style={{ width: '72px', height: '72px', flexShrink: 0, background: '#fff', borderRadius: '12px', border: '1px solid #f5cfc4', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px' }}>
                 <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect width="52" height="52" rx="10" fill="#fff7f4"/>
@@ -141,4 +147,84 @@ export function SponsorPatronSection({ city, category }: Props) {
       </div>
     </div>
   );
+}
+
+// ─── Real sponsor: static display ────────────────────────────────────────────
+
+function ActiveSponsorSection({
+  city,
+  category,
+  sponsor,
+}: {
+  city: string;
+  category?: string;
+  sponsor: NonNullable<ReturnType<typeof getSponsor>>;
+}) {
+  return (
+    <div style={{ borderTop: '3px solid #c2410c', background: '#fff7f4', borderBottom: '1px solid #f5cfc4' }}>
+      <div style={{ padding: '1.5rem 1.5rem 1.25rem', maxWidth: '640px', margin: '0 auto' }}>
+        <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9a3412', textAlign: 'center', marginBottom: '1.1rem' }}>
+          This free {category ? `${city} ${category.toLowerCase()} ` : `${city} `}calendar is sponsored by
+        </p>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '1.1rem' }}>
+          {/* Logo */}
+          <div style={{ width: '72px', height: '72px', flexShrink: 0, background: '#fff', borderRadius: '10px', border: '1px solid #f5cfc4', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+            {sponsor.logoUrl ? (
+              <Image src={sponsor.logoUrl} alt={`${sponsor.name} logo`} width={64} height={64} style={{ objectFit: 'contain' }} />
+            ) : (
+              <div style={{ width: '48px', height: '48px', background: '#f5cfc4', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#9a3412', fontWeight: 700, textTransform: 'uppercase', textAlign: 'center', letterSpacing: '0.05em', lineHeight: 1.3 }}>
+                {sponsor.name.split(' ').slice(0, 2).map(w => w[0]).join('')}
+              </div>
+            )}
+          </div>
+
+          <div style={{ textAlign: 'left' }}>
+            {sponsor.url ? (
+              <a href={sponsor.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '18px', fontWeight: 700, color: '#042C53', textDecoration: 'none', display: 'block', marginBottom: '3px' }}>
+                {sponsor.name}
+              </a>
+            ) : (
+              <div style={{ fontSize: '18px', fontWeight: 700, color: '#042C53', marginBottom: '3px' }}>{sponsor.name}</div>
+            )}
+            <div style={{ fontSize: '12px', color: '#555', fontWeight: 500 }}>{sponsor.tagline}</div>
+          </div>
+        </div>
+
+        {sponsor.quote && (
+          <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #f5cfc4', padding: '1rem 1.1rem' }}>
+            <p style={{ fontSize: '13px', color: '#444', lineHeight: 1.8, fontStyle: 'italic', margin: 0 }}>
+              &ldquo;{sponsor.quote}&rdquo;
+            </p>
+            {sponsor.quoteBy && (
+              <p style={{ fontSize: '12px', color: '#888', marginTop: '8px', fontWeight: 500 }}>— {sponsor.quoteBy}</p>
+            )}
+            {sponsor.url && (
+              <div style={{ marginTop: '12px' }}>
+                <a href={sponsor.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', fontWeight: 600, color: '#fff', background: '#c2410c', borderRadius: '6px', padding: '7px 16px', textDecoration: 'none', display: 'inline-block' }}>
+                  {sponsor.ctaLabel ?? `Visit ${sponsor.name} →`}
+                </a>
+              </div>
+            )}
+          </div>
+        )}
+
+        <p style={{ fontSize: '10px', color: '#bbb', textAlign: 'center', marginTop: '0.75rem', marginBottom: 0 }}>
+          Sponsored content — <Link href="/sponsor" style={{ color: '#bbb', textDecoration: 'underline' }}>about our sponsorships</Link>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main export ─────────────────────────────────────────────────────────────
+
+export function SponsorPatronSection({ city, citySlug, category, categorySlug }: Props) {
+  const sponsor = getSponsor(citySlug, categorySlug);
+
+  if (sponsor) {
+    return <ActiveSponsorSection city={city} category={category} sponsor={sponsor} />;
+  }
+
+  return <VacantPatronSection city={city} category={category} />;
 }

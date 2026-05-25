@@ -140,7 +140,7 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <SponsorPatronSection city="Dallas" category="Small Business" />
+      <SponsorPatronSection city="Dallas" citySlug="dallas" category="Small Business" categorySlug="small-business" />
       <EventNetworkingMethodSection city="Dallas" category="Small Business" />
 
 

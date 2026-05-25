@@ -151,7 +151,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <SponsorPatronSection city="San Antonio" category="Chamber" />
+      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" />
       <EventNetworkingMethodSection city="San Antonio" category="Chamber" />
 
 

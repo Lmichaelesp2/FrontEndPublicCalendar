@@ -220,7 +220,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <SponsorPatronSection city="Houston" />
+      <SponsorPatronSection city="Houston" citySlug="houston" />
       <EventNetworkingMethodSection city="Houston" />
 
 

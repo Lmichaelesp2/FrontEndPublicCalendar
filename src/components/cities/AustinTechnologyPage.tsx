@@ -140,7 +140,7 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorPatronSection city="Austin" category="Technology" />
+      <SponsorPatronSection city="Austin" citySlug="austin" category="Technology" categorySlug="technology" />
       <EventNetworkingMethodSection city="Austin" category="Technology" />
 
 

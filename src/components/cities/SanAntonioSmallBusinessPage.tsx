@@ -151,7 +151,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         </div>
       </section>
 
-      <SponsorPatronSection city="San Antonio" category="Small Business" />
+      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Small Business" categorySlug="small-business" />
       <EventNetworkingMethodSection city="San Antonio" category="Small Business" />
 
 

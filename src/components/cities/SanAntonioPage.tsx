@@ -211,7 +211,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <SponsorPatronSection city="San Antonio" />
+      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" />
       <EventNetworkingMethodSection city="San Antonio" />
 
 

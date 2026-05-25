@@ -151,7 +151,7 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <SponsorPatronSection city="Austin" category="Real Estate" />
+      <SponsorPatronSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" />
       <EventNetworkingMethodSection city="Austin" category="Real Estate" />
 
 

@@ -151,7 +151,7 @@ function HoustonRealEstateContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <SponsorPatronSection city="Houston" category="Real Estate" />
+      <SponsorPatronSection city="Houston" citySlug="houston" category="Real Estate" categorySlug="real-estate" />
       <EventNetworkingMethodSection city="Houston" category="Real Estate" />
 
 

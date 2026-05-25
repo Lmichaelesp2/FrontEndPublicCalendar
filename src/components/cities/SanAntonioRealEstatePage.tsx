@@ -151,7 +151,7 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <SponsorPatronSection city="San Antonio" category="Real Estate" />
+      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Real Estate" categorySlug="real-estate" />
       <EventNetworkingMethodSection city="San Antonio" category="Real Estate" />
 
 

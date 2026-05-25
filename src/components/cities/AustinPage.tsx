@@ -221,7 +221,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <SponsorPatronSection city="Austin" />
+      <SponsorPatronSection city="Austin" citySlug="austin" />
       <EventNetworkingMethodSection city="Austin" />
 
 
