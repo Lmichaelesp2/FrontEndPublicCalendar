@@ -225,6 +225,14 @@ function ResourcesDropdown() {
             <span className="nav-resources-item-title">Sponsor the Calendar</span>
             <span className="nav-resources-item-desc">Reach local business professionals</span>
           </Link>
+          <Link
+            href="/help"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Help & Getting Started</span>
+            <span className="nav-resources-item-desc">How the calendar works, how to subscribe</span>
+          </Link>
         </div>
       )}
     </div>
