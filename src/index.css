@@ -2079,10 +2079,19 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .sa-hero h1 em{font-style:italic;color:var(--color-primary)}
 .sa-hero-sub{color:var(--fg-3);font-size:1.05rem;line-height:1.7;max-width:520px;font-weight:400}
 
-.sa-breadcrumb{background:var(--color-paper);border-bottom:1px solid var(--color-rule);padding:.65rem 2rem;font-size:.8rem;color:var(--fg-3);max-width:100%}
-.sa-breadcrumb a{color:var(--color-ink);text-decoration:none;font-weight:500}
-.sa-breadcrumb a:hover{text-decoration:underline}
-.sa-breadcrumb span{margin:0 .25rem;color:var(--gray-400)}
+.sa-breadcrumb{
+  background: #f4f4f2;
+  border-bottom: 1px solid var(--color-rule);
+  padding: .3rem 2rem;
+  font-size: .7rem;
+  letter-spacing: .03em;
+  color: var(--gray-400);
+  max-width: 100%;
+  font-family: var(--font-sans);
+}
+.sa-breadcrumb a{color:#6b7280;text-decoration:none;font-weight:400}
+.sa-breadcrumb a:hover{color:var(--color-primary);text-decoration:none}
+.sa-breadcrumb span{margin:0 .15rem;color:#9ca3af}
 .sa-back-link{text-align:center;padding:2.5rem 2rem 0}
 .sa-back-link a{font-size:.9rem;font-weight:600;color:var(--color-primary);text-decoration:none}
 .sa-back-link a:hover{text-decoration:underline}
