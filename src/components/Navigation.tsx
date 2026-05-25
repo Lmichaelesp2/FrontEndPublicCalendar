@@ -29,7 +29,7 @@ const CITY_SLUG_TO_NAME: Record<string, string> = {
 const CAT_SLUG_TO_NAME: Record<string, string> = {
   'technology': 'Technology',
   'chamber': 'Chamber',
-  'networking': 'Networking',
+  // 'networking': 'Networking', // temporarily hidden
   'real-estate': 'Real Estate',
   'small-business': 'Small Business',
 };
