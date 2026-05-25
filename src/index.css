@@ -1631,11 +1631,12 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   background:#fbfaf7;
   border:1px solid #e7e2d8;
   border-radius:10px;
-  min-height:70px;
+  height:120px;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:.75rem;
+  padding:.5rem;
+  overflow:hidden;
 }
 .sp-hero-logo-wrap--vacant{ border-style:dashed;border-color:#d8d0c2;flex-direction:column;gap:.25rem; }
 .sp-hero-initials{ font-size:1.5rem;font-weight:800;color:#9a6a2f;letter-spacing:-.02em; }

@@ -118,7 +118,7 @@ function HeroSponsorCard({ city, category, sponsor }: { city: string; category?:
       <div className="sp-hero-label">Made possible by</div>
       <div className="sp-hero-logo-wrap">
         {sponsor.logo_url ? (
-          <Image src={sponsor.logo_url} alt={`${sponsor.name} logo`} width={100} height={60} style={{ objectFit: 'contain', maxWidth: '100%' }} />
+          <Image src={sponsor.logo_url} alt={`${sponsor.name} logo`} width={260} height={110} style={{ objectFit: 'contain', width: '100%', height: '100%', objectPosition: 'center top' }} />
         ) : (
           <span className="sp-hero-initials">{initials}</span>
         )}
