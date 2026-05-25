@@ -3323,3 +3323,12 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .nl-premium-body{border-top:1px solid #f0e8c8;padding:1.25rem;background:#fffdf5}
 .nl-premium-stats{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:.85rem;color:var(--gray-600);margin-bottom:.25rem}
 .nl-premium-stats strong{color:var(--color-ink)}
+
+/* ─── Premium tab badges ─────────────────────────────────────────────────── */
+.prem-badge{display:inline-block;padding:.15rem .6rem;border-radius:10px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.prem-badge-active{background:#d1fae5;color:#065f46}
+.prem-badge-grace{background:#fef3c7;color:#92400e}
+.prem-badge-cancelled{background:#f3f4f6;color:#6b7280}
+.prem-badge-pastdue{background:#fee2e2;color:#991b1b}
+.prem-badge-unknown{background:#e0e7ff;color:#3730a3}
+.prem-tier{display:inline-block;padding:.1rem .5rem;border-radius:6px;font-size:.72rem;font-weight:700;background:#1a1a2e;color:#c9a84c;text-transform:capitalize}

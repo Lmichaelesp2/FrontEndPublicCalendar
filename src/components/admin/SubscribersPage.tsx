@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Users, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft, Pencil, Trash2, Upload } from 'lucide-react';
+import { Users, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft, Pencil, Trash2, Upload, Crown } from 'lucide-react';
 import { supabaseAdmin } from '../../lib/supabase';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
@@ -25,6 +25,18 @@ type Subscriber = {
   first_name: string | null;
   subscriptions: SubRow[];
   since: string;
+};
+
+type PremiumRow = {
+  id: string;
+  email: string;
+  first_name: string | null;
+  subscription_tier: string;
+  subscription_status: string | null;
+  stripe_customer_id: string | null;
+  grace_period_ends_at: string | null;
+  created_at: string;
+  notes: string | null;
 };
 
 type SortKey = 'name' | 'email' | 'count' | 'since';
@@ -316,7 +328,12 @@ export function SubscribersPage() {
   const [sortDir, setSortDir]         = useState<SortDir>('desc');
   const [editTarget, setEditTarget]   = useState<Subscriber | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Subscriber | null>(null);
-  const [activeTab, setActiveTab]     = useState<'subscribers' | 'import'>('subscribers');
+  const [activeTab, setActiveTab]     = useState<'subscribers' | 'import' | 'premium'>('subscribers');
+
+  // Premium tab state
+  const [premiumRows, setPremiumRows]     = useState<PremiumRow[]>([]);
+  const [premiumLoading, setPremiumLoading] = useState(true);
+  const [premiumSearch, setPremiumSearch] = useState('');
 
   async function fetchSubs() {
     setLoading(true);
@@ -338,7 +355,17 @@ export function SubscribersPage() {
     setLoading(false);
   }
 
-  useEffect(() => { fetchSubs(); }, []);
+  async function fetchPremium() {
+    setPremiumLoading(true);
+    const { data } = await supabaseAdmin
+      .from('user_profiles')
+      .select('id, email, first_name, subscription_tier, subscription_status, stripe_customer_id, grace_period_ends_at, created_at, notes')
+      .order('created_at', { ascending: false });
+    setPremiumRows((data as PremiumRow[]) ?? []);
+    setPremiumLoading(false);
+  }
+
+  useEffect(() => { fetchSubs(); fetchPremium(); }, []);
 
   if (!isAuthenticated) return <AdminLogin />;
 
@@ -514,6 +541,12 @@ export function SubscribersPage() {
         >
           <Upload size={15} /> Import CSV
         </button>
+        <button
+          className={`subs-tab${activeTab === 'premium' ? ' active' : ''}`}
+          onClick={() => setActiveTab('premium')}
+        >
+          <Crown size={15} /> Premium
+        </button>
       </div>
 
       <div className="subs-page-body">
@@ -650,6 +683,126 @@ export function SubscribersPage() {
           </div>
         )}
         </> /* end subscribers tab */}
+
+        {/* ── Premium Tab ────────────────────────────────────────────── */}
+        {activeTab === 'premium' && (() => {
+          const now = new Date();
+
+          function premiumStatusLabel(row: PremiumRow): { label: string; cls: string } {
+            if (row.grace_period_ends_at && new Date(row.grace_period_ends_at) > now) {
+              return { label: 'Grace Period', cls: 'prem-badge-grace' };
+            }
+            const s = (row.subscription_status ?? '').toLowerCase();
+            if (s === 'active') return { label: 'Active', cls: 'prem-badge-active' };
+            if (s === 'cancelled' || s === 'canceled') return { label: 'Cancelled', cls: 'prem-badge-cancelled' };
+            if (s === 'past_due') return { label: 'Past Due', cls: 'prem-badge-pastdue' };
+            return { label: row.subscription_status ?? 'Unknown', cls: 'prem-badge-unknown' };
+          }
+
+          const activeCount     = premiumRows.filter(r => (r.subscription_status ?? '').toLowerCase() === 'active' && !(r.grace_period_ends_at && new Date(r.grace_period_ends_at) > now)).length;
+          const graceCount      = premiumRows.filter(r => r.grace_period_ends_at && new Date(r.grace_period_ends_at) > now).length;
+          const cancelledCount  = premiumRows.filter(r => {
+            const s = (r.subscription_status ?? '').toLowerCase();
+            return (s === 'cancelled' || s === 'canceled') && !(r.grace_period_ends_at && new Date(r.grace_period_ends_at) > now);
+          }).length;
+
+          const filteredPremium = premiumRows.filter(r =>
+            !premiumSearch ||
+            r.email.toLowerCase().includes(premiumSearch.toLowerCase()) ||
+            (r.first_name ?? '').toLowerCase().includes(premiumSearch.toLowerCase())
+          );
+
+          return (
+            <>
+              {/* Stats */}
+              <div className="subs-stats-row">
+                <div className="subs-stat-card subs-stat-total">
+                  <span className="subs-stat-val">{premiumRows.length}</span>
+                  <span className="subs-stat-lbl">Total Premium Users</span>
+                </div>
+                <div className="subs-stat-card" style={{ borderTop: '3px solid #16a34a' }}>
+                  <span className="subs-stat-val">{activeCount}</span>
+                  <span className="subs-stat-lbl">Active</span>
+                </div>
+                <div className="subs-stat-card" style={{ borderTop: '3px solid #f59e0b' }}>
+                  <span className="subs-stat-val">{graceCount}</span>
+                  <span className="subs-stat-lbl">Grace Period</span>
+                </div>
+                <div className="subs-stat-card" style={{ borderTop: '3px solid #6b7280' }}>
+                  <span className="subs-stat-val">{cancelledCount}</span>
+                  <span className="subs-stat-lbl">Cancelled</span>
+                </div>
+              </div>
+
+              {/* Search */}
+              <div className="subs-controls">
+                <div className="subs-search-wrap">
+                  <Search size={14} className="subs-search-icon" />
+                  <input
+                    type="text"
+                    placeholder="Search by name or email…"
+                    value={premiumSearch}
+                    onChange={e => setPremiumSearch(e.target.value)}
+                    className="subs-search"
+                  />
+                  {premiumSearch && (
+                    <button onClick={() => setPremiumSearch('')} className="subs-search-clear"><X size={13} /></button>
+                  )}
+                </div>
+              </div>
+
+              <p className="subs-results-count">
+                Showing <strong>{filteredPremium.length}</strong> of <strong>{premiumRows.length}</strong> premium users
+              </p>
+
+              {/* Table */}
+              {premiumLoading ? (
+                <div className="subs-loading">Loading premium users…</div>
+              ) : filteredPremium.length === 0 ? (
+                <div className="subs-empty">No premium users found.</div>
+              ) : (
+                <div className="subs-table-wrap">
+                  <table className="subs-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Tier</th>
+                        <th>Stripe Customer</th>
+                        <th>Grace Period Ends</th>
+                        <th>Since</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredPremium.map(r => {
+                        const { label, cls } = premiumStatusLabel(r);
+                        return (
+                          <tr key={r.id}>
+                            <td className="subs-td-name">{r.first_name ?? <span className="subs-none">—</span>}</td>
+                            <td className="subs-td-email">{r.email}</td>
+                            <td><span className={`prem-badge ${cls}`}>{label}</span></td>
+                            <td><span className="prem-tier">{r.subscription_tier ?? '—'}</span></td>
+                            <td className="subs-td-email" style={{ fontSize: '11px', color: '#6b7280' }}>
+                              {r.stripe_customer_id
+                                ? <a href={`https://dashboard.stripe.com/customers/${r.stripe_customer_id}`} target="_blank" rel="noreferrer" style={{ color: '#635bff', textDecoration: 'none' }}>{r.stripe_customer_id}</a>
+                                : <span className="subs-none">—</span>}
+                            </td>
+                            <td className="subs-td-date" style={{ fontSize: '11px', color: '#f59e0b' }}>
+                              {r.grace_period_ends_at ? formatDate(r.grace_period_ends_at) : <span className="subs-none">—</span>}
+                            </td>
+                            <td className="subs-td-date">{formatDate(r.created_at)}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </>
+          );
+        })()}
+
       </div>
     </div>
   );
