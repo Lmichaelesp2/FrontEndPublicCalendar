@@ -3213,8 +3213,8 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 /* Footer Submit Event CTA */
 .footer-submit-cta{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:1.25rem;flex-wrap:wrap}
-.footer-submit-btn{display:inline-block;background:#fff;color:#1a1a1a;font-size:.82rem;font-weight:700;padding:.5rem 1.25rem;border-radius:6px;text-decoration:none;letter-spacing:.02em;transition:background .15s,color .15s}
-.footer-submit-btn:hover{background:var(--color-primary);color:#fff}
+.footer-submit-btn{display:inline-block;background:#fff;color:#1a1a1a!important;font-size:.82rem;font-weight:700;padding:.5rem 1.25rem;border-radius:6px;text-decoration:none!important;letter-spacing:.02em;transition:background .15s,color .15s}
+.footer-submit-btn:hover{background:var(--color-primary)!important;color:#fff!important}
 .footer-submit-note{font-size:.72rem;color:rgba(255,255,255,.55);letter-spacing:.02em}
 
 /* ── RightRoomMethodSection (homepage) ─────────────────── */
