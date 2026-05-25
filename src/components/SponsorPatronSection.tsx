@@ -33,7 +33,7 @@ function ActiveSponsorSection({ city, category, sponsor }: { city: string; categ
   return (
     <div className="sp-wrap">
       <div className="sp-card">
-        <div className="sp-partner-label">Calendar Partner</div>
+        <div className="sp-partner-label">Made possible by</div>
         <div className="sp-grid">
           <div className="sp-logo-box">
             {sponsor.logo_url ? (
@@ -115,7 +115,7 @@ function HeroSponsorCard({ city, category, sponsor }: { city: string; category?:
 
   return (
     <div className="sp-hero-card">
-      <div className="sp-hero-label">Presented by</div>
+      <div className="sp-hero-label">Made possible by</div>
       <div className="sp-hero-logo-wrap">
         {sponsor.logo_url ? (
           <Image src={sponsor.logo_url} alt={`${sponsor.name} logo`} width={100} height={60} style={{ objectFit: 'contain', maxWidth: '100%' }} />
