@@ -71,9 +71,6 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
           <Link href={`/texas/${citySlug}/real-estate`} className="industry-calendar-button">
             {cityName} Real Estate Events
           </Link>
-          <Link href={`/texas/${citySlug}/networking`} className="industry-calendar-button">
-            {cityName} Networking Events
-          </Link>
           <Link href={`/texas/${citySlug}/chamber`} className="industry-calendar-button">
             {cityName} Chamber Events
           </Link>

@@ -256,7 +256,6 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
             { label: "Technology Events", href: "/texas/houston/technology" },
             { label: "Real Estate Events", href: "/texas/houston/real-estate" },
             { label: "Chamber Events", href: "/texas/houston/chamber" },
-            { label: "Networking Events", href: "/texas/houston/networking" }
           ]
         }}
       />

@@ -79,7 +79,6 @@ const ORGS = [
 ];
 
 const CATEGORY_LINKS = [
-  { label: 'Networking Events', href: '/texas/dallas/networking', icon: <Users size={20} /> },
   { label: 'Chamber Events', href: '/texas/dallas/chamber', icon: <Landmark size={20} /> },
   { label: 'Technology Events', href: '/texas/dallas/technology', icon: <Monitor size={20} /> },
   { label: 'Real Estate Events', href: '/texas/dallas/real-estate', icon: <Home size={20} /> },

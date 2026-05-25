@@ -245,7 +245,6 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
             { label: "Real Estate Events", href: "/texas/austin/real-estate" },
             { label: "Chamber Events", href: "/texas/austin/chamber" },
             { label: "Small Business Events", href: "/texas/austin/small-business" },
-            { label: "Networking Events", href: "/texas/austin/networking" }
           ]
         }}
       />

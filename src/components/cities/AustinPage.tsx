@@ -80,7 +80,6 @@ const ORGS = [
 ];
 
 const CATEGORY_LINKS = [
-  { label: 'Networking Events', href: '/texas/austin/networking', icon: <Users size={20} /> },
   { label: 'Chamber Events', href: '/texas/austin/chamber', icon: <Landmark size={20} /> },
   { label: 'Technology Events', href: '/texas/austin/technology', icon: <Monitor size={20} /> },
   { label: 'Real Estate Events', href: '/texas/austin/real-estate', icon: <Home size={20} /> },

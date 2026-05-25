@@ -245,7 +245,6 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
             { label: "Technology Events", href: "/texas/dallas/technology" },
             { label: "Real Estate Events", href: "/texas/dallas/real-estate" },
             { label: "Small Business Events", href: "/texas/dallas/small-business" },
-            { label: "Networking Events", href: "/texas/dallas/networking" }
           ]
         }}
       />

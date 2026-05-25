@@ -256,7 +256,6 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
             { label: "Technology Events", href: "/texas/san-antonio/technology" },
             { label: "Real Estate Events", href: "/texas/san-antonio/real-estate" },
             { label: "Chamber Events", href: "/texas/san-antonio/chamber" },
-            { label: "Networking Events", href: "/texas/san-antonio/networking" }
           ]
         }}
       />
