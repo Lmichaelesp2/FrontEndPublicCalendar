@@ -31,7 +31,8 @@ function SponsorStrip({ sponsor }: { sponsor: SponsorInfo }) {
   const ctaLabel = sponsor.cta_label ?? 'Learn more →';
 
   return (
-    <div className="sp-section">
+    <div className="sp-outer">
+      <div className="sp-outer-inner">
       <div className="sp-strip">
         <div className="sp-strip-bar">
           <div className="sp-strip-bar-line" />
@@ -66,13 +67,15 @@ function SponsorStrip({ sponsor }: { sponsor: SponsorInfo }) {
           <Link href="/sponsor">about our sponsorships</Link>
         </div>
       </div>
+      </div>
     </div>
   );
 }
 
 function SponsorStripVacant({ city, category }: { city: string; category?: string }) {
   return (
-    <div className="sp-section">
+    <div className="sp-outer">
+      <div className="sp-outer-inner">
       <div className="sp-strip sp-strip--vacant">
         <div className="sp-strip-bar sp-strip-bar--vacant">
           <div className="sp-strip-bar-line" />
@@ -97,6 +100,7 @@ function SponsorStripVacant({ city, category }: { city: string; category?: strin
         <div className="sp-strip-fine">
           <Link href="/sponsor">about our sponsorships</Link>
         </div>
+      </div>
       </div>
     </div>
   );
@@ -130,7 +134,8 @@ function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo 
   }
 
   return (
-    <div className="sp-section">
+    <div className="sp-outer">
+      <div className="sp-outer-inner">
       <div className="sp-grid-wrap">
         <div className="sp-grid-bar">
           <div className="sp-grid-bar-line" />
@@ -191,6 +196,7 @@ function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo 
           <span className="sp-grid-footer-note">Each sponsor supports a specific calendar category</span>
           <Link href="/sponsor" className="sp-grid-footer-link">About our sponsorships →</Link>
         </div>
+      </div>
       </div>
     </div>
   );

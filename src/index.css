@@ -1592,8 +1592,11 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 @media(max-width:640px){.se-hero{padding:2.5rem 1.25rem 2.5rem}.se-hero h1{font-size:1.75rem}.se-hero-left{align-items:flex-start}.se-cta-group{flex-direction:column;align-items:stretch}.se-cta-group a,.se-cta-group button{text-align:center;justify-content:center}}
 
 /* ── Sponsor outer section wrapper (constrains width like other sections) ── */
-.sp-section{
-  padding:.75rem 2rem;
+.sp-outer{
+  background:var(--color-paper);
+  padding:.75rem 2rem 1.25rem;
+}
+.sp-outer-inner{
   max-width:var(--container-nav);
   margin:0 auto;
 }
