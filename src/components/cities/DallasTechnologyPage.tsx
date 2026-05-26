@@ -139,11 +139,10 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
-          <div className="se-hero-right">
-            <SponsorPatronSection city="Dallas" citySlug="dallas" category="Technology" categorySlug="technology" variant="hero" />
-          </div>
         </div>
       </section>
+      <SponsorPatronSection city="Dallas" citySlug="dallas" category="Technology" categorySlug="technology" variant="hero" />
+
 
       <EventNetworkingMethodSection city="Dallas" category="Technology" />
 

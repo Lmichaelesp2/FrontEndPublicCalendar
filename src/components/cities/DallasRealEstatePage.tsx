@@ -139,11 +139,10 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
-          <div className="se-hero-right">
-            <SponsorPatronSection city="Dallas" citySlug="dallas" category="Real Estate" categorySlug="real-estate" variant="hero" />
-          </div>
         </div>
       </section>
+      <SponsorPatronSection city="Dallas" citySlug="dallas" category="Real Estate" categorySlug="real-estate" variant="hero" />
+
 
       <EventNetworkingMethodSection city="Dallas" category="Real Estate" />
 

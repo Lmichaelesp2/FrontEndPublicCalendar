@@ -21,132 +21,186 @@ interface SponsorInfo {
   logo_url?: string | null;
   url?: string | null;
   cta_label?: string | null;
+  category_slug?: string | null;
 }
 
-// ─── Full-width active sponsor card ──────────────────────────────────────────
+// ─── Sub-calendar: horizontal strip below hero ────────────────────────────────
 
-function ActiveSponsorSection({ city, category, sponsor }: { city: string; category?: string; sponsor: SponsorInfo }) {
+function SponsorStrip({ sponsor }: { sponsor: SponsorInfo }) {
   const initials = sponsor.name.split(' ').slice(0, 2).map(w => w[0]).join('');
-  const ctaLabel = sponsor.cta_label ?? `Visit ${sponsor.name} →`;
-  const calLabel = category ? `${city} ${category} Calendar` : `${city} Business Calendar`;
+  const ctaLabel = sponsor.cta_label ?? 'Learn more →';
 
   return (
-    <div className="sp-wrap">
-      <div className="sp-card">
-        <div className="sp-partner-label">Made possible by</div>
-        <div className="sp-grid">
-          <div className="sp-logo-box">
+    <div className="sp-strip">
+      <div className="sp-strip-bar">
+        <div className="sp-strip-bar-line" />
+        <span className="sp-strip-bar-text">This calendar is made possible by</span>
+        <div className="sp-strip-bar-line" />
+      </div>
+      <div className="sp-strip-body">
+        <div className="sp-strip-logo-panel">
+          <div className="sp-strip-logo-box">
             {sponsor.logo_url ? (
-              <Image src={sponsor.logo_url} alt={`${sponsor.name} logo`} width={120} height={80} style={{ objectFit: 'contain', maxWidth: '100%' }} />
+              <Image src={sponsor.logo_url} alt={`${sponsor.name} logo`} width={84} height={60} style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} />
             ) : (
-              <span className="sp-logo-initials">{initials}</span>
+              <span className="sp-strip-initials">{initials}</span>
             )}
           </div>
-          <div className="sp-copy">
-            <h2 className="sp-name">
+        </div>
+        <div className="sp-strip-content">
+          <div className="sp-strip-copy">
+            <div className="sp-strip-name">
               {sponsor.url ? (
-                <a href={sponsor.url} target={sponsor.url.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="sp-name-link">
-                  {sponsor.name}
-                </a>
+                <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="sp-strip-name-link">{sponsor.name}</a>
               ) : sponsor.name}
-            </h2>
-            <p className="sp-lead">
-              {sponsor.tagline || `Supporting the free ${calLabel} for Texas professionals.`}
-            </p>
-            {sponsor.quote && (
-              <p className="sp-quote">
-                &ldquo;{sponsor.quote}&rdquo;
-                {sponsor.quote_by && <span className="sp-quote-by"> — {sponsor.quote_by}</span>}
-              </p>
-            )}
-            <div className="sp-actions">
-              {sponsor.url && (
-                <a href={sponsor.url} target={sponsor.url.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="sp-btn-primary">
-                  {ctaLabel}
-                </a>
-              )}
-              <Link href="/sponsor" className="sp-btn-secondary">Sponsor This Calendar</Link>
             </div>
+            <p className="sp-strip-tagline">{sponsor.tagline}</p>
           </div>
+          {sponsor.url && (
+            <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="sp-strip-btn">{ctaLabel}</a>
+          )}
         </div>
-        <p className="sp-fine">
-          Sponsored content — <Link href="/sponsor" className="sp-fine-link">about our sponsorships</Link>
-        </p>
+      </div>
+      <div className="sp-strip-fine">
+        <Link href="/sponsor">about our sponsorships</Link>
       </div>
     </div>
   );
 }
 
-// ─── Full-width vacant card ───────────────────────────────────────────────────
-
-function VacantSponsorSection({ city, category }: { city: string; category?: string }) {
+function SponsorStripVacant({ city, category }: { city: string; category?: string }) {
   const calLabel = category ? `${city} ${category} Calendar` : `${city} Business Calendar`;
-
   return (
-    <div className="sp-wrap">
-      <div className="sp-card sp-card--vacant">
-        <div className="sp-partner-label sp-partner-label--vacant">Open Sponsorship</div>
-        <div className="sp-vacant-inner">
-          <div className="sp-logo-box sp-logo-box--vacant">
-            <span className="sp-vacant-icon">🏢</span>
-            <span className="sp-vacant-text">Your Brand Here</span>
-          </div>
-          <div className="sp-copy">
-            <h2 className="sp-name sp-name--vacant">Become the founding patron of the {calLabel}.</h2>
-            <p className="sp-lead">
-              This free resource reaches {city} business professionals every week. Sponsor this calendar and your brand appears above every event listing and in the weekly newsletter.
-            </p>
-            <div className="sp-actions">
-              <Link href="/sponsor" className="sp-btn-primary">Become the Founding Patron →</Link>
-              <Link href="/sponsor" className="sp-btn-secondary">Learn about sponsorship</Link>
-            </div>
+    <div className="sp-strip sp-strip--vacant">
+      <div className="sp-strip-bar sp-strip-bar--vacant">
+        <div className="sp-strip-bar-line" />
+        <span className="sp-strip-bar-text">Sponsor this calendar</span>
+        <div className="sp-strip-bar-line" />
+      </div>
+      <div className="sp-strip-body">
+        <div className="sp-strip-logo-panel">
+          <div className="sp-strip-logo-box sp-strip-logo-box--vacant">
+            <span className="sp-strip-vacant-icon">🏢</span>
+            <span className="sp-strip-vacant-text">Your Logo</span>
           </div>
         </div>
+        <div className="sp-strip-content">
+          <div className="sp-strip-copy">
+            <div className="sp-strip-name sp-strip-name--vacant">Become the founding patron</div>
+            <p className="sp-strip-tagline">Your brand reaches {city} business professionals every week — above every event listing and in the weekly newsletter.</p>
+          </div>
+          <Link href="/sponsor" className="sp-strip-btn sp-strip-btn--vacant">Learn about sponsorship →</Link>
+        </div>
+      </div>
+      <div className="sp-strip-fine">
+        <Link href="/sponsor">about our sponsorships</Link>
       </div>
     </div>
   );
 }
 
-// ─── Hero variant — compact right-column card ─────────────────────────────────
+// ─── City page: 4-card sponsor grid ──────────────────────────────────────────
 
-function HeroSponsorCard({ city, category, sponsor }: { city: string; category?: string; sponsor: SponsorInfo }) {
-  const initials = sponsor.name.split(' ').slice(0, 2).map(w => w[0]).join('');
-  const ctaLabel = sponsor.cta_label ?? `Visit ${sponsor.name} →`;
+const CATEGORY_SLUGS = ['networking', 'chamber', 'technology', 'real-estate', 'small-business'];
+const CATEGORY_LABELS: Record<string, string> = {
+  'networking': 'Networking',
+  'chamber': 'Chamber',
+  'technology': 'Technology',
+  'real-estate': 'Real Estate',
+  'small-business': 'Small Business',
+};
+
+function SponsorGrid({ city, citySlug, sponsors }: { city: string; citySlug: string; sponsors: (SponsorInfo | null)[] }) {
+  const filled = sponsors.filter(Boolean);
+  if (filled.length === 0) return <VacantSponsorSection city={city} />;
 
   return (
-    <div className="sp-hero-card">
-      <div className="sp-hero-label">Made possible by</div>
-      <div className="sp-hero-logo-wrap">
-        {sponsor.logo_url ? (
-          <Image src={sponsor.logo_url} alt={`${sponsor.name} logo`} width={260} height={110} style={{ objectFit: 'contain', width: '100%', height: '100%', objectPosition: 'center top' }} />
-        ) : (
-          <span className="sp-hero-initials">{initials}</span>
-        )}
+    <div className="sp-grid-wrap">
+      <div className="sp-grid-bar">
+        <div className="sp-grid-bar-line" />
+        <span className="sp-grid-bar-text">This calendar is made possible by</span>
+        <div className="sp-grid-bar-line" />
       </div>
-      <div className="sp-hero-name">
-        {sponsor.url ? (
-          <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="sp-hero-name-link">{sponsor.name}</a>
-        ) : sponsor.name}
+      <div className="sp-grid-cards">
+        {sponsors.map((sponsor, i) => {
+          const slug = CATEGORY_SLUGS[i];
+          const label = CATEGORY_LABELS[slug] ?? slug;
+          if (!sponsor) {
+            return (
+              <Link key={slug} href="/sponsor" className="sp-grid-card sp-grid-card--vacant">
+                <div className="sp-grid-card-top" />
+                <div className="sp-grid-card-body">
+                  <div className="sp-grid-logo sp-grid-logo--vacant">
+                    <span className="sp-grid-vacant-text">Your logo here</span>
+                  </div>
+                  <span className="sp-grid-label">{label}</span>
+                  <span className="sp-grid-name sp-grid-name--vacant">Open sponsorship</span>
+                  <span className="sp-grid-tagline">Be the founding patron of the {city} {label} Calendar.</span>
+                  <span className="sp-grid-cta">Become a sponsor →</span>
+                </div>
+              </Link>
+            );
+          }
+          const initials = sponsor.name.split(' ').slice(0, 2).map(w => w[0]).join('');
+          const ctaLabel = sponsor.cta_label ?? 'Learn more →';
+          return (
+            <div key={slug} className="sp-grid-card">
+              <div className="sp-grid-card-top" />
+              <div className="sp-grid-card-body">
+                <div className="sp-grid-logo">
+                  {sponsor.logo_url ? (
+                    <Image src={sponsor.logo_url} alt={`${sponsor.name} logo`} width={120} height={48} style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }} />
+                  ) : (
+                    <span className="sp-grid-initials">{initials}</span>
+                  )}
+                </div>
+                <span className="sp-grid-label">{label}</span>
+                <span className="sp-grid-name">{sponsor.name}</span>
+                <span className="sp-grid-tagline">{sponsor.tagline}</span>
+                {sponsor.url && (
+                  <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="sp-grid-cta">{ctaLabel}</a>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
-      {sponsor.tagline && <p className="sp-hero-tagline">{sponsor.tagline}</p>}
-      {sponsor.url && (
-        <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="sp-hero-cta">{ctaLabel}</a>
-      )}
-      <Link href="/sponsor" className="sp-hero-fine">about our sponsorships</Link>
+      <div className="sp-grid-footer">
+        <span className="sp-grid-footer-note">Each sponsor supports a specific calendar category</span>
+        <Link href="/sponsor" className="sp-grid-footer-link">About our sponsorships →</Link>
+      </div>
     </div>
   );
 }
 
-function HeroVacantCard({ city, category }: { city: string; category?: string }) {
+// ─── Full-width vacant (city page, no sponsors at all) ────────────────────────
+
+function VacantSponsorSection({ city }: { city: string }) {
   return (
-    <div className="sp-hero-card sp-hero-card--vacant">
-      <div className="sp-hero-label sp-hero-label--vacant">Calendar Sponsor</div>
-      <div className="sp-hero-logo-wrap sp-hero-logo-wrap--vacant">
-        <span className="sp-hero-vacant-icon">🏢</span>
-        <span className="sp-hero-vacant-text">Your Brand Here</span>
+    <div className="sp-strip sp-strip--vacant">
+      <div className="sp-strip-bar sp-strip-bar--vacant">
+        <div className="sp-strip-bar-line" />
+        <span className="sp-strip-bar-text">Sponsor this calendar</span>
+        <div className="sp-strip-bar-line" />
       </div>
-      <p className="sp-hero-tagline">Be the founding patron of this calendar. Your brand reaches {city} professionals every week.</p>
-      <Link href="/sponsor" className="sp-hero-cta sp-hero-cta--vacant">Become the Founding Patron →</Link>
+      <div className="sp-strip-body">
+        <div className="sp-strip-logo-panel">
+          <div className="sp-strip-logo-box sp-strip-logo-box--vacant">
+            <span className="sp-strip-vacant-icon">🏢</span>
+            <span className="sp-strip-vacant-text">Your Logo</span>
+          </div>
+        </div>
+        <div className="sp-strip-content">
+          <div className="sp-strip-copy">
+            <div className="sp-strip-name sp-strip-name--vacant">Become the founding patron</div>
+            <p className="sp-strip-tagline">Your brand reaches {city} business professionals every week — above every event listing and in the weekly newsletter.</p>
+          </div>
+          <Link href="/sponsor" className="sp-strip-btn sp-strip-btn--vacant">Learn about sponsorship →</Link>
+        </div>
+      </div>
+      <div className="sp-strip-fine">
+        <Link href="/sponsor">about our sponsorships</Link>
+      </div>
     </div>
   );
 }
@@ -155,32 +209,50 @@ function HeroVacantCard({ city, category }: { city: string; category?: string })
 
 export function SponsorPatronSection({ city, citySlug, category, categorySlug, variant = 'default' }: Props) {
   const [sponsor, setSponsor] = useState<SponsorInfo | null | undefined>(undefined);
+  const [citySponsors, setCitySponsors] = useState<(SponsorInfo | null)[] | undefined>(undefined);
 
   useEffect(() => {
-    async function fetchSponsor() {
-      const query = supabase
-        .from('sponsors')
-        .select('name, tagline, quote, quote_by, logo_url, url, cta_label')
-        .eq('city_slug', citySlug)
-        .eq('active', true);
+    if (variant === 'hero') {
+      // Sub-calendar: fetch single sponsor for this category
+      async function fetchSingle() {
+        const query = supabase
+          .from('sponsors')
+          .select('name, tagline, quote, quote_by, logo_url, url, cta_label, category_slug')
+          .eq('city_slug', citySlug)
+          .eq('active', true);
+        const finalQuery = categorySlug
+          ? query.eq('category_slug', categorySlug)
+          : query.is('category_slug', null);
+        const { data } = await finalQuery.maybeSingle();
+        setSponsor(data ?? null);
+      }
+      fetchSingle();
+    } else {
+      // City page: fetch all category sponsors for this city
+      async function fetchAll() {
+        const { data } = await supabase
+          .from('sponsors')
+          .select('name, tagline, quote, quote_by, logo_url, url, cta_label, category_slug')
+          .eq('city_slug', citySlug)
+          .eq('active', true)
+          .in('category_slug', CATEGORY_SLUGS);
 
-      const finalQuery = categorySlug
-        ? query.eq('category_slug', categorySlug)
-        : query.is('category_slug', null);
-
-      const { data } = await finalQuery.maybeSingle();
-      setSponsor(data ?? null);
+        // Build ordered array matching CATEGORY_SLUGS order
+        const map = Object.fromEntries((data ?? []).map(s => [s.category_slug, s]));
+        setCitySponsors(CATEGORY_SLUGS.map(slug => map[slug] ?? null));
+      }
+      fetchAll();
     }
-    fetchSponsor();
-  }, [citySlug, categorySlug]);
+  }, [citySlug, categorySlug, variant]);
 
-  if (sponsor === undefined) return null;
-
+  // Sub-calendar strip (variant="hero")
   if (variant === 'hero') {
-    if (sponsor) return <HeroSponsorCard city={city} category={category} sponsor={sponsor} />;
-    return <HeroVacantCard city={city} category={category} />;
+    if (sponsor === undefined) return null;
+    if (sponsor) return <SponsorStrip sponsor={sponsor} />;
+    return <SponsorStripVacant city={city} category={category} />;
   }
 
-  if (sponsor) return <ActiveSponsorSection city={city} category={category} sponsor={sponsor} />;
-  return <VacantSponsorSection city={city} category={category} />;
+  // City page grid (variant="default")
+  if (citySponsors === undefined) return null;
+  return <SponsorGrid city={city} citySlug={citySlug} sponsors={citySponsors} />;
 }

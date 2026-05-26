@@ -1591,77 +1591,155 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 @media(max-width:640px){.se-hero{padding:2.5rem 1.25rem 2.5rem}.se-hero h1{font-size:1.75rem}.se-hero-left{align-items:flex-start}.se-cta-group{flex-direction:column;align-items:stretch}.se-cta-group a,.se-cta-group button{text-align:center;justify-content:center}}
 
-/* ── Hero sponsor card ───────────────────────────────────────────── */
-.sp-hero-card{
-  background: #ffffff;
-  border: 1px solid #e7e2d8;
-  border-radius: 16px;
-  padding: 1.5rem 1.25rem 1.25rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(23,23,23,.07);
-  display: flex;
-  flex-direction: column;
-  gap: .75rem;
-}
-.sp-hero-card::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:4px;
-  background:linear-gradient(90deg,#6f4b1f,#9a6a2f,#c9a84c);
-  border-radius:16px 16px 0 0;
-}
-.sp-hero-card--vacant::before{ background:#e7e2d8; }
-.sp-hero-label{
-  font-size:.65rem;
-  font-weight:800;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:#6f4b1f;
-  background:#f4efe6;
-  border:1px solid #d8d0c2;
-  border-radius:999px;
-  padding:3px 10px;
-  display:inline-block;
-  width:fit-content;
-}
-.sp-hero-label--vacant{ color:#71717a;background:#f5f5f4;border-color:#e7e2d8; }
-.sp-hero-logo-wrap{
-  background:#fbfaf7;
-  border:1px solid #e7e2d8;
+/* ── Sponsor Strip (sub-calendar pages) ─────────────────────────────────────── */
+.sp-strip{
+  background:#fff;
   border-radius:10px;
-  height:120px;
+  border:1px solid #e0e0e0;
+  overflow:hidden;
+}
+.sp-strip-bar{
+  background:#1652f0;
+  padding:.45rem 1.25rem;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.sp-strip-bar--vacant{ background:#71717a; }
+.sp-strip-bar-line{ flex:1;height:1px;background:rgba(255,255,255,.25); }
+.sp-strip-bar-text{ font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;white-space:nowrap; }
+.sp-strip-body{ display:flex;align-items:stretch; }
+.sp-strip-logo-panel{
+  background:#f8f8f8;
+  border-right:1px solid #eee;
+  padding:1rem;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:.5rem;
+  flex-shrink:0;
+  width:110px;
+}
+.sp-strip-logo-box{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:8px;
+  width:80px;height:56px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding:.25rem;
+}
+.sp-strip-logo-box--vacant{ border-style:dashed;border-color:#d8d0c2;flex-direction:column;gap:.2rem; }
+.sp-strip-initials{ font-size:1.25rem;font-weight:800;color:#1652f0;letter-spacing:-.02em; }
+.sp-strip-vacant-icon{ font-size:1.1rem; }
+.sp-strip-vacant-text{ font-size:.55rem;font-weight:700;color:#a1a1aa;letter-spacing:.06em;text-transform:uppercase; }
+.sp-strip-content{
+  flex:1;
+  padding:1rem 1.25rem;
+  display:flex;
+  align-items:center;
+  gap:1.25rem;
+}
+.sp-strip-copy{ flex:1; }
+.sp-strip-name{ font-size:1rem;font-weight:800;color:#111;line-height:1.2;margin-bottom:.25rem; }
+.sp-strip-name--vacant{ color:#3f3f46; }
+.sp-strip-name-link{ color:inherit;text-decoration:none; }
+.sp-strip-name-link:hover{ color:#1652f0; }
+.sp-strip-tagline{ font-size:.8rem;color:#555;line-height:1.6;margin:0; }
+.sp-strip-btn{
+  display:inline-flex;
+  align-items:center;
+  background:#fff;
+  color:#111;
+  border:1.5px solid #111;
+  border-radius:7px;
+  padding:.55rem 1rem;
+  font-size:.75rem;
+  font-weight:700;
+  text-decoration:none;
+  white-space:nowrap;
+  flex-shrink:0;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.sp-strip-btn:hover{ background:#f0f0f0;color:#444;border-color:#999; }
+.sp-strip-btn--vacant{ color:#71717a;border-color:#71717a; }
+.sp-strip-btn--vacant:hover{ background:#f5f5f4;color:#52525b; }
+.sp-strip-fine{ font-size:.65rem;color:#bbb;text-align:right;padding:.4rem 1.25rem .6rem; }
+.sp-strip-fine a{ color:#bbb;text-decoration:underline; }
+@media(max-width:640px){
+  .sp-strip-body{ flex-direction:column; }
+  .sp-strip-logo-panel{ width:100%;border-right:none;border-bottom:1px solid #eee;padding:.75rem; }
+  .sp-strip-content{ flex-direction:column;align-items:flex-start;gap:.75rem; }
+  .sp-strip-btn{ width:100%;justify-content:center; }
+}
+
+/* ── Sponsor Grid (city pages) ───────────────────────────────────────────────── */
+.sp-grid-wrap{
+  background:#fff;
+  border-radius:10px;
+  border:1px solid #e0e0e0;
   overflow:hidden;
 }
-.sp-hero-logo-wrap--vacant{ border-style:dashed;border-color:#d8d0c2;flex-direction:column;gap:.25rem; }
-.sp-hero-initials{ font-size:1.5rem;font-weight:800;color:#9a6a2f;letter-spacing:-.02em; }
-.sp-hero-vacant-icon{ font-size:1.4rem; }
-.sp-hero-vacant-text{ font-size:.68rem;font-weight:700;color:#a1a1aa;letter-spacing:.06em;text-transform:uppercase; }
-.sp-hero-name{ font-size:1rem;font-weight:700;color:#171717;line-height:1.2; }
-.sp-hero-name-link{ color:inherit;text-decoration:none; }
-.sp-hero-name-link:hover{ color:#9a6a2f; }
-.sp-hero-tagline{ font-size:.82rem;color:#52525b;line-height:1.55;margin:0; }
-.sp-hero-cta{
-  display:inline-block;
-  background:#171717;
-  color:#fff;
-  font-size:.78rem;
-  font-weight:700;
-  padding:.5rem 1rem;
-  border-radius:999px;
+.sp-grid-bar{
+  background:#1652f0;
+  padding:.45rem 1.25rem;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.sp-grid-bar-line{ flex:1;height:1px;background:rgba(255,255,255,.25); }
+.sp-grid-bar-text{ font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;white-space:nowrap; }
+.sp-grid-cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:#eee;
+  border-top:1px solid #eee;
+}
+.sp-grid-card{
+  background:#fff;
+  display:flex;
+  flex-direction:column;
   text-decoration:none;
-  text-align:center;
   transition:background .15s;
 }
-.sp-hero-cta:hover{ background:#3f3f46;color:#fff; }
-.sp-hero-cta--vacant{ background:#9a6a2f; }
-.sp-hero-cta--vacant:hover{ background:#6f4b1f; }
-.sp-hero-fine{ font-size:.67rem;color:#a1a1aa;text-decoration:underline;text-align:center; }
+.sp-grid-card--vacant{ cursor:pointer; }
+.sp-grid-card--vacant:hover{ background:#fafafa; }
+.sp-grid-card-top{ height:3px;background:#1652f0; }
+.sp-grid-card-body{
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.4rem;
+  flex:1;
+}
+.sp-grid-logo{
+  background:#f5f5f5;
+  border:1px solid #eee;
+  border-radius:7px;
+  height:52px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:.35rem;
+  overflow:hidden;padding:.25rem;
+}
+.sp-grid-logo--vacant{ border-style:dashed;border-color:#d8d0c2; }
+.sp-grid-initials{ font-size:1rem;font-weight:800;color:#1652f0; }
+.sp-grid-vacant-text{ font-size:.6rem;font-weight:700;color:#a1a1aa;letter-spacing:.05em;text-transform:uppercase; }
+.sp-grid-label{ font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1652f0; }
+.sp-grid-name{ font-size:.9rem;font-weight:800;color:#111;line-height:1.2; }
+.sp-grid-name--vacant{ color:#71717a; }
+.sp-grid-tagline{ font-size:.75rem;color:#666;line-height:1.55;flex:1; }
+.sp-grid-cta{ font-size:.75rem;font-weight:700;color:#1652f0;margin-top:.25rem; }
+.sp-grid-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:.75rem 1.25rem;
+  border-top:1px solid #f0f0f0;
+}
+.sp-grid-footer-note{ font-size:.7rem;color:#aaa; }
+.sp-grid-footer-link{ font-size:.7rem;font-weight:700;color:#1652f0;text-decoration:none; }
+.sp-grid-footer-link:hover{ text-decoration:underline; }
+@media(max-width:780px){ .sp-grid-cards{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:480px){ .sp-grid-cards{ grid-template-columns:1fr; } }
 
 /* SUBMIT EVENT PAGE */
 .se-page{min-height:100vh;background:var(--white)}

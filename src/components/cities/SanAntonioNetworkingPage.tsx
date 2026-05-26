@@ -139,11 +139,10 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
-          <div className="se-hero-right">
-            <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Networking" categorySlug="networking" variant="hero" />
-          </div>
         </div>
       </section>
+      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Networking" categorySlug="networking" variant="hero" />
+
 
       <EventNetworkingMethodSection city="San Antonio" category="Networking" />
 

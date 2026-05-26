@@ -150,11 +150,10 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
-          <div className="se-hero-right">
-            <SponsorPatronSection city="Houston" citySlug="houston" category="Small Business" categorySlug="small-business" variant="hero" />
-          </div>
         </div>
       </section>
+      <SponsorPatronSection city="Houston" citySlug="houston" category="Small Business" categorySlug="small-business" variant="hero" />
+
 
       <EventNetworkingMethodSection city="Houston" category="Small Business" />
 

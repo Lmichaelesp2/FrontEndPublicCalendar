@@ -150,11 +150,10 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
           <p className="hero-trust">Free forever&nbsp;&middot;&nbsp;No credit card</p>
         </div>
-          <div className="se-hero-right">
-            <SponsorPatronSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" variant="hero" />
-          </div>
         </div>
       </section>
+      <SponsorPatronSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" variant="hero" />
+
 
       <EventNetworkingMethodSection city="Austin" category="Real Estate" />
 
