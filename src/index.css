@@ -1591,6 +1591,13 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 @media(max-width:640px){.se-hero{padding:2.5rem 1.25rem 2.5rem}.se-hero h1{font-size:1.75rem}.se-hero-left{align-items:flex-start}.se-cta-group{flex-direction:column;align-items:stretch}.se-cta-group a,.se-cta-group button{text-align:center;justify-content:center}}
 
+/* ── Sponsor outer section wrapper (constrains width like other sections) ── */
+.sp-section{
+  padding:.75rem 2rem;
+  max-width:var(--container-nav);
+  margin:0 auto;
+}
+
 /* ── Sponsor Strip (sub-calendar pages) ─────────────────────────────────────── */
 .sp-strip{
   background:#fff;
@@ -1687,6 +1694,8 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 .sp-grid-bar-line{ flex:1;height:1px;background:rgba(255,255,255,.25); }
 .sp-grid-bar-text{ font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;white-space:nowrap; }
+
+/* Desktop: 4-column grid */
 .sp-grid-cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -1694,6 +1703,28 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   background:#eee;
   border-top:1px solid #eee;
 }
+
+/* Mobile: horizontal scroll carousel */
+@media(max-width:700px){
+  .sp-grid-cards{
+    display:flex;
+    flex-direction:row;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    gap:0;
+    background:#eee;
+  }
+  .sp-grid-cards::-webkit-scrollbar{ display:none; }
+  .sp-grid-card{
+    min-width:72vw;
+    max-width:72vw;
+    scroll-snap-align:start;
+    flex-shrink:0;
+    border-right:1px solid #eee;
+  }
+}
+
 .sp-grid-card{
   background:#fff;
   display:flex;
@@ -1738,8 +1769,20 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .sp-grid-footer-note{ font-size:.7rem;color:#aaa; }
 .sp-grid-footer-link{ font-size:.7rem;font-weight:700;color:#1652f0;text-decoration:none; }
 .sp-grid-footer-link:hover{ text-decoration:underline; }
-@media(max-width:780px){ .sp-grid-cards{ grid-template-columns:repeat(2,1fr); } }
-@media(max-width:480px){ .sp-grid-cards{ grid-template-columns:1fr; } }
+
+/* Mobile carousel hint dots */
+.sp-grid-dots{
+  display:none;
+  justify-content:center;
+  gap:6px;
+  padding:.6rem 0 .25rem;
+}
+.sp-grid-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#ddd;transition:background .2s;
+}
+.sp-grid-dot--active{ background:#1652f0; }
+@media(max-width:700px){ .sp-grid-dots{ display:flex; } }
 
 /* SUBMIT EVENT PAGE */
 .se-page{min-height:100vh;background:var(--white)}
