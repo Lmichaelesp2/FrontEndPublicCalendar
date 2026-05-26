@@ -29,9 +29,13 @@ interface CalendarProps {
   externalSelectedDate?: string | null;
   onExternalDateClear?: () => void;
   weekMode?: boolean;
+  /** Slug of the city for sponsor lookup, e.g. 'san-antonio' */
+  citySlug?: string;
+  /** Slug of the category for sponsor lookup, e.g. 'networking' */
+  categorySlug?: string;
 }
 
-export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, showSearch, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false }: CalendarProps) {
+export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDate, showGateBanner, showSearch, onAuthClick, cityName, newsletterHeading, newsletterSubtext, subscribeHref, externalSelectedDate, onExternalDateClear, weekMode = false, citySlug, categorySlug }: CalendarProps) {
   const { user, profile, userFilters } = useAuth();
   const { startCheckout, loading: upgradeLoading } = useUpgrade();
   const networkProfile = userFilters[0]?.filter_view ?? null;
@@ -50,6 +54,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     return cap;
   })();
   const [liveEvents, setLiveEvents] = useState<Event[] | null>(null);
+  const [cardSponsor, setCardSponsor] = useState<{ name: string; logo_url?: string | null } | null>(null);
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const pickerRef = useRef<HTMLDivElement>(null);
 
@@ -77,6 +82,24 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
     }
     fetchLive();
   }, [forcedCity, groupType, dateCap, minDate, maxDate, today]);
+
+  // Fetch sponsor for card attribution
+  useEffect(() => {
+    if (!citySlug) return;
+    async function fetchCardSponsor() {
+      const query = supabase
+        .from('sponsors')
+        .select('name, logo_url')
+        .eq('city_slug', citySlug!)
+        .eq('active', true);
+      const finalQuery = categorySlug
+        ? query.eq('category_slug', categorySlug)
+        : query.is('category_slug', null);
+      const { data } = await finalQuery.maybeSingle();
+      setCardSponsor(data ?? null);
+    }
+    fetchCardSponsor();
+  }, [citySlug, categorySlug]);
 
   // Day-based navigation — starts on today
   const [selectedDate, setSelectedDate] = useState<string>(today);
@@ -698,7 +721,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
                         {dividerLabel}
                       </div>
                     )}
-                    <EventCard event={event} index={index} isLoggedIn={!!user} isPremium={isPremium} onAuthClick={triggerAuth} />
+                    <EventCard event={event} index={index} isLoggedIn={!!user} isPremium={isPremium} onAuthClick={triggerAuth} sponsorName={cardSponsor?.name} sponsorLogoUrl={cardSponsor?.logo_url} />
                   </div>
                 );
               })}

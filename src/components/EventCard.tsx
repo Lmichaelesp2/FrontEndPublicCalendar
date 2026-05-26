@@ -268,9 +268,12 @@ type EventCardProps = {
   isLoggedIn?: boolean;  // true = hide the soft email CTA (already subscribed or premium)
   isPremium?: boolean;   // true = show recommended badge and match info
   onAuthClick?: () => void;
+  /** Sponsor attribution shown in the email CTA footer */
+  sponsorName?: string | null;
+  sponsorLogoUrl?: string | null;
 };
 
-export function EventCard({ event, index, isLoggedIn = false, isPremium = false, onAuthClick }: EventCardProps) {
+export function EventCard({ event, index, isLoggedIn = false, isPremium = false, onAuthClick, sponsorName, sponsorLogoUrl }: EventCardProps) {
   const [addOpen, setAddOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
 
@@ -392,9 +395,21 @@ export function EventCard({ event, index, isLoggedIn = false, isPremium = false,
             gap: '8px',
             flexWrap: 'wrap',
           }}>
-            <span style={{ color: '#666', fontSize: '12px' }}>
-              Get these events delivered every Monday
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              {sponsorLogoUrl && (
+                <img
+                  src={sponsorLogoUrl}
+                  alt={sponsorName ?? 'Sponsor'}
+                  style={{ height: '20px', width: 'auto', objectFit: 'contain', opacity: 0.85, borderRadius: '3px' }}
+                />
+              )}
+              <span style={{ color: '#666', fontSize: '12px' }}>
+                Get these events delivered every Monday
+                {sponsorName && (
+                  <> — made possible by <strong style={{ color: '#888' }}>{sponsorName}</strong></>
+                )}
+              </span>
+            </div>
             <button
               onClick={onAuthClick}
               style={{

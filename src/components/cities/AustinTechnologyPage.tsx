@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -184,6 +185,8 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           newsletterHeading="Get Austin Technology Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's tech events in Austin, delivered to your inbox every Monday morning."
           subscribeHref="/texas/austin/technology/subscribe"
+          citySlug="austin"
+          categorySlug="technology"
         />
       </section>
 
@@ -234,6 +237,8 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="Austin" citySlug="austin" category="Technology" categorySlug="technology" />
 
       <Footer
         citySlug="austin"

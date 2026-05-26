@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
 
@@ -245,7 +246,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next San Antonio Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} />
+        <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} citySlug="san-antonio" />
       </section>
 
 
@@ -285,6 +286,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" />
 
       <Footer showIndustryCalendars={true} citySlug="san-antonio" cityName="San Antonio" />
     </div>

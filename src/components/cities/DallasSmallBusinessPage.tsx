@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -184,6 +185,8 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
           newsletterHeading="Get Dallas Small Business Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's small business events in Dallas, delivered to your inbox every Monday morning."
           subscribeHref="/texas/dallas/small-business/subscribe"
+          citySlug="dallas"
+          categorySlug="small-business"
         />
       </section>
 
@@ -234,6 +237,8 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="Dallas" citySlug="dallas" category="Small Business" categorySlug="small-business" />
 
       <Footer
         citySlug="dallas"

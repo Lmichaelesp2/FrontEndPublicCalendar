@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -195,6 +196,8 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
           newsletterHeading="Get San Antonio Small Business Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's small business events in San Antonio, delivered to your inbox every Monday morning."
           subscribeHref="/texas/san-antonio/small-business/subscribe"
+          citySlug="san-antonio"
+          categorySlug="small-business"
         />
       </section>
 
@@ -245,6 +248,8 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Small Business" categorySlug="small-business" />
 
       <Footer
         citySlug="san-antonio"

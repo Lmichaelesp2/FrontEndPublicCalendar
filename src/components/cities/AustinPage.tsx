@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
 
@@ -254,7 +255,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Find Your Next Austin Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventGate forcedCity="Austin" initialEvents={initialEvents} showMonthCalendar={true} />
+        <EventGate forcedCity="Austin" initialEvents={initialEvents} showMonthCalendar={true} citySlug="austin" />
       </section>
 
 
@@ -294,6 +295,8 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="Austin" citySlug="austin" />
 
       <Footer showIndustryCalendars={true} citySlug="austin" cityName="Austin" />
     </div>

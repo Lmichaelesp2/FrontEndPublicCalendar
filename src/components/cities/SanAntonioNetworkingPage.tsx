@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'San Antonio professionals subscribed' },
@@ -184,6 +185,8 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
           newsletterHeading="Get San Antonio Networking Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's networking events in San Antonio, delivered to your inbox every Monday morning."
           subscribeHref="/texas/san-antonio/networking/subscribe"
+          citySlug="san-antonio"
+          categorySlug="networking"
         />
       </section>
 
@@ -234,6 +237,8 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Networking" categorySlug="networking" />
 
       <Footer
         citySlug="san-antonio"

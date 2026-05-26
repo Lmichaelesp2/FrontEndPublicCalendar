@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'Austin professionals subscribed' },
@@ -184,6 +185,8 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           newsletterHeading="Get Austin Networking Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's networking events in Austin, delivered to your inbox every Monday morning."
           subscribeHref="/texas/austin/networking/subscribe"
+          citySlug="austin"
+          categorySlug="networking"
         />
       </section>
 
@@ -234,6 +237,8 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="Austin" citySlug="austin" category="Networking" categorySlug="networking" />
 
       <Footer
         citySlug="austin"

@@ -1787,6 +1787,88 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .sp-grid-dot--active{ background:#1652f0; }
 @media(max-width:700px){ .sp-grid-dots{ display:flex; } }
 
+/* ─── Sponsor Submit Section (sss-*) ──────────────────────────────────────── */
+.sss-outer{
+  background:var(--color-paper);
+  padding:2rem 2rem 2.25rem;
+  border-top:1px solid #e8e4dd;
+}
+.sss-inner{
+  max-width:var(--container-nav);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:2rem;
+  background:#fff;
+  border:1px solid #e8e4dd;
+  border-radius:10px;
+  padding:1.75rem 2rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.sss-logo-col{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.6rem;
+  min-width:88px;
+  max-width:88px;
+  flex-shrink:0;
+}
+.sss-logo-link{ display:flex;align-items:center;justify-content:center; }
+.sss-logo-box{
+  width:72px;height:56px;
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid #e0e0e0;border-radius:6px;
+  background:#fafafa;
+}
+.sss-initials{
+  font-size:1.1rem;font-weight:700;color:#1652f0;letter-spacing:-.02em;
+}
+.sss-sponsor-label{
+  font-size:.6rem;font-weight:600;color:#aaa;text-align:center;
+  text-transform:uppercase;letter-spacing:.06em;line-height:1.35;
+}
+.sss-body{ flex:1;min-width:0; }
+.sss-eyebrow{
+  font-size:.68rem;font-weight:700;color:#1652f0;
+  text-transform:uppercase;letter-spacing:.08em;
+  margin:0 0 .4rem;
+}
+.sss-heading{
+  font-size:1.1rem;font-weight:700;color:#111;
+  margin:0 0 .5rem;letter-spacing:-.02em;
+}
+.sss-copy{
+  font-size:.85rem;color:#555;line-height:1.55;margin:0 0 1rem;
+}
+.sss-btn{
+  display:inline-block;
+  background:#1652f0;color:#fff;
+  border:none;border-radius:6px;
+  font-size:.82rem;font-weight:700;
+  padding:.5rem 1.1rem;
+  text-decoration:none;
+  transition:background .15s;
+  white-space:nowrap;
+}
+.sss-btn:hover{ background:#1245d6; }
+
+@media(max-width:640px){
+  .sss-inner{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:1.25rem;
+    padding:1.25rem 1.25rem;
+  }
+  .sss-logo-col{
+    flex-direction:row;
+    align-items:center;
+    min-width:unset;max-width:unset;
+    gap:.75rem;
+  }
+  .sss-sponsor-label{ text-align:left; }
+}
+
 /* SUBMIT EVENT PAGE */
 .se-page{min-height:100vh;background:var(--white)}
 .se-hero-badge{display:inline-block;background:transparent;color:var(--color-terra);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .85rem;border-radius:3px;border:1px solid var(--color-terra);margin-bottom:1.2rem}

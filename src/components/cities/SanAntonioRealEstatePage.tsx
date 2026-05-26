@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -195,6 +196,8 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
           newsletterHeading="Get San Antonio Real Estate Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's real estate events in San Antonio, delivered to your inbox every Monday morning."
           subscribeHref="/texas/san-antonio/real-estate/subscribe"
+          citySlug="san-antonio"
+          categorySlug="real-estate"
         />
       </section>
 
@@ -245,6 +248,8 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Real Estate" categorySlug="real-estate" />
 
       <Footer
         citySlug="san-antonio"

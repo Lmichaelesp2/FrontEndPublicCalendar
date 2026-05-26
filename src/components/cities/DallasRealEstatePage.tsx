@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -184,6 +185,8 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           newsletterHeading="Get Dallas Real Estate Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's real estate events in Dallas, delivered to your inbox every Monday morning."
           subscribeHref="/texas/dallas/real-estate/subscribe"
+          citySlug="dallas"
+          categorySlug="real-estate"
         />
       </section>
 
@@ -234,6 +237,8 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="Dallas" citySlug="dallas" category="Real Estate" categorySlug="real-estate" />
 
       <Footer
         citySlug="dallas"

@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const STATS = [
   { number: '500+', label: 'Chamber members subscribed' },
@@ -195,6 +196,8 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           newsletterHeading="Get Houston Chamber Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's chamber events in Houston, delivered to your inbox every Monday morning."
           subscribeHref="/texas/houston/chamber/subscribe"
+          citySlug="houston"
+          categorySlug="chamber"
         />
       </section>
 
@@ -245,6 +248,8 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="Houston" citySlug="houston" category="Chamber" categorySlug="chamber" />
 
       <Footer
         citySlug="houston"

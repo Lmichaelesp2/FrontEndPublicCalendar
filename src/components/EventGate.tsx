@@ -15,9 +15,13 @@ interface EventGateProps {
   newsletterHeading?: string;
   newsletterSubtext?: string;
   subscribeHref?: string;
+  /** Slug of the city for sponsor lookup, e.g. 'san-antonio' */
+  citySlug?: string;
+  /** Slug of the category for sponsor lookup, e.g. 'networking' */
+  categorySlug?: string;
 }
 
-export function EventGate({ initialEvents, forcedCity, groupType, cityName, showMonthCalendar = false, weekMode = false, newsletterHeading, newsletterSubtext, subscribeHref }: EventGateProps) {
+export function EventGate({ initialEvents, forcedCity, groupType, cityName, showMonthCalendar = false, weekMode = false, newsletterHeading, newsletterSubtext, subscribeHref, citySlug, categorySlug }: EventGateProps) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const resolvedCityName = cityName ?? forcedCity;
@@ -55,6 +59,8 @@ export function EventGate({ initialEvents, forcedCity, groupType, cityName, show
         onExternalDateClear={() => setSelectedDate(null)}
         weekMode={weekMode || !!groupType}
         showSearch={!showMonthCalendar}
+        citySlug={citySlug}
+        categorySlug={categorySlug}
       />
     </>
   );

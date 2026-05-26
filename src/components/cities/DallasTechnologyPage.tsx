@@ -11,6 +11,7 @@ import { WhySection } from '../WhySection';
 import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
+import { SponsorSubmitSection } from '../SponsorSubmitSection';
 
 const STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -184,6 +185,8 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           newsletterHeading="Get Dallas Technology Events Every Monday — Free"
           newsletterSubtext="A curated digest of that week's tech events in Dallas, delivered to your inbox every Monday morning."
           subscribeHref="/texas/dallas/technology/subscribe"
+          citySlug="dallas"
+          categorySlug="technology"
         />
       </section>
 
@@ -234,6 +237,8 @@ function DallasTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
           </div>
         </div>
       </section>
+
+      <SponsorSubmitSection city="Dallas" citySlug="dallas" category="Technology" categorySlug="technology" />
 
       <Footer
         citySlug="dallas"
