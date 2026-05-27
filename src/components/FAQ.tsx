@@ -11,7 +11,7 @@ const FAQ_ITEMS = [
   {
     question: 'What cities do you cover?',
     answer:
-      'We currently cover San Antonio, Austin, Dallas, and Houston. Each city has its own dedicated calendar with local events, or you can browse all four cities from one page.',
+      'We currently cover San Antonio, Austin, Dallas, and Houston. Each city has its own dedicated calendar with local events — San Antonio, Austin, Dallas, and Houston.',
   },
   {
     question: 'Where do you find the events?',

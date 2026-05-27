@@ -74,7 +74,7 @@ Click "+ Submit an Event" in the footer, or visit the Submit page directly.`,
 
 With Event Assistant you get:
 • 30 days of upcoming events — plan a full month ahead
-• All 4 Texas cities in one view
+• Choose your city — San Antonio, Austin, Dallas, or Houston
 • Personalized event recommendations based on your goals and industry
 • Advanced filters — by city, cost, time of day, and category
 • A personalized Monday digest built specifically for you

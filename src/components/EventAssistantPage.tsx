@@ -15,8 +15,8 @@ const FEATURES = [
   },
   {
     icon: '🗺️',
-    title: 'All 4 Texas cities in one view',
-    desc: 'San Antonio, Austin, Dallas, and Houston — all in one place. Perfect if you travel or do business across Texas.',
+    title: 'San Antonio, Austin, Dallas & Houston',
+    desc: 'Choose the city that fits your schedule — each with its own dedicated calendar. Perfect if you travel or do business across Texas.',
   },
   {
     icon: '🔍',
@@ -112,7 +112,7 @@ export function EventAssistantPage() {
               <ul className="ea-compare-list">
                 {[
                   '30 days of upcoming events',
-                  'All 4 Texas cities in one view',
+                  'Choose your city — SA, Austin, Dallas, or Houston',
                   'My Recommended Events',
                   'Advanced filters — city, cost, time, category',
                   'Personalized Monday digest',
@@ -160,7 +160,7 @@ export function EventAssistantPage() {
         <div className="ea-inner ea-cta-inner">
           <h2 className="ea-cta-h2">Start finding the right events this week.</h2>
           <p className="ea-cta-sub">
-            $14.99/month. Cancel anytime. Covers all 4 Texas cities.
+            $14.99/month. Cancel anytime. Covers San Antonio, Austin, Dallas, and Houston.
           </p>
           <Link href="/upgrade" className="ea-btn-primary ea-btn-primary--large">
             Get Event Assistant →

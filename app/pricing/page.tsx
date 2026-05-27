@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const FREE_FEATURES = [
-  '14 days of events — all 4 Texas cities',
+  '14 days of upcoming events',
   'Full event details — address, organizer, description',
   'Chamber, networking, real estate & more',
   'Monday newsletter — just give us your email',
@@ -20,7 +20,7 @@ const FREE_FEATURES = [
 const PREMIUM_FEATURES = [
   '30 days of upcoming events',
   'My Recommended Events — personalized to your goals',
-  'All 4 Texas cities in one view',
+  'Choose your city — SA, Austin, Dallas, or Houston',
   'Advanced filters — city, cost, time, category',
   'Personalized Monday digest built for you',
   'AI-powered event recommendations',

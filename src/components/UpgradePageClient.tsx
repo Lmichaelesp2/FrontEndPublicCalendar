@@ -9,14 +9,14 @@ import { useUpgrade } from '../hooks/useUpgrade';
 
 const FEATURES_FREE = [
   'Current week events only',
-  'All 4 Texas cities',
+  'San Antonio, Austin, Dallas & Houston',
   'Browse by day',
 ];
 
 const FEATURES_PREMIUM = [
   '30 days of upcoming events',
   'My Recommended Events — personalized to your goals',
-  'All 4 Texas cities in one view',
+  'Choose your city — SA, Austin, Dallas, or Houston',
   'Advanced filters — city, cost, time, category',
   'Personalized weekly email digest',
   'AI-powered event recommendations',
