@@ -73,7 +73,7 @@ export default function PricingPage() {
             </ul>
 
             <Link
-              href="/texas"
+              href="/subscribe"
               style={{
                 display: 'block', textAlign: 'center',
                 background: '#111', color: '#fff',

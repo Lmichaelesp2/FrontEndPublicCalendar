@@ -154,7 +154,7 @@ export function RightRoomMethodPage() {
           <h2>Ready to put it into practice?</h2>
           <p>Use the calendar to find what's happening this week. Use the Right Room Method to decide where to show up.</p>
           <div className="rrm-cta-group">
-            <Link href="/texas" className="btn btn-gold">
+            <Link href="/subscribe" className="btn btn-gold">
               View This Week's Events →
             </Link>
             <Link href="/subscribe" className="btn btn-white">

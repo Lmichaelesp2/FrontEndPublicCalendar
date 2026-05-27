@@ -89,11 +89,11 @@ export function AboutPage() {
           <div className="about-cta-inner">
             <h2>Ready to Find Events in Your City?</h2>
             <div className="about-cta-buttons">
-              <Link href="/texas" className="about-cta-btn about-cta-btn-primary">
+              <Link href="/subscribe" className="about-cta-btn about-cta-btn-primary">
                 Browse Events by City
                 <ArrowRight size={16} />
               </Link>
-              <Link href="/texas" className="about-cta-btn about-cta-btn-secondary">
+              <Link href="/subscribe" className="about-cta-btn about-cta-btn-secondary">
                 Subscribe Free
                 <ArrowRight size={16} />
               </Link>
