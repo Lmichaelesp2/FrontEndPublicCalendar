@@ -41,31 +41,31 @@ export function AgencyPage() {
           </p>
           <div className="agency-cards">
             <div className="agency-card">
-              <div className="agency-card-icon">🎯</div>
-              <h3 className="agency-card-title">Event Strategy</h3>
+              <div className="agency-card-icon">👥</div>
+              <h3 className="agency-card-title">People</h3>
               <p className="agency-card-body">
-                We help you identify which events are actually worth your time — by city, industry, and goal. Stop attending everything. Start attending the right things.
+                Get clear on exactly who you want in your network — before you walk into any room. We help you define your ideal connection by role, organization, and the events they already attend.
               </p>
             </div>
             <div className="agency-card">
-              <div className="agency-card-icon">🤝</div>
-              <h3 className="agency-card-title">Relationship Building</h3>
+              <div className="agency-card-icon">🎙️</div>
+              <h3 className="agency-card-title">Content</h3>
               <p className="agency-card-body">
-                Attending is the easy part. We coach you on how to follow up, stay top of mind, and build genuine relationships that lead to referrals and business.
+                Turn every event you discover into content that keeps your name in front of the right people. Audio, video, text, graphics — the content you produce is the fuel that powers everything that follows.
               </p>
             </div>
             <div className="agency-card">
               <div className="agency-card-icon">📅</div>
-              <h3 className="agency-card-title">Calendar Intelligence</h3>
+              <h3 className="agency-card-title">Events</h3>
               <p className="agency-card-body">
-                Powered by Local Business Calendars — we track the Texas business event landscape so your team always knows what&apos;s happening, in every city and industry.
+                Show up in the right rooms — as an attendee, a speaker, a supporter, or a host. We identify the events your ideal connections already attend and help you show up with intention.
               </p>
             </div>
             <div className="agency-card">
-              <div className="agency-card-icon">🏢</div>
-              <h3 className="agency-card-title">Organization Partnerships</h3>
+              <div className="agency-card-icon">🔗</div>
+              <h3 className="agency-card-title">Relationships</h3>
               <p className="agency-card-body">
-                We partner with chambers, associations, and networking groups to help them grow attendance, improve member engagement, and create events worth showing up for.
+                Use event content to stay in touch with everyone you meet — consistently, not occasionally. We build the systems that keep your network warm across email, social, and your own events.
               </p>
             </div>
           </div>
