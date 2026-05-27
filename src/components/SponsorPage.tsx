@@ -78,10 +78,12 @@ export function SponsorPage() {
       {/* ── Hero ── */}
       <div className="sponsor-hero">
         <div className="sponsor-hero-inner">
-          <div className="sponsor-hero-badge">One Sponsorship · Two Properties</div>
+          <div className="sponsor-hero-badge">Founding Sponsorship</div>
           <h1>Reach Local Business Professionals Every Week</h1>
           <p>
-            A single sponsorship covers both <strong>Local Business Calendars</strong> and <strong>Local Business Organizations</strong> — in your city, in your category. Your brand reaches the same professionals across both platforms every week: the calendar they browse for events and the directory they use to find organizations.
+            Local Business Calendars delivers a free weekly newsletter to thousands of professionals
+            across Texas — people who actively attend networking events, chamber meetings, and industry
+            gatherings. A sponsorship puts your brand directly in front of that audience, every Monday morning.
           </p>
           <a href="mailto:sponsors@localbusinesscalendars.com?subject=Sponsorship Inquiry" className="sponsor-hero-cta">
             Get in Touch <ArrowRight size={16} />
@@ -89,83 +91,27 @@ export function SponsorPage() {
         </div>
       </div>
 
-      {/* ── Stats bar ── */}
+      {/* ── Who reads this ── */}
       <div className="sponsor-audience-bar">
         <div className="sponsor-audience-inner">
-          <div className="sponsor-audience-stat">
-            <span className="sponsor-stat-number">2</span>
-            <span className="sponsor-stat-label">Properties Covered</span>
-          </div>
-          <div className="sponsor-audience-divider" />
           <div className="sponsor-audience-stat">
             <span className="sponsor-stat-number">4</span>
             <span className="sponsor-stat-label">Texas Cities</span>
           </div>
           <div className="sponsor-audience-divider" />
           <div className="sponsor-audience-stat">
-            <span className="sponsor-stat-number">16</span>
-            <span className="sponsor-stat-label">Total Slots Available</span>
+            <span className="sponsor-stat-number">20+</span>
+            <span className="sponsor-stat-label">Industry-Specific Calendars</span>
+          </div>
+          <div className="sponsor-audience-divider" />
+          <div className="sponsor-audience-stat">
+            <span className="sponsor-stat-number">Weekly</span>
+            <span className="sponsor-stat-label">Newsletter Delivery</span>
           </div>
           <div className="sponsor-audience-divider" />
           <div className="sponsor-audience-stat">
             <span className="sponsor-stat-number">1</span>
-            <span className="sponsor-stat-label">Sponsor Per Slot</span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── One sponsorship two properties callout ── */}
-      <div className="sponsor-section">
-        <div className="sponsor-section-inner">
-          <div className="sponsor-section-label">How It Works</div>
-          <h2>One Sponsorship. Two Properties. One Audience.</h2>
-          <p className="sponsor-section-desc">
-            Each sponsorship slot is defined by a city and a category. The <strong>San Antonio Technology</strong> sponsor, for example, is featured on the San Antonio events calendar <em>and</em> the San Antonio technology organizations directory — giving you consistent, ongoing visibility with the exact audience you're trying to reach. You don't have to buy both separately.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '2rem' }}>
-            {[
-              { title: 'Local Business Calendars', desc: 'Featured in your city\'s weekly events newsletter and on the live calendar page under your category.' },
-              { title: 'Local Business Organizations', desc: 'Featured in your city\'s organization directory under your category — browsed by professionals researching who\'s active in the market.' },
-              { title: 'Weekly Email Newsletter', desc: 'Included in the Monday events digest sent to subscribers in your city and category.' },
-              { title: 'Consistent Placement', desc: 'No rotation — your slot is yours for the duration of your sponsorship.' },
-            ].map(({ title, desc }) => (
-              <div key={title} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '10px', padding: '1.25rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-1)', marginBottom: '0.4rem' }}>{title}</div>
-                <div style={{ fontSize: '0.825rem', color: 'var(--text-3)', lineHeight: 1.6 }}>{desc}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* City × Category grid */}
-          <div style={{ marginTop: '2.5rem' }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-3)', marginBottom: '0.75rem' }}>Available Slots — Texas</div>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.825rem' }}>
-                <thead>
-                  <tr style={{ background: 'var(--surface-2)' }}>
-                    <th style={{ textAlign: 'left', padding: '0.6rem 1rem', fontWeight: 700, color: 'var(--text-3)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: '1px solid var(--border)' }}>Category</th>
-                    {['San Antonio', 'Houston', 'Dallas', 'Austin'].map(c => (
-                      <th key={c} style={{ textAlign: 'center', padding: '0.6rem 0.75rem', fontWeight: 700, color: 'var(--text-3)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: '1px solid var(--border)' }}>{c}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {['Chamber & Networking', 'Technology', 'Real Estate', 'Small Business'].map((cat, i) => (
-                    <tr key={cat} style={{ background: i % 2 === 0 ? 'var(--surface)' : 'var(--surface-2)' }}>
-                      <td style={{ padding: '0.65rem 1rem', fontWeight: 600, color: 'var(--text-1)', borderBottom: '1px solid var(--border)' }}>{cat}</td>
-                      {['San Antonio', 'Houston', 'Dallas', 'Austin'].map(city => (
-                        <td key={city} style={{ textAlign: 'center', padding: '0.65rem 0.75rem', borderBottom: '1px solid var(--border)' }}>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#c2410c', background: '#fff7ed', padding: '2px 8px', borderRadius: '4px' }}>Open</span>
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-3)', marginTop: '0.75rem', lineHeight: 1.6 }}>
-              16 total slots across Texas. Sponsors don't rotate — you own your slot for the duration of your sponsorship. Cross-city packages available.
-            </p>
+            <span className="sponsor-stat-label">Sponsor Per Calendar</span>
           </div>
         </div>
       </div>
