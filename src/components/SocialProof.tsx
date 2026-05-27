@@ -3,7 +3,7 @@ import { Star } from 'lucide-react';
 const STATS = [
   { number: '500+', label: 'Events added monthly' },
   { number: '5,000+', label: 'Professionals subscribe' },
-  { number: '800+', label: 'Business organizations tracked' },
+  { number: '800+', label: 'Event sources monitored' },
 ];
 
 const TESTIMONIALS = [

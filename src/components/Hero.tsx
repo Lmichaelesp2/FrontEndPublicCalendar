@@ -157,7 +157,7 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
           <span className="hero-strip-divider">|</span>
           <span>NEXT NEWSLETTER: MONDAY, {nextMonday.toUpperCase()} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
-          <span>TRACKED ORGANIZATIONS: 800+</span>
+          <span>EVENT SOURCES MONITORED: 800+</span>
         </div>
       </section>
     </>

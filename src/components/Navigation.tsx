@@ -372,6 +372,14 @@ export function Navigation() {
             <nav className="nav-city-links" aria-label="Browse by city">
               <Link href="/texas" className={`nav-link${pathname === '/texas' ? ' nav-link--active' : ''}`}>Texas</Link>
               <CitiesDropdown pathname={pathname ?? '/'} />
+              <a
+                href="https://www.localbusinessorganizations.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link nav-link--organizations"
+              >
+                Organizations ↗
+              </a>
               <Link href="/pricing" className="nav-link">Pricing</Link>
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>

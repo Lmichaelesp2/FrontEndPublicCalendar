@@ -342,6 +342,17 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   background: transparent !important;
 }
 
+/* Organizations cross-link — subtle accent */
+.nav-link--organizations{
+  color: var(--color-primary) !important;
+  font-weight: 600 !important;
+}
+.nav-link--organizations:hover{
+  color: var(--color-primary) !important;
+  text-decoration: underline;
+  background: transparent !important;
+}
+
 /* Right actions */
 .nav-actions{
   display: flex;
