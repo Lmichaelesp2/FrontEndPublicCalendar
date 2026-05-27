@@ -53,7 +53,7 @@ export function EventAssistantPage() {
             <Link href="/upgrade" className="ea-btn-primary">
               Get Event Assistant — $14.99/mo →
             </Link>
-            <Link href="/texas/san-antonio" className="ea-btn-ghost">
+            <Link href="/texas" className="ea-btn-ghost">
               Browse Free Calendar
             </Link>
           </div>
@@ -101,7 +101,7 @@ export function EventAssistantPage() {
                 ))}
               </ul>
               <div className="ea-compare-price">Free</div>
-              <Link href="/texas/san-antonio" className="ea-compare-btn ea-compare-btn--free">
+              <Link href="/texas" className="ea-compare-btn ea-compare-btn--free">
                 Browse Free →
               </Link>
             </div>

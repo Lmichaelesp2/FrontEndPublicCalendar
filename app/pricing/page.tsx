@@ -73,7 +73,7 @@ export default function PricingPage() {
             </ul>
 
             <Link
-              href="/texas/san-antonio/subscribe"
+              href="/texas"
               style={{
                 display: 'block', textAlign: 'center',
                 background: '#111', color: '#fff',
