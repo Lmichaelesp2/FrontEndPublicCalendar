@@ -36,7 +36,7 @@ function SponsorStrip({ sponsor }: { sponsor: SponsorInfo }) {
       <div className="sp-strip">
         <div className="sp-strip-bar">
           <div className="sp-strip-bar-line" />
-          <span className="sp-strip-bar-text">This calendar is made possible by</span>
+          <span className="sp-strip-bar-text">This calendar is free because of our sponsor</span>
           <div className="sp-strip-bar-line" />
         </div>
         <div className="sp-strip-body">
@@ -79,7 +79,7 @@ function SponsorStripVacant({ city, category }: { city: string; category?: strin
       <div className="sp-strip sp-strip--vacant">
         <div className="sp-strip-bar sp-strip-bar--vacant">
           <div className="sp-strip-bar-line" />
-          <span className="sp-strip-bar-text">Sponsor this calendar</span>
+          <span className="sp-strip-bar-text">This free calendar is community supported</span>
           <div className="sp-strip-bar-line" />
         </div>
         <div className="sp-strip-body">
@@ -193,7 +193,7 @@ function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo 
           ))}
         </div>
         <div className="sp-grid-footer">
-          <span className="sp-grid-footer-note">Each sponsor supports a specific calendar category</span>
+          <span className="sp-grid-footer-note">This calendar is free because of our sponsors — each one supports a specific category</span>
           <Link href="/sponsor" className="sp-grid-footer-link">About our sponsorships →</Link>
         </div>
       </div>

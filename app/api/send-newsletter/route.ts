@@ -78,6 +78,48 @@ function shortDayLabel(dateStr: string): string {
   return `${weekday} ${mon}/${day}`;
 }
 
+interface SponsorData {
+  name: string;
+  url?: string | null;
+  tagline?: string | null;
+  logo_url?: string | null;
+}
+
+function buildSponsorBlock(sponsor: SponsorData | null, city: string): string {
+  if (sponsor) {
+    return `
+    <!-- SPONSOR BLOCK (active) -->
+    <tr>
+      <td style="background:#f9f7f2;border-bottom:1px solid #e8e8e8;padding:14px 24px;">
+        <p style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;margin:0 0 5px 0;">This newsletter is free because of our sponsor</p>
+        <table cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            ${sponsor.logo_url ? `<td width="56" style="vertical-align:middle;padding-right:12px;"><img src="${sponsor.logo_url}" width="48" height="48" alt="${sponsor.name} logo" style="display:block;object-fit:contain;border-radius:4px;" /></td>` : ''}
+            <td style="vertical-align:middle;">
+              ${sponsor.url
+                ? `<a href="${sponsor.url}" target="_blank" style="font-size:13px;font-weight:700;color:#1a1a1a;text-decoration:none;">${sponsor.name}</a>`
+                : `<span style="font-size:13px;font-weight:700;color:#1a1a1a;">${sponsor.name}</span>`}
+              ${sponsor.tagline ? `<br><span style="font-size:11px;color:#666;">${sponsor.tagline}</span>` : ''}
+            </td>
+            ${sponsor.url ? `<td align="right" style="vertical-align:middle;"><a href="${sponsor.url}" target="_blank" style="font-size:11px;font-weight:600;color:#1a3a5c;text-decoration:none;white-space:nowrap;">Learn more →</a></td>` : ''}
+          </tr>
+        </table>
+      </td>
+    </tr>`;
+  }
+  // No sponsor — community supported fallback
+  return `
+    <!-- SPONSOR BLOCK (community supported) -->
+    <tr>
+      <td style="background:#fafafa;border-bottom:1px solid #e8e8e8;padding:12px 24px;">
+        <p style="font-size:11px;color:#aaa;margin:0;line-height:1.6;">
+          🤝 This free newsletter is community supported.
+          <a href="https://localbusinesscalendars.com/sponsor" style="color:#1a3a5c;text-decoration:none;font-weight:600;">Become a sponsor →</a>
+        </p>
+      </td>
+    </tr>`;
+}
+
 function buildNewsletterHtml(
   city: string,
   weekLabel: string,
@@ -85,6 +127,7 @@ function buildNewsletterHtml(
   firstName: string | null,
   unsubToken: string,
   subCalendar: string | null = null,
+  sponsor: SponsorData | null = null,
 ): string {
   const calUrl = CITY_CALENDAR_URL[city] ?? 'https://businesscalendar.link';
   const unsubUrl = `https://businesscalendar.link/unsubscribe?token=${unsubToken}`;
@@ -158,17 +201,7 @@ function buildNewsletterHtml(
       </td>
     </tr>
 
-    <!-- SPONSOR BLOCK (open slot) -->
-    <tr>
-      <td style="background:#fafafa;border-bottom:1px solid #e8e8e8;padding:16px 24px;border-left:3px dashed #ccc;">
-        <p style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;margin:0 0 5px 0;">Sponsorship Opportunity</p>
-        <p style="font-size:13px;color:#aaa;margin:0;line-height:1.6;">
-          This calendar has an open sponsorship slot. Reach ${city} professionals every week —
-          decision-makers who attend local events and support local businesses.
-          <a href="https://localbusinesscalendars.com/sponsor" style="color:#1a3a5c;text-decoration:none;font-weight:600;">Learn about founding sponsorship →</a>
-        </p>
-      </td>
-    </tr>
+    ${buildSponsorBlock(sponsor, city)}
 
     <!-- GREETING -->
     <tr>
@@ -203,7 +236,7 @@ function buildNewsletterHtml(
     <tr>
       <td style="padding:14px 24px;border-top:1px solid #e8e8e8;text-align:center;">
         <p style="font-size:11px;color:#aaa;margin:0;line-height:1.8;">
-          You're receiving this because you subscribed to the free ${city} Business Calendar newsletter.<br>
+          You're receiving this free newsletter${sponsor ? ` thanks to our sponsor, ${sponsor.name}` : ' — community supported'}.<br>
           <a href="${calUrl}" style="color:#1a3a5c;text-decoration:none;">Visit the calendar</a>
           &nbsp;·&nbsp;
           <a href="${unsubUrl}" style="color:#1a3a5c;text-decoration:none;">Unsubscribe</a>
@@ -294,6 +327,36 @@ export async function POST(req: NextRequest) {
       ? allCityEvents.filter(e => eventCategoryMatchesSubCal(e.event_category, subCalendar))
       : allCityEvents;
 
+    // ── 2. Fetch sponsor for this city/subcal ─────────────────────────────────
+    const citySlugMap: Record<string, string> = {
+      'San Antonio': 'san-antonio', 'Austin': 'austin', 'Dallas': 'dallas', 'Houston': 'houston',
+    };
+    const citySlug = citySlugMap[city] ?? city.toLowerCase().replace(/\s+/g, '-');
+    const categorySlug = subCalendar ? subCalendar.toLowerCase().replace(/\s+/g, '-') : null;
+
+    let sponsor: SponsorData | null = null;
+    if (categorySlug) {
+      const { data: subSponsor } = await supabase
+        .from('sponsors')
+        .select('name, url, tagline, logo_url')
+        .eq('city_slug', citySlug)
+        .eq('category_slug', categorySlug)
+        .eq('active', true)
+        .maybeSingle();
+      sponsor = subSponsor ?? null;
+    }
+    if (!sponsor) {
+      // Fall back to any active sponsor for this city
+      const { data: citySponsor } = await supabase
+        .from('sponsors')
+        .select('name, url, tagline, logo_url')
+        .eq('city_slug', citySlug)
+        .eq('active', true)
+        .limit(1)
+        .maybeSingle();
+      sponsor = citySponsor ?? null;
+    }
+
     // ── Format week label ─────────────────────────────────────────────────────
     const fmtDate = (s: string) => {
       const [y, m, d] = s.split('-').map(Number);
@@ -308,7 +371,7 @@ export async function POST(req: NextRequest) {
 
       await Promise.all(testEmails.map(async (email: string) => {
         const unsubToken = Buffer.from(email).toString('base64');
-        const html = buildNewsletterHtml(city, weekLabel, events, null, unsubToken, subCalendar);
+        const html = buildNewsletterHtml(city, weekLabel, events, null, unsubToken, subCalendar, sponsor);
         const testHtml = html.replace(
           '<!-- HEADER -->',
           `<!-- TEST BANNER -->
@@ -434,7 +497,7 @@ export async function POST(req: NextRequest) {
 
       await Promise.all(batch.map(async (sub) => {
         const unsubToken = Buffer.from(`id:${sub.id}`).toString('base64');
-        const html = buildNewsletterHtml(city, weekLabel, events, sub.first_name, unsubToken, subCalendar);
+        const html = buildNewsletterHtml(city, weekLabel, events, sub.first_name, unsubToken, subCalendar, sponsor);
 
         try {
           await sgMail.send({
