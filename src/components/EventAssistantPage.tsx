@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { Navigation } from './Navigation';
+import { Footer } from './Footer';
 
 const FEATURES = [
   {
@@ -38,6 +40,7 @@ const FEATURES = [
 export function EventAssistantPage() {
   return (
     <main className="ea-page">
+      <Navigation />
 
       {/* ── Hero ── */}
       <section className="ea-hero">
@@ -171,6 +174,7 @@ export function EventAssistantPage() {
         </div>
       </section>
 
+      <Footer />
     </main>
   );
 }

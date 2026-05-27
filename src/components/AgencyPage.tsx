@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { Navigation } from './Navigation';
+import { Footer } from './Footer';
 
 export function AgencyPage() {
   return (
     <main className="agency-page">
+      <Navigation />
 
       {/* ── Hero ── */}
       <section className="agency-hero">
@@ -142,6 +145,7 @@ export function AgencyPage() {
         </div>
       </section>
 
+      <Footer />
     </main>
   );
 }
