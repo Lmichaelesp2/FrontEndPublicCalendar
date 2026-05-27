@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sponsor a Business Calendar — Reach Texas Professionals | Local Business Calendars',
-  description: 'Sponsor a city business calendar in San Antonio, Austin, Dallas, or Houston. Reach engaged local professionals and business owners through targeted event newsletters.',
+  title: 'Sponsorship — One Sponsorship, Two Properties | Local Business Calendars',
+  description: 'One sponsorship covers both Local Business Calendars and Local Business Organizations — your city, your category, the same professionals across both platforms every week.',
   alternates: {
     canonical: '/sponsor',
   },
