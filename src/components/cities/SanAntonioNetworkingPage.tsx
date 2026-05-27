@@ -47,15 +47,15 @@ const NETWORKING_FAQ = [
   },
   {
     question: 'How is structured networking different from general business events?',
-    answer: 'Structured networking events like BNI chapters or leads groups meet regularly with the specific goal of building referral relationships. General business events may include speakers, education, or social components. This calendar focuses on events where relationship-building and referrals are the primary purpose.',
+    answer: 'Structured networking events like BNI chapters or leads groups meet regularly with the specific goal of building referral relationships. General business events may include speakers, education, or social components. This page focuses on events where relationship-building and referrals are the primary purpose.',
   },
   {
     question: 'Do you list BNI chapter meetings?',
-    answer: 'Yes. We track BNI chapters throughout the San Antonio metro area. BNI meetings are among the most structured and effective referral networking formats, and we include them in the calendar.',
+    answer: 'Yes. We track BNI chapters throughout the San Antonio metro area. BNI meetings are among the most structured and effective referral networking formats, and we include them here.',
   },
   {
     question: 'How do I find the right networking group for me?',
-    answer: 'Browse the calendar to see what groups meet near you and at times that work for your schedule. Most networking groups offer a free guest visit — the calendar gives you the event details so you can try one out before committing.',
+    answer: 'Browse here to see what groups meet near you and at times that work for your schedule. Most networking groups offer a free guest visit — the listing gives you the event details so you can try one out before committing.',
   },
   {
     question: 'Is the newsletter really free?',
@@ -102,7 +102,7 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
   return (
     <div className="sa-page">
       <SEOHead
-        title="San Antonio Networking Events Calendar | Free Weekly Networking Events Email"
+        title="San Antonio Networking Events | Free Weekly Networking Events Email"
         description="Find BNI chapters, leads groups, referral networks, and professional networking events in San Antonio. Free weekly email every Monday."
         canonical="https://businesseventscalendars.com/texas/san-antonio/networking/"
       />
@@ -121,7 +121,7 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
           <div className="se-hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
-            SAN ANTONIO NETWORKING CALENDAR
+            SAN ANTONIO NETWORKING EVENTS
           </div>
           <h1>
             Networking Events in
@@ -152,7 +152,7 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track San Antonio Networking Events So You Don't Have To</h2>
-          <p className="features-subtitle">San Antonio networking events are scattered across BNI chapters, Meetup, LinkedIn, and local group pages. We organize them into one weekly calendar.</p>
+          <p className="features-subtitle">San Antonio networking events are scattered across BNI chapters, Meetup, LinkedIn, and local group pages. We organize them in one place.</p>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
@@ -192,10 +192,10 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
 
 
             <WhySection
-        heading="Why San Antonio Networking Professionals Use This Calendar"
+        heading="Why San Antonio Networking Professionals Use This"
         subtitle="San Antonio networking events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
         problemText="Networking events in San Antonio are scattered across BNI chapter websites, Meetup groups, LinkedIn, Facebook, and individual organization pages. Most professionals miss events simply because they didn't know they were happening."
-        whatWeDoText="We track networking event hosts across San Antonio and organize their public events into one city-focused calendar — updated every week."
+        whatWeDoText="We track networking event hosts across San Antonio and organize their public events in one place — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
 

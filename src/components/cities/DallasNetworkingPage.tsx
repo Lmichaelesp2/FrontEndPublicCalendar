@@ -47,7 +47,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'Do you list BNI chapter meetings in Dallas?',
-    answer: 'Yes. We track BNI chapters throughout the Dallas-Fort Worth metro area. BNI meetings are among the most structured and effective referral networking formats, and we include them in the calendar.',
+    answer: 'Yes. We track BNI chapters throughout the Dallas-Fort Worth metro area. BNI meetings are among the most structured and effective referral networking formats, and we include them here.',
   },
   {
     question: 'Do you cover networking events across the entire DFW metro?',
@@ -55,7 +55,7 @@ const FAQ_ITEMS = [
   },
   {
     question: 'How do I find the right networking group for me in Dallas?',
-    answer: 'Browse the calendar to see what groups meet near you and at times that work for your schedule. Most networking groups offer a free guest visit — the calendar gives you the event details so you can try one out before committing.',
+    answer: 'Browse here to see what groups meet near you and at times that work for your schedule. Most networking groups offer a free guest visit — the listing gives you the event details so you can try one out before committing.',
   },
   {
     question: 'Is the newsletter really free?',
@@ -102,7 +102,7 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
   return (
     <div className="sa-page">
       <SEOHead
-        title="Dallas Networking Events Calendar | Free Weekly Networking Events Email"
+        title="Dallas Networking Events | Free Weekly Networking Events Email"
         description="Find BNI chapters, leads groups, referral networks, and professional networking events in Dallas. Free weekly email every Monday."
         canonical="https://businesseventscalendars.com/texas/dallas/networking/"
       />
@@ -121,7 +121,7 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
           <div className="se-hero-left">
           <div className="hero-badge">
             <span className="hero-badge-dot" />
-            DALLAS NETWORKING CALENDAR
+            DALLAS NETWORKING EVENTS
           </div>
           <h1>
             Networking Events in
@@ -152,7 +152,7 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
       <section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Networking Events So You Don't Have To</h2>
-          <p className="features-subtitle">Dallas networking events are scattered across BNI chapters, LinkedIn, Meetup, and local professional groups. We organize them into one weekly calendar.</p>
+          <p className="features-subtitle">Dallas networking events are scattered across BNI chapters, LinkedIn, Meetup, and local professional groups. We organize them in one place.</p>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
@@ -192,10 +192,10 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
 
 
             <WhySection
-        heading="Why Dallas Networking Professionals Use This Calendar"
+        heading="Why Dallas Networking Professionals Use This"
         subtitle="Dallas networking events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
         problemText="Networking events in Dallas are scattered across BNI chapter websites, Meetup groups, LinkedIn, Facebook, and individual organization pages. Most professionals miss events simply because they didn't know they were happening."
-        whatWeDoText="We track networking event hosts across Dallas and organize their public events into one city-focused calendar — updated every week."
+        whatWeDoText="We track networking event hosts across Dallas and organize their public events in one place — updated every week."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
 
