@@ -267,26 +267,28 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
       {/* ── Sponsor teaser ── */}
       <section className="hp-sponsor-teaser">
         <div className="hp-sponsor-teaser-inner">
-          <div className="hp-sponsor-teaser-left">
-            <div className="hp-sponsor-teaser-label">Made Possible By Our Sponsors</div>
-            <h2>This Calendar Is Free Because of Community Sponsors</h2>
-            <p>Like public radio, Local Business Calendars is free to the business community because local organizations choose to support it. Each city calendar has one sponsor — a business or organization that believes professionals deserve free access to what's happening in their city.</p>
-            <p style={{fontSize:'0.9rem', opacity: 0.85}}>Would you like to support the business community in your city?</p>
-            <Link href="/sponsor" className="hp-sponsor-teaser-btn">
-              Learn About Sponsorship →
-            </Link>
-          </div>
-          <div className="hp-sponsor-teaser-cards">
-            {(['San Antonio', 'Austin', 'Dallas', 'Houston'] as const).map((city) => (
-              <div key={city} className="hp-sponsor-teaser-card">
-                <div className="hp-sponsor-teaser-card-city">{city}</div>
-                <div className="hp-sponsor-teaser-card-slot">
-                  <div className="hp-sponsor-teaser-card-tag">COMMUNITY SPONSOR</div>
-                  <div className="hp-sponsor-teaser-card-name">Open — Be the First</div>
+          <div className="hp-sponsor-teaser-label">Community Supported</div>
+          <h2>Local Business Calendars Is Free — and Sponsors Make That Possible</h2>
+          <p>Every week, thousands of business professionals across Texas use this calendar to find events, stay connected, and grow their network. Sponsors keep it free for everyone. Each city has four category sponsors — Chamber, Real Estate, Technology, and Small Business. Each sponsor owns their category exclusively, with visibility across all city content and a direct connection to the professionals who follow that space.</p>
+          <div className="hp-sponsor-city-list">
+            {([
+              { city: 'San Antonio', cats: 'Chamber · Real Estate · Technology · Small Business' },
+              { city: 'Austin',      cats: 'Chamber · Real Estate · Technology · Small Business' },
+              { city: 'Dallas',      cats: 'Chamber · Real Estate · Technology · Small Business' },
+              { city: 'Houston',     cats: 'Chamber · Real Estate · Technology · Small Business' },
+            ] as const).map(({ city, cats }) => (
+              <div key={city} className="hp-sponsor-city-row">
+                <div className="hp-sponsor-city-left">
+                  <span className="hp-sponsor-city-name">{city}</span>
+                  <span className="hp-sponsor-city-cats">{cats}</span>
                 </div>
+                <Link href="/sponsor" className="hp-sponsor-city-cta">4 spots open →</Link>
               </div>
             ))}
           </div>
+          <Link href="/sponsor" className="hp-sponsor-teaser-btn">
+            Learn About Sponsorship →
+          </Link>
         </div>
       </section>
 
