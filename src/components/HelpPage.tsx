@@ -77,7 +77,7 @@ With Event Assistant you get:
 • Choose your city — San Antonio, Austin, Dallas, or Houston
 • Personalized event recommendations based on your goals and industry
 • Advanced filters — by city, cost, time of day, and category
-• A personalized Monday digest built specifically for you
+• Personalized event recommendations based on your goals
 
 Click "Sign Up — Free →" to create a free account, then upgrade to Event Assistant from your account page.`,
   },

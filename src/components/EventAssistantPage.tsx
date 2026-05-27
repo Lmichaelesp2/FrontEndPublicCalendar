@@ -25,8 +25,8 @@ const FEATURES = [
   },
   {
     icon: '📬',
-    title: 'Personalized Monday digest',
-    desc: 'Every Monday morning, a curated email built specifically for you — the week\'s best events matched to your profile.',
+    title: 'Personalized event recommendations',
+    desc: 'We surface the events most relevant to you based on your industry, city, and goals — personalized to what actually matters to your business.',
   },
   {
     icon: '🤖',
@@ -115,7 +115,7 @@ export function EventAssistantPage() {
                   'Choose your city — SA, Austin, Dallas, or Houston',
                   'My Recommended Events',
                   'Advanced filters — city, cost, time, category',
-                  'Personalized Monday digest',
+                  'Personalized event recommendations',
                   'AI-powered recommendations',
                 ].map(item => (
                   <li key={item} className="ea-compare-item ea-compare-item--premium">
@@ -140,7 +140,7 @@ export function EventAssistantPage() {
             {[
               { n: '1', title: 'Sign up and tell us about yourself', desc: 'Answer a few quick questions about your industry, city, and networking goals.' },
               { n: '2', title: 'Get your personalized calendar', desc: 'We immediately surface the events most relevant to you — filtered by what matters to your business.' },
-              { n: '3', title: 'Receive your Monday digest', desc: 'Every Monday morning, your week\'s best events land in your inbox — already curated for you.' },
+              { n: '3', title: 'Get personalized event recommendations', desc: 'We surface the events most relevant to you — filtered and ranked based on your profile and goals.' },
               { n: '4', title: 'Show up to the right rooms', desc: 'Attend with confidence knowing you picked the right events. Build better relationships, faster.' },
             ].map(step => (
               <div key={step.n} className="ea-step">

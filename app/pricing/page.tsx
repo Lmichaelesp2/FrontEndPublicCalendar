@@ -22,7 +22,7 @@ const PREMIUM_FEATURES = [
   'My Recommended Events — personalized to your goals',
   'Choose your city — SA, Austin, Dallas, or Houston',
   'Advanced filters — city, cost, time, category',
-  'Personalized Monday digest built for you',
+  'Personalized event recommendations',
   'AI-powered event recommendations',
 ];
 
