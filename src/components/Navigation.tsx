@@ -194,6 +194,14 @@ function ResourcesDropdown() {
       {open && (
         <div className="nav-resources-drop">
           <Link
+            href="/pricing"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Pricing</span>
+            <span className="nav-resources-item-desc">Free calendar & Event Assistant plans</span>
+          </Link>
+          <Link
             href="/event-assistant"
             className="nav-resources-item"
             onClick={() => setOpen(false)}
@@ -372,15 +380,6 @@ export function Navigation() {
             <nav className="nav-city-links" aria-label="Browse by city">
               <Link href="/texas" className={`nav-link${pathname === '/texas' ? ' nav-link--active' : ''}`}>Texas</Link>
               <CitiesDropdown pathname={pathname ?? '/'} />
-              <a
-                href="https://www.localbusinessorganizations.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="nav-link nav-link--organizations"
-              >
-                Organizations ↗
-              </a>
-              <Link href="/pricing" className="nav-link">Pricing</Link>
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
               <Link href="/help" className={`nav-link${pathname === '/help' ? ' nav-link--active' : ''}`}>Help</Link>
@@ -388,6 +387,17 @@ export function Navigation() {
             </nav>
 
             <div className="nav-actions">
+              {/* Cross-link to LBO */}
+              <a
+                href="https://www.localbusinessorganizations.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link nav-link--organizations"
+                style={{ marginRight: '4px' }}
+              >
+                Organizations ↗
+              </a>
+
               {/* Premium Login — always visible, dimmed when already logged in */}
               {!user && (
                 <button
