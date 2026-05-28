@@ -1948,10 +1948,8 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .about-section{padding:4rem 2rem;margin-bottom:0}
 .about-section-1,.about-section-3,.about-section-5{background:#ffffff}
 .about-section-2,.about-section-4{background:var(--color-paper)}
-.about-section-inner{max-width:800px;margin:0 auto}
-.about-section-heading{display:flex;align-items:flex-start;gap:1rem}
-.about-section-icon{color:var(--color-primary);flex-shrink:0;margin-top:.2rem;font-size:1.5rem;line-height:1}
-.about-section h2{font-size:1.65rem;font-weight:600;color:var(--color-ink);margin-bottom:1.25rem;letter-spacing:-.02em;margin:0;font-family:var(--font-serif);}
+.about-section-inner{max-width:800px;margin:0 auto;position:relative}
+.about-section h2{font-size:1.65rem;font-weight:600;color:var(--color-ink);letter-spacing:-.02em;margin:0;font-family:var(--font-serif);}
 .about-section p{font-size:1rem;color:var(--fg-2);line-height:1.8;margin:0}
 .about-cta-section{margin-top:5rem;padding:4rem 2rem;background:var(--color-paper-2);border-top:1px solid var(--color-rule);border-bottom:1px solid var(--color-rule)}
 .about-cta-inner{max-width:800px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2rem}
