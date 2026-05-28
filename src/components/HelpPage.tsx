@@ -6,14 +6,14 @@ import { Footer } from './Footer';
 
 const SECTIONS = [
   {
-    icon: '📅',
+    icon: 'ti-calendar',
     title: 'What is Local Business Calendars?',
     body: `Local Business Calendars is a free weekly event calendar for Texas business professionals. We track networking mixers, chamber luncheons, technology meetups, real estate gatherings, small business workshops, and more — across San Antonio, Austin, Dallas, and Houston.
 
 Instead of checking multiple websites, Facebook groups, and Eventbrite pages, everything is organized in one place and updated every week.`,
   },
   {
-    icon: '🗺️',
+    icon: 'ti-map-pin',
     title: 'Browsing by City',
     body: `We cover four Texas cities — each with its own calendar:
 
@@ -25,7 +25,7 @@ Instead of checking multiple websites, Facebook groups, and Eventbrite pages, ev
 Click any city in the Cities menu at the top of the page to browse that city's events for the current week.`,
   },
   {
-    icon: '🏷️',
+    icon: 'ti-layout-grid',
     title: 'Browsing by Category',
     body: `Each city has sub-calendars organized by industry or event type:
 
@@ -37,7 +37,7 @@ Click any city in the Cities menu at the top of the page to browse that city's e
 Browse the city calendar to see all event types together, or go directly to a sub-calendar to focus on one category.`,
   },
   {
-    icon: '📬',
+    icon: 'ti-mail',
     title: 'Getting the Free Weekly Email',
     body: `The easiest way to stay up to date is to subscribe to the free Monday morning email. Every Monday, we send a curated digest of that week's best events in your city — straight to your inbox.
 
@@ -46,7 +46,7 @@ It's completely free. No credit card. No spam. Just the week's events, organized
 To subscribe, click the "Sign Up — Free →" button in the top right corner, or visit any city page and click the newsletter signup button.`,
   },
   {
-    icon: '📋',
+    icon: 'ti-list',
     title: 'Reading an Event Listing',
     body: `Each event listing shows:
 
@@ -59,7 +59,7 @@ To subscribe, click the "Sign Up — Free →" button in the top right corner, o
 We always link directly to the original event page so you can register and get the most up-to-date information from the organizer.`,
   },
   {
-    icon: '➕',
+    icon: 'ti-circle-plus',
     title: 'Submitting an Event',
     body: `Have an event that should be on the calendar? Submit it for free.
 
@@ -68,7 +68,7 @@ We review all submissions and add qualifying business and professional events. Y
 Click "+ Submit an Event" in the footer, or visit the Submit page directly.`,
   },
   {
-    icon: '⭐',
+    icon: 'ti-sparkles',
     title: 'Event Assistant (Premium)',
     body: `Want more than this week's events? Event Assistant is our premium upgrade at $14.99/month.
 
@@ -82,7 +82,7 @@ With Event Assistant you get:
 Click "Sign Up — Free →" to create a free account, then upgrade to Event Assistant from your account page.`,
   },
   {
-    icon: '❓',
+    icon: 'ti-message-circle',
     title: 'Still have questions?',
     body: `We're happy to help. Reach out anytime:
 
@@ -113,7 +113,7 @@ export function HelpPage() {
           <nav className="help-toc">
             {SECTIONS.map((s, i) => (
               <a key={i} href={`#section-${i}`} className="help-toc-item">
-                <span className="help-toc-icon">{s.icon}</span>
+                <i className={`ti ${s.icon} help-toc-icon`} aria-hidden="true" />
                 <span>{s.title}</span>
               </a>
             ))}
@@ -123,7 +123,7 @@ export function HelpPage() {
           <div className="help-sections">
             {SECTIONS.map((s, i) => (
               <div key={i} id={`section-${i}`} className="help-section">
-                <div className="help-section-icon">{s.icon}</div>
+                <i className={`ti ${s.icon} help-section-icon`} aria-hidden="true" />
                 <h2 className="help-section-title">{s.title}</h2>
                 <div className="help-section-body">
                   {s.body.split('\n\n').map((para, j) => (

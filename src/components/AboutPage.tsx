@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
-import { ArrowRight, Clipboard, Lightbulb, Search, Users, Compass } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export function AboutPage() {
   return (
@@ -28,7 +28,7 @@ export function AboutPage() {
         <section className="about-section about-section-1">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Clipboard size={28} className="about-section-icon" />
+              <i className="ti ti-clipboard about-section-icon" aria-hidden="true" />
               <h2>What Local Business Calendars Does</h2>
             </div>
             <p>
@@ -40,7 +40,7 @@ export function AboutPage() {
         <section className="about-section about-section-2">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Lightbulb size={28} className="about-section-icon" />
+              <i className="ti ti-bulb about-section-icon" aria-hidden="true" />
               <h2>The Problem We Solve</h2>
             </div>
             <p>
@@ -52,7 +52,7 @@ export function AboutPage() {
         <section className="about-section about-section-3">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Search size={28} className="about-section-icon" />
+              <i className="ti ti-search about-section-icon" aria-hidden="true" />
               <h2>How We Find and Vet Events</h2>
             </div>
             <p>
@@ -64,7 +64,7 @@ export function AboutPage() {
         <section className="about-section about-section-4">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Users size={28} className="about-section-icon" />
+              <i className="ti ti-users about-section-icon" aria-hidden="true" />
               <h2>Who Uses Local Business Calendars</h2>
             </div>
             <p>
@@ -76,7 +76,7 @@ export function AboutPage() {
         <section className="about-section about-section-5">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Compass size={28} className="about-section-icon" />
+              <i className="ti ti-compass about-section-icon" aria-hidden="true" />
               <h2>Where We're Headed</h2>
             </div>
             <p>

@@ -48,13 +48,13 @@
   --color-neutral-900:   #0f172a;
 
   /* Paper backgrounds */
-  --color-paper:         #fafaf7;
-  --color-paper-2:       #f3f1ea;
-  --color-rule:          #e6e2d6;
+  --color-paper:         #ffffff;
+  --color-paper-2:       #f7f7f5;
+  --color-rule:          #e8e8e4;
 
   /* Semantic backgrounds */
-  --bg-page:             #fafaf7;
-  --bg-section:          #f3f1ea;
+  --bg-page:             #ffffff;
+  --bg-section:          #f7f7f5;
   --bg-dark:             #0a1628;
   --bg-tint:             #eef3fe;
 
@@ -1950,7 +1950,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .about-section-2,.about-section-4{background:var(--color-paper)}
 .about-section-inner{max-width:800px;margin:0 auto}
 .about-section-heading{display:flex;align-items:flex-start;gap:1rem}
-.about-section-icon{color:var(--color-primary);flex-shrink:0;margin-top:.15rem}
+.about-section-icon{color:var(--color-primary);flex-shrink:0;margin-top:.2rem;font-size:1.5rem;line-height:1}
 .about-section h2{font-size:1.65rem;font-weight:600;color:var(--color-ink);margin-bottom:1.25rem;letter-spacing:-.02em;margin:0;font-family:var(--font-serif);}
 .about-section p{font-size:1rem;color:var(--fg-2);line-height:1.8;margin:0}
 .about-cta-section{margin-top:5rem;padding:4rem 2rem;background:var(--color-paper-2);border-top:1px solid var(--color-rule);border-bottom:1px solid var(--color-rule)}
