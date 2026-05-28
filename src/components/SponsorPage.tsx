@@ -4,41 +4,38 @@ import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
-import {
-  Users, Mail, MapPin, TrendingUp, Award, Megaphone,
-  Building2, Briefcase, ArrowRight, CheckCircle
-} from 'lucide-react';
+import { Mail, ArrowRight } from 'lucide-react';
 
 // ─── Who benefits from sponsoring ────────────────────────────────────────────
 
 const WHO_BENEFITS = [
   {
-    icon: Building2,
+    icon: 'ti-building',
     title: 'Local Businesses',
     desc: 'Banks, insurance agencies, coworking spaces, commercial real estate firms, and any business whose clients are other businesses. Your audience is already here — active, local, and engaged.',
   },
   {
-    icon: Briefcase,
+    icon: 'ti-briefcase',
     title: 'Professional Services',
     desc: 'Attorneys, CPAs, consultants, financial advisors, HR firms, and staffing agencies. The people reading this newsletter are decision-makers who regularly hire professional services.',
   },
   {
-    icon: TrendingUp,
+    icon: 'ti-trending-up',
     title: 'Event Venues & Hosts',
     desc: 'Hotels, conference centers, restaurants, and clubs that host business events. Be front-of-mind when planners and organizers are looking for the right space.',
   },
   {
-    icon: Megaphone,
+    icon: 'ti-speakerphone',
     title: 'Startups & Tech Companies',
     desc: 'Companies looking to build brand recognition inside the local professional community before expanding. Sponsoring a sub-calendar like Technology or Networking puts you directly in front of early adopters.',
   },
   {
-    icon: Award,
+    icon: 'ti-award',
     title: 'Chambers & Associations',
     desc: 'Trade associations, chambers of commerce, and professional organizations looking to grow membership. Your message goes directly to the people most likely to join.',
   },
   {
-    icon: Users,
+    icon: 'ti-users',
     title: 'Recruiters & Staffing Firms',
     desc: 'Companies that need to build name recognition with local professionals in specific industries. Networking, Technology, and Small Business sub-calendars give you laser-focused reach.',
   },
@@ -126,11 +123,11 @@ export function SponsorPage() {
             and they talk to other professionals. If your business depends on local visibility and trust, this audience is for you.
           </p>
           <div className="sponsor-who-grid">
-            {WHO_BENEFITS.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="sponsor-who-card">
-                <div className="sponsor-who-icon"><Icon size={24} strokeWidth={1.6} /></div>
-                <h3>{title}</h3>
-                <p>{desc}</p>
+            {WHO_BENEFITS.map(({ icon, title, desc }) => (
+              <div key={title} className="sponsor-who-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                <i className={`ti ${icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <h3 style={{ position: 'relative' }}>{title}</h3>
+                <p style={{ position: 'relative' }}>{desc}</p>
               </div>
             ))}
           </div>
@@ -149,7 +146,7 @@ export function SponsorPage() {
           <div className="sponsor-benefits-list">
             {WHAT_YOU_GET.map((item, i) => (
               <div key={i} className="sponsor-benefit-row">
-                <CheckCircle size={18} className="sponsor-benefit-check" />
+                <i className="ti ti-check sponsor-benefit-check" aria-hidden="true" />
                 <p>{item}</p>
               </div>
             ))}
@@ -170,7 +167,7 @@ export function SponsorPage() {
             {CALENDARS.map(({ city, subs }) => (
               <div key={city} className="sponsor-cal-card">
                 <div className="sponsor-cal-city">
-                  <MapPin size={14} />
+                  <i className="ti ti-map-pin" style={{ fontSize: '0.85rem' }} aria-hidden="true" />
                   {city}
                 </div>
                 <div className="sponsor-cal-citywide">City-Wide Calendar</div>

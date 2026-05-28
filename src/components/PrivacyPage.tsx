@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
-import { Database, Mail, Shield, UserX, Eye, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export function PrivacyPage() {
   return (
@@ -28,7 +28,7 @@ export function PrivacyPage() {
         <section className="about-section about-section-1">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Eye size={28} className="about-section-icon" />
+              <i className="ti ti-eye about-section-icon" aria-hidden="true" />
               <h2>What Data We Collect</h2>
             </div>
             <p>
@@ -40,7 +40,7 @@ export function PrivacyPage() {
         <section className="about-section about-section-2">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Mail size={28} className="about-section-icon" />
+              <i className="ti ti-mail about-section-icon" aria-hidden="true" />
               <h2>How We Use Your Information</h2>
             </div>
             <p>
@@ -52,7 +52,7 @@ export function PrivacyPage() {
         <section className="about-section about-section-3">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Database size={28} className="about-section-icon" />
+              <i className="ti ti-database about-section-icon" aria-hidden="true" />
               <h2>Third-Party Services</h2>
             </div>
             <p>
@@ -71,7 +71,7 @@ export function PrivacyPage() {
         <section className="about-section about-section-4">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <UserX size={28} className="about-section-icon" />
+              <i className="ti ti-user-x about-section-icon" aria-hidden="true" />
               <h2>How to Unsubscribe</h2>
             </div>
             <p>
@@ -83,7 +83,7 @@ export function PrivacyPage() {
         <section className="about-section about-section-5">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Shield size={28} className="about-section-icon" />
+              <i className="ti ti-shield about-section-icon" aria-hidden="true" />
               <h2>We Do Not Sell Your Data</h2>
             </div>
             <p>

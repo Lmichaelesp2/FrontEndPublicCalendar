@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { CheckCircle, Mail, CalendarDays, Search, ArrowRight, LogIn } from 'lucide-react';
+import { ArrowRight, LogIn } from 'lucide-react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { useAuth } from '../contexts/AuthContext';
@@ -57,9 +57,9 @@ const SUB_DESCRIPTIONS: Record<string, string> = {
 };
 
 const PERKS = [
-  { icon: Mail,         title: 'Weekly Monday newsletter', desc: "A curated digest of the week's best events lands in your inbox every Monday morning." },
-  { icon: CalendarDays, title: 'Never miss an event',      desc: 'Stop checking multiple sites. We do the searching so you can focus on showing up.' },
-  { icon: Search,       title: 'Curated for your city',    desc: 'Only events that matter to professionals in your area — no noise, no fluff.' },
+  { icon: 'ti-mail',     title: 'Weekly Monday newsletter', desc: "A curated digest of the week's best events lands in your inbox every Monday morning." },
+  { icon: 'ti-calendar', title: 'Never miss an event',      desc: 'Stop checking multiple sites. We do the searching so you can focus on showing up.' },
+  { icon: 'ti-search',   title: 'Curated for your city',    desc: 'Only events that matter to professionals in your area — no noise, no fluff.' },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -181,7 +181,7 @@ export function SubscribePage() {
         <Navigation />
         <div className="sub-success-wrap">
           <div className="sub-success-card">
-            <div className="sub-success-icon"><CheckCircle size={48} strokeWidth={1.5} /></div>
+            <div className="sub-success-icon"><i className="ti ti-circle-check" style={{ fontSize: '3rem', color: 'var(--color-accent)' }} aria-hidden="true" /></div>
             <h2>
               {firstName ? `Welcome, ${firstName}!` : "You're on the list!"}
             </h2>
@@ -234,11 +234,11 @@ export function SubscribePage() {
           <div className="sub-perks">
             <h2 className="sub-perks-title">What you get — completely free</h2>
             <div className="sub-perks-grid">
-              {PERKS.map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="sub-perk-card">
-                  <div className="sub-perk-icon"><Icon size={26} strokeWidth={1.7} /></div>
-                  <h3>{title}</h3>
-                  <p>{desc}</p>
+              {PERKS.map(({ icon, title, desc }) => (
+                <div key={title} className="sub-perk-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                  <i className={`ti ${icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                  <h3 style={{ position: 'relative' }}>{title}</h3>
+                  <p style={{ position: 'relative' }}>{desc}</p>
                 </div>
               ))}
             </div>

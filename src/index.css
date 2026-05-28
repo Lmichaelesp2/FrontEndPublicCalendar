@@ -902,7 +902,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .event-types-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;text-align:left;max-width:700px;margin:0 auto}
 .event-type-item{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);transition:all .2s ease}
 .event-type-item:hover{background:#fff;border-color:var(--color-primary);transform:translateX(4px)}
-.event-type-item .check-icon{color:var(--gold-bright);flex-shrink:0}
+.event-type-item .check-icon{color:var(--color-accent);flex-shrink:0;font-size:1.1rem;line-height:1}
 .event-type-item span{font-size:.92rem;color:var(--gray-700);font-weight:500;line-height:1.4}
 
 @media(max-width:768px){
@@ -2647,12 +2647,11 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .contact-info-section{background:var(--color-paper-2);padding:4rem 1.5rem;border-bottom:1px solid var(--color-rule)}
 .contact-info-inner{max-width:1000px;margin:0 auto}
 .contact-info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-bottom:2rem}
-.contact-info-card{background:var(--white);padding:2.5rem 2rem;border-radius:12px;border:1.5px solid var(--color-rule);text-align:center;transition:all .2s;display:flex;flex-direction:column;min-height:320px;justify-content:space-between}
+.contact-info-card{background:var(--white);padding:2rem 1.75rem;border-radius:12px;border:1.5px solid var(--color-rule);text-align:left;transition:all .2s;display:flex;flex-direction:column;min-height:280px;justify-content:space-between}
 .contact-info-card:hover{border-color:var(--color-primary);box-shadow:0 4px 16px rgba(22,82,240,.08)}
-.contact-info-icon{display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:var(--color-paper-2);border-radius:12px;color:var(--color-primary);margin:0 auto 1rem;flex-shrink:0}
 .contact-info-card h3{font-size:1.1rem;font-weight:700;color:var(--color-ink);margin-bottom:.75rem;font-family:var(--font-serif);}
 .contact-info-card p{color:#6b7280;font-size:.95rem;line-height:1.6}
-.contact-email{color:var(--color-primary);font-weight:600;font-size:1rem;margin-top:auto;padding-top:1.5rem;display:block;border-top:1px solid var(--color-rule);word-break:break-all}
+.contact-email{color:var(--color-primary);font-weight:600;font-size:.875rem;margin-top:1rem;padding-top:1rem;display:block;border-top:1px solid var(--color-rule);word-break:break-all}
 .contact-link{color:var(--color-primary);text-decoration:none;font-weight:600;transition:color .2s}
 .contact-link:hover{color:#1652f0}
 .contact-form-section{max-width:600px;margin:0 auto;padding:3rem 1.5rem}
@@ -3250,7 +3249,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 /* Benefits list */
 .sponsor-benefits-list{display:flex;flex-direction:column;gap:.85rem}
 .sponsor-benefit-row{display:flex;align-items:flex-start;gap:.75rem}
-.sponsor-benefit-check{color:var(--color-primary);flex-shrink:0;margin-top:2px}
+.sponsor-benefit-check{color:var(--color-accent);flex-shrink:0;margin-top:2px;font-size:1rem;line-height:1}
 .sponsor-benefit-row p{font-size:.95rem;color:#333;line-height:1.6;margin:0}
 
 /* Calendar grid */

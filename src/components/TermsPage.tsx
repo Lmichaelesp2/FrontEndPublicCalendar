@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
-import { FileText, AlertCircle, Globe, Ban, RefreshCw, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export function TermsPage() {
   return (
@@ -28,7 +28,7 @@ export function TermsPage() {
         <section className="about-section about-section-1">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <FileText size={28} className="about-section-icon" />
+              <i className="ti ti-file-text about-section-icon" aria-hidden="true" />
               <h2>Use of the Service</h2>
             </div>
             <p>
@@ -40,7 +40,7 @@ export function TermsPage() {
         <section className="about-section about-section-2">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <AlertCircle size={28} className="about-section-icon" />
+              <i className="ti ti-alert-circle about-section-icon" aria-hidden="true" />
               <h2>Disclaimer of Warranties</h2>
             </div>
             <p>
@@ -55,7 +55,7 @@ export function TermsPage() {
         <section className="about-section about-section-3">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Globe size={28} className="about-section-icon" />
+              <i className="ti ti-world about-section-icon" aria-hidden="true" />
               <h2>Event Submissions</h2>
             </div>
             <p>
@@ -70,7 +70,7 @@ export function TermsPage() {
         <section className="about-section about-section-4">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <Ban size={28} className="about-section-icon" />
+              <i className="ti ti-ban about-section-icon" aria-hidden="true" />
               <h2>Limitation of Liability</h2>
             </div>
             <p>
@@ -85,7 +85,7 @@ export function TermsPage() {
         <section className="about-section about-section-5">
           <div className="about-section-inner">
             <div className="about-section-heading">
-              <RefreshCw size={28} className="about-section-icon" />
+              <i className="ti ti-refresh about-section-icon" aria-hidden="true" />
               <h2>Changes to These Terms</h2>
             </div>
             <p>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
-import { CalendarPlus, Handshake, HelpCircle, MapPin, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 type InquiryType = 'general' | 'sponsorship' | 'city_request' | 'media' | 'technical' | 'other';
@@ -86,48 +86,40 @@ export function ContactPage() {
         <section className="contact-info-section">
           <div className="contact-info-inner">
             <div className="contact-info-grid">
-              <div className="contact-info-card">
-                <div className="contact-info-icon">
-                  <CalendarPlus size={32} strokeWidth={1.5} />
-                </div>
-                <h3>Submit Events</h3>
-                <p>
+              <div className="contact-info-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                <i className="ti ti-calendar-plus" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <h3 style={{ position: 'relative' }}>Submit Events</h3>
+                <p style={{ position: 'relative' }}>
                   Have a business event to share? Use our <Link href="/submit-event" className="contact-link">Submit Event page</Link> for the fastest response or email us directly. Events are reviewed within 2 business days.
                 </p>
-                <p className="contact-email">events@localbusinesscalendars.com</p>
+                <p className="contact-email" style={{ position: 'relative' }}>events@localbusinesscalendars.com</p>
               </div>
 
-              <div className="contact-info-card">
-                <div className="contact-info-icon">
-                  <Handshake size={32} strokeWidth={1.5} />
-                </div>
-                <h3>Sponsorships</h3>
-                <p>
+              <div className="contact-info-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                <i className="ti ti-handshake" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <h3 style={{ position: 'relative' }}>Sponsorships</h3>
+                <p style={{ position: 'relative' }}>
                   Interested in sponsoring a city calendar? Each calendar has one exclusive sponsor slot. Contact us directly to learn more about partnership opportunities.
                 </p>
-                <p className="contact-email">sponsors@localbusinesscalendars.com</p>
+                <p className="contact-email" style={{ position: 'relative' }}>sponsors@localbusinesscalendars.com</p>
               </div>
 
-              <div className="contact-info-card">
-                <div className="contact-info-icon">
-                  <HelpCircle size={32} strokeWidth={1.5} />
-                </div>
-                <h3>Other Questions</h3>
-                <p>
+              <div className="contact-info-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                <i className="ti ti-help-circle" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <h3 style={{ position: 'relative' }}>Other Questions</h3>
+                <p style={{ position: 'relative' }}>
                   Have feedback, a media inquiry, or other questions? Fill out the form below and we'll get back to you within 2 business days.
                 </p>
-                <p className="contact-email">events@localbusinesscalendars.com</p>
+                <p className="contact-email" style={{ position: 'relative' }}>events@localbusinesscalendars.com</p>
               </div>
 
-              <div className="contact-info-card">
-                <div className="contact-info-icon">
-                  <MapPin size={32} strokeWidth={1.5} />
-                </div>
-                <h3>New City Requests</h3>
-                <p>
+              <div className="contact-info-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                <i className="ti ti-map-pin" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <h3 style={{ position: 'relative' }}>New City Requests</h3>
+                <p style={{ position: 'relative' }}>
                   Interested in bringing a local business calendar to your city? We're always looking to expand. Reach out and let us know where you'd like to see us next.
                 </p>
-                <p className="contact-email">events@localbusinesscalendars.com</p>
+                <p className="contact-email" style={{ position: 'relative' }}>events@localbusinesscalendars.com</p>
               </div>
             </div>
           </div>

@@ -1,5 +1,3 @@
-import { CheckCircle } from 'lucide-react';
-
 export function WhatsIncluded() {
   const eventTypes = [
     'Business networking events',
@@ -20,7 +18,7 @@ export function WhatsIncluded() {
         <div className="event-types-list">
           {eventTypes.map((eventType, index) => (
             <div key={index} className="event-type-item">
-              <CheckCircle className="check-icon" size={24} strokeWidth={2.5} />
+              <i className="ti ti-check check-icon" aria-hidden="true" />
               <span>{eventType}</span>
             </div>
           ))}
