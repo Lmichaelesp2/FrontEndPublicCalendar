@@ -40,34 +40,18 @@ export function AgencyPage() {
             Most professionals show up to events and hope something happens. We help you show up with a strategy.
           </p>
           <div className="agency-cards">
-            <div className="agency-card">
-              <div className="agency-card-icon">👥</div>
-              <h3 className="agency-card-title">People</h3>
-              <p className="agency-card-body">
-                Get clear on exactly who you want in your network — before you walk into any room. We help you define your ideal connection by role, organization, and the events they already attend.
-              </p>
-            </div>
-            <div className="agency-card">
-              <div className="agency-card-icon">🎙️</div>
-              <h3 className="agency-card-title">Content</h3>
-              <p className="agency-card-body">
-                Turn every event you discover into content that keeps your name in front of the right people. Audio, video, text, graphics — the content you produce is the fuel that powers everything that follows.
-              </p>
-            </div>
-            <div className="agency-card">
-              <div className="agency-card-icon">📅</div>
-              <h3 className="agency-card-title">Events</h3>
-              <p className="agency-card-body">
-                Show up in the right rooms — as an attendee, a speaker, a supporter, or a host. We identify the events your ideal connections already attend and help you show up with intention.
-              </p>
-            </div>
-            <div className="agency-card">
-              <div className="agency-card-icon">🔗</div>
-              <h3 className="agency-card-title">Relationships</h3>
-              <p className="agency-card-body">
-                Use event content to stay in touch with everyone you meet — consistently, not occasionally. We build the systems that keep your network warm across email, social, and your own events.
-              </p>
-            </div>
+            {[
+              { icon: 'ti-users',          title: 'People',        body: 'Get clear on exactly who you want in your network — before you walk into any room. We help you define your ideal connection by role, organization, and the events they already attend.' },
+              { icon: 'ti-microphone',     title: 'Content',       body: 'Turn every event you discover into content that keeps your name in front of the right people. Audio, video, text, graphics — the content you produce is the fuel that powers everything that follows.' },
+              { icon: 'ti-calendar-event', title: 'Events',        body: 'Show up in the right rooms — as an attendee, a speaker, a supporter, or a host. We identify the events your ideal connections already attend and help you show up with intention.' },
+              { icon: 'ti-link',           title: 'Relationships', body: 'Use event content to stay in touch with everyone you meet — consistently, not occasionally. We build the systems that keep your network warm across email, social, and your own events.' },
+            ].map(({ icon, title, body }) => (
+              <div key={title} className="agency-card" style={{ position: 'relative', overflow: 'hidden' }}>
+                <i className={`ti ${icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <h3 className="agency-card-title" style={{ position: 'relative' }}>{title}</h3>
+                <p className="agency-card-body" style={{ position: 'relative' }}>{body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

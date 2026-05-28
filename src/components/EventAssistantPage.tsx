@@ -6,32 +6,32 @@ import { Footer } from './Footer';
 
 const FEATURES = [
   {
-    icon: '📅',
+    icon: 'ti-calendar-event',
     title: '30 days of upcoming events',
     desc: 'See a full month ahead — never miss a key networking event because you found out too late.',
   },
   {
-    icon: '⭐',
+    icon: 'ti-star',
     title: 'My Recommended Events',
     desc: 'Personalized to your goals, industry, and city. We surface the events most relevant to you — not just everything happening.',
   },
   {
-    icon: '🗺️',
+    icon: 'ti-map',
     title: 'San Antonio, Austin, Dallas & Houston',
     desc: 'Choose the city that fits your schedule — each with its own dedicated calendar. Perfect if you travel or do business across Texas.',
   },
   {
-    icon: '🔍',
+    icon: 'ti-adjustments-horizontal',
     title: 'Advanced filters',
     desc: 'Filter by city, cost (free vs. paid), time of day, and event category. Find exactly what fits your schedule and budget.',
   },
   {
-    icon: '📬',
+    icon: 'ti-mail',
     title: 'Personalized event recommendations',
     desc: 'We surface the events most relevant to you based on your industry, city, and goals — personalized to what actually matters to your business.',
   },
   {
-    icon: '🤖',
+    icon: 'ti-sparkles',
     title: 'AI-powered recommendations',
     desc: 'Our AI learns what kinds of events drive results for you and gets smarter over time.',
   },
@@ -71,9 +71,9 @@ export function EventAssistantPage() {
           <p className="ea-lead">One flat price. No tiers, no add-ons. Everything below is included.</p>
           <div className="ea-features">
             {FEATURES.map(f => (
-              <div key={f.title} className="ea-feature">
-                <div className="ea-feature-icon">{f.icon}</div>
-                <div>
+              <div key={f.title} className="ea-feature" style={{ position: 'relative', overflow: 'hidden' }}>
+                <i className={`ti ${f.icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <div style={{ position: 'relative' }}>
                   <div className="ea-feature-title">{f.title}</div>
                   <div className="ea-feature-desc">{f.desc}</div>
                 </div>

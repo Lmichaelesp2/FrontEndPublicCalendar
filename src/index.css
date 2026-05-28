@@ -3477,8 +3477,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 .rrm-pillars{background:var(--color-ink);padding:2.5rem 1.5rem;border-bottom:1.5px solid var(--color-rule)}
 .rrm-pillars-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
-.rrm-pillar{text-align:center;color:#fff;flex:1;min-width:140px}
-.rrm-pillar-icon{font-size:1.75rem;margin-bottom:.5rem}
+.rrm-pillar{text-align:center;color:#fff;flex:1;min-width:140px;position:relative;overflow:hidden}
 .rrm-pillar h3{font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:.25rem}
 .rrm-pillar p{font-size:.82rem;color:#a8b8d4;text-transform:uppercase;letter-spacing:.07em}
 .rrm-pillar-divider{font-size:1.5rem;color:#2a3d5a;font-weight:300}
@@ -3893,13 +3892,13 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   background: #fff; border: 1.5px solid #e8ecf0;
   border-radius: 12px; padding: 1.5rem;
   transition: box-shadow .2s, transform .2s;
+  position: relative; overflow: hidden;
 }
 .agency-card:hover{
   box-shadow: 0 6px 24px rgba(4,44,83,.09);
   transform: translateY(-2px);
 }
 .agency-section--alt .agency-card{ background: var(--color-paper); }
-.agency-card-icon{ font-size: 1.6rem; margin-bottom: .75rem; }
 .agency-card-title{
   font-size: .95rem; font-weight: 700;
   color: #042C53; margin-bottom: .5rem;
@@ -4057,12 +4056,11 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   gap: 1.5rem;
 }
 .ea-feature{
-  display: flex; gap: 1rem; align-items: flex-start;
   background: #fff; border: 1.5px solid #e8ecf0;
   border-radius: 12px; padding: 1.25rem;
+  position: relative; overflow: hidden;
 }
 .ea-section--alt .ea-feature{ background: var(--color-paper); }
-.ea-feature-icon{ font-size: 1.5rem; flex-shrink: 0; margin-top: .1rem; }
 .ea-feature-title{ font-size: .9rem; font-weight: 700; color: #042C53; margin-bottom: .3rem; }
 .ea-feature-desc{ font-size: .82rem; color: #666; line-height: 1.65; }
 
@@ -4398,14 +4396,15 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .help-toc-icon{ font-size: 1rem; width: 1.4rem; text-align: center; flex-shrink: 0; }
 
 /* Sections */
-.help-sections{ display: flex; flex-direction: column; gap: 2.5rem; }
+.help-sections{ display: flex; flex-direction: column; gap: 12px; }
 .help-section{
   background: #fff;
   border: 1px solid var(--color-rule);
   border-radius: 14px;
   padding: 2rem;
+  position: relative;
+  overflow: hidden;
 }
-.help-section-icon{ font-size: 1.75rem; margin-bottom: .75rem; }
 .help-section-title{
   font-family: var(--font-serif);
   font-size: 1.25rem;

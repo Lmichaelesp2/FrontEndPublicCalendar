@@ -99,22 +99,22 @@ export function RightRoomMethodPage() {
       {/* Three pillars */}
       <section className="rrm-pillars">
         <div className="rrm-pillars-inner">
-          <div className="rrm-pillar">
-            <div className="rrm-pillar-icon">🎯</div>
-            <h3>Goal</h3>
-            <p>Why are you going?</p>
+          <div className="rrm-pillar" style={{ position: 'relative', overflow: 'hidden' }}>
+            <i className="ti ti-target" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+            <h3 style={{ position: 'relative' }}>Goal</h3>
+            <p style={{ position: 'relative' }}>Why are you going?</p>
           </div>
           <div className="rrm-pillar-divider">+</div>
-          <div className="rrm-pillar">
-            <div className="rrm-pillar-icon">👥</div>
-            <h3>People</h3>
-            <p>Who will be there?</p>
+          <div className="rrm-pillar" style={{ position: 'relative', overflow: 'hidden' }}>
+            <i className="ti ti-users" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+            <h3 style={{ position: 'relative' }}>People</h3>
+            <p style={{ position: 'relative' }}>Who will be there?</p>
           </div>
           <div className="rrm-pillar-divider">+</div>
-          <div className="rrm-pillar">
-            <div className="rrm-pillar-icon">🏛️</div>
-            <h3>Room</h3>
-            <p>Is the format right?</p>
+          <div className="rrm-pillar" style={{ position: 'relative', overflow: 'hidden' }}>
+            <i className="ti ti-building" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+            <h3 style={{ position: 'relative' }}>Room</h3>
+            <p style={{ position: 'relative' }}>Is the format right?</p>
           </div>
         </div>
       </section>

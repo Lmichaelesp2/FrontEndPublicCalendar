@@ -123,9 +123,9 @@ export function HelpPage() {
           <div className="help-sections">
             {SECTIONS.map((s, i) => (
               <div key={i} id={`section-${i}`} className="help-section">
-                <i className={`ti ${s.icon} help-section-icon`} aria-hidden="true" />
-                <h2 className="help-section-title">{s.title}</h2>
-                <div className="help-section-body">
+                <i className={`ti ${s.icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <h2 className="help-section-title" style={{ position: 'relative' }}>{s.title}</h2>
+                <div className="help-section-body" style={{ position: 'relative' }}>
                   {s.body.split('\n\n').map((para, j) => (
                     <p key={j}>{para}</p>
                   ))}
