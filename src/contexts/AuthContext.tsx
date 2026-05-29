@@ -47,7 +47,9 @@ interface AuthContextType {
   preferences: UserPreference[];
   userFilters: UserFilter[];
   showQuestionnaire: boolean;
+  showWelcomeModal: boolean;
   loading: boolean;
+  completeWelcome: (firstName: string) => void;
   signUp: (email: string, password: string, firstName: string, cityName?: string) => Promise<{ error: Error | null; data?: any }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data?: any }>;
   signOut: () => Promise<void>;
@@ -71,6 +73,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // showQuestionnaire: premium user who hasn't saved a network profile yet
   const isPremium = profile?.subscription_tier === 'premium';
   const showQuestionnaire = !loading && isPremium && userFilters.length === 0;
+
+  // showWelcomeModal: free user who logged in but has no first_name yet (legacy user first login)
+  const showWelcomeModal = !loading && !!user && !!profile && !isPremium && !profile.first_name;
+
+  function completeWelcome(firstName: string) {
+    if (profile) setProfile({ ...profile, first_name: firstName });
+  }
 
   // ── Load profile + preferences + user_filters
   // On first login, auto-creates profile + preferences from newsletter_subscriptions
@@ -236,8 +245,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{
-      user, session, profile, preferences, userFilters, showQuestionnaire, loading,
-      signUp, signIn, signOut, updatePreferences, saveNetworkProfile, refreshProfile,
+      user, session, profile, preferences, userFilters, showQuestionnaire, showWelcomeModal, loading,
+      signUp, signIn, signOut, updatePreferences, saveNetworkProfile, refreshProfile, completeWelcome,
     }}>
       {children}
     </AuthContext.Provider>
