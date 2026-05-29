@@ -48,7 +48,7 @@ interface AuthContextType {
   userFilters: UserFilter[];
   showQuestionnaire: boolean;
   loading: boolean;
-  signUp: (email: string, password: string, firstName: string) => Promise<{ error: Error | null; data?: any }>;
+  signUp: (email: string, password: string, firstName: string, cityName?: string) => Promise<{ error: Error | null; data?: any }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data?: any }>;
   signOut: () => Promise<void>;
   updatePreferences: (prefs: Omit<UserPreference, 'id' | 'user_id'>[]) => Promise<void>;
@@ -73,12 +73,57 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const showQuestionnaire = !loading && isPremium && userFilters.length === 0;
 
   // ── Load profile + preferences + user_filters
+  // On first login, auto-creates profile + preferences from newsletter_subscriptions
   async function loadUserData(userId: string) {
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    const email = authUser?.email;
+
     const [{ data: profileData }, { data: filtersData }] = await Promise.all([
       supabase.from('user_profiles').select('*').eq('id', userId).single(),
       supabase.from('user_filters').select('*').eq('user_id', userId),
     ]);
-    if (profileData) setProfile(profileData);
+
+    // Auto-create profile on first login if it doesn't exist
+    if (!profileData && email) {
+      await supabase.from('user_profiles').insert({
+        id:                userId,
+        email,
+        first_name:        null,
+        subscription_tier: 'free',
+      });
+
+      // Pull their city from newsletter_subscriptions
+      const { data: subData } = await supabase
+        .from('newsletter_subscriptions')
+        .select('city')
+        .eq('email', email)
+        .eq('status', 'active')
+        .in('city', ['San Antonio', 'Austin', 'Dallas', 'Houston'])
+        .is('sub_calendar', null)
+        .limit(1)
+        .maybeSingle();
+
+      if (subData?.city) {
+        await supabase.from('user_preferences').insert({
+          user_id:  userId,
+          category: 'Networking',
+          city:     subData.city,
+        });
+      }
+
+      // Re-fetch the newly created profile
+      const { data: newProfile } = await supabase
+        .from('user_profiles').select('*').eq('id', userId).single();
+      if (newProfile) setProfile(newProfile);
+    } else {
+      if (profileData) setProfile(profileData);
+    }
+
+    // Load preferences
+    const { data: prefsData } = await supabase
+      .from('user_preferences').select('*').eq('user_id', userId);
+    if (prefsData) setPrefs(prefsData as UserPreference[]);
+
     if (filtersData) setUserFilters(filtersData as UserFilter[]);
   }
 
@@ -108,8 +153,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  // ── signUp — now accepts firstName
-  async function signUp(email: string, password: string, firstName: string) {
+  // ── signUp — accepts firstName and optional cityName for auto-subscription
+  async function signUp(email: string, password: string, firstName: string, cityName?: string) {
     try {
       const { data, error } = await supabase.auth.signUp({ email, password });
       if (error) return { error: error as Error };
@@ -121,6 +166,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           first_name:        firstName.trim(),
           subscription_tier: 'free',
         });
+
+        // Auto-subscribe to the city they signed up from
+        if (cityName) {
+          await supabase.from('user_preferences').insert({
+            user_id:  data.user.id,
+            category: 'Networking',
+            city:     cityName,
+          });
+        }
       }
 
       return { error: null, data };
