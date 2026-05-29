@@ -405,7 +405,7 @@ export function Navigation() {
                   onClick={() => setPremiumModalOpen(true)}
                   title="Log in to your premium calendar account"
                 >
-                  Classic Login
+                  Classic Calendar
                 </button>
               )}
 
