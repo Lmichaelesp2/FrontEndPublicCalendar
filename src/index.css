@@ -851,7 +851,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .value-card p{font-size:.95rem;color:var(--fg-3);line-height:1.65}
 
 /* FEATURES SECTION */
-.features-section{padding:4rem 2rem;margin:0;background:var(--color-paper);border-top:1px solid var(--color-rule)}
+.features-section{padding:4rem 2rem;margin:0;background:var(--color-paper-2);border-top:1px solid var(--color-rule)}
 .features-inner{max-width:1100px;margin:0 auto;text-align:center}
 .features-inner h2{font-size:1.85rem;color:var(--color-ink);margin-bottom:.75rem;font-weight:600;letter-spacing:-.02em;font-family:var(--font-serif);}
 .features-subtitle{color:var(--fg-3);font-size:1.05rem;margin-bottom:3.5rem;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.7;font-weight:400}
@@ -1006,7 +1006,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 
 /* HOMEPAGE CITIES */
-.hpc-section{padding:2.5rem 1.5rem 5rem;background:var(--color-paper);border-top:1px solid var(--color-rule)}
+.hpc-section{padding:2.5rem 1.5rem 5rem;background:var(--color-paper-2);border-top:1px solid var(--color-rule)}
 .hpc-inner{max-width:900px;margin:0 auto}
 .hpc-header{text-align:center;margin-bottom:1.5rem}
 .hpc-header .hpc-date-day{margin-bottom:.15rem}
@@ -1295,7 +1295,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 
 /* FAQ */
-.faq-section{padding:5rem 2rem;margin:0;background:var(--color-paper-2);border-top:1px solid var(--color-rule)}
+.faq-section{padding:5rem 2rem;margin:0;background:#f9f5ec;border-top:1px solid var(--color-rule)}
 .faq-inner{max-width:720px;margin:0 auto}
 .faq-inner h2{font-size:1.55rem;color:var(--color-ink);font-weight:600;letter-spacing:-.02em;text-align:center;margin-bottom:2.5rem;font-family:var(--font-serif);}
 .faq-list{display:flex;flex-direction:column}
@@ -1604,7 +1604,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 /* ── Sponsor outer section wrapper (constrains width like other sections) ── */
 .sp-outer{
-  background:var(--color-paper);
+  background:var(--color-paper-2);
   padding:.75rem 2rem 1.25rem;
 }
 .sp-outer-inner{
@@ -1800,7 +1800,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 /* ─── Sponsor Submit Section (sss-*) ──────────────────────────────────────── */
 .sss-outer{
-  background:var(--color-paper);
+  background:var(--color-paper-2);
   padding:2rem 2rem 2.25rem;
   border-top:1px solid #e8e4dd;
 }
@@ -2441,7 +2441,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .hp-coming-soon{color:rgba(255,255,255,.55);font-size:.85rem;font-weight:500;margin-top:1.25rem;letter-spacing:.01em}
 
 /* HOMEPAGE -- INTRO PARAGRAPH */
-.hp-intro-section{padding:3.5rem 2rem;background:var(--color-paper);border-top:1px solid var(--color-rule);border-bottom:1px solid var(--color-rule)}
+.hp-intro-section{padding:3.5rem 2rem;background:var(--color-paper-2);border-top:1px solid var(--color-rule);border-bottom:1px solid var(--color-rule)}
 .hp-intro-inner{max-width:780px;margin:0 auto;text-align:center}
 .hp-intro-inner p{font-size:1.05rem;color:var(--fg-2);line-height:1.75;font-weight:400}
 
@@ -3627,7 +3627,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 /* ── Event Networking Method — Homepage Section ───────────────────────────── */
 .enm-home-section{background:var(--color-paper-2);border-top:1.5px solid var(--color-rule);border-bottom:1.5px solid var(--color-rule);padding:4rem 2rem}
-.enm-mini-section{background:var(--color-paper-2);border-top:1.5px solid var(--color-rule);border-bottom:1.5px solid var(--color-rule);padding:3.5rem 2rem}
+.enm-mini-section{background:var(--color-paper);border-top:1.5px solid var(--color-rule);border-bottom:1.5px solid var(--color-rule);padding:3.5rem 2rem}
 .enm-mini-inner{max-width:960px;margin:0 auto}
 .enm-mini-top{text-align:center;margin-bottom:1.75rem}
 .enm-mini-overline{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--color-terra);margin-bottom:.5rem}
