@@ -179,7 +179,7 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
             </p>
             <div className="hero-cta-group">
               <Link href="/texas/dallas/subscribe" className="btn btn-primary">
-                Sign Up Free — See This Week's Events
+                Subscribe Free — Get This Week's Events
               </Link>
               <a href="#calendar" className="btn btn-ghost">
                 Browse Dallas &rarr;
@@ -274,7 +274,7 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Get the Full Week of Dallas Events</h2>
           <p>Get Dallas business events delivered to your inbox every Monday — free, no account needed.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/dallas/subscribe" className="btn btn-primary">Sign Up Free — Unlock the Full Week</Link>
+            <Link href="/texas/dallas/subscribe" className="btn btn-primary">Subscribe Free — Get the Full Week</Link>
           </div>
         </div>
       </section>

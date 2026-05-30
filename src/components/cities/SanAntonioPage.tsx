@@ -171,7 +171,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
             </p>
             <div className="hero-cta-group">
               <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">
-                Sign Up Free — See This Week's Events
+                Subscribe Free — Get This Week's Events
               </Link>
               <a href="#calendar" className="btn btn-ghost">
                 Browse San Antonio &rarr;
@@ -266,7 +266,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Get the Full Week of San Antonio Events</h2>
           <p>Get San Antonio business events delivered to your inbox every Monday — free, no account needed.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">Sign Up Free — Unlock the Full Week</Link>
+            <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">Subscribe Free — Get the Full Week</Link>
           </div>
         </div>
       </section>

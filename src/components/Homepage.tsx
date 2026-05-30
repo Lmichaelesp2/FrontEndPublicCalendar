@@ -132,7 +132,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
 
             <div className="hero-cta-group">
               <Link href="/subscribe" className="btn btn-gold">
-                Sign Up Free — Pick Your City
+                Subscribe Free — Pick Your City
               </Link>
             </div>
 

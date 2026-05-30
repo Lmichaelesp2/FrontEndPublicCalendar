@@ -35,7 +35,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, defaultMode = 'signup', 
     setLoading(true);
     try {
       const { error } = mode === 'signup'
-        ? await signUp(email, password, firstName)
+        ? await signUp(email, password, firstName, cityName)
         : await signIn(email, password);
 
       if (error) {

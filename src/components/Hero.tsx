@@ -100,7 +100,7 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
                 href={cityConfig ? `/texas/${cityConfig.slug}/subscribe` : '/subscribe'}
                 className="btn btn-gold"
               >
-                Sign Up Free — Pick Your City
+                Subscribe Free — Pick Your City
               </Link>
               {cityConfig && (
                 <Link

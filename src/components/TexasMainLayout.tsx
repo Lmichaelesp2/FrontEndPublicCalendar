@@ -28,7 +28,11 @@ const TEXAS_FAQ_ITEMS = [
   },
   {
     question: 'Is this free?',
-    answer: 'Yes — completely free. The full calendar is open to everyone. Give us your email and we deliver every upcoming event in your city to your inbox every Monday. No credit card, no trial, no catch.',
+    answer: 'Yes — the calendar is completely free and open to browse. No account needed. Give us your email and we deliver every upcoming event in your city to your inbox every Monday morning. No credit card, no trial, no catch.',
+  },
+  {
+    question: 'What do I get with the Monday newsletter?',
+    answer: 'Every upcoming business event in your city delivered to your inbox every Monday morning — event name, date, time, location, and organizer link. It\'s the easiest way to stay on top of what\'s happening without checking the calendar yourself.',
   },
   {
     question: 'How often are events updated?',
@@ -36,11 +40,11 @@ const TEXAS_FAQ_ITEMS = [
   },
   {
     question: 'How do you find events across Texas?',
-    answer: 'We monitor chambers of commerce, local business organizations, Meetup groups, Eventbrite, Facebook, LinkedIn, and dozens of individual organization websites across all four cities — so you don\'t have to.',
+    answer: 'We monitor chambers of commerce, professional associations, networking groups, Meetup, Eventbrite, Facebook, LinkedIn, and dozens of individual organization websites across all four cities — so you don\'t have to.',
   },
   {
-    question: 'What do I get with a free subscription?',
-    answer: 'Every upcoming event in your city delivered to your inbox every Monday morning — event name, date, time, location, and organizer link. The full calendar is also always available to browse free anytime.',
+    question: 'What is the Event Assistant?',
+    answer: 'The Event Assistant is a paid upgrade for professionals who want a personalized calendar. It learns your city, industry, and goals — then shows you the events most worth your time and sends a personalized digest every Monday. It\'s built for serious networkers, founders, and business development professionals.',
   },
 ];
 

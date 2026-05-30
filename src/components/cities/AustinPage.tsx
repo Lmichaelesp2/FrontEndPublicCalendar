@@ -180,7 +180,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
             </p>
             <div className="hero-cta-group">
               <Link href="/texas/austin/subscribe" className="btn btn-primary">
-                Sign Up Free — See This Week's Events
+                Subscribe Free — Get This Week's Events
               </Link>
               <a href="#calendar" className="btn btn-ghost">
                 Browse Austin &rarr;
@@ -275,7 +275,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
           <h2>Get the Full Week of Austin Events</h2>
           <p>Get Austin business events delivered to your inbox every Monday — free, no account needed.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/austin/subscribe" className="btn btn-primary">Sign Up Free — Unlock the Full Week</Link>
+            <Link href="/texas/austin/subscribe" className="btn btn-primary">Subscribe Free — Get the Full Week</Link>
           </div>
         </div>
       </section>

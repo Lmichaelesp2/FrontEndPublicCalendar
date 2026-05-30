@@ -444,17 +444,12 @@ export function Navigation() {
                 </div>
               ) : user ? (
                 <Link href={subscribeUrl} className="nav-cta">
-                  Sign Up — Free →
+                  Subscribe Free →
                 </Link>
               ) : (
                 <>
-                  {isCityPage(pathname ?? '') && (
-                    <button className="nav-signin-btn" onClick={() => openAuth('signin')}>
-                      Sign In
-                    </button>
-                  )}
                   <Link href={subscribeUrl} className="nav-cta">
-                    Sign Up — Free →
+                    Subscribe Free →
                   </Link>
                 </>
               )}
