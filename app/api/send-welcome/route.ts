@@ -7,15 +7,15 @@ const FROM_EMAIL = 'michael@localbusinesscalendars.com';
 const FROM_NAME  = 'Michael — Local Business Network';
 
 const CITY_CALENDAR_URL: Record<string, string> = {
-  'San Antonio': 'https://businesscalendar.link/texas/san-antonio',
-  'Austin':      'https://businesscalendar.link/texas/austin',
-  'Dallas':      'https://businesscalendar.link/texas/dallas',
-  'Houston':     'https://businesscalendar.link/texas/houston',
+  'San Antonio': 'https://www.localbusinesscalendars.com/texas/san-antonio',
+  'Austin':      'https://www.localbusinesscalendars.com/texas/austin',
+  'Dallas':      'https://www.localbusinesscalendars.com/texas/dallas',
+  'Houston':     'https://www.localbusinesscalendars.com/texas/houston',
 };
 
 function buildWelcomeEmail(firstName: string | null, city: string, subCalendar: string | null): string {
   const name        = firstName ? firstName : 'there';
-  const calendarUrl = CITY_CALENDAR_URL[city] ?? 'https://businesscalendar.link';
+  const calendarUrl = CITY_CALENDAR_URL[city] ?? 'https://www.localbusinesscalendars.com';
   const calLabel    = subCalendar ? `${city} ${subCalendar} Calendar` : `${city} Business Calendar`;
   const lboUrl      = `https://www.localbusinessorganizations.com`;
 
@@ -117,9 +117,9 @@ function buildWelcomeEmail(firstName: string | null, city: string, subCalendar: 
                 You're receiving this because you created a free account on the Local Business Network.
               </p>
               <p style="margin:0;font-size:12px;color:#888;font-family:Arial,sans-serif;">
-                <a href="https://businesscalendar.link/unsubscribe" style="color:#c9a84c;text-decoration:none;">Unsubscribe from newsletters</a>
+                <a href="https://www.localbusinesscalendars.com/unsubscribe" style="color:#c9a84c;text-decoration:none;">Unsubscribe from newsletters</a>
                 &nbsp;·&nbsp;
-                <a href="https://businesscalendar.link" style="color:#c9a84c;text-decoration:none;">Local Business Calendars</a>
+                <a href="https://www.localbusinesscalendars.com" style="color:#c9a84c;text-decoration:none;">Local Business Calendars</a>
                 &nbsp;·&nbsp;
                 <a href="${lboUrl}" style="color:#c9a84c;text-decoration:none;">Local Business Organizations</a>
               </p>

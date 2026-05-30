@@ -7,7 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 const FROM_EMAIL = 'michael@localbusinesscalendars.com';
 const FROM_NAME  = 'Local Business Calendars';
 const REMINDER_TO = 'michael@localbusinesscalendars.com';
-const ADMIN_URL  = 'https://businesscalendar.link/admin/newsletters';
+const ADMIN_URL  = 'https://www.localbusinesscalendars.com/admin/newsletters';
 
 const CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'] as const;
 const SUB_CALENDARS = ['Networking', 'Technology', 'Real Estate', 'Chamber', 'Small Business'] as const;

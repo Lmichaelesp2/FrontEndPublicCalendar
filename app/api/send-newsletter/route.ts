@@ -12,10 +12,10 @@ const FROM_NAME  = 'Michael — Local Business Calendars';
 const SA_DAILY_CAP = 250; // current cap — adjust as reputation builds
 
 const CITY_CALENDAR_URL: Record<string, string> = {
-  'San Antonio': 'https://businesscalendar.link/texas/san-antonio',
-  'Austin':      'https://businesscalendar.link/texas/austin',
-  'Dallas':      'https://businesscalendar.link/texas/dallas',
-  'Houston':     'https://businesscalendar.link/texas/houston',
+  'San Antonio': 'https://www.localbusinesscalendars.com/texas/san-antonio',
+  'Austin':      'https://www.localbusinesscalendars.com/texas/austin',
+  'Dallas':      'https://www.localbusinesscalendars.com/texas/dallas',
+  'Houston':     'https://www.localbusinesscalendars.com/texas/houston',
 };
 
 // ─── Supabase admin client (service role — bypasses RLS) ─────────────────────
@@ -129,8 +129,8 @@ function buildNewsletterHtml(
   subCalendar: string | null = null,
   sponsor: SponsorData | null = null,
 ): string {
-  const calUrl = CITY_CALENDAR_URL[city] ?? 'https://businesscalendar.link';
-  const unsubUrl = `https://businesscalendar.link/unsubscribe?token=${unsubToken}`;
+  const calUrl = CITY_CALENDAR_URL[city] ?? 'https://www.localbusinesscalendars.com';
+  const unsubUrl = `https://www.localbusinesscalendars.com/unsubscribe?token=${unsubToken}`;
   const greeting = firstName ? `Hey ${firstName},` : 'Hey there,';
   const headerLabel = subCalendar ? `${city} — ${subCalendar}` : `${city}`;
   const eventsHeading = subCalendar ? `${subCalendar} Events This Week` : `This Week's Events`;
