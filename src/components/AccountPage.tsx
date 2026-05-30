@@ -214,7 +214,7 @@ export function AccountPage() {
                 <MapPin size={16} />
                 Your Calendar Subscriptions
               </h2>
-              <a href="/subscribe" className="acct-add-btn">
+              <a href="/texas" className="acct-add-btn">
                 <Plus size={13} />
                 Add More
               </a>

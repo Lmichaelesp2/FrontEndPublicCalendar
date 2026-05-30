@@ -208,7 +208,7 @@ export function SubscribePage() {
   }
 
   // ── Success screen
-  if (success || user) {
+  if (success) {
     return (
       <div>
         <Navigation />
