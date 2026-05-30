@@ -242,8 +242,13 @@ export function AccountPage() {
   }
 
   async function handleSignOut() {
-    await signOut();
-    router.push('/');
+    try {
+      await signOut();
+    } catch (e) {
+      console.error('Sign out error:', e);
+    } finally {
+      window.location.href = '/';
+    }
   }
 
   return (
