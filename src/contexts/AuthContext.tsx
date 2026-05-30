@@ -32,6 +32,7 @@ export interface NewsletterSubscription {
   sub_calendar: string | null;
   status: string;
   first_name: string | null;
+  source: string | null;
 }
 
 // filter_view shape saved by the questionnaire
@@ -152,7 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (userEmail) {
       const { data: subsData } = await supabase
         .from('newsletter_subscriptions')
-        .select('id, email, city, sub_calendar, status, first_name')
+        .select('id, email, city, sub_calendar, status, first_name, source')
         .eq('email', userEmail)
         .eq('status', 'active')
         .order('city', { ascending: true });

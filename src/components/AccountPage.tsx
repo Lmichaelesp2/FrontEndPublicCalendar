@@ -223,13 +223,14 @@ export function AccountPage() {
     : null;
 
   // Group newsletter subscriptions by city (source of truth)
-  const byCityMap: Record<string, { label: string; subId: number }[]> = {};
+  const byCityMap: Record<string, { label: string; subId: number; source: string | null }[]> = {};
   newsletterSubs.forEach(s => {
     const city = s.city || 'Unknown';
     if (!byCityMap[city]) byCityMap[city] = [];
     byCityMap[city].push({
-      label: s.sub_calendar || 'All Events',
-      subId: s.id,
+      label:  s.sub_calendar || 'All Events',
+      subId:  s.id,
+      source: s.source ?? null,
     });
   });
   const byCity = Object.entries(byCityMap);
@@ -295,17 +296,27 @@ export function AccountPage() {
                   <div key={city} className="acct-sub-row">
                     <div className="acct-sub-city">{city}</div>
                     <div className="acct-sub-cats">
-                      {subs.map(({ label, subId }) => (
-                        <div key={subId} className="acct-sub-tag-wrap">
-                          <span className="acct-sub-tag">{label}</span>
-                          <button
-                            className="acct-sub-remove"
-                            onClick={() => handleRemove(subId)}
-                            disabled={removing === subId}
-                            title={`Unsubscribe from ${label}`}
-                          >
-                            <X size={11} />
-                          </button>
+                      {subs.map(({ label, subId, source }) => (
+                        <div key={subId} className="acct-sub-tag-wrap" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <span className="acct-sub-tag">{label}</span>
+                            <button
+                              className="acct-sub-remove"
+                              onClick={() => handleRemove(subId)}
+                              disabled={removing === subId}
+                              title={`Unsubscribe from ${label}`}
+                            >
+                              <X size={11} />
+                            </button>
+                          </div>
+                          {source === 'lbo_signup' && (
+                            <span style={{ fontSize: '0.75rem', color: '#888', paddingLeft: '2px' }}>
+                              Enrolled via your{' '}
+                              <a href="https://www.localbusinessorganizations.com" target="_blank" rel="noopener noreferrer" style={{ color: '#1a3a5c', textDecoration: 'none', fontWeight: '600' }}>
+                                Local Business Organizations
+                              </a>{' '}account
+                            </span>
+                          )}
                         </div>
                       ))}
                     </div>
