@@ -143,6 +143,33 @@ export function AccountPage() {
     );
   }
 
+  // Logged in but no profile row yet — show minimal page with sign out
+  if (!profile) {
+    return (
+      <>
+        <Navigation />
+        <div className="sub-success-wrap">
+          <div className="sub-form-card" style={{ maxWidth: '420px', margin: '0 auto', textAlign: 'center' }}>
+            <h2 style={{ marginBottom: '0.5rem', fontSize: '1.3rem' }}>Hi, {user?.email}</h2>
+            <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+              Your subscriptions are managed by email. Visit any city page and subscribe to add calendars to your account.
+            </p>
+            <a href="/texas" className="sub-submit" style={{ display: 'inline-flex', textDecoration: 'none', justifyContent: 'center' }}>
+              Browse Calendars <ArrowRight size={16} />
+            </a>
+            <button
+              onClick={async () => { await signOut(); router.push('/'); }}
+              style={{ display: 'block', margin: '1rem auto 0', background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem' }}
+            >
+              <LogOut size={13} style={{ marginRight: '4px' }} /> Sign Out
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
   const memberSince = profile?.created_at
     ? new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : null;
