@@ -408,25 +408,25 @@ export function EventCard({ event, index, isLoggedIn = false, isPremium = false,
               <span style={{ color: '#666', fontSize: '12px' }}>
                 Get these events delivered every Monday
                 {sponsorName && (
-                  <> — made possible by <strong style={{ color: '#888' }}>{sponsorName}</strong></>
+                  <> · <span style={{ fontWeight: 700, color: 'var(--color-ink)', fontSize: '11px', letterSpacing: '0.01em' }}>{sponsorName}</span></>
                 )}
               </span>
             </div>
             <button
               onClick={onAuthClick}
               style={{
-                background: 'none',
-                border: '1px solid #f5a623',
+                background: 'var(--color-accent)',
+                border: 'none',
                 borderRadius: '6px',
-                color: '#f5a623',
+                color: '#fff',
                 cursor: 'pointer',
                 fontSize: '12px',
-                fontWeight: 600,
-                padding: '4px 12px',
+                fontWeight: 700,
+                padding: '5px 12px',
                 whiteSpace: 'nowrap',
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#f5a623'; (e.currentTarget as HTMLButtonElement).style.color = '#000'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = '#f5a623'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.88'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
             >
               Get Monday Email →
             </button>
