@@ -140,7 +140,7 @@ export function SubscribePage() {
           .upsert({
             user_id:      existing.user_id ?? null,
             email:        cleanEmail,
-            first_name:   existing.first_name ?? firstName.trim() || null,
+            first_name:   (existing.first_name ?? firstName.trim()) || null,
             city:         cityName,
             sub_calendar: subCalName ?? null,
             status:       'active',
