@@ -87,7 +87,7 @@ export function ContactPage() {
           <div className="contact-info-inner">
             <div className="contact-info-grid">
               <div className="contact-info-card" style={{ position: 'relative', overflow: 'hidden' }}>
-                <i className="ti ti-calendar-plus" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <i className="ti ti-calendar-plus" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: 'var(--fg-1)', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true" />
                 <h3 style={{ position: 'relative' }}>Submit Events</h3>
                 <p style={{ position: 'relative' }}>
                   Have a business event to share? Use our <Link href="/submit-event" className="contact-link">Submit Event page</Link> for the fastest response or email us directly. Events are reviewed within 2 business days.
@@ -96,7 +96,7 @@ export function ContactPage() {
               </div>
 
               <div className="contact-info-card" style={{ position: 'relative', overflow: 'hidden' }}>
-                <i className="ti ti-handshake" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <i className="ti ti-handshake" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: 'var(--fg-1)', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true" />
                 <h3 style={{ position: 'relative' }}>Sponsorships</h3>
                 <p style={{ position: 'relative' }}>
                   Interested in sponsoring a city calendar? Each calendar has one exclusive sponsor slot. Contact us directly to learn more about partnership opportunities.
@@ -105,7 +105,7 @@ export function ContactPage() {
               </div>
 
               <div className="contact-info-card" style={{ position: 'relative', overflow: 'hidden' }}>
-                <i className="ti ti-help-circle" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <i className="ti ti-help-circle" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: 'var(--fg-1)', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true" />
                 <h3 style={{ position: 'relative' }}>Other Questions</h3>
                 <p style={{ position: 'relative' }}>
                   Have feedback, a media inquiry, or other questions? Fill out the form below and we'll get back to you within 2 business days.
@@ -114,7 +114,7 @@ export function ContactPage() {
               </div>
 
               <div className="contact-info-card" style={{ position: 'relative', overflow: 'hidden' }}>
-                <i className="ti ti-map-pin" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <i className="ti ti-map-pin" style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: 'var(--fg-1)', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true" />
                 <h3 style={{ position: 'relative' }}>New City Requests</h3>
                 <p style={{ position: 'relative' }}>
                   Interested in bringing a local business calendar to your city? We're always looking to expand. Reach out and let us know where you'd like to see us next.

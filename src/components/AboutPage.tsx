@@ -34,7 +34,7 @@ export function AboutPage() {
         ].map(({ cls, icon, heading, body }) => (
           <section key={cls} className={`about-section ${cls}`}>
             <div className="about-section-inner" style={{ position: 'relative' }}>
-              <i className={`ti ${icon}`} style={{ position: 'absolute', top: '-0.25rem', right: '0', fontSize: '4rem', color: '#c2410c', opacity: 0.07, pointerEvents: 'none', lineHeight: 1 }} aria-hidden="true" />
+              <i className={`ti ${icon}`} style={{ position: 'absolute', top: '-0.25rem', right: '0', fontSize: '4rem', color: 'var(--fg-1)', opacity: 0.07, pointerEvents: 'none', lineHeight: 1 }} aria-hidden="true" />
               <h2 style={{ position: 'relative' }}>{heading}</h2>
               <p style={{ position: 'relative', marginTop: '1.25rem' }}>{body}</p>
             </div>

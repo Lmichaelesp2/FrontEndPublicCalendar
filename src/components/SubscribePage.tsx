@@ -337,7 +337,7 @@ export function SubscribePage() {
             <div className="sub-perks-grid">
               {PERKS.map(({ icon, title, desc }) => (
                 <div key={title} className="sub-perk-card" style={{ position: 'relative', overflow: 'hidden' }}>
-                  <i className={`ti ${icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                  <i className={`ti ${icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: 'var(--fg-1)', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true" />
                   <h3 style={{ position: 'relative' }}>{title}</h3>
                   <p style={{ position: 'relative' }}>{desc}</p>
                 </div>

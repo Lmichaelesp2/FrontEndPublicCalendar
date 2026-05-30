@@ -856,9 +856,9 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .features-inner h2{font-size:1.85rem;color:var(--color-ink);margin-bottom:.75rem;font-weight:600;letter-spacing:-.02em;font-family:var(--font-serif);}
 .features-subtitle{color:var(--fg-3);font-size:1.05rem;margin-bottom:3.5rem;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.7;font-weight:400}
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
-.feature-card{background:#ffffff;border-radius:var(--radius);padding:1.5rem 1.25rem;text-align:left;box-shadow:var(--shadow-sm);border:1px solid var(--color-rule);transition:all .3s ease;display:flex;flex-direction:column;position:relative}
+.feature-card{background:#ffffff;border-radius:var(--radius);padding:1.5rem 1.25rem;text-align:left;box-shadow:var(--shadow-sm);border:1px solid var(--color-rule);transition:all .3s ease;display:flex;flex-direction:column;position:relative;overflow:hidden}
 .feature-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.feature-step{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--color-primary);color:#fff;border-radius:50%;font-size:.9rem;font-weight:700;font-family:var(--font-serif);font-style:italic;margin-bottom:1.25rem}
+.feature-step{position:absolute;bottom:-12px;right:8px;font-size:5rem;font-weight:800;color:var(--fg-1);opacity:0.05;line-height:1;pointer-events:none;font-family:var(--font-sans);letter-spacing:-0.04em;user-select:none}
 .feature-card h3{font-size:1rem;font-weight:600;color:var(--color-ink);margin-bottom:.75rem;letter-spacing:-.01em;font-family:var(--font-serif);}
 .feature-card p{font-size:.9rem;color:var(--fg-3);line-height:1.6}
 

@@ -47,7 +47,7 @@ export function AgencyPage() {
               { icon: 'ti-link',           title: 'Relationships', body: 'Use event content to stay in touch with everyone you meet — consistently, not occasionally. We build the systems that keep your network warm across email, social, and your own events.' },
             ].map(({ icon, title, body }) => (
               <div key={title} className="agency-card" style={{ position: 'relative', overflow: 'hidden' }}>
-                <i className={`ti ${icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: '#c2410c', opacity: 0.15, pointerEvents: 'none' }} aria-hidden="true" />
+                <i className={`ti ${icon}`} style={{ position: 'absolute', bottom: '-4px', right: '6px', fontSize: '2.25rem', color: 'var(--fg-1)', opacity: 0.07, pointerEvents: 'none' }} aria-hidden="true" />
                 <h3 className="agency-card-title" style={{ position: 'relative' }}>{title}</h3>
                 <p className="agency-card-body" style={{ position: 'relative' }}>{body}</p>
               </div>
