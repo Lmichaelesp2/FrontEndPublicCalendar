@@ -3808,7 +3808,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 /* Hero */
 .agency-hero{
-  background: #042C53;
+  background: var(--color-ink);
   padding: 5rem 1.5rem 4.5rem;
   text-align: center;
 }
@@ -3843,9 +3843,9 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 .agency-btn-primary:hover{ background: var(--color-accent-dark); color: #fff; }
 .agency-btn-primary--light{
-  background: #fff; color: #042C53;
+  background: #fff; color: var(--color-ink);
 }
-.agency-btn-primary--light:hover{ background: #e8f0f8; color: #042C53; }
+.agency-btn-primary--light:hover{ background: #e8f0f8; color: var(--color-ink); }
 .agency-btn-ghost{
   display: inline-block;
   background: transparent;
@@ -3867,7 +3867,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .agency-h2{
   font-family: var(--font-serif);
   font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 700; color: #042C53;
+  font-weight: 700; color: var(--color-ink);
   margin-bottom: .75rem;
 }
 .agency-lead{
@@ -3899,7 +3899,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .agency-section--alt .agency-card{ background: var(--color-paper); }
 .agency-card-title{
   font-size: .95rem; font-weight: 700;
-  color: #042C53; margin-bottom: .5rem;
+  color: var(--color-ink); margin-bottom: .5rem;
 }
 .agency-card-body{
   font-size: .84rem; color: #666; line-height: 1.7;
@@ -3924,7 +3924,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   color: var(--color-accent); font-weight: 700;
 }
 .agency-method-card{
-  background: #042C53; border-radius: 14px;
+  background: var(--color-ink); border-radius: 14px;
   padding: 2rem 1.5rem; text-align: center;
 }
 .agency-method-card-label{
@@ -3957,7 +3957,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 .agency-who-title{
   font-size: .92rem; font-weight: 700;
-  color: #042C53; margin-bottom: .4rem;
+  color: var(--color-ink); margin-bottom: .4rem;
 }
 .agency-who-desc{
   font-size: .83rem; color: #666; line-height: 1.65;
@@ -3965,7 +3965,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 /* CTA section */
 .agency-cta-section{
-  background: #042C53; padding: 4.5rem 1.5rem;
+  background: var(--color-ink); padding: 4.5rem 1.5rem;
   text-align: center;
 }
 .agency-cta-inner{ max-width: 640px; margin: 0 auto; }
@@ -4000,7 +4000,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 
 /* Hero */
 .ea-hero{
-  background: #042C53; padding: 5rem 1.5rem 4.5rem; text-align: center;
+  background: var(--color-ink); padding: 5rem 1.5rem 4.5rem; text-align: center;
 }
 .ea-hero-inner{ max-width: 680px; margin: 0 auto; }
 .ea-hero .ea-eyebrow{ color: #85B7EB; }
@@ -4041,7 +4041,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .ea-h2{
   font-family: var(--font-serif);
   font-size: clamp(1.35rem, 3vw, 1.9rem);
-  font-weight: 700; color: #042C53; margin-bottom: .6rem;
+  font-weight: 700; color: var(--color-ink); margin-bottom: .6rem;
 }
 .ea-lead{
   font-size: .95rem; color: #555; line-height: 1.75; margin-bottom: 2.5rem;
@@ -4059,7 +4059,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   position: relative; overflow: hidden;
 }
 .ea-section--alt .ea-feature{ background: var(--color-paper); }
-.ea-feature-title{ font-size: .9rem; font-weight: 700; color: #042C53; margin-bottom: .3rem; }
+.ea-feature-title{ font-size: .9rem; font-weight: 700; color: var(--color-ink); margin-bottom: .3rem; }
 .ea-feature-desc{ font-size: .82rem; color: #666; line-height: 1.65; }
 
 /* Comparison */
@@ -4076,7 +4076,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   background: #f8fafc; border: 2px solid #e2e8f0;
 }
 .ea-compare-col--premium{
-  background: #042C53; border: 2px solid #185FA5;
+  background: var(--color-ink); border: 2px solid #185FA5;
 }
 .ea-compare-badge{
   position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
@@ -4085,7 +4085,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   padding: .2rem .7rem; border-radius: 20px; white-space: nowrap;
 }
 .ea-compare-header{
-  font-size: 1rem; font-weight: 800; color: #042C53; margin-bottom: .25rem;
+  font-size: 1rem; font-weight: 800; color: var(--color-ink); margin-bottom: .25rem;
 }
 .ea-compare-col--premium .ea-compare-header{ color: #fff; }
 .ea-compare-list{ list-style: none; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
@@ -4097,7 +4097,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 .ea-compare-item--premium .ea-compare-icon{ color: #4ade80; }
 .ea-compare-price{
-  font-size: 1.9rem; font-weight: 800; color: #042C53; margin-top: .5rem;
+  font-size: 1.9rem; font-weight: 800; color: var(--color-ink); margin-top: .5rem;
 }
 .ea-compare-price span{ font-size: 1rem; font-weight: 500; color: #64748b; }
 .ea-compare-col--premium .ea-compare-price{ color: #fff; }
@@ -4110,7 +4110,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .ea-compare-btn--free{
   background: transparent; color: #64748b; border: 1.5px solid #cbd5e1;
 }
-.ea-compare-btn--free:hover{ border-color: #042C53; color: #042C53; }
+.ea-compare-btn--free:hover{ border-color: var(--color-ink); color: var(--color-ink); }
 .ea-compare-btn--premium{
   background: var(--color-accent); color: #fff; border: none;
 }
@@ -4125,15 +4125,15 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 .ea-step-num{
   width: 36px; height: 36px; flex-shrink: 0;
-  background: #042C53; color: #fff;
+  background: var(--color-ink); color: #fff;
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: .9rem;
 }
-.ea-step-title{ font-size: .95rem; font-weight: 700; color: #042C53; margin-bottom: .3rem; }
+.ea-step-title{ font-size: .95rem; font-weight: 700; color: var(--color-ink); margin-bottom: .3rem; }
 .ea-step-desc{ font-size: .85rem; color: #666; line-height: 1.65; }
 
 /* CTA */
-.ea-cta-section{ background: #042C53; padding: 4.5rem 1.5rem; text-align: center; }
+.ea-cta-section{ background: var(--color-ink); padding: 4.5rem 1.5rem; text-align: center; }
 .ea-cta-inner{ max-width: 560px; margin: 0 auto; }
 .ea-cta-h2{
   font-family: var(--font-serif);
