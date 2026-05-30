@@ -145,7 +145,6 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
       <SponsorPatronSection city="Dallas" citySlug="dallas" category="Networking" categorySlug="networking" variant="hero" />
 
 
-      <EventNetworkingMethodSection city="Dallas" category="Networking" />
 
 
 
@@ -238,6 +237,7 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="Dallas" category="Networking" />
       <SponsorSubmitSection city="Dallas" citySlug="dallas" category="Networking" categorySlug="networking" />
 
       <Footer

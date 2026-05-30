@@ -213,7 +213,6 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
 
 
       <SponsorPatronSection city="San Antonio" citySlug="san-antonio" />
-      <EventNetworkingMethodSection city="San Antonio" />
 
 
 
@@ -287,51 +286,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="San Antonio" />
       <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" />
-
-      {/* Event Networking Method strip */}
-      <section style={{
-        background: '#f9f5ec',
-        padding: '3.5rem 2rem',
-        borderTop: '1px solid #e8e0cc',
-      }}>
-        <div style={{ maxWidth: '780px', margin: '0 auto' }}>
-          <p style={{ margin: '0 0 0.5rem', fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#92712a', fontFamily: 'var(--font-sans)', fontWeight: 700 }}>
-            Free Resource
-          </p>
-          <h2 style={{ margin: '0 0 1.25rem', fontSize: '1.6rem', color: 'var(--color-ink)', fontWeight: 600, fontFamily: 'var(--font-serif)', lineHeight: 1.3, letterSpacing: '-0.02em' }}>
-            The Event Networking Method
-          </h2>
-          <p style={{ margin: '0 0 1.25rem', fontSize: '1rem', color: 'var(--fg-3)', lineHeight: 1.8 }}>
-            Most people attend events and hope something happens. The Event Networking Method is a complete system for building a professional network with intention — starting with identifying exactly who you want to know, the organizations they belong to, and the events they're already at. The San Antonio calendar is one of the tools. The method is how you use it.
-          </p>
-          <div style={{ display: 'flex', gap: '1.75rem', margin: '0 0 1.75rem', flexWrap: 'wrap' }}>
-            {['People', 'Content', 'Events', 'Relationships'].map((phase, i) => (
-              <div key={phase} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#92712a', fontFamily: 'var(--font-sans)' }}>{i + 1}</span>
-                <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-ink)', fontFamily: 'var(--font-sans)', letterSpacing: '0.02em' }}>{phase}</span>
-              </div>
-            ))}
-          </div>
-          <a
-            href="/event-networking-method"
-            style={{
-              display: 'inline-block',
-              background: '#1a1a2e',
-              color: '#ffffff',
-              padding: '0.75rem 1.75rem',
-              borderRadius: '4px',
-              fontSize: '0.875rem',
-              fontWeight: 700,
-              textDecoration: 'none',
-              fontFamily: 'var(--font-sans)',
-              letterSpacing: '0.02em',
-            }}
-          >
-            Learn the Method →
-          </a>
-        </div>
-      </section>
 
       <Footer showIndustryCalendars={true} citySlug="san-antonio" cityName="San Antonio" />
     </div>

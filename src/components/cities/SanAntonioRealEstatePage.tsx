@@ -156,7 +156,6 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
       <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Real Estate" categorySlug="real-estate" variant="hero" />
 
 
-      <EventNetworkingMethodSection city="San Antonio" category="Real Estate" />
 
 
 
@@ -249,6 +248,7 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="San Antonio" category="Real Estate" />
       <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Real Estate" categorySlug="real-estate" />
 
       <Footer

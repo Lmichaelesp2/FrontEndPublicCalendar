@@ -156,7 +156,6 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
       <SponsorPatronSection city="Houston" citySlug="houston" category="Small Business" categorySlug="small-business" variant="hero" />
 
 
-      <EventNetworkingMethodSection city="Houston" category="Small Business" />
 
 
 
@@ -249,6 +248,7 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="Houston" category="Small Business" />
       <SponsorSubmitSection city="Houston" citySlug="houston" category="Small Business" categorySlug="small-business" />
 
       <Footer

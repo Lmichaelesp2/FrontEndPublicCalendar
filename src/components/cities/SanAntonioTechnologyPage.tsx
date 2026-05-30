@@ -156,7 +156,6 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
       <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Technology" categorySlug="technology" variant="hero" />
 
 
-      <EventNetworkingMethodSection city="San Antonio" category="Technology" />
 
 
 
@@ -249,6 +248,7 @@ function SanAntonioTechnologyContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="San Antonio" category="Technology" />
       <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Technology" categorySlug="technology" />
 
       <Footer

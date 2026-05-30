@@ -156,7 +156,6 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
       <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" variant="hero" />
 
 
-      <EventNetworkingMethodSection city="San Antonio" category="Chamber" />
 
 
 
@@ -249,6 +248,7 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="San Antonio" category="Chamber" />
       <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" />
 
       <Footer

@@ -221,7 +221,6 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
 
 
       <SponsorPatronSection city="Houston" citySlug="houston" />
-      <EventNetworkingMethodSection city="Houston" />
 
 
 
@@ -295,6 +294,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="Houston" />
       <SponsorSubmitSection city="Houston" citySlug="houston" />
 
       <Footer showIndustryCalendars={true} citySlug="houston" cityName="Houston" />

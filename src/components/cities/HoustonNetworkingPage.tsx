@@ -145,7 +145,6 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
       <SponsorPatronSection city="Houston" citySlug="houston" category="Networking" categorySlug="networking" variant="hero" />
 
 
-      <EventNetworkingMethodSection city="Houston" category="Networking" />
 
 
 
@@ -238,6 +237,7 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="Houston" category="Networking" />
       <SponsorSubmitSection city="Houston" citySlug="houston" category="Networking" categorySlug="networking" />
 
       <Footer

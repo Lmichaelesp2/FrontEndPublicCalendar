@@ -145,7 +145,6 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
       <SponsorPatronSection city="Dallas" citySlug="dallas" category="Real Estate" categorySlug="real-estate" variant="hero" />
 
 
-      <EventNetworkingMethodSection city="Dallas" category="Real Estate" />
 
 
 
@@ -238,6 +237,7 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="Dallas" category="Real Estate" />
       <SponsorSubmitSection city="Dallas" citySlug="dallas" category="Real Estate" categorySlug="real-estate" />
 
       <Footer

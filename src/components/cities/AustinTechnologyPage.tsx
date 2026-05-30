@@ -145,7 +145,6 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
       <SponsorPatronSection city="Austin" citySlug="austin" category="Technology" categorySlug="technology" variant="hero" />
 
 
-      <EventNetworkingMethodSection city="Austin" category="Technology" />
 
 
 
@@ -238,6 +237,7 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
+      <EventNetworkingMethodSection city="Austin" category="Technology" />
       <SponsorSubmitSection city="Austin" citySlug="austin" category="Technology" categorySlug="technology" />
 
       <Footer
