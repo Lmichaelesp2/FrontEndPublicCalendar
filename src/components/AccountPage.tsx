@@ -228,7 +228,7 @@ export function AccountPage() {
     const city = s.city || 'Unknown';
     if (!byCityMap[city]) byCityMap[city] = [];
     byCityMap[city].push({
-      label:  s.sub_calendar || 'All Events',
+      label:  s.sub_calendar ? `${city} ${s.sub_calendar} Newsletter` : `${city} Newsletter`,
       subId:  s.id,
       source: s.source ?? null,
     });
@@ -294,7 +294,6 @@ export function AccountPage() {
               <div className="acct-subs">
                 {byCity.map(([city, subs]) => (
                   <div key={city} className="acct-sub-row">
-                    <div className="acct-sub-city">{city}</div>
                     <div className="acct-sub-cats">
                       {subs.map(({ label, subId, source }) => (
                         <div key={subId} className="acct-sub-tag-wrap" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
