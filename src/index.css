@@ -3518,7 +3518,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 /* ── Homepage sponsor teaser ─────────────────────────────────────────────── */
 .hp-sponsor-teaser{background:var(--color-dark-section);padding:4.5rem 2rem}
 .hp-sponsor-teaser-inner{max-width:620px;margin:0 auto;text-align:center}
-.hp-sponsor-teaser-label{font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--color-terra);margin-bottom:.75rem}
+.hp-sponsor-teaser-label{font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:.75rem}
 .hp-sponsor-teaser h2{font-family:var(--font-serif);font-size:1.65rem;font-weight:600;color:#fff;line-height:1.3;margin:0 0 1.1rem}
 .hp-sponsor-teaser p{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.8;margin:0 0 2.25rem;max-width:540px;margin-left:auto;margin-right:auto}
 .hp-sponsor-teaser-btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--color-terra);color:#fff;font-size:.85rem;font-weight:700;padding:.65rem 1.4rem;border-radius:3px;text-decoration:none;transition:opacity .15s;margin-top:1.5rem}
@@ -3529,7 +3529,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .hp-sponsor-city-left{display:flex;flex-direction:column;gap:.2rem}
 .hp-sponsor-city-name{font-size:.92rem;font-weight:700;color:#fff;line-height:1}
 .hp-sponsor-city-cats{font-size:.7rem;font-weight:500;color:rgba(255,255,255,.35);letter-spacing:.03em}
-.hp-sponsor-city-cta{font-size:.78rem;font-weight:700;color:var(--color-terra);text-decoration:none;white-space:nowrap;flex-shrink:0;transition:opacity .15s}
+.hp-sponsor-city-cta{font-size:.78rem;font-weight:700;color:rgba(255,255,255,0.85);text-decoration:none;white-space:nowrap;flex-shrink:0;transition:opacity .15s}
 .hp-sponsor-city-cta:hover{opacity:.75}
 @media(max-width:768px){
   .hp-sponsor-city-row{flex-wrap:wrap;gap:.5rem}
