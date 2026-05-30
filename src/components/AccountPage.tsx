@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { User, Mail, Calendar, MapPin, LogOut, X, Plus, ArrowRight } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const CITY_TO_SLUG: Record<string, string> = {
   'Austin':      'austin',
@@ -25,12 +26,25 @@ const CAT_TO_SLUG: Record<string, string> = {
 // ── Login gate shown to unauthenticated visitors ───────────────────────────
 function AccountLoginGate() {
   const { signIn, sendMagicLink } = useAuth();
-  const [mode, setMode]           = useState<'choose' | 'magic' | 'password'>('choose');
-  const [email, setEmail]         = useState('');
-  const [password, setPassword]   = useState('');
-  const [loading, setLoading]     = useState(false);
-  const [error, setError]         = useState('');
-  const [magicSent, setMagicSent] = useState(false);
+  const [mode, setMode]             = useState<'choose' | 'magic' | 'password' | 'forgot'>('choose');
+  const [email, setEmail]           = useState('');
+  const [password, setPassword]     = useState('');
+  const [loading, setLoading]       = useState(false);
+  const [error, setError]           = useState('');
+  const [magicSent, setMagicSent]   = useState(false);
+  const [resetSent, setResetSent]   = useState(false);
+
+  async function handleForgotPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setError(''); setLoading(true);
+    const { error: err } = await supabase.auth.resetPasswordForEmail(
+      email.trim().toLowerCase(),
+      { redirectTo: `${window.location.origin}/account` }
+    );
+    setLoading(false);
+    if (err) { setError(err.message); return; }
+    setResetSent(true);
+  }
 
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault();
@@ -110,8 +124,34 @@ function AccountLoginGate() {
               <button type="submit" className="sub-submit" disabled={loading}>
                 {loading ? 'Logging in…' : 'Log in'} {!loading && <ArrowRight size={16} />}
               </button>
-              <button type="button" onClick={() => setMode('choose')} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem', marginTop: '0.5rem' }}>← Back</button>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem' }}>
+                <button type="button" onClick={() => setMode('choose')} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem' }}>← Back</button>
+                <button type="button" onClick={() => { setMode('forgot'); setError(''); }} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem' }}>Forgot password?</button>
+              </div>
             </form>
+          )}
+
+          {mode === 'forgot' && !resetSent && (
+            <form onSubmit={handleForgotPassword} className="sub-form">
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-muted)', marginBottom: '0.75rem' }}>Enter your email and we'll send a password reset link.</p>
+              <div className="sub-field">
+                <label htmlFor="reset-email">Email address</label>
+                <input id="reset-email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" required />
+              </div>
+              {error && <div className="sub-error">{error}</div>}
+              <button type="submit" className="sub-submit" disabled={loading}>
+                {loading ? 'Sending…' : 'Send reset link'} {!loading && <ArrowRight size={16} />}
+              </button>
+              <button type="button" onClick={() => setMode('password')} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem', marginTop: '0.5rem' }}>← Back</button>
+            </form>
+          )}
+
+          {mode === 'forgot' && resetSent && (
+            <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+              <i className="ti ti-mail-check" style={{ fontSize: '2.5rem', color: 'var(--color-accent)' }} />
+              <p style={{ marginTop: '0.75rem', fontWeight: '600' }}>Check your inbox!</p>
+              <p style={{ color: 'var(--color-muted)', fontSize: '0.9rem' }}>We sent a password reset link to <strong>{email}</strong>.</p>
+            </div>
           )}
 
           <p className="sub-fine-print" style={{ marginTop: '1.5rem' }}>
@@ -125,9 +165,9 @@ function AccountLoginGate() {
 }
 
 export function AccountPage() {
-  const { user, profile, preferences, signOut, updatePreferences, loading } = useAuth();
+  const { user, profile, newsletterSubs, signOut, removeNewsletterSub, loading } = useAuth();
   const router = useRouter();
-  const [removing, setRemoving] = useState<string | null>(null);
+  const [removing, setRemoving] = useState<number | null>(null);
 
   // Show login gate instead of redirecting
   if (!loading && !user) return <AccountLoginGate />;
@@ -174,27 +214,21 @@ export function AccountPage() {
     ? new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : null;
 
-  // Group preferences by city
-  const byCityMap: Record<string, { category: string; prefId: string }[]> = {};
-  preferences.forEach(p => {
-    const city = p.city || 'All Cities';
+  // Group newsletter subscriptions by city (source of truth)
+  const byCityMap: Record<string, { label: string; subId: number }[]> = {};
+  newsletterSubs.forEach(s => {
+    const city = s.city || 'Unknown';
     if (!byCityMap[city]) byCityMap[city] = [];
-    byCityMap[city].push({ category: p.category, prefId: p.id });
+    byCityMap[city].push({
+      label: s.sub_calendar || 'All Events',
+      subId: s.id,
+    });
   });
   const byCity = Object.entries(byCityMap);
 
-  async function handleRemove(prefId: string) {
-    setRemoving(prefId);
-    const remaining = preferences.filter(p => p.id !== prefId);
-    await updatePreferences(
-      remaining.map(p => ({
-        category:           p.category,
-        city:               p.city,
-        participation_type: p.participation_type,
-        time_of_day:        p.time_of_day,
-        cost_preference:    p.cost_preference,
-      }))
-    );
+  async function handleRemove(subId: number) {
+    setRemoving(subId);
+    await removeNewsletterSub(subId);
     setRemoving(null);
   }
 
@@ -254,28 +288,24 @@ export function AccountPage() {
               </div>
             ) : (
               <div className="acct-subs">
-                {byCity.map(([city, cats]) => (
+                {byCity.map(([city, subs]) => (
                   <div key={city} className="acct-sub-row">
                     <div className="acct-sub-city">{city}</div>
                     <div className="acct-sub-cats">
-                      {cats.map(({ category, prefId }) => {
-                        const citySlug = CITY_TO_SLUG[city];
-                        const catSlug  = CAT_TO_SLUG[category];
-                        return (
-                          <div key={prefId} className="acct-sub-tag-wrap">
-                            <span className="acct-sub-tag">{category}</span>
-                            <button
-                              className="acct-sub-remove"
-                              onClick={() => handleRemove(prefId)}
-                              disabled={removing === prefId}
-                              title={`Remove ${category}`}
-                            >
-                              <X size={11} />
-                            </button>
-                          </div>
-                        );
-                      })}
-                      {/* Add another category in this city */}
+                      {subs.map(({ label, subId }) => (
+                        <div key={subId} className="acct-sub-tag-wrap">
+                          <span className="acct-sub-tag">{label}</span>
+                          <button
+                            className="acct-sub-remove"
+                            onClick={() => handleRemove(subId)}
+                            disabled={removing === subId}
+                            title={`Unsubscribe from ${label}`}
+                          >
+                            <X size={11} />
+                          </button>
+                        </div>
+                      ))}
+                      {/* Add another calendar in this city */}
                       {CITY_TO_SLUG[city] && (
                         <a
                           href={`/texas/${CITY_TO_SLUG[city]}/subscribe`}

@@ -99,6 +99,7 @@ export function SubscribePage() {
   const [loading,        setLoading]       = useState(false);
   const [success,        setSuccess]       = useState(false);
   const [isReturning,    setIsReturning]   = useState(false); // existing subscriber adding a new calendar
+  const [alreadyHasThis, setAlreadyHasThis] = useState(false); // already subscribed to this exact calendar
 
   // ── City not found
   if (citySlug && !cityName) {
@@ -133,6 +134,24 @@ export function SubscribePage() {
       const alreadySubscriber = existingRows && existingRows.length > 0;
 
       if (alreadySubscriber) {
+        // Check if they already have THIS specific calendar active
+        const exactQuery = supabase
+          .from('newsletter_subscriptions')
+          .select('id')
+          .eq('email', cleanEmail)
+          .eq('city', cityName ?? '')
+          .eq('status', 'active');
+        const { data: exactMatch } = subCalName
+          ? await exactQuery.eq('sub_calendar', subCalName)
+          : await exactQuery.is('sub_calendar', null);
+
+        if (exactMatch && exactMatch.length > 0) {
+          setAlreadyHasThis(true);
+          setSuccess(true);
+          setLoading(false);
+          return;
+        }
+
         // Returning subscriber — just add this calendar, no auth needed
         const existing = existingRows[0];
         await supabase
@@ -215,7 +234,17 @@ export function SubscribePage() {
         <div className="sub-success-wrap">
           <div className="sub-success-card">
             <div className="sub-success-icon"><i className="ti ti-circle-check" style={{ fontSize: '3rem', color: 'var(--color-accent)' }} aria-hidden="true" /></div>
-            {isReturning ? (
+            {alreadyHasThis ? (
+              <>
+                <h2>You're already subscribed!</h2>
+                <p>
+                  You're already getting the <strong>{subscriptionLabel}</strong> newsletter every Monday.
+                </p>
+                <p style={{ fontSize: '0.9rem', color: 'var(--color-muted)', marginTop: '0.5rem' }}>
+                  <Link href="/account">Manage my subscriptions →</Link>
+                </p>
+              </>
+            ) : isReturning ? (
               <>
                 <h2>Added to your subscriptions!</h2>
                 <p>

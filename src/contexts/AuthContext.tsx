@@ -25,6 +25,15 @@ interface UserPreference {
   cost_preference?: string;
 }
 
+export interface NewsletterSubscription {
+  id: number;
+  email: string;
+  city: string;
+  sub_calendar: string | null;
+  status: string;
+  first_name: string | null;
+}
+
 // filter_view shape saved by the questionnaire
 export interface NetworkProfile {
   categories: string[];
@@ -45,6 +54,7 @@ interface AuthContextType {
   session: Session | null;
   profile: UserProfile | null;
   preferences: UserPreference[];
+  newsletterSubs: NewsletterSubscription[];
   userFilters: UserFilter[];
   showQuestionnaire: boolean;
   showWelcomeModal: boolean;
@@ -53,6 +63,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, firstName: string, cityName?: string) => Promise<{ error: Error | null; data?: any }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data?: any }>;
   sendMagicLink: (email: string) => Promise<{ error: Error | null }>;
+  removeNewsletterSub: (subId: number) => Promise<void>;
   signOut: () => Promise<void>;
   updatePreferences: (prefs: Omit<UserPreference, 'id' | 'user_id'>[]) => Promise<void>;
   saveNetworkProfile: (profile: NetworkProfile) => Promise<void>;
@@ -67,8 +78,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser]               = useState<User | null>(null);
   const [session, setSession]         = useState<Session | null>(null);
   const [profile, setProfile]         = useState<UserProfile | null>(null);
-  const [preferences, setPrefs]       = useState<UserPreference[]>([]);
-  const [userFilters, setUserFilters] = useState<UserFilter[]>([]);
+  const [preferences, setPrefs]           = useState<UserPreference[]>([]);
+  const [newsletterSubs, setNewsletterSubs] = useState<NewsletterSubscription[]>([]);
+  const [userFilters, setUserFilters]     = useState<UserFilter[]>([]);
   const [loading, setLoading]         = useState(true);
 
   // showQuestionnaire: premium user who hasn't saved a network profile yet
@@ -134,6 +146,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .from('user_preferences').select('*').eq('user_id', userId);
     if (prefsData) setPrefs(prefsData as UserPreference[]);
 
+    // Load newsletter subscriptions (source of truth for what emails they get)
+    const { data: { user: authUser2 } } = await supabase.auth.getUser();
+    const userEmail = authUser2?.email;
+    if (userEmail) {
+      const { data: subsData } = await supabase
+        .from('newsletter_subscriptions')
+        .select('id, email, city, sub_calendar, status, first_name')
+        .eq('email', userEmail)
+        .eq('status', 'active')
+        .order('city', { ascending: true });
+      if (subsData) setNewsletterSubs(subsData as NewsletterSubscription[]);
+    }
+
     if (filtersData) setUserFilters(filtersData as UserFilter[]);
   }
 
@@ -155,6 +180,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           setProfile(null);
           setPrefs([]);
+          setNewsletterSubs([]);
         }
         setLoading(false);
       }
@@ -191,6 +217,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       return { error: err as Error };
     }
+  }
+
+  // ── removeNewsletterSub — marks a specific subscription as unsubscribed
+  async function removeNewsletterSub(subId: number) {
+    await supabase
+      .from('newsletter_subscriptions')
+      .update({ status: 'unsubscribed', unsubscribed_at: new Date().toISOString() })
+      .eq('id', subId);
+    // Refresh the list
+    setNewsletterSubs(prev => prev.filter(s => s.id !== subId));
   }
 
   // ── sendMagicLink
@@ -259,8 +295,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{
-      user, session, profile, preferences, userFilters, showQuestionnaire, showWelcomeModal, loading,
-      signUp, signIn, sendMagicLink, signOut, updatePreferences, saveNetworkProfile, refreshProfile, completeWelcome,
+      user, session, profile, preferences, newsletterSubs, userFilters, showQuestionnaire, showWelcomeModal, loading,
+      signUp, signIn, sendMagicLink, removeNewsletterSub, signOut, updatePreferences, saveNetworkProfile, refreshProfile, completeWelcome,
     }}>
       {children}
     </AuthContext.Provider>
