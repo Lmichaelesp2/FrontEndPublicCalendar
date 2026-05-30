@@ -2,7 +2,7 @@
 
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { User, Mail, Calendar, MapPin, LogOut, X, Plus, ArrowRight } from 'lucide-react';
@@ -167,10 +167,18 @@ function AccountLoginGate() {
 export function AccountPage() {
   const { user, profile, newsletterSubs, signOut, removeNewsletterSub, loading } = useAuth();
   const router = useRouter();
-  const [removing, setRemoving] = useState<number | null>(null);
+  const [removing, setRemoving]     = useState<number | null>(null);
+  const [timedOut, setTimedOut]     = useState(false);
+
+  // Safety timeout — if still loading after 4s, stop waiting and show login gate
+  useEffect(() => {
+    if (!loading) return;
+    const t = setTimeout(() => setTimedOut(true), 4000);
+    return () => clearTimeout(t);
+  }, [loading]);
 
   // Show login gate instead of redirecting
-  if (!loading && !user) return <AccountLoginGate />;
+  if ((!loading && !user) || timedOut) return <AccountLoginGate />;
 
   // Still fetching
   if (loading) {
