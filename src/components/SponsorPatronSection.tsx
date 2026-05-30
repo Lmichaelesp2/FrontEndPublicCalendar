@@ -193,8 +193,8 @@ function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo 
           ))}
         </div>
         <div className="sp-grid-footer">
-          <span className="sp-grid-footer-note">This calendar is free because of our sponsors — each one supports a specific category</span>
-          <Link href="/sponsor" className="sp-grid-footer-link">About our sponsorships →</Link>
+          <span className="sp-grid-footer-note">This calendar is free to the business community because local sponsors choose to support it.</span>
+          <Link href="/sponsor" className="sp-grid-footer-link">Become a sponsor →</Link>
         </div>
       </div>
       </div>

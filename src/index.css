@@ -1702,14 +1702,15 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 }
 .sp-grid-bar{
   background:var(--color-paper-2);
-  padding:.6rem 1.25rem;
+  padding:.65rem 1.25rem;
   display:flex;
   align-items:center;
   gap:.75rem;
   border-bottom:1px solid var(--color-rule);
+  border-left:3px solid #042C53;
 }
 .sp-grid-bar-line{ flex:1;height:1px;background:var(--color-rule); }
-.sp-grid-bar-text{ font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);white-space:nowrap; }
+.sp-grid-bar-text{ font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-1);white-space:nowrap; }
 
 /* Desktop: 4-column grid */
 .sp-grid-cards{
@@ -1779,11 +1780,12 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:.75rem 1.25rem;
-  border-top:1px solid #f0f0f0;
+  padding:.85rem 1.25rem;
+  border-top:1px solid var(--color-rule);
+  background:var(--color-paper-2);
 }
-.sp-grid-footer-note{ font-size:.7rem;color:#aaa; }
-.sp-grid-footer-link{ font-size:.7rem;font-weight:700;color:#1652f0;text-decoration:none; }
+.sp-grid-footer-note{ font-size:.78rem;color:var(--fg-2);font-weight:500; }
+.sp-grid-footer-link{ font-size:.78rem;font-weight:700;color:var(--color-accent);text-decoration:none;white-space:nowrap; }
 .sp-grid-footer-link:hover{ text-decoration:underline; }
 
 /* Mobile carousel hint dots */
