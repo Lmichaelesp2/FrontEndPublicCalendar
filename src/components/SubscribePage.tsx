@@ -170,7 +170,7 @@ export function SubscribePage() {
 
         setIsReturning(true);
         setSuccess(true);
-        setTimeout(() => router.push(cityRoute), 5000);
+        setLoading(false);
         return;
       }
 
@@ -219,7 +219,7 @@ export function SubscribePage() {
       }
 
       setSuccess(true);
-      setTimeout(() => router.push(cityRoute), 5000);
+      // No auto-redirect — user chooses where to go from success screen
 
     } catch {
       setError('An unexpected error occurred. Please try again.');
@@ -266,10 +266,14 @@ export function SubscribePage() {
                 </p>
               </>
             )}
-            <p className="sub-success-redirect">Taking you to the calendar...</p>
-            <Link href={cityRoute} className="sub-go-btn">
-              Go to {isSubCal ? `${cityName} ${subCalName}` : cityName} calendar <ArrowRight size={16} />
-            </Link>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginTop: '1rem' }}>
+              <Link href={cityRoute} className="sub-go-btn">
+                Go to {isSubCal ? `${cityName} ${subCalName}` : cityName} calendar <ArrowRight size={16} />
+              </Link>
+              <Link href="/account" style={{ fontSize: '0.88rem', color: 'var(--color-muted)', textAlign: 'center', textDecoration: 'none' }}>
+                View all my subscriptions →
+              </Link>
+            </div>
           </div>
         </div>
         <Footer />
