@@ -398,15 +398,17 @@ export function Navigation() {
                 Organizations ↗
               </a>
 
-              {/* Premium Login — always visible, dimmed when already logged in */}
-              {!user && (
-                <button
+              {/* Premium Login — SA pages only */}
+              {!user && /^\/texas\/san-antonio(\/|$)/.test(pathname ?? '') && (
+                <a
+                  href="https://www.localbusinesscalendars.app/san-antonio/login"
                   className="nav-classic-btn"
-                  onClick={() => setPremiumModalOpen(true)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   title="Log in to your premium calendar account"
                 >
-                  Classic Calendar
-                </button>
+                  Premium Login
+                </a>
               )}
 
               {user && isCityPage(pathname ?? '') ? (
