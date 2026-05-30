@@ -957,7 +957,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .cal-cell-num{font-size:.9rem;font-weight:500;color:var(--color-ink);line-height:1;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .12s,color .12s}
 .cal-cell.range-selected .cal-cell-num{background:var(--color-ink);color:#fff}
 .cal-cell.is-today:not(.range-edge) .cal-cell-num{background:var(--color-paper-2)}
-.cal-cell-dot{width:7px;height:7px;border-radius:50%;background:#ffd700;margin-top:4px;box-shadow:0 0 4px rgba(255,215,0,0.6);opacity:1}
+.cal-cell-dot{width:7px;height:7px;border-radius:50%;background:var(--color-primary);margin-top:4px;opacity:0.8}
 .cal-cell.has-events:not(.range-edge):hover .cal-cell-num{background:#d0e8ff}
 .cal-cell.future-gated{cursor:pointer;opacity:.55}
 .cal-cell.future-gated:hover{background:var(--color-paper-2)}
