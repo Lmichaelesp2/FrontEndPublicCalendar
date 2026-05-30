@@ -98,8 +98,9 @@ export function SubscribePage() {
   const [error,          setError]         = useState('');
   const [loading,        setLoading]       = useState(false);
   const [success,        setSuccess]       = useState(false);
-  const [isReturning,    setIsReturning]   = useState(false); // existing subscriber adding a new calendar
-  const [alreadyHasThis, setAlreadyHasThis] = useState(false); // already subscribed to this exact calendar
+  const [isReturning,      setIsReturning]     = useState(false); // existing subscriber adding a new calendar
+  const [alreadyHasThis,   setAlreadyHasThis]  = useState(false); // already subscribed to this exact calendar
+  const [emailIsKnown,     setEmailIsKnown]    = useState(false); // email found in active subscriptions — hide password
 
   // ── City not found
   if (citySlug && !cityName) {
@@ -124,11 +125,12 @@ export function SubscribePage() {
     try {
       const cleanEmail = email.trim().toLowerCase();
 
-      // Check if this email already exists in newsletter_subscriptions
+      // Check if this email already exists as an active subscriber
       const { data: existingRows } = await supabase
         .from('newsletter_subscriptions')
         .select('id, first_name, user_id')
         .eq('email', cleanEmail)
+        .eq('status', 'active')
         .limit(1);
 
       const alreadySubscriber = existingRows && existingRows.length > 0;
@@ -366,29 +368,47 @@ export function SubscribePage() {
                     id="sub-email"
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => { setEmail(e.target.value); setEmailIsKnown(false); }}
+                    onBlur={async (e) => {
+                      const val = e.target.value.trim().toLowerCase();
+                      if (!val.includes('@')) return;
+                      const { data } = await supabase
+                        .from('newsletter_subscriptions')
+                        .select('id')
+                        .eq('email', val)
+                        .eq('status', 'active')
+                        .limit(1);
+                      setEmailIsKnown(!!(data && data.length > 0));
+                    }}
                     placeholder="you@example.com"
                     required
                   />
+                  {emailIsKnown && (
+                    <p style={{ fontSize: '0.8rem', color: '#16a34a', marginTop: '0.25rem' }}>
+                      ✓ We recognize this email — just click Subscribe below, no password needed.
+                    </p>
+                  )}
                 </div>
 
-                <div className="sub-field">
-                  <label htmlFor="sub-password">Password</label>
-                  <input
-                    id="sub-password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    required
-                    minLength={6}
-                  />
-                </div>
+                {!emailIsKnown && (
+                  <div className="sub-field">
+                    <label htmlFor="sub-password">Password</label>
+                    <input
+                      id="sub-password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      required
+                      minLength={6}
+                    />
+                  </div>
+                )}
 
                 {error && <div className="sub-error">{error}</div>}
 
                 <button type="submit" className="sub-submit" disabled={loading}>
-                  {loading ? 'Please wait...' : mode === 'signup' ? 'Subscribe — Free' : 'Log in'}
+                  {loading ? 'Please wait...' : emailIsKnown ? 'Subscribe — Free' : mode === 'signup' ? 'Subscribe — Free' : 'Log in'}
                   {!loading && <ArrowRight size={16} />}
                 </button>
               </form>
