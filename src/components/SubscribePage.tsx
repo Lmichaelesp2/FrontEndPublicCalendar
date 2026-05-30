@@ -91,13 +91,14 @@ export function SubscribePage() {
     : '/';
 
   // ── Form state
-  const [mode,       setMode]      = useState<'signup' | 'signin'>('signup');
-  const [firstName,  setFirstName] = useState('');
-  const [email,      setEmail]     = useState('');
-  const [password,   setPassword]  = useState('');
-  const [error,      setError]     = useState('');
-  const [loading,    setLoading]   = useState(false);
-  const [success,    setSuccess]   = useState(false);
+  const [mode,           setMode]          = useState<'signup' | 'signin'>('signup');
+  const [firstName,      setFirstName]     = useState('');
+  const [email,          setEmail]         = useState('');
+  const [password,       setPassword]      = useState('');
+  const [error,          setError]         = useState('');
+  const [loading,        setLoading]       = useState(false);
+  const [success,        setSuccess]       = useState(false);
+  const [isReturning,    setIsReturning]   = useState(false); // existing subscriber adding a new calendar
 
   // ── City not found
   if (citySlug && !cityName) {
@@ -120,6 +121,39 @@ export function SubscribePage() {
     setLoading(true);
 
     try {
+      const cleanEmail = email.trim().toLowerCase();
+
+      // Check if this email already exists in newsletter_subscriptions
+      const { data: existingRows } = await supabase
+        .from('newsletter_subscriptions')
+        .select('id, first_name, user_id')
+        .eq('email', cleanEmail)
+        .limit(1);
+
+      const alreadySubscriber = existingRows && existingRows.length > 0;
+
+      if (alreadySubscriber) {
+        // Returning subscriber — just add this calendar, no auth needed
+        const existing = existingRows[0];
+        await supabase
+          .from('newsletter_subscriptions')
+          .upsert({
+            user_id:      existing.user_id ?? null,
+            email:        cleanEmail,
+            first_name:   existing.first_name ?? firstName.trim() || null,
+            city:         cityName,
+            sub_calendar: subCalName ?? null,
+            status:       'active',
+            source:       'added_calendar',
+          }, { onConflict: 'email,city,sub_calendar' });
+
+        setIsReturning(true);
+        setSuccess(true);
+        setTimeout(() => router.push(cityRoute), 5000);
+        return;
+      }
+
+      // New subscriber — full signup/signin flow
       let userId: string | null = null;
 
       if (mode === 'signup') {
@@ -132,12 +166,12 @@ export function SubscribePage() {
         userId = data?.user?.id ?? user?.id ?? null;
       }
 
-      // Save the single subscription row
+      // Save the subscription row
       const { error: insertError } = await supabase
         .from('newsletter_subscriptions')
         .upsert({
           user_id:      userId,
-          email:        email.trim().toLowerCase(),
+          email:        cleanEmail,
           first_name:   firstName.trim() || null,
           city:         cityName,
           sub_calendar: subCalName ?? null,
@@ -147,16 +181,15 @@ export function SubscribePage() {
 
       if (insertError) {
         console.error('Subscription error:', insertError.message);
-        // Non-fatal — account was created, subscription may already exist
       }
 
-      // Send welcome email via SendGrid (non-blocking)
+      // Send welcome email (new signups only)
       if (mode === 'signup') {
         fetch('/api/send-welcome', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            email:       email.trim().toLowerCase(),
+            email:       cleanEmail,
             firstName:   firstName.trim() || null,
             city:        cityName,
             subCalendar: subCalName ?? null,
@@ -182,13 +215,26 @@ export function SubscribePage() {
         <div className="sub-success-wrap">
           <div className="sub-success-card">
             <div className="sub-success-icon"><i className="ti ti-circle-check" style={{ fontSize: '3rem', color: 'var(--color-accent)' }} aria-hidden="true" /></div>
-            <h2>
-              {firstName ? `Welcome, ${firstName}!` : "You're on the list!"}
-            </h2>
-            <p>
-              You're now subscribed to the <strong>{subscriptionLabel}</strong> weekly newsletter.
-              Your first digest arrives next Monday morning.
-            </p>
+            {isReturning ? (
+              <>
+                <h2>Added to your subscriptions!</h2>
+                <p>
+                  The <strong>{subscriptionLabel}</strong> newsletter has been added to your account.
+                  You'll start receiving it in your next Monday digest.
+                </p>
+                <p style={{ fontSize: '0.9rem', color: 'var(--color-muted)', marginTop: '0.5rem' }}>
+                  <Link href="/account">View all my subscriptions →</Link>
+                </p>
+              </>
+            ) : (
+              <>
+                <h2>{firstName ? `Welcome, ${firstName}!` : "You're on the list!"}</h2>
+                <p>
+                  You're now subscribed to the <strong>{subscriptionLabel}</strong> weekly newsletter.
+                  Your first digest arrives next Monday morning.
+                </p>
+              </>
+            )}
             <p className="sub-success-redirect">Taking you to the calendar...</p>
             <Link href={cityRoute} className="sub-go-btn">
               Go to {isSubCal ? `${cityName} ${subCalName}` : cityName} calendar <ArrowRight size={16} />
