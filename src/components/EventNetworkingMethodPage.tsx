@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
-import { supabase } from '../lib/supabase';
 
 const CARDS = [
   {
@@ -77,24 +75,6 @@ const CARDS = [
 ];
 
 export function EventNetworkingMethodPage() {
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    if (!email) return;
-    const { error: sbError } = await supabase
-      .from('subscribers')
-      .insert([{ email, source: 'enm-page' }]);
-    if (sbError && sbError.code !== '23505') {
-      setError('Something went wrong. Please try again.');
-    } else {
-      setSubmitted(true);
-    }
-  };
-
   return (
     <>
       <SEOHead
@@ -177,29 +157,15 @@ export function EventNetworkingMethodPage() {
         {/* Subscribe */}
         <section className="enm-subscribe">
           <div className="enm-subscribe-inner">
-            <h2 className="enm-subscribe-title">Get the free weekly event calendar</h2>
+            <h2 className="enm-subscribe-title">The calendar that makes the method work</h2>
             <p className="enm-subscribe-body">
-              Every week we curate the best business events in your city — networking, chamber,
-              real estate, technology, and small business. Free, always.
+              Every week we curate the business events in San Antonio, Austin, Dallas, and Houston —
+              networking, chamber, real estate, technology, and small business. Pick your city and
+              get the free Monday morning newsletter.
             </p>
-            {submitted ? (
-              <p className="enm-subscribe-thanks">You are on the list. See you at the events.</p>
-            ) : (
-              <form className="enm-subscribe-form" onSubmit={handleSubmit}>
-                <input
-                  type="email"
-                  placeholder="Your email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="enm-subscribe-input"
-                />
-                <button type="submit" className="btn btn-terra">
-                  Subscribe free
-                </button>
-                {error && <p className="enm-subscribe-error">{error}</p>}
-              </form>
-            )}
+            <Link href="/texas" className="btn btn-terra">
+              Pick your city and subscribe free →
+            </Link>
           </div>
         </section>
 
