@@ -759,16 +759,16 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .hero-city-panel-tag::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
 a.hero-city-panel-tag{text-decoration:none;cursor:pointer}
 a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;border-left-width:3px}
-.hero-city-panel-row:nth-child(1) .hero-city-panel-tag{border-left-color:#2563eb}
-.hero-city-panel-row:nth-child(1) .hero-city-panel-tag::before{background:#2563eb}
-.hero-city-panel-row:nth-child(2) .hero-city-panel-tag{border-left-color:#7c3aed}
-.hero-city-panel-row:nth-child(2) .hero-city-panel-tag::before{background:#7c3aed}
-.hero-city-panel-row:nth-child(3) .hero-city-panel-tag{border-left-color:#0891b2}
-.hero-city-panel-row:nth-child(3) .hero-city-panel-tag::before{background:#0891b2}
-.hero-city-panel-row:nth-child(4) .hero-city-panel-tag{border-left-color:#059669}
-.hero-city-panel-row:nth-child(4) .hero-city-panel-tag::before{background:#059669}
-.hero-city-panel-row:nth-child(5) .hero-city-panel-tag{border-left-color:#d97706}
-.hero-city-panel-row:nth-child(5) .hero-city-panel-tag::before{background:#d97706}
+.hero-city-panel-row:nth-child(1) .hero-city-panel-tag{border-left-color:var(--color-primary)}
+.hero-city-panel-row:nth-child(1) .hero-city-panel-tag::before{background:var(--color-primary)}
+.hero-city-panel-row:nth-child(2) .hero-city-panel-tag{border-left-color:var(--color-primary)}
+.hero-city-panel-row:nth-child(2) .hero-city-panel-tag::before{background:var(--color-primary)}
+.hero-city-panel-row:nth-child(3) .hero-city-panel-tag{border-left-color:var(--color-primary)}
+.hero-city-panel-row:nth-child(3) .hero-city-panel-tag::before{background:var(--color-primary)}
+.hero-city-panel-row:nth-child(4) .hero-city-panel-tag{border-left-color:var(--color-primary)}
+.hero-city-panel-row:nth-child(4) .hero-city-panel-tag::before{background:var(--color-primary)}
+.hero-city-panel-row:nth-child(5) .hero-city-panel-tag{border-left-color:var(--color-primary)}
+.hero-city-panel-row:nth-child(5) .hero-city-panel-tag::before{background:var(--color-primary)}
 .hero-city-panel-row:last-child .hero-city-panel-tag{border-left-color:transparent;color:var(--fg-3);font-weight:var(--fw-medium);font-style:italic;font-size:var(--fs-sm)}
 .hero-city-panel-row:last-child .hero-city-panel-tag::before{display:none}
 
