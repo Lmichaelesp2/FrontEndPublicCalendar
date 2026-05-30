@@ -774,7 +774,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .hero-city-panel-row:last-child .hero-city-panel-tag::before{display:none}
 
 /* Bottom editorial strip */
-.hero-strip{background:var(--color-ink);color:rgba(255,255,255,.65);font-family:var(--font-sans);font-size:var(--fs-xs);font-weight:var(--fw-medium);letter-spacing:var(--ls-overline);text-transform:uppercase;padding:.6rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;justify-content:center}
+.hero-strip{background:var(--color-dark-section);color:rgba(255,255,255,.65);font-family:var(--font-sans);font-size:var(--fs-xs);font-weight:var(--fw-medium);letter-spacing:var(--ls-overline);text-transform:uppercase;padding:.6rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;justify-content:center}
 .hero-strip-divider{color:rgba(255,255,255,.3);font-weight:300}
 
 /* ── Responsive ── */
@@ -986,7 +986,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .cal-results-count{font-weight:700;color:#1a4f8a}
 
 /* CALENDAR NEWSLETTER BAR */
-.cal-newsletter-bar{margin:.25rem auto 1rem;max-width:900px;background:var(--color-ink);border-radius:var(--radius-lg);overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+.cal-newsletter-bar{margin:.25rem auto 1rem;max-width:900px;background:var(--color-dark-section);border-radius:var(--radius-lg);overflow:hidden;border:1px solid rgba(255,255,255,.1)}
 .cal-newsletter-bar-inner{display:flex;align-items:center;justify-content:space-between;gap:1.25rem;padding:1rem 1.5rem;flex-wrap:wrap}
 .cal-newsletter-bar-text{display:flex;align-items:flex-start;gap:.75rem;flex:1;min-width:0}
 .cal-newsletter-bar-icon{color:#93c5fd;flex-shrink:0;margin-top:.15rem}
@@ -1142,7 +1142,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .ev-list{display:flex;flex-direction:column;gap:.5rem}
 .ev-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--gray-200);overflow:hidden;transition:all .2s ease}
 .ev-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px)}
-.ev-card-head{background:var(--color-ink);padding:.75rem 1.1rem .65rem;display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.ev-card-head{background:var(--color-dark-section);padding:.75rem 1.1rem .65rem;display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
 .ev-card-head-left h3{font-size:.9rem;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:.1rem;font-family:var(--font-serif);}
 .ev-card-head-left .ev-dt{font-size:.75rem;font-weight:500;color:rgba(255,255,255,.65)}
 .ev-vd{padding:.28rem .7rem;border-radius:var(--radius-xs);background:rgba(255,255,255,.18);color:rgba(255,255,255,.9);font-size:.72rem;font-weight:700;text-decoration:none;white-space:nowrap;transition:all .15s;flex-shrink:0;border:none;cursor:pointer;margin-top:.05rem}
@@ -1191,7 +1191,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .ev-card-new{background:var(--white);border-radius:14px;box-shadow:0 1px 8px rgba(0,0,0,.07);border:1px solid #dde3ec;overflow:hidden;transition:all .2s ease;animation:fadeUp .28s ease forwards;margin-bottom:1.25rem}
 .ev-card-new:hover{box-shadow:0 3px 16px rgba(0,0,0,.1);transform:translateY(-1px)}
 
-.ev-card-new-header{background:var(--color-ink);padding:1.5rem 1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.ev-card-new-header{background:var(--color-dark-section);padding:1.5rem 1.5rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
 .ev-card-new-header-content{flex:1;min-width:0}
 .ev-card-new-title{font-size:1.1rem;font-weight:700;color:var(--white);line-height:1.35;margin:0 0 .4rem 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
 .ev-card-new-time{display:flex;align-items:flex-start;gap:.5rem;font-size:.88rem;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:.01em;line-height:1.4;margin-bottom:.5rem}
