@@ -139,7 +139,7 @@ function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo 
       <div className="sp-grid-wrap">
         <div className="sp-grid-bar">
           <div className="sp-grid-bar-line" />
-          <span className="sp-grid-bar-text">This calendar is made possible by</span>
+          <span className="sp-grid-bar-text">Made possible by our sponsors</span>
           <div className="sp-grid-bar-line" />
         </div>
         <div className="sp-grid-cards" ref={scrollRef} onScroll={handleScroll}>
