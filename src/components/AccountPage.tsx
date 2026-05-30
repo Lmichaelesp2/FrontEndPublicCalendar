@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
-import { User, Mail, Calendar, MapPin, LogOut, X, Plus, ArrowRight } from 'lucide-react';
+import { User, Mail, Calendar, MapPin, LogOut, X, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const CITY_TO_SLUG: Record<string, string> = {
@@ -281,18 +281,13 @@ export function AccountPage() {
             <div className="acct-section-header">
               <h2 className="acct-section-title">
                 <MapPin size={16} />
-                Your Calendar Subscriptions
+                Your Newsletter Subscriptions
               </h2>
-              <a href="/subscribe" className="acct-add-btn">
-                <Plus size={13} />
-                Add More
-              </a>
             </div>
 
             {byCity.length === 0 ? (
               <div className="acct-empty">
-                You haven't subscribed to any calendars yet.{' '}
-                <a href="/subscribe" className="acct-link">Browse calendars →</a>
+                You haven't subscribed to any newsletters yet.
               </div>
             ) : (
               <div className="acct-subs">
@@ -313,21 +308,37 @@ export function AccountPage() {
                           </button>
                         </div>
                       ))}
-                      {/* Add another calendar in this city */}
-                      {CITY_TO_SLUG[city] && (
-                        <a
-                          href={`/texas/${CITY_TO_SLUG[city]}/subscribe`}
-                          className="acct-sub-add"
-                          title={`Add a ${city} calendar`}
-                        >
-                          <Plus size={12} />
-                        </a>
-                      )}
                     </div>
                   </div>
                 ))}
               </div>
             )}
+
+            {/* Add newsletter callout */}
+            <div style={{
+              marginTop: '1.5rem',
+              padding: '1rem 1.25rem',
+              background: '#f0f4ff',
+              borderLeft: '4px solid #1a3a5c',
+              borderRadius: '4px',
+            }}>
+              <p style={{ margin: 0, fontWeight: '600', fontSize: '0.95rem', color: '#1a3a5c' }}>
+                Want to add a newsletter?
+              </p>
+              <p style={{ margin: '0.3rem 0 0.75rem', fontSize: '0.88rem', color: '#444', lineHeight: '1.5' }}>
+                Visit any city calendar page and click <strong>Subscribe Free</strong> to add that newsletter to your account.
+              </p>
+              <a href="/texas" style={{
+                display: 'inline-block',
+                fontSize: '0.88rem',
+                fontWeight: '600',
+                color: '#1a3a5c',
+                textDecoration: 'none',
+                borderBottom: '1px solid #1a3a5c',
+              }}>
+                Browse city calendars →
+              </a>
+            </div>
           </div>
 
           {/* Sign out */}
