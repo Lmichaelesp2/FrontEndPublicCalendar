@@ -154,7 +154,7 @@ export function AccountPage() {
             <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
               Your subscriptions are managed by email. Visit any city page and subscribe to add calendars to your account.
             </p>
-            <a href="/texas" className="sub-submit" style={{ display: 'inline-flex', textDecoration: 'none', justifyContent: 'center' }}>
+            <a href="/subscribe" className="sub-submit" style={{ display: 'inline-flex', textDecoration: 'none', justifyContent: 'center' }}>
               Browse Calendars <ArrowRight size={16} />
             </a>
             <button
@@ -241,7 +241,7 @@ export function AccountPage() {
                 <MapPin size={16} />
                 Your Calendar Subscriptions
               </h2>
-              <a href="/texas" className="acct-add-btn">
+              <a href="/subscribe" className="acct-add-btn">
                 <Plus size={13} />
                 Add More
               </a>
