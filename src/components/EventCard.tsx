@@ -116,9 +116,9 @@ function PaidBadge({ paid }: { paid: string }) {
   if (isUnknown) return null;
   return (
     <span style={{
-      background: isFree ? 'transparent' : '#c2410c',
-      border: '1px solid #c2410c',
-      color: isFree ? '#c2410c' : '#fff',
+      background: isFree ? '#f0fdf4' : '#fff7ed',
+      border: `1px solid ${isFree ? '#86efac' : '#fed7aa'}`,
+      color: isFree ? '#15803d' : '#92400e',
       borderRadius: '20px', fontSize: '11px', fontWeight: 600, padding: '3px 10px',
     }}>
       {isFree ? 'Free' : 'Paid'}
@@ -129,8 +129,10 @@ function PaidBadge({ paid }: { paid: string }) {
 function Badge({ label }: { label: string }) {
   return (
     <span style={{
-      background: 'transparent', border: '1px solid #c2410c', color: '#c2410c',
-      borderRadius: '20px', fontSize: '11px', padding: '3px 10px',
+      background: 'var(--color-paper-2)',
+      border: '1px solid var(--color-rule)',
+      color: 'var(--fg-3)',
+      borderRadius: '20px', fontSize: '11px', padding: '3px 10px', fontWeight: 500,
     }}>
       {label}
     </span>
@@ -143,12 +145,12 @@ function ActionBtn({ icon, label, onClick }: { icon: React.ReactNode; label: str
   return (
     <button onClick={onClick} style={{
       display: 'flex', alignItems: 'center', gap: '6px',
-      background: 'none', border: '1px solid #c2410c', borderRadius: '8px',
-      color: '#c2410c', cursor: 'pointer', fontSize: '12px', padding: '6px 12px',
+      background: 'none', border: '1px solid var(--color-rule)', borderRadius: '8px',
+      color: 'var(--fg-3)', cursor: 'pointer', fontSize: '12px', padding: '6px 12px',
       transition: 'background 0.15s, color 0.15s',
     }}
-      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#c2410c'; (e.currentTarget as HTMLButtonElement).style.color = '#fff'; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = '#c2410c'; }}
+      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-paper-2)'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--fg-1)'; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--fg-3)'; }}
     >
       {icon} {label}
     </button>
