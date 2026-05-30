@@ -132,7 +132,8 @@ export function AccountPage() {
   // Show login gate instead of redirecting
   if (!loading && !user) return <AccountLoginGate />;
 
-  if (loading || !profile) {
+  // Still fetching
+  if (loading) {
     return (
       <>
         <Navigation />
@@ -142,9 +143,9 @@ export function AccountPage() {
     );
   }
 
-  const memberSince = new Date(profile.created_at).toLocaleDateString('en-US', {
-    month: 'long', year: 'numeric'
-  });
+  const memberSince = profile?.created_at
+    ? new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+    : null;
 
   // Group preferences by city
   const byCityMap: Record<string, { category: string; prefId: string }[]> = {};
@@ -187,8 +188,8 @@ export function AccountPage() {
               <User size={28} />
             </div>
             <div>
-              <h1 className="acct-name">Hi, {profile.first_name || 'Member'}</h1>
-              <p className="acct-since">Member since {memberSince}</p>
+              <h1 className="acct-name">Hi, {profile?.first_name || 'Member'}</h1>
+              {memberSince && <p className="acct-since">Member since {memberSince}</p>}
             </div>
           </div>
 
@@ -196,12 +197,12 @@ export function AccountPage() {
           <div className="acct-cards">
             <div className="acct-card">
               <div className="acct-card-label"><Mail size={14} />Email Address</div>
-              <div className="acct-card-value">{profile.email}</div>
+              <div className="acct-card-value">{profile?.email || user?.email}</div>
             </div>
             <div className="acct-card">
               <div className="acct-card-label"><Calendar size={14} />Membership</div>
               <div className="acct-card-value acct-tier">
-                {profile.subscription_tier === 'free' ? 'Free Member' : profile.subscription_tier}
+                {profile?.subscription_tier === 'free' || !profile?.subscription_tier ? 'Free Member' : profile.subscription_tier}
               </div>
             </div>
           </div>
