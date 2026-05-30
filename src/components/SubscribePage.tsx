@@ -204,6 +204,17 @@ export function SubscribePage() {
         console.error('Subscription error:', insertError.message);
       }
 
+      // Auto-enroll in LBO for this city (same Supabase auth — account already exists)
+      if (cityName) {
+        supabase.from('lbo_users').upsert({
+          email:  cleanEmail,
+          city:   cityName,
+          source: 'lbc_signup',
+        }, { onConflict: 'email' }).then(({ error }) => {
+          if (error) console.error('LBO upsert error:', error.message);
+        });
+      }
+
       // Send welcome email (new signups only)
       if (mode === 'signup') {
         fetch('/api/send-welcome', {
@@ -264,6 +275,15 @@ export function SubscribePage() {
                   You're now subscribed to the <strong>{subscriptionLabel}</strong> weekly newsletter.
                   Your first digest arrives next Monday morning.
                 </p>
+                {cityName && (
+                  <p style={{ fontSize: '0.9rem', background: '#f0f4ff', borderLeft: '3px solid #1a3a5c', padding: '0.75rem 1rem', borderRadius: '4px', textAlign: 'left', lineHeight: '1.5' }}>
+                    <strong>Bonus:</strong> Your account also gives you free access to{' '}
+                    <a href={`https://www.localbusinessorganizations.com`} target="_blank" rel="noopener noreferrer" style={{ color: '#1a3a5c', fontWeight: '600' }}>
+                      Local Business Organizations
+                    </a>
+                    {' '}— a directory of {cityName} business organizations, chambers, and associations. Same login, no extra signup needed.
+                  </p>
+                )}
               </>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginTop: '1rem' }}>

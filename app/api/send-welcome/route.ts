@@ -55,8 +55,12 @@ function buildWelcomeEmail(firstName: string | null, city: string, subCalendar: 
                 Every <strong>Monday at 6 a.m. CT</strong>, you'll get a curated digest of every upcoming business event in ${city} — networking mixers, chamber meetings, industry roundtables, and more — delivered straight to your inbox.
               </p>
 
-              <p style="margin:0 0 32px;font-size:16px;color:#333;line-height:1.7;">
+              <p style="margin:0 0 20px;font-size:16px;color:#333;line-height:1.7;">
                 You also now have access to <strong>full event details</strong> on the calendar — descriptions, locations, end times, and website links.
+              </p>
+
+              <p style="margin:0 0 32px;font-size:16px;color:#333;line-height:1.7;">
+                One more thing — your account also gives you free access to <strong><a href="https://www.localbusinessorganizations.com/browse?city=${encodeURIComponent(city)}" style="color:#1a1a2e;text-decoration:underline;">Local Business Organizations</a></strong>, a directory of ${city} business organizations, chambers, and associations. Same login, no extra signup needed.
               </p>
 
               <!-- CTA Button -->
