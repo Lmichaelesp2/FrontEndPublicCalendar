@@ -52,6 +52,7 @@ interface AuthContextType {
   completeWelcome: (firstName: string) => void;
   signUp: (email: string, password: string, firstName: string, cityName?: string) => Promise<{ error: Error | null; data?: any }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data?: any }>;
+  sendMagicLink: (email: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   updatePreferences: (prefs: Omit<UserPreference, 'id' | 'user_id'>[]) => Promise<void>;
   saveNetworkProfile: (profile: NetworkProfile) => Promise<void>;
@@ -192,6 +193,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  // ── sendMagicLink
+  async function sendMagicLink(email: string) {
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: `${window.location.origin}/account` },
+      });
+      return { error: error as Error | null };
+    } catch (err) {
+      return { error: err as Error };
+    }
+  }
+
   // ── signIn
   async function signIn(email: string, password: string) {
     try {
@@ -246,7 +260,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={{
       user, session, profile, preferences, userFilters, showQuestionnaire, showWelcomeModal, loading,
-      signUp, signIn, signOut, updatePreferences, saveNetworkProfile, refreshProfile, completeWelcome,
+      signUp, signIn, sendMagicLink, signOut, updatePreferences, saveNetworkProfile, refreshProfile, completeWelcome,
     }}>
       {children}
     </AuthContext.Provider>

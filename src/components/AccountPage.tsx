@@ -2,10 +2,10 @@
 
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
-import { User, Mail, Calendar, MapPin, LogOut, X, Plus } from 'lucide-react';
+import { User, Mail, Calendar, MapPin, LogOut, X, Plus, ArrowRight } from 'lucide-react';
 
 const CITY_TO_SLUG: Record<string, string> = {
   'Austin':      'austin',
@@ -22,14 +22,115 @@ const CAT_TO_SLUG: Record<string, string> = {
   'Small Business': 'small-business',
 };
 
+// ── Login gate shown to unauthenticated visitors ───────────────────────────
+function AccountLoginGate() {
+  const { signIn, sendMagicLink } = useAuth();
+  const [mode, setMode]           = useState<'choose' | 'magic' | 'password'>('choose');
+  const [email, setEmail]         = useState('');
+  const [password, setPassword]   = useState('');
+  const [loading, setLoading]     = useState(false);
+  const [error, setError]         = useState('');
+  const [magicSent, setMagicSent] = useState(false);
+
+  async function handleMagicLink(e: React.FormEvent) {
+    e.preventDefault();
+    setError(''); setLoading(true);
+    const { error: err } = await sendMagicLink(email.trim().toLowerCase());
+    setLoading(false);
+    if (err) { setError(err.message); return; }
+    setMagicSent(true);
+  }
+
+  async function handlePassword(e: React.FormEvent) {
+    e.preventDefault();
+    setError(''); setLoading(true);
+    const { error: err } = await signIn(email.trim().toLowerCase(), password);
+    setLoading(false);
+    if (err) setError(err.message);
+    // on success AuthContext updates user → AccountPage re-renders automatically
+  }
+
+  return (
+    <>
+      <Navigation />
+      <div className="sub-success-wrap">
+        <div className="sub-form-card" style={{ maxWidth: '420px', margin: '0 auto' }}>
+
+          <h2 style={{ marginBottom: '0.25rem', fontSize: '1.4rem' }}>Manage My Subscriptions</h2>
+          <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+            Log in to view, add, or remove your newsletter subscriptions.
+          </p>
+
+          {mode === 'choose' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <button className="sub-submit" onClick={() => setMode('magic')} style={{ justifyContent: 'center' }}>
+                <Mail size={16} /> Send me a magic link
+              </button>
+              <button className="nav-signin-btn" onClick={() => setMode('password')} style={{ width: '100%', padding: '0.75rem', textAlign: 'center' }}>
+                Log in with password
+              </button>
+            </div>
+          )}
+
+          {mode === 'magic' && !magicSent && (
+            <form onSubmit={handleMagicLink} className="sub-form">
+              <div className="sub-field">
+                <label htmlFor="ml-email">Your email address</label>
+                <input id="ml-email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" required />
+              </div>
+              {error && <div className="sub-error">{error}</div>}
+              <button type="submit" className="sub-submit" disabled={loading}>
+                {loading ? 'Sending…' : 'Send magic link'} {!loading && <ArrowRight size={16} />}
+              </button>
+              <button type="button" onClick={() => setMode('choose')} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem', marginTop: '0.5rem' }}>← Back</button>
+            </form>
+          )}
+
+          {mode === 'magic' && magicSent && (
+            <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+              <i className="ti ti-mail-check" style={{ fontSize: '2.5rem', color: 'var(--color-accent)' }} />
+              <p style={{ marginTop: '0.75rem', fontWeight: '600' }}>Check your inbox!</p>
+              <p style={{ color: 'var(--color-muted)', fontSize: '0.9rem' }}>
+                We sent a link to <strong>{email}</strong>. Click it to manage your subscriptions.
+              </p>
+            </div>
+          )}
+
+          {mode === 'password' && (
+            <form onSubmit={handlePassword} className="sub-form">
+              <div className="sub-field">
+                <label htmlFor="pw-email">Email address</label>
+                <input id="pw-email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" required />
+              </div>
+              <div className="sub-field">
+                <label htmlFor="pw-password">Password</label>
+                <input id="pw-password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
+              </div>
+              {error && <div className="sub-error">{error}</div>}
+              <button type="submit" className="sub-submit" disabled={loading}>
+                {loading ? 'Logging in…' : 'Log in'} {!loading && <ArrowRight size={16} />}
+              </button>
+              <button type="button" onClick={() => setMode('choose')} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem', marginTop: '0.5rem' }}>← Back</button>
+            </form>
+          )}
+
+          <p className="sub-fine-print" style={{ marginTop: '1.5rem' }}>
+            Don't have an account? <a href="/texas/san-antonio/subscribe">Subscribe free →</a>
+          </p>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+}
+
 export function AccountPage() {
   const { user, profile, preferences, signOut, updatePreferences, loading } = useAuth();
   const router = useRouter();
   const [removing, setRemoving] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!loading && !user) router.push('/');
-  }, [user, loading, router]);
+  // Show login gate instead of redirecting
+  if (!loading && !user) return <AccountLoginGate />;
 
   if (loading || !profile) {
     return (
