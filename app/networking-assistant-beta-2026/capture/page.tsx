@@ -4,14 +4,13 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../src/contexts/AuthContext';
 import {
-  fetchMyNAEvents, createPerson, createInteraction, createFollowUp, type NAEvent,
+  fetchMyNAEvents, createNAEvent, createPerson, createInteraction, createFollowUp, type NAEvent,
 } from '../../../src/lib/networking-assistant';
 
 function addDays(days: number) {
   const d = new Date(); d.setDate(d.getDate() + days);
   return d.toISOString().split('T')[0];
 }
-
 function formatDate(dateStr: string) {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 }
@@ -23,7 +22,6 @@ const FOLLOW_UPS = [
   { value: 'call',             label: 'Give them a call' },
   { value: 'reminder',         label: 'Just remind me' },
 ];
-
 const WHEN = [
   { label: 'Tomorrow',   days: 1  },
   { label: 'In 2 days',  days: 2  },
@@ -31,13 +29,15 @@ const WHEN = [
   { label: 'Next week',  days: 7  },
   { label: 'In 2 weeks', days: 14 },
 ];
+const EVENT_TYPES = ['chamber','mixer','conference','startup','informal','coffee','other'] as const;
+const CITIES = ['San Antonio','Austin','Dallas','Houston'] as const;
 
 const css = {
-  page:  { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif' } as React.CSSProperties,
+  page:   { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif' } as React.CSSProperties,
   header: { background: '#042C53', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 } as React.CSSProperties,
-  card:  { background: '#fff', borderRadius: 12, padding: '16px', marginBottom: 12 } as React.CSSProperties,
-  label: { display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 5 },
-  input: { width: '100%', padding: '11px 13px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 15, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', color: '#111827', outline: 'none' },
+  card:   { background: '#fff', borderRadius: 12, padding: '16px', marginBottom: 12 } as React.CSSProperties,
+  label:  { display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 5 },
+  input:  { width: '100%', padding: '11px 13px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 15, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', color: '#111827', outline: 'none' },
   sectionTitle: { fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 10, textTransform: 'uppercase' as const, letterSpacing: 0.5 },
 };
 
@@ -50,12 +50,24 @@ function CaptureFlowInner() {
   const [myEvents, setMyEvents]           = useState<NAEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<NAEvent | null>(null);
   const [phase, setPhase]                 = useState<'select_event' | 'form' | 'summary'>('select_event');
+  const [savedPersonId, setSavedPersonId] = useState<string | null>(null);
 
+  // Inline event creation
+  const [showNewEvent, setShowNewEvent]   = useState(false);
+  const [newEventName, setNewEventName]   = useState('');
+  const [newEventDate, setNewEventDate]   = useState(new Date().toISOString().split('T')[0]);
+  const [newEventCity, setNewEventCity]   = useState('San Antonio');
+  const [creatingEvent, setCreatingEvent] = useState(false);
+
+  // Contact fields
   const [firstName, setFirstName]   = useState('');
   const [lastName, setLastName]     = useState('');
   const [company, setCompany]       = useState('');
   const [title, setTitle]           = useState('');
+  const [email, setEmail]           = useState('');
+  const [phone, setPhone]           = useState('');
   const [topic, setTopic]           = useState('');
+  const [gotCard, setGotCard]       = useState(false);
   const [followUps, setFollowUps]   = useState<string[]>(['linkedin_connect']);
   const [whenDays, setWhenDays]     = useState(2);
   const [customDate, setCustomDate] = useState('');
@@ -79,13 +91,34 @@ function CaptureFlowInner() {
     });
   }, [user, preloadEventId]);
 
+  async function handleCreateEvent() {
+    if (!user || !newEventName.trim()) return;
+    setCreatingEvent(true);
+    const { data } = await createNAEvent({
+      user_profile_id: user.id, source: 'manual', lbc_event_id: null,
+      event_name: newEventName.trim(), event_date: newEventDate,
+      event_type: 'other', host_org: null, location_name: null,
+      city: newEventCity, description: null, user_goal: null, user_rating: null, user_debrief_notes: null,
+    });
+    setCreatingEvent(false);
+    if (data) {
+      setMyEvents(p => [data, ...p]);
+      setSelectedEvent(data);
+      setShowNewEvent(false);
+      setNewEventName('');
+      setPhase('form');
+    }
+  }
+
   function toggle(val: string) {
     setFollowUps(p => p.includes(val) ? p.filter(v => v !== val) : [...p, val]);
   }
 
   function reset() {
-    setFirstName(''); setLastName(''); setCompany(''); setTitle(''); setTopic('');
+    setFirstName(''); setLastName(''); setCompany(''); setTitle('');
+    setEmail(''); setPhone(''); setTopic(''); setGotCard(false);
     setFollowUps(['linkedin_connect']); setWhenDays(2); setCustomDate(''); setErrors([]);
+    setSavedPersonId(null);
   }
 
   async function handleSave() {
@@ -95,17 +128,22 @@ function CaptureFlowInner() {
     if (errs.length) { setErrors(errs); return; }
     setSaving(true);
     const due = customDate || addDays(whenDays);
+
+    // Build notes: include "Got business card" flag if checked
+    const notes = gotCard ? 'Business card received — fill in details later.' : null;
+
     const { data: person } = await createPerson({
       user_profile_id: user!.id,
       first_name: firstName.trim(), last_name: lastName.trim() || null,
       company: company.trim() || null, title: title.trim() || null,
-      email: null, phone: null, linkedin_url: null,
-      city: selectedEvent?.city ?? null, industry: null, tags: null,
-      relationship_status: 'warm',
+      email: email.trim() || null, phone: phone.trim() || null,
+      linkedin_url: null, city: selectedEvent?.city ?? null,
+      industry: null, tags: null, relationship_status: 'warm',
       first_met_event_id: selectedEvent?.id ?? null,
       first_met_date: selectedEvent?.event_date ?? null,
-      notes: null, linkedin_connected: false, google_contact_id: null,
+      notes, linkedin_connected: false, google_contact_id: null,
     });
+
     if (person) {
       await createInteraction({
         user_profile_id: user!.id, person_id: person.id,
@@ -122,6 +160,7 @@ function CaptureFlowInner() {
         });
       }
       setSavedName([firstName.trim(), lastName.trim()].filter(Boolean).join(' '));
+      setSavedPersonId(person.id);
       setSavedCount(c => c + 1);
     }
     setSaving(false);
@@ -130,59 +169,114 @@ function CaptureFlowInner() {
 
   if (loading || !user) return null;
 
-  // ── Select event phase
+  // ── Header
+  const Header = ({ onBack }: { onBack: () => void }) => (
+    <div style={css.header}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#93b4d4', fontSize: 20, cursor: 'pointer', padding: 0 }}>‹</button>
+        <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Capture Contact</div>
+      </div>
+      {selectedEvent && phase === 'form' && (
+        <div style={{ fontSize: 11, color: '#93b4d4', maxWidth: 160, textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>
+          {selectedEvent.event_name}
+        </div>
+      )}
+    </div>
+  );
+
+  // ── PHASE: Select event
   if (phase === 'select_event') return (
     <div style={css.page}>
-      <div style={css.header}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <a href="/networking-assistant-beta-2026" style={{ color: '#93b4d4', fontSize: 20, textDecoration: 'none' }}>‹</a>
-          <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Capture Contact</div>
-        </div>
-        <a href="/networking-assistant-beta-2026/events" style={{ fontSize: 12, color: '#93b4d4', textDecoration: 'none' }}>+ Add Event</a>
-      </div>
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '24px 16px' }}>
-        <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 6 }}>Which event are you at?</div>
-        <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>Pick an event to attach this contact to.</div>
-        {myEvents.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: 32, background: '#fff', borderRadius: 12 }}>
-            <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 16 }}>No events yet. Add one first.</div>
-            <a href="/networking-assistant-beta-2026/events" style={{ height: 44, display: 'inline-flex', alignItems: 'center', padding: '0 24px', background: '#042C53', color: '#fff', borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>Browse Events →</a>
+      <Header onBack={() => router.push('/networking-assistant-beta-2026')} />
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: '24px 16px' }}>
+
+        {/* Inline new event form */}
+        {showNewEvent ? (
+          <div style={{ ...css.card, marginBottom: 16 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 14 }}>Quick Event Setup</div>
+            <div style={{ marginBottom: 10 }}>
+              <label style={css.label}>Event Name *</label>
+              <input autoFocus value={newEventName} onChange={e => setNewEventName(e.target.value)}
+                placeholder="e.g. SA Chamber Monthly Mixer"
+                onKeyDown={e => e.key === 'Enter' && handleCreateEvent()}
+                style={css.input} />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+              <div>
+                <label style={css.label}>Date</label>
+                <input type="date" value={newEventDate} onChange={e => setNewEventDate(e.target.value)} style={css.input} />
+              </div>
+              <div>
+                <label style={css.label}>City</label>
+                <select value={newEventCity} onChange={e => setNewEventCity(e.target.value)} style={css.input}>
+                  {CITIES.map(c => <option key={c}>{c}</option>)}
+                </select>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={handleCreateEvent} disabled={!newEventName.trim() || creatingEvent} style={{
+                flex: 1, height: 42, borderRadius: 8, border: 'none', cursor: 'pointer',
+                background: newEventName.trim() ? '#042C53' : '#e5e7eb',
+                color: newEventName.trim() ? '#fff' : '#9ca3af', fontWeight: 700, fontSize: 14,
+              }}>{creatingEvent ? 'Creating…' : 'Create & Capture →'}</button>
+              <button onClick={() => setShowNewEvent(false)} style={{
+                height: 42, padding: '0 16px', borderRadius: 8, border: '1px solid #e5e7eb',
+                background: '#fff', color: '#6b7280', fontSize: 13, cursor: 'pointer',
+              }}>Cancel</button>
+            </div>
           </div>
-        ) : myEvents.map(ev => (
-          <button key={ev.id} onClick={() => { setSelectedEvent(ev); setPhase('form'); }} style={{
-            width: '100%', background: '#fff', borderRadius: 12, border: '1.5px solid #e5e7eb',
-            padding: '14px 16px', cursor: 'pointer', textAlign: 'left', marginBottom: 10,
-          }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
-            <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 500, marginTop: 2 }}>{formatDate(ev.event_date)}</div>
-            {ev.host_org && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 1 }}>{ev.host_org}</div>}
-          </button>
-        ))}
+        ) : (
+          <>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 4 }}>Which event are you at?</div>
+            <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>Pick an event or create one on the spot.</div>
+
+            {/* Quick create button — always visible */}
+            <button onClick={() => setShowNewEvent(true)} style={{
+              width: '100%', padding: '13px 16px', borderRadius: 10, border: '2px dashed #1652f0',
+              background: '#f8faff', color: '#1652f0', fontWeight: 700, fontSize: 14, cursor: 'pointer', marginBottom: 14, textAlign: 'left' as const,
+            }}>
+              + I'm at a new event — create it now
+            </button>
+
+            {myEvents.length > 0 && (
+              <>
+                <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8 }}>
+                  Recent Events
+                </div>
+                {myEvents.map(ev => (
+                  <button key={ev.id} onClick={() => { setSelectedEvent(ev); setPhase('form'); }} style={{
+                    width: '100%', background: '#fff', borderRadius: 10, border: '1px solid #e5e7eb',
+                    padding: '13px 16px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 8,
+                  }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
+                    <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 500, marginTop: 2 }}>{formatDate(ev.event_date)}</div>
+                    {ev.host_org && <div style={{ fontSize: 11, color: '#6b7280' }}>{ev.host_org}</div>}
+                  </button>
+                ))}
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
 
-  // ── Capture form phase
+  // ── PHASE: Capture form
   if (phase === 'form') return (
     <div style={css.page}>
-      <div style={css.header}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <button onClick={() => { reset(); setPhase('select_event'); }} style={{ background: 'none', border: 'none', color: '#93b4d4', fontSize: 20, cursor: 'pointer', padding: 0 }}>‹</button>
-          <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>New Contact</div>
-        </div>
-        <div style={{ fontSize: 12, color: '#93b4d4' }}>{selectedEvent?.event_name}</div>
-      </div>
-
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '16px 16px 48px' }}>
+      <Header onBack={() => { reset(); setPhase('select_event'); }} />
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: '16px 16px 48px' }}>
 
         {/* Event context */}
-        <div style={{ background: '#eff6ff', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: '#1d4ed8', fontWeight: 500 }}>
-          📍 {selectedEvent?.event_name} · {selectedEvent ? formatDate(selectedEvent.event_date) : ''}
-        </div>
+        {selectedEvent && (
+          <div style={{ background: '#eff6ff', borderRadius: 8, padding: '9px 14px', marginBottom: 14, fontSize: 13, color: '#1d4ed8', fontWeight: 500 }}>
+            📍 {selectedEvent.event_name} · {formatDate(selectedEvent.event_date)}
+          </div>
+        )}
 
         {/* Errors */}
         {errors.length > 0 && (
-          <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', marginBottom: 16 }}>
+          <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', marginBottom: 12 }}>
             {errors.map((e, i) => <div key={i} style={{ fontSize: 13, color: '#dc2626' }}>⚠ {e}</div>)}
           </div>
         )}
@@ -190,23 +284,34 @@ function CaptureFlowInner() {
         {/* Contact info */}
         <div style={css.card}>
           <div style={css.sectionTitle}>Contact Info</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
             <div>
               <label style={css.label}>First Name *</label>
-              <input autoFocus value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Sarah" style={{ ...css.input, borderColor: !firstName.trim() && errors.length ? '#fca5a5' : '#e5e7eb' }} />
+              <input autoFocus value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Sarah"
+                style={{ ...css.input, borderColor: !firstName.trim() && errors.length ? '#fca5a5' : '#e5e7eb' }} />
             </div>
             <div>
               <label style={css.label}>Last Name</label>
               <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Johnson" style={css.input} />
             </div>
           </div>
-          <div style={{ marginBottom: 12 }}>
+          <div style={{ marginBottom: 10 }}>
             <label style={css.label}>Company</label>
             <input value={company} onChange={e => setCompany(e.target.value)} placeholder="Acme Corp" style={css.input} />
           </div>
-          <div>
+          <div style={{ marginBottom: 10 }}>
             <label style={css.label}>Title / Role</label>
             <input value={title} onChange={e => setTitle(e.target.value)} placeholder="VP of Sales" style={css.input} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 4 }}>
+            <div>
+              <label style={css.label}>Email</label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="sarah@acme.com" style={css.input} />
+            </div>
+            <div>
+              <label style={css.label}>Phone</label>
+              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="210-555-0100" style={css.input} />
+            </div>
           </div>
         </div>
 
@@ -216,6 +321,13 @@ function CaptureFlowInner() {
           <textarea value={topic} onChange={e => setTopic(e.target.value)}
             placeholder="Key topics, opportunities, anything to remember…"
             rows={3} style={{ ...css.input, resize: 'vertical' as const }} />
+
+          {/* Business card checkbox */}
+          <label style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12, cursor: 'pointer' }}>
+            <input type="checkbox" checked={gotCard} onChange={e => setGotCard(e.target.checked)}
+              style={{ width: 18, height: 18, cursor: 'pointer', accentColor: '#042C53' }} />
+            <span style={{ fontSize: 13, color: '#374151', fontWeight: 500 }}>Got their business card — fill in details later</span>
+          </label>
         </div>
 
         {/* Follow-ups */}
@@ -226,13 +338,13 @@ function CaptureFlowInner() {
               const sel = followUps.includes(opt.value);
               return (
                 <button key={opt.value} onClick={() => toggle(opt.value)} style={{
-                  height: 46, borderRadius: 8, border: `2px solid ${sel ? '#042C53' : '#e5e7eb'}`,
+                  height: 44, borderRadius: 8, border: `2px solid ${sel ? '#042C53' : '#e5e7eb'}`,
                   background: sel ? '#042C53' : '#fff', color: sel ? '#fff' : '#374151',
                   fontWeight: sel ? 700 : 400, fontSize: 14, cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 14px',
                 }}>
                   {opt.label}
-                  {sel && <span style={{ fontSize: 16 }}>✓</span>}
+                  {sel && <span>✓</span>}
                 </button>
               );
             })}
@@ -242,14 +354,14 @@ function CaptureFlowInner() {
         {/* When */}
         <div style={css.card}>
           <div style={css.sectionTitle}>When to Follow Up</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 8, marginBottom: 14 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 8, marginBottom: 12 }}>
             {WHEN.map(w => {
               const active = whenDays === w.days && !customDate;
               return (
                 <button key={w.label} onClick={() => { setWhenDays(w.days); setCustomDate(''); }} style={{
-                  height: 34, borderRadius: 20, border: `1.5px solid ${active ? '#042C53' : '#e5e7eb'}`,
+                  height: 32, borderRadius: 20, border: `1.5px solid ${active ? '#042C53' : '#e5e7eb'}`,
                   background: active ? '#042C53' : '#fff', color: active ? '#fff' : '#374151',
-                  fontWeight: active ? 700 : 400, fontSize: 13, cursor: 'pointer', padding: '0 14px',
+                  fontWeight: active ? 700 : 400, fontSize: 12, cursor: 'pointer', padding: '0 14px',
                 }}>{w.label}</button>
               );
             })}
@@ -260,11 +372,10 @@ function CaptureFlowInner() {
           </div>
         </div>
 
-        {/* Save */}
         <button onClick={handleSave} disabled={saving} style={{
-          width: '100%', height: 52, borderRadius: 12, border: 'none', cursor: saving ? 'default' : 'pointer',
+          width: '100%', height: 50, borderRadius: 12, border: 'none',
           background: saving ? '#e5e7eb' : '#c2410c', color: saving ? '#9ca3af' : '#fff',
-          fontWeight: 700, fontSize: 16,
+          fontWeight: 700, fontSize: 16, cursor: saving ? 'default' : 'pointer',
         }}>
           {saving ? 'Saving…' : 'Save Contact & Queue Follow-Ups →'}
         </button>
@@ -272,31 +383,41 @@ function CaptureFlowInner() {
     </div>
   );
 
-  // ── Summary phase
+  // ── PHASE: Summary
   return (
     <div style={css.page}>
-      <div style={css.header}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <button onClick={() => { reset(); setPhase('form'); }} style={{ background: 'none', border: 'none', color: '#93b4d4', fontSize: 20, cursor: 'pointer', padding: 0 }}>‹</button>
-          <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Saved</div>
-        </div>
-      </div>
-      <div style={{ maxWidth: 680, margin: '0 auto', padding: '48px 16px 32px', textAlign: 'center' }}>
-        <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#042C53', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 28, color: '#fff' }}>✓</div>
+      <Header onBack={() => { reset(); setPhase('form'); }} />
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: '40px 16px 32px', textAlign: 'center' }}>
+        <div style={{ width: 60, height: 60, borderRadius: '50%', background: '#042C53', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', fontSize: 26, color: '#fff' }}>✓</div>
         <div style={{ fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 6 }}>{savedName} saved</div>
         <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 4 }}>{followUps.length} follow-up{followUps.length !== 1 ? 's' : ''} queued</div>
-        <div style={{ fontSize: 13, color: '#9ca3af', marginBottom: 40 }}>
+        {gotCard && (
+          <div style={{ fontSize: 13, color: '#d97706', marginBottom: 4, fontWeight: 500 }}>🃏 Business card — remember to add details later</div>
+        )}
+        <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 36 }}>
           {savedCount} contact{savedCount !== 1 ? 's' : ''} captured · {selectedEvent?.event_name}
         </div>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <button onClick={() => { reset(); setPhase('form'); }} style={{
-            height: 50, borderRadius: 12, border: 'none', background: '#042C53', color: '#fff',
-            fontWeight: 700, fontSize: 15, cursor: 'pointer',
+            height: 48, borderRadius: 10, border: 'none', background: '#042C53',
+            color: '#fff', fontWeight: 700, fontSize: 15, cursor: 'pointer',
           }}>+ Capture Another Person</button>
+
+          {savedPersonId && (
+            <a href={`/networking-assistant-beta-2026/persons/${savedPersonId}`} style={{
+              height: 48, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
+              color: '#1652f0', fontWeight: 600, fontSize: 14, textDecoration: 'none',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>View {savedName}'s Record →</a>
+          )}
+
           <a href="/networking-assistant-beta-2026" style={{
-            height: 50, borderRadius: 12, border: '1.5px solid #e5e7eb', background: '#fff', color: '#374151',
-            fontWeight: 600, fontSize: 15, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>View Follow-Up Queue →</a>
+            height: 48, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
+            color: '#374151', fontWeight: 600, fontSize: 14, textDecoration: 'none',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>View Follow-Up Queue</a>
+
           <button onClick={() => { reset(); setPhase('select_event'); }} style={{
             background: 'none', border: 'none', color: '#6b7280', fontSize: 13, cursor: 'pointer', marginTop: 4,
           }}>← Switch Event</button>
