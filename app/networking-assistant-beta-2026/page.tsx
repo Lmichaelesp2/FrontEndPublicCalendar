@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../src/contexts/AuthContext';
 import {
@@ -51,8 +51,16 @@ export default function NAHomePage() {
   const [events, setEvents]           = useState<any[]>([]);
   const [pageLoading, setPageLoading] = useState(true);
   const [mobileTab, setMobileTab]     = useState<'queue' | 'contacts' | 'events'>('queue');
+  const [isDesktop, setIsDesktop]     = useState(false);
 
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -204,147 +212,119 @@ export default function NAHomePage() {
     )
   );
 
+  const maxW = isDesktop ? 960 : 560;
+
   return (
-    <>
-      {/* Responsive styles injected via style tag */}
-      <style>{`
-        .na-layout { display: block; }
-        .na-sidebar { display: none; }
-        .na-main { width: 100%; }
-        .na-mobile-tabs { display: flex; }
-        .na-mobile-bottomnav { display: flex; }
-        .na-desktop-actions { display: none; }
+    <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: isDesktop ? 40 : 72 }}>
 
-        @media (min-width: 768px) {
-          .na-page { padding-bottom: 0 !important; }
-          .na-header-inner { max-width: 960px !important; }
-          .na-layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; max-width: 960px; margin: 0 auto; padding: 24px 24px 40px; }
-          .na-sidebar { display: block; }
-          .na-main { width: 100%; }
-          .na-mobile-tabs { display: none; }
-          .na-mobile-bottomnav { display: none; }
-          .na-desktop-actions { display: flex; }
-          .na-header-stats { max-width: 960px !important; }
-        }
-      `}</style>
-
-      <div className="na-page" style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72 }}>
-
-        {/* Header */}
-        <div style={{ background: '#042C53' }}>
-          <div className="na-header-inner" style={{ maxWidth: 560, margin: '0 auto', padding: '0 16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
-              <div>
-                <div style={{ fontSize: 10, color: '#93b4d4', letterSpacing: 1, textTransform: 'uppercase' as const }}>Local Business Calendars</div>
-                <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Networking Assistant</div>
-              </div>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                {/* Desktop: show both buttons */}
-                <a className="na-desktop-actions" href="/networking-assistant-beta-2026/events"
-                  style={{ height: 34, borderRadius: 7, border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#93b4d4', fontWeight: 600, fontSize: 12, padding: '0 14px', textDecoration: 'none', display: 'none', alignItems: 'center' }}>
+      {/* Header */}
+      <div style={{ background: '#042C53' }}>
+        <div style={{ maxWidth: maxW, margin: '0 auto', padding: '0 16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 }}>
+            <div>
+              <div style={{ fontSize: 10, color: '#93b4d4', letterSpacing: 1, textTransform: 'uppercase' as const }}>Local Business Calendars</div>
+              <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Networking Assistant</div>
+            </div>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              {isDesktop && (
+                <a href="/networking-assistant-beta-2026/events"
+                  style={{ height: 34, borderRadius: 7, border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#93b4d4', fontWeight: 600, fontSize: 12, padding: '0 14px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
                   Events
                 </a>
-                <a href="/networking-assistant-beta-2026/capture"
-                  style={{ height: 36, borderRadius: 8, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none', padding: '0 16px', display: 'inline-flex', alignItems: 'center' }}>
-                  + Capture
-                </a>
-              </div>
+              )}
+              <a href="/networking-assistant-beta-2026/capture"
+                style={{ height: 36, borderRadius: 8, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none', padding: '0 16px', display: 'inline-flex', alignItems: 'center' }}>
+                + Capture
+              </a>
             </div>
           </div>
+        </div>
 
-          {/* Stats */}
-          {!pageLoading && (
-            <div className="na-header-stats" style={{ maxWidth: 560, margin: '0 auto', padding: '0 16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.1)', paddingBottom: 12 }}>
-                {[
-                  { label: 'Overdue',  val: overdue.length,  color: overdue.length > 0 ? '#f87171' : '#93b4d4' },
-                  { label: 'Today',    val: today.length,    color: today.length > 0 ? '#60a5fa' : '#93b4d4' },
-                  { label: 'Upcoming', val: upcoming.length, color: '#93b4d4' },
-                  { label: 'Contacts', val: persons.length,  color: '#93b4d4' },
-                ].map(s => (
-                  <div key={s.label} style={{ textAlign: 'center', paddingTop: 10 }}>
-                    <div style={{ fontSize: 22, fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.val}</div>
-                    <div style={{ fontSize: 10, color: '#64849e', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginTop: 2 }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
+        {/* Stats */}
+        {!pageLoading && (
+          <div style={{ maxWidth: maxW, margin: '0 auto', padding: '0 16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.1)', paddingBottom: 12 }}>
+              {[
+                { label: 'Overdue',  val: overdue.length,  color: overdue.length > 0 ? '#f87171' : '#93b4d4' },
+                { label: 'Today',    val: today.length,    color: today.length > 0 ? '#60a5fa' : '#93b4d4' },
+                { label: 'Upcoming', val: upcoming.length, color: '#93b4d4' },
+                { label: 'Contacts', val: persons.length,  color: '#93b4d4' },
+              ].map(s => (
+                <div key={s.label} style={{ textAlign: 'center', paddingTop: 10 }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.val}</div>
+                  <div style={{ fontSize: 10, color: '#64849e', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginTop: 2 }}>{s.label}</div>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Mobile tabs */}
-          <div className="na-mobile-tabs" style={{ maxWidth: 560, margin: '0 auto', padding: '0 16px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        {/* Mobile-only tabs in header */}
+        {!isDesktop && (
+          <div style={{ maxWidth: 560, margin: '0 auto', padding: '0 16px', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex' }}>
             {(['queue','contacts','events'] as const).map(t => (
               <button key={t} onClick={() => setMobileTab(t)} style={{
                 flex: 1, height: 38, background: 'none', border: 'none', cursor: 'pointer',
                 fontSize: 12, fontWeight: mobileTab === t ? 700 : 400,
                 color: mobileTab === t ? '#fff' : '#93b4d4',
                 borderBottom: mobileTab === t ? '2px solid #c2410c' : '2px solid transparent',
-                textTransform: 'capitalize' as const,
               }}>
                 {t === 'queue' ? `Queue (${followUps.length})` : t === 'contacts' ? `Contacts (${persons.length})` : `Events (${events.length})`}
               </button>
             ))}
           </div>
-        </div>
-
-        {/* ── DESKTOP: two-column layout / MOBILE: single tab */}
-        {pageLoading ? (
-          <div style={{ textAlign: 'center', color: '#9ca3af', padding: '48px 0', fontSize: 14 }}>Loading…</div>
-        ) : (
-          <>
-            {/* Desktop two-column */}
-            <div className="na-layout">
-              {/* Left: Queue */}
-              <div className="na-main">
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 12, display: 'none' }} className="na-desktop-section-label">
-                  Follow-Up Queue
-                </div>
-                <QueueContent />
-              </div>
-
-              {/* Right: Contacts + Events sidebar */}
-              <div className="na-sidebar">
-                <div style={{ marginBottom: 24 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const }}>Contacts · {persons.length}</div>
-                    <a href="/networking-assistant-beta-2026/capture" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>+ Add</a>
-                  </div>
-                  <ContactsList />
-                </div>
-
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const }}>My Events · {events.length}</div>
-                    <a href="/networking-assistant-beta-2026/events" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>Browse</a>
-                  </div>
-                  <EventsList />
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile single-column tab content */}
-            <div style={{ maxWidth: 560, margin: '0 auto', padding: '16px 16px 0' }}>
-              <div className="na-mobile-tabs" style={{ display: mobileTab === 'queue' ? 'block' : 'none' }}>
-                <QueueContent />
-              </div>
-              <div style={{ display: mobileTab === 'contacts' ? 'block' : 'none' }}>
-                <div className="na-mobile-tabs">
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 10 }}>All Contacts · {persons.length}</div>
-                  <ContactsList />
-                </div>
-              </div>
-              <div style={{ display: mobileTab === 'events' ? 'block' : 'none' }}>
-                <div className="na-mobile-tabs">
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 10 }}>My Events · {events.length}</div>
-                  <EventsList />
-                </div>
-              </div>
-            </div>
-          </>
         )}
+      </div>
 
-        {/* Mobile bottom nav */}
-        <div className="na-mobile-bottomnav" style={{
+      {/* Content */}
+      {pageLoading ? (
+        <div style={{ textAlign: 'center', color: '#9ca3af', padding: '48px 0', fontSize: 14 }}>Loading…</div>
+      ) : isDesktop ? (
+        /* ── DESKTOP: two-column */
+        <div style={{ maxWidth: 960, margin: '0 auto', padding: '24px 24px 40px', display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24 }}>
+          {/* Left: queue */}
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 12 }}>
+              Follow-Up Queue · {followUps.length}
+            </div>
+            <QueueContent />
+          </div>
+          {/* Right: contacts + events */}
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const }}>Contacts · {persons.length}</div>
+                <a href="/networking-assistant-beta-2026/capture" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>+ Add</a>
+              </div>
+              <ContactsList />
+            </div>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const }}>My Events · {events.length}</div>
+                <a href="/networking-assistant-beta-2026/events" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>Browse</a>
+              </div>
+              <EventsList />
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* ── MOBILE: single tab */
+        <div style={{ maxWidth: 560, margin: '0 auto', padding: '16px 16px 0' }}>
+          {mobileTab === 'queue' && <QueueContent />}
+          {mobileTab === 'contacts' && <>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 10 }}>All Contacts · {persons.length}</div>
+            <ContactsList />
+          </>}
+          {mobileTab === 'events' && <>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 10 }}>My Events · {events.length}</div>
+            <EventsList />
+          </>}
+        </div>
+      )}
+
+      {/* Mobile bottom nav */}
+      {!isDesktop && (
+        <div style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, height: 64,
           background: '#fff', borderTop: '1px solid #e5e7eb',
           display: 'flex', alignItems: 'stretch',
@@ -370,7 +350,7 @@ export default function NAHomePage() {
             </button>
           ))}
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 }
