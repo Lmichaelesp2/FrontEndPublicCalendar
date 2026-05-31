@@ -8,18 +8,32 @@ import {
   fetchPersons,
   fetchMyNAEvents,
   updateFollowUp,
-  linkedInSearchURL,
   daysAgo,
 } from '../../src/lib/networking-assistant';
 
 const ACTION_LABELS: Record<string, string> = {
-  linkedin_connect: '🔗 Connect on LinkedIn',
-  linkedin_message: '💬 LinkedIn message',
-  email:            '✉️ Send email',
-  call:             '📞 Call',
-  reminder:         '🔔 Reminder',
-  re_engage:        '🔄 Re-engage',
+  linkedin_connect: 'Connect on LinkedIn',
+  linkedin_message: 'LinkedIn message',
+  email:            'Send email',
+  call:             'Call',
+  reminder:         'Reminder',
+  re_engage:        'Re-engage',
 };
+
+const ACTION_ICONS: Record<string, string> = {
+  linkedin_connect: '↗',
+  linkedin_message: '↗',
+  email:            '✉',
+  call:             '↗',
+  reminder:         '◎',
+  re_engage:        '↺',
+};
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', {
+    weekday: 'short', month: 'short', day: 'numeric'
+  });
+}
 
 function formatShortDate(dateStr: string) {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -32,17 +46,27 @@ function dueBucket(dueDateStr: string): 'overdue' | 'today' | 'upcoming' {
   return 'upcoming';
 }
 
+function metLabel(eventDateStr: string): string {
+  const days = daysAgo(eventDateStr);
+  if (days < 0) return `in ${Math.abs(days)}d`;
+  if (days === 0) return 'today';
+  if (days === 1) return 'yesterday';
+  return `${days}d ago`;
+}
+
+const RELATIONSHIP_COLORS: Record<string, string> = {
+  hot: '#c2410c', warm: '#1652f0', cold: '#5b6678', archived: '#5b6678',
+};
+
 export default function NAHomePage() {
   const { user, profile, loading } = useAuth();
   const router = useRouter();
 
-  const [followUps, setFollowUps]   = useState<any[]>([]);
-  const [personCount, setPersonCount] = useState(0);
-  const [eventCount, setEventCount]   = useState(0);
-  const [pageLoading, setPageLoading] = useState(true);
-  const [activeTab, setActiveTab]     = useState<'queue' | 'contacts' | 'events'>('queue');
+  const [followUps, setFollowUps]     = useState<any[]>([]);
   const [persons, setPersons]         = useState<any[]>([]);
   const [events, setEvents]           = useState<any[]>([]);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [activeTab, setActiveTab]     = useState<'queue' | 'contacts' | 'events'>('queue');
 
   useEffect(() => {
     if (!loading && !user) router.push('/');
@@ -58,8 +82,8 @@ export default function NAHomePage() {
         fetchMyNAEvents(user!.id),
       ]);
       if (fq.data) setFollowUps(fq.data);
-      if (pp.data) { setPersons(pp.data); setPersonCount(pp.data.length); }
-      if (ev.data) { setEvents(ev.data); setEventCount(ev.data.length); }
+      if (pp.data) setPersons(pp.data);
+      if (ev.data) setEvents(ev.data);
       setPageLoading(false);
     }
     load();
@@ -81,229 +105,226 @@ export default function NAHomePage() {
   const overdue  = followUps.filter(f => dueBucket(f.due_date) === 'overdue');
   const today    = followUps.filter(f => dueBucket(f.due_date) === 'today');
   const upcoming = followUps.filter(f => dueBucket(f.due_date) === 'upcoming');
-
-  const FollowUpCard = ({ fu }: { fu: any }) => {
-    const bucket = dueBucket(fu.due_date);
-    const styles = {
-      overdue:  { border: '#fca5a5', bg: '#fef2f2', dot: '#dc2626', label: 'Overdue' },
-      today:    { border: '#fde68a', bg: '#fefce8', dot: '#d97706', label: 'Due Today' },
-      upcoming: { border: '#bbf7d0', bg: '#f0fdf4', dot: '#16a34a', label: 'Upcoming' },
-    }[bucket];
-
-    const name = [fu.na_persons?.first_name, fu.na_persons?.last_name].filter(Boolean).join(' ');
-    const company = fu.na_persons?.company;
-    const metDaysAgo = fu.na_events?.event_date ? daysAgo(fu.na_events.event_date) : null;
-
-    return (
-      <div style={{ borderRadius: 10, border: `1.5px solid ${styles.border}`, background: styles.bg, padding: '14px', marginBottom: 10 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: styles.dot, display: 'inline-block', flexShrink: 0 }} />
-              <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{ fontWeight: 700, fontSize: 15, color: '#0a1628', textDecoration: 'none' }}>
-                {name || 'Unknown'}
-              </a>
-            </div>
-            <div style={{ fontSize: 13, color: '#1f2a3d', paddingLeft: 16 }}>{ACTION_LABELS[fu.action_type] ?? fu.action_type}</div>
-            {company && <div style={{ fontSize: 12, color: '#5b6678', paddingLeft: 16, marginTop: 1 }}>{company}</div>}
-            {fu.na_events?.event_name && (
-              <div style={{ fontSize: 11, color: '#5b6678', paddingLeft: 16, marginTop: 2 }}>
-                Met at {fu.na_events.event_name}{metDaysAgo !== null ? ` · ${metDaysAgo === 0 ? 'today' : `${metDaysAgo}d ago`}` : ''}
-              </div>
-            )}
-          </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: styles.dot, textAlign: 'right', flexShrink: 0 }}>
-            <div>{styles.label}</div>
-            <div style={{ fontWeight: 400, color: '#5b6678' }}>{formatShortDate(fu.due_date)}</div>
-          </div>
-        </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={() => handleComplete(fu.id)} style={{
-            flex: 1, padding: '8px', borderRadius: 7, border: 'none',
-            background: '#16a34a', color: '#fff', fontWeight: 600, fontSize: 12, cursor: 'pointer',
-          }}>✓ Done</button>
-          <button onClick={() => handleSnooze(fu.id)} style={{
-            flex: 1, padding: '8px', borderRadius: 7, border: '1.5px solid #e6e2d6',
-            background: '#fff', color: '#1f2a3d', fontWeight: 600, fontSize: 12, cursor: 'pointer',
-          }}>Snooze 2d</button>
-          <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{
-            padding: '8px 12px', borderRadius: 7, border: '1.5px solid #e6e2d6',
-            background: '#fff', color: '#5b6678', fontWeight: 600, fontSize: 12, textDecoration: 'none',
-          }}>View</a>
-        </div>
-      </div>
-    );
-  };
+  const todayDate = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
 
   return (
     <div style={{ minHeight: '100vh', background: '#fafaf7', fontFamily: 'Inter, sans-serif' }}>
 
-      {/* Header */}
-      <div style={{ background: '#0a1628', color: '#fff', padding: '16px 24px 0' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <div>
-            <div style={{ fontSize: 11, color: '#a8b8d4', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 2 }}>
+      {/* ── Masthead */}
+      <div style={{ background: '#0a1628', borderBottom: '1px solid #1f2a3d' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 20px' }}>
+
+          {/* Top bar */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+            <span style={{ fontSize: 10, color: '#5b6678', letterSpacing: 1.5, textTransform: 'uppercase' }}>{todayDate}</span>
+            <span style={{ fontSize: 10, color: '#5b6678', letterSpacing: 1, textTransform: 'uppercase' }}>
+              <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#c2410c', marginRight: 5, verticalAlign: 'middle' }} />
+              Beta
+            </span>
+          </div>
+
+          {/* Wordmark */}
+          <div style={{ padding: '16px 0 12px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ fontSize: 10, color: '#5b6678', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 6 }}>
               Local Business Calendars
             </div>
-            <div style={{ fontSize: 20, fontWeight: 700 }}>Networking Assistant</div>
+            <div style={{ fontSize: 26, fontWeight: 700, color: '#fff', letterSpacing: -0.5, fontFamily: 'Georgia, serif' }}>
+              Networking Assistant
+            </div>
             {profile?.first_name && (
-              <div style={{ fontSize: 13, color: '#a8b8d4', marginTop: 2 }}>Hi, {profile.first_name} 👋</div>
+              <div style={{ fontSize: 12, color: '#5b6678', marginTop: 4 }}>
+                {profile.first_name} · {profile.subscription_tier === 'premium' ? 'Premium' : 'Free'}
+              </div>
             )}
           </div>
-          {/* Quick action buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+
+          {/* Stats row */}
+          {!pageLoading && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+              {[
+                { label: 'Overdue',  value: overdue.length,   alert: overdue.length > 0 },
+                { label: 'Due Today', value: today.length,    alert: today.length > 0 },
+                { label: 'Upcoming', value: upcoming.length,  alert: false },
+                { label: 'Contacts', value: persons.length,   alert: false },
+              ].map(stat => (
+                <div key={stat.label} style={{ padding: '12px 0', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div style={{ fontSize: 24, fontWeight: 700, color: stat.alert ? '#c2410c' : '#fff', fontFamily: 'Georgia, serif' }}>
+                    {stat.value}
+                  </div>
+                  <div style={{ fontSize: 9, color: '#5b6678', letterSpacing: 1, textTransform: 'uppercase', marginTop: 2 }}>
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Action buttons */}
+          <div style={{ display: 'flex', gap: 10, padding: '12px 0' }}>
             <a href="/networking-assistant-beta-2026/capture" style={{
-              padding: '8px 14px', borderRadius: 8, background: '#c2410c', color: '#fff',
-              fontWeight: 700, fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap',
-            }}>+ Capture</a>
+              flex: 1, display: 'block', textAlign: 'center', padding: '10px',
+              background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 13,
+              textDecoration: 'none', borderRadius: 2, letterSpacing: 0.3,
+            }}>
+              + Capture Contact
+            </a>
             <a href="/networking-assistant-beta-2026/events" style={{
-              padding: '6px 14px', borderRadius: 8, background: 'rgba(255,255,255,0.1)', color: '#fff',
-              fontWeight: 600, fontSize: 12, textDecoration: 'none', whiteSpace: 'nowrap',
-            }}>Events</a>
+              flex: 1, display: 'block', textAlign: 'center', padding: '10px',
+              background: 'transparent', color: '#a8b8d4', fontWeight: 600, fontSize: 13,
+              textDecoration: 'none', borderRadius: 2, border: '1px solid #1f2a3d',
+            }}>
+              Browse Events
+            </a>
           </div>
         </div>
+      </div>
 
-        {/* Stats bar */}
-        {!pageLoading && (
-          <div style={{ display: 'flex', gap: 24, paddingBottom: 14, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 22, fontWeight: 700, color: overdue.length > 0 ? '#fca5a5' : '#fff' }}>{overdue.length}</div>
-              <div style={{ fontSize: 10, color: '#a8b8d4', textTransform: 'uppercase', letterSpacing: 0.5 }}>Overdue</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 22, fontWeight: 700, color: today.length > 0 ? '#fde68a' : '#fff' }}>{today.length}</div>
-              <div style={{ fontSize: 10, color: '#a8b8d4', textTransform: 'uppercase', letterSpacing: 0.5 }}>Due Today</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 22, fontWeight: 700 }}>{upcoming.length}</div>
-              <div style={{ fontSize: 10, color: '#a8b8d4', textTransform: 'uppercase', letterSpacing: 0.5 }}>Upcoming</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 22, fontWeight: 700 }}>{personCount}</div>
-              <div style={{ fontSize: 10, color: '#a8b8d4', textTransform: 'uppercase', letterSpacing: 0.5 }}>Contacts</div>
-            </div>
-          </div>
-        )}
-
-        {/* Tabs */}
-        <div style={{ display: 'flex', gap: 0, marginTop: 4 }}>
+      {/* ── Tab nav */}
+      <div style={{ background: '#fff', borderBottom: '1px solid #e6e2d6' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto', display: 'flex' }}>
           {([
-            { key: 'queue',    label: `Queue (${followUps.length})` },
-            { key: 'contacts', label: `Contacts (${personCount})` },
-            { key: 'events',   label: `Events (${eventCount})` },
+            { key: 'queue',    label: `Follow-Up Queue`, count: followUps.length },
+            { key: 'contacts', label: 'Contacts',        count: persons.length },
+            { key: 'events',   label: 'My Events',       count: events.length },
           ] as const).map(tab => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
-              padding: '10px 16px', background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 13, fontWeight: activeTab === tab.key ? 700 : 400,
-              color: activeTab === tab.key ? '#fff' : '#a8b8d4',
-              borderBottom: activeTab === tab.key ? '2px solid #c2410c' : '2px solid transparent',
-            }}>{tab.label}</button>
+              padding: '12px 16px', background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: 12, fontWeight: 700, letterSpacing: 0.3,
+              color: activeTab === tab.key ? '#0a1628' : '#5b6678',
+              borderBottom: activeTab === tab.key ? '2px solid #0a1628' : '2px solid transparent',
+              textTransform: 'uppercase',
+            }}>
+              {tab.label}
+              <span style={{ marginLeft: 6, fontSize: 11, color: activeTab === tab.key ? '#1652f0' : '#a8b8d4', fontWeight: 700 }}>
+                {tab.count}
+              </span>
+            </button>
           ))}
         </div>
       </div>
 
-      {/* Content */}
-      <div style={{ maxWidth: 560, margin: '0 auto', padding: '20px 16px 48px' }}>
+      {/* ── Content */}
+      <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 20px 64px' }}>
 
         {pageLoading ? (
-          <div style={{ textAlign: 'center', color: '#5b6678', padding: 48 }}>Loading…</div>
+          <div style={{ padding: '48px 0', textAlign: 'center', color: '#5b6678', fontSize: 13 }}>Loading…</div>
         ) : (
 
-          /* ── QUEUE TAB */
+          /* QUEUE TAB */
           activeTab === 'queue' ? (
             followUps.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '48px 16px' }}>
-                <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: '#0a1628', marginBottom: 8 }}>All caught up</div>
-                <div style={{ fontSize: 14, color: '#5b6678', marginBottom: 24 }}>No follow-ups pending. Go capture some contacts.</div>
+              <div style={{ padding: '64px 0', textAlign: 'center' }}>
+                <div style={{ fontSize: 13, color: '#5b6678', marginBottom: 20 }}>No follow-ups pending. All caught up.</div>
                 <a href="/networking-assistant-beta-2026/capture" style={{
-                  display: 'inline-block', padding: '12px 24px', background: '#c2410c',
-                  color: '#fff', borderRadius: 10, fontWeight: 700, textDecoration: 'none',
-                }}>+ Capture Contacts</a>
+                  display: 'inline-block', padding: '10px 24px', background: '#c2410c',
+                  color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none', borderRadius: 2,
+                }}>Capture contacts →</a>
               </div>
             ) : (
               <div>
+                {/* Overdue */}
                 {overdue.length > 0 && (
-                  <div style={{ marginBottom: 20 }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#dc2626', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
-                      ⚠️ Overdue ({overdue.length})
+                  <div>
+                    <div style={{ padding: '16px 0 8px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: '#c2410c', letterSpacing: 1.5, textTransform: 'uppercase' }}>Overdue</span>
+                      <span style={{ flex: 1, height: 1, background: '#fca5a522' }} />
+                      <span style={{ fontSize: 10, color: '#c2410c', fontWeight: 700 }}>{overdue.length}</span>
                     </div>
-                    {overdue.map(fu => <FollowUpCard key={fu.id} fu={fu} />)}
+                    {overdue.map(fu => <FollowUpRow key={fu.id} fu={fu} onComplete={handleComplete} onSnooze={handleSnooze} />)}
                   </div>
                 )}
+
+                {/* Today */}
                 {today.length > 0 && (
-                  <div style={{ marginBottom: 20 }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#d97706', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
-                      Today ({today.length})
+                  <div>
+                    <div style={{ padding: '16px 0 8px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: '#1652f0', letterSpacing: 1.5, textTransform: 'uppercase' }}>Due Today</span>
+                      <span style={{ flex: 1, height: 1, background: '#e6e2d6' }} />
+                      <span style={{ fontSize: 10, color: '#1652f0', fontWeight: 700 }}>{today.length}</span>
                     </div>
-                    {today.map(fu => <FollowUpCard key={fu.id} fu={fu} />)}
+                    {today.map(fu => <FollowUpRow key={fu.id} fu={fu} onComplete={handleComplete} onSnooze={handleSnooze} />)}
                   </div>
                 )}
+
+                {/* Upcoming */}
                 {upcoming.length > 0 && (
                   <div>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#16a34a', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
-                      Upcoming ({upcoming.length})
+                    <div style={{ padding: '16px 0 8px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: '#5b6678', letterSpacing: 1.5, textTransform: 'uppercase' }}>Upcoming</span>
+                      <span style={{ flex: 1, height: 1, background: '#e6e2d6' }} />
+                      <span style={{ fontSize: 10, color: '#5b6678', fontWeight: 700 }}>{upcoming.length}</span>
                     </div>
-                    {upcoming.map(fu => <FollowUpCard key={fu.id} fu={fu} />)}
+                    {upcoming.map(fu => <FollowUpRow key={fu.id} fu={fu} onComplete={handleComplete} onSnooze={handleSnooze} />)}
                   </div>
                 )}
               </div>
             )
 
-          /* ── CONTACTS TAB */
+          /* CONTACTS TAB */
           ) : activeTab === 'contacts' ? (
             persons.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '48px 16px', color: '#5b6678' }}>
-                No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#1652f0' }}>Capture your first one →</a>
+              <div style={{ padding: '64px 0', textAlign: 'center', fontSize: 13, color: '#5b6678' }}>
+                No contacts yet.{' '}
+                <a href="/networking-assistant-beta-2026/capture" style={{ color: '#1652f0' }}>Capture your first one →</a>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {persons.map(p => {
-                  const statusColors: Record<string, string> = { hot: '#dc2626', warm: '#d97706', cold: '#1d4ed8', archived: '#6b7280' };
-                  return (
-                    <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none' }}>
-                      <div style={{ background: '#fff', borderRadius: 10, border: '1px solid #e6e2d6', padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div>
-                          <div style={{ fontWeight: 600, fontSize: 15, color: '#0a1628' }}>
-                            {[p.first_name, p.last_name].filter(Boolean).join(' ')}
+              <div>
+                <div style={{ padding: '16px 0 8px', fontSize: 10, fontWeight: 700, color: '#5b6678', letterSpacing: 1.5, textTransform: 'uppercase' }}>
+                  All Contacts · {persons.length}
+                </div>
+                {persons.map((p, i) => (
+                  <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+                    <div style={{
+                      padding: '14px 0', borderBottom: '1px solid #e6e2d6',
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    }}>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 15, color: '#0a1628' }}>
+                          {[p.first_name, p.last_name].filter(Boolean).join(' ')}
+                        </div>
+                        <div style={{ fontSize: 12, color: '#5b6678', marginTop: 2 }}>
+                          {[p.title, p.company].filter(Boolean).join(' · ')}
+                        </div>
+                        {p.first_met_date && (
+                          <div style={{ fontSize: 11, color: '#a8b8d4', marginTop: 2 }}>
+                            Met {metLabel(p.first_met_date)}
                           </div>
-                          {p.title && <div style={{ fontSize: 13, color: '#1f2a3d' }}>{p.title}</div>}
-                          {p.company && <div style={{ fontSize: 12, color: '#5b6678' }}>{p.company}</div>}
-                          {p.first_met_date && <div style={{ fontSize: 11, color: '#5b6678', marginTop: 2 }}>Met {daysAgo(p.first_met_date)}d ago</div>}
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: statusColors[p.relationship_status] ?? '#5b6678', textTransform: 'uppercase' }}>
-                            {p.relationship_status}
-                          </span>
-                          <span style={{ fontSize: 12, color: '#a8b8d4' }}>→</span>
-                        </div>
+                        )}
                       </div>
-                    </a>
-                  );
-                })}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: RELATIONSHIP_COLORS[p.relationship_status] ?? '#5b6678', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                          {p.relationship_status}
+                        </span>
+                        <span style={{ color: '#a8b8d4', fontSize: 14 }}>→</span>
+                      </div>
+                    </div>
+                  </a>
+                ))}
               </div>
             )
 
-          /* ── EVENTS TAB */
+          /* EVENTS TAB */
           ) : (
             events.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '48px 16px', color: '#5b6678' }}>
-                No events yet. <a href="/networking-assistant-beta-2026/events" style={{ color: '#1652f0' }}>Browse LBC events →</a>
+              <div style={{ padding: '64px 0', textAlign: 'center', fontSize: 13, color: '#5b6678' }}>
+                No events yet.{' '}
+                <a href="/networking-assistant-beta-2026/events" style={{ color: '#1652f0' }}>Browse LBC events →</a>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div>
+                <div style={{ padding: '16px 0 8px', fontSize: 10, fontWeight: 700, color: '#5b6678', letterSpacing: 1.5, textTransform: 'uppercase' }}>
+                  My Events · {events.length}
+                </div>
                 {events.map(ev => (
-                  <div key={ev.id} style={{ background: '#fff', borderRadius: 10, border: '1px solid #e6e2d6', padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div key={ev.id} style={{ padding: '14px 0', borderBottom: '1px solid #e6e2d6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ fontWeight: 600, fontSize: 15, color: '#0a1628' }}>{ev.event_name}</div>
-                      <div style={{ fontSize: 13, color: '#1652f0', marginTop: 2 }}>
-                        {new Date(ev.event_date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                      </div>
-                      {ev.host_org && <div style={{ fontSize: 12, color: '#5b6678', marginTop: 1 }}>{ev.host_org}</div>}
+                      <div style={{ fontWeight: 700, fontSize: 14, color: '#0a1628' }}>{ev.event_name}</div>
+                      <div style={{ fontSize: 12, color: '#1652f0', marginTop: 2 }}>{formatDate(ev.event_date)}</div>
+                      {ev.host_org && <div style={{ fontSize: 11, color: '#5b6678', marginTop: 1 }}>{ev.host_org}</div>}
                     </div>
                     <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
-                      padding: '7px 12px', borderRadius: 7, background: '#c2410c', color: '#fff',
-                      fontWeight: 600, fontSize: 12, textDecoration: 'none', whiteSpace: 'nowrap',
+                      padding: '7px 14px', background: '#c2410c', color: '#fff',
+                      fontWeight: 700, fontSize: 12, textDecoration: 'none', borderRadius: 2,
                     }}>Capture →</a>
                   </div>
                 ))}
@@ -311,6 +332,61 @@ export default function NAHomePage() {
             )
           )
         )}
+      </div>
+    </div>
+  );
+}
+
+// ── Follow-up row component
+function FollowUpRow({ fu, onComplete, onSnooze }: {
+  fu: any;
+  onComplete: (id: string) => void;
+  onSnooze: (id: string) => void;
+}) {
+  const bucket = dueBucket(fu.due_date);
+  const accentColor = bucket === 'overdue' ? '#c2410c' : bucket === 'today' ? '#1652f0' : '#5b6678';
+  const name = [fu.na_persons?.first_name, fu.na_persons?.last_name].filter(Boolean).join(' ');
+
+  return (
+    <div style={{ padding: '14px 0', borderBottom: '1px solid #e6e2d6' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 3 }}>
+            <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{ fontWeight: 700, fontSize: 15, color: '#0a1628', textDecoration: 'none' }}>
+              {name || 'Unknown'}
+            </a>
+            {fu.na_persons?.company && (
+              <span style={{ fontSize: 12, color: '#5b6678' }}>{fu.na_persons.company}</span>
+            )}
+          </div>
+          <div style={{ fontSize: 12, color: accentColor, fontWeight: 600 }}>
+            {ACTION_ICONS[fu.action_type]} {ACTION_LABELS[fu.action_type] ?? fu.action_type}
+          </div>
+          {fu.na_events?.event_name && (
+            <div style={{ fontSize: 11, color: '#a8b8d4', marginTop: 3 }}>
+              {fu.na_events.event_name} · {fu.na_events.event_date ? metLabel(fu.na_events.event_date) : ''}
+            </div>
+          )}
+        </div>
+        <div style={{ textAlign: 'right', flexShrink: 0, marginLeft: 12 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: accentColor }}>{formatShortDate(fu.due_date)}</div>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button onClick={() => onComplete(fu.id)} style={{
+          padding: '7px 16px', borderRadius: 2, border: 'none', cursor: 'pointer',
+          background: '#0a1628', color: '#fff', fontWeight: 700, fontSize: 12,
+        }}>Done</button>
+        <button onClick={() => onSnooze(fu.id)} style={{
+          padding: '7px 16px', borderRadius: 2, border: '1px solid #e6e2d6', cursor: 'pointer',
+          background: '#fff', color: '#5b6678', fontWeight: 600, fontSize: 12,
+        }}>Snooze 2d</button>
+        <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{
+          padding: '7px 16px', borderRadius: 2, border: '1px solid #e6e2d6',
+          background: '#fff', color: '#1652f0', fontWeight: 600, fontSize: 12, textDecoration: 'none',
+        }}>View →</a>
       </div>
     </div>
   );
