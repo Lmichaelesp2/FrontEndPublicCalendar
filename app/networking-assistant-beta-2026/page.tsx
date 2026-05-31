@@ -20,42 +20,45 @@ const ACTION_LABELS: Record<string, string> = {
   re_engage:        'Re-engage',
 };
 
-const ACTION_ICONS: Record<string, string> = {
-  linkedin_connect: '↗',
-  linkedin_message: '↗',
-  email:            '✉',
-  call:             '↗',
-  reminder:         '◎',
-  re_engage:        '↺',
-};
-
-function formatDate(dateStr: string) {
-  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric'
-  });
-}
-
 function formatShortDate(dateStr: string) {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-function dueBucket(dueDateStr: string): 'overdue' | 'today' | 'upcoming' {
-  const today = new Date().toISOString().split('T')[0];
-  if (dueDateStr < today) return 'overdue';
-  if (dueDateStr === today) return 'today';
-  return 'upcoming';
+function dueBucket(d: string): 'overdue' | 'today' | 'upcoming' {
+  const t = new Date().toISOString().split('T')[0];
+  return d < t ? 'overdue' : d === t ? 'today' : 'upcoming';
 }
 
-function metLabel(eventDateStr: string): string {
-  const days = daysAgo(eventDateStr);
+function metLabel(dateStr: string) {
+  const days = daysAgo(dateStr);
   if (days < 0) return `in ${Math.abs(days)}d`;
   if (days === 0) return 'today';
   if (days === 1) return 'yesterday';
   return `${days}d ago`;
 }
 
-const RELATIONSHIP_COLORS: Record<string, string> = {
-  hot: '#c2410c', warm: '#1652f0', cold: '#5b6678', archived: '#5b6678',
+const REL_COLOR: Record<string, string> = {
+  hot: '#dc2626', warm: '#2563eb', cold: '#6b7280', archived: '#9ca3af',
+};
+
+// ── Shared styles
+const css = {
+  page: { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 80 } as React.CSSProperties,
+  header: { background: '#042C53', padding: '0 16px' } as React.CSSProperties,
+  headerInner: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 } as React.CSSProperties,
+  headerTitle: { fontSize: 17, fontWeight: 700, color: '#fff', letterSpacing: -0.2 } as React.CSSProperties,
+  headerSub: { fontSize: 11, color: '#93b4d4', letterSpacing: 0.5, textTransform: 'uppercase' as const },
+  card: { background: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 10 } as React.CSSProperties,
+  sectionLabel: { fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8, marginTop: 20 },
+  btn: (bg: string, color = '#fff') => ({
+    height: 44, borderRadius: 10, border: 'none', cursor: 'pointer',
+    background: bg, color, fontWeight: 600, fontSize: 14, padding: '0 18px',
+  } as React.CSSProperties),
+  btnSm: (bg: string, color = '#fff', border?: string) => ({
+    height: 36, borderRadius: 8, border: border ?? 'none', cursor: 'pointer',
+    background: bg, color, fontWeight: 600, fontSize: 13, padding: '0 14px',
+    display: 'inline-flex', alignItems: 'center',
+  } as React.CSSProperties),
 };
 
 export default function NAHomePage() {
@@ -66,38 +69,34 @@ export default function NAHomePage() {
   const [persons, setPersons]         = useState<any[]>([]);
   const [events, setEvents]           = useState<any[]>([]);
   const [pageLoading, setPageLoading] = useState(true);
-  const [activeTab, setActiveTab]     = useState<'queue' | 'contacts' | 'events'>('queue');
+  const [tab, setTab]                 = useState<'queue' | 'contacts' | 'events'>('queue');
 
-  useEffect(() => {
-    if (!loading && !user) router.push('/');
-  }, [loading, user, router]);
+  useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
   useEffect(() => {
     if (!user) return;
-    async function load() {
+    (async () => {
       setPageLoading(true);
       const [fq, pp, ev] = await Promise.all([
-        fetchFollowUpQueue(user!.id),
-        fetchPersons(user!.id),
-        fetchMyNAEvents(user!.id),
+        fetchFollowUpQueue(user.id),
+        fetchPersons(user.id),
+        fetchMyNAEvents(user.id),
       ]);
       if (fq.data) setFollowUps(fq.data);
       if (pp.data) setPersons(pp.data);
       if (ev.data) setEvents(ev.data);
       setPageLoading(false);
-    }
-    load();
+    })();
   }, [user]);
 
   async function handleComplete(id: string) {
     await updateFollowUp(id, { status: 'completed', completed_at: new Date().toISOString() });
-    setFollowUps(prev => prev.filter(f => f.id !== id));
+    setFollowUps(p => p.filter(f => f.id !== id));
   }
-
   async function handleSnooze(id: string) {
     const d = new Date(); d.setDate(d.getDate() + 2);
     await updateFollowUp(id, { status: 'snoozed', snooze_until: d.toISOString().split('T')[0] });
-    setFollowUps(prev => prev.filter(f => f.id !== id));
+    setFollowUps(p => p.filter(f => f.id !== id));
   }
 
   if (loading || !user) return null;
@@ -105,288 +104,206 @@ export default function NAHomePage() {
   const overdue  = followUps.filter(f => dueBucket(f.due_date) === 'overdue');
   const today    = followUps.filter(f => dueBucket(f.due_date) === 'today');
   const upcoming = followUps.filter(f => dueBucket(f.due_date) === 'upcoming');
-  const todayDate = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).toUpperCase();
 
-  return (
-    <div style={{ minHeight: '100vh', background: '#fafaf7', fontFamily: 'Inter, sans-serif' }}>
+  const BORDER: Record<string, string> = { overdue: '#ef4444', today: '#2563eb', upcoming: '#e5e7eb' };
 
-      {/* ── Masthead */}
-      <div style={{ background: '#042C53', borderBottom: '1px solid #1f2a3d' }}>
-        <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 20px' }}>
-
-          {/* Top bar */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-            <span style={{ fontSize: 10, color: '#5b6678', letterSpacing: 1.5, textTransform: 'uppercase' }}>{todayDate}</span>
-            <span style={{ fontSize: 10, color: '#5b6678', letterSpacing: 1, textTransform: 'uppercase' }}>
-              <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#c2410c', marginRight: 5, verticalAlign: 'middle' }} />
-              Beta
-            </span>
-          </div>
-
-          {/* Wordmark */}
-          <div style={{ padding: '16px 0 12px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ fontSize: 10, color: '#5b6678', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 6 }}>
-              Local Business Calendars
+  const FollowUpCard = ({ fu }: { fu: any }) => {
+    const bucket = dueBucket(fu.due_date);
+    const name = [fu.na_persons?.first_name, fu.na_persons?.last_name].filter(Boolean).join(' ') || 'Unknown';
+    return (
+      <div style={{ ...css.card, borderLeft: `4px solid ${BORDER[bucket]}`, paddingLeft: 12 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`}
+              style={{ fontSize: 16, fontWeight: 700, color: '#111827', textDecoration: 'none', display: 'block', marginBottom: 2 }}>
+              {name}
+            </a>
+            <div style={{ fontSize: 13, color: '#374151', marginBottom: 2 }}>
+              {ACTION_LABELS[fu.action_type] ?? fu.action_type}
             </div>
-            <div style={{ fontSize: 26, fontWeight: 700, color: '#fff', letterSpacing: -0.5, fontFamily: 'Georgia, serif' }}>
-              Networking Assistant
-            </div>
-            {profile?.first_name && (
-              <div style={{ fontSize: 12, color: '#5b6678', marginTop: 4 }}>
-                {profile.first_name} · {profile.subscription_tier === 'premium' ? 'Premium' : 'Free'}
+            {fu.na_persons?.company && (
+              <div style={{ fontSize: 12, color: '#6b7280' }}>{fu.na_persons.company}</div>
+            )}
+            {fu.na_events?.event_name && (
+              <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 3 }}>
+                {fu.na_events.event_name} · {metLabel(fu.na_events.event_date)}
               </div>
             )}
           </div>
+          <div style={{ flexShrink: 0, marginLeft: 12, textAlign: 'right' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: BORDER[bucket] }}>{formatShortDate(fu.due_date)}</div>
+            {bucket === 'overdue' && <div style={{ fontSize: 10, color: '#ef4444', fontWeight: 600 }}>OVERDUE</div>}
+            {bucket === 'today' && <div style={{ fontSize: 10, color: '#2563eb', fontWeight: 600 }}>TODAY</div>}
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={() => handleComplete(fu.id)} style={css.btnSm('#042C53')}>✓ Done</button>
+          <button onClick={() => handleSnooze(fu.id)} style={css.btnSm('#fff', '#374151', '1px solid #e5e7eb')}>Snooze 2d</button>
+          <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`}
+            style={{ ...css.btnSm('#f3f4f6', '#374151'), textDecoration: 'none' }}>View →</a>
+        </div>
+      </div>
+    );
+  };
 
-          {/* Stats row */}
-          {!pageLoading && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-              {[
-                { label: 'Overdue',  value: overdue.length,   alert: overdue.length > 0 },
-                { label: 'Due Today', value: today.length,    alert: today.length > 0 },
-                { label: 'Upcoming', value: upcoming.length,  alert: false },
-                { label: 'Contacts', value: persons.length,   alert: false },
-              ].map(stat => (
-                <div key={stat.label} style={{ padding: '12px 0', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
-                  <div style={{ fontSize: 24, fontWeight: 700, color: stat.alert ? '#c2410c' : '#fff', fontFamily: 'Georgia, serif' }}>
-                    {stat.value}
+  return (
+    <div style={css.page}>
+      {/* Header */}
+      <div style={css.header}>
+        <div style={css.headerInner}>
+          <div>
+            <div style={css.headerSub}>Local Business Calendars</div>
+            <div style={css.headerTitle}>Networking Assistant</div>
+          </div>
+          <a href="/networking-assistant-beta-2026/capture" style={{
+            height: 36, borderRadius: 8, background: '#c2410c', color: '#fff',
+            fontWeight: 700, fontSize: 13, textDecoration: 'none', padding: '0 16px',
+            display: 'inline-flex', alignItems: 'center', gap: 4,
+          }}>+ Capture</a>
+        </div>
+
+        {/* Stats */}
+        {!pageLoading && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.1)', paddingBottom: 12 }}>
+            {[
+              { label: 'Overdue',  val: overdue.length,  color: overdue.length > 0 ? '#f87171' : '#93b4d4' },
+              { label: 'Today',    val: today.length,    color: today.length > 0 ? '#60a5fa' : '#93b4d4' },
+              { label: 'Upcoming', val: upcoming.length, color: '#93b4d4' },
+              { label: 'Contacts', val: persons.length,  color: '#93b4d4' },
+            ].map(s => (
+              <div key={s.label} style={{ textAlign: 'center', paddingTop: 10 }}>
+                <div style={{ fontSize: 22, fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.val}</div>
+                <div style={{ fontSize: 10, color: '#64849e', letterSpacing: 0.8, textTransform: 'uppercase', marginTop: 3 }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div style={{ maxWidth: 560, margin: '0 auto', padding: '16px 16px 0' }}>
+        {pageLoading ? (
+          <div style={{ textAlign: 'center', color: '#9ca3af', padding: '48px 0', fontSize: 14 }}>Loading…</div>
+        ) : tab === 'queue' ? (
+          followUps.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '56px 16px' }}>
+              <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
+              <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 6 }}>All caught up</div>
+              <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 24 }}>No follow-ups pending.</div>
+              <a href="/networking-assistant-beta-2026/capture"
+                style={{ display: 'inline-flex', alignItems: 'center', height: 44, borderRadius: 10, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 14, padding: '0 24px', textDecoration: 'none' }}>
+                + Capture Contacts
+              </a>
+            </div>
+          ) : (
+            <div>
+              {overdue.length > 0 && <>
+                <div style={css.sectionLabel}>⚠ Overdue · {overdue.length}</div>
+                {overdue.map(fu => <FollowUpCard key={fu.id} fu={fu} />)}
+              </>}
+              {today.length > 0 && <>
+                <div style={css.sectionLabel}>Due Today · {today.length}</div>
+                {today.map(fu => <FollowUpCard key={fu.id} fu={fu} />)}
+              </>}
+              {upcoming.length > 0 && <>
+                <div style={css.sectionLabel}>Upcoming · {upcoming.length}</div>
+                {upcoming.map(fu => <FollowUpCard key={fu.id} fu={fu} />)}
+              </>}
+            </div>
+          )
+        ) : tab === 'contacts' ? (
+          persons.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '56px 16px', fontSize: 14, color: '#6b7280' }}>
+              No contacts yet.{' '}
+              <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
+            </div>
+          ) : (
+            <div>
+              <div style={css.sectionLabel}>All Contacts · {persons.length}</div>
+              {persons.map(p => (
+                <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+                  <div style={{ ...css.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 2 }}>
+                        {[p.first_name, p.last_name].filter(Boolean).join(' ')}
+                      </div>
+                      <div style={{ fontSize: 13, color: '#374151' }}>
+                        {[p.title, p.company].filter(Boolean).join(' · ')}
+                      </div>
+                      {p.first_met_date && (
+                        <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>Met {metLabel(p.first_met_date)}</div>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const }}>
+                        {p.relationship_status}
+                      </span>
+                      <span style={{ color: '#d1d5db', fontSize: 16 }}>›</span>
+                    </div>
                   </div>
-                  <div style={{ fontSize: 9, color: '#5b6678', letterSpacing: 1, textTransform: 'uppercase', marginTop: 2 }}>
-                    {stat.label}
+                </a>
+              ))}
+            </div>
+          )
+        ) : (
+          events.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '56px 16px', fontSize: 14, color: '#6b7280' }}>
+              No events yet.{' '}
+              <a href="/networking-assistant-beta-2026/events" style={{ color: '#2563eb' }}>Browse LBC events →</a>
+            </div>
+          ) : (
+            <div>
+              <div style={css.sectionLabel}>My Events · {events.length}</div>
+              {events.map(ev => (
+                <div key={ev.id} style={{ ...css.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 2 }}>{ev.event_name}</div>
+                    <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 500 }}>
+                      {new Date(ev.event_date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                    </div>
+                    {ev.host_org && <div style={{ fontSize: 12, color: '#6b7280' }}>{ev.host_org}</div>}
                   </div>
+                  <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`}
+                    style={{ height: 36, borderRadius: 8, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 12, padding: '0 14px', display: 'inline-flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0, marginLeft: 12 }}>
+                    Capture →
+                  </a>
                 </div>
               ))}
             </div>
-          )}
-
-          {/* Action buttons */}
-          <div style={{ display: 'flex', gap: 10, padding: '12px 0' }}>
-            <a href="/networking-assistant-beta-2026/capture" style={{
-              flex: 1, display: 'block', textAlign: 'center', padding: '10px',
-              background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 13,
-              textDecoration: 'none', borderRadius: 2, letterSpacing: 0.3,
-            }}>
-              + Capture Contact
-            </a>
-            <a href="/networking-assistant-beta-2026/events" style={{
-              flex: 1, display: 'block', textAlign: 'center', padding: '10px',
-              background: 'transparent', color: '#a8b8d4', fontWeight: 600, fontSize: 13,
-              textDecoration: 'none', borderRadius: 2, border: '1px solid #1f2a3d',
-            }}>
-              Browse Events
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Tab nav */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #e6e2d6' }}>
-        <div style={{ maxWidth: 640, margin: '0 auto', display: 'flex' }}>
-          {([
-            { key: 'queue',    label: `Follow-Up Queue`, count: followUps.length },
-            { key: 'contacts', label: 'Contacts',        count: persons.length },
-            { key: 'events',   label: 'My Events',       count: events.length },
-          ] as const).map(tab => (
-            <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
-              padding: '12px 16px', background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 12, fontWeight: 700, letterSpacing: 0.3,
-              color: activeTab === tab.key ? '#042C53' : '#5b6678',
-              borderBottom: activeTab === tab.key ? '2px solid #042C53' : '2px solid transparent',
-              textTransform: 'uppercase',
-            }}>
-              {tab.label}
-              <span style={{ marginLeft: 6, fontSize: 11, color: activeTab === tab.key ? '#1652f0' : '#a8b8d4', fontWeight: 700 }}>
-                {tab.count}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Content */}
-      <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 20px 64px' }}>
-
-        {pageLoading ? (
-          <div style={{ padding: '48px 0', textAlign: 'center', color: '#5b6678', fontSize: 13 }}>Loading…</div>
-        ) : (
-
-          /* QUEUE TAB */
-          activeTab === 'queue' ? (
-            followUps.length === 0 ? (
-              <div style={{ padding: '64px 0', textAlign: 'center' }}>
-                <div style={{ fontSize: 13, color: '#5b6678', marginBottom: 20 }}>No follow-ups pending. All caught up.</div>
-                <a href="/networking-assistant-beta-2026/capture" style={{
-                  display: 'inline-block', padding: '10px 24px', background: '#c2410c',
-                  color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none', borderRadius: 2,
-                }}>Capture contacts →</a>
-              </div>
-            ) : (
-              <div>
-                {/* Overdue */}
-                {overdue.length > 0 && (
-                  <div>
-                    <div style={{ padding: '16px 0 8px', display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: '#c2410c', letterSpacing: 1.5, textTransform: 'uppercase' }}>Overdue</span>
-                      <span style={{ flex: 1, height: 1, background: '#fca5a522' }} />
-                      <span style={{ fontSize: 10, color: '#c2410c', fontWeight: 700 }}>{overdue.length}</span>
-                    </div>
-                    {overdue.map(fu => <FollowUpRow key={fu.id} fu={fu} onComplete={handleComplete} onSnooze={handleSnooze} />)}
-                  </div>
-                )}
-
-                {/* Today */}
-                {today.length > 0 && (
-                  <div>
-                    <div style={{ padding: '16px 0 8px', display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: '#1652f0', letterSpacing: 1.5, textTransform: 'uppercase' }}>Due Today</span>
-                      <span style={{ flex: 1, height: 1, background: '#e6e2d6' }} />
-                      <span style={{ fontSize: 10, color: '#1652f0', fontWeight: 700 }}>{today.length}</span>
-                    </div>
-                    {today.map(fu => <FollowUpRow key={fu.id} fu={fu} onComplete={handleComplete} onSnooze={handleSnooze} />)}
-                  </div>
-                )}
-
-                {/* Upcoming */}
-                {upcoming.length > 0 && (
-                  <div>
-                    <div style={{ padding: '16px 0 8px', display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: '#5b6678', letterSpacing: 1.5, textTransform: 'uppercase' }}>Upcoming</span>
-                      <span style={{ flex: 1, height: 1, background: '#e6e2d6' }} />
-                      <span style={{ fontSize: 10, color: '#5b6678', fontWeight: 700 }}>{upcoming.length}</span>
-                    </div>
-                    {upcoming.map(fu => <FollowUpRow key={fu.id} fu={fu} onComplete={handleComplete} onSnooze={handleSnooze} />)}
-                  </div>
-                )}
-              </div>
-            )
-
-          /* CONTACTS TAB */
-          ) : activeTab === 'contacts' ? (
-            persons.length === 0 ? (
-              <div style={{ padding: '64px 0', textAlign: 'center', fontSize: 13, color: '#5b6678' }}>
-                No contacts yet.{' '}
-                <a href="/networking-assistant-beta-2026/capture" style={{ color: '#1652f0' }}>Capture your first one →</a>
-              </div>
-            ) : (
-              <div>
-                <div style={{ padding: '16px 0 8px', fontSize: 10, fontWeight: 700, color: '#5b6678', letterSpacing: 1.5, textTransform: 'uppercase' }}>
-                  All Contacts · {persons.length}
-                </div>
-                {persons.map((p, i) => (
-                  <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'block' }}>
-                    <div style={{
-                      padding: '14px 0', borderBottom: '1px solid #e6e2d6',
-                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    }}>
-                      <div>
-                        <div style={{ fontWeight: 700, fontSize: 15, color: '#042C53' }}>
-                          {[p.first_name, p.last_name].filter(Boolean).join(' ')}
-                        </div>
-                        <div style={{ fontSize: 12, color: '#5b6678', marginTop: 2 }}>
-                          {[p.title, p.company].filter(Boolean).join(' · ')}
-                        </div>
-                        {p.first_met_date && (
-                          <div style={{ fontSize: 11, color: '#a8b8d4', marginTop: 2 }}>
-                            Met {metLabel(p.first_met_date)}
-                          </div>
-                        )}
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <span style={{ fontSize: 10, fontWeight: 700, color: RELATIONSHIP_COLORS[p.relationship_status] ?? '#5b6678', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-                          {p.relationship_status}
-                        </span>
-                        <span style={{ color: '#a8b8d4', fontSize: 14 }}>→</span>
-                      </div>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            )
-
-          /* EVENTS TAB */
-          ) : (
-            events.length === 0 ? (
-              <div style={{ padding: '64px 0', textAlign: 'center', fontSize: 13, color: '#5b6678' }}>
-                No events yet.{' '}
-                <a href="/networking-assistant-beta-2026/events" style={{ color: '#1652f0' }}>Browse LBC events →</a>
-              </div>
-            ) : (
-              <div>
-                <div style={{ padding: '16px 0 8px', fontSize: 10, fontWeight: 700, color: '#5b6678', letterSpacing: 1.5, textTransform: 'uppercase' }}>
-                  My Events · {events.length}
-                </div>
-                {events.map(ev => (
-                  <div key={ev.id} style={{ padding: '14px 0', borderBottom: '1px solid #e6e2d6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: 14, color: '#042C53' }}>{ev.event_name}</div>
-                      <div style={{ fontSize: 12, color: '#1652f0', marginTop: 2 }}>{formatDate(ev.event_date)}</div>
-                      {ev.host_org && <div style={{ fontSize: 11, color: '#5b6678', marginTop: 1 }}>{ev.host_org}</div>}
-                    </div>
-                    <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
-                      padding: '7px 14px', background: '#c2410c', color: '#fff',
-                      fontWeight: 700, fontSize: 12, textDecoration: 'none', borderRadius: 2,
-                    }}>Capture →</a>
-                  </div>
-                ))}
-              </div>
-            )
           )
         )}
       </div>
-    </div>
-  );
-}
 
-// ── Follow-up row component
-function FollowUpRow({ fu, onComplete, onSnooze }: {
-  fu: any;
-  onComplete: (id: string) => void;
-  onSnooze: (id: string) => void;
-}) {
-  const bucket = dueBucket(fu.due_date);
-  const accentColor = bucket === 'overdue' ? '#c2410c' : bucket === 'today' ? '#1652f0' : '#5b6678';
-  const name = [fu.na_persons?.first_name, fu.na_persons?.last_name].filter(Boolean).join(' ');
-
-  return (
-    <div style={{ padding: '14px 0', borderBottom: '1px solid #e6e2d6' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 3 }}>
-            <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{ fontWeight: 700, fontSize: 15, color: '#042C53', textDecoration: 'none' }}>
-              {name || 'Unknown'}
-            </a>
-            {fu.na_persons?.company && (
-              <span style={{ fontSize: 12, color: '#5b6678' }}>{fu.na_persons.company}</span>
+      {/* Fixed bottom tab bar */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, height: 64,
+        background: '#fff', borderTop: '1px solid #e5e7eb',
+        display: 'flex', alignItems: 'stretch',
+        boxShadow: '0 -2px 12px rgba(0,0,0,0.08)',
+      }}>
+        {([
+          { key: 'queue',    icon: '◎', label: 'Queue',    badge: overdue.length + today.length },
+          { key: 'contacts', icon: '👤', label: 'Contacts', badge: 0 },
+          { key: 'events',   icon: '📅', label: 'Events',   badge: 0 },
+        ] as const).map(t => (
+          <button key={t.key} onClick={() => setTab(t.key)} style={{
+            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            border: 'none', background: 'none', cursor: 'pointer', gap: 2, position: 'relative',
+            borderTop: tab === t.key ? '2px solid #042C53' : '2px solid transparent',
+          }}>
+            {t.badge > 0 && (
+              <span style={{
+                position: 'absolute', top: 6, right: '50%', transform: 'translateX(10px)',
+                background: '#ef4444', color: '#fff', fontSize: 10, fontWeight: 700,
+                borderRadius: 10, padding: '1px 5px', minWidth: 16, textAlign: 'center',
+              }}>{t.badge}</span>
             )}
-          </div>
-          <div style={{ fontSize: 12, color: accentColor, fontWeight: 600 }}>
-            {ACTION_ICONS[fu.action_type]} {ACTION_LABELS[fu.action_type] ?? fu.action_type}
-          </div>
-          {fu.na_events?.event_name && (
-            <div style={{ fontSize: 11, color: '#a8b8d4', marginTop: 3 }}>
-              {fu.na_events.event_name} · {fu.na_events.event_date ? metLabel(fu.na_events.event_date) : ''}
-            </div>
-          )}
-        </div>
-        <div style={{ textAlign: 'right', flexShrink: 0, marginLeft: 12 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: accentColor }}>{formatShortDate(fu.due_date)}</div>
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button onClick={() => onComplete(fu.id)} style={{
-          padding: '7px 16px', borderRadius: 2, border: 'none', cursor: 'pointer',
-          background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 12,
-        }}>Done</button>
-        <button onClick={() => onSnooze(fu.id)} style={{
-          padding: '7px 16px', borderRadius: 2, border: '1px solid #e6e2d6', cursor: 'pointer',
-          background: '#fff', color: '#5b6678', fontWeight: 600, fontSize: 12,
-        }}>Snooze 2d</button>
-        <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{
-          padding: '7px 16px', borderRadius: 2, border: '1px solid #e6e2d6',
-          background: '#fff', color: '#1652f0', fontWeight: 600, fontSize: 12, textDecoration: 'none',
-        }}>View →</a>
+            <span style={{ fontSize: 18 }}>{t.icon}</span>
+            <span style={{ fontSize: 11, fontWeight: tab === t.key ? 700 : 400, color: tab === t.key ? '#042C53' : '#6b7280' }}>
+              {t.label}
+            </span>
+          </button>
+        ))}
       </div>
     </div>
   );
