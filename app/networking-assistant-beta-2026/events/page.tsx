@@ -138,7 +138,7 @@ export default function NAEventsPage() {
         </div>
       )}
 
-      <div style={{ maxWidth: 560, margin: '0 auto', padding: '16px 16px 0' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '16px 16px 0' }}>
 
         {/* Add event form */}
         {showAddForm && (

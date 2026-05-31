@@ -134,7 +134,7 @@ export default function PersonRecordPage() {
         </button>
       </div>
 
-      <div style={{ maxWidth: 560, margin: '0 auto', padding: '16px' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '16px' }}>
 
         {/* Contact card */}
         <div style={css.card}>

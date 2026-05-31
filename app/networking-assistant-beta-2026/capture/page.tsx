@@ -140,7 +140,7 @@ function CaptureFlowInner() {
         </div>
         <a href="/networking-assistant-beta-2026/events" style={{ fontSize: 12, color: '#93b4d4', textDecoration: 'none' }}>+ Add Event</a>
       </div>
-      <div style={{ maxWidth: 520, margin: '0 auto', padding: '24px 16px' }}>
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '24px 16px' }}>
         <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 6 }}>Which event are you at?</div>
         <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>Pick an event to attach this contact to.</div>
         {myEvents.length === 0 ? (
@@ -173,7 +173,7 @@ function CaptureFlowInner() {
         <div style={{ fontSize: 12, color: '#93b4d4' }}>{selectedEvent?.event_name}</div>
       </div>
 
-      <div style={{ maxWidth: 520, margin: '0 auto', padding: '16px 16px 48px' }}>
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '16px 16px 48px' }}>
 
         {/* Event context */}
         <div style={{ background: '#eff6ff', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: '#1d4ed8', fontWeight: 500 }}>
@@ -281,7 +281,7 @@ function CaptureFlowInner() {
           <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Saved</div>
         </div>
       </div>
-      <div style={{ maxWidth: 520, margin: '0 auto', padding: '48px 16px 32px', textAlign: 'center' }}>
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '48px 16px 32px', textAlign: 'center' }}>
         <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#042C53', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 28, color: '#fff' }}>✓</div>
         <div style={{ fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 6 }}>{savedName} saved</div>
         <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 4 }}>{followUps.length} follow-up{followUps.length !== 1 ? 's' : ''} queued</div>
