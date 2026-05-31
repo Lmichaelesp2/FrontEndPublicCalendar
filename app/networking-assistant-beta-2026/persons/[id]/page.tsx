@@ -165,7 +165,7 @@ export default function PersonRecordPage() {
     <div style={{ minHeight: '100vh', background: '#fafaf7', fontFamily: 'Inter, sans-serif' }}>
 
       {/* Header */}
-      <div style={{ background: '#0a1628', color: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ background: '#042C53', color: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <div style={{ fontSize: 11, color: '#a8b8d4', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Networking Assistant</div>
           <div style={{ fontSize: 20, fontWeight: 700 }}>{fullName}</div>
@@ -179,7 +179,7 @@ export default function PersonRecordPage() {
         <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #e6e2d6', padding: '20px 16px', marginBottom: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
             <div>
-              <div style={{ fontSize: 22, fontWeight: 700, color: '#0a1628', marginBottom: 4 }}>{fullName}</div>
+              <div style={{ fontSize: 22, fontWeight: 700, color: '#042C53', marginBottom: 4 }}>{fullName}</div>
               {person.title && <div style={{ fontSize: 14, color: '#1f2a3d' }}>{person.title}</div>}
               {person.company && <div style={{ fontSize: 14, color: '#5b6678' }}>{person.company}</div>}
             </div>
@@ -228,7 +228,7 @@ export default function PersonRecordPage() {
               </div>
               <button onClick={handleSaveEdit} disabled={savingEdit} style={{
                 width: '100%', padding: '11px', borderRadius: 8, border: 'none',
-                background: '#0a1628', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer',
+                background: '#042C53', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer',
               }}>
                 {savingEdit ? 'Saving…' : 'Save Changes'}
               </button>
@@ -270,7 +270,7 @@ export default function PersonRecordPage() {
                   <div key={fu.id} style={{ padding: '12px', borderRadius: 8, background: bs.bg, border: `1px solid ${bs.color}22` }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                       <div>
-                        <div style={{ fontWeight: 600, fontSize: 14, color: '#0a1628' }}>{ACTION_LABELS[fu.action_type] ?? fu.action_type}</div>
+                        <div style={{ fontWeight: 600, fontSize: 14, color: '#042C53' }}>{ACTION_LABELS[fu.action_type] ?? fu.action_type}</div>
                         <div style={{ fontSize: 12, color: bs.color, fontWeight: 600, marginTop: 2 }}>
                           {bs.label} · {formatShortDate(fu.due_date)}
                         </div>
@@ -313,7 +313,7 @@ export default function PersonRecordPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {interactions.map((int: any) => (
                 <div key={int.id} style={{ paddingLeft: 12, borderLeft: '3px solid #1652f0' }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#0a1628' }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#042C53' }}>
                     {int.na_events?.event_name ?? 'Unknown event'}
                   </div>
                   <div style={{ fontSize: 12, color: '#1652f0', marginTop: 1 }}>

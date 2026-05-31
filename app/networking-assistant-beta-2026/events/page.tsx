@@ -122,7 +122,7 @@ export default function NAEventsPage() {
     <div style={{ minHeight: '100vh', background: '#fafaf7', fontFamily: 'Inter, sans-serif' }}>
 
       {/* Header */}
-      <div style={{ background: '#0a1628', color: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ background: '#042C53', color: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <div style={{ fontSize: 11, color: '#a8b8d4', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>
             Networking Assistant
@@ -148,7 +148,7 @@ export default function NAEventsPage() {
           {(['upcoming', 'mine'] as const).map(t => (
             <button key={t} onClick={() => setTab(t)} style={{
               padding: '8px 20px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 600,
-              background: tab === t ? '#0a1628' : '#e6e2d6',
+              background: tab === t ? '#042C53' : '#e6e2d6',
               color: tab === t ? '#fff' : '#1f2a3d',
             }}>
               {t === 'upcoming' ? 'Upcoming LBC Events' : `My Events (${myEvents.length})`}
@@ -189,7 +189,7 @@ export default function NAEventsPage() {
                     }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 600, fontSize: 15, color: '#0a1628', marginBottom: 4 }}>{ev.name}</div>
+                          <div style={{ fontWeight: 600, fontSize: 15, color: '#042C53', marginBottom: 4 }}>{ev.name}</div>
                           <div style={{ fontSize: 13, color: '#1652f0', fontWeight: 500 }}>{formatDate(ev.start_date)}{ev.start_time ? ` · ${ev.start_time}` : ''}</div>
                           {ev.group_name && <div style={{ fontSize: 12, color: '#5b6678', marginTop: 2 }}>{ev.group_name}</div>}
                           {ev.event_address && <div style={{ fontSize: 12, color: '#5b6678' }}>{ev.event_address}</div>}
@@ -197,7 +197,7 @@ export default function NAEventsPage() {
                         <button onClick={() => handleFlagLBC(ev)} disabled={flagged} style={{
                           padding: '7px 14px', borderRadius: 8, border: 'none', cursor: flagged ? 'default' : 'pointer',
                           fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap',
-                          background: flagged ? '#e6e2d6' : '#0a1628',
+                          background: flagged ? '#e6e2d6' : '#042C53',
                           color: flagged ? '#5b6678' : '#fff',
                         }}>
                           {flagged ? '✓ Added' : '+ Add to Mine'}
@@ -226,7 +226,7 @@ export default function NAEventsPage() {
               <form onSubmit={handleCreateManual} style={{
                 background: '#fff', border: '1px solid #e6e2d6', borderRadius: 10, padding: 16, marginBottom: 16
               }}>
-                <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 12, color: '#0a1628' }}>New Event</div>
+                <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 12, color: '#042C53' }}>New Event</div>
                 {[
                   { label: 'Event Name *', key: 'event_name', type: 'text', required: true },
                   { label: 'Date *', key: 'event_date', type: 'date', required: true },
@@ -260,7 +260,7 @@ export default function NAEventsPage() {
                 </div>
                 <button type="submit" disabled={saving} style={{
                   width: '100%', padding: '10px', borderRadius: 8, border: 'none',
-                  background: '#0a1628', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer'
+                  background: '#042C53', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer'
                 }}>
                   {saving ? 'Saving…' : 'Create Event'}
                 </button>
@@ -292,7 +292,7 @@ export default function NAEventsPage() {
                           </span>
                           <span style={{ fontSize: 10, color: '#5b6678', textTransform: 'uppercase', letterSpacing: 0.5 }}>{ev.event_type}</span>
                         </div>
-                        <div style={{ fontWeight: 600, fontSize: 15, color: '#0a1628', marginBottom: 4 }}>{ev.event_name}</div>
+                        <div style={{ fontWeight: 600, fontSize: 15, color: '#042C53', marginBottom: 4 }}>{ev.event_name}</div>
                         <div style={{ fontSize: 13, color: '#1652f0', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
                         {ev.host_org && <div style={{ fontSize: 12, color: '#5b6678', marginTop: 2 }}>{ev.host_org}</div>}
                         {ev.location_name && <div style={{ fontSize: 12, color: '#5b6678' }}>{ev.location_name}</div>}

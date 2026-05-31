@@ -111,7 +111,7 @@ export default function NAHomePage() {
     <div style={{ minHeight: '100vh', background: '#fafaf7', fontFamily: 'Inter, sans-serif' }}>
 
       {/* ── Masthead */}
-      <div style={{ background: '#0a1628', borderBottom: '1px solid #1f2a3d' }}>
+      <div style={{ background: '#042C53', borderBottom: '1px solid #1f2a3d' }}>
         <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 20px' }}>
 
           {/* Top bar */}
@@ -190,8 +190,8 @@ export default function NAHomePage() {
             <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
               padding: '12px 16px', background: 'none', border: 'none', cursor: 'pointer',
               fontSize: 12, fontWeight: 700, letterSpacing: 0.3,
-              color: activeTab === tab.key ? '#0a1628' : '#5b6678',
-              borderBottom: activeTab === tab.key ? '2px solid #0a1628' : '2px solid transparent',
+              color: activeTab === tab.key ? '#042C53' : '#5b6678',
+              borderBottom: activeTab === tab.key ? '2px solid #042C53' : '2px solid transparent',
               textTransform: 'uppercase',
             }}>
               {tab.label}
@@ -279,7 +279,7 @@ export default function NAHomePage() {
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                     }}>
                       <div>
-                        <div style={{ fontWeight: 700, fontSize: 15, color: '#0a1628' }}>
+                        <div style={{ fontWeight: 700, fontSize: 15, color: '#042C53' }}>
                           {[p.first_name, p.last_name].filter(Boolean).join(' ')}
                         </div>
                         <div style={{ fontSize: 12, color: '#5b6678', marginTop: 2 }}>
@@ -318,7 +318,7 @@ export default function NAHomePage() {
                 {events.map(ev => (
                   <div key={ev.id} style={{ padding: '14px 0', borderBottom: '1px solid #e6e2d6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 14, color: '#0a1628' }}>{ev.event_name}</div>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: '#042C53' }}>{ev.event_name}</div>
                       <div style={{ fontSize: 12, color: '#1652f0', marginTop: 2 }}>{formatDate(ev.event_date)}</div>
                       {ev.host_org && <div style={{ fontSize: 11, color: '#5b6678', marginTop: 1 }}>{ev.host_org}</div>}
                     </div>
@@ -352,7 +352,7 @@ function FollowUpRow({ fu, onComplete, onSnooze }: {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 3 }}>
-            <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{ fontWeight: 700, fontSize: 15, color: '#0a1628', textDecoration: 'none' }}>
+            <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{ fontWeight: 700, fontSize: 15, color: '#042C53', textDecoration: 'none' }}>
               {name || 'Unknown'}
             </a>
             {fu.na_persons?.company && (
@@ -377,7 +377,7 @@ function FollowUpRow({ fu, onComplete, onSnooze }: {
       <div style={{ display: 'flex', gap: 8 }}>
         <button onClick={() => onComplete(fu.id)} style={{
           padding: '7px 16px', borderRadius: 2, border: 'none', cursor: 'pointer',
-          background: '#0a1628', color: '#fff', fontWeight: 700, fontSize: 12,
+          background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 12,
         }}>Done</button>
         <button onClick={() => onSnooze(fu.id)} style={{
           padding: '7px 16px', borderRadius: 2, border: '1px solid #e6e2d6', cursor: 'pointer',

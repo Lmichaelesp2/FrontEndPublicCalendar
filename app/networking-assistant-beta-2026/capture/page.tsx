@@ -160,7 +160,7 @@ function CaptureFlowInner() {
 
   // ── Header
   const Header = ({ showBack, onBack }: { showBack?: boolean; onBack?: () => void }) => (
-    <div style={{ background: '#0a1628', color: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <div style={{ background: '#042C53', color: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <div>
         <div style={{ fontSize: 11, color: '#a8b8d4', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Networking Assistant</div>
         <div style={{ fontSize: 20, fontWeight: 700 }}>Capture Contact</div>
@@ -177,13 +177,13 @@ function CaptureFlowInner() {
     <div style={{ minHeight: '100vh', background: '#fafaf7', ...s }}>
       <Header />
       <div style={{ maxWidth: 520, margin: '0 auto', padding: '32px 16px' }}>
-        <div style={{ fontSize: 22, fontWeight: 700, color: '#0a1628', marginBottom: 8 }}>Which event are you at?</div>
+        <div style={{ fontSize: 22, fontWeight: 700, color: '#042C53', marginBottom: 8 }}>Which event are you at?</div>
         <div style={{ fontSize: 14, color: '#5b6678', marginBottom: 24 }}>Pick from your events or add one first.</div>
         {myEvents.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 32 }}>
             <div style={{ color: '#5b6678', marginBottom: 16 }}>No events yet. Add one first.</div>
             <a href="/networking-assistant-beta-2026/events" style={{
-              display: 'inline-block', padding: '12px 24px', background: '#0a1628',
+              display: 'inline-block', padding: '12px 24px', background: '#042C53',
               color: '#fff', borderRadius: 10, textDecoration: 'none', fontWeight: 600,
             }}>Go to Events →</a>
           </div>
@@ -194,7 +194,7 @@ function CaptureFlowInner() {
                 padding: '14px 16px', borderRadius: 10, border: '1.5px solid #e6e2d6',
                 background: '#fff', cursor: 'pointer', textAlign: 'left',
               }}>
-                <div style={{ fontWeight: 600, color: '#0a1628', fontSize: 15 }}>{ev.event_name}</div>
+                <div style={{ fontWeight: 600, color: '#042C53', fontSize: 15 }}>{ev.event_name}</div>
                 <div style={{ fontSize: 13, color: '#1652f0', marginTop: 2 }}>{formatDate(ev.event_date)}</div>
                 {ev.host_org && <div style={{ fontSize: 12, color: '#5b6678', marginTop: 1 }}>{ev.host_org}</div>}
               </button>
@@ -278,8 +278,8 @@ function CaptureFlowInner() {
               return (
                 <button key={opt.value} onClick={() => toggleFollowUp(opt.value)} style={{
                   padding: '12px 14px', borderRadius: 8, border: '2px solid', cursor: 'pointer', textAlign: 'left',
-                  borderColor: selected ? '#0a1628' : '#e6e2d6',
-                  background: selected ? '#0a1628' : '#fff',
+                  borderColor: selected ? '#042C53' : '#e6e2d6',
+                  background: selected ? '#042C53' : '#fff',
                   color: selected ? '#fff' : '#1f2a3d',
                   fontWeight: selected ? 600 : 400, fontSize: 14,
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -301,8 +301,8 @@ function CaptureFlowInner() {
               return (
                 <button key={opt.label} onClick={() => { setWhenDays(opt.days); setCustomDate(''); }} style={{
                   padding: '8px 16px', borderRadius: 20, border: '1.5px solid', cursor: 'pointer',
-                  borderColor: active ? '#0a1628' : '#e6e2d6',
-                  background: active ? '#0a1628' : '#fff',
+                  borderColor: active ? '#042C53' : '#e6e2d6',
+                  background: active ? '#042C53' : '#fff',
                   color: active ? '#fff' : '#1f2a3d',
                   fontWeight: active ? 600 : 400, fontSize: 13,
                 }}>
@@ -337,7 +337,7 @@ function CaptureFlowInner() {
       <Header showBack onBack={() => { resetForm(); setPhase('capture_form'); }} />
       <div style={{ maxWidth: 520, margin: '0 auto', padding: '48px 16px 32px', textAlign: 'center' }}>
         <div style={{ fontSize: 56, marginBottom: 12 }}>✓</div>
-        <div style={{ fontSize: 24, fontWeight: 700, color: '#0a1628', marginBottom: 8 }}>{lastSavedName} saved</div>
+        <div style={{ fontSize: 24, fontWeight: 700, color: '#042C53', marginBottom: 8 }}>{lastSavedName} saved</div>
         <div style={{ fontSize: 14, color: '#5b6678', marginBottom: 8 }}>
           {selectedFollowUps.length} follow-up{selectedFollowUps.length !== 1 ? 's' : ''} queued
         </div>
@@ -348,7 +348,7 @@ function CaptureFlowInner() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <button onClick={() => { resetForm(); setPhase('capture_form'); }} style={{
             width: '100%', padding: '15px', borderRadius: 12, border: 'none',
-            background: '#0a1628', color: '#fff', fontWeight: 700, fontSize: 16, cursor: 'pointer',
+            background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 16, cursor: 'pointer',
           }}>+ Capture Another Person</button>
 
           <a href="/networking-assistant-beta-2026" style={{
