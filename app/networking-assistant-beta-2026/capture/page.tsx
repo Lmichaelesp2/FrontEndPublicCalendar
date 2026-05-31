@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../src/contexts/AuthContext';
 import {
@@ -34,7 +34,7 @@ function formatDate(dateStr: string) {
   });
 }
 
-export default function CaptureFlowPage() {
+function CaptureFlowInner() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -382,4 +382,12 @@ export default function CaptureFlowPage() {
   );
 
   return null;
+}
+
+export default function CaptureFlowPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: '#fafaf7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#5b6678' }}>Loading…</div>}>
+      <CaptureFlowInner />
+    </Suspense>
+  );
 }
