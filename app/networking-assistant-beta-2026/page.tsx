@@ -57,6 +57,12 @@ export default function NAHomePage() {
   const [isDesktop, setIsDesktop]     = useState(false);
   const [desktopView, setDesktopView] = useState<'queue' | 'contacts' | 'events'>('queue');
 
+  // Search & filter state
+  const [contactSearch, setContactSearch]   = useState('');
+  const [relFilter, setRelFilter]           = useState<string>('all');
+  const [eventFilter, setEventFilter]       = useState<string>('all');
+  const [queueSearch, setQueueSearch]       = useState('');
+
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
   useEffect(() => {
@@ -97,6 +103,34 @@ export default function NAHomePage() {
   const overdue  = followUps.filter(f => dueBucket(f.due_date) === 'overdue');
   const today    = followUps.filter(f => dueBucket(f.due_date) === 'today');
   const upcoming = followUps.filter(f => dueBucket(f.due_date) === 'upcoming');
+
+  // Filtered contacts
+  const filteredPersons = persons.filter(p => {
+    const q = contactSearch.toLowerCase();
+    const matchesSearch = !q ||
+      `${p.first_name} ${p.last_name} ${p.company ?? ''} ${p.title ?? ''}`.toLowerCase().includes(q);
+    const matchesRel = relFilter === 'all' || p.relationship_status === relFilter;
+    const matchesEvent = eventFilter === 'all' || p.first_met_event_id === eventFilter;
+    return matchesSearch && matchesRel && matchesEvent;
+  });
+
+  // Filtered queue (search only)
+  const filteredQueue = queueSearch
+    ? followUps.filter(f => {
+        const q = queueSearch.toLowerCase();
+        const name = `${f.na_persons?.first_name ?? ''} ${f.na_persons?.last_name ?? ''} ${f.na_persons?.company ?? ''}`.toLowerCase();
+        return name.includes(q);
+      })
+    : followUps;
+
+  const filteredOverdue  = filteredQueue.filter(f => dueBucket(f.due_date) === 'overdue');
+  const filteredToday    = filteredQueue.filter(f => dueBucket(f.due_date) === 'today');
+  const filteredUpcoming = filteredQueue.filter(f => dueBucket(f.due_date) === 'upcoming');
+
+  // Unique events for filter dropdown (desktop)
+  const myEventOptions = Array.from(
+    new Map(persons.filter(p => p.first_met_event_id).map(p => [p.first_met_event_id, p])).values()
+  ).map(p => ({ id: p.first_met_event_id, name: events.find((e: any) => e.id === p.first_met_event_id)?.event_name ?? 'Unknown event' }));
 
   // ── Follow-up row
   const FURow = ({ fu }: { fu: any }) => {
@@ -149,33 +183,46 @@ export default function NAHomePage() {
     );
   };
 
-  const QueueContent = () => (
-    followUps.length === 0 ? (
-      <div style={{ textAlign: 'center', padding: '56px 16px' }}>
-        <div style={{ fontSize: 32, marginBottom: 10 }}>✓</div>
-        <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 6 }}>All caught up</div>
-        <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>No follow-ups pending.</div>
-        <a href="/networking-assistant-beta-2026/capture" style={{
-          display: 'inline-flex', alignItems: 'center', height: 38, padding: '0 20px',
-          borderRadius: 7, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
-        }}>+ Capture Contacts</a>
-      </div>
-    ) : (
-      <div>
-        {overdue.length > 0 && <>
-          <div style={{ fontSize: 10, fontWeight: 700, color: '#ef4444', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 8 }}>⚠ Overdue · {overdue.length}</div>
-          {overdue.map(fu => <FURow key={fu.id} fu={fu} />)}
-        </>}
-        {today.length > 0 && <>
-          <div style={{ fontSize: 10, fontWeight: 700, color: '#2563eb', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 8, marginTop: overdue.length > 0 ? 20 : 0 }}>Due Today · {today.length}</div>
-          {today.map(fu => <FURow key={fu.id} fu={fu} />)}
-        </>}
-        {upcoming.length > 0 && <>
-          <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 8, marginTop: (overdue.length + today.length) > 0 ? 20 : 0 }}>Upcoming · {upcoming.length}</div>
-          {upcoming.map(fu => <FURow key={fu.id} fu={fu} />)}
-        </>}
-      </div>
-    )
+  const QueueContent = ({ showSearch = false }: { showSearch?: boolean }) => (
+    <div>
+      {/* Queue search — shown on desktop */}
+      {showSearch && (
+        <input
+          value={queueSearch}
+          onChange={e => setQueueSearch(e.target.value)}
+          placeholder="Search follow-ups by name or company…"
+          style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid #e8eaed', fontSize: 13, marginBottom: 16, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
+        />
+      )}
+      {followUps.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '56px 16px' }}>
+          <div style={{ fontSize: 32, marginBottom: 10 }}>✓</div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 6 }}>All caught up</div>
+          <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>No follow-ups pending.</div>
+          <a href="/networking-assistant-beta-2026/capture" style={{
+            display: 'inline-flex', alignItems: 'center', height: 38, padding: '0 20px',
+            borderRadius: 7, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
+          }}>+ Capture Contacts</a>
+        </div>
+      ) : filteredQueue.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '32px 0', fontSize: 13, color: '#9ca3af' }}>No results for "{queueSearch}"</div>
+      ) : (
+        <div>
+          {filteredOverdue.length > 0 && <>
+            <div style={{ fontSize: 10, fontWeight: 700, color: '#ef4444', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 8 }}>⚠ Overdue · {filteredOverdue.length}</div>
+            {filteredOverdue.map(fu => <FURow key={fu.id} fu={fu} />)}
+          </>}
+          {filteredToday.length > 0 && <>
+            <div style={{ fontSize: 10, fontWeight: 700, color: '#2563eb', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 8, marginTop: filteredOverdue.length > 0 ? 20 : 0 }}>Due Today · {filteredToday.length}</div>
+            {filteredToday.map(fu => <FURow key={fu.id} fu={fu} />)}
+          </>}
+          {filteredUpcoming.length > 0 && <>
+            <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 8, marginTop: (filteredOverdue.length + filteredToday.length) > 0 ? 20 : 0 }}>Upcoming · {filteredUpcoming.length}</div>
+            {filteredUpcoming.map(fu => <FURow key={fu.id} fu={fu} />)}
+          </>}
+        </div>
+      )}
+    </div>
   );
 
   // ── Contact row with avatar
@@ -202,13 +249,23 @@ export default function NAHomePage() {
     </a>
   );
 
-  // ── Mobile full contact list
+  // ── Mobile contact list (search only)
   const ContactsList = () => (
-    persons.length === 0 ? (
-      <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
-        No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
-      </div>
-    ) : <div>{persons.map(p => <ContactRow key={p.id} p={p} />)}</div>
+    <div>
+      <input
+        value={contactSearch}
+        onChange={e => setContactSearch(e.target.value)}
+        placeholder="Search by name or company…"
+        style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #e5e7eb', fontSize: 14, marginBottom: 12, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
+      />
+      {persons.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
+          No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
+        </div>
+      ) : filteredPersons.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '32px 0', fontSize: 13, color: '#9ca3af' }}>No contacts match "{contactSearch}"</div>
+      ) : <div>{filteredPersons.map(p => <ContactRow key={p.id} p={p} />)}</div>}
+    </div>
   );
 
   // ── Events list
@@ -251,14 +308,14 @@ export default function NAHomePage() {
           {!pageLoading && (
             <div style={{ display: 'flex', gap: 20, marginLeft: 24, paddingLeft: 24, borderLeft: '1px solid rgba(255,255,255,0.12)' }}>
               {[
-                { label: 'Overdue', val: overdue.length, color: overdue.length > 0 ? '#f87171' : '#6b93b8' },
-                { label: 'Today',   val: today.length,   color: today.length > 0 ? '#93c5fd' : '#6b93b8' },
-                { label: 'Queue',   val: upcoming.length, color: '#6b93b8' },
-                { label: 'Contacts', val: persons.length, color: '#6b93b8' },
+                { label: 'Overdue', val: overdue.length, alert: overdue.length > 0 },
+                { label: 'Today',   val: today.length,   alert: today.length > 0 },
+                { label: 'Queue',   val: upcoming.length, alert: false },
+                { label: 'Contacts', val: persons.length, alert: false },
               ].map(s => (
                 <div key={s.label} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 17, fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.val}</div>
-                  <div style={{ fontSize: 9, color: '#4a6a8a', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginTop: 1 }}>{s.label}</div>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: s.alert ? '#fca5a5' : '#e2e8f0', lineHeight: 1 }}>{s.val}</div>
+                  <div style={{ fontSize: 9, color: '#94a3b8', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginTop: 1 }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -286,7 +343,7 @@ export default function NAHomePage() {
         </div>
 
         {/* Main content — queue or contacts or events */}
-        <div style={{ overflowY: 'auto', padding: '20px 24px' }}>
+        <div style={{ overflowY: 'auto', padding: '20px 24px', background: '#f8f9fb' }}>
           {pageLoading ? (
             <div style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 48, fontSize: 13 }}>Loading…</div>
           ) : desktopView === 'queue' ? (
@@ -294,18 +351,57 @@ export default function NAHomePage() {
               <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 16 }}>
                 Follow-Up Queue <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{followUps.length} pending</span>
               </div>
-              <QueueContent />
+              <div style={{ maxWidth: 640 }}><QueueContent showSearch={true} /></div>
             </>
           ) : desktopView === 'contacts' ? (
             <>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 16 }}>
-                All Contacts <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{persons.length}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                <div style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>
+                  All Contacts <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>
+                    {filteredPersons.length}{filteredPersons.length !== persons.length ? ` of ${persons.length}` : ''}
+                  </span>
+                </div>
               </div>
+
+              {/* Desktop search + filters */}
+              <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' as const }}>
+                <input
+                  value={contactSearch}
+                  onChange={e => setContactSearch(e.target.value)}
+                  placeholder="Search name, company, title…"
+                  style={{ flex: 1, minWidth: 200, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
+                />
+                {/* Relationship filter pills */}
+                {(['all','hot','warm','cold'] as const).map(r => (
+                  <button key={r} onClick={() => setRelFilter(r)} style={{
+                    height: 34, padding: '0 14px', borderRadius: 20, border: '1.5px solid',
+                    cursor: 'pointer', fontSize: 12, fontWeight: relFilter === r ? 700 : 400,
+                    borderColor: relFilter === r ? '#042C53' : '#e8eaed',
+                    background: relFilter === r ? '#042C53' : '#fff',
+                    color: relFilter === r ? '#fff' : '#374151',
+                  }}>
+                    {r === 'all' ? 'All' : r.charAt(0).toUpperCase() + r.slice(1)}
+                  </button>
+                ))}
+                {/* Event filter */}
+                {myEventOptions.length > 0 && (
+                  <select value={eventFilter} onChange={e => setEventFilter(e.target.value)} style={{
+                    height: 34, padding: '0 10px', borderRadius: 7, border: '1px solid #e8eaed',
+                    fontSize: 12, fontFamily: 'Inter, sans-serif', background: '#fff', cursor: 'pointer', color: '#374151',
+                  }}>
+                    <option value="all">All Events</option>
+                    {myEventOptions.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}
+                  </select>
+                )}
+              </div>
+
               {persons.length === 0 ? (
                 <div style={{ textAlign: 'center', paddingTop: 48, fontSize: 13, color: '#6b7280' }}>
                   No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
                 </div>
-              ) : persons.map(p => (
+              ) : filteredPersons.length === 0 ? (
+                <div style={{ textAlign: 'center', paddingTop: 32, fontSize: 13, color: '#9ca3af' }}>No contacts match your filters.</div>
+              ) : filteredPersons.map(p => (
                 <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', marginBottom: 6, background: '#fff', borderRadius: 8, border: '1px solid #e8eaed' }}
                   onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)')}
                   onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
