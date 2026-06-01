@@ -2,14 +2,7 @@
 
 import { ReactNode } from 'react';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
-import { PremiumQuestionnaire } from './auth/PremiumQuestionnaire';
 import { WelcomeModal } from './auth/WelcomeModal';
-
-function QuestionnaireGate() {
-  const { showQuestionnaire } = useAuth();
-  if (!showQuestionnaire) return null;
-  return <PremiumQuestionnaire />;
-}
 
 function WelcomeGate() {
   const { showWelcomeModal, user, profile, preferences, completeWelcome } = useAuth();
@@ -32,7 +25,6 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
       {children}
-      <QuestionnaireGate />
       <WelcomeGate />
     </AuthProvider>
   );

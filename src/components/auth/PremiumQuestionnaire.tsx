@@ -150,7 +150,12 @@ const s = {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function PremiumQuestionnaire() {
+interface PremiumQuestionnaireProps {
+  inline?: boolean;       // when true: renders as a card, no overlay
+  onClose?: () => void;   // for inline mode — called after save or skip
+}
+
+export function PremiumQuestionnaire({ inline = false, onClose }: PremiumQuestionnaireProps = {}) {
   const { profile, saveNetworkProfile } = useAuth();
   const firstName = profile?.first_name ?? 'there';
 
@@ -191,11 +196,11 @@ export function PremiumQuestionnaire() {
     const networkProfile: NetworkProfile = { categories, city, timeOfDay, participation };
     await saveNetworkProfile(networkProfile);
     setSaving(false);
+    onClose?.();
   }
 
-  return (
-    <div style={s.overlay}>
-      <div style={s.modal}>
+  const card = (
+    <div style={s.modal}>
 
         {/* Progress bar */}
         <div style={s.progress}>
@@ -299,6 +304,15 @@ export function PremiumQuestionnaire() {
         </div>
 
       </div>
+  );
+
+  if (inline) {
+    return <div style={{ padding: '0 0 24px' }}>{card}</div>;
+  }
+
+  return (
+    <div style={s.overlay}>
+      {card}
     </div>
   );
 }
