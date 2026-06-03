@@ -292,19 +292,42 @@ export default function NAHomePage() {
       </div>
     ) : (
       <div>
-        {events.map(ev => (
-          <div key={ev.id} style={{ padding: '10px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 1 }}>{ev.event_name}</div>
-              <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
-              {ev.host_org && <div style={{ fontSize: 11, color: '#9ca3af' }}>{ev.host_org}</div>}
+        {events.map(ev => {
+          const isActive = activeEventName && localStorage.getItem('na_active_event_id') === ev.id;
+          const isToday = ev.event_date === new Date().toISOString().split('T')[0];
+          return (
+            <div key={ev.id} style={{ padding: '10px 0', borderBottom: '1px solid #f3f4f6' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 1 }}>{ev.event_name}</div>
+                  <div style={{ fontSize: 11, color: isToday ? '#c2410c' : '#2563eb', fontWeight: 600 }}>
+                    {isToday ? '📍 Today' : formatDate(ev.event_date)}
+                  </div>
+                  {ev.host_org && <div style={{ fontSize: 11, color: '#9ca3af' }}>{ev.host_org}</div>}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', marginLeft: 8 }}>
+                  {isActive ? (
+                    <>
+                      <a href="/networking-assistant-beta-2026/capture" style={{
+                        height: 28, padding: '0 10px', borderRadius: 5, background: '#c2410c', color: '#fff',
+                        fontWeight: 700, fontSize: 11, textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
+                      }}>🎤 Capture</a>
+                      <button onClick={clearActiveEvent} style={{
+                        height: 20, borderRadius: 4, background: 'none', border: '1px solid #e5e7eb',
+                        color: '#9ca3af', fontSize: 10, padding: '0 8px', cursor: 'pointer',
+                      }}>End session</button>
+                    </>
+                  ) : (
+                    <button onClick={() => { localStorage.setItem('na_active_event_id', ev.id); localStorage.setItem('na_active_event_name', ev.event_name); setActiveEventName(ev.event_name); }} style={{
+                      height: 28, padding: '0 10px', borderRadius: 5, background: '#042C53', color: '#fff',
+                      fontWeight: 700, fontSize: 11, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center',
+                    }}>I'm going →</button>
+                  )}
+                </div>
+              </div>
             </div>
-            <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
-              height: 28, padding: '0 10px', borderRadius: 5, background: '#c2410c', color: '#fff',
-              fontWeight: 700, fontSize: 11, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', flexShrink: 0, marginLeft: 8,
-            }}>Capture →</a>
-          </div>
-        ))}
+          );
+        })}
       </div>
     )
   );
