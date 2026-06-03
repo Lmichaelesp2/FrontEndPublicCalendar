@@ -56,6 +56,17 @@ export default function NAHomePage() {
   const [mobileTab, setMobileTab]     = useState<'queue' | 'contacts' | 'events'>('queue');
   const [isDesktop, setIsDesktop]     = useState(false);
   const [desktopView, setDesktopView] = useState<'queue' | 'contacts' | 'events'>('queue');
+  const [activeEventName, setActiveEventName] = useState<string | null>(null);
+
+  useEffect(() => {
+    setActiveEventName(localStorage.getItem('na_active_event_name'));
+  }, []);
+
+  function clearActiveEvent() {
+    localStorage.removeItem('na_active_event_id');
+    localStorage.removeItem('na_active_event_name');
+    setActiveEventName(null);
+  }
 
   // Search & filter state
   const [contactSearch, setContactSearch]   = useState('');
@@ -333,6 +344,27 @@ export default function NAHomePage() {
         }}>+ Capture Contact</a>
       </div>
 
+      {/* Active event banner */}
+      {activeEventName && (
+        <div style={{ background: '#c2410c', padding: '8px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ fontSize: 13, color: '#fff' }}>
+            <span style={{ fontWeight: 400, opacity: 0.8 }}>Active event: </span>
+            <span style={{ fontWeight: 700 }}>{activeEventName}</span>
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <a href="/networking-assistant-beta-2026/capture" style={{
+              height: 28, borderRadius: 6, background: '#fff', color: '#c2410c',
+              fontWeight: 700, fontSize: 12, padding: '0 12px', textDecoration: 'none',
+              display: 'inline-flex', alignItems: 'center',
+            }}>🎤 Capture</a>
+            <button onClick={clearActiveEvent} style={{
+              height: 28, borderRadius: 6, background: 'rgba(255,255,255,0.2)', border: 'none',
+              color: '#fff', fontSize: 12, fontWeight: 600, padding: '0 12px', cursor: 'pointer',
+            }}>End Session</button>
+          </div>
+        </div>
+      )}
+
       {/* Body: left nav + main content + right panel */}
       <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '200px 1fr 280px', overflow: 'hidden', minHeight: 0 }}>
 
@@ -509,6 +541,26 @@ export default function NAHomePage() {
             }}>+ Capture</a>
           </div>
         </div>
+        {/* Active event banner — mobile */}
+        {activeEventName && (
+          <div style={{ background: '#c2410c', padding: '8px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ fontSize: 12, color: '#fff', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const, maxWidth: '60%' }}>
+              🎯 {activeEventName}
+            </div>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <a href="/networking-assistant-beta-2026/capture" style={{
+                height: 26, borderRadius: 6, background: '#fff', color: '#c2410c',
+                fontWeight: 700, fontSize: 11, padding: '0 10px', textDecoration: 'none',
+                display: 'inline-flex', alignItems: 'center',
+              }}>🎤 Go</a>
+              <button onClick={clearActiveEvent} style={{
+                height: 26, borderRadius: 6, background: 'rgba(255,255,255,0.2)', border: 'none',
+                color: '#fff', fontSize: 11, padding: '0 8px', cursor: 'pointer',
+              }}>End</button>
+            </div>
+          </div>
+        )}
+
         {/* Stats */}
         {!pageLoading && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.1)', padding: '8px 0 10px' }}>

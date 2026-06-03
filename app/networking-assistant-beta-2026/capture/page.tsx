@@ -90,8 +90,15 @@ function CaptureFlowInner() {
     fetchMyNAEvents(user.id).then(({ data }) => {
       if (data) {
         setMyEvents(data);
+        // Priority 1: URL param
         if (preloadEventId) {
           const found = data.find(e => e.id === preloadEventId);
+          if (found) { setSelectedEvent(found); setPhase('form'); return; }
+        }
+        // Priority 2: active event from localStorage
+        const activeId = localStorage.getItem('na_active_event_id');
+        if (activeId) {
+          const found = data.find(e => e.id === activeId);
           if (found) { setSelectedEvent(found); setPhase('form'); }
         }
       }

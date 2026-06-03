@@ -60,6 +60,23 @@ export default function NAEventsPage() {
     event_name: '', event_date: '', event_type: 'other' as typeof EVENT_TYPES[number],
     host_org: '', location_name: '', city: 'San Antonio',
   });
+  const [activeEventId, setActiveEventId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setActiveEventId(localStorage.getItem('na_active_event_id'));
+  }, []);
+
+  function setActive(ev: NAEvent) {
+    localStorage.setItem('na_active_event_id', ev.id);
+    localStorage.setItem('na_active_event_name', ev.event_name);
+    setActiveEventId(ev.id);
+  }
+
+  function clearActive() {
+    localStorage.removeItem('na_active_event_id');
+    localStorage.removeItem('na_active_event_name');
+    setActiveEventId(null);
+  }
 
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
@@ -153,6 +170,27 @@ export default function NAEventsPage() {
       {toast && (
         <div style={{ background: '#042C53', color: '#fff', padding: '10px 16px', fontSize: 13, textAlign: 'center' }}>
           ✓ {toast}
+        </div>
+      )}
+
+      {/* Active event banner */}
+      {activeEventId && (
+        <div style={{ background: '#c2410c', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>Active Event</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{localStorage.getItem('na_active_event_name')}</div>
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <a href="/networking-assistant-beta-2026/capture" style={{
+              height: 32, borderRadius: 8, background: '#fff', color: '#c2410c',
+              fontWeight: 700, fontSize: 12, padding: '0 12px', textDecoration: 'none',
+              display: 'inline-flex', alignItems: 'center',
+            }}>🎤 Capture</a>
+            <button onClick={clearActive} style={{
+              height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.2)', border: 'none',
+              color: '#fff', fontWeight: 600, fontSize: 12, padding: '0 12px', cursor: 'pointer',
+            }}>End Session</button>
+          </div>
         </div>
       )}
 
@@ -281,11 +319,33 @@ export default function NAEventsPage() {
                           </span>
                         </div>
                       </div>
-                      <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
-                        height: 40, borderRadius: 8, background: bucket === 'Today' ? '#c2410c' : '#042C53', color: '#fff',
-                        fontWeight: 700, fontSize: 12, padding: '0 14px', textDecoration: 'none',
-                        display: 'inline-flex', alignItems: 'center', flexShrink: 0,
-                      }}>Capture →</a>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+                        {activeEventId === ev.id ? (
+                          <>
+                            <a href="/networking-assistant-beta-2026/capture" style={{
+                              height: 36, borderRadius: 8, background: '#c2410c', color: '#fff',
+                              fontWeight: 700, fontSize: 12, padding: '0 14px', textDecoration: 'none',
+                              display: 'inline-flex', alignItems: 'center', flexShrink: 0,
+                            }}>🎤 Capture</a>
+                            <button onClick={clearActive} style={{
+                              height: 26, borderRadius: 6, background: 'none', border: '1px solid #e5e7eb',
+                              color: '#9ca3af', fontSize: 11, padding: '0 10px', cursor: 'pointer',
+                            }}>End Session</button>
+                          </>
+                        ) : (
+                          <>
+                            <button onClick={() => setActive(ev)} style={{
+                              height: 36, borderRadius: 8, background: '#042C53', color: '#fff',
+                              fontWeight: 700, fontSize: 12, padding: '0 12px', border: 'none', cursor: 'pointer', flexShrink: 0,
+                            }}>I'm going →</button>
+                            <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+                              height: 26, borderRadius: 6, border: '1px solid #e5e7eb', background: '#fff',
+                              color: '#374151', fontWeight: 500, fontSize: 11, padding: '0 10px', textDecoration: 'none',
+                              display: 'inline-flex', alignItems: 'center',
+                            }}>Capture →</a>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
