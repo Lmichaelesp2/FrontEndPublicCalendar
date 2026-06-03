@@ -7,6 +7,7 @@ import {
   fetchFollowUpQueue, fetchPersons, fetchMyNAEvents,
   updateFollowUp, daysAgo, deletePerson,
 } from '../../src/lib/networking-assistant';
+import { NAAssistant } from '../../src/components/NAAssistant';
 
 const ACTION_LABELS: Record<string, string> = {
   linkedin_connect: 'Connect on LinkedIn',
@@ -559,6 +560,9 @@ export default function NAHomePage() {
           })()}
         </div>
       </div>
+
+      {/* AI Assistant + Help */}
+      <NAAssistant context={{ followUps, persons, events }} />
     </div>
   );
 
@@ -655,6 +659,9 @@ export default function NAHomePage() {
           </button>
         ))}
       </div>
+
+      {/* AI Assistant + Help */}
+      <NAAssistant context={{ followUps, persons, events }} />
     </div>
   );
 }
