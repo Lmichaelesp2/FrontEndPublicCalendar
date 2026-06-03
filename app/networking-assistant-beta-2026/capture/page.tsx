@@ -80,6 +80,7 @@ function CaptureFlowInner() {
 
   // Voice capture
   const [voiceState, setVoiceState]       = useState<'idle' | 'listening' | 'parsing'>('idle');
+  const [voiceMode, setVoiceMode]         = useState<'full' | 'followup'>('full');
   const [voiceTranscript, setVoiceTranscript] = useState('');
   const [voiceError, setVoiceError]       = useState('');
   const recognitionRef                    = useRef<any>(null);
@@ -180,7 +181,7 @@ function CaptureFlowInner() {
     };
     recognition.onend = () => {
       if (finalTranscript.trim()) {
-        parseTranscript(finalTranscript.trim());
+        parseTranscript(finalTranscript.trim(), voiceMode);
       } else {
         setVoiceState('idle');
       }
@@ -193,7 +194,7 @@ function CaptureFlowInner() {
     recognitionRef.current?.stop();
   }
 
-  async function parseTranscript(transcript: string) {
+  async function parseTranscript(transcript: string, mode: 'full' | 'followup') {
     setVoiceState('parsing');
     try {
       const res = await fetch('/api/na-voice-parse', {
@@ -204,20 +205,23 @@ function CaptureFlowInner() {
       const data = await res.json();
       if (data.fields) {
         const f = data.fields;
-        if (f.first_name)  setFirstName(f.first_name);
-        if (f.last_name)   setLastName(f.last_name);
-        if (f.company)     setCompany(f.company);
-        if (f.title)       setTitle(f.title);
-        if (f.email)       setEmail(f.email);
-        if (f.phone)       setPhone(f.phone);
-        if (f.topic)       setTopic(f.topic);
+        if (mode === 'full') {
+          if (f.first_name)  setFirstName(f.first_name);
+          if (f.last_name)   setLastName(f.last_name);
+          if (f.company)     setCompany(f.company);
+          if (f.title)       setTitle(f.title);
+          if (f.email)       setEmail(f.email);
+          if (f.phone)       setPhone(f.phone);
+        }
+        // Always fill follow-up fields
+        if (f.topic)            setTopic(f.topic);
         if (f.follow_up_action) setFollowUps([f.follow_up_action]);
         if (f.follow_up_days)   { setWhenDays(f.follow_up_days); setCustomDate(''); }
       } else {
-        setVoiceError('Could not parse — please fill in manually.');
+        setVoiceError('Could not parse — edit fields below.');
       }
     } catch {
-      setVoiceError('Parse failed — please fill in manually.');
+      setVoiceError('Parse failed — edit fields below.');
     }
     setVoiceState('idle');
   }
@@ -430,153 +434,108 @@ function CaptureFlowInner() {
           </button>
         )}
 
-        {/* Voice Capture */}
+        {/* Quick Capture */}
         <div style={{ ...css.card, marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>
-                🎙 Voice Capture
-              </div>
-              <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>
-                Tap Start, speak, tap Stop — Claude fills the fields
-              </div>
-            </div>
-            <button
-              onClick={voiceState === 'listening' ? stopListening : startListening}
-              disabled={voiceState === 'parsing'}
-              style={{
-                height: 42, padding: '0 18px', borderRadius: 10, border: 'none', cursor: voiceState === 'parsing' ? 'default' : 'pointer',
-                background: voiceState === 'listening' ? '#dc2626' : voiceState === 'parsing' ? '#e5e7eb' : '#042C53',
-                color: voiceState === 'parsing' ? '#9ca3af' : '#fff',
-                fontWeight: 700, fontSize: 13, display: 'flex', alignItems: 'center', gap: 7,
-              }}
-            >
-              {voiceState === 'listening' && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#fff' }} />}
-              {voiceState === 'listening' ? 'Stop' : voiceState === 'parsing' ? 'Parsing…' : '🎤 Start'}
-            </button>
-          </div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 10, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>Quick Capture</div>
 
-          {/* Prompt guide — shown before recording */}
-          {voiceState === 'idle' && !voiceTranscript && (
-            <div style={{ background: '#f8faff', border: '1px solid #dde5ff', borderRadius: 8, padding: '12px 14px' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', marginBottom: 8, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>What to cover</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px' }}>
-                {[
-                  ['👤', 'Full name'],
-                  ['🏢', 'Company & title'],
-                  ['📧', 'Email & phone'],
-                  ['💬', 'What you talked about'],
-                ].map(([icon, label]) => (
-                  <div key={label} style={{ fontSize: 12, color: '#374151', display: 'flex', alignItems: 'center', gap: 5 }}>
-                    <span>{icon}</span><span>{label}</span>
-                  </div>
-                ))}
-              </div>
-              <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #dde5ff' }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', marginBottom: 6, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>Follow-up action</div>
-                <div style={{ fontSize: 12, color: '#374151', marginBottom: 6 }}>
-                  Say one: <b>connect on LinkedIn</b> · <b>LinkedIn message</b> · <b>send email</b> · <b>call</b>
-                </div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', marginBottom: 4, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>When to follow up</div>
-                <div style={{ fontSize: 12, color: '#374151' }}>
-                  Say: <b>tomorrow</b> · <b>in 2 days</b> · <b>this week</b> · <b>next week</b> · or a <b>specific date</b>
-                </div>
-              </div>
-              <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #dde5ff', fontSize: 12, color: '#6b7280', fontStyle: 'italic' }}>
-                Example: "I met Sarah Johnson, VP of Sales at Acme Corp. Email is sarah@acme.com. We talked about sponsorships. Connect on LinkedIn in 2 days."
-              </div>
+          {/* Three method buttons */}
+          {voiceState === 'idle' && photoState === 'idle' && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: photoPreview ? 10 : 0 }}>
+              {/* Voice — full */}
+              <button onClick={() => { setVoiceMode('full'); startListening(); }} style={{
+                height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
+                cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
+              }}>
+                <span style={{ fontSize: 20 }}>🎤</span>
+                <span style={{ fontSize: 10, fontWeight: 600, color: '#374151' }}>Voice</span>
+              </button>
+
+              {/* Photo */}
+              <button onClick={() => photoInputRef.current?.click()} style={{
+                height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
+                cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
+              }}>
+                <span style={{ fontSize: 20 }}>📷</span>
+                <span style={{ fontSize: 10, fontWeight: 600, color: '#374151' }}>Photo</span>
+              </button>
+              <input ref={photoInputRef} type="file" accept="image/*" capture="environment" onChange={handlePhotoChange} style={{ display: 'none' }} />
+
+              {/* Manual (scroll down) */}
+              <button onClick={() => document.getElementById('contact-fields')?.scrollIntoView({ behavior: 'smooth' })} style={{
+                height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
+                cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
+              }}>
+                <span style={{ fontSize: 20 }}>✏️</span>
+                <span style={{ fontSize: 10, fontWeight: 600, color: '#374151' }}>Manual</span>
+              </button>
             </div>
           )}
 
+          {/* Listening state */}
           {voiceState === 'listening' && (
-            <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '10px 14px', marginTop: 8 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#c2410c', marginBottom: 6 }}>🔴 Listening — cover each item:</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 12px', fontSize: 12, color: '#374151', marginBottom: 8 }}>
-                <span>👤 Name</span>
-                <span>🏢 Company & title</span>
-                <span>📧 Email & phone</span>
-                <span>💬 Topic discussed</span>
-              </div>
-              <div style={{ fontSize: 12, color: '#374151', marginBottom: 4 }}>
-                ✅ <b>Follow-up:</b> LinkedIn connect / message · email · call
-              </div>
-              <div style={{ fontSize: 12, color: '#374151' }}>
-                📅 <b>When:</b> tomorrow · in 2 days · this week · next week · [date]
-              </div>
-              {voiceTranscript && (
-                <div style={{ fontSize: 11, color: '#6b7280', fontStyle: 'italic', marginTop: 8, borderTop: '1px solid #fed7aa', paddingTop: 8 }}>
-                  {voiceTranscript}
-                </div>
-              )}
-            </div>
-          )}
-
-          {voiceTranscript && voiceState === 'idle' && (
-            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '8px 12px', marginTop: 8 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#15803d', marginBottom: 3 }}>✓ Fields filled from voice — review and edit below</div>
-              <div style={{ fontSize: 11, color: '#374151', fontStyle: 'italic' }}>"{voiceTranscript.slice(0, 120)}{voiceTranscript.length > 120 ? '…' : ''}"</div>
-            </div>
-          )}
-
-          {voiceError && (
-            <div style={{ fontSize: 12, color: '#dc2626', marginTop: 8 }}>⚠ {voiceError} — fill in the fields below manually.</div>
-          )}
-        </div>
-
-        {/* Photo Capture */}
-        <div style={{ ...css.card, marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>📷 Photo Capture</div>
-              <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>
-                Business card or LinkedIn screenshot — Claude reads it
-              </div>
-            </div>
-            <button
-              onClick={() => photoInputRef.current?.click()}
-              disabled={photoState === 'parsing'}
-              style={{
-                height: 42, padding: '0 16px', borderRadius: 10, border: 'none',
-                cursor: photoState === 'parsing' ? 'default' : 'pointer',
-                background: photoState === 'parsing' ? '#e5e7eb' : '#042C53',
-                color: photoState === 'parsing' ? '#9ca3af' : '#fff',
-                fontWeight: 700, fontSize: 13,
-              }}
-            >
-              {photoState === 'parsing' ? 'Reading…' : '📷 Add Photo'}
-            </button>
-            <input
-              ref={photoInputRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              onChange={handlePhotoChange}
-              style={{ display: 'none' }}
-            />
-          </div>
-
-          {photoPreview && photoState === 'idle' && (
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginTop: 6 }}>
-              <img src={photoPreview} alt="Captured" style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 8, border: '1px solid #e5e7eb', flexShrink: 0 }} />
-              <div style={{ flex: 1 }}>
-                {photoError ? (
-                  <div style={{ fontSize: 12, color: '#dc2626' }}>⚠ {photoError}</div>
+              <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#c2410c', marginBottom: 4 }}>🔴 Listening…</div>
+                {voiceMode === 'full' ? (
+                  <div style={{ fontSize: 11, color: '#374151', lineHeight: 1.6 }}>
+                    Name · Company & title · Email & phone · What you talked about · Follow-up action · When
+                  </div>
                 ) : (
-                  <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '8px 12px' }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#15803d' }}>✓ Fields filled from photo</div>
-                    <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>Review and edit below</div>
+                  <div style={{ fontSize: 11, color: '#374151', lineHeight: 1.6 }}>
+                    What you talked about · Follow-up action (LinkedIn/email/call) · When (tomorrow, 2 days, next week…)
                   </div>
                 )}
-                <button onClick={() => { setPhotoPreview(null); setPhotoError(''); if (photoInputRef.current) photoInputRef.current.value = ''; }} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 11, cursor: 'pointer', marginTop: 4, padding: 0 }}>
-                  Remove photo
-                </button>
+                {voiceTranscript && <div style={{ fontSize: 11, color: '#6b7280', fontStyle: 'italic', marginTop: 6 }}>{voiceTranscript}</div>}
+              </div>
+              <button onClick={stopListening} style={{
+                width: '100%', height: 40, borderRadius: 8, border: 'none', background: '#dc2626',
+                color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer',
+              }}>Stop Recording</button>
+            </div>
+          )}
+
+          {/* Parsing */}
+          {(voiceState === 'parsing' || photoState === 'parsing') && (
+            <div style={{ textAlign: 'center', padding: '12px 0', fontSize: 13, color: '#6b7280' }}>
+              {voiceState === 'parsing' ? 'Reading your voice…' : 'Reading image…'}
+            </div>
+          )}
+
+          {/* Photo preview */}
+          {photoPreview && photoState === 'idle' && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: voiceState === 'idle' ? 0 : 8 }}>
+              <img src={photoPreview} alt="Captured" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 6, border: '1px solid #e5e7eb', flexShrink: 0 }} />
+              <div style={{ flex: 1 }}>
+                {photoError
+                  ? <div style={{ fontSize: 12, color: '#dc2626' }}>⚠ {photoError}</div>
+                  : <div style={{ fontSize: 12, color: '#15803d', fontWeight: 600 }}>✓ Photo read — review fields below</div>
+                }
+                <button onClick={() => { setPhotoPreview(null); setPhotoError(''); if (photoInputRef.current) photoInputRef.current.value = ''; }} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 11, cursor: 'pointer', padding: 0 }}>Remove</button>
               </div>
             </div>
           )}
 
-          {photoState === 'parsing' && (
-            <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>Reading image…</div>
+          {/* After photo — offer voice for follow-up only */}
+          {photoPreview && photoState === 'idle' && !photoError && voiceState === 'idle' && (
+            <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #f3f4f6', display: 'flex', gap: 8 }}>
+              <button onClick={() => { setVoiceMode('followup'); startListening(); }} style={{
+                flex: 1, height: 36, borderRadius: 8, border: '1.5px solid #042C53', background: '#fff',
+                color: '#042C53', fontWeight: 700, fontSize: 12, cursor: 'pointer',
+              }}>🎤 Add follow-up by voice</button>
+              <button onClick={() => { setVoiceMode('full'); startListening(); }} style={{
+                flex: 1, height: 36, borderRadius: 8, border: '1.5px solid #e5e7eb', background: '#fff',
+                color: '#6b7280', fontWeight: 600, fontSize: 12, cursor: 'pointer',
+              }}>🎤 Re-record everything</button>
+            </div>
           )}
+
+          {/* Success / error states */}
+          {voiceTranscript && voiceState === 'idle' && (
+            <div style={{ marginTop: 8, fontSize: 12, color: '#15803d', fontWeight: 600 }}>
+              ✓ {voiceMode === 'followup' ? 'Follow-up added' : 'Fields filled'} — review and edit below
+            </div>
+          )}
+          {voiceError && <div style={{ fontSize: 12, color: '#dc2626', marginTop: 8 }}>⚠ {voiceError}</div>}
         </div>
 
         {/* Errors */}
@@ -587,7 +546,7 @@ function CaptureFlowInner() {
         )}
 
         {/* Contact info */}
-        <div style={css.card}>
+        <div id="contact-fields" style={css.card}>
           <div style={css.sectionTitle}>Contact Info</div>
           <div style={{ marginBottom: 10 }}>
             <label style={css.label}>LinkedIn Profile URL</label>
