@@ -380,6 +380,21 @@ function CaptureFlowInner() {
               const otherEvs = myEvents.filter(e => e.event_date !== today);
               return (
                 <>
+                  {/* Top two always-visible options */}
+                  <button onClick={() => { setShowEventPicker(false); setShowNewEvent(true); }} style={{
+                    width: '100%', padding: '11px 12px', borderRadius: 8, border: '2px solid #042C53',
+                    background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
+                  }}>+ Create new event</button>
+                  <button onClick={() => { setSelectedEvent(null); setShowEventPicker(false); }} style={{
+                    width: '100%', padding: '11px 12px', borderRadius: 8, border: '1.5px dashed #d1d5db',
+                    background: '#fff', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 12,
+                  }}>No specific event</button>
+
+                  {/* My Events divider */}
+                  {(todayEvs.length > 0 || otherEvs.length > 0) && (
+                    <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8 }}>My Events</div>
+                  )}
+
                   {todayEvs.map(ev => (
                     <button key={ev.id} onClick={() => { setSelectedEvent(ev); setShowEventPicker(false); }} style={{
                       width: '100%', background: '#fff7ed', borderRadius: 8, border: '1.5px solid #fed7aa',
@@ -398,14 +413,6 @@ function CaptureFlowInner() {
                       <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
                     </button>
                   ))}
-                  <button onClick={() => { setShowEventPicker(false); setShowNewEvent(true); }} style={{
-                    width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px dashed #6b7280',
-                    background: '#fff', color: '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
-                  }}>+ Create new event</button>
-                  <button onClick={() => { setSelectedEvent(null); setShowEventPicker(false); }} style={{
-                    width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #e5e7eb',
-                    background: '#fff', color: '#9ca3af', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const,
-                  }}>No specific event</button>
                   <button onClick={() => setShowEventPicker(false)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 6, padding: 0 }}>Cancel</button>
                 </>
               );
