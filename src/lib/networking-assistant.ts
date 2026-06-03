@@ -245,6 +245,15 @@ export async function updateFollowUp(id: string, updates: Partial<NAFollowUp>) {
   return { data: data as NAFollowUp | null, error };
 }
 
+/** Delete a person and all related records */
+export async function deletePerson(personId: string) {
+  // Delete follow-ups and interactions first (cascade safety)
+  await supabase.from('na_follow_ups').delete().eq('person_id', personId);
+  await supabase.from('na_interactions').delete().eq('person_id', personId);
+  const { error } = await supabase.from('na_persons').delete().eq('id', personId);
+  return { error };
+}
+
 /** LinkedIn deep-link URL */
 export function linkedInSearchURL(firstName: string, lastName: string | null, company: string | null) {
   const query = [firstName, lastName, company].filter(Boolean).join(' ');

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../src/contexts/AuthContext';
 import {
   fetchFollowUpQueue, fetchPersons, fetchMyNAEvents,
-  updateFollowUp, daysAgo,
+  updateFollowUp, daysAgo, deletePerson,
 } from '../../src/lib/networking-assistant';
 
 const ACTION_LABELS: Record<string, string> = {
@@ -251,28 +251,45 @@ export default function NAHomePage() {
   );
 
   // ── Contact row with avatar
-  const ContactRow = ({ p }: { p: any }) => (
-    <a href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid #f3f4f6' }}>
-      <div style={{
-        width: 34, height: 34, borderRadius: '50%', background: '#eff6ff',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 11, fontWeight: 700, color: '#1d4ed8', flexShrink: 0,
-      }}>
-        {initials(p.first_name, p.last_name)}
+  const ContactRow = ({ p }: { p: any }) => {
+    async function handleDelete(e: React.MouseEvent) {
+      e.preventDefault();
+      if (!confirm(`Delete ${p.first_name} ${p.last_name ?? ''}? This also removes their follow-ups and interactions.`)) return;
+      await deletePerson(p.id);
+      setPersons(prev => prev.filter((c: any) => c.id !== p.id));
+    }
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid #f3f4f6' }}>
+        <a href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
+          <div style={{
+            width: 34, height: 34, borderRadius: '50%', background: '#eff6ff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 11, fontWeight: 700, color: '#1d4ed8', flexShrink: 0,
+          }}>
+            {initials(p.first_name, p.last_name)}
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {[p.first_name, p.last_name].filter(Boolean).join(' ')}
+            </div>
+            <div style={{ fontSize: 11, color: '#6b7280', whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {[p.title, p.company].filter(Boolean).join(' · ')}
+            </div>
+          </div>
+          <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
+            {p.relationship_status}
+          </span>
+        </a>
+        <button onClick={handleDelete} title="Delete contact" style={{
+          background: 'none', border: 'none', color: '#d1d5db', cursor: 'pointer',
+          fontSize: 14, padding: '4px 6px', borderRadius: 4, flexShrink: 0, lineHeight: 1,
+        }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#d1d5db')}
+        >✕</button>
       </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {[p.first_name, p.last_name].filter(Boolean).join(' ')}
-        </div>
-        <div style={{ fontSize: 11, color: '#6b7280', whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {[p.title, p.company].filter(Boolean).join(' · ')}
-        </div>
-      </div>
-      <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
-        {p.relationship_status}
-      </span>
-    </a>
-  );
+    );
+  };
 
   // ── Mobile contact list (search only)
   const ContactsList = () => (

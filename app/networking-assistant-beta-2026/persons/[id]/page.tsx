@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '../../../../src/contexts/AuthContext';
 import {
   fetchPerson, fetchInteractionsForPerson, updateFollowUp,
-  linkedInSearchURL, daysAgo, type NAPerson,
+  linkedInSearchURL, daysAgo, deletePerson, type NAPerson,
 } from '../../../../src/lib/networking-assistant';
 import { supabase } from '../../../../src/lib/supabase';
 
@@ -111,6 +111,13 @@ export default function PersonRecordPage() {
     setEditing(false);
   }
 
+  async function handleDelete() {
+    if (!person) return;
+    if (!confirm(`Delete ${person.first_name} ${person.last_name ?? ''}? This also removes their follow-ups and interactions.`)) return;
+    await deletePerson(person.id);
+    router.push('/networking-assistant-beta-2026');
+  }
+
   if (loading || !user) return null;
   if (pageLoading) return <div style={{ ...css.page, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>Loading…</div>;
   if (!person) return <div style={{ ...css.page, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280', fontSize: 14 }}>Contact not found. <a href="/networking-assistant-beta-2026" style={{ color: '#2563eb', marginLeft: 8 }}>← Back</a></div>;
@@ -129,9 +136,14 @@ export default function PersonRecordPage() {
             <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>{fullName}</div>
           </div>
         </div>
-        <button onClick={() => setEditing(v => !v)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 6, color: '#93b4d4', fontSize: 13, fontWeight: 600, cursor: 'pointer', padding: '5px 12px' }}>
-          {editing ? 'Cancel' : 'Edit'}
-        </button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={() => setEditing(v => !v)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 6, color: '#93b4d4', fontSize: 13, fontWeight: 600, cursor: 'pointer', padding: '5px 12px' }}>
+            {editing ? 'Cancel' : 'Edit'}
+          </button>
+          <button onClick={handleDelete} style={{ background: 'none', border: '1px solid rgba(239,68,68,0.4)', borderRadius: 6, color: '#fca5a5', fontSize: 13, fontWeight: 600, cursor: 'pointer', padding: '5px 12px' }}>
+            Delete
+          </button>
+        </div>
       </div>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '16px' }}>
