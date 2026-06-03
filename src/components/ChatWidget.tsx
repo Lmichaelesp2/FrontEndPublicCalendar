@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -8,6 +9,10 @@ interface Message {
 }
 
 export function ChatWidget() {
+  const pathname = usePathname();
+  // Hide on Networking Assistant pages — it has its own AI assistant
+  if (pathname?.startsWith('/networking-assistant-beta-2026')) return null;
+
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<'ai' | 'contact'>('ai');
 

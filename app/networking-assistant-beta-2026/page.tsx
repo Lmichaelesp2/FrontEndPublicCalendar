@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../src/contexts/AuthContext';
 import {
@@ -49,6 +49,7 @@ const BUCKET_DOT: Record<string, string> = {
 export default function NAHomePage() {
   const { user, profile, loading } = useAuth();
   const router = useRouter();
+  const helpTriggerRef = useRef<(() => void) | null>(null);
 
   const [followUps, setFollowUps]     = useState<any[]>([]);
   const [persons, setPersons]         = useState<any[]>([]);
@@ -400,11 +401,18 @@ export default function NAHomePage() {
             </div>
           )}
         </div>
-        <a href="/networking-assistant-beta-2026/capture" style={{
-          height: 32, padding: '0 16px', borderRadius: 6, background: '#c2410c',
-          color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
-          display: 'inline-flex', alignItems: 'center',
-        }}>+ Capture Contact</a>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <button onClick={() => helpTriggerRef.current?.()} style={{
+            height: 32, padding: '0 14px', borderRadius: 6, background: 'rgba(255,255,255,0.12)',
+            border: '1px solid rgba(255,255,255,0.2)', color: '#93b4d4', fontWeight: 600,
+            fontSize: 12, cursor: 'pointer',
+          }}>? Help</button>
+          <a href="/networking-assistant-beta-2026/capture" style={{
+            height: 32, padding: '0 16px', borderRadius: 6, background: '#c2410c',
+            color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
+            display: 'inline-flex', alignItems: 'center',
+          }}>+ Capture Contact</a>
+        </div>
       </div>
 
       {/* Body: left nav + main content + right panel */}
@@ -529,10 +537,7 @@ export default function NAHomePage() {
 
         {/* Right panel — contact search + list */}
         <div style={{ background: '#fff', borderLeft: '1px solid #e8eaed', overflowY: 'auto', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Network · {persons.length}</div>
-            <a href="/networking-assistant-beta-2026/capture" style={{ fontSize: 11, color: '#c2410c', textDecoration: 'none', fontWeight: 700 }}>+ Capture</a>
-          </div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Network · {persons.length}</div>
 
           {/* Search */}
           <input
@@ -562,7 +567,7 @@ export default function NAHomePage() {
       </div>
 
       {/* AI Assistant + Help */}
-      <NAAssistant context={{ followUps, persons, events }} />
+      <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
     </div>
   );
 
@@ -577,11 +582,18 @@ export default function NAHomePage() {
               <div style={{ fontSize: 9, color: '#6b93b8', letterSpacing: 1, textTransform: 'uppercase' as const }}>Local Business Calendars</div>
               <div style={{ fontSize: 16, fontWeight: 700, color: '#fff' }}>Networking Assistant</div>
             </div>
-            <a href="/networking-assistant-beta-2026/capture" style={{
-              height: 34, padding: '0 14px', borderRadius: 7, background: '#c2410c',
-              color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
-              display: 'inline-flex', alignItems: 'center',
-            }}>+ Capture</a>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <button onClick={() => helpTriggerRef.current?.()} style={{
+                height: 34, width: 34, borderRadius: 7, background: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.2)', color: '#93b4d4',
+                fontWeight: 700, fontSize: 14, cursor: 'pointer',
+              }}>?</button>
+              <a href="/networking-assistant-beta-2026/capture" style={{
+                height: 34, padding: '0 14px', borderRadius: 7, background: '#c2410c',
+                color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
+                display: 'inline-flex', alignItems: 'center',
+              }}>+ Capture</a>
+            </div>
           </div>
         </div>
         {/* Stats */}
@@ -661,7 +673,7 @@ export default function NAHomePage() {
       </div>
 
       {/* AI Assistant + Help */}
-      <NAAssistant context={{ followUps, persons, events }} />
+      <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
     </div>
   );
 }

@@ -20,12 +20,16 @@ const SUGGESTIONS = [
   'Help me prepare for my next event',
 ];
 
-export function NAAssistant({ context }: { context: NAContext }) {
+export function NAAssistant({ context, onHelpRef }: { context: NAContext; onHelpRef?: (fn: () => void) => void }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+
+  useEffect(() => {
+    if (onHelpRef) onHelpRef(() => setShowHelp(true));
+  }, [onHelpRef]);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -182,16 +186,8 @@ export function NAAssistant({ context }: { context: NAContext }) {
         </div>
       )}
 
-      {/* Floating buttons */}
-      <div style={{ position: 'fixed', bottom: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 10, zIndex: 9996 }}>
-        {/* Help button */}
-        <button onClick={() => setShowHelp(true)} style={{
-          width: 44, height: 44, borderRadius: '50%', border: 'none', cursor: 'pointer',
-          background: '#f3f4f6', color: '#6b7280', fontSize: 18, boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }} title="Help">?</button>
-
-        {/* AI assistant button */}
+      {/* AI assistant floating button only */}
+      <div style={{ position: 'fixed', bottom: 16, right: 16, zIndex: 9996 }}>
         <button onClick={() => setOpen(o => !o)} style={{
           width: 52, height: 52, borderRadius: '50%', border: 'none', cursor: 'pointer',
           background: open ? '#042C53' : '#7c3aed', color: '#fff', fontSize: 22,
