@@ -58,7 +58,10 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
-    const text = data.content?.[0]?.text ?? '';
+    let text = data.content?.[0]?.text ?? '';
+
+    // Strip markdown code fences if Claude wrapped the JSON
+    text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
 
     // Parse the JSON response from Claude
     const parsed = JSON.parse(text);
