@@ -49,10 +49,11 @@ function CaptureFlowInner() {
 
   const [myEvents, setMyEvents]           = useState<NAEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<NAEvent | null>(null);
-  const [phase, setPhase]                 = useState<'select_event' | 'form' | 'summary'>('select_event');
+  const [phase, setPhase]                 = useState<'form' | 'summary'>('form');
   const [savedPersonId, setSavedPersonId] = useState<string | null>(null);
 
-  // Inline event creation
+  // Inline event picker state
+  const [showEventPicker, setShowEventPicker] = useState(false);
   const [showNewEvent, setShowNewEvent]   = useState(false);
   const [newEventName, setNewEventName]   = useState('');
   const [newEventDate, setNewEventDate]   = useState(new Date().toISOString().split('T')[0]);
@@ -99,14 +100,18 @@ function CaptureFlowInner() {
         // Priority 1: URL param
         if (preloadEventId) {
           const found = data.find(e => e.id === preloadEventId);
-          if (found) { setSelectedEvent(found); setPhase('form'); return; }
+          if (found) { setSelectedEvent(found); return; }
         }
         // Priority 2: active event from localStorage
         const activeId = localStorage.getItem('na_active_event_id');
         if (activeId) {
           const found = data.find(e => e.id === activeId);
-          if (found) { setSelectedEvent(found); setPhase('form'); }
+          if (found) { setSelectedEvent(found); return; }
         }
+        // Priority 3: if only one today event, auto-select it
+        const today = new Date().toISOString().split('T')[0];
+        const todayEvents = data.filter((e: NAEvent) => e.event_date === today);
+        if (todayEvents.length === 1) setSelectedEvent(todayEvents[0]);
       }
     });
   }, [user, preloadEventId]);
@@ -126,7 +131,8 @@ function CaptureFlowInner() {
       setSelectedEvent(data);
       setShowNewEvent(false);
       setNewEventName('');
-      setPhase('form');
+      setShowNewEvent(false);
+      setShowEventPicker(false);
     }
   }
 
@@ -141,6 +147,7 @@ function CaptureFlowInner() {
     setSavedPersonId(null);
     setVoiceTranscript(''); setVoiceError(''); setVoiceState('idle');
     setPhotoPreview(null); setPhotoError(''); setPhotoState('idle');
+    setShowEventPicker(false); setShowNewEvent(false);
   }
 
   function startListening() {
@@ -327,16 +334,16 @@ function CaptureFlowInner() {
     </div>
   );
 
-  // ── PHASE: Select event
-  if (phase === 'select_event') return (
+  // ── PHASE: Capture form (no separate event selection screen)
+  if (phase === 'form') return (
     <div style={css.page}>
       <Header onBack={() => router.push('/networking-assistant-beta-2026')} />
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: '24px 16px' }}>
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: '16px 16px 48px' }}>
 
-        {/* Inline new event form */}
+        {/* Inline Event Selector */}
         {showNewEvent ? (
-          <div style={{ ...css.card, marginBottom: 16 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 14 }}>Quick Event Setup</div>
+          <div style={{ ...css.card, marginBottom: 12, border: '1.5px solid #e0e7ff' }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 12 }}>New Event</div>
             <div style={{ marginBottom: 10 }}>
               <label style={css.label}>Event Name *</label>
               <input autoFocus value={newEventName} onChange={e => setNewEventName(e.target.value)}
@@ -344,7 +351,7 @@ function CaptureFlowInner() {
                 onKeyDown={e => e.key === 'Enter' && handleCreateEvent()}
                 style={css.input} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
               <div>
                 <label style={css.label}>Date</label>
                 <input type="date" value={newEventDate} onChange={e => setNewEventDate(e.target.value)} style={css.input} />
@@ -358,90 +365,69 @@ function CaptureFlowInner() {
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={handleCreateEvent} disabled={!newEventName.trim() || creatingEvent} style={{
-                flex: 1, height: 42, borderRadius: 8, border: 'none', cursor: 'pointer',
+                flex: 1, height: 40, borderRadius: 8, border: 'none', cursor: 'pointer',
                 background: newEventName.trim() ? '#042C53' : '#e5e7eb',
-                color: newEventName.trim() ? '#fff' : '#9ca3af', fontWeight: 700, fontSize: 14,
-              }}>{creatingEvent ? 'Creating…' : 'Create & Capture →'}</button>
+                color: newEventName.trim() ? '#fff' : '#9ca3af', fontWeight: 700, fontSize: 13,
+              }}>{creatingEvent ? 'Creating…' : 'Create Event'}</button>
               <button onClick={() => setShowNewEvent(false)} style={{
-                height: 42, padding: '0 16px', borderRadius: 8, border: '1px solid #e5e7eb',
+                height: 40, padding: '0 14px', borderRadius: 8, border: '1px solid #e5e7eb',
                 background: '#fff', color: '#6b7280', fontSize: 13, cursor: 'pointer',
               }}>Cancel</button>
             </div>
           </div>
-        ) : (
-          <>
-            <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 4 }}>Which event are you at?</div>
-            <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>Pick an event or create one on the spot.</div>
-
-            {/* Quick create button — always visible */}
-            <button onClick={() => setShowNewEvent(true)} style={{
-              width: '100%', padding: '13px 16px', borderRadius: 10, border: '2px dashed #1652f0',
-              background: '#f8faff', color: '#1652f0', fontWeight: 700, fontSize: 14, cursor: 'pointer', marginBottom: 14, textAlign: 'left' as const,
-            }}>
-              + I'm at a new event — create it now
-            </button>
-
-            {myEvents.length > 0 && (() => {
+        ) : showEventPicker ? (
+          <div style={{ ...css.card, marginBottom: 12, border: '1.5px solid #e0e7ff' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 10 }}>Select Event</div>
+            {(() => {
               const today = new Date().toISOString().split('T')[0];
-              const todayEvents = myEvents.filter(e => e.event_date === today);
-              const otherEvents = myEvents.filter(e => e.event_date !== today);
+              const todayEvs = myEvents.filter(e => e.event_date === today);
+              const otherEvs = myEvents.filter(e => e.event_date !== today);
               return (
                 <>
-                  {todayEvents.length > 0 && (
-                    <>
-                      <div style={{ fontSize: 10, fontWeight: 700, color: '#c2410c', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8 }}>
-                        📍 Today's Events
-                      </div>
-                      {todayEvents.map(ev => (
-                        <button key={ev.id} onClick={() => { setSelectedEvent(ev); setPhase('form'); }} style={{
-                          width: '100%', background: '#fff', borderRadius: 10,
-                          border: '2px solid #c2410c',
-                          padding: '13px 16px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 8,
-                        }}>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
-                          <div style={{ fontSize: 12, color: '#c2410c', fontWeight: 600, marginTop: 2 }}>Today</div>
-                          {ev.host_org && <div style={{ fontSize: 11, color: '#6b7280' }}>{ev.host_org}</div>}
-                        </button>
-                      ))}
-                    </>
-                  )}
-                  {otherEvents.length > 0 && (
-                    <>
-                      <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8, marginTop: todayEvents.length ? 12 : 0 }}>
-                        Upcoming Events
-                      </div>
-                      {otherEvents.map(ev => (
-                        <button key={ev.id} onClick={() => { setSelectedEvent(ev); setPhase('form'); }} style={{
-                          width: '100%', background: '#fff', borderRadius: 10, border: '1px solid #e5e7eb',
-                          padding: '13px 16px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 8,
-                        }}>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
-                          <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 500, marginTop: 2 }}>{formatDate(ev.event_date)}</div>
-                          {ev.host_org && <div style={{ fontSize: 11, color: '#6b7280' }}>{ev.host_org}</div>}
-                        </button>
-                      ))}
-                    </>
-                  )}
+                  {todayEvs.map(ev => (
+                    <button key={ev.id} onClick={() => { setSelectedEvent(ev); setShowEventPicker(false); }} style={{
+                      width: '100%', background: '#fff7ed', borderRadius: 8, border: '1.5px solid #fed7aa',
+                      padding: '10px 12px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
+                    }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
+                      <div style={{ fontSize: 11, color: '#c2410c', fontWeight: 600 }}>Today</div>
+                    </button>
+                  ))}
+                  {otherEvs.map(ev => (
+                    <button key={ev.id} onClick={() => { setSelectedEvent(ev); setShowEventPicker(false); }} style={{
+                      width: '100%', background: '#fff', borderRadius: 8, border: '1px solid #e5e7eb',
+                      padding: '10px 12px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
+                    }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
+                      <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
+                    </button>
+                  ))}
+                  <button onClick={() => { setShowEventPicker(false); setShowNewEvent(true); }} style={{
+                    width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px dashed #6b7280',
+                    background: '#fff', color: '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
+                  }}>+ Create new event</button>
+                  <button onClick={() => { setSelectedEvent(null); setShowEventPicker(false); }} style={{
+                    width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #e5e7eb',
+                    background: '#fff', color: '#9ca3af', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const,
+                  }}>No specific event</button>
+                  <button onClick={() => setShowEventPicker(false)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 6, padding: 0 }}>Cancel</button>
                 </>
               );
             })()}
-          </>
-        )}
-      </div>
-    </div>
-  );
-
-  // ── PHASE: Capture form
-  if (phase === 'form') return (
-    <div style={css.page}>
-      <Header onBack={() => { reset(); setPhase('select_event'); }} />
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: '16px 16px 48px' }}>
-
-        {/* Event context */}
-        {selectedEvent && (
-          <div style={{ background: '#eff6ff', borderRadius: 8, padding: '9px 14px', marginBottom: 14, fontSize: 13, color: '#1d4ed8', fontWeight: 500 }}>
-            📍 {selectedEvent.event_name} · {formatDate(selectedEvent.event_date)}
           </div>
+        ) : (
+          /* Event context chip — always visible, tappable to change */
+          <button onClick={() => setShowEventPicker(true)} style={{
+            width: '100%', background: selectedEvent ? '#eff6ff' : '#f9fafb',
+            border: `1.5px solid ${selectedEvent ? '#bfdbfe' : '#e5e7eb'}`,
+            borderRadius: 8, padding: '9px 14px', marginBottom: 14, cursor: 'pointer',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'left' as const,
+          }}>
+            <span style={{ fontSize: 13, color: selectedEvent ? '#1d4ed8' : '#9ca3af', fontWeight: 500 }}>
+              {selectedEvent ? `📍 ${selectedEvent.event_name}` : '📍 Tap to select event (optional)'}
+            </span>
+            <span style={{ fontSize: 11, color: '#9ca3af' }}>change</span>
+          </button>
         )}
 
         {/* Voice Capture */}
@@ -754,7 +740,7 @@ function CaptureFlowInner() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>Done — View Follow-Up Queue</a>
 
-          <button onClick={() => { reset(); setPhase('select_event'); }} style={{
+          <button onClick={() => { reset(); setShowEventPicker(true); }} style={{
             background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 2,
           }}>← Switch Event</button>
         </div>
