@@ -98,7 +98,7 @@ function CaptureFlowInner() {
     fetchMyNAEvents(user.id).then(({ data }) => {
       if (data) {
         setMyEvents(data);
-        // Priority 1: URL param
+        // Priority 1: URL param (coming from a specific event's Capture button)
         if (preloadEventId) {
           const found = data.find(e => e.id === preloadEventId);
           if (found) { setSelectedEvent(found); return; }
@@ -109,10 +109,8 @@ function CaptureFlowInner() {
           const found = data.find(e => e.id === activeId);
           if (found) { setSelectedEvent(found); return; }
         }
-        // Priority 3: if only one today event, auto-select it
-        const today = new Date().toISOString().split('T')[0];
-        const todayEvents = data.filter((e: NAEvent) => e.event_date === today);
-        if (todayEvents.length === 1) setSelectedEvent(todayEvents[0]);
+        // Default: no event selected — open picker so user can choose or create
+        setShowEventPicker(true);
       }
     });
   }, [user, preloadEventId]);
