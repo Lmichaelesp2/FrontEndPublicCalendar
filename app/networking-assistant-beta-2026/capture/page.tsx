@@ -103,13 +103,7 @@ function CaptureFlowInner() {
           const found = data.find(e => e.id === preloadEventId);
           if (found) { setSelectedEvent(found); return; }
         }
-        // Priority 2: active event from localStorage
-        const activeId = localStorage.getItem('na_active_event_id');
-        if (activeId) {
-          const found = data.find(e => e.id === activeId);
-          if (found) { setSelectedEvent(found); return; }
-        }
-        // Default: no event selected — open picker so user can choose or create
+        // Default: no event pre-selected — open picker
         setShowEventPicker(true);
       }
     });
