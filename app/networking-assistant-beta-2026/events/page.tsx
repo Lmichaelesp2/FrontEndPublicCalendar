@@ -99,7 +99,12 @@ export default function NAEventsPage() {
     }
   }
 
-  if (loading || !user) return null;
+  if (loading) return (
+    <div style={{ minHeight: '100vh', background: '#f4f6f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#6b7280' }}>
+      Loading…
+    </div>
+  );
+  if (!user) { router.push('/networking-assistant-beta-2026'); return null; }
 
   return (
     <div style={css.page}>
