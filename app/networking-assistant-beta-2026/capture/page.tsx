@@ -41,6 +41,47 @@ const css = {
   sectionTitle: { fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 10, textTransform: 'uppercase' as const, letterSpacing: 0.5 },
 };
 
+function MyEventsDropdown({ todayEvs, otherEvs, onSelect }: { todayEvs: NAEvent[]; otherEvs: NAEvent[]; onSelect: (ev: NAEvent) => void }) {
+  const [open, setOpen] = useState(false);
+  const allEvs = [...todayEvs, ...otherEvs];
+  return (
+    <div style={{ marginBottom: 6 }}>
+      <button onClick={() => setOpen(o => !o)} style={{
+        width: '100%', padding: '11px 12px', borderRadius: 8, border: '1px solid #e5e7eb',
+        background: '#fff', cursor: 'pointer', textAlign: 'left' as const,
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      }}>
+        <span style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>
+          Choose from My Events ({allEvs.length})
+        </span>
+        <span style={{ fontSize: 12, color: '#9ca3af' }}>{open ? '▲' : '▼'}</span>
+      </button>
+      {open && (
+        <div style={{ border: '1px solid #e5e7eb', borderTop: 'none', borderRadius: '0 0 8px 8px', overflow: 'hidden' }}>
+          {todayEvs.map(ev => (
+            <button key={ev.id} onClick={() => onSelect(ev)} style={{
+              width: '100%', padding: '10px 12px', background: '#fff7ed', border: 'none',
+              borderBottom: '1px solid #fed7aa', cursor: 'pointer', textAlign: 'left' as const,
+            }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
+              <div style={{ fontSize: 11, color: '#c2410c', fontWeight: 600 }}>Today</div>
+            </button>
+          ))}
+          {otherEvs.map(ev => (
+            <button key={ev.id} onClick={() => onSelect(ev)} style={{
+              width: '100%', padding: '10px 12px', background: '#fff', border: 'none',
+              borderBottom: '1px solid #f3f4f6', cursor: 'pointer', textAlign: 'left' as const,
+            }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
+              <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function CaptureFlowInner() {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -103,8 +144,8 @@ function CaptureFlowInner() {
           const found = data.find(e => e.id === preloadEventId);
           if (found) { setSelectedEvent(found); return; }
         }
-        // Default: no event pre-selected — open picker
-        setShowEventPicker(true);
+        // Default: open new event form directly
+        setShowNewEvent(true);
       }
     });
   }, [user, preloadEventId]);
@@ -390,29 +431,14 @@ function CaptureFlowInner() {
                     background: '#fff', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 12,
                   }}>No specific event</button>
 
-                  {/* My Events divider */}
+                  {/* My Events — collapsed dropdown */}
                   {(todayEvs.length > 0 || otherEvs.length > 0) && (
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8 }}>My Events</div>
+                    <MyEventsDropdown
+                      todayEvs={todayEvs}
+                      otherEvs={otherEvs}
+                      onSelect={(ev) => { setSelectedEvent(ev); setShowEventPicker(false); }}
+                    />
                   )}
-
-                  {todayEvs.map(ev => (
-                    <button key={ev.id} onClick={() => { setSelectedEvent(ev); setShowEventPicker(false); }} style={{
-                      width: '100%', background: '#fff7ed', borderRadius: 8, border: '1.5px solid #fed7aa',
-                      padding: '10px 12px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
-                    }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
-                      <div style={{ fontSize: 11, color: '#c2410c', fontWeight: 600 }}>Today</div>
-                    </button>
-                  ))}
-                  {otherEvs.map(ev => (
-                    <button key={ev.id} onClick={() => { setSelectedEvent(ev); setShowEventPicker(false); }} style={{
-                      width: '100%', background: '#fff', borderRadius: 8, border: '1px solid #e5e7eb',
-                      padding: '10px 12px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
-                    }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
-                      <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
-                    </button>
-                  ))}
                   <button onClick={() => setShowEventPicker(false)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 6, padding: 0 }}>Cancel</button>
                 </>
               );
