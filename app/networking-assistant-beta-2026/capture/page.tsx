@@ -93,9 +93,9 @@ function CaptureFlowInner() {
   const [phase, setPhase]                 = useState<'form' | 'summary'>('form');
   const [savedPersonId, setSavedPersonId] = useState<string | null>(null);
 
-  // Inline event picker state
+  // Inline event picker state — default to new event form if no URL param
   const [showEventPicker, setShowEventPicker] = useState(false);
-  const [showNewEvent, setShowNewEvent]   = useState(false);
+  const [showNewEvent, setShowNewEvent]   = useState(!preloadEventId);
   const [newEventName, setNewEventName]   = useState('');
   const [newEventDate, setNewEventDate]   = useState(new Date().toISOString().split('T')[0]);
   const [newEventCity, setNewEventCity]   = useState('San Antonio');
@@ -139,15 +139,11 @@ function CaptureFlowInner() {
     fetchMyNAEvents(user.id).then(({ data }) => {
       if (data) {
         setMyEvents(data);
-        // Priority 1: URL param (coming from a specific event's Capture button)
+        // Only auto-select if coming from a specific event's Capture button
         if (preloadEventId) {
           const found = data.find(e => e.id === preloadEventId);
-          if (found) { setSelectedEvent(found); return; }
+          if (found) { setSelectedEvent(found); setShowNewEvent(false); }
         }
-        // No URL param = coming from nav "+ Capture Contact" — always start fresh
-        localStorage.removeItem('na_active_event_id');
-        localStorage.removeItem('na_active_event_name');
-        setShowNewEvent(true);
       }
     });
   }, [user, preloadEventId]);
