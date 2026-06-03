@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../src/contexts/AuthContext';
 import {
@@ -76,6 +76,12 @@ function CaptureFlowInner() {
   const [savedName, setSavedName]   = useState('');
   const [errors, setErrors]         = useState<string[]>([]);
 
+  // Voice capture
+  const [voiceState, setVoiceState]       = useState<'idle' | 'listening' | 'parsing'>('idle');
+  const [voiceTranscript, setVoiceTranscript] = useState('');
+  const [voiceError, setVoiceError]       = useState('');
+  const recognitionRef                    = useRef<any>(null);
+
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
   useEffect(() => {
@@ -119,6 +125,79 @@ function CaptureFlowInner() {
     setEmail(''); setPhone(''); setTopic(''); setGotCard(false);
     setFollowUps(['linkedin_connect']); setWhenDays(2); setCustomDate(''); setErrors([]);
     setSavedPersonId(null);
+    setVoiceTranscript(''); setVoiceError(''); setVoiceState('idle');
+  }
+
+  function startListening() {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setVoiceError('Voice not supported in this browser. Try Chrome.');
+      return;
+    }
+    setVoiceError('');
+    setVoiceTranscript('');
+    const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    let finalTranscript = '';
+    recognition.onresult = (e: any) => {
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const t = e.results[i][0].transcript;
+        if (e.results[i].isFinal) finalTranscript += t + ' ';
+        else interim = t;
+      }
+      setVoiceTranscript((finalTranscript + interim).trim());
+    };
+    recognition.onerror = (e: any) => {
+      setVoiceError('Mic error: ' + e.error);
+      setVoiceState('idle');
+    };
+    recognition.onend = () => {
+      if (finalTranscript.trim()) {
+        parseTranscript(finalTranscript.trim());
+      } else {
+        setVoiceState('idle');
+      }
+    };
+    recognition.start();
+    setVoiceState('listening');
+  }
+
+  function stopListening() {
+    recognitionRef.current?.stop();
+  }
+
+  async function parseTranscript(transcript: string) {
+    setVoiceState('parsing');
+    try {
+      const res = await fetch('/api/na-voice-parse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transcript }),
+      });
+      const data = await res.json();
+      if (data.fields) {
+        const f = data.fields;
+        if (f.first_name)  setFirstName(f.first_name);
+        if (f.last_name)   setLastName(f.last_name);
+        if (f.company)     setCompany(f.company);
+        if (f.title)       setTitle(f.title);
+        if (f.email)       setEmail(f.email);
+        if (f.phone)       setPhone(f.phone);
+        if (f.topic)       setTopic(f.topic);
+        if (f.follow_up_action) setFollowUps([f.follow_up_action]);
+        if (f.follow_up_days)   { setWhenDays(f.follow_up_days); setCustomDate(''); }
+      } else {
+        setVoiceError('Could not parse — please fill in manually.');
+      }
+    } catch {
+      setVoiceError('Parse failed — please fill in manually.');
+    }
+    setVoiceState('idle');
   }
 
   async function handleSave() {
@@ -273,6 +352,50 @@ function CaptureFlowInner() {
             📍 {selectedEvent.event_name} · {formatDate(selectedEvent.event_date)}
           </div>
         )}
+
+        {/* Voice Capture */}
+        <div style={{ ...css.card, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: voiceTranscript ? 10 : 0 }}>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>
+                🎙 Voice Capture
+              </div>
+              <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>
+                Speak naturally — Claude will fill in the fields
+              </div>
+            </div>
+            <button
+              onClick={voiceState === 'listening' ? stopListening : startListening}
+              disabled={voiceState === 'parsing'}
+              style={{
+                height: 42, padding: '0 18px', borderRadius: 10, border: 'none', cursor: voiceState === 'parsing' ? 'default' : 'pointer',
+                background: voiceState === 'listening' ? '#dc2626' : voiceState === 'parsing' ? '#e5e7eb' : '#042C53',
+                color: voiceState === 'parsing' ? '#9ca3af' : '#fff',
+                fontWeight: 700, fontSize: 13, display: 'flex', alignItems: 'center', gap: 7,
+              }}
+            >
+              {voiceState === 'listening' && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#fff', animation: 'pulse 1s infinite' }} />}
+              {voiceState === 'listening' ? 'Stop' : voiceState === 'parsing' ? 'Parsing…' : '🎤 Start'}
+            </button>
+          </div>
+
+          {voiceState === 'listening' && (
+            <div style={{ fontSize: 12, color: '#6b7280', fontStyle: 'italic', marginTop: 8 }}>
+              {voiceTranscript || 'Listening… speak now'}
+            </div>
+          )}
+
+          {voiceTranscript && voiceState === 'idle' && (
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '8px 12px', marginTop: 8 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#15803d', marginBottom: 3 }}>✓ Fields filled from voice</div>
+              <div style={{ fontSize: 11, color: '#374151', fontStyle: 'italic' }}>"{voiceTranscript.slice(0, 120)}{voiceTranscript.length > 120 ? '…' : ''}"</div>
+            </div>
+          )}
+
+          {voiceError && (
+            <div style={{ fontSize: 12, color: '#dc2626', marginTop: 8 }}>⚠ {voiceError}</div>
+          )}
+        </div>
 
         {/* Errors */}
         {errors.length > 0 && (
