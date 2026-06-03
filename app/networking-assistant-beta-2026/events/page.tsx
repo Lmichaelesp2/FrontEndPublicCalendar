@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../src/contexts/AuthContext';
 import {
@@ -11,6 +11,9 @@ import {
   type LBCEvent,
   type NAEvent,
 } from '../../../src/lib/networking-assistant';
+import { supabase } from '../../../src/lib/supabase';
+
+const MAX_DEBRIEF_CHARS = 2000;
 
 const EVENT_TYPES = ['chamber','mixer','conference','startup','informal','coffee','other'] as const;
 const CITIES = ['San Antonio','Austin','Dallas','Houston'] as const;
@@ -62,6 +65,53 @@ export default function NAEventsPage() {
   });
   const [activeEventId, setActiveEventId] = useState<string | null>(null);
 
+  // Voice debrief notes
+  const [debriefEventId, setDebriefEventId]   = useState<string | null>(null);
+  const [debriefState, setDebriefState]       = useState<'idle' | 'listening' | 'saving'>('idle');
+  const [debriefTranscript, setDebriefTranscript] = useState('');
+  const [debriefNotes, setDebriefNotes]       = useState<Record<string, string>>({}); // eventId -> saved note
+  const [expandedNote, setExpandedNote]       = useState<string | null>(null);
+  const debriefRecognitionRef                 = useRef<any>(null);
+
+  function startDebrief(ev: NAEvent) {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) { showToast('Voice not supported — try Chrome'); return; }
+    setDebriefEventId(ev.id);
+    setDebriefTranscript('');
+    setDebriefState('listening');
+    const recognition = new SpeechRecognition();
+    debriefRecognitionRef.current = recognition;
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+    let final = '';
+    recognition.onresult = (e: any) => {
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const t = e.results[i][0].transcript;
+        if (e.results[i].isFinal) final += t + ' ';
+        else interim = t;
+      }
+      const combined = (final + interim).trim().slice(0, MAX_DEBRIEF_CHARS);
+      setDebriefTranscript(combined);
+    };
+    recognition.onerror = () => { setDebriefState('idle'); setDebriefEventId(null); };
+    recognition.onend = () => { if (final.trim()) saveDebrief(ev.id, final.trim()); else { setDebriefState('idle'); setDebriefEventId(null); } };
+    recognition.start();
+  }
+
+  function stopDebrief() { debriefRecognitionRef.current?.stop(); }
+
+  async function saveDebrief(eventId: string, text: string) {
+    setDebriefState('saving');
+    const trimmed = text.slice(0, MAX_DEBRIEF_CHARS);
+    await supabase.from('na_events').update({ user_debrief_notes: trimmed }).eq('id', eventId);
+    setDebriefNotes(p => ({ ...p, [eventId]: trimmed }));
+    setDebriefState('idle');
+    setDebriefEventId(null);
+    showToast('Event note saved');
+  }
+
   useEffect(() => {
     setActiveEventId(localStorage.getItem('na_active_event_id'));
   }, []);
@@ -92,6 +142,10 @@ export default function NAEventsPage() {
       if (mine.data) {
         setMyEvents(mine.data);
         setFlaggedIds(new Set(mine.data.filter(e => e.lbc_event_id).map(e => e.lbc_event_id as number)));
+        // Load existing debrief notes
+        const notes: Record<string, string> = {};
+        mine.data.forEach((e: NAEvent) => { if ((e as any).user_debrief_notes) notes[e.id] = (e as any).user_debrief_notes; });
+        setDebriefNotes(notes);
       }
       setLoadingData(false);
     })();
@@ -310,14 +364,57 @@ export default function NAEventsPage() {
                   <div key={ev.id} style={css.card}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 2 }}>{ev.event_name}</div>
-                        <div style={{ fontSize: 13, color: bucket === 'Today' ? '#c2410c' : '#2563eb', fontWeight: 600 }}>{formatDate(ev.event_date)}</div>
-                        {ev.host_org && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 1 }}>{ev.host_org}</div>}
-                        <div style={{ marginTop: 4 }}>
+                        {/* Event title row with 🎙 icon on the left */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                          <button
+                            onClick={() => debriefEventId === ev.id && debriefState === 'listening' ? stopDebrief() : startDebrief(ev)}
+                            disabled={debriefState === 'saving' || (debriefEventId !== null && debriefEventId !== ev.id)}
+                            title="Voice note"
+                            style={{
+                              width: 28, height: 28, borderRadius: '50%', border: 'none', cursor: 'pointer', flexShrink: 0,
+                              background: debriefEventId === ev.id && debriefState === 'listening' ? '#dc2626' : debriefNotes[ev.id] ? '#f0fdf4' : '#f3f4f6',
+                              color: debriefEventId === ev.id && debriefState === 'listening' ? '#fff' : debriefNotes[ev.id] ? '#15803d' : '#9ca3af',
+                              fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            }}
+                          >
+                            {debriefEventId === ev.id && debriefState === 'saving' ? '…' : '🎙'}
+                          </button>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{ev.event_name}</div>
+                        </div>
+                        <div style={{ fontSize: 13, color: bucket === 'Today' ? '#c2410c' : '#2563eb', fontWeight: 600, paddingLeft: 36 }}>{formatDate(ev.event_date)}</div>
+                        {ev.host_org && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 1, paddingLeft: 36 }}>{ev.host_org}</div>}
+                        <div style={{ marginTop: 4, paddingLeft: 36 }}>
                           <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20, background: ev.source === 'lbc' ? '#eff6ff' : '#fef3c7', color: ev.source === 'lbc' ? '#1d4ed8' : '#92400e', textTransform: 'uppercase' as const }}>
                             {ev.source === 'lbc' ? 'LBC' : 'Manual'}
                           </span>
                         </div>
+
+                        {/* Live transcript while recording */}
+                        {debriefEventId === ev.id && debriefState === 'listening' && (
+                          <div style={{ marginTop: 8, paddingLeft: 36 }}>
+                            <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '8px 10px' }}>
+                              <div style={{ fontSize: 11, fontWeight: 700, color: '#c2410c', marginBottom: 4 }}>🔴 Recording… tap 🎙 to stop</div>
+                              <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{debriefTranscript || 'Speak now…'}</div>
+                              <div style={{ fontSize: 10, color: '#9ca3af', marginTop: 4 }}>{debriefTranscript.length} / {MAX_DEBRIEF_CHARS} chars</div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Saved note — tap to expand */}
+                        {debriefNotes[ev.id] && debriefEventId !== ev.id && (
+                          <div style={{ marginTop: 8, paddingLeft: 36 }}>
+                            <button onClick={() => setExpandedNote(expandedNote === ev.id ? null : ev.id)} style={{
+                              background: 'none', border: 'none', color: '#15803d', fontSize: 11, fontWeight: 600, cursor: 'pointer', padding: 0,
+                            }}>
+                              {expandedNote === ev.id ? '▲ Hide note' : '▼ View note'}
+                            </button>
+                            {expandedNote === ev.id && (
+                              <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '8px 10px', marginTop: 6, fontSize: 12, color: '#374151', lineHeight: 1.6 }}>
+                                {debriefNotes[ev.id]}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
                         {activeEventId === ev.id ? (
