@@ -360,13 +360,13 @@ function CaptureFlowInner() {
 
         {/* Voice Capture */}
         <div style={{ ...css.card, marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: voiceTranscript ? 10 : 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
             <div>
               <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>
                 🎙 Voice Capture
               </div>
               <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>
-                Speak naturally — Claude will fill in the fields
+                Tap Start, speak, tap Stop — Claude fills the fields
               </div>
             </div>
             <button
@@ -379,26 +379,49 @@ function CaptureFlowInner() {
                 fontWeight: 700, fontSize: 13, display: 'flex', alignItems: 'center', gap: 7,
               }}
             >
-              {voiceState === 'listening' && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#fff', animation: 'pulse 1s infinite' }} />}
+              {voiceState === 'listening' && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#fff' }} />}
               {voiceState === 'listening' ? 'Stop' : voiceState === 'parsing' ? 'Parsing…' : '🎤 Start'}
             </button>
           </div>
 
+          {/* Prompt guide — shown before and during recording */}
+          {voiceState !== 'parsing' && !voiceTranscript && (
+            <div style={{ background: '#f8faff', border: '1px solid #e0e7ff', borderRadius: 8, padding: '10px 12px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', marginBottom: 6 }}>What to say:</div>
+              <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.7 }}>
+                <span style={{ display: 'block' }}>👤 <b>Name</b> — "Her name is Sarah Johnson"</span>
+                <span style={{ display: 'block' }}>🏢 <b>Company & Title</b> — "She's VP of Sales at Acme Corp"</span>
+                <span style={{ display: 'block' }}>📧 <b>Email & Phone</b> — "sarah@acme.com, 210-555-0100"</span>
+                <span style={{ display: 'block' }}>💬 <b>Topic</b> — "We talked about event sponsorships"</span>
+                <span style={{ display: 'block' }}>✅ <b>Follow-up</b> — "Connect on LinkedIn in 2 days"</span>
+              </div>
+            </div>
+          )}
+
           {voiceState === 'listening' && (
-            <div style={{ fontSize: 12, color: '#6b7280', fontStyle: 'italic', marginTop: 8 }}>
-              {voiceTranscript || 'Listening… speak now'}
+            <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '10px 12px', marginTop: 8 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#c2410c', marginBottom: 4 }}>🔴 Listening… speak now</div>
+              <div style={{ fontSize: 11, color: '#374151', lineHeight: 1.7 }}>
+                <span style={{ display: 'block' }}>👤 Name &nbsp;·&nbsp; 🏢 Company & Title &nbsp;·&nbsp; 📧 Email & Phone</span>
+                <span style={{ display: 'block' }}>💬 What you talked about &nbsp;·&nbsp; ✅ How to follow up & when</span>
+              </div>
+              {voiceTranscript && (
+                <div style={{ fontSize: 11, color: '#6b7280', fontStyle: 'italic', marginTop: 6, borderTop: '1px solid #fed7aa', paddingTop: 6 }}>
+                  {voiceTranscript}
+                </div>
+              )}
             </div>
           )}
 
           {voiceTranscript && voiceState === 'idle' && (
             <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '8px 12px', marginTop: 8 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#15803d', marginBottom: 3 }}>✓ Fields filled from voice</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#15803d', marginBottom: 3 }}>✓ Fields filled from voice — review and edit below</div>
               <div style={{ fontSize: 11, color: '#374151', fontStyle: 'italic' }}>"{voiceTranscript.slice(0, 120)}{voiceTranscript.length > 120 ? '…' : ''}"</div>
             </div>
           )}
 
           {voiceError && (
-            <div style={{ fontSize: 12, color: '#dc2626', marginTop: 8 }}>⚠ {voiceError}</div>
+            <div style={{ fontSize: 12, color: '#dc2626', marginTop: 8 }}>⚠ {voiceError} — fill in the fields below manually.</div>
           )}
         </div>
 
