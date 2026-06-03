@@ -367,27 +367,6 @@ export default function NAHomePage() {
         }}>+ Capture Contact</a>
       </div>
 
-      {/* Active event banner */}
-      {activeEventName && (
-        <div style={{ background: '#c2410c', padding: '8px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ fontSize: 13, color: '#fff' }}>
-            <span style={{ fontWeight: 400, opacity: 0.8 }}>Active event: </span>
-            <span style={{ fontWeight: 700 }}>{activeEventName}</span>
-          </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <a href="/networking-assistant-beta-2026/capture" style={{
-              height: 28, borderRadius: 6, background: '#fff', color: '#c2410c',
-              fontWeight: 700, fontSize: 12, padding: '0 12px', textDecoration: 'none',
-              display: 'inline-flex', alignItems: 'center',
-            }}>🎤 Capture</a>
-            <button onClick={clearActiveEvent} style={{
-              height: 28, borderRadius: 6, background: 'rgba(255,255,255,0.2)', border: 'none',
-              color: '#fff', fontSize: 12, fontWeight: 600, padding: '0 12px', cursor: 'pointer',
-            }}>End Session</button>
-          </div>
-        </div>
-      )}
-
       {/* Body: left nav + main content + right panel */}
       <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '200px 1fr 280px', overflow: 'hidden', minHeight: 0 }}>
 
@@ -533,13 +512,23 @@ export default function NAHomePage() {
               <a href="/networking-assistant-beta-2026/events" style={{ fontSize: 11, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>Browse</a>
             </div>
             {events.length === 0 ? (
-              <div style={{ fontSize: 12, color: '#9ca3af' }}>None yet.</div>
-            ) : events.slice(0, 5).map(ev => (
-              <div key={ev.id} style={{ padding: '8px 0', borderBottom: '1px solid #f3f4f6' }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#111827', marginBottom: 1 }}>{ev.event_name}</div>
-                <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
-              </div>
-            ))}
+              <div style={{ fontSize: 12, color: '#9ca3af' }}>None yet. <a href="/networking-assistant-beta-2026/events" style={{ color: '#2563eb' }}>Browse LBC →</a></div>
+            ) : events.slice(0, 5).map(ev => {
+              const isToday = ev.event_date === new Date().toISOString().split('T')[0];
+              return (
+                <div key={ev.id} style={{ padding: '8px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#111827', marginBottom: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{ev.event_name}</div>
+                    <div style={{ fontSize: 11, color: isToday ? '#c2410c' : '#2563eb', fontWeight: 600 }}>{isToday ? '📍 Today' : formatDate(ev.event_date)}</div>
+                  </div>
+                  <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+                    height: 26, padding: '0 10px', borderRadius: 5, background: isToday ? '#c2410c' : '#042C53',
+                    color: '#fff', fontWeight: 700, fontSize: 11, textDecoration: 'none',
+                    display: 'inline-flex', alignItems: 'center', flexShrink: 0,
+                  }}>Capture →</a>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -564,26 +553,6 @@ export default function NAHomePage() {
             }}>+ Capture</a>
           </div>
         </div>
-        {/* Active event banner — mobile */}
-        {activeEventName && (
-          <div style={{ background: '#c2410c', padding: '8px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ fontSize: 12, color: '#fff', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const, maxWidth: '60%' }}>
-              🎯 {activeEventName}
-            </div>
-            <div style={{ display: 'flex', gap: 6 }}>
-              <a href="/networking-assistant-beta-2026/capture" style={{
-                height: 26, borderRadius: 6, background: '#fff', color: '#c2410c',
-                fontWeight: 700, fontSize: 11, padding: '0 10px', textDecoration: 'none',
-                display: 'inline-flex', alignItems: 'center',
-              }}>🎤 Go</a>
-              <button onClick={clearActiveEvent} style={{
-                height: 26, borderRadius: 6, background: 'rgba(255,255,255,0.2)', border: 'none',
-                color: '#fff', fontSize: 11, padding: '0 8px', cursor: 'pointer',
-              }}>End</button>
-            </div>
-          </div>
-        )}
-
         {/* Stats */}
         {!pageLoading && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.1)', padding: '8px 0 10px' }}>

@@ -330,23 +330,50 @@ function CaptureFlowInner() {
               + I'm at a new event — create it now
             </button>
 
-            {myEvents.length > 0 && (
-              <>
-                <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8 }}>
-                  Recent Events
-                </div>
-                {myEvents.map(ev => (
-                  <button key={ev.id} onClick={() => { setSelectedEvent(ev); setPhase('form'); }} style={{
-                    width: '100%', background: '#fff', borderRadius: 10, border: '1px solid #e5e7eb',
-                    padding: '13px 16px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 8,
-                  }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
-                    <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 500, marginTop: 2 }}>{formatDate(ev.event_date)}</div>
-                    {ev.host_org && <div style={{ fontSize: 11, color: '#6b7280' }}>{ev.host_org}</div>}
-                  </button>
-                ))}
-              </>
-            )}
+            {myEvents.length > 0 && (() => {
+              const today = new Date().toISOString().split('T')[0];
+              const todayEvents = myEvents.filter(e => e.event_date === today);
+              const otherEvents = myEvents.filter(e => e.event_date !== today);
+              return (
+                <>
+                  {todayEvents.length > 0 && (
+                    <>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: '#c2410c', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8 }}>
+                        📍 Today's Events
+                      </div>
+                      {todayEvents.map(ev => (
+                        <button key={ev.id} onClick={() => { setSelectedEvent(ev); setPhase('form'); }} style={{
+                          width: '100%', background: '#fff', borderRadius: 10,
+                          border: '2px solid #c2410c',
+                          padding: '13px 16px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 8,
+                        }}>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
+                          <div style={{ fontSize: 12, color: '#c2410c', fontWeight: 600, marginTop: 2 }}>Today</div>
+                          {ev.host_org && <div style={{ fontSize: 11, color: '#6b7280' }}>{ev.host_org}</div>}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                  {otherEvents.length > 0 && (
+                    <>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8, marginTop: todayEvents.length ? 12 : 0 }}>
+                        Upcoming Events
+                      </div>
+                      {otherEvents.map(ev => (
+                        <button key={ev.id} onClick={() => { setSelectedEvent(ev); setPhase('form'); }} style={{
+                          width: '100%', background: '#fff', borderRadius: 10, border: '1px solid #e5e7eb',
+                          padding: '13px 16px', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 8,
+                        }}>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{ev.event_name}</div>
+                          <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 500, marginTop: 2 }}>{formatDate(ev.event_date)}</div>
+                          {ev.host_org && <div style={{ fontSize: 11, color: '#6b7280' }}>{ev.host_org}</div>}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                </>
+              );
+            })()}
           </>
         )}
       </div>
