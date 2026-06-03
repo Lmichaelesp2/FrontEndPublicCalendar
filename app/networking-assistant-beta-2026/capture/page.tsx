@@ -144,7 +144,9 @@ function CaptureFlowInner() {
           const found = data.find(e => e.id === preloadEventId);
           if (found) { setSelectedEvent(found); return; }
         }
-        // Default: open new event form directly
+        // No URL param = coming from nav "+ Capture Contact" — always start fresh
+        localStorage.removeItem('na_active_event_id');
+        localStorage.removeItem('na_active_event_name');
         setShowNewEvent(true);
       }
     });
@@ -421,7 +423,7 @@ function CaptureFlowInner() {
               const otherEvs = myEvents.filter(e => e.event_date !== today);
               return (
                 <>
-                  {/* Top two always-visible options */}
+                  {/* Top options */}
                   <button onClick={() => { setShowEventPicker(false); setShowNewEvent(true); }} style={{
                     width: '100%', padding: '11px 12px', borderRadius: 8, border: '2px solid #042C53',
                     background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
