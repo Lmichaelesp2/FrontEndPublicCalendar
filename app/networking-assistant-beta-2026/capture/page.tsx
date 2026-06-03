@@ -574,39 +574,47 @@ function CaptureFlowInner() {
   return (
     <div style={css.page}>
       <Header onBack={() => { reset(); setPhase('form'); }} />
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: '40px 16px 32px', textAlign: 'center' }}>
-        <div style={{ width: 60, height: 60, borderRadius: '50%', background: '#042C53', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', fontSize: 26, color: '#fff' }}>✓</div>
-        <div style={{ fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 6 }}>{savedName} saved</div>
-        <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 4 }}>{followUps.length} follow-up{followUps.length !== 1 ? 's' : ''} queued</div>
-        {gotCard && (
-          <div style={{ fontSize: 13, color: '#d97706', marginBottom: 4, fontWeight: 500 }}>🃏 Business card — remember to add details later</div>
-        )}
-        <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 36 }}>
-          {savedCount} contact{savedCount !== 1 ? 's' : ''} captured · {selectedEvent?.event_name}
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: '32px 16px 32px', textAlign: 'center' }}>
+
+        {/* Session counter banner */}
+        <div style={{ background: '#042C53', borderRadius: 12, padding: '12px 16px', marginBottom: 24, textAlign: 'left' }}>
+          <div style={{ fontSize: 12, color: '#93b4d4', marginBottom: 2 }}>{selectedEvent?.event_name}</div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>
+            {savedCount} {savedCount === 1 ? 'person' : 'people'} captured
+          </div>
+          <div style={{ fontSize: 12, color: '#93b4d4', marginTop: 2 }}>Keep going — tap below to add the next person</div>
+        </div>
+
+        {/* Last saved confirmation */}
+        <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '14px 16px', marginBottom: 20 }}>
+          <div style={{ fontSize: 13, color: '#15803d', fontWeight: 700, marginBottom: 2 }}>✓ {savedName} saved</div>
+          <div style={{ fontSize: 12, color: '#374151' }}>{followUps.length} follow-up{followUps.length !== 1 ? 's' : ''} queued</div>
+          {gotCard && <div style={{ fontSize: 12, color: '#d97706', marginTop: 4 }}>🃏 Business card — fill in details later</div>}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* PRIMARY — capture next person */}
           <button onClick={() => { reset(); setPhase('form'); }} style={{
-            height: 48, borderRadius: 10, border: 'none', background: '#042C53',
-            color: '#fff', fontWeight: 700, fontSize: 15, cursor: 'pointer',
-          }}>+ Capture Another Person</button>
+            height: 54, borderRadius: 12, border: 'none', background: '#c2410c',
+            color: '#fff', fontWeight: 800, fontSize: 16, cursor: 'pointer',
+          }}>+ Capture Next Person →</button>
 
           {savedPersonId && (
             <a href={`/networking-assistant-beta-2026/persons/${savedPersonId}`} style={{
-              height: 48, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
+              height: 44, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
               color: '#1652f0', fontWeight: 600, fontSize: 14, textDecoration: 'none',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>View {savedName}'s Record →</a>
           )}
 
           <a href="/networking-assistant-beta-2026" style={{
-            height: 48, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
+            height: 44, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
             color: '#374151', fontWeight: 600, fontSize: 14, textDecoration: 'none',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>View Follow-Up Queue</a>
+          }}>Done — View Follow-Up Queue</a>
 
           <button onClick={() => { reset(); setPhase('select_event'); }} style={{
-            background: 'none', border: 'none', color: '#6b7280', fontSize: 13, cursor: 'pointer', marginTop: 4,
+            background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 2,
           }}>← Switch Event</button>
         </div>
       </div>

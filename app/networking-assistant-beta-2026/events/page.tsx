@@ -19,6 +19,19 @@ function formatDate(dateStr: string) {
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
+function dayBucket(dateStr: string): string {
+  const today = new Date().toISOString().split('T')[0];
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+  const nextWeek = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+  if (dateStr < today) return 'Past';
+  if (dateStr === today) return 'Today';
+  if (dateStr === tomorrow) return 'Tomorrow';
+  if (dateStr <= nextWeek) return 'This Week';
+  return 'Later';
+}
+
+const BUCKET_ORDER = ['Today', 'Tomorrow', 'This Week', 'Later', 'Past'];
+
 const css = {
   page: { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 24 } as React.CSSProperties,
   header: { background: '#042C53', padding: '0 16px' } as React.CSSProperties,
@@ -237,27 +250,48 @@ export default function NAEventsPage() {
             <div style={{ textAlign: 'center', color: '#6b7280', padding: '32px 0', fontSize: 14 }}>
               No events yet. Browse upcoming LBC events or add one above.
             </div>
-          ) : myEvents.map(ev => (
-            <div key={ev.id} style={css.card}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', gap: 6, marginBottom: 4 }}>
-                    <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20, background: ev.source === 'lbc' ? '#eff6ff' : '#fef3c7', color: ev.source === 'lbc' ? '#1d4ed8' : '#92400e', textTransform: 'uppercase' as const }}>
-                      {ev.source === 'lbc' ? 'LBC' : 'Manual'}
-                    </span>
-                  </div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 2 }}>{ev.event_name}</div>
-                  <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
-                  {ev.host_org && <div style={{ fontSize: 12, color: '#6b7280' }}>{ev.host_org}</div>}
+          ) : (() => {
+            const grouped: Record<string, NAEvent[]> = {};
+            myEvents.forEach(ev => {
+              const bucket = dayBucket(ev.event_date);
+              if (!grouped[bucket]) grouped[bucket] = [];
+              grouped[bucket].push(ev);
+            });
+            return BUCKET_ORDER.filter(b => grouped[b]?.length).map(bucket => (
+              <div key={bucket}>
+                <div style={{
+                  fontSize: 11, fontWeight: 800, color: bucket === 'Today' ? '#c2410c' : '#6b7280',
+                  letterSpacing: 1, textTransform: 'uppercase' as const,
+                  marginTop: 16, marginBottom: 8,
+                  display: 'flex', alignItems: 'center', gap: 8,
+                }}>
+                  {bucket === 'Today' && <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#c2410c' }} />}
+                  {bucket}
                 </div>
-                <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
-                  height: 36, borderRadius: 8, background: '#c2410c', color: '#fff',
-                  fontWeight: 700, fontSize: 12, padding: '0 14px', textDecoration: 'none',
-                  display: 'inline-flex', alignItems: 'center', flexShrink: 0,
-                }}>Capture →</a>
+                {grouped[bucket].map(ev => (
+                  <div key={ev.id} style={css.card}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 2 }}>{ev.event_name}</div>
+                        <div style={{ fontSize: 13, color: bucket === 'Today' ? '#c2410c' : '#2563eb', fontWeight: 600 }}>{formatDate(ev.event_date)}</div>
+                        {ev.host_org && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 1 }}>{ev.host_org}</div>}
+                        <div style={{ marginTop: 4 }}>
+                          <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20, background: ev.source === 'lbc' ? '#eff6ff' : '#fef3c7', color: ev.source === 'lbc' ? '#1d4ed8' : '#92400e', textTransform: 'uppercase' as const }}>
+                            {ev.source === 'lbc' ? 'LBC' : 'Manual'}
+                          </span>
+                        </div>
+                      </div>
+                      <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+                        height: 40, borderRadius: 8, background: bucket === 'Today' ? '#c2410c' : '#042C53', color: '#fff',
+                        fontWeight: 700, fontSize: 12, padding: '0 14px', textDecoration: 'none',
+                        display: 'inline-flex', alignItems: 'center', flexShrink: 0,
+                      }}>Capture →</a>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))
+            ));
+          })()
         )}
       </div>
     </div>
