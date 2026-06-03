@@ -83,6 +83,12 @@ function CaptureFlowInner() {
   const [voiceError, setVoiceError]       = useState('');
   const recognitionRef                    = useRef<any>(null);
 
+  // Photo capture
+  const [photoState, setPhotoState]       = useState<'idle' | 'parsing'>('idle');
+  const [photoPreview, setPhotoPreview]   = useState<string | null>(null);
+  const [photoError, setPhotoError]       = useState('');
+  const photoInputRef                     = useRef<HTMLInputElement>(null);
+
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
   useEffect(() => {
@@ -134,6 +140,7 @@ function CaptureFlowInner() {
     setLinkedinUrl(''); setFollowUps(['linkedin_connect']); setWhenDays(2); setCustomDate(''); setErrors([]);
     setSavedPersonId(null);
     setVoiceTranscript(''); setVoiceError(''); setVoiceState('idle');
+    setPhotoPreview(null); setPhotoError(''); setPhotoState('idle');
   }
 
   function startListening() {
@@ -206,6 +213,50 @@ function CaptureFlowInner() {
       setVoiceError('Parse failed — please fill in manually.');
     }
     setVoiceState('idle');
+  }
+
+  async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoError('');
+
+    // Preview
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      const dataUrl = ev.target?.result as string;
+      setPhotoPreview(dataUrl);
+      setPhotoState('parsing');
+
+      // Strip the data:image/...;base64, prefix
+      const [meta, base64] = dataUrl.split(',');
+      const mediaType = meta.match(/data:(.*);base64/)?.[1] ?? 'image/jpeg';
+
+      try {
+        const res = await fetch('/api/na-photo-parse', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imageBase64: base64, mediaType }),
+        });
+        const data = await res.json();
+        if (data.fields) {
+          const f = data.fields;
+          if (f.first_name)   setFirstName(f.first_name);
+          if (f.last_name)    setLastName(f.last_name);
+          if (f.company)      setCompany(f.company);
+          if (f.title)        setTitle(f.title);
+          if (f.email)        setEmail(f.email);
+          if (f.phone)        setPhone(f.phone);
+          if (f.linkedin_url) setLinkedinUrl(f.linkedin_url);
+          if (f.topic)        setTopic(f.topic);
+        } else {
+          setPhotoError('Could not read image — fill in manually.');
+        }
+      } catch {
+        setPhotoError('Photo parse failed — fill in manually.');
+      }
+      setPhotoState('idle');
+    };
+    reader.readAsDataURL(file);
   }
 
   async function handleSave() {
@@ -483,6 +534,62 @@ function CaptureFlowInner() {
 
           {voiceError && (
             <div style={{ fontSize: 12, color: '#dc2626', marginTop: 8 }}>⚠ {voiceError} — fill in the fields below manually.</div>
+          )}
+        </div>
+
+        {/* Photo Capture */}
+        <div style={{ ...css.card, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>📷 Photo Capture</div>
+              <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>
+                Business card or LinkedIn screenshot — Claude reads it
+              </div>
+            </div>
+            <button
+              onClick={() => photoInputRef.current?.click()}
+              disabled={photoState === 'parsing'}
+              style={{
+                height: 42, padding: '0 16px', borderRadius: 10, border: 'none',
+                cursor: photoState === 'parsing' ? 'default' : 'pointer',
+                background: photoState === 'parsing' ? '#e5e7eb' : '#042C53',
+                color: photoState === 'parsing' ? '#9ca3af' : '#fff',
+                fontWeight: 700, fontSize: 13,
+              }}
+            >
+              {photoState === 'parsing' ? 'Reading…' : '📷 Add Photo'}
+            </button>
+            <input
+              ref={photoInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={handlePhotoChange}
+              style={{ display: 'none' }}
+            />
+          </div>
+
+          {photoPreview && photoState === 'idle' && (
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginTop: 6 }}>
+              <img src={photoPreview} alt="Captured" style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 8, border: '1px solid #e5e7eb', flexShrink: 0 }} />
+              <div style={{ flex: 1 }}>
+                {photoError ? (
+                  <div style={{ fontSize: 12, color: '#dc2626' }}>⚠ {photoError}</div>
+                ) : (
+                  <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '8px 12px' }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#15803d' }}>✓ Fields filled from photo</div>
+                    <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>Review and edit below</div>
+                  </div>
+                )}
+                <button onClick={() => { setPhotoPreview(null); setPhotoError(''); if (photoInputRef.current) photoInputRef.current.value = ''; }} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 11, cursor: 'pointer', marginTop: 4, padding: 0 }}>
+                  Remove photo
+                </button>
+              </div>
+            </div>
+          )}
+
+          {photoState === 'parsing' && (
+            <div style={{ fontSize: 12, color: '#6b7280', marginTop: 8 }}>Reading image…</div>
           )}
         </div>
 
