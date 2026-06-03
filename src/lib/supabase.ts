@@ -1,24 +1,21 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
-export const supabase = createClient(
-  supabaseUrl,
-  supabaseAnonKey
-);
+// Singleton — prevents multiple GoTrueClient instances in the same browser context
+const globalForSupabase = globalThis as unknown as { _supabase?: SupabaseClient; _supabaseAdmin?: SupabaseClient };
 
-export const supabaseAdmin = createClient(
+export const supabase = globalForSupabase._supabase ?? createClient(supabaseUrl, supabaseAnonKey);
+if (!globalForSupabase._supabase) globalForSupabase._supabase = supabase;
+
+export const supabaseAdmin = globalForSupabase._supabaseAdmin ?? createClient(
   supabaseUrl,
   supabaseServiceRoleKey || supabaseAnonKey,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false
-    }
-  }
+  { auth: { autoRefreshToken: false, persistSession: false } }
 );
+if (!globalForSupabase._supabaseAdmin) globalForSupabase._supabaseAdmin = supabaseAdmin;
 
 export const CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'] as const;
 export type City = (typeof CITIES)[number];
