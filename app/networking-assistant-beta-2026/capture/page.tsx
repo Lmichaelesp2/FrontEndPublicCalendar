@@ -93,9 +93,9 @@ function CaptureFlowInner() {
   const [phase, setPhase]                 = useState<'form' | 'summary'>('form');
   const [savedPersonId, setSavedPersonId] = useState<string | null>(null);
 
-  // Inline event picker state — default to new event form if no URL param
-  const [showEventPicker, setShowEventPicker] = useState(false);
-  const [showNewEvent, setShowNewEvent]   = useState(!preloadEventId);
+  // Inline event picker state
+  const [showEventPicker, setShowEventPicker] = useState(!preloadEventId); // open picker by default
+  const [showNewEvent, setShowNewEvent]   = useState(false);
   const [newEventName, setNewEventName]   = useState('');
   const [newEventDate, setNewEventDate]   = useState(new Date().toISOString().split('T')[0]);
   const [newEventCity, setNewEventCity]   = useState('San Antonio');
@@ -142,7 +142,7 @@ function CaptureFlowInner() {
         // Only auto-select if coming from a specific event's Capture button
         if (preloadEventId) {
           const found = data.find(e => e.id === preloadEventId);
-          if (found) { setSelectedEvent(found); setShowNewEvent(false); }
+          if (found) { setSelectedEvent(found); setShowEventPicker(false); }
         }
       }
     });
