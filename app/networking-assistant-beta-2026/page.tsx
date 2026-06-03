@@ -509,49 +509,37 @@ export default function NAHomePage() {
           )}
         </div>
 
-        {/* Right panel — always shows contacts + events summary */}
-        <div style={{ background: '#fff', borderLeft: '1px solid #e8eaed', overflowY: 'auto', padding: '20px 16px' }}>
-          {/* Contacts summary */}
-          <div style={{ marginBottom: 28 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>Contacts · {persons.length}</div>
-              <a href="/networking-assistant-beta-2026/capture" style={{ fontSize: 11, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>+ Add</a>
-            </div>
-            {persons.length === 0 ? (
-              <div style={{ fontSize: 12, color: '#9ca3af' }}>None yet.</div>
-            ) : persons.slice(0, 8).map(p => <ContactRow key={p.id} p={p} />)}
-            {persons.length > 8 && (
-              <button onClick={() => setDesktopView('contacts')} style={{ background: 'none', border: 'none', color: '#2563eb', fontSize: 12, fontWeight: 600, cursor: 'pointer', marginTop: 6, padding: 0 }}>
-                View all {persons.length} →
-              </button>
-            )}
+        {/* Right panel — contact search + list */}
+        <div style={{ background: '#fff', borderLeft: '1px solid #e8eaed', overflowY: 'auto', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Network · {persons.length}</div>
+            <a href="/networking-assistant-beta-2026/capture" style={{ fontSize: 11, color: '#c2410c', textDecoration: 'none', fontWeight: 700 }}>+ Capture</a>
           </div>
 
-          {/* Events summary */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Events · {events.length}</div>
-              <a href="/networking-assistant-beta-2026/events" style={{ fontSize: 11, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>Browse</a>
-            </div>
-            {events.length === 0 ? (
-              <div style={{ fontSize: 12, color: '#9ca3af' }}>None yet. <a href="/networking-assistant-beta-2026/events" style={{ color: '#2563eb' }}>Browse LBC →</a></div>
-            ) : events.slice(0, 5).map(ev => {
-              const isToday = ev.event_date === new Date().toISOString().split('T')[0];
-              return (
-                <div key={ev.id} style={{ padding: '8px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#111827', marginBottom: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{ev.event_name}</div>
-                    <div style={{ fontSize: 11, color: isToday ? '#c2410c' : '#2563eb', fontWeight: 600 }}>{isToday ? '📍 Today' : formatDate(ev.event_date)}</div>
-                  </div>
-                  <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
-                    height: 26, padding: '0 10px', borderRadius: 5, background: isToday ? '#c2410c' : '#042C53',
-                    color: '#fff', fontWeight: 700, fontSize: 11, textDecoration: 'none',
-                    display: 'inline-flex', alignItems: 'center', flexShrink: 0,
-                  }}>Capture →</a>
-                </div>
-              );
-            })}
-          </div>
+          {/* Search */}
+          <input
+            placeholder="Search contacts…"
+            value={contactSearch}
+            onChange={e => setContactSearch(e.target.value)}
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', outline: 'none', color: '#111827' }}
+          />
+
+          {/* Results */}
+          {persons.length === 0 ? (
+            <div style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', paddingTop: 24 }}>No contacts yet.</div>
+          ) : (() => {
+            const q = contactSearch.toLowerCase();
+            const filtered = q
+              ? persons.filter((p: any) => `${p.first_name} ${p.last_name ?? ''} ${p.company ?? ''} ${p.title ?? ''}`.toLowerCase().includes(q))
+              : persons;
+            return filtered.length === 0 ? (
+              <div style={{ fontSize: 12, color: '#9ca3af' }}>No match for "{contactSearch}"</div>
+            ) : (
+              <div>
+                {filtered.map((p: any) => <ContactRow key={p.id} p={p} />)}
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
