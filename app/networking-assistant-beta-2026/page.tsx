@@ -94,7 +94,16 @@ export default function NAHomePage() {
       ]);
       if (fq.data) setFollowUps(fq.data);
       if (pp.data) setPersons(pp.data);
-      if (ev.data) setEvents(ev.data);
+      if (ev.data) {
+        setEvents(ev.data);
+        // Smart default: if user has events today, open on My Events
+        const today = new Date().toISOString().split('T')[0];
+        const hasTodayEvents = ev.data.some((e: any) => e.event_date === today);
+        if (hasTodayEvents) {
+          setDesktopView('events');
+          setMobileTab('events');
+        }
+      }
       setPageLoading(false);
     })();
   }, [user]);
@@ -285,52 +294,65 @@ export default function NAHomePage() {
   );
 
   // ── Events list
-  const EventsList = () => (
-    events.length === 0 ? (
+  const EventsList = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const todayEvents = events.filter((e: any) => e.event_date === today);
+    const otherEvents = events.filter((e: any) => e.event_date !== today);
+
+    if (events.length === 0) return (
       <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
         No events. <a href="/networking-assistant-beta-2026/events" style={{ color: '#2563eb' }}>Browse LBC →</a>
       </div>
-    ) : (
+    );
+
+    return (
       <div>
-        {events.map(ev => {
-          const isActive = activeEventName && localStorage.getItem('na_active_event_id') === ev.id;
-          const isToday = ev.event_date === new Date().toISOString().split('T')[0];
-          return (
-            <div key={ev.id} style={{ padding: '10px 0', borderBottom: '1px solid #f3f4f6' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        {/* Today's events — prominent callout */}
+        {todayEvents.length > 0 && (
+          <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '12px 14px', marginBottom: 16 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#c2410c', marginBottom: 10, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>
+              📍 Today · {todayEvents.length} event{todayEvents.length > 1 ? 's' : ''} — tap Capture when you arrive
+            </div>
+            {todayEvents.map((ev: any) => (
+              <div key={ev.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderTop: '1px solid #fed7aa' }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 1 }}>{ev.event_name}</div>
-                  <div style={{ fontSize: 11, color: isToday ? '#c2410c' : '#2563eb', fontWeight: 600 }}>
-                    {isToday ? '📍 Today' : formatDate(ev.event_date)}
-                  </div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{ev.event_name}</div>
                   {ev.host_org && <div style={{ fontSize: 11, color: '#9ca3af' }}>{ev.host_org}</div>}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', marginLeft: 8 }}>
-                  {isActive ? (
-                    <>
-                      <a href="/networking-assistant-beta-2026/capture" style={{
-                        height: 28, padding: '0 10px', borderRadius: 5, background: '#c2410c', color: '#fff',
-                        fontWeight: 700, fontSize: 11, textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
-                      }}>🎤 Capture</a>
-                      <button onClick={clearActiveEvent} style={{
-                        height: 20, borderRadius: 4, background: 'none', border: '1px solid #e5e7eb',
-                        color: '#9ca3af', fontSize: 10, padding: '0 8px', cursor: 'pointer',
-                      }}>End session</button>
-                    </>
-                  ) : (
-                    <button onClick={() => { localStorage.setItem('na_active_event_id', ev.id); localStorage.setItem('na_active_event_name', ev.event_name); setActiveEventName(ev.event_name); }} style={{
-                      height: 28, padding: '0 10px', borderRadius: 5, background: '#042C53', color: '#fff',
-                      fontWeight: 700, fontSize: 11, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center',
-                    }}>I'm going →</button>
-                  )}
-                </div>
+                <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+                  height: 34, padding: '0 14px', borderRadius: 7, background: '#c2410c',
+                  color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
+                  display: 'inline-flex', alignItems: 'center', flexShrink: 0, marginLeft: 10,
+                }}>Capture →</a>
               </div>
-            </div>
-          );
-        })}
+            ))}
+          </div>
+        )}
+
+        {/* Upcoming events */}
+        {otherEvents.length > 0 && (
+          <>
+            {todayEvents.length > 0 && (
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8 }}>Upcoming</div>
+            )}
+            {otherEvents.map((ev: any) => (
+              <div key={ev.id} style={{ padding: '10px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 1 }}>{ev.event_name}</div>
+                  <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 600 }}>{formatDate(ev.event_date)}</div>
+                  {ev.host_org && <div style={{ fontSize: 11, color: '#9ca3af' }}>{ev.host_org}</div>}
+                </div>
+                <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+                  height: 28, padding: '0 10px', borderRadius: 5, background: '#042C53', color: '#fff',
+                  fontWeight: 700, fontSize: 11, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', flexShrink: 0, marginLeft: 8,
+                }}>Capture →</a>
+              </div>
+            ))}
+          </>
+        )}
       </div>
-    )
-  );
+    );
+  };
 
   // ────────────────────────── DESKTOP LAYOUT ──────────────────────────
   if (isDesktop) return (
