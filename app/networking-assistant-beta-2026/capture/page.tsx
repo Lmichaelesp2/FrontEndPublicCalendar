@@ -66,6 +66,7 @@ function CaptureFlowInner() {
   const [title, setTitle]           = useState('');
   const [email, setEmail]           = useState('');
   const [phone, setPhone]           = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
   const [topic, setTopic]           = useState('');
   const [gotCard, setGotCard]       = useState(false);
   const [followUps, setFollowUps]   = useState<string[]>(['linkedin_connect']);
@@ -123,7 +124,7 @@ function CaptureFlowInner() {
   function reset() {
     setFirstName(''); setLastName(''); setCompany(''); setTitle('');
     setEmail(''); setPhone(''); setTopic(''); setGotCard(false);
-    setFollowUps(['linkedin_connect']); setWhenDays(2); setCustomDate(''); setErrors([]);
+    setLinkedinUrl(''); setFollowUps(['linkedin_connect']); setWhenDays(2); setCustomDate(''); setErrors([]);
     setSavedPersonId(null);
     setVoiceTranscript(''); setVoiceError(''); setVoiceState('idle');
   }
@@ -216,7 +217,7 @@ function CaptureFlowInner() {
       first_name: firstName.trim(), last_name: lastName.trim() || null,
       company: company.trim() || null, title: title.trim() || null,
       email: email.trim() || null, phone: phone.trim() || null,
-      linkedin_url: null, city: selectedEvent?.city ?? null,
+      linkedin_url: linkedinUrl.trim() || null, city: selectedEvent?.city ?? null,
       industry: null, tags: null, relationship_status: 'warm',
       first_met_event_id: selectedEvent?.id ?? null,
       first_met_date: selectedEvent?.event_date ?? null,
@@ -384,29 +385,55 @@ function CaptureFlowInner() {
             </button>
           </div>
 
-          {/* Prompt guide — shown before and during recording */}
-          {voiceState !== 'parsing' && !voiceTranscript && (
-            <div style={{ background: '#f8faff', border: '1px solid #e0e7ff', borderRadius: 8, padding: '10px 12px' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', marginBottom: 6 }}>What to say:</div>
-              <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.7 }}>
-                <span style={{ display: 'block' }}>👤 <b>Name</b> — "Her name is Sarah Johnson"</span>
-                <span style={{ display: 'block' }}>🏢 <b>Company & Title</b> — "She's VP of Sales at Acme Corp"</span>
-                <span style={{ display: 'block' }}>📧 <b>Email & Phone</b> — "sarah@acme.com, 210-555-0100"</span>
-                <span style={{ display: 'block' }}>💬 <b>Topic</b> — "We talked about event sponsorships"</span>
-                <span style={{ display: 'block' }}>✅ <b>Follow-up</b> — "Connect on LinkedIn in 2 days"</span>
+          {/* Prompt guide — shown before recording */}
+          {voiceState === 'idle' && !voiceTranscript && (
+            <div style={{ background: '#f8faff', border: '1px solid #dde5ff', borderRadius: 8, padding: '12px 14px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', marginBottom: 8, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>What to cover</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px' }}>
+                {[
+                  ['👤', 'Full name'],
+                  ['🏢', 'Company & title'],
+                  ['📧', 'Email & phone'],
+                  ['💬', 'What you talked about'],
+                ].map(([icon, label]) => (
+                  <div key={label} style={{ fontSize: 12, color: '#374151', display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <span>{icon}</span><span>{label}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #dde5ff' }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', marginBottom: 6, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>Follow-up action</div>
+                <div style={{ fontSize: 12, color: '#374151', marginBottom: 6 }}>
+                  Say one: <b>connect on LinkedIn</b> · <b>LinkedIn message</b> · <b>send email</b> · <b>call</b>
+                </div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', marginBottom: 4, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>When to follow up</div>
+                <div style={{ fontSize: 12, color: '#374151' }}>
+                  Say: <b>tomorrow</b> · <b>in 2 days</b> · <b>this week</b> · <b>next week</b> · or a <b>specific date</b>
+                </div>
+              </div>
+              <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #dde5ff', fontSize: 12, color: '#6b7280', fontStyle: 'italic' }}>
+                Example: "I met Sarah Johnson, VP of Sales at Acme Corp. Email is sarah@acme.com. We talked about sponsorships. Connect on LinkedIn in 2 days."
               </div>
             </div>
           )}
 
           {voiceState === 'listening' && (
-            <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '10px 12px', marginTop: 8 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#c2410c', marginBottom: 4 }}>🔴 Listening… speak now</div>
-              <div style={{ fontSize: 11, color: '#374151', lineHeight: 1.7 }}>
-                <span style={{ display: 'block' }}>👤 Name &nbsp;·&nbsp; 🏢 Company & Title &nbsp;·&nbsp; 📧 Email & Phone</span>
-                <span style={{ display: 'block' }}>💬 What you talked about &nbsp;·&nbsp; ✅ How to follow up & when</span>
+            <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '10px 14px', marginTop: 8 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#c2410c', marginBottom: 6 }}>🔴 Listening — cover each item:</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 12px', fontSize: 12, color: '#374151', marginBottom: 8 }}>
+                <span>👤 Name</span>
+                <span>🏢 Company & title</span>
+                <span>📧 Email & phone</span>
+                <span>💬 Topic discussed</span>
+              </div>
+              <div style={{ fontSize: 12, color: '#374151', marginBottom: 4 }}>
+                ✅ <b>Follow-up:</b> LinkedIn connect / message · email · call
+              </div>
+              <div style={{ fontSize: 12, color: '#374151' }}>
+                📅 <b>When:</b> tomorrow · in 2 days · this week · next week · [date]
               </div>
               {voiceTranscript && (
-                <div style={{ fontSize: 11, color: '#6b7280', fontStyle: 'italic', marginTop: 6, borderTop: '1px solid #fed7aa', paddingTop: 6 }}>
+                <div style={{ fontSize: 11, color: '#6b7280', fontStyle: 'italic', marginTop: 8, borderTop: '1px solid #fed7aa', paddingTop: 8 }}>
                   {voiceTranscript}
                 </div>
               )}
@@ -435,6 +462,15 @@ function CaptureFlowInner() {
         {/* Contact info */}
         <div style={css.card}>
           <div style={css.sectionTitle}>Contact Info</div>
+          <div style={{ marginBottom: 10 }}>
+            <label style={css.label}>LinkedIn Profile URL</label>
+            <input
+              value={linkedinUrl}
+              onChange={e => setLinkedinUrl(e.target.value)}
+              placeholder="https://linkedin.com/in/sarahjohnson"
+              style={{ ...css.input, borderColor: '#e0e7ff' }}
+            />
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
             <div>
               <label style={css.label}>First Name *</label>
