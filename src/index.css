@@ -3705,6 +3705,35 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .enm-subscribe-thanks{font-size:.95rem;font-weight:600;color:var(--color-ink);margin-top:.5rem}
 .enm-subscribe-error{font-size:.8rem;color:var(--color-terra);margin-top:.5rem;width:100%;text-align:center}
 
+/* ENM — new sections */
+.enm-hero-who{font-size:.9rem;font-style:italic;color:rgba(255,255,255,.65);line-height:1.7;max-width:620px;margin:.25rem 0 .75rem}
+.enm-practices-list{list-style:none;padding:0;margin:.25rem 0 0;display:flex;flex-direction:column;gap:.4rem}
+.enm-practices-list li{font-size:.85rem;color:var(--color-ink-2);line-height:1.6}
+.enm-card-dual-focus{font-size:.85rem;color:var(--color-ink-2);line-height:1.7;margin:0;border-left:3px solid var(--color-terra);padding-left:.75rem}
+.enm-card-example{font-size:.8rem;color:var(--color-muted);line-height:1.6;margin-top:auto}
+.enm-loop-section{background:var(--color-paper);padding:3.5rem 2rem;border-top:1px solid var(--color-rule)}
+.enm-loop-inner{max-width:720px;margin:0 auto;text-align:center}
+.enm-loop-title{font-family:var(--font-serif);font-size:clamp(1.3rem,3vw,1.8rem);font-weight:600;color:var(--color-ink);margin-bottom:1rem}
+.enm-loop-body{font-size:.95rem;color:var(--color-ink-2);line-height:1.8;margin-bottom:1.25rem}
+.enm-loop-flow{font-size:.9rem;font-weight:600;color:var(--color-primary);letter-spacing:.02em}
+.enm-start-small{background:var(--color-paper-2);padding:3.5rem 2rem;border-top:1px solid var(--color-rule)}
+.enm-start-small-inner{max-width:640px;margin:0 auto}
+.enm-start-small-title{font-family:var(--font-serif);font-size:clamp(1.2rem,3vw,1.6rem);font-weight:600;color:var(--color-ink);margin-bottom:1rem}
+.enm-start-small-list{padding-left:1.25rem;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem}
+.enm-start-small-list li{font-size:.92rem;color:var(--color-ink-2);line-height:1.7}
+.enm-start-small-close{font-size:.9rem;font-style:italic;color:var(--color-ink-2)}
+.enm-playbook-cta{background:rgba(255,255,255,.06);border-top:1px solid rgba(255,255,255,.1);padding:2.5rem 2rem;text-align:center}
+.enm-playbook-inner{max-width:640px;margin:0 auto}
+.enm-playbook-title{font-family:var(--font-serif);font-size:clamp(1.2rem,3vw,1.6rem);font-weight:600;color:#fff;margin-bottom:.75rem}
+.enm-playbook-clarifier{font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:1.5rem}
+.enm-faq{background:var(--color-paper);padding:4rem 2rem;border-top:1px solid var(--color-rule)}
+.enm-faq-inner{max-width:680px;margin:0 auto}
+.enm-faq-title{font-family:var(--font-serif);font-size:clamp(1.3rem,3vw,1.8rem);font-weight:600;color:var(--color-ink);margin-bottom:2rem}
+.enm-faq-list{display:flex;flex-direction:column;gap:1.75rem}
+.enm-faq-item{border-bottom:1px solid var(--color-rule);padding-bottom:1.5rem}
+.enm-faq-q{font-size:.95rem;font-weight:700;color:var(--color-ink);margin-bottom:.4rem}
+.enm-faq-a{font-size:.88rem;color:var(--color-ink-2);line-height:1.75;margin:0}
+
 /* Responsive */
 @media(max-width:768px){
   .enm-steps-inner{grid-template-columns:1fr}

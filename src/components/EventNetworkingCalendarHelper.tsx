@@ -15,7 +15,7 @@ export function EventNetworkingCalendarHelper() {
             <strong>Goal · People · Event · Attend</strong>
           </p>
         </div>
-        <Link href="/event-networking-method" className="enm-cal-helper-link">
+        <Link href="/local-networking-method" className="enm-cal-helper-link">
           Learn the Method →
         </Link>
       </div>

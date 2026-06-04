@@ -61,7 +61,7 @@ export function EventNetworkingMethodSection({ city, category }: Props = {}) {
           ))}
         </div>
         <div className="enm-mini-cta">
-          <Link href="/event-networking-method" className="btn btn-gold">
+          <Link href="/local-networking-method" className="btn btn-gold">
             Learn the Method →
           </Link>
         </div>

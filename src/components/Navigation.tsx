@@ -218,12 +218,12 @@ function ResourcesDropdown() {
             <span className="nav-resources-item-desc">Strategic event networking for professionals</span>
           </Link>
           <Link
-            href="/event-networking-method"
+            href="/local-networking-method"
             className="nav-resources-item"
             onClick={() => setOpen(false)}
           >
-            <span className="nav-resources-item-title">Event Networking Method</span>
-            <span className="nav-resources-item-desc">Choose better events with intention</span>
+            <span className="nav-resources-item-title">Local Networking Method</span>
+            <span className="nav-resources-item-desc">Turn your local network into customers</span>
           </Link>
           <Link
             href="/sponsors"

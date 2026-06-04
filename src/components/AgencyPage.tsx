@@ -25,7 +25,7 @@ export function AgencyPage() {
             <a href="mailto:louis@localbusinesscalendars.com" className="agency-btn-primary">
               Get in Touch →
             </a>
-            <Link href="/event-networking-method" className="agency-btn-ghost">
+            <Link href="/local-networking-method" className="agency-btn-ghost">
               See the Method
             </Link>
           </div>
@@ -71,7 +71,7 @@ export function AgencyPage() {
               <li><strong>Events</strong> — which rooms are worth your time</li>
               <li><strong>Relationships</strong> — how to turn conversations into lasting business connections</li>
             </ul>
-            <Link href="/event-networking-method" className="agency-btn-primary" style={{ display: 'inline-block', marginTop: '1.5rem' }}>
+            <Link href="/local-networking-method" className="agency-btn-primary" style={{ display: 'inline-block', marginTop: '1.5rem' }}>
               Learn the Method →
             </Link>
           </div>
