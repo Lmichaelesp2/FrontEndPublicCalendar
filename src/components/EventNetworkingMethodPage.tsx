@@ -170,10 +170,9 @@ export function EventNetworkingMethodPage() {
                   </p>
                   <p className="enm-card-stmt">{card.stmt}</p>
 
-                  {/* Method card: body + 4-step preview list */}
+                  {/* Method card: 4-step preview list (no body paragraph) */}
                   {card.methodSteps ? (
                     <>
-                      <p className="enm-card-body">{card.body}</p>
                       <ul className="enm-practices-list">
                         {card.methodSteps.map((s: {name: string; def: string}) => (
                           <li key={s.name}>
