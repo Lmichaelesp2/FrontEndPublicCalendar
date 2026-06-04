@@ -11,25 +11,25 @@ const STEPS = [
     num: '1',
     label: 'People',
     sub: 'Identify your target network',
-    desc: 'Build a profile of your ideal connection — their role, the organizations they belong to, and the events they already attend.',
+    desc: 'Get clear on exactly who turns into customers — future buyers, referral partners, and connectors — before you walk into any room.',
   },
   {
     num: '2',
     label: 'Content',
-    sub: 'Produce it from events',
-    desc: 'Each event becomes audio, video, text, or graphics you can share across your network — the fuel that powers everything that follows.',
+    sub: 'Produce it from your involvement',
+    desc: 'Every meeting and event becomes audio, video, text, or graphics that keeps your name in front of the right people between conversations.',
   },
   {
     num: '3',
-    label: 'Events',
-    sub: 'Connect through them',
-    desc: 'Find the events your ideal connections already attend, then go beyond showing up — join, speak, and eventually host your own.',
+    label: 'Organizations & Events',
+    sub: 'Go deep, scan wide',
+    desc: 'Commit deeply to three or four organizations while selectively attending outside events — to reach new people and spot the rooms that matter most.',
   },
   {
     num: '4',
     label: 'Relationships',
     sub: 'Maintain across channels',
-    desc: 'Share what you produce across email, social media, your podcast, and your own events so your network stays warm consistently.',
+    desc: 'Follow up within 48 hours and stay consistent across email, social, and your own events — until they buy or send someone who does.',
   },
 ];
 
@@ -37,15 +37,15 @@ export function EventNetworkingMethodSection({ city, category }: Props = {}) {
   const cityLabel = city || 'your city';
   const categoryLabel = category ? ` ${category.toLowerCase()}` : '';
   const subText = city
-    ? `A repeatable system for turning every event you attend into content, connections, and lasting relationships — used by ${cityLabel}${categoryLabel} professionals to grow intentional networks.`
-    : `A repeatable system for turning every event you attend into content, connections, and lasting relationships.`;
+    ? `A repeatable system for turning the people you meet into customers — used by ${cityLabel}${categoryLabel} professionals who'd rather build a reputation that lasts than chase a feed that forgets.`
+    : `A repeatable system for turning the people you meet into customers — through the organizations you join and the events you attend.`;
 
   return (
     <section className="enm-mini-section">
       <div className="enm-mini-inner">
         <div className="enm-mini-top">
           <p className="enm-mini-overline">Free Resource</p>
-          <h2 className="enm-mini-title">The Event Networking Method</h2>
+          <h2 className="enm-mini-title">The Local Networking Method</h2>
           <p className="enm-mini-sub">{subText}</p>
         </div>
         <div className="enm-mini-grid">
