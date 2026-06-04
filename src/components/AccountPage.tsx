@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
-import { User, Mail, Calendar, MapPin, LogOut, X, ArrowRight } from 'lucide-react';
+import { User, Mail, Calendar, MapPin, LogOut, X, ArrowRight, Sparkles } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const CITY_TO_SLUG: Record<string, string> = {

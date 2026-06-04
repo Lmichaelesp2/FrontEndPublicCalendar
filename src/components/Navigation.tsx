@@ -395,6 +395,17 @@ export function Navigation() {
             </nav>
 
             <div className="nav-actions">
+              {/* Networking Assistant — premium users only */}
+              {user && profile?.subscription_tier && profile.subscription_tier !== 'free' && (
+                <Link
+                  href="/networking-assistant-beta-2026"
+                  className="nav-link"
+                  style={{ marginRight: '4px' }}
+                >
+                  Networking Assistant ✦
+                </Link>
+              )}
+
               {/* Cross-link to LBO */}
               <a
                 href="https://www.localbusinessorganizations.com"
