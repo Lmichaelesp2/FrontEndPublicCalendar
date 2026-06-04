@@ -1,0 +1,21 @@
+{
+  "name": "Local Business Calendars",
+  "short_name": "BC Calendars",
+  "description": "Business and networking events by city and industry in Texas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#042C53",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icons/01-white-blue-calendar-bc-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/01-white-blue-calendar-bc-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/01-white-blue-calendar-bc-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/icons/01-white-blue-calendar-bc-152.png", "sizes": "152x152", "type": "image/png" },
+    { "src": "/icons/01-white-blue-calendar-bc-144.png", "sizes": "144x144", "type": "image/png" },
+    { "src": "/icons/01-white-blue-calendar-bc-128.png", "sizes": "128x128", "type": "image/png" },
+    { "src": "/icons/01-white-blue-calendar-bc-96.png",  "sizes": "96x96",   "type": "image/png" },
+    { "src": "/icons/01-white-blue-calendar-bc-72.png",  "sizes": "72x72",   "type": "image/png" },
+    { "src": "/icons/01-white-blue-calendar-bc-48.png",  "sizes": "48x48",   "type": "image/png" }
+  ]
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#F2F6FF"/></linearGradient><clipPath id="r"><rect width="1024" height="1024" rx="241"/></clipPath></defs>
+<g clip-path="url(#r)">
+<rect width="1024" height="1024" fill="url(#g)"/>
+<rect x="72" y="72" width="880" height="880" rx="205" fill="none" stroke="#EEF2FA" stroke-width="12"/>
+<rect x="205" y="225" width="614" height="553" rx="77" fill="none" stroke="#1557FF" stroke-width="36"/>
+<line x1="252" y1="364" x2="772" y2="364" stroke="#1557FF" stroke-width="36" stroke-linecap="round"/>
+<rect x="375" y="196" width="54" height="88" rx="22" fill="#1557FF"/>
+<rect x="595" y="196" width="54" height="88" rx="22" fill="#1557FF"/>
+<text x="512" y="604" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="250" font-weight="800" fill="#071426">BC</text>
+<circle cx="717" cy="676" r="28" fill="#D43B0B"/>
+</g></svg>
