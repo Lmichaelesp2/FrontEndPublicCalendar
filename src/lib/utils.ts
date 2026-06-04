@@ -62,19 +62,26 @@ export function formatTime(timeString: string | null | undefined): string {
 }
 
 export function parseTime(timeString: string | null): { hours: number; minutes: number } {
-  if (!timeString) return { hours: 0, minutes: 0 };
+  if (!timeString) return { hours: 23, minutes: 59 }; // no time → sort last
 
-  const match = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
-  if (!match) return { hours: 0, minutes: 0 };
+  // 12-hour format: "8:00 AM" / "5:30 PM"
+  const ampmMatch = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (ampmMatch) {
+    let hours = parseInt(ampmMatch[1]);
+    const minutes = parseInt(ampmMatch[2]);
+    const period = ampmMatch[3].toUpperCase();
+    if (period === 'PM' && hours !== 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return { hours, minutes };
+  }
 
-  let hours = parseInt(match[1]);
-  const minutes = parseInt(match[2]);
-  const period = match[3].toUpperCase();
+  // 24-hour format: "08:00" / "17:30" / "08:00:00"
+  const h24Match = timeString.match(/^(\d+):(\d+)/);
+  if (h24Match) {
+    return { hours: parseInt(h24Match[1]), minutes: parseInt(h24Match[2]) };
+  }
 
-  if (period === 'PM' && hours !== 12) hours += 12;
-  if (period === 'AM' && hours === 12) hours = 0;
-
-  return { hours, minutes };
+  return { hours: 23, minutes: 59 };
 }
 
 export function sortEventsByTime<T extends { start_time: string | null }>(events: T[]): T[] {
