@@ -17,6 +17,7 @@ const CARDS = [
     body: 'Most professionals collect contacts and lose them. This method gives you four repeatable steps so every room you enter — whether an organization you belong to or an event out in the wider world — compounds into relationships that turn into customers over time.',
     videoTitle: 'Overview: The Local Networking Method',
     example: null,
+    methodIntro: 'Most professionals collect contacts and lose them. Four repeatable steps change that.',
     methodSteps: [
       { name: 'People', def: 'Know exactly who you\'re looking for before you walk into any room.' },
       { name: 'Content', def: 'Turn every meeting and event into something shareable.' },
@@ -170,9 +171,10 @@ export function EventNetworkingMethodPage() {
                   </p>
                   <p className="enm-card-stmt">{card.stmt}</p>
 
-                  {/* Method card: 4-step preview list (no body paragraph) */}
+                  {/* Method card: short intro + 4-step preview list */}
                   {card.methodSteps ? (
                     <>
+                      <p className="enm-card-body">{card.methodIntro}</p>
                       <ul className="enm-practices-list">
                         {card.methodSteps.map((s: {name: string; def: string}) => (
                           <li key={s.name}>
