@@ -181,7 +181,8 @@ export default function NAHomePage() {
   // Unique events for filter dropdown (desktop)
   const myEventOptions = Array.from(
     new Map(persons.filter(p => p.first_met_event_id).map(p => [p.first_met_event_id, p])).values()
-  ).map(p => ({ id: p.first_met_event_id, name: events.find((e: any) => e.id === p.first_met_event_id)?.event_name ?? 'Unknown event' }));
+  ).map(p => ({ id: p.first_met_event_id, name: events.find((e: any) => e.id === p.first_met_event_id)?.event_name ?? null }))
+  .filter(ev => ev.name !== null);
 
   // ── Follow-up row
   const FURow = ({ fu }: { fu: any }) => {
