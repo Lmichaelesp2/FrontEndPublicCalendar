@@ -17,6 +17,12 @@ const CARDS = [
     body: 'Most professionals collect contacts and lose them. This method gives you four repeatable steps so every room you enter — whether an organization you belong to or an event out in the wider world — compounds into relationships that turn into customers over time.',
     videoTitle: 'Overview: The Local Networking Method',
     example: null,
+    methodSteps: [
+      { name: 'People', def: 'Know exactly who you\'re looking for before you walk into any room.' },
+      { name: 'Content', def: 'Turn every meeting and event into something shareable.' },
+      { name: 'Organizations & Events', def: 'Go deep in a few rooms while scanning the wider universe.' },
+      { name: 'Relationships', def: 'Follow up consistently until they buy or send someone who does.' },
+    ],
   },
   {
     id: 'practices',
@@ -164,12 +170,24 @@ export function EventNetworkingMethodPage() {
                   </p>
                   <p className="enm-card-stmt">{card.stmt}</p>
 
-                  {/* Practices card: intro + definition list */}
-                  {card.practicesList ? (
+                  {/* Method card: body + 4-step preview list */}
+                  {card.methodSteps ? (
+                    <>
+                      <p className="enm-card-body">{card.body}</p>
+                      <ul className="enm-practices-list">
+                        {card.methodSteps.map((s: {name: string; def: string}) => (
+                          <li key={s.name}>
+                            <strong>{s.name}</strong> — {s.def}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : card.practicesList ? (
+                    /* Practices card: intro + definition list */
                     <>
                       <p className="enm-card-body">{card.practicesIntro}</p>
                       <ul className="enm-practices-list">
-                        {card.practicesList.map((p) => (
+                        {card.practicesList.map((p: {name: string; def: string}) => (
                           <li key={p.name}>
                             <strong>{p.name}</strong> — {p.def}
                           </li>
