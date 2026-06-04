@@ -25,7 +25,7 @@ export function AgencyPage() {
             <a href="mailto:louis@localbusinesscalendars.com" className="agency-btn-primary">
               Get in Touch →
             </a>
-            <Link href="/local-networking-method" className="agency-btn-ghost">
+            <Link href="/local-business-networking-method" className="agency-btn-ghost">
               See the Method
             </Link>
           </div>
@@ -61,9 +61,9 @@ export function AgencyPage() {
         <div className="agency-inner agency-method-wrap">
           <div className="agency-method-text">
             <p className="agency-eyebrow">Our Framework</p>
-            <h2 className="agency-h2">Built on the Event Networking Method</h2>
+            <h2 className="agency-h2">Built on the Local Business Networking Method</h2>
             <p className="agency-body">
-              Everything we do is built on the Event Networking Method — a proven framework for turning business events into measurable growth. It covers four pillars:
+              Everything we do is built on the Local Business Networking Method — a proven framework for turning business events into measurable growth. It covers four pillars:
             </p>
             <ul className="agency-pillars">
               <li><strong>People</strong> — who to connect with, and how</li>
@@ -71,13 +71,13 @@ export function AgencyPage() {
               <li><strong>Events</strong> — which rooms are worth your time</li>
               <li><strong>Relationships</strong> — how to turn conversations into lasting business connections</li>
             </ul>
-            <Link href="/local-networking-method" className="agency-btn-primary" style={{ display: 'inline-block', marginTop: '1.5rem' }}>
+            <Link href="/local-business-networking-method" className="agency-btn-primary" style={{ display: 'inline-block', marginTop: '1.5rem' }}>
               Learn the Method →
             </Link>
           </div>
           <div className="agency-method-visual">
             <div className="agency-method-card">
-              <div className="agency-method-card-label">The Event Networking Method</div>
+              <div className="agency-method-card-label">The Local Business Networking Method</div>
               <div className="agency-method-pillars">
                 {['People', 'Content', 'Events', 'Relationships'].map(p => (
                   <div key={p} className="agency-method-pillar">{p}</div>

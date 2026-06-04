@@ -45,7 +45,7 @@ export function EventNetworkingMethodSection({ city, category }: Props = {}) {
       <div className="enm-mini-inner">
         <div className="enm-mini-top">
           <p className="enm-mini-overline">Free Resource</p>
-          <h2 className="enm-mini-title">The Local Networking Method</h2>
+          <h2 className="enm-mini-title">The Local Business Networking Method</h2>
           <p className="enm-mini-sub">{subText}</p>
         </div>
         <div className="enm-mini-grid">
@@ -61,7 +61,7 @@ export function EventNetworkingMethodSection({ city, category }: Props = {}) {
           ))}
         </div>
         <div className="enm-mini-cta">
-          <Link href="/local-networking-method" className="btn btn-gold">
+          <Link href="/local-business-networking-method" className="btn btn-gold">
             Learn the Method →
           </Link>
         </div>

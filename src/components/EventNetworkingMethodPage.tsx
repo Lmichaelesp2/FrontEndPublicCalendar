@@ -11,11 +11,11 @@ const CARDS = [
     accent: '#c2410c',
     icon: 'LN',
     label: 'The Method',
-    sub: 'What is the Local Networking Method?',
+    sub: 'What is the Local Business Networking Method?',
     subColor: 'var(--color-primary)',
     stmt: 'A system that turns your local network into customers — through the organizations you join and the events you attend.',
     body: 'Most professionals collect contacts and lose them. This method gives you four repeatable steps so every room you enter — whether an organization you belong to or an event out in the wider world — compounds into relationships that turn into customers over time.',
-    videoTitle: 'Overview: The Local Networking Method',
+    videoTitle: 'Overview: The Local Business Networking Method',
     example: null,
     methodIntro: 'Most professionals collect contacts and lose them. Four repeatable steps change that.',
     methodSteps: [
@@ -122,7 +122,7 @@ export function EventNetworkingMethodPage() {
   return (
     <>
       <SEOHead
-        title="The Local Networking Method | Local Business Calendars"
+        title="The Local Business Networking Method | Local Business Calendars"
         description="A repeatable system for turning the people you meet into customers — through the organizations you join and the events you attend. People · Content · Participation · Relationships."
       />
       <Navigation />
@@ -133,7 +133,7 @@ export function EventNetworkingMethodPage() {
         <section className="enm-hero">
           <div className="enm-hero-inner">
             <p className="enm-hero-overline">Free Resource</p>
-            <h1 className="enm-hero-title">The Local Networking Method</h1>
+            <h1 className="enm-hero-title">The Local Business Networking Method</h1>
             <p className="enm-hero-tagline">Turn Your Network Into Customers</p>
             <p className="enm-hero-who">
               For founders, owners, and operators who sell to a specific kind of person in a specific
@@ -145,7 +145,7 @@ export function EventNetworkingMethodPage() {
               and the events you attend.
             </p>
             <a href="#download-playbook" className="btn btn-terra">
-              Download the free Local Networking Playbook →
+              Download the free Local Business Networking Playbook →
             </a>
           </div>
         </section>
@@ -287,7 +287,7 @@ export function EventNetworkingMethodPage() {
                 and practice — with examples and checklists. Same system, two depths.
               </p>
               <a href="#download-playbook" className="btn btn-terra">
-                Download the free Local Networking Playbook →
+                Download the free Local Business Networking Playbook →
               </a>
             </div>
           </div>

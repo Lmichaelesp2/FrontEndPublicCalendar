@@ -1,4 +1,4 @@
 import { redirect } from 'next/navigation';
 export default function Page() {
-  redirect('/event-networking-method');
+  redirect('/local-business-networking-method');
 }
