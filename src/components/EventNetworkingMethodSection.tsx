@@ -21,9 +21,9 @@ const STEPS = [
   },
   {
     num: '3',
-    label: 'Organizations & Events',
-    sub: 'Go deep, scan wide',
-    desc: 'Commit deeply to three or four organizations while selectively attending outside events — to reach new people and spot the rooms that matter most.',
+    label: 'Participation',
+    sub: 'Show up, step up, build your own rooms',
+    desc: 'Participate actively in three or four organizations while selectively attending outside events — to reach new people and spot the rooms that matter most.',
   },
   {
     num: '4',

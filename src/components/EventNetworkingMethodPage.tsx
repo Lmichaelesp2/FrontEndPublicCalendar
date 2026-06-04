@@ -21,7 +21,7 @@ const CARDS = [
     methodSteps: [
       { name: 'People', def: 'Know exactly who you\'re looking for before you walk into any room.' },
       { name: 'Content', def: 'Turn every meeting and event into something shareable.' },
-      { name: 'Organizations & Events', def: 'Go deep in a few rooms while scanning the wider universe.' },
+      { name: 'Participation', def: 'Participate actively in a few organizations while scanning the wider universe of events.' },
       { name: 'Relationships', def: 'Follow up consistently until they buy or send someone who does.' },
     ],
   },
@@ -69,17 +69,17 @@ const CARDS = [
     example: 'e.g., a 60-second recap video from a chamber luncheon, or a quote card from a speaker.',
   },
   {
-    id: 'orgs-events',
+    id: 'participation',
     accent: 'var(--color-ink)',
     icon: '3',
-    label: 'Organizations & Events',
-    sub: 'Build through deep involvement',
+    label: 'Participation',
+    sub: 'Show up, step up, build your own rooms',
     subColor: 'var(--color-primary)',
-    stmt: 'Plant deep in three or four organizations — and work the wider universe of events.',
+    stmt: 'Participate in three or four organizations — and show up intentionally across the wider universe of events.',
     body: 'Advance through four stages — Select → Engage → Lead → Build (in plain terms: Choose → Show up → Step up → Build your own rooms).',
-    dualFocus: 'Commit narrow, watch wide: go deep as an active member of three or four organizations, while always scanning the wider universe of events for the rooms that matter most.',
-    videoTitle: 'How to Build Through Organizations & Events',
-    example: 'e.g., join your local chamber and a trade association; attend an outside mixer when your people will be there.',
+    dualFocus: 'Participate narrow, scan wide: go deep as an active participant in three or four organizations, while always scanning the wider universe of events for the rooms that matter most.',
+    videoTitle: 'How to Build Through Participation',
+    example: 'e.g., participate actively in your local chamber and a trade association; attend an outside mixer when your people will be there.',
   },
   {
     id: 'relationships',
@@ -123,7 +123,7 @@ export function EventNetworkingMethodPage() {
     <>
       <SEOHead
         title="The Local Networking Method | Local Business Calendars"
-        description="A repeatable system for turning the people you meet into customers — through the organizations you join and the events you attend. People · Content · Organizations & Events · Relationships."
+        description="A repeatable system for turning the people you meet into customers — through the organizations you join and the events you attend. People · Content · Participation · Relationships."
       />
       <Navigation />
 
@@ -235,14 +235,14 @@ export function EventNetworkingMethodPage() {
             <p className="enm-loop-body">
               These aren't a checklist you finish — they're a loop that keeps turning.{' '}
               <strong>People</strong> tell you who to pursue. <strong>Content</strong> keeps you
-              visible between meetings. <strong>Organizations &amp; Events</strong> are where the
+              visible between meetings. <strong>Participation</strong> is where the
               real work happens. <strong>Relationships</strong> turn contacts into customers. Then
-              the loop feeds itself: the relationships you maintain reveal new people, the events you
-              work surface new organizations, and the content you produce pulls both toward you. Each
+              the loop feeds itself: the relationships you maintain reveal new people, the organizations
+              you participate in surface new events, and the content you produce pulls both toward you. Each
               turn makes the next one easier.
             </p>
             <p className="enm-loop-flow">
-              People → Content → Organizations &amp; Events → Relationships →{' '}
+              People → Content → Participation → Relationships →{' '}
               <em>(back to People)</em>
             </p>
           </div>
