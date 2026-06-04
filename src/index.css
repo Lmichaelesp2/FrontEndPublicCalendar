@@ -3558,7 +3558,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
   .sponsor-mockup-grid{grid-template-columns:1fr}
 }
 
-/* ── Event Networking Method — Full Page ──────────────────────────────────── */
+/* ── Local Business Networking Method — Full Page ──────────────────────────────────── */
 .enm-page{min-height:100vh;background:var(--color-paper)}
 .enm-overline{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--color-terra);margin-bottom:.6rem}
 
@@ -3629,7 +3629,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .enm-success-headline{font-family:var(--font-serif);font-size:1.3rem;font-weight:600;color:#fff;margin-bottom:.5rem}
 .enm-success-sub{font-size:.88rem;color:rgba(255,255,255,.6)}
 
-/* ── Event Networking Method — Homepage Section ───────────────────────────── */
+/* ── Local Business Networking Method — Homepage Section ───────────────────────────── */
 .enm-home-section{background:var(--color-paper-2);border-top:1.5px solid var(--color-rule);border-bottom:1.5px solid var(--color-rule);padding:4rem 2rem}
 .enm-mini-section{background:#f9f5ec;border-top:1.5px solid var(--color-rule);border-bottom:1.5px solid var(--color-rule);padding:3.5rem 2rem}
 .enm-mini-inner{max-width:960px;margin:0 auto}
@@ -3659,7 +3659,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .enm-home-step-sub{font-size:.75rem;color:var(--color-terra);font-style:normal;font-weight:600;letter-spacing:.02em}
 .enm-home-step-arrow{font-size:.9rem;color:var(--color-rule);padding:.15rem 0 .15rem 1.15rem}
 
-/* ── Event Networking Method — Calendar Helper ────────────────────────────── */
+/* ── Local Business Networking Method — Calendar Helper ────────────────────────────── */
 .enm-cal-helper{background:#eef3fe;border:1.5px solid #c5d4fd;border-radius:8px;padding:.875rem 1.25rem;margin-bottom:1.5rem}
 .enm-cal-helper-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .enm-cal-helper-text{display:flex;flex-direction:column;gap:.2rem}
