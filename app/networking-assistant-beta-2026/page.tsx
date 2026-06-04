@@ -75,6 +75,8 @@ export default function NAHomePage() {
   const [relFilter, setRelFilter]           = useState<string>('all');
   const [eventFilter, setEventFilter]       = useState<string>('all');
   const [queueSearch, setQueueSearch]       = useState('');
+  const [contactsView, setContactsView]     = useState<'people' | 'companies'>('people');
+  const [expandedCompany, setExpandedCompany] = useState<string | null>(null);
 
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
@@ -153,6 +155,28 @@ export default function NAHomePage() {
   const filteredOverdue  = filteredQueue.filter(f => dueBucket(f.due_date) === 'overdue');
   const filteredToday    = filteredQueue.filter(f => dueBucket(f.due_date) === 'today');
   const filteredUpcoming = filteredQueue.filter(f => dueBucket(f.due_date) === 'upcoming');
+
+  // ── Company grouping (normalize: lowercase + strip non-alphanumeric)
+  function normalizeCompany(name: string) {
+    return name.toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+  const companyGroups: { displayName: string; key: string; contacts: any[] }[] = (() => {
+    const map = new Map<string, { displayName: string; contacts: any[] }>();
+    for (const p of persons) {
+      const raw = (p.company ?? '').trim();
+      if (!raw) continue;
+      const key = normalizeCompany(raw);
+      if (!map.has(key)) map.set(key, { displayName: raw, contacts: [] });
+      map.get(key)!.contacts.push(p);
+    }
+    return Array.from(map.entries())
+      .map(([key, val]) => ({ key, displayName: val.displayName, contacts: val.contacts }))
+      .sort((a, b) => b.contacts.length - a.contacts.length || a.displayName.localeCompare(b.displayName));
+  })();
+  const companySearch = contactSearch.toLowerCase();
+  const filteredCompanyGroups = companySearch
+    ? companyGroups.filter(g => g.displayName.toLowerCase().includes(companySearch))
+    : companyGroups;
 
   // Unique events for filter dropdown (desktop)
   const myEventOptions = Array.from(
@@ -312,6 +336,99 @@ export default function NAHomePage() {
     </div>
   );
 
+  // ── People / Companies toggle pill
+  const ContactsToggle = () => (
+    <div style={{ display: 'flex', background: '#f3f4f6', borderRadius: 8, padding: 3, gap: 2, marginBottom: 14, alignSelf: 'flex-start' }}>
+      {(['people', 'companies'] as const).map(v => (
+        <button key={v} onClick={() => { setContactsView(v); setContactSearch(''); }} style={{
+          height: 28, padding: '0 14px', borderRadius: 6, border: 'none', cursor: 'pointer',
+          fontSize: 12, fontWeight: contactsView === v ? 700 : 400,
+          background: contactsView === v ? '#fff' : 'transparent',
+          color: contactsView === v ? '#042C53' : '#6b7280',
+          boxShadow: contactsView === v ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+          transition: 'all 0.12s',
+        }}>
+          {v === 'people' ? '👤 People' : '🏢 Companies'}
+        </button>
+      ))}
+    </div>
+  );
+
+  // ── Companies list (expandable)
+  const CompaniesView = ({ hideSearch = false }: { hideSearch?: boolean }) => (
+    <div>
+      {!hideSearch && (
+        <input
+          value={contactSearch}
+          onChange={e => setContactSearch(e.target.value)}
+          placeholder="Search companies…"
+          style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #e5e7eb', fontSize: 14, marginBottom: 12, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
+        />
+      )}
+      {companyGroups.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
+          No companies yet — add a company when capturing contacts.
+        </div>
+      ) : filteredCompanyGroups.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '32px 0', fontSize: 13, color: '#9ca3af' }}>No companies match "{contactSearch}"</div>
+      ) : (
+        <div>
+          {filteredCompanyGroups.map(g => {
+            const isOpen = expandedCompany === g.key;
+            return (
+              <div key={g.key} style={{ marginBottom: 6 }}>
+                <button
+                  onClick={() => setExpandedCompany(isOpen ? null : g.key)}
+                  style={{
+                    width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '12px 14px', background: '#fff', border: '1px solid #e8eaed',
+                    borderRadius: isOpen ? '8px 8px 0 0' : 8, cursor: 'pointer', textAlign: 'left' as const,
+                    fontFamily: 'Inter, sans-serif',
+                  }}
+                  onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ width: 34, height: 34, borderRadius: 7, background: '#f0f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>🏢</div>
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{g.displayName}</div>
+                      <div style={{ fontSize: 11, color: '#6b7280' }}>{g.contacts.length} contact{g.contacts.length !== 1 ? 's' : ''}</div>
+                    </div>
+                  </div>
+                  <span style={{ fontSize: 12, color: '#9ca3af', marginLeft: 8 }}>{isOpen ? '▲' : '▼'}</span>
+                </button>
+                {isOpen && (
+                  <div style={{ background: '#fafafa', border: '1px solid #e8eaed', borderTop: 'none', borderRadius: '0 0 8px 8px', padding: '4px 0' }}>
+                    {g.contacts.map((p: any) => (
+                      <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{
+                        display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
+                        textDecoration: 'none', borderBottom: '1px solid #f3f4f6',
+                      }}
+                        onMouseEnter={e => (e.currentTarget.style.background = '#f0f4ff')}
+                        onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#1d4ed8', flexShrink: 0 }}>
+                          {initials(p.first_name, p.last_name)}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{[p.first_name, p.last_name].filter(Boolean).join(' ')}</div>
+                          {p.title && <div style={{ fontSize: 11, color: '#6b7280' }}>{p.title}</div>}
+                        </div>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
+                          {p.relationship_status}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+
   // ── Events list
   const EventsList = () => {
     const today = new Date().toISOString().split('T')[0];
@@ -423,7 +540,8 @@ export default function NAHomePage() {
           <NavSection label="Follow-Ups" />
           <NavItem label="Queue" icon="◎" active={desktopView === 'queue'} badge={overdue.length + today.length} onClick={() => setDesktopView('queue')} />
           <NavSection label="Network" />
-          <NavItem label="All Contacts" icon="👤" active={desktopView === 'contacts'} onClick={() => setDesktopView('contacts')} />
+          <NavItem label="All Contacts" icon="👤" active={desktopView === 'contacts' && contactsView === 'people'} onClick={() => { setDesktopView('contacts'); setContactsView('people'); }} />
+          <NavItem label="Companies" icon="🏢" active={desktopView === 'contacts' && contactsView === 'companies'} badge={companyGroups.length > 0 ? companyGroups.length : undefined} onClick={() => { setDesktopView('contacts'); setContactsView('companies'); }} />
           <NavSection label="Events" />
           <NavItem label="My Events" icon="📅" active={desktopView === 'events'} onClick={() => setDesktopView('events')} />
           <NavItem label="Browse LBC" icon="↗" href="/networking-assistant-beta-2026/events" />
@@ -444,68 +562,84 @@ export default function NAHomePage() {
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
                 <div style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>
-                  All Contacts <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>
-                    {filteredPersons.length}{filteredPersons.length !== persons.length ? ` of ${persons.length}` : ''}
-                  </span>
+                  {contactsView === 'people'
+                    ? <>All Contacts <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{filteredPersons.length}{filteredPersons.length !== persons.length ? ` of ${persons.length}` : ''}</span></>
+                    : <>Companies <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{filteredCompanyGroups.length}{filteredCompanyGroups.length !== companyGroups.length ? ` of ${companyGroups.length}` : ''}</span></>
+                  }
                 </div>
+                <ContactsToggle />
               </div>
 
-              {/* Desktop search + filters */}
-              <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' as const }}>
-                <input
-                  value={contactSearch}
-                  onChange={e => setContactSearch(e.target.value)}
-                  placeholder="Search name, company, title…"
-                  style={{ flex: 1, minWidth: 200, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
-                />
-                {/* Relationship filter pills */}
-                {(['all','hot','warm','cold'] as const).map(r => (
-                  <button key={r} onClick={() => setRelFilter(r)} style={{
-                    height: 34, padding: '0 14px', borderRadius: 20, border: '1.5px solid',
-                    cursor: 'pointer', fontSize: 12, fontWeight: relFilter === r ? 700 : 400,
-                    borderColor: relFilter === r ? '#042C53' : '#e8eaed',
-                    background: relFilter === r ? '#042C53' : '#fff',
-                    color: relFilter === r ? '#fff' : '#374151',
-                  }}>
-                    {r === 'all' ? 'All' : r.charAt(0).toUpperCase() + r.slice(1)}
-                  </button>
-                ))}
-                {/* Event filter */}
-                {myEventOptions.length > 0 && (
-                  <select value={eventFilter} onChange={e => setEventFilter(e.target.value)} style={{
-                    height: 34, padding: '0 10px', borderRadius: 7, border: '1px solid #e8eaed',
-                    fontSize: 12, fontFamily: 'Inter, sans-serif', background: '#fff', cursor: 'pointer', color: '#374151',
-                  }}>
-                    <option value="all">All Events</option>
-                    {myEventOptions.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}
-                  </select>
-                )}
-              </div>
+              {contactsView === 'companies' ? (
+                <>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+                    <input
+                      value={contactSearch}
+                      onChange={e => setContactSearch(e.target.value)}
+                      placeholder="Search companies…"
+                      style={{ flex: 1, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
+                    />
+                  </div>
+                  <div style={{ maxWidth: 640 }}><CompaniesView hideSearch={true} /></div>
+                </>
+              ) : (
+                <>
+                  {/* Desktop search + filters */}
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' as const }}>
+                    <input
+                      value={contactSearch}
+                      onChange={e => setContactSearch(e.target.value)}
+                      placeholder="Search name, company, title…"
+                      style={{ flex: 1, minWidth: 200, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
+                    />
+                    {(['all','hot','warm','cold'] as const).map(r => (
+                      <button key={r} onClick={() => setRelFilter(r)} style={{
+                        height: 34, padding: '0 14px', borderRadius: 20, border: '1.5px solid',
+                        cursor: 'pointer', fontSize: 12, fontWeight: relFilter === r ? 700 : 400,
+                        borderColor: relFilter === r ? '#042C53' : '#e8eaed',
+                        background: relFilter === r ? '#042C53' : '#fff',
+                        color: relFilter === r ? '#fff' : '#374151',
+                      }}>
+                        {r === 'all' ? 'All' : r.charAt(0).toUpperCase() + r.slice(1)}
+                      </button>
+                    ))}
+                    {myEventOptions.length > 0 && (
+                      <select value={eventFilter} onChange={e => setEventFilter(e.target.value)} style={{
+                        height: 34, padding: '0 10px', borderRadius: 7, border: '1px solid #e8eaed',
+                        fontSize: 12, fontFamily: 'Inter, sans-serif', background: '#fff', cursor: 'pointer', color: '#374151',
+                      }}>
+                        <option value="all">All Events</option>
+                        {myEventOptions.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}
+                      </select>
+                    )}
+                  </div>
 
-              {persons.length === 0 ? (
-                <div style={{ textAlign: 'center', paddingTop: 48, fontSize: 13, color: '#6b7280' }}>
-                  No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
-                </div>
-              ) : filteredPersons.length === 0 ? (
-                <div style={{ textAlign: 'center', paddingTop: 32, fontSize: 13, color: '#9ca3af' }}>No contacts match your filters.</div>
-              ) : filteredPersons.map(p => (
-                <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', marginBottom: 6, background: '#fff', borderRadius: 8, border: '1px solid #e8eaed' }}
-                  onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)')}
-                  onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
-                >
-                  <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#1d4ed8', flexShrink: 0 }}>
-                    {initials(p.first_name, p.last_name)}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{[p.first_name, p.last_name].filter(Boolean).join(' ')}</div>
-                    <div style={{ fontSize: 12, color: '#6b7280' }}>{[p.title, p.company].filter(Boolean).join(' · ')}</div>
-                    {p.first_met_date && <div style={{ fontSize: 11, color: '#9ca3af' }}>Met {metLabel(p.first_met_date)}</div>}
-                  </div>
-                  <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const }}>
-                    {p.relationship_status}
-                  </span>
-                </a>
-              ))}
+                  {persons.length === 0 ? (
+                    <div style={{ textAlign: 'center', paddingTop: 48, fontSize: 13, color: '#6b7280' }}>
+                      No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
+                    </div>
+                  ) : filteredPersons.length === 0 ? (
+                    <div style={{ textAlign: 'center', paddingTop: 32, fontSize: 13, color: '#9ca3af' }}>No contacts match your filters.</div>
+                  ) : filteredPersons.map(p => (
+                    <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', marginBottom: 6, background: '#fff', borderRadius: 8, border: '1px solid #e8eaed' }}
+                      onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)')}
+                      onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
+                    >
+                      <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#1d4ed8', flexShrink: 0 }}>
+                        {initials(p.first_name, p.last_name)}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{[p.first_name, p.last_name].filter(Boolean).join(' ')}</div>
+                        <div style={{ fontSize: 12, color: '#6b7280' }}>{[p.title, p.company].filter(Boolean).join(' · ')}</div>
+                        {p.first_met_date && <div style={{ fontSize: 11, color: '#9ca3af' }}>Met {metLabel(p.first_met_date)}</div>}
+                      </div>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const }}>
+                        {p.relationship_status}
+                      </span>
+                    </a>
+                  ))}
+                </>
+              )}
             </>
           ) : (
             <>
@@ -635,8 +769,13 @@ export default function NAHomePage() {
           <div style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 48, fontSize: 13 }}>Loading…</div>
         ) : mobileTab === 'queue' ? <QueueContent />
           : mobileTab === 'contacts' ? <>
-            <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 10 }}>All Contacts · {persons.length}</div>
-            <ContactsList />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>
+                {contactsView === 'people' ? `Contacts · ${persons.length}` : `Companies · ${companyGroups.length}`}
+              </div>
+            </div>
+            <ContactsToggle />
+            {contactsView === 'people' ? <ContactsList /> : <CompaniesView />}
           </>
           : <>
             <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 10 }}>My Events · {events.length}</div>
