@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../src/contexts/AuthContext';
 import {
   fetchFollowUpQueue, fetchPersons, fetchMyNAEvents,
+  fetchMemberships, fetchLBCOrgs, addMembership, removeMembership,
   updateFollowUp, daysAgo, deletePerson,
+  type NAMembership, type LBCOrg,
 } from '../../src/lib/networking-assistant';
 import { NAAssistant } from '../../src/components/NAAssistant';
 
@@ -51,14 +53,27 @@ export default function NAHomePage() {
   const router = useRouter();
   const helpTriggerRef = useRef<(() => void) | null>(null);
 
-  const [followUps, setFollowUps]     = useState<any[]>([]);
-  const [persons, setPersons]         = useState<any[]>([]);
-  const [events, setEvents]           = useState<any[]>([]);
-  const [pageLoading, setPageLoading] = useState(true);
-  const [mobileTab, setMobileTab]     = useState<'queue' | 'contacts' | 'events'>('queue');
-  const [isDesktop, setIsDesktop]     = useState(false);
-  const [desktopView, setDesktopView] = useState<'queue' | 'contacts' | 'events'>('queue');
+  const [followUps, setFollowUps]         = useState<any[]>([]);
+  const [persons, setPersons]             = useState<any[]>([]);
+  const [events, setEvents]               = useState<any[]>([]);
+  const [memberships, setMemberships]     = useState<NAMembership[]>([]);
+  const [pageLoading, setPageLoading]     = useState(true);
+  const [mobileTab, setMobileTab]         = useState<'queue' | 'contacts' | 'events' | 'orgs'>('queue');
+  const [isDesktop, setIsDesktop]         = useState(false);
+  const [desktopView, setDesktopView]     = useState<'queue' | 'contacts' | 'events' | 'orgs' | 'allcontacts'>('queue');
   const [activeEventName, setActiveEventName] = useState<string | null>(null);
+
+  // Org picker state
+  const [showOrgPicker, setShowOrgPicker]   = useState(false);
+  const [lbcOrgs, setLbcOrgs]               = useState<LBCOrg[]>([]);
+  const [orgSearch, setOrgSearch]           = useState('');
+  const [orgCityFilter, setOrgCityFilter]   = useState('all');
+  const [loadingOrgs, setLoadingOrgs]       = useState(false);
+  const [showManualOrg, setShowManualOrg]   = useState(false);
+  const [manualOrgName, setManualOrgName]   = useState('');
+  const [manualOrgCity, setManualOrgCity]   = useState('San Antonio');
+  const [manualOrgType, setManualOrgType]   = useState('');
+  const [savingOrg, setSavingOrg]           = useState(false);
 
   useEffect(() => {
     setActiveEventName(localStorage.getItem('na_active_event_name'));
@@ -91,16 +106,17 @@ export default function NAHomePage() {
     if (!user) return;
     (async () => {
       setPageLoading(true);
-      const [fq, pp, ev] = await Promise.all([
+      const [fq, pp, ev, mb] = await Promise.all([
         fetchFollowUpQueue(user.id),
         fetchPersons(user.id),
         fetchMyNAEvents(user.id),
+        fetchMemberships(user.id),
       ]);
       if (fq.data) setFollowUps(fq.data);
       if (pp.data) setPersons(pp.data);
+      if (mb.data) setMemberships(mb.data);
       if (ev.data) {
         setEvents(ev.data);
-        // Smart default: if user has events today, open on My Events
         const today = new Date().toISOString().split('T')[0];
         const hasTodayEvents = ev.data.some((e: any) => e.event_date === today);
         if (hasTodayEvents) {
@@ -111,6 +127,61 @@ export default function NAHomePage() {
       setPageLoading(false);
     })();
   }, [user]);
+
+  async function openOrgPicker() {
+    setShowOrgPicker(true);
+    if (lbcOrgs.length === 0) {
+      setLoadingOrgs(true);
+      const { data } = await fetchLBCOrgs();
+      if (data) setLbcOrgs(data);
+      setLoadingOrgs(false);
+    }
+  }
+
+  async function handleAddLBCOrg(org: LBCOrg) {
+    if (!user) return;
+    setSavingOrg(true);
+    const { data } = await addMembership({
+      user_id: user.id,
+      org_id: org.id,
+      org_name: org.name,
+      org_city: org.city,
+      org_type: org.group_type,
+      joined_at: null,
+      is_active: true,
+      notes: null,
+    });
+    if (data) setMemberships(p => [data, ...p]);
+    setSavingOrg(false);
+    setShowOrgPicker(false);
+    setOrgSearch('');
+  }
+
+  async function handleAddManualOrg() {
+    if (!user || !manualOrgName.trim()) return;
+    setSavingOrg(true);
+    const { data } = await addMembership({
+      user_id: user.id,
+      org_id: null,
+      org_name: manualOrgName.trim(),
+      org_city: manualOrgCity,
+      org_type: manualOrgType.trim() || null,
+      joined_at: null,
+      is_active: true,
+      notes: null,
+    });
+    if (data) setMemberships(p => [data, ...p]);
+    setSavingOrg(false);
+    setShowOrgPicker(false);
+    setShowManualOrg(false);
+    setManualOrgName(''); setManualOrgCity('San Antonio'); setManualOrgType('');
+  }
+
+  async function handleRemoveMembership(id: string) {
+    if (!confirm('Remove this organization from your memberships?')) return;
+    await removeMembership(id);
+    setMemberships(p => p.filter(m => m.id !== id));
+  }
 
   async function handleComplete(id: string) {
     await updateFollowUp(id, { status: 'completed', completed_at: new Date().toISOString() });
@@ -489,6 +560,205 @@ export default function NAHomePage() {
     );
   };
 
+  // ── Org picker modal
+  const OrgPickerModal = () => {
+    const CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'];
+    const alreadyAdded = new Set(memberships.map(m => m.org_id).filter(Boolean));
+    const filteredOrgs = lbcOrgs.filter(o => {
+      const matchCity = orgCityFilter === 'all' || o.city === orgCityFilter;
+      const matchSearch = !orgSearch || o.name.toLowerCase().includes(orgSearch.toLowerCase());
+      const notAdded = !alreadyAdded.has(o.id);
+      return matchCity && matchSearch && notAdded;
+    });
+
+    return (
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+        onClick={e => { if (e.target === e.currentTarget) { setShowOrgPicker(false); setShowManualOrg(false); } }}>
+        <div style={{ background: '#fff', borderRadius: '16px 16px 0 0', width: '100%', maxWidth: 600, maxHeight: '85vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <div style={{ padding: '16px 16px 0', flexShrink: 0 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <div style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>Add Organization</div>
+              <button onClick={() => { setShowOrgPicker(false); setShowManualOrg(false); }} style={{ background: 'none', border: 'none', fontSize: 20, color: '#9ca3af', cursor: 'pointer' }}>✕</button>
+            </div>
+
+            {!showManualOrg ? (
+              <>
+                <input
+                  autoFocus
+                  value={orgSearch}
+                  onChange={e => setOrgSearch(e.target.value)}
+                  placeholder="Search organizations…"
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 14, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', marginBottom: 8, outline: 'none' }}
+                />
+                <div style={{ display: 'flex', gap: 6, marginBottom: 10, flexWrap: 'wrap' as const }}>
+                  {(['all', ...CITIES] as const).map(c => (
+                    <button key={c} onClick={() => setOrgCityFilter(c)} style={{
+                      height: 28, padding: '0 12px', borderRadius: 20, border: '1.5px solid',
+                      fontSize: 11, fontWeight: orgCityFilter === c ? 700 : 400, cursor: 'pointer',
+                      borderColor: orgCityFilter === c ? '#042C53' : '#e5e7eb',
+                      background: orgCityFilter === c ? '#042C53' : '#fff',
+                      color: orgCityFilter === c ? '#fff' : '#374151',
+                    }}>{c === 'all' ? 'All Cities' : c}</button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div>
+                <input value={manualOrgName} onChange={e => setManualOrgName(e.target.value)}
+                  placeholder="Organization name *" autoFocus
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 14, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', marginBottom: 8, outline: 'none' }} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 10 }}>
+                  <select value={manualOrgCity} onChange={e => setManualOrgCity(e.target.value)}
+                    style={{ padding: '10px 10px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, fontFamily: 'Inter, sans-serif' }}>
+                    {CITIES.map(c => <option key={c}>{c}</option>)}
+                  </select>
+                  <input value={manualOrgType} onChange={e => setManualOrgType(e.target.value)}
+                    placeholder="Type (optional)"
+                    style={{ padding: '10px 10px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none' }} />
+                </div>
+                <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                  <button onClick={handleAddManualOrg} disabled={!manualOrgName.trim() || savingOrg} style={{
+                    flex: 1, height: 40, borderRadius: 8, border: 'none', cursor: 'pointer',
+                    background: manualOrgName.trim() ? '#042C53' : '#e5e7eb',
+                    color: manualOrgName.trim() ? '#fff' : '#9ca3af', fontWeight: 700, fontSize: 13,
+                  }}>{savingOrg ? 'Adding…' : 'Add Organization'}</button>
+                  <button onClick={() => setShowManualOrg(false)} style={{ height: 40, padding: '0 14px', borderRadius: 8, border: '1px solid #e5e7eb', background: '#fff', color: '#6b7280', fontSize: 13, cursor: 'pointer' }}>Back</button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {!showManualOrg && (
+            <div style={{ overflowY: 'auto', flex: 1, padding: '0 16px 16px' }}>
+              {/* Manual entry option */}
+              <button onClick={() => setShowManualOrg(true)} style={{
+                width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px dashed #d1d5db',
+                background: '#fafafa', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 8,
+              }}>+ Add organization not in list</button>
+
+              {loadingOrgs ? (
+                <div style={{ textAlign: 'center', padding: '24px 0', color: '#9ca3af', fontSize: 13 }}>Loading organizations…</div>
+              ) : filteredOrgs.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '24px 0', color: '#9ca3af', fontSize: 13 }}>No matches found.</div>
+              ) : filteredOrgs.map(org => (
+                <button key={org.id} onClick={() => handleAddLBCOrg(org)} disabled={savingOrg} style={{
+                  width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #e8eaed',
+                  background: '#fff', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 4,
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                }}>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{org.name}</div>
+                    <div style={{ fontSize: 11, color: '#6b7280' }}>{[org.city, org.group_type].filter(Boolean).join(' · ')}</div>
+                  </div>
+                  <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 600, flexShrink: 0, marginLeft: 8 }}>+ Add</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // ── My Orgs view
+  const MyOrgsView = () => (
+    <div>
+      {memberships.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '48px 16px' }}>
+          <div style={{ fontSize: 32, marginBottom: 10 }}>🏛</div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 6 }}>No organizations yet</div>
+          <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>Add the chambers and groups you're a member of.</div>
+          <button onClick={openOrgPicker} style={{
+            height: 40, padding: '0 20px', borderRadius: 8, border: 'none',
+            background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer',
+          }}>+ Add Organization</button>
+        </div>
+      ) : (
+        <>
+          {memberships.map(m => (
+            <div key={m.id} style={{ background: '#fff', borderRadius: 8, border: '1px solid #e8eaed', padding: '12px 14px', marginBottom: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{m.org_name}</div>
+                <div style={{ fontSize: 11, color: '#6b7280' }}>{[m.org_city, m.org_type].filter(Boolean).join(' · ')}</div>
+              </div>
+              <div style={{ display: 'flex', gap: 6, flexShrink: 0, marginLeft: 10 }}>
+                <a href={`/networking-assistant-beta-2026/capture?org=${m.id}&orgname=${encodeURIComponent(m.org_name ?? '')}`} style={{
+                  height: 32, padding: '0 12px', borderRadius: 6, background: '#c2410c',
+                  color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
+                  display: 'inline-flex', alignItems: 'center',
+                }}>Capture →</a>
+                <button onClick={() => handleRemoveMembership(m.id)} title="Remove" style={{
+                  height: 32, width: 32, borderRadius: 6, border: '1px solid #e5e7eb',
+                  background: '#fff', color: '#d1d5db', cursor: 'pointer', fontSize: 14,
+                }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#d1d5db')}
+                >✕</button>
+              </div>
+            </div>
+          ))}
+          <button onClick={openOrgPicker} style={{
+            width: '100%', height: 38, borderRadius: 8, border: '1.5px dashed #d1d5db',
+            background: '#fafafa', color: '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer', marginTop: 8,
+          }}>+ Add Organization</button>
+        </>
+      )}
+    </div>
+  );
+
+  // ── All Contacts view (unified CRM — events + orgs)
+  const AllContactsView = () => {
+    const filtered = persons.filter(p => {
+      const q = contactSearch.toLowerCase();
+      return !q || `${p.first_name} ${p.last_name ?? ''} ${p.company ?? ''} ${p.title ?? ''}`.toLowerCase().includes(q);
+    });
+    return (
+      <div>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' as const }}>
+          <input
+            value={contactSearch}
+            onChange={e => setContactSearch(e.target.value)}
+            placeholder="Search name, company, title…"
+            style={{ flex: 1, minWidth: 200, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
+          />
+          {(['all','hot','warm','cold'] as const).map(r => (
+            <button key={r} onClick={() => setRelFilter(r)} style={{
+              height: 34, padding: '0 14px', borderRadius: 20, border: '1.5px solid',
+              cursor: 'pointer', fontSize: 12, fontWeight: relFilter === r ? 700 : 400,
+              borderColor: relFilter === r ? '#042C53' : '#e8eaed',
+              background: relFilter === r ? '#042C53' : '#fff',
+              color: relFilter === r ? '#fff' : '#374151',
+            }}>{r === 'all' ? 'All' : r.charAt(0).toUpperCase() + r.slice(1)}</button>
+          ))}
+        </div>
+        {persons.length === 0 ? (
+          <div style={{ textAlign: 'center', paddingTop: 48, fontSize: 13, color: '#6b7280' }}>
+            No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div style={{ textAlign: 'center', paddingTop: 32, fontSize: 13, color: '#9ca3af' }}>No contacts match your filters.</div>
+        ) : filtered.map((p: any) => (
+          <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', marginBottom: 6, background: '#fff', borderRadius: 8, border: '1px solid #e8eaed' }}
+            onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)')}
+            onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
+          >
+            <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#1d4ed8', flexShrink: 0 }}>
+              {initials(p.first_name, p.last_name)}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{[p.first_name, p.last_name].filter(Boolean).join(' ')}</div>
+              <div style={{ fontSize: 12, color: '#6b7280' }}>{[p.title, p.company].filter(Boolean).join(' · ')}</div>
+              {p.first_met_date && <div style={{ fontSize: 11, color: '#9ca3af' }}>Met {metLabel(p.first_met_date)}</div>}
+            </div>
+            <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const }}>
+              {p.relationship_status}
+            </span>
+          </a>
+        ))}
+      </div>
+    );
+  };
+
   // ────────────────────────── DESKTOP LAYOUT ──────────────────────────
   if (isDesktop) return (
     <div style={{ minHeight: '100vh', background: '#f0f2f5', fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', flexDirection: 'column' }}>
@@ -539,11 +809,13 @@ export default function NAHomePage() {
           <NavSection label="Follow-Ups" />
           <NavItem label="Queue" icon="◎" active={desktopView === 'queue'} badge={overdue.length + today.length} onClick={() => setDesktopView('queue')} />
           <NavSection label="Network" />
-          <NavItem label="All Contacts" icon="👤" active={desktopView === 'contacts' && contactsView === 'people'} onClick={() => { setDesktopView('contacts'); setContactsView('people'); }} />
+          <NavItem label="All Contacts" icon="👤" active={desktopView === 'allcontacts'} badge={persons.length > 0 ? persons.length : undefined} onClick={() => { setDesktopView('allcontacts'); setContactSearch(''); }} />
           <NavItem label="Companies" icon="🏢" active={desktopView === 'contacts' && contactsView === 'companies'} badge={companyGroups.length > 0 ? companyGroups.length : undefined} onClick={() => { setDesktopView('contacts'); setContactsView('companies'); }} />
           <NavSection label="Events" />
           <NavItem label="My Events" icon="📅" active={desktopView === 'events'} onClick={() => setDesktopView('events')} />
           <NavItem label="Browse LBC" icon="↗" href="/networking-assistant-beta-2026/events" />
+          <NavSection label="Organizations" />
+          <NavItem label="My Orgs" icon="🏛" active={desktopView === 'orgs'} badge={memberships.length > 0 ? memberships.length : undefined} onClick={() => setDesktopView('orgs')} />
         </div>
 
         {/* Main content — queue or contacts or events */}
@@ -556,6 +828,26 @@ export default function NAHomePage() {
                 Follow-Up Queue <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{followUps.length} pending</span>
               </div>
               <div style={{ maxWidth: 640 }}><QueueContent showSearch={true} /></div>
+            </>
+          ) : desktopView === 'allcontacts' ? (
+            <>
+              <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 16 }}>
+                All Contacts <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{persons.length} total</span>
+              </div>
+              <div style={{ maxWidth: 640 }}><AllContactsView /></div>
+            </>
+          ) : desktopView === 'orgs' ? (
+            <>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                <div style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>
+                  My Organizations <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{memberships.length}</span>
+                </div>
+                <button onClick={openOrgPicker} style={{
+                  height: 34, padding: '0 16px', borderRadius: 7, border: 'none',
+                  background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 12, cursor: 'pointer',
+                }}>+ Add Org</button>
+              </div>
+              <div style={{ maxWidth: 640 }}><MyOrgsView /></div>
             </>
           ) : desktopView === 'contacts' ? (
             <>
@@ -699,6 +991,7 @@ export default function NAHomePage() {
 
       {/* AI Assistant + Help */}
       <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
+      {showOrgPicker && <OrgPickerModal />}
     </div>
   );
 
@@ -745,16 +1038,16 @@ export default function NAHomePage() {
         )}
         {/* Mobile tabs */}
         <div style={{ display: 'flex', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          {(['queue','contacts','events'] as const).map(t => (
+          {(['queue','contacts','events','orgs'] as const).map(t => (
             <button key={t} onClick={() => setMobileTab(t)} style={{
               flex: 1, height: 36, background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 12, fontWeight: mobileTab === t ? 700 : 400,
+              fontSize: 11, fontWeight: mobileTab === t ? 700 : 400,
               color: mobileTab === t ? '#fff' : '#6b93b8',
               borderBottom: mobileTab === t ? '2px solid #c2410c' : '2px solid transparent',
             }}>
-              {t === 'queue' ? `Queue` : t === 'contacts' ? `Contacts` : `Events`}
-              <span style={{ marginLeft: 4, fontSize: 11, color: mobileTab === t ? '#93c5fd' : '#4a6a8a' }}>
-                {t === 'queue' ? followUps.length : t === 'contacts' ? persons.length : events.length}
+              {t === 'queue' ? 'Queue' : t === 'contacts' ? 'Contacts' : t === 'events' ? 'Events' : 'Orgs'}
+              <span style={{ marginLeft: 3, fontSize: 10, color: mobileTab === t ? '#93c5fd' : '#4a6a8a' }}>
+                {t === 'queue' ? followUps.length : t === 'contacts' ? persons.length : t === 'events' ? events.length : memberships.length}
               </span>
             </button>
           ))}
@@ -774,9 +1067,16 @@ export default function NAHomePage() {
             <ContactsToggle />
             {contactsView === 'people' ? <ContactsList /> : <CompaniesView />}
           </>
-          : <>
+          : mobileTab === 'events' ? <>
             <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 10 }}>My Events · {events.length}</div>
             <EventsList />
+          </>
+          : <>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Organizations · {memberships.length}</div>
+              <button onClick={openOrgPicker} style={{ height: 30, padding: '0 12px', borderRadius: 6, border: 'none', background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 11, cursor: 'pointer' }}>+ Add</button>
+            </div>
+            <MyOrgsView />
           </>
         }
       </div>
@@ -788,9 +1088,10 @@ export default function NAHomePage() {
         display: 'flex', boxShadow: '0 -2px 12px rgba(0,0,0,0.07)',
       }}>
         {([
-          { key: 'queue',    icon: '◎', label: 'Queue',    badge: overdue.length + today.length },
+          { key: 'queue',    icon: '◎',  label: 'Queue',    badge: overdue.length + today.length },
           { key: 'contacts', icon: '👤', label: 'Contacts', badge: 0 },
           { key: 'events',   icon: '📅', label: 'Events',   badge: 0 },
+          { key: 'orgs',     icon: '🏛', label: 'Orgs',     badge: 0 },
         ] as const).map(t => (
           <button key={t.key} onClick={() => setMobileTab(t.key)} style={{
             flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -810,6 +1111,7 @@ export default function NAHomePage() {
 
       {/* AI Assistant + Help */}
       <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
+      {showOrgPicker && <OrgPickerModal />}
     </div>
   );
 }

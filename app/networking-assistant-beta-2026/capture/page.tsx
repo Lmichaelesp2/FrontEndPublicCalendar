@@ -4,7 +4,8 @@ import { useEffect, useState, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../src/contexts/AuthContext';
 import {
-  fetchMyNAEvents, createNAEvent, createPerson, createInteraction, createFollowUp, type NAEvent,
+  fetchMyNAEvents, createNAEvent, createPerson, createInteraction, createFollowUp,
+  fetchMemberships, type NAEvent, type NAMembership,
 } from '../../../src/lib/networking-assistant';
 
 function addDays(days: number) {
@@ -87,15 +88,22 @@ function CaptureFlowInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const preloadEventId = searchParams.get('event');
+  const preloadOrgId   = searchParams.get('org');
+  const preloadOrgName = searchParams.get('orgname');
 
-  const [myEvents, setMyEvents]           = useState<NAEvent[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<NAEvent | null>(null);
-  const [phase, setPhase]                 = useState<'form' | 'summary'>('form');
-  const [savedPersonId, setSavedPersonId] = useState<string | null>(null);
+  const [myEvents, setMyEvents]               = useState<NAEvent[]>([]);
+  const [myMemberships, setMyMemberships]     = useState<NAMembership[]>([]);
+  const [selectedEvent, setSelectedEvent]     = useState<NAEvent | null>(null);
+  const [selectedMembership, setSelectedMembership] = useState<NAMembership | null>(null);
+  const [sourceType, setSourceType]           = useState<'event' | 'org'>('event');
+  const [phase, setPhase]                     = useState<'form' | 'summary'>('form');
+  const [savedPersonId, setSavedPersonId]     = useState<string | null>(null);
 
-  // Inline event picker state
-  const [showEventPicker, setShowEventPicker] = useState(!preloadEventId); // open picker by default
-  const [showNewEvent, setShowNewEvent]   = useState(false);
+  // Inline picker state — source type chooser + event/org picker
+  const [showSourcePicker, setShowSourcePicker] = useState(!preloadEventId && !preloadOrgId);
+  const [showEventPicker, setShowEventPicker] = useState(false);
+  const [showOrgPicker, setShowOrgPicker]     = useState(false);
+  const [showNewEvent, setShowNewEvent]       = useState(false);
   const [newEventName, setNewEventName]   = useState('');
   const [newEventDate, setNewEventDate]   = useState(new Date().toISOString().split('T')[0]);
   const [newEventCity, setNewEventCity]   = useState('San Antonio');
@@ -136,17 +144,32 @@ function CaptureFlowInner() {
 
   useEffect(() => {
     if (!user) return;
-    fetchMyNAEvents(user.id).then(({ data }) => {
-      if (data) {
-        setMyEvents(data);
-        // Only auto-select if coming from a specific event's Capture button
+    Promise.all([
+      fetchMyNAEvents(user.id),
+      fetchMemberships(user.id),
+    ]).then(([evRes, mbRes]) => {
+      if (evRes.data) {
+        setMyEvents(evRes.data);
         if (preloadEventId) {
-          const found = data.find(e => e.id === preloadEventId);
-          if (found) { setSelectedEvent(found); setShowEventPicker(false); }
+          const found = evRes.data.find(e => e.id === preloadEventId);
+          if (found) { setSelectedEvent(found); setSourceType('event'); setShowSourcePicker(false); }
+        }
+      }
+      if (mbRes.data) {
+        setMyMemberships(mbRes.data);
+        if (preloadOrgId) {
+          const found = mbRes.data.find(m => m.id === preloadOrgId);
+          if (found) { setSelectedMembership(found); setSourceType('org'); setShowSourcePicker(false); }
+          else if (preloadOrgName) {
+            // fallback: create a shell membership object for display
+            setSelectedMembership({ id: preloadOrgId, user_id: user.id, org_id: null, org_name: decodeURIComponent(preloadOrgName), org_city: null, org_type: null, joined_at: null, is_active: true, notes: null, created_at: '', updated_at: '' });
+            setSourceType('org');
+            setShowSourcePicker(false);
+          }
         }
       }
     });
-  }, [user, preloadEventId]);
+  }, [user, preloadEventId, preloadOrgId, preloadOrgName]);
 
   async function handleCreateEvent() {
     if (!user || !newEventName.trim()) return;
@@ -179,7 +202,7 @@ function CaptureFlowInner() {
     setSavedPersonId(null);
     setVoiceTranscript(''); setVoiceError(''); setVoiceState('idle');
     setPhotoPreview(null); setPhotoError(''); setPhotoState('idle');
-    setShowEventPicker(false); setShowNewEvent(false);
+    setShowSourcePicker(false); setShowEventPicker(false); setShowOrgPicker(false); setShowNewEvent(false);
   }
 
   function startListening() {
@@ -312,29 +335,39 @@ function CaptureFlowInner() {
     // Build notes: include "Got business card" flag if checked
     const notes = gotCard ? 'Business card received — fill in details later.' : null;
 
+    const interactionDate = sourceType === 'event'
+      ? (selectedEvent?.event_date ?? new Date().toISOString().split('T')[0])
+      : new Date().toISOString().split('T')[0];
+
     const { data: person } = await createPerson({
       user_profile_id: user!.id,
       first_name: firstName.trim(), last_name: lastName.trim() || null,
       company: company.trim() || null, title: title.trim() || null,
       email: email.trim() || null, phone: phone.trim() || null,
-      linkedin_url: linkedinUrl.trim() || null, city: selectedEvent?.city ?? null,
+      linkedin_url: linkedinUrl.trim() || null,
+      city: sourceType === 'event' ? (selectedEvent?.city ?? null) : (selectedMembership?.org_city ?? null),
       industry: null, tags: null, relationship_status: 'warm',
-      first_met_event_id: selectedEvent?.id ?? null,
-      first_met_date: selectedEvent?.event_date ?? null,
+      first_met_event_id: sourceType === 'event' ? (selectedEvent?.id ?? null) : null,
+      first_met_date: interactionDate,
       notes, linkedin_connected: false, google_contact_id: null,
     });
 
     if (person) {
       await createInteraction({
         user_profile_id: user!.id, person_id: person.id,
-        event_id: selectedEvent!.id, interaction_date: selectedEvent!.event_date,
+        event_id: sourceType === 'event' ? (selectedEvent?.id ?? null) : null,
+        org_id: sourceType === 'org' ? (selectedMembership?.org_id ?? null) : null,
+        membership_id: sourceType === 'org' ? (selectedMembership?.id ?? null) : null,
+        source_type: sourceType,
+        interaction_date: interactionDate,
         voice_transcript: null, key_topic: topic.trim() || null,
         opportunity_notes: null, follow_up_intent: null, sentiment: 'positive',
       });
       for (const type of followUps) {
         await createFollowUp({
           user_profile_id: user!.id, person_id: person.id,
-          event_id: selectedEvent!.id, action_type: type as any,
+          event_id: sourceType === 'event' ? (selectedEvent?.id ?? null) : null,
+          action_type: type as any,
           due_date: due, status: 'pending',
           ai_draft_message: null, snooze_until: null, completed_at: null, skip_reason: null,
         });
@@ -355,15 +388,16 @@ function CaptureFlowInner() {
   if (!user) { router.push('/networking-assistant-beta-2026'); return null; }
 
   // ── Header
+  const contextLabel = sourceType === 'event' ? selectedEvent?.event_name : selectedMembership?.org_name;
   const Header = ({ onBack }: { onBack: () => void }) => (
     <div style={css.header}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#93b4d4', fontSize: 20, cursor: 'pointer', padding: 0 }}>‹</button>
         <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Capture Contact</div>
       </div>
-      {selectedEvent && phase === 'form' && (
+      {contextLabel && phase === 'form' && (
         <div style={{ fontSize: 11, color: '#93b4d4', maxWidth: 160, textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>
-          {selectedEvent.event_name}
+          {sourceType === 'org' ? '🏛 ' : '📅 '}{contextLabel}
         </div>
       )}
     </div>
@@ -375,7 +409,7 @@ function CaptureFlowInner() {
       <Header onBack={() => router.push('/networking-assistant-beta-2026')} />
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '16px 16px 48px' }}>
 
-        {/* Inline Event Selector */}
+        {/* ── Source Selector (Event or Org) */}
         {showNewEvent ? (
           <div style={{ ...css.card, marginBottom: 12, border: '1.5px solid #e0e7ff' }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 12 }}>New Event</div>
@@ -410,48 +444,91 @@ function CaptureFlowInner() {
               }}>Cancel</button>
             </div>
           </div>
-        ) : showEventPicker ? (
+        ) : showSourcePicker ? (
           <div style={{ ...css.card, marginBottom: 12, border: '1.5px solid #e0e7ff' }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 10 }}>Select Event</div>
-            {(() => {
-              const today = new Date().toISOString().split('T')[0];
-              const todayEvs = myEvents.filter(e => e.event_date === today);
-              const otherEvs = myEvents.filter(e => e.event_date !== today);
-              return (
-                <>
-                  {/* Top options */}
-                  <button onClick={() => { setShowEventPicker(false); setShowNewEvent(true); }} style={{
-                    width: '100%', padding: '11px 12px', borderRadius: 8, border: '2px solid #042C53',
-                    background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
-                  }}>+ Create new event</button>
-                  <button onClick={() => { setSelectedEvent(null); setShowEventPicker(false); }} style={{
-                    width: '100%', padding: '11px 12px', borderRadius: 8, border: '1.5px dashed #d1d5db',
-                    background: '#fff', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 12,
-                  }}>No specific event</button>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 10 }}>Where did you meet them?</div>
 
-                  {/* My Events — collapsed dropdown */}
-                  {(todayEvs.length > 0 || otherEvs.length > 0) && (
+            {/* Source type toggle */}
+            <div style={{ display: 'flex', background: '#f3f4f6', borderRadius: 8, padding: 3, gap: 2, marginBottom: 12 }}>
+              {(['event','org'] as const).map(v => (
+                <button key={v} onClick={() => { setSourceType(v); }} style={{
+                  flex: 1, height: 32, borderRadius: 6, border: 'none', cursor: 'pointer',
+                  fontSize: 13, fontWeight: sourceType === v ? 700 : 400,
+                  background: sourceType === v ? '#fff' : 'transparent',
+                  color: sourceType === v ? '#042C53' : '#6b7280',
+                  boxShadow: sourceType === v ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                }}>
+                  {v === 'event' ? '📅 At an Event' : '🏛 Through an Org'}
+                </button>
+              ))}
+            </div>
+
+            {sourceType === 'event' ? (
+              <>
+                <button onClick={() => { setShowSourcePicker(false); setShowNewEvent(true); }} style={{
+                  width: '100%', padding: '11px 12px', borderRadius: 8, border: '2px solid #042C53',
+                  background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
+                }}>+ Create new event</button>
+                <button onClick={() => { setSelectedEvent(null); setShowSourcePicker(false); }} style={{
+                  width: '100%', padding: '11px 12px', borderRadius: 8, border: '1.5px dashed #d1d5db',
+                  background: '#fff', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 12,
+                }}>No specific event</button>
+                {(() => {
+                  const today = new Date().toISOString().split('T')[0];
+                  const todayEvs = myEvents.filter(e => e.event_date === today);
+                  const otherEvs = myEvents.filter(e => e.event_date !== today);
+                  return (todayEvs.length > 0 || otherEvs.length > 0) ? (
                     <MyEventsDropdown
                       todayEvs={todayEvs}
                       otherEvs={otherEvs}
-                      onSelect={(ev) => { setSelectedEvent(ev); setShowEventPicker(false); }}
+                      onSelect={(ev) => { setSelectedEvent(ev); setSelectedMembership(null); setShowSourcePicker(false); }}
                     />
-                  )}
-                  <button onClick={() => setShowEventPicker(false)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 6, padding: 0 }}>Cancel</button>
-                </>
-              );
-            })()}
+                  ) : null;
+                })()}
+              </>
+            ) : (
+              <>
+                {myMemberships.length === 0 ? (
+                  <div style={{ fontSize: 13, color: '#6b7280', textAlign: 'center', padding: '16px 0' }}>
+                    No organizations added yet.<br />
+                    <a href="/networking-assistant-beta-2026" style={{ color: '#2563eb', fontSize: 12 }}>Add orgs from the dashboard →</a>
+                  </div>
+                ) : myMemberships.map(m => (
+                  <button key={m.id} onClick={() => { setSelectedMembership(m); setSelectedEvent(null); setShowSourcePicker(false); }} style={{
+                    width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid #e5e7eb',
+                    background: '#fff', cursor: 'pointer', textAlign: 'left' as const, marginBottom: 4,
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  }}>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{m.org_name}</div>
+                      <div style={{ fontSize: 11, color: '#6b7280' }}>{[m.org_city, m.org_type].filter(Boolean).join(' · ')}</div>
+                    </div>
+                    <span style={{ fontSize: 12, color: '#2563eb' }}>Select →</span>
+                  </button>
+                ))}
+                <button onClick={() => { setSelectedMembership(null); setShowSourcePicker(false); }} style={{
+                  width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px dashed #d1d5db',
+                  background: '#fff', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginTop: 4,
+                }}>No specific org</button>
+              </>
+            )}
+            <button onClick={() => setShowSourcePicker(false)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 8, padding: 0 }}>Cancel</button>
           </div>
         ) : (
-          /* Event context chip — always visible, tappable to change */
-          <button onClick={() => setShowEventPicker(true)} style={{
-            width: '100%', background: selectedEvent ? '#eff6ff' : '#f9fafb',
-            border: `1.5px solid ${selectedEvent ? '#bfdbfe' : '#e5e7eb'}`,
+          /* Source context chip — tappable to change */
+          <button onClick={() => setShowSourcePicker(true)} style={{
+            width: '100%',
+            background: (selectedEvent || selectedMembership) ? '#eff6ff' : '#f9fafb',
+            border: `1.5px solid ${(selectedEvent || selectedMembership) ? '#bfdbfe' : '#e5e7eb'}`,
             borderRadius: 8, padding: '9px 14px', marginBottom: 14, cursor: 'pointer',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'left' as const,
           }}>
-            <span style={{ fontSize: 13, color: selectedEvent ? '#1d4ed8' : '#9ca3af', fontWeight: 500 }}>
-              {selectedEvent ? `📍 ${selectedEvent.event_name}` : '📍 Tap to select event (optional)'}
+            <span style={{ fontSize: 13, color: (selectedEvent || selectedMembership) ? '#1d4ed8' : '#9ca3af', fontWeight: 500 }}>
+              {selectedEvent
+                ? `📅 ${selectedEvent.event_name}`
+                : selectedMembership
+                  ? `🏛 ${selectedMembership.org_name}`
+                  : '📍 Tap to select event or org (optional)'}
             </span>
             <span style={{ fontSize: 11, color: '#9ca3af' }}>change</span>
           </button>
@@ -687,7 +764,9 @@ function CaptureFlowInner() {
 
         {/* Session counter banner */}
         <div style={{ background: '#042C53', borderRadius: 12, padding: '12px 16px', marginBottom: 24, textAlign: 'left' }}>
-          <div style={{ fontSize: 12, color: '#93b4d4', marginBottom: 2 }}>{selectedEvent?.event_name}</div>
+          <div style={{ fontSize: 12, color: '#93b4d4', marginBottom: 2 }}>
+            {sourceType === 'org' ? selectedMembership?.org_name : selectedEvent?.event_name}
+          </div>
           <div style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>
             {savedCount} {savedCount === 1 ? 'person' : 'people'} captured
           </div>
@@ -722,9 +801,9 @@ function CaptureFlowInner() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>Done — View Follow-Up Queue</a>
 
-          <button onClick={() => { reset(); setShowEventPicker(true); }} style={{
+          <button onClick={() => { reset(); setShowSourcePicker(true); }} style={{
             background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 2,
-          }}>← Switch Event</button>
+          }}>← Switch Event / Org</button>
         </div>
       </div>
     </div>
