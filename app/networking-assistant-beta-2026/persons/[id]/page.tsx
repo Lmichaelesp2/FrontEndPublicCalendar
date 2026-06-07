@@ -239,16 +239,33 @@ export default function PersonRecordPage() {
           <div style={css.sectionTitle}>Interaction History</div>
           {interactions.length === 0 ? (
             <div style={{ fontSize: 13, color: '#9ca3af' }}>No interactions recorded yet.</div>
-          ) : interactions.map((int: any) => (
-            <div key={int.id} style={{ paddingLeft: 14, borderLeft: '3px solid #2563eb', marginBottom: 14 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{int.na_events?.event_name ?? 'Unknown event'}</div>
-              <div style={{ fontSize: 12, color: '#2563eb', marginTop: 1 }}>
-                {int.na_events?.event_date ? formatDate(int.na_events.event_date) : ''}
-                {int.interaction_date ? ` · ${daysAgo(int.interaction_date) === 0 ? 'today' : `${daysAgo(int.interaction_date)}d ago`}` : ''}
+          ) : interactions.map((int: any) => {
+            const isOrg = int.source_type === 'org';
+            const orgName = int.na_memberships?.org_name;
+            const eventName = int.na_events?.event_name;
+            const accentColor = isOrg ? '#7c3aed' : '#2563eb';
+            return (
+              <div key={int.id} style={{ paddingLeft: 14, borderLeft: `3px solid ${accentColor}`, marginBottom: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 2 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>
+                    {isOrg ? (orgName ?? 'Organization') : (eventName ?? 'Unknown event')}
+                  </div>
+                  {isOrg && (
+                    <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20, background: '#ede9fe', color: '#7c3aed', letterSpacing: 0.3 }}>
+                      🏛 Member
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontSize: 12, color: accentColor, marginTop: 1 }}>
+                  {isOrg
+                    ? [int.na_memberships?.org_city, int.na_memberships?.org_type].filter(Boolean).join(' · ')
+                    : (int.na_events?.event_date ? formatDate(int.na_events.event_date) : '')}
+                  {int.interaction_date ? ` · ${daysAgo(int.interaction_date) === 0 ? 'today' : `${daysAgo(int.interaction_date)}d ago`}` : ''}
+                </div>
+                {int.key_topic && <div style={{ fontSize: 13, color: '#374151', marginTop: 4 }}>{int.key_topic}</div>}
               </div>
-              {int.key_topic && <div style={{ fontSize: 13, color: '#374151', marginTop: 4 }}>{int.key_topic}</div>}
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <a href="/networking-assistant-beta-2026/capture" style={{

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../src/contexts/AuthContext';
 import {
   fetchFollowUpQueue, fetchPersons, fetchMyNAEvents,
-  fetchMemberships, fetchLBCOrgs, addMembership, removeMembership,
+  fetchMemberships, fetchLBCOrgs, addMembership, removeMembership, fetchPersonsByMembership,
   updateFollowUp, daysAgo, deletePerson,
   type NAMembership, type LBCOrg,
 } from '../../src/lib/networking-assistant';
@@ -47,6 +47,7 @@ const REL_COLOR: Record<string, string> = {
 const BUCKET_DOT: Record<string, string> = {
   overdue: '#ef4444', today: '#2563eb', upcoming: '#d1d5db',
 };
+const ACTIVE_CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'] as const;
 
 export default function NAHomePage() {
   const { user, profile, loading } = useAuth();
@@ -60,7 +61,7 @@ export default function NAHomePage() {
   const [pageLoading, setPageLoading]     = useState(true);
   const [mobileTab, setMobileTab]         = useState<'queue' | 'contacts' | 'events' | 'orgs'>('queue');
   const [isDesktop, setIsDesktop]         = useState(false);
-  const [desktopView, setDesktopView]     = useState<'queue' | 'contacts' | 'events' | 'orgs' | 'allcontacts'>('queue');
+  const [desktopView, setDesktopView]     = useState<'queue' | 'allcontacts' | 'companies' | 'events' | 'orgs'>('queue');
   const [activeEventName, setActiveEventName] = useState<string | null>(null);
 
   // Org picker state
@@ -75,15 +76,10 @@ export default function NAHomePage() {
   const [manualOrgType, setManualOrgType]   = useState('');
   const [savingOrg, setSavingOrg]           = useState(false);
 
-  useEffect(() => {
-    setActiveEventName(localStorage.getItem('na_active_event_name'));
-  }, []);
-
-  function clearActiveEvent() {
-    localStorage.removeItem('na_active_event_id');
-    localStorage.removeItem('na_active_event_name');
-    setActiveEventName(null);
-  }
+  // Org drill-down state
+  const [expandedOrgId, setExpandedOrgId]   = useState<string | null>(null);
+  const [orgContacts, setOrgContacts]       = useState<Record<string, any[]>>({});
+  const [loadingOrgContacts, setLoadingOrgContacts] = useState<string | null>(null);
 
   // Search & filter state
   const [contactSearch, setContactSearch]   = useState('');
@@ -92,6 +88,10 @@ export default function NAHomePage() {
   const [queueSearch, setQueueSearch]       = useState('');
   const [contactsView, setContactsView]     = useState<'people' | 'companies'>('people');
   const [expandedCompany, setExpandedCompany] = useState<string | null>(null);
+
+  useEffect(() => {
+    setActiveEventName(localStorage.getItem('na_active_event_name'));
+  }, []);
 
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
@@ -181,6 +181,21 @@ export default function NAHomePage() {
     if (!confirm('Remove this organization from your memberships?')) return;
     await removeMembership(id);
     setMemberships(p => p.filter(m => m.id !== id));
+    if (expandedOrgId === id) setExpandedOrgId(null);
+  }
+
+  async function toggleOrgDrilldown(membershipId: string) {
+    if (expandedOrgId === membershipId) {
+      setExpandedOrgId(null);
+      return;
+    }
+    setExpandedOrgId(membershipId);
+    if (!orgContacts[membershipId]) {
+      setLoadingOrgContacts(membershipId);
+      const { data } = await fetchPersonsByMembership(membershipId);
+      setOrgContacts(prev => ({ ...prev, [membershipId]: data ?? [] }));
+      setLoadingOrgContacts(null);
+    }
   }
 
   async function handleComplete(id: string) {
@@ -204,7 +219,6 @@ export default function NAHomePage() {
   const today    = followUps.filter(f => dueBucket(f.due_date) === 'today');
   const upcoming = followUps.filter(f => dueBucket(f.due_date) === 'upcoming');
 
-  // Filtered contacts
   const filteredPersons = persons.filter(p => {
     const q = contactSearch.toLowerCase();
     const matchesSearch = !q ||
@@ -214,7 +228,6 @@ export default function NAHomePage() {
     return matchesSearch && matchesRel && matchesEvent;
   });
 
-  // Filtered queue (search only)
   const filteredQueue = queueSearch
     ? followUps.filter(f => {
         const q = queueSearch.toLowerCase();
@@ -227,7 +240,6 @@ export default function NAHomePage() {
   const filteredToday    = filteredQueue.filter(f => dueBucket(f.due_date) === 'today');
   const filteredUpcoming = filteredQueue.filter(f => dueBucket(f.due_date) === 'upcoming');
 
-  // ── Company grouping
   function normalizeCompany(name: string) {
     return name.toLowerCase().replace(/[^a-z0-9]/g, '');
   }
@@ -249,7 +261,6 @@ export default function NAHomePage() {
     ? companyGroups.filter(g => g.displayName.toLowerCase().includes(companySearch))
     : companyGroups;
 
-  // Unique events for filter dropdown (desktop)
   const myEventOptions = Array.from(
     new Map(persons.filter(p => p.first_met_event_id).map(p => [p.first_met_event_id, p])).values()
   ).map(p => ({ id: p.first_met_event_id, name: events.find((e: any) => e.id === p.first_met_event_id)?.event_name ?? null }))
@@ -263,11 +274,7 @@ export default function NAHomePage() {
       <div style={{
         background: '#fff', borderRadius: 8, padding: '14px 16px', marginBottom: 6,
         border: '1px solid #e8eaed', display: 'flex', gap: 12, alignItems: 'flex-start',
-        transition: 'box-shadow 0.12s',
-      }}
-        onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.07)')}
-        onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
-      >
+      }}>
         <div style={{ width: 8, height: 8, borderRadius: '50%', background: BUCKET_DOT[bucket], flexShrink: 0, marginTop: 6 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 3 }}>
@@ -308,7 +315,6 @@ export default function NAHomePage() {
 
   const QueueContent = ({ showSearch = false }: { showSearch?: boolean }) => (
     <div>
-      {/* Queue search — shown on desktop */}
       {showSearch && (
         <input
           value={queueSearch}
@@ -348,7 +354,7 @@ export default function NAHomePage() {
     </div>
   );
 
-  // ── Contact row with avatar
+  // ── Contact row with avatar + delete
   const ContactRow = ({ p }: { p: any }) => {
     async function handleDelete(e: React.MouseEvent) {
       e.preventDefault();
@@ -389,7 +395,6 @@ export default function NAHomePage() {
     );
   };
 
-  // ── Mobile contact list (search only)
   const ContactsList = () => (
     <div>
       <input
@@ -408,7 +413,6 @@ export default function NAHomePage() {
     </div>
   );
 
-  // ── People / Companies toggle
   const ContactsToggle = () => (
     <div style={{ display: 'flex', background: '#f3f4f6', borderRadius: 8, padding: 3, gap: 2, marginBottom: 14 }}>
       {(['people', 'companies'] as const).map(v => (
@@ -426,7 +430,6 @@ export default function NAHomePage() {
     </div>
   );
 
-  // ── Companies list (expandable)
   const CompaniesView = ({ hideSearch = false }: { hideSearch?: boolean }) => (
     <div>
       {!hideSearch && (
@@ -499,11 +502,10 @@ export default function NAHomePage() {
     </div>
   );
 
-  // ── Events list
   const EventsList = () => {
-    const today = new Date().toISOString().split('T')[0];
-    const todayEvents = events.filter((e: any) => e.event_date === today);
-    const otherEvents = events.filter((e: any) => e.event_date !== today);
+    const todayStr = new Date().toISOString().split('T')[0];
+    const todayEvents = events.filter((e: any) => e.event_date === todayStr);
+    const otherEvents = events.filter((e: any) => e.event_date !== todayStr);
 
     if (events.length === 0) return (
       <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
@@ -513,7 +515,6 @@ export default function NAHomePage() {
 
     return (
       <div>
-        {/* Today's events — prominent callout */}
         {todayEvents.length > 0 && (
           <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '12px 14px', marginBottom: 16 }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: '#c2410c', marginBottom: 10, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>
@@ -534,8 +535,6 @@ export default function NAHomePage() {
             ))}
           </div>
         )}
-
-        {/* Upcoming events */}
         {otherEvents.length > 0 && (
           <>
             {todayEvents.length > 0 && (
@@ -560,9 +559,8 @@ export default function NAHomePage() {
     );
   };
 
-  // ── Org picker modal
+  // ── Org picker modal (sheet)
   const OrgPickerModal = () => {
-    const CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'];
     const alreadyAdded = new Set(memberships.map(m => m.org_id).filter(Boolean));
     const filteredOrgs = lbcOrgs.filter(o => {
       const matchCity = orgCityFilter === 'all' || o.city === orgCityFilter;
@@ -580,7 +578,6 @@ export default function NAHomePage() {
               <div style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>Add Organization</div>
               <button onClick={() => { setShowOrgPicker(false); setShowManualOrg(false); }} style={{ background: 'none', border: 'none', fontSize: 20, color: '#9ca3af', cursor: 'pointer' }}>✕</button>
             </div>
-
             {!showManualOrg ? (
               <>
                 <input
@@ -591,7 +588,7 @@ export default function NAHomePage() {
                   style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 14, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', marginBottom: 8, outline: 'none' }}
                 />
                 <div style={{ display: 'flex', gap: 6, marginBottom: 10, flexWrap: 'wrap' as const }}>
-                  {(['all', ...CITIES] as const).map(c => (
+                  {(['all', ...ACTIVE_CITIES] as const).map(c => (
                     <button key={c} onClick={() => setOrgCityFilter(c)} style={{
                       height: 28, padding: '0 12px', borderRadius: 20, border: '1.5px solid',
                       fontSize: 11, fontWeight: orgCityFilter === c ? 700 : 400, cursor: 'pointer',
@@ -610,7 +607,7 @@ export default function NAHomePage() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 10 }}>
                   <select value={manualOrgCity} onChange={e => setManualOrgCity(e.target.value)}
                     style={{ padding: '10px 10px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, fontFamily: 'Inter, sans-serif' }}>
-                    {CITIES.map(c => <option key={c}>{c}</option>)}
+                    {ACTIVE_CITIES.map(c => <option key={c}>{c}</option>)}
                   </select>
                   <input value={manualOrgType} onChange={e => setManualOrgType(e.target.value)}
                     placeholder="Type (optional)"
@@ -627,15 +624,12 @@ export default function NAHomePage() {
               </div>
             )}
           </div>
-
           {!showManualOrg && (
             <div style={{ overflowY: 'auto', flex: 1, padding: '0 16px 16px' }}>
-              {/* Manual entry option */}
               <button onClick={() => setShowManualOrg(true)} style={{
                 width: '100%', padding: '10px 12px', borderRadius: 8, border: '1.5px dashed #d1d5db',
                 background: '#fafafa', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 8,
               }}>+ Add organization not in list</button>
-
               {loadingOrgs ? (
                 <div style={{ textAlign: 'center', padding: '24px 0', color: '#9ca3af', fontSize: 13 }}>Loading organizations…</div>
               ) : filteredOrgs.length === 0 ? (
@@ -660,7 +654,7 @@ export default function NAHomePage() {
     );
   };
 
-  // ── My Orgs view
+  // ── My Orgs view with drill-down contact list
   const MyOrgsView = () => (
     <div>
       {memberships.length === 0 ? (
@@ -675,42 +669,99 @@ export default function NAHomePage() {
         </div>
       ) : (
         <>
-          {memberships.map(m => (
-            <div key={m.id} style={{ background: '#fff', borderRadius: 8, border: '1px solid #e8eaed', padding: '12px 14px', marginBottom: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{m.org_name}</div>
-                <div style={{ fontSize: 11, color: '#6b7280' }}>{[m.org_city, m.org_type].filter(Boolean).join(' · ')}</div>
+          {memberships.map(m => {
+            const isExpanded = expandedOrgId === m.id;
+            const contacts = orgContacts[m.id] ?? [];
+            const isLoadingContacts = loadingOrgContacts === m.id;
+            return (
+              <div key={m.id} style={{ marginBottom: 8 }}>
+                {/* Org card */}
+                <div style={{ background: '#fff', borderRadius: isExpanded ? '8px 8px 0 0' : 8, border: '1px solid #e8eaed', padding: '12px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <button onClick={() => toggleOrgDrilldown(m.id)} style={{
+                    flex: 1, minWidth: 0, background: 'none', border: 'none', cursor: 'pointer',
+                    textAlign: 'left' as const, padding: 0, display: 'flex', alignItems: 'center', gap: 10,
+                  }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, background: '#f0f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>🏛</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{m.org_name}</div>
+                      <div style={{ fontSize: 11, color: '#6b7280' }}>
+                        {[m.org_city, m.org_type].filter(Boolean).join(' · ')}
+                        {isExpanded && contacts.length > 0 && <span style={{ color: '#2563eb', marginLeft: 6 }}>{contacts.length} contact{contacts.length !== 1 ? 's' : ''}</span>}
+                      </div>
+                    </div>
+                    <span style={{ fontSize: 11, color: '#9ca3af', flexShrink: 0, marginRight: 8 }}>{isExpanded ? '▲' : '▼'}</span>
+                  </button>
+                  <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                    <a href={`/networking-assistant-beta-2026/capture?org=${m.id}&orgname=${encodeURIComponent(m.org_name ?? '')}`} style={{
+                      height: 32, padding: '0 12px', borderRadius: 6, background: '#c2410c',
+                      color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
+                      display: 'inline-flex', alignItems: 'center',
+                    }}>Capture →</a>
+                    <button onClick={() => handleRemoveMembership(m.id)} title="Remove" style={{
+                      height: 32, width: 32, borderRadius: 6, border: '1px solid #e5e7eb',
+                      background: '#fff', color: '#d1d5db', cursor: 'pointer', fontSize: 14,
+                    }}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#d1d5db')}
+                    >✕</button>
+                  </div>
+                </div>
+
+                {/* Drill-down contact list */}
+                {isExpanded && (
+                  <div style={{ background: '#fafafa', border: '1px solid #e8eaed', borderTop: 'none', borderRadius: '0 0 8px 8px', padding: '8px 0' }}>
+                    {isLoadingContacts ? (
+                      <div style={{ textAlign: 'center', padding: '16px 0', fontSize: 13, color: '#9ca3af' }}>Loading contacts…</div>
+                    ) : contacts.length === 0 ? (
+                      <div style={{ textAlign: 'center', padding: '16px 0', fontSize: 13, color: '#9ca3af' }}>
+                        No contacts captured through this org yet.{' '}
+                        <a href={`/networking-assistant-beta-2026/capture?org=${m.id}&orgname=${encodeURIComponent(m.org_name ?? '')}`} style={{ color: '#2563eb' }}>Capture first →</a>
+                      </div>
+                    ) : contacts.map((c: any) => {
+                      const p = c.na_persons;
+                      if (!p) return null;
+                      return (
+                        <a key={c.person_id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{
+                          display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
+                          textDecoration: 'none', borderBottom: '1px solid #f0f0f0',
+                        }}
+                          onMouseEnter={e => (e.currentTarget.style.background = '#f0f4ff')}
+                          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                        >
+                          <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#1d4ed8', flexShrink: 0 }}>
+                            {initials(p.first_name, p.last_name)}
+                          </div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{[p.first_name, p.last_name].filter(Boolean).join(' ')}</div>
+                            <div style={{ fontSize: 11, color: '#6b7280' }}>{[p.title, p.company].filter(Boolean).join(' · ')}</div>
+                          </div>
+                          <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
+                            {p.relationship_status}
+                          </span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-              <div style={{ display: 'flex', gap: 6, flexShrink: 0, marginLeft: 10 }}>
-                <a href={`/networking-assistant-beta-2026/capture?org=${m.id}&orgname=${encodeURIComponent(m.org_name ?? '')}`} style={{
-                  height: 32, padding: '0 12px', borderRadius: 6, background: '#c2410c',
-                  color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
-                  display: 'inline-flex', alignItems: 'center',
-                }}>Capture →</a>
-                <button onClick={() => handleRemoveMembership(m.id)} title="Remove" style={{
-                  height: 32, width: 32, borderRadius: 6, border: '1px solid #e5e7eb',
-                  background: '#fff', color: '#d1d5db', cursor: 'pointer', fontSize: 14,
-                }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#d1d5db')}
-                >✕</button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
           <button onClick={openOrgPicker} style={{
             width: '100%', height: 38, borderRadius: 8, border: '1.5px dashed #d1d5db',
-            background: '#fafafa', color: '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer', marginTop: 8,
+            background: '#fafafa', color: '#6b7280', fontWeight: 600, fontSize: 13, cursor: 'pointer', marginTop: 4,
           }}>+ Add Organization</button>
         </>
       )}
     </div>
   );
 
-  // ── All Contacts view (unified CRM — events + orgs)
+  // ── All Contacts (unified CRM view)
   const AllContactsView = () => {
     const filtered = persons.filter(p => {
       const q = contactSearch.toLowerCase();
-      return !q || `${p.first_name} ${p.last_name ?? ''} ${p.company ?? ''} ${p.title ?? ''}`.toLowerCase().includes(q);
+      const matchSearch = !q || `${p.first_name} ${p.last_name ?? ''} ${p.company ?? ''} ${p.title ?? ''}`.toLowerCase().includes(q);
+      const matchRel = relFilter === 'all' || p.relationship_status === relFilter;
+      return matchSearch && matchRel;
     });
     return (
       <div>
@@ -770,14 +821,14 @@ export default function NAHomePage() {
             <div style={{ fontSize: 9, color: '#6b93b8', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>Local Business Calendars</div>
             <div style={{ fontSize: 15, fontWeight: 700, color: '#fff', letterSpacing: -0.2 }}>Networking Assistant</div>
           </div>
-          {/* Stats inline in topbar */}
           {!pageLoading && (
             <div style={{ display: 'flex', gap: 20, marginLeft: 24, paddingLeft: 24, borderLeft: '1px solid rgba(255,255,255,0.12)' }}>
               {[
-                { label: 'Overdue', val: overdue.length, alert: overdue.length > 0 },
-                { label: 'Today',   val: today.length,   alert: today.length > 0 },
-                { label: 'Queue',   val: upcoming.length, alert: false },
-                { label: 'Contacts', val: persons.length, alert: false },
+                { label: 'Overdue',  val: overdue.length,  alert: overdue.length > 0 },
+                { label: 'Today',    val: today.length,    alert: today.length > 0 },
+                { label: 'Queue',    val: upcoming.length, alert: false },
+                { label: 'Contacts', val: persons.length,  alert: false },
+                { label: 'Orgs',     val: memberships.length, alert: false },
               ].map(s => (
                 <div key={s.label} style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: 17, fontWeight: 700, color: s.alert ? '#fca5a5' : '#e2e8f0', lineHeight: 1 }}>{s.val}</div>
@@ -808,9 +859,9 @@ export default function NAHomePage() {
         <div style={{ background: '#fff', borderRight: '1px solid #e8eaed', padding: '16px 8px', display: 'flex', flexDirection: 'column', gap: 1, overflowY: 'auto' }}>
           <NavSection label="Follow-Ups" />
           <NavItem label="Queue" icon="◎" active={desktopView === 'queue'} badge={overdue.length + today.length} onClick={() => setDesktopView('queue')} />
-          <NavSection label="Network" />
-          <NavItem label="All Contacts" icon="👤" active={desktopView === 'allcontacts'} badge={persons.length > 0 ? persons.length : undefined} onClick={() => { setDesktopView('allcontacts'); setContactSearch(''); }} />
-          <NavItem label="Companies" icon="🏢" active={desktopView === 'contacts' && contactsView === 'companies'} badge={companyGroups.length > 0 ? companyGroups.length : undefined} onClick={() => { setDesktopView('contacts'); setContactsView('companies'); }} />
+          <NavSection label="My Network" />
+          <NavItem label="All Contacts" icon="👤" active={desktopView === 'allcontacts'} badge={persons.length > 0 ? persons.length : undefined} onClick={() => { setDesktopView('allcontacts'); setContactSearch(''); setRelFilter('all'); }} />
+          <NavItem label="Companies" icon="🏢" active={desktopView === 'companies'} badge={companyGroups.length > 0 ? companyGroups.length : undefined} onClick={() => { setDesktopView('companies'); setContactSearch(''); }} />
           <NavSection label="Events" />
           <NavItem label="My Events" icon="📅" active={desktopView === 'events'} onClick={() => setDesktopView('events')} />
           <NavItem label="Browse LBC" icon="↗" href="/networking-assistant-beta-2026/events" />
@@ -818,7 +869,7 @@ export default function NAHomePage() {
           <NavItem label="My Orgs" icon="🏛" active={desktopView === 'orgs'} badge={memberships.length > 0 ? memberships.length : undefined} onClick={() => setDesktopView('orgs')} />
         </div>
 
-        {/* Main content — queue or contacts or events */}
+        {/* Main content */}
         <div style={{ overflowY: 'auto', padding: '20px 24px', background: '#f8f9fb' }}>
           {pageLoading ? (
             <div style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 48, fontSize: 13 }}>Loading…</div>
@@ -836,6 +887,17 @@ export default function NAHomePage() {
               </div>
               <div style={{ maxWidth: 640 }}><AllContactsView /></div>
             </>
+          ) : desktopView === 'companies' ? (
+            <>
+              <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 16 }}>
+                Companies <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{companyGroups.length}</span>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <input value={contactSearch} onChange={e => setContactSearch(e.target.value)} placeholder="Search companies…"
+                  style={{ width: '100%', maxWidth: 400, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff', boxSizing: 'border-box' as const }} />
+              </div>
+              <div style={{ maxWidth: 640 }}><CompaniesView hideSearch={true} /></div>
+            </>
           ) : desktopView === 'orgs' ? (
             <>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
@@ -848,87 +910,6 @@ export default function NAHomePage() {
                 }}>+ Add Org</button>
               </div>
               <div style={{ maxWidth: 640 }}><MyOrgsView /></div>
-            </>
-          ) : desktopView === 'contacts' ? (
-            <>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>
-                  {contactsView === 'people'
-                    ? <>All Contacts <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{filteredPersons.length}{filteredPersons.length !== persons.length ? ` of ${persons.length}` : ''}</span></>
-                    : <>Companies <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{filteredCompanyGroups.length}{filteredCompanyGroups.length !== companyGroups.length ? ` of ${companyGroups.length}` : ''}</span></>
-                  }
-                </div>
-                <ContactsToggle />
-              </div>
-
-              {contactsView === 'companies' ? (
-                <>
-                  <div style={{ marginBottom: 16 }}>
-                    <input
-                      value={contactSearch}
-                      onChange={e => setContactSearch(e.target.value)}
-                      placeholder="Search companies…"
-                      style={{ width: '100%', maxWidth: 400, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff', boxSizing: 'border-box' as const }}
-                    />
-                  </div>
-                  <div style={{ maxWidth: 640 }}><CompaniesView hideSearch={true} /></div>
-                </>
-              ) : (
-                <>
-                  <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' as const }}>
-                    <input
-                      value={contactSearch}
-                      onChange={e => setContactSearch(e.target.value)}
-                      placeholder="Search name, company, title…"
-                      style={{ flex: 1, minWidth: 200, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
-                    />
-                    {(['all','hot','warm','cold'] as const).map(r => (
-                      <button key={r} onClick={() => setRelFilter(r)} style={{
-                        height: 34, padding: '0 14px', borderRadius: 20, border: '1.5px solid',
-                        cursor: 'pointer', fontSize: 12, fontWeight: relFilter === r ? 700 : 400,
-                        borderColor: relFilter === r ? '#042C53' : '#e8eaed',
-                        background: relFilter === r ? '#042C53' : '#fff',
-                        color: relFilter === r ? '#fff' : '#374151',
-                      }}>
-                        {r === 'all' ? 'All' : r.charAt(0).toUpperCase() + r.slice(1)}
-                      </button>
-                    ))}
-                    {myEventOptions.length > 0 && (
-                      <select value={eventFilter} onChange={e => setEventFilter(e.target.value)} style={{
-                        height: 34, padding: '0 10px', borderRadius: 7, border: '1px solid #e8eaed',
-                        fontSize: 12, fontFamily: 'Inter, sans-serif', background: '#fff', cursor: 'pointer', color: '#374151',
-                      }}>
-                        <option value="all">All Events</option>
-                        {myEventOptions.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}
-                      </select>
-                    )}
-                  </div>
-                  {persons.length === 0 ? (
-                    <div style={{ textAlign: 'center', paddingTop: 48, fontSize: 13, color: '#6b7280' }}>
-                      No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
-                    </div>
-                  ) : filteredPersons.length === 0 ? (
-                    <div style={{ textAlign: 'center', paddingTop: 32, fontSize: 13, color: '#9ca3af' }}>No contacts match your filters.</div>
-                  ) : filteredPersons.map(p => (
-                    <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', marginBottom: 6, background: '#fff', borderRadius: 8, border: '1px solid #e8eaed' }}
-                      onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)')}
-                      onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
-                    >
-                      <div style={{ width: 38, height: 38, borderRadius: '50%', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#1d4ed8', flexShrink: 0 }}>
-                        {initials(p.first_name, p.last_name)}
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{[p.first_name, p.last_name].filter(Boolean).join(' ')}</div>
-                        <div style={{ fontSize: 12, color: '#6b7280' }}>{[p.title, p.company].filter(Boolean).join(' · ')}</div>
-                        {p.first_met_date && <div style={{ fontSize: 11, color: '#9ca3af' }}>Met {metLabel(p.first_met_date)}</div>}
-                      </div>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const }}>
-                        {p.relationship_status}
-                      </span>
-                    </a>
-                  ))}
-                </>
-              )}
             </>
           ) : (
             <>
@@ -958,19 +939,15 @@ export default function NAHomePage() {
           )}
         </div>
 
-        {/* Right panel — contact search + list */}
+        {/* Right panel — contact search */}
         <div style={{ background: '#fff', borderLeft: '1px solid #e8eaed', overflowY: 'auto', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Network · {persons.length}</div>
-
-          {/* Search */}
           <input
             placeholder="Search contacts…"
             value={contactSearch}
             onChange={e => setContactSearch(e.target.value)}
             style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', outline: 'none', color: '#111827' }}
           />
-
-          {/* Results */}
           {persons.length === 0 ? (
             <div style={{ fontSize: 12, color: '#9ca3af', textAlign: 'center', paddingTop: 24 }}>No contacts yet.</div>
           ) : (() => {
@@ -980,16 +957,11 @@ export default function NAHomePage() {
               : persons;
             return filtered.length === 0 ? (
               <div style={{ fontSize: 12, color: '#9ca3af' }}>No match for "{contactSearch}"</div>
-            ) : (
-              <div>
-                {filtered.map((p: any) => <ContactRow key={p.id} p={p} />)}
-              </div>
-            );
+            ) : <div>{filtered.map((p: any) => <ContactRow key={p.id} p={p} />)}</div>;
           })()}
         </div>
       </div>
 
-      {/* AI Assistant + Help */}
       <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
       {showOrgPicker && <OrgPickerModal />}
     </div>
@@ -998,7 +970,6 @@ export default function NAHomePage() {
   // ────────────────────────── MOBILE LAYOUT ──────────────────────────
   return (
     <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72 }}>
-      {/* Header */}
       <div style={{ background: '#042C53' }}>
         <div style={{ padding: '0 16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 52 }}>
@@ -1009,8 +980,7 @@ export default function NAHomePage() {
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               <button onClick={() => helpTriggerRef.current?.()} style={{
                 height: 34, width: 34, borderRadius: 7, background: 'rgba(255,255,255,0.12)',
-                border: '1px solid rgba(255,255,255,0.2)', color: '#93b4d4',
-                fontWeight: 700, fontSize: 14, cursor: 'pointer',
+                border: '1px solid rgba(255,255,255,0.2)', color: '#93b4d4', fontWeight: 700, fontSize: 14, cursor: 'pointer',
               }}>?</button>
               <a href="/networking-assistant-beta-2026/capture" style={{
                 height: 34, padding: '0 14px', borderRadius: 7, background: '#c2410c',
@@ -1020,14 +990,13 @@ export default function NAHomePage() {
             </div>
           </div>
         </div>
-        {/* Stats */}
         {!pageLoading && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.1)', padding: '8px 0 10px' }}>
             {[
-              { label: 'Overdue', val: overdue.length,  color: overdue.length > 0 ? '#f87171' : '#6b93b8' },
-              { label: 'Today',   val: today.length,    color: today.length > 0 ? '#93c5fd' : '#6b93b8' },
-              { label: 'Queue',   val: upcoming.length, color: '#6b93b8' },
-              { label: 'Contacts', val: persons.length, color: '#6b93b8' },
+              { label: 'Overdue',  val: overdue.length,  color: overdue.length > 0 ? '#f87171' : '#6b93b8' },
+              { label: 'Today',    val: today.length,    color: today.length > 0 ? '#93c5fd' : '#6b93b8' },
+              { label: 'Queue',    val: upcoming.length, color: '#6b93b8' },
+              { label: 'Contacts', val: persons.length,  color: '#6b93b8' },
             ].map(s => (
               <div key={s.label} style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 20, fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.val}</div>
@@ -1059,10 +1028,8 @@ export default function NAHomePage() {
           <div style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 48, fontSize: 13 }}>Loading…</div>
         ) : mobileTab === 'queue' ? <QueueContent />
           : mobileTab === 'contacts' ? <>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>
-                {contactsView === 'people' ? `Contacts · ${persons.length}` : `Companies · ${companyGroups.length}`}
-              </div>
+            <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 4 }}>
+              {contactsView === 'people' ? `Contacts · ${persons.length}` : `Companies · ${companyGroups.length}`}
             </div>
             <ContactsToggle />
             {contactsView === 'people' ? <ContactsList /> : <CompaniesView />}
@@ -1109,7 +1076,6 @@ export default function NAHomePage() {
         ))}
       </div>
 
-      {/* AI Assistant + Help */}
       <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
       {showOrgPicker && <OrgPickerModal />}
     </div>

@@ -68,7 +68,7 @@ export type NAMembership = {
   id: string;
   user_id: string;
   org_id: number | null;
-  org_name: string | null;      // display name (from DB or manual)
+  org_name: string | null;
   org_city: string | null;
   org_type: string | null;
   joined_at: string | null;
@@ -216,14 +216,69 @@ export async function createPerson(person: Omit<NAPerson, 'id' | 'created_at' | 
   return { data: data as NAPerson | null, error };
 }
 
-/** Fetch interactions for a person */
+/** Fetch interactions for a person (joins both event and org) */
 export async function fetchInteractionsForPerson(personId: string) {
   const { data, error } = await supabase
     .from('na_interactions')
-    .select('*, na_events(event_name, event_date, host_org)')
+    .select('*, na_events(event_name, event_date, host_org), na_memberships(org_name, org_city, org_type)')
     .eq('person_id', personId)
     .order('interaction_date', { ascending: false });
   return { data, error };
+}
+
+/** Fetch all persons captured through a specific membership */
+export async function fetchPersonsByMembership(membershipId: string) {
+  const { data, error } = await supabase
+    .from('na_interactions')
+    .select('person_id, interaction_date, key_topic, na_persons(id, first_name, last_name, company, title, relationship_status)')
+    .eq('membership_id', membershipId)
+    .order('interaction_date', { ascending: false });
+  return { data, error };
+}
+
+/** Fetch user's active memberships */
+export async function fetchMemberships(userId: string) {
+  const { data, error } = await supabase
+    .from('na_memberships')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('is_active', true)
+    .order('created_at', { ascending: false });
+  return { data: data as NAMembership[] | null, error };
+}
+
+/** Fetch LBC orgs filtered to active cities */
+export async function fetchLBCOrgs(city?: string) {
+  let query = supabase
+    .from('organizations')
+    .select('id, name, city, group_type, category')
+    .in('city', ['San Antonio', 'Austin', 'Dallas', 'Houston'])
+    .eq('archive', false)
+    .order('name', { ascending: true });
+  if (city) query = query.eq('city', city);
+  const { data, error } = await query;
+  return { data: data as LBCOrg[] | null, error };
+}
+
+/** Add a membership */
+export async function addMembership(membership: Omit<NAMembership, 'id' | 'created_at' | 'updated_at'>) {
+  const { data, error } = await supabase
+    .from('na_memberships')
+    .insert(membership)
+    .select()
+    .single();
+  return { data: data as NAMembership | null, error };
+}
+
+/** Soft-delete a membership (set is_active = false) */
+export async function removeMembership(id: string) {
+  const { data, error } = await supabase
+    .from('na_memberships')
+    .update({ is_active: false })
+    .eq('id', id)
+    .select()
+    .single();
+  return { data: data as NAMembership | null, error };
 }
 
 /** Create an interaction */
@@ -283,50 +338,6 @@ export async function deletePerson(personId: string) {
 export function linkedInSearchURL(firstName: string, lastName: string | null, company: string | null) {
   const query = [firstName, lastName, company].filter(Boolean).join(' ');
   return `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(query)}`;
-}
-
-/** Fetch LBC orgs filtered to active cities */
-export async function fetchLBCOrgs(city?: string) {
-  const ACTIVE_CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'];
-  let query = supabase
-    .from('organizations')
-    .select('id, name, city, group_type, category')
-    .in('city', ACTIVE_CITIES)
-    .or('archive.is.null,archive.eq.false')
-    .order('name', { ascending: true });
-  if (city) query = query.eq('city', city);
-  const { data, error } = await query;
-  return { data: data as LBCOrg[] | null, error };
-}
-
-/** Fetch user's memberships */
-export async function fetchMemberships(userId: string) {
-  const { data, error } = await supabase
-    .from('na_memberships')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('is_active', true)
-    .order('created_at', { ascending: false });
-  return { data: data as NAMembership[] | null, error };
-}
-
-/** Add a membership */
-export async function addMembership(membership: Omit<NAMembership, 'id' | 'created_at' | 'updated_at'>) {
-  const { data, error } = await supabase
-    .from('na_memberships')
-    .insert(membership)
-    .select()
-    .single();
-  return { data: data as NAMembership | null, error };
-}
-
-/** Remove a membership (soft delete) */
-export async function removeMembership(id: string) {
-  const { error } = await supabase
-    .from('na_memberships')
-    .update({ is_active: false })
-    .eq('id', id);
-  return { error };
 }
 
 /** Days ago helper */
