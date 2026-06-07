@@ -4,7 +4,8 @@ import { useEffect, useState, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../src/contexts/AuthContext';
 import {
-  fetchMyNAEvents, createNAEvent, createPerson, createInteraction, createFollowUp, type NAEvent,
+  fetchMyNAEvents, fetchMemberships, createNAEvent, createPerson, createInteraction, createFollowUp,
+  type NAEvent, type NAMembership,
 } from '../../../src/lib/networking-assistant';
 
 function addDays(days: number) {
@@ -29,7 +30,6 @@ const WHEN = [
   { label: 'Next week',  days: 7  },
   { label: 'In 2 weeks', days: 14 },
 ];
-const EVENT_TYPES = ['chamber','mixer','conference','startup','informal','coffee','other'] as const;
 const CITIES = ['San Antonio','Austin','Dallas','Houston'] as const;
 
 const css = {
@@ -86,67 +86,95 @@ function CaptureFlowInner() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const preloadEventId = searchParams.get('event');
+  const preloadEventId  = searchParams.get('event');
+  const preloadOrgId    = searchParams.get('org');
+  const preloadOrgName  = searchParams.get('orgname');
 
-  const [myEvents, setMyEvents]           = useState<NAEvent[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<NAEvent | null>(null);
-  const [phase, setPhase]                 = useState<'form' | 'summary'>('form');
-  const [savedPersonId, setSavedPersonId] = useState<string | null>(null);
+  const [myEvents, setMyEvents]               = useState<NAEvent[]>([]);
+  const [myMemberships, setMyMemberships]     = useState<NAMembership[]>([]);
+  const [selectedEvent, setSelectedEvent]     = useState<NAEvent | null>(null);
+  const [selectedMembership, setSelectedMembership] = useState<NAMembership | null>(null);
+  // source type: 'event' = met at an event, 'org' = met through an org
+  const [sourceType, setSourceType]           = useState<'event' | 'org'>(preloadOrgId ? 'org' : 'event');
+  const [phase, setPhase]                     = useState<'form' | 'summary'>('form');
+  const [savedPersonId, setSavedPersonId]     = useState<string | null>(null);
 
   // Inline event picker state
-  const [showEventPicker, setShowEventPicker] = useState(!preloadEventId); // open picker by default
-  const [showNewEvent, setShowNewEvent]   = useState(false);
-  const [newEventName, setNewEventName]   = useState('');
-  const [newEventDate, setNewEventDate]   = useState(new Date().toISOString().split('T')[0]);
-  const [newEventCity, setNewEventCity]   = useState('San Antonio');
-  const [creatingEvent, setCreatingEvent] = useState(false);
+  const [showEventPicker, setShowEventPicker] = useState(!preloadEventId && !preloadOrgId);
+  const [showNewEvent, setShowNewEvent]       = useState(false);
+  const [newEventName, setNewEventName]       = useState('');
+  const [newEventDate, setNewEventDate]       = useState(new Date().toISOString().split('T')[0]);
+  const [newEventCity, setNewEventCity]       = useState('San Antonio');
+  const [creatingEvent, setCreatingEvent]     = useState(false);
 
   // Contact fields
-  const [firstName, setFirstName]   = useState('');
-  const [lastName, setLastName]     = useState('');
-  const [company, setCompany]       = useState('');
-  const [title, setTitle]           = useState('');
-  const [email, setEmail]           = useState('');
-  const [phone, setPhone]           = useState('');
+  const [firstName, setFirstName]     = useState('');
+  const [lastName, setLastName]       = useState('');
+  const [company, setCompany]         = useState('');
+  const [title, setTitle]             = useState('');
+  const [email, setEmail]             = useState('');
+  const [phone, setPhone]             = useState('');
   const [linkedinUrl, setLinkedinUrl] = useState('');
-  const [topic, setTopic]           = useState('');
-  const [gotCard, setGotCard]       = useState(false);
-  const [followUps, setFollowUps]   = useState<string[]>(['linkedin_connect']);
-  const [whenDays, setWhenDays]     = useState(2);
-  const [customDate, setCustomDate] = useState('');
-  const [saving, setSaving]         = useState(false);
-  const [savedCount, setSavedCount] = useState(0);
-  const [savedName, setSavedName]   = useState('');
-  const [errors, setErrors]         = useState<string[]>([]);
+  const [topic, setTopic]             = useState('');
+  const [gotCard, setGotCard]         = useState(false);
+  const [followUps, setFollowUps]     = useState<string[]>(['linkedin_connect']);
+  const [whenDays, setWhenDays]       = useState(2);
+  const [customDate, setCustomDate]   = useState('');
+  const [saving, setSaving]           = useState(false);
+  const [savedCount, setSavedCount]   = useState(0);
+  const [savedName, setSavedName]     = useState('');
+  const [errors, setErrors]           = useState<string[]>([]);
 
   // Voice capture
-  const [voiceState, setVoiceState]       = useState<'idle' | 'listening' | 'parsing'>('idle');
-  const [voiceMode, setVoiceMode]         = useState<'full' | 'followup'>('full');
+  const [voiceState, setVoiceState]           = useState<'idle' | 'listening' | 'parsing'>('idle');
+  const [voiceMode, setVoiceMode]             = useState<'full' | 'followup'>('full');
   const [voiceTranscript, setVoiceTranscript] = useState('');
-  const [voiceError, setVoiceError]       = useState('');
-  const recognitionRef                    = useRef<any>(null);
+  const [voiceError, setVoiceError]           = useState('');
+  const recognitionRef                        = useRef<any>(null);
 
   // Photo capture
-  const [photoState, setPhotoState]       = useState<'idle' | 'parsing'>('idle');
-  const [photoPreview, setPhotoPreview]   = useState<string | null>(null);
-  const [photoError, setPhotoError]       = useState('');
-  const photoInputRef                     = useRef<HTMLInputElement>(null);
+  const [photoState, setPhotoState]   = useState<'idle' | 'parsing'>('idle');
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoError, setPhotoError]   = useState('');
+  const photoInputRef                 = useRef<HTMLInputElement>(null);
 
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
   useEffect(() => {
     if (!user) return;
-    fetchMyNAEvents(user.id).then(({ data }) => {
-      if (data) {
-        setMyEvents(data);
-        // Only auto-select if coming from a specific event's Capture button
+    Promise.all([
+      fetchMyNAEvents(user.id),
+      fetchMemberships(user.id),
+    ]).then(([evRes, mbRes]) => {
+      if (evRes.data) {
+        setMyEvents(evRes.data);
         if (preloadEventId) {
-          const found = data.find(e => e.id === preloadEventId);
+          const found = evRes.data.find(e => e.id === preloadEventId);
           if (found) { setSelectedEvent(found); setShowEventPicker(false); }
         }
       }
+      if (mbRes.data) {
+        setMyMemberships(mbRes.data);
+        if (preloadOrgId) {
+          const found = mbRes.data.find(m => String(m.id) === preloadOrgId);
+          if (found) {
+            setSelectedMembership(found);
+          } else if (preloadOrgName) {
+            // Build a synthetic membership from URL params for display
+            setSelectedMembership({
+              id: preloadOrgId,
+              user_id: user.id,
+              org_id: parseInt(preloadOrgId) || null,
+              org_name: decodeURIComponent(preloadOrgName),
+              org_city: null, org_type: null, joined_at: null,
+              is_active: true, notes: null,
+              created_at: '', updated_at: '',
+            });
+          }
+        }
+      }
     });
-  }, [user, preloadEventId]);
+  }, [user, preloadEventId, preloadOrgId, preloadOrgName]);
 
   async function handleCreateEvent() {
     if (!user || !newEventName.trim()) return;
@@ -163,7 +191,6 @@ function CaptureFlowInner() {
       setSelectedEvent(data);
       setShowNewEvent(false);
       setNewEventName('');
-      setShowNewEvent(false);
       setShowEventPicker(false);
     }
   }
@@ -179,15 +206,13 @@ function CaptureFlowInner() {
     setSavedPersonId(null);
     setVoiceTranscript(''); setVoiceError(''); setVoiceState('idle');
     setPhotoPreview(null); setPhotoError(''); setPhotoState('idle');
+    // Keep the current event/org context for the next person
     setShowEventPicker(false); setShowNewEvent(false);
   }
 
   function startListening() {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      setVoiceError('Voice not supported in this browser. Try Chrome.');
-      return;
-    }
+    if (!SpeechRecognition) { setVoiceError('Voice not supported in this browser. Try Chrome.'); return; }
     setVoiceError('');
     setVoiceTranscript('');
     const recognition = new SpeechRecognition();
@@ -195,7 +220,6 @@ function CaptureFlowInner() {
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.lang = 'en-US';
-
     let finalTranscript = '';
     recognition.onresult = (e: any) => {
       let interim = '';
@@ -206,45 +230,35 @@ function CaptureFlowInner() {
       }
       setVoiceTranscript((finalTranscript + interim).trim());
     };
-    recognition.onerror = (e: any) => {
-      setVoiceError('Mic error: ' + e.error);
-      setVoiceState('idle');
-    };
+    recognition.onerror = (e: any) => { setVoiceError('Mic error: ' + e.error); setVoiceState('idle'); };
     recognition.onend = () => {
-      if (finalTranscript.trim()) {
-        parseTranscript(finalTranscript.trim(), voiceMode);
-      } else {
-        setVoiceState('idle');
-      }
+      if (finalTranscript.trim()) parseTranscript(finalTranscript.trim(), voiceMode);
+      else setVoiceState('idle');
     };
     recognition.start();
     setVoiceState('listening');
   }
 
-  function stopListening() {
-    recognitionRef.current?.stop();
-  }
+  function stopListening() { recognitionRef.current?.stop(); }
 
   async function parseTranscript(transcript: string, mode: 'full' | 'followup') {
     setVoiceState('parsing');
     try {
       const res = await fetch('/api/na-voice-parse', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transcript }),
       });
       const data = await res.json();
       if (data.fields) {
         const f = data.fields;
         if (mode === 'full') {
-          if (f.first_name)  setFirstName(f.first_name);
-          if (f.last_name)   setLastName(f.last_name);
-          if (f.company)     setCompany(f.company);
-          if (f.title)       setTitle(f.title);
-          if (f.email)       setEmail(f.email);
-          if (f.phone)       setPhone(f.phone);
+          if (f.first_name) setFirstName(f.first_name);
+          if (f.last_name)  setLastName(f.last_name);
+          if (f.company)    setCompany(f.company);
+          if (f.title)      setTitle(f.title);
+          if (f.email)      setEmail(f.email);
+          if (f.phone)      setPhone(f.phone);
         }
-        // Always fill follow-up fields
         if (f.topic)            setTopic(f.topic);
         if (f.follow_up_action) setFollowUps([f.follow_up_action]);
         if (f.follow_up_days)   { setWhenDays(f.follow_up_days); setCustomDate(''); }
@@ -261,22 +275,16 @@ function CaptureFlowInner() {
     const file = e.target.files?.[0];
     if (!file) return;
     setPhotoError('');
-
-    // Preview
     const reader = new FileReader();
     reader.onload = async (ev) => {
       const dataUrl = ev.target?.result as string;
       setPhotoPreview(dataUrl);
       setPhotoState('parsing');
-
-      // Strip the data:image/...;base64, prefix
       const [meta, base64] = dataUrl.split(',');
       const mediaType = meta.match(/data:(.*);base64/)?.[1] ?? 'image/jpeg';
-
       try {
         const res = await fetch('/api/na-photo-parse', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ imageBase64: base64, mediaType }),
         });
         const data = await res.json();
@@ -305,11 +313,10 @@ function CaptureFlowInner() {
     const errs: string[] = [];
     if (!firstName.trim()) errs.push('First name is required.');
     if (followUps.length === 0) errs.push('Select at least one follow-up.');
+    if (sourceType === 'org' && !selectedMembership) errs.push('Select which organization you met them through.');
     if (errs.length) { setErrors(errs); return; }
     setSaving(true);
     const due = customDate || addDays(whenDays);
-
-    // Build notes: include "Got business card" flag if checked
     const notes = gotCard ? 'Business card received — fill in details later.' : null;
 
     const interactionDate = sourceType === 'event'
@@ -371,110 +378,161 @@ function CaptureFlowInner() {
         <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#93b4d4', fontSize: 20, cursor: 'pointer', padding: 0 }}>‹</button>
         <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Capture Contact</div>
       </div>
-      {selectedEvent && phase === 'form' && (
+      {phase === 'form' && (
         <div style={{ fontSize: 11, color: '#93b4d4', maxWidth: 160, textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>
-          {selectedEvent.event_name}
+          {sourceType === 'event' && selectedEvent ? selectedEvent.event_name
+           : sourceType === 'org' && selectedMembership ? `🏛 ${selectedMembership.org_name}`
+           : ''}
         </div>
       )}
     </div>
   );
 
-  // ── PHASE: Capture form (no separate event selection screen)
+  // ── PHASE: Capture form
   if (phase === 'form') return (
     <div style={css.page}>
       <Header onBack={() => router.push('/networking-assistant-beta-2026')} />
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '16px 16px 48px' }}>
 
-        {/* Inline Event Selector */}
-        {showNewEvent ? (
-          <div style={{ ...css.card, marginBottom: 12, border: '1.5px solid #e0e7ff' }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 12 }}>New Event</div>
-            <div style={{ marginBottom: 10 }}>
-              <label style={css.label}>Event Name *</label>
-              <input autoFocus value={newEventName} onChange={e => setNewEventName(e.target.value)}
-                placeholder="e.g. SA Chamber Monthly Mixer"
-                onKeyDown={e => e.key === 'Enter' && handleCreateEvent()}
-                style={css.input} />
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
-              <div>
-                <label style={css.label}>Date</label>
-                <input type="date" value={newEventDate} onChange={e => setNewEventDate(e.target.value)} style={css.input} />
-              </div>
-              <div>
-                <label style={css.label}>City</label>
-                <select value={newEventCity} onChange={e => setNewEventCity(e.target.value)} style={css.input}>
-                  {CITIES.map(c => <option key={c}>{c}</option>)}
-                </select>
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={handleCreateEvent} disabled={!newEventName.trim() || creatingEvent} style={{
-                flex: 1, height: 40, borderRadius: 8, border: 'none', cursor: 'pointer',
-                background: newEventName.trim() ? '#042C53' : '#e5e7eb',
-                color: newEventName.trim() ? '#fff' : '#9ca3af', fontWeight: 700, fontSize: 13,
-              }}>{creatingEvent ? 'Creating…' : 'Create Event'}</button>
-              <button onClick={() => setShowNewEvent(false)} style={{
-                height: 40, padding: '0 14px', borderRadius: 8, border: '1px solid #e5e7eb',
-                background: '#fff', color: '#6b7280', fontSize: 13, cursor: 'pointer',
-              }}>Cancel</button>
-            </div>
-          </div>
-        ) : showEventPicker ? (
-          <div style={{ ...css.card, marginBottom: 12, border: '1.5px solid #e0e7ff' }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 10 }}>Select Event</div>
-            {(() => {
-              const today = new Date().toISOString().split('T')[0];
-              const todayEvs = myEvents.filter(e => e.event_date === today);
-              const otherEvs = myEvents.filter(e => e.event_date !== today);
-              return (
-                <>
-                  {/* Top options */}
-                  <button onClick={() => { setShowEventPicker(false); setShowNewEvent(true); }} style={{
-                    width: '100%', padding: '11px 12px', borderRadius: 8, border: '2px solid #042C53',
-                    background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
-                  }}>+ Create new event</button>
-                  <button onClick={() => { setSelectedEvent(null); setShowEventPicker(false); }} style={{
-                    width: '100%', padding: '11px 12px', borderRadius: 8, border: '1.5px dashed #d1d5db',
-                    background: '#fff', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 12,
-                  }}>No specific event</button>
+        {/* ── Source type toggle: Event vs Org */}
+        <div style={{ display: 'flex', background: '#f3f4f6', borderRadius: 10, padding: 4, gap: 4, marginBottom: 14 }}>
+          <button onClick={() => { setSourceType('event'); if (!selectedEvent) setShowEventPicker(true); }} style={{
+            flex: 1, height: 40, borderRadius: 7, border: 'none', cursor: 'pointer',
+            fontWeight: sourceType === 'event' ? 700 : 400, fontSize: 13,
+            background: sourceType === 'event' ? '#fff' : 'transparent',
+            color: sourceType === 'event' ? '#042C53' : '#6b7280',
+            boxShadow: sourceType === 'event' ? '0 1px 4px rgba(0,0,0,0.1)' : 'none',
+          }}>📅 At an Event</button>
+          <button onClick={() => { setSourceType('org'); setShowEventPicker(false); }} style={{
+            flex: 1, height: 40, borderRadius: 7, border: 'none', cursor: 'pointer',
+            fontWeight: sourceType === 'org' ? 700 : 400, fontSize: 13,
+            background: sourceType === 'org' ? '#fff' : 'transparent',
+            color: sourceType === 'org' ? '#7c3aed' : '#6b7280',
+            boxShadow: sourceType === 'org' ? '0 1px 4px rgba(0,0,0,0.1)' : 'none',
+          }}>🏛 Through an Org</button>
+        </div>
 
-                  {/* My Events — collapsed dropdown */}
-                  {(todayEvs.length > 0 || otherEvs.length > 0) && (
-                    <MyEventsDropdown
-                      todayEvs={todayEvs}
-                      otherEvs={otherEvs}
-                      onSelect={(ev) => { setSelectedEvent(ev); setShowEventPicker(false); }}
-                    />
-                  )}
-                  <button onClick={() => setShowEventPicker(false)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 6, padding: 0 }}>Cancel</button>
-                </>
-              );
-            })()}
+        {/* ── Event context (shown when sourceType === 'event') */}
+        {sourceType === 'event' && (
+          <>
+            {showNewEvent ? (
+              <div style={{ ...css.card, marginBottom: 12, border: '1.5px solid #e0e7ff' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 12 }}>New Event</div>
+                <div style={{ marginBottom: 10 }}>
+                  <label style={css.label}>Event Name *</label>
+                  <input autoFocus value={newEventName} onChange={e => setNewEventName(e.target.value)}
+                    placeholder="e.g. SA Chamber Monthly Mixer"
+                    onKeyDown={e => e.key === 'Enter' && handleCreateEvent()}
+                    style={css.input} />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
+                  <div>
+                    <label style={css.label}>Date</label>
+                    <input type="date" value={newEventDate} onChange={e => setNewEventDate(e.target.value)} style={css.input} />
+                  </div>
+                  <div>
+                    <label style={css.label}>City</label>
+                    <select value={newEventCity} onChange={e => setNewEventCity(e.target.value)} style={css.input}>
+                      {CITIES.map(c => <option key={c}>{c}</option>)}
+                    </select>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={handleCreateEvent} disabled={!newEventName.trim() || creatingEvent} style={{
+                    flex: 1, height: 40, borderRadius: 8, border: 'none', cursor: 'pointer',
+                    background: newEventName.trim() ? '#042C53' : '#e5e7eb',
+                    color: newEventName.trim() ? '#fff' : '#9ca3af', fontWeight: 700, fontSize: 13,
+                  }}>{creatingEvent ? 'Creating…' : 'Create Event'}</button>
+                  <button onClick={() => setShowNewEvent(false)} style={{
+                    height: 40, padding: '0 14px', borderRadius: 8, border: '1px solid #e5e7eb',
+                    background: '#fff', color: '#6b7280', fontSize: 13, cursor: 'pointer',
+                  }}>Cancel</button>
+                </div>
+              </div>
+            ) : showEventPicker ? (
+              <div style={{ ...css.card, marginBottom: 12, border: '1.5px solid #e0e7ff' }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 10 }}>Select Event</div>
+                {(() => {
+                  const today = new Date().toISOString().split('T')[0];
+                  const todayEvs = myEvents.filter(e => e.event_date === today);
+                  const otherEvs = myEvents.filter(e => e.event_date !== today);
+                  return (
+                    <>
+                      <button onClick={() => { setShowEventPicker(false); setShowNewEvent(true); }} style={{
+                        width: '100%', padding: '11px 12px', borderRadius: 8, border: '2px solid #042C53',
+                        background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 6,
+                      }}>+ Create new event</button>
+                      <button onClick={() => { setSelectedEvent(null); setShowEventPicker(false); }} style={{
+                        width: '100%', padding: '11px 12px', borderRadius: 8, border: '1.5px dashed #d1d5db',
+                        background: '#fff', color: '#6b7280', fontWeight: 500, fontSize: 13, cursor: 'pointer', textAlign: 'left' as const, marginBottom: 12,
+                      }}>No specific event</button>
+                      {(todayEvs.length > 0 || otherEvs.length > 0) && (
+                        <MyEventsDropdown todayEvs={todayEvs} otherEvs={otherEvs}
+                          onSelect={(ev) => { setSelectedEvent(ev); setShowEventPicker(false); }} />
+                      )}
+                      <button onClick={() => setShowEventPicker(false)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 12, cursor: 'pointer', marginTop: 6, padding: 0 }}>Cancel</button>
+                    </>
+                  );
+                })()}
+              </div>
+            ) : (
+              <button onClick={() => setShowEventPicker(true)} style={{
+                width: '100%', background: selectedEvent ? '#eff6ff' : '#f9fafb',
+                border: `1.5px solid ${selectedEvent ? '#bfdbfe' : '#e5e7eb'}`,
+                borderRadius: 8, padding: '9px 14px', marginBottom: 14, cursor: 'pointer',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'left' as const,
+              }}>
+                <span style={{ fontSize: 13, color: selectedEvent ? '#1d4ed8' : '#9ca3af', fontWeight: 500 }}>
+                  {selectedEvent ? `📍 ${selectedEvent.event_name}` : '📍 Tap to select event (optional)'}
+                </span>
+                <span style={{ fontSize: 11, color: '#9ca3af' }}>change</span>
+              </button>
+            )}
+          </>
+        )}
+
+        {/* ── Org context (shown when sourceType === 'org') */}
+        {sourceType === 'org' && (
+          <div style={{ marginBottom: 14 }}>
+            {myMemberships.length === 0 ? (
+              <div style={{ background: '#faf5ff', border: '1.5px solid #e9d5ff', borderRadius: 8, padding: '12px 14px', fontSize: 13, color: '#7c3aed' }}>
+                No organizations yet.{' '}
+                <a href="/networking-assistant-beta-2026?tab=orgs" style={{ color: '#7c3aed', fontWeight: 700 }}>Add orgs first →</a>
+              </div>
+            ) : (
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#7c3aed', marginBottom: 8, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>Which organization?</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {myMemberships.map(m => {
+                    const sel = selectedMembership?.id === m.id;
+                    return (
+                      <button key={m.id} onClick={() => setSelectedMembership(m)} style={{
+                        padding: '10px 14px', borderRadius: 8,
+                        border: `2px solid ${sel ? '#7c3aed' : '#e5e7eb'}`,
+                        background: sel ? '#faf5ff' : '#fff',
+                        cursor: 'pointer', textAlign: 'left' as const,
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      }}>
+                        <div>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: sel ? '#7c3aed' : '#111827' }}>{m.org_name}</div>
+                          {m.org_city && <div style={{ fontSize: 11, color: '#6b7280' }}>{m.org_city}</div>}
+                        </div>
+                        {sel && <span style={{ fontSize: 16, color: '#7c3aed' }}>✓</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
-        ) : (
-          /* Event context chip — always visible, tappable to change */
-          <button onClick={() => setShowEventPicker(true)} style={{
-            width: '100%', background: selectedEvent ? '#eff6ff' : '#f9fafb',
-            border: `1.5px solid ${selectedEvent ? '#bfdbfe' : '#e5e7eb'}`,
-            borderRadius: 8, padding: '9px 14px', marginBottom: 14, cursor: 'pointer',
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'left' as const,
-          }}>
-            <span style={{ fontSize: 13, color: selectedEvent ? '#1d4ed8' : '#9ca3af', fontWeight: 500 }}>
-              {selectedEvent ? `📍 ${selectedEvent.event_name}` : '📍 Tap to select event (optional)'}
-            </span>
-            <span style={{ fontSize: 11, color: '#9ca3af' }}>change</span>
-          </button>
         )}
 
         {/* Quick Capture */}
         <div style={{ ...css.card, marginBottom: 12 }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 10, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>Quick Capture</div>
 
-          {/* Three method buttons */}
           {voiceState === 'idle' && photoState === 'idle' && (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: photoPreview ? 10 : 0 }}>
-              {/* Voice — full */}
               <button onClick={() => { setVoiceMode('full'); startListening(); }} style={{
                 height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
                 cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
@@ -482,8 +540,6 @@ function CaptureFlowInner() {
                 <span style={{ fontSize: 20 }}>🎤</span>
                 <span style={{ fontSize: 10, fontWeight: 600, color: '#374151' }}>Voice</span>
               </button>
-
-              {/* Photo */}
               <button onClick={() => photoInputRef.current?.click()} style={{
                 height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
                 cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
@@ -492,8 +548,6 @@ function CaptureFlowInner() {
                 <span style={{ fontSize: 10, fontWeight: 600, color: '#374151' }}>Photo</span>
               </button>
               <input ref={photoInputRef} type="file" accept="image/*" capture="environment" onChange={handlePhotoChange} style={{ display: 'none' }} />
-
-              {/* Manual (scroll down) */}
               <button onClick={() => document.getElementById('contact-fields')?.scrollIntoView({ behavior: 'smooth' })} style={{
                 height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
                 cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
@@ -504,7 +558,6 @@ function CaptureFlowInner() {
             </div>
           )}
 
-          {/* Listening state */}
           {voiceState === 'listening' && (
             <div>
               <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '10px 12px', marginBottom: 8 }}>
@@ -520,21 +573,16 @@ function CaptureFlowInner() {
                 )}
                 {voiceTranscript && <div style={{ fontSize: 11, color: '#6b7280', fontStyle: 'italic', marginTop: 6 }}>{voiceTranscript}</div>}
               </div>
-              <button onClick={stopListening} style={{
-                width: '100%', height: 40, borderRadius: 8, border: 'none', background: '#dc2626',
-                color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer',
-              }}>Stop Recording</button>
+              <button onClick={stopListening} style={{ width: '100%', height: 40, borderRadius: 8, border: 'none', background: '#dc2626', color: '#fff', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>Stop Recording</button>
             </div>
           )}
 
-          {/* Parsing */}
           {(voiceState === 'parsing' || photoState === 'parsing') && (
             <div style={{ textAlign: 'center', padding: '12px 0', fontSize: 13, color: '#6b7280' }}>
               {voiceState === 'parsing' ? 'Reading your voice…' : 'Reading image…'}
             </div>
           )}
 
-          {/* Photo preview */}
           {photoPreview && photoState === 'idle' && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: voiceState === 'idle' ? 0 : 8 }}>
               <img src={photoPreview} alt="Captured" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 6, border: '1px solid #e5e7eb', flexShrink: 0 }} />
@@ -548,21 +596,13 @@ function CaptureFlowInner() {
             </div>
           )}
 
-          {/* After photo — offer voice for follow-up only */}
           {photoPreview && photoState === 'idle' && !photoError && voiceState === 'idle' && (
             <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #f3f4f6', display: 'flex', gap: 8 }}>
-              <button onClick={() => { setVoiceMode('followup'); startListening(); }} style={{
-                flex: 1, height: 36, borderRadius: 8, border: '1.5px solid #042C53', background: '#fff',
-                color: '#042C53', fontWeight: 700, fontSize: 12, cursor: 'pointer',
-              }}>🎤 Add follow-up by voice</button>
-              <button onClick={() => { setVoiceMode('full'); startListening(); }} style={{
-                flex: 1, height: 36, borderRadius: 8, border: '1.5px solid #e5e7eb', background: '#fff',
-                color: '#6b7280', fontWeight: 600, fontSize: 12, cursor: 'pointer',
-              }}>🎤 Re-record everything</button>
+              <button onClick={() => { setVoiceMode('followup'); startListening(); }} style={{ flex: 1, height: 36, borderRadius: 8, border: '1.5px solid #042C53', background: '#fff', color: '#042C53', fontWeight: 700, fontSize: 12, cursor: 'pointer' }}>🎤 Add follow-up by voice</button>
+              <button onClick={() => { setVoiceMode('full'); startListening(); }} style={{ flex: 1, height: 36, borderRadius: 8, border: '1.5px solid #e5e7eb', background: '#fff', color: '#6b7280', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>🎤 Re-record everything</button>
             </div>
           )}
 
-          {/* Success / error states */}
           {voiceTranscript && voiceState === 'idle' && (
             <div style={{ marginTop: 8, fontSize: 12, color: '#15803d', fontWeight: 600 }}>
               ✓ {voiceMode === 'followup' ? 'Follow-up added' : 'Fields filled'} — review and edit below
@@ -583,12 +623,9 @@ function CaptureFlowInner() {
           <div style={css.sectionTitle}>Contact Info</div>
           <div style={{ marginBottom: 10 }}>
             <label style={css.label}>LinkedIn Profile URL</label>
-            <input
-              value={linkedinUrl}
-              onChange={e => setLinkedinUrl(e.target.value)}
+            <input value={linkedinUrl} onChange={e => setLinkedinUrl(e.target.value)}
               placeholder="https://linkedin.com/in/sarahjohnson"
-              style={{ ...css.input, borderColor: '#e0e7ff' }}
-            />
+              style={{ ...css.input, borderColor: '#e0e7ff' }} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
             <div>
@@ -627,8 +664,6 @@ function CaptureFlowInner() {
           <textarea value={topic} onChange={e => setTopic(e.target.value)}
             placeholder="Key topics, opportunities, anything to remember…"
             rows={3} style={{ ...css.input, resize: 'vertical' as const }} />
-
-          {/* Business card checkbox */}
           <label style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12, cursor: 'pointer' }}>
             <input type="checkbox" checked={gotCard} onChange={e => setGotCard(e.target.checked)}
               style={{ width: 18, height: 18, cursor: 'pointer', accentColor: '#042C53' }} />
@@ -690,21 +725,25 @@ function CaptureFlowInner() {
   );
 
   // ── PHASE: Summary
+  const contextLabel = sourceType === 'event' && selectedEvent
+    ? selectedEvent.event_name
+    : sourceType === 'org' && selectedMembership
+    ? `🏛 ${selectedMembership.org_name}`
+    : 'No event';
+
   return (
     <div style={css.page}>
       <Header onBack={() => { reset(); setPhase('form'); }} />
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '32px 16px 32px', textAlign: 'center' }}>
 
-        {/* Session counter banner */}
         <div style={{ background: '#042C53', borderRadius: 12, padding: '12px 16px', marginBottom: 24, textAlign: 'left' }}>
-          <div style={{ fontSize: 12, color: '#93b4d4', marginBottom: 2 }}>{selectedEvent?.event_name}</div>
+          <div style={{ fontSize: 12, color: '#93b4d4', marginBottom: 2 }}>{contextLabel}</div>
           <div style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>
             {savedCount} {savedCount === 1 ? 'person' : 'people'} captured
           </div>
           <div style={{ fontSize: 12, color: '#93b4d4', marginTop: 2 }}>Keep going — tap below to add the next person</div>
         </div>
 
-        {/* Last saved confirmation */}
         <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '14px 16px', marginBottom: 20 }}>
           <div style={{ fontSize: 13, color: '#15803d', fontWeight: 700, marginBottom: 2 }}>✓ {savedName} saved</div>
           <div style={{ fontSize: 12, color: '#374151' }}>{followUps.length} follow-up{followUps.length !== 1 ? 's' : ''} queued</div>
@@ -712,7 +751,6 @@ function CaptureFlowInner() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {/* PRIMARY — capture next person */}
           <button onClick={() => { reset(); setPhase('form'); }} style={{
             height: 54, borderRadius: 12, border: 'none', background: '#c2410c',
             color: '#fff', fontWeight: 800, fontSize: 16, cursor: 'pointer',
