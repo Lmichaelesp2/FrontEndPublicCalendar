@@ -197,6 +197,37 @@ export default function NAEventsPage() {
   );
   if (!user) { router.push('/networking-assistant-beta-2026'); return null; }
 
+  // ── LBC filter logic (computed before render) ──
+  const todayStr  = new Date().toISOString().split('T')[0];
+  const weekStr   = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+  const monthStr  = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
+  const participationOptions = Array.from(new Set(lbcEvents.map(e => e.participation).filter(Boolean))) as string[];
+  const categoryOptions      = Array.from(new Set(lbcEvents.map(e => e.event_type).filter(Boolean))) as string[];
+  const filteredLbc = lbcEvents.filter(ev => {
+    const q = lbcSearch.toLowerCase();
+    const matchSearch = !q || ev.name.toLowerCase().includes(q) || (ev.group_name ?? '').toLowerCase().includes(q) || (ev.event_address ?? '').toLowerCase().includes(q);
+    const matchCost = lbcCost === 'all' ? true : lbcCost === 'free' ? (!ev.paid || ev.paid.toLowerCase().includes('free')) : (ev.paid && !ev.paid.toLowerCase().includes('free'));
+    const matchParticipation = lbcParticipation === 'all' || ev.participation === lbcParticipation;
+    const matchCategory = lbcCategory === 'all' || ev.event_type === lbcCategory;
+    const matchDate = lbcDateRange === 'all' ? true
+      : lbcDateRange === 'today' ? ev.start_date === todayStr
+      : lbcDateRange === 'week'  ? ev.start_date >= todayStr && ev.start_date <= weekStr
+      : ev.start_date >= todayStr && ev.start_date <= monthStr;
+    return matchSearch && matchCost && matchParticipation && matchCategory && matchDate;
+  });
+  const activeFilterCount = (lbcSearch ? 1 : 0) + (lbcCost !== 'all' ? 1 : 0) + (lbcParticipation !== 'all' ? 1 : 0) + (lbcCategory !== 'all' ? 1 : 0) + (lbcDateRange !== 'all' ? 1 : 0);
+
+  const FilterPill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
+    <button onClick={onClick} style={{
+      flexShrink: 0, height: 30, padding: '0 12px', borderRadius: 15, border: '1px solid',
+      cursor: 'pointer', fontSize: 12, fontWeight: active ? 700 : 400,
+      borderColor: active ? '#042C53' : '#e5e7eb',
+      background: active ? '#042C53' : '#fff',
+      color: active ? '#fff' : '#374151',
+      whiteSpace: 'nowrap' as const,
+    }}>{label}</button>
+  );
+
   return (
     <div style={css.page}>
       {/* Header */}
@@ -299,42 +330,7 @@ export default function NAEventsPage() {
           </form>
         )}
 
-        {tab === 'upcoming' ? (() => {
-          // Derive filter options from loaded events
-          const participationOptions = Array.from(new Set(lbcEvents.map(e => e.participation).filter(Boolean))) as string[];
-          const categoryOptions = Array.from(new Set(lbcEvents.map(e => e.event_type).filter(Boolean))) as string[];
-
-          const todayStr  = new Date().toISOString().split('T')[0];
-          const weekStr   = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
-          const monthStr  = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
-
-          const filteredLbc = lbcEvents.filter(ev => {
-            const q = lbcSearch.toLowerCase();
-            const matchSearch = !q || ev.name.toLowerCase().includes(q) || (ev.group_name ?? '').toLowerCase().includes(q) || (ev.event_address ?? '').toLowerCase().includes(q);
-            const matchCost = lbcCost === 'all' ? true : lbcCost === 'free' ? (!ev.paid || ev.paid.toLowerCase().includes('free')) : (ev.paid && !ev.paid.toLowerCase().includes('free'));
-            const matchParticipation = lbcParticipation === 'all' || ev.participation === lbcParticipation;
-            const matchCategory = lbcCategory === 'all' || ev.event_type === lbcCategory;
-            const matchDate = lbcDateRange === 'all' ? true
-              : lbcDateRange === 'today' ? ev.start_date === todayStr
-              : lbcDateRange === 'week'  ? ev.start_date >= todayStr && ev.start_date <= weekStr
-              : ev.start_date >= todayStr && ev.start_date <= monthStr;
-            return matchSearch && matchCost && matchParticipation && matchCategory && matchDate;
-          });
-
-          const activeFilterCount = (lbcSearch ? 1 : 0) + (lbcCost !== 'all' ? 1 : 0) + (lbcParticipation !== 'all' ? 1 : 0) + (lbcCategory !== 'all' ? 1 : 0) + (lbcDateRange !== 'all' ? 1 : 0);
-
-          const FilterPill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
-            <button onClick={onClick} style={{
-              flexShrink: 0, height: 30, padding: '0 12px', borderRadius: 15, border: '1px solid',
-              cursor: 'pointer', fontSize: 12, fontWeight: active ? 700 : 400,
-              borderColor: active ? '#042C53' : '#e5e7eb',
-              background: active ? '#042C53' : '#fff',
-              color: active ? '#fff' : '#374151',
-              whiteSpace: 'nowrap' as const,
-            }}>{label}</button>
-          );
-
-          return (
+        {tab === 'upcoming' ? (
             <>
               {/* City pills */}
               <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' as const }}>
@@ -472,8 +468,6 @@ export default function NAEventsPage() {
                 );
               })}
             </>
-          );
-        })()
         ) : (
           myEvents.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#6b7280', padding: '32px 0', fontSize: 14 }}>
