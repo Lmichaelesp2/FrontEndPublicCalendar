@@ -58,13 +58,14 @@ export default function NAEventsPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [saving, setSaving]         = useState(false);
   const [toast, setToast]           = useState('');
+  const [isDesktop, setIsDesktop]   = useState(false);
   // LBC filters
-  const [lbcSearch, setLbcSearch]         = useState('');
-  const [lbcCost, setLbcCost]             = useState<'all' | 'free' | 'paid'>('all');
-  const [lbcParticipation, setLbcParticipation] = useState<string>('all');
-  const [lbcCategory, setLbcCategory]     = useState<string>('all');
-  const [lbcDateRange, setLbcDateRange]   = useState<'all' | 'today' | 'week' | 'month'>('all');
-  const [lbcFiltersOpen, setLbcFiltersOpen] = useState(false);
+  const [lbcSearch, setLbcSearch]                 = useState('');
+  const [lbcCost, setLbcCost]                     = useState<'all' | 'Free' | 'Paid' | 'Unknown' | 'Both'>('all');
+  const [lbcParticipation, setLbcParticipation]   = useState<'all' | 'In-Person' | 'Virtual'>('all');
+  const [lbcCategory, setLbcCategory]             = useState<'all' | 'Networking' | 'Educational' | 'Other'>('all');
+  const [lbcDateRange, setLbcDateRange]           = useState<'all' | 'today' | 'week' | 'month'>('all');
+  const [lbcMoreFiltersOpen, setLbcMoreFiltersOpen] = useState(false);
 
   const [form, setForm] = useState({
     event_name: '', event_date: '', event_type: 'other' as typeof EVENT_TYPES[number],
@@ -121,6 +122,13 @@ export default function NAEventsPage() {
 
   useEffect(() => {
     setActiveEventId(localStorage.getItem('na_active_event_id'));
+  }, []);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   function setActive(ev: NAEvent) {
@@ -201,12 +209,15 @@ export default function NAEventsPage() {
   const todayStr  = new Date().toISOString().split('T')[0];
   const weekStr   = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
   const monthStr  = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
-  const participationOptions = Array.from(new Set(lbcEvents.map(e => e.participation).filter(Boolean))) as string[];
-  const categoryOptions      = Array.from(new Set(lbcEvents.map(e => e.event_type).filter(Boolean))) as string[];
+
   const filteredLbc = lbcEvents.filter(ev => {
     const q = lbcSearch.toLowerCase();
-    const matchSearch = !q || ev.name.toLowerCase().includes(q) || (ev.group_name ?? '').toLowerCase().includes(q) || (ev.event_address ?? '').toLowerCase().includes(q);
-    const matchCost = lbcCost === 'all' ? true : lbcCost === 'free' ? (!ev.paid || ev.paid.toLowerCase().includes('free')) : (ev.paid && !ev.paid.toLowerCase().includes('free'));
+    const matchSearch = !q
+      || ev.name.toLowerCase().includes(q)
+      || (ev.group_name ?? '').toLowerCase().includes(q)
+      || (ev.event_address ?? '').toLowerCase().includes(q)
+      || (ev.description ?? '').toLowerCase().includes(q);
+    const matchCost = lbcCost === 'all' || ev.paid === lbcCost;
     const matchParticipation = lbcParticipation === 'all' || ev.participation === lbcParticipation;
     const matchCategory = lbcCategory === 'all' || ev.event_type === lbcCategory;
     const matchDate = lbcDateRange === 'all' ? true
@@ -215,17 +226,123 @@ export default function NAEventsPage() {
       : ev.start_date >= todayStr && ev.start_date <= monthStr;
     return matchSearch && matchCost && matchParticipation && matchCategory && matchDate;
   });
+
   const activeFilterCount = (lbcSearch ? 1 : 0) + (lbcCost !== 'all' ? 1 : 0) + (lbcParticipation !== 'all' ? 1 : 0) + (lbcCategory !== 'all' ? 1 : 0) + (lbcDateRange !== 'all' ? 1 : 0);
 
+  function clearAllFilters() {
+    setLbcSearch(''); setLbcCost('all'); setLbcParticipation('all');
+    setLbcCategory('all'); setLbcDateRange('all');
+  }
+
+  // Filter pill component
   const FilterPill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
     <button onClick={onClick} style={{
-      flexShrink: 0, height: 30, padding: '0 12px', borderRadius: 15, border: '1px solid',
-      cursor: 'pointer', fontSize: 12, fontWeight: active ? 700 : 400,
-      borderColor: active ? '#042C53' : '#e5e7eb',
+      flexShrink: 0, height: 32, padding: '0 14px', borderRadius: 16, border: '1.5px solid',
+      cursor: 'pointer', fontSize: 13, fontWeight: active ? 700 : 400,
+      borderColor: active ? '#042C53' : '#d1d5db',
       background: active ? '#042C53' : '#fff',
       color: active ? '#fff' : '#374151',
       whiteSpace: 'nowrap' as const,
+      transition: 'all 0.15s',
     }}>{label}</button>
+  );
+
+  // Filter section label
+  const FilterLabel = ({ children }: { children: string }) => (
+    <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginBottom: 8 }}>{children}</div>
+  );
+
+  // Desktop sidebar filter panel
+  const DesktopFilterPanel = () => (
+    <div style={{
+      width: 220, flexShrink: 0, background: '#fff', borderRadius: 12,
+      border: '1px solid #e5e7eb', padding: '18px 16px',
+      height: 'fit-content', position: 'sticky', top: 16,
+    }}>
+      <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', marginBottom: 16 }}>Filters</div>
+
+      {/* Search */}
+      <div style={{ marginBottom: 18 }}>
+        <FilterLabel>Search</FilterLabel>
+        <input
+          value={lbcSearch} onChange={e => setLbcSearch(e.target.value)}
+          placeholder="Search events, organizations, venues…"
+          style={{ width: '100%', padding: '9px 11px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', color: '#111827', outline: 'none' }}
+        />
+      </div>
+
+      {/* Date */}
+      <div style={{ marginBottom: 18 }}>
+        <FilterLabel>Date</FilterLabel>
+        <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
+          {([['all','All upcoming'],['today','Today'],['week','This week'],['month','This month']] as const).map(([v, l]) => (
+            <button key={v} onClick={() => setLbcDateRange(v)} style={{
+              height: 34, borderRadius: 8, border: '1.5px solid', cursor: 'pointer', fontSize: 13,
+              textAlign: 'left' as const, padding: '0 12px', fontWeight: lbcDateRange === v ? 700 : 400,
+              borderColor: lbcDateRange === v ? '#042C53' : '#e5e7eb',
+              background: lbcDateRange === v ? '#042C53' : '#f9fafb',
+              color: lbcDateRange === v ? '#fff' : '#374151',
+            }}>{l}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* Event Type */}
+      <div style={{ marginBottom: 18 }}>
+        <FilterLabel>Event Type</FilterLabel>
+        <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
+          {([['all','All types'],['Networking','Networking'],['Educational','Educational'],['Other','Other']] as const).map(([v, l]) => (
+            <button key={v} onClick={() => setLbcCategory(v)} style={{
+              height: 34, borderRadius: 8, border: '1.5px solid', cursor: 'pointer', fontSize: 13,
+              textAlign: 'left' as const, padding: '0 12px', fontWeight: lbcCategory === v ? 700 : 400,
+              borderColor: lbcCategory === v ? '#042C53' : '#e5e7eb',
+              background: lbcCategory === v ? '#042C53' : '#f9fafb',
+              color: lbcCategory === v ? '#fff' : '#374151',
+            }}>{l}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* Cost */}
+      <div style={{ marginBottom: 18 }}>
+        <FilterLabel>Cost</FilterLabel>
+        <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
+          {([['all','All'],['Free','Free'],['Paid','Paid'],['Unknown','Unknown'],['Both','Free + Paid options']] as const).map(([v, l]) => (
+            <button key={v} onClick={() => setLbcCost(v)} style={{
+              height: 34, borderRadius: 8, border: '1.5px solid', cursor: 'pointer', fontSize: 13,
+              textAlign: 'left' as const, padding: '0 12px', fontWeight: lbcCost === v ? 700 : 400,
+              borderColor: lbcCost === v ? '#042C53' : '#e5e7eb',
+              background: lbcCost === v ? '#042C53' : '#f9fafb',
+              color: lbcCost === v ? '#fff' : '#374151',
+            }}>{l}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* Participation */}
+      <div style={{ marginBottom: 18 }}>
+        <FilterLabel>Format</FilterLabel>
+        <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
+          {([['all','All'],['In-Person','In-Person'],['Virtual','Virtual']] as const).map(([v, l]) => (
+            <button key={v} onClick={() => setLbcParticipation(v)} style={{
+              height: 34, borderRadius: 8, border: '1.5px solid', cursor: 'pointer', fontSize: 13,
+              textAlign: 'left' as const, padding: '0 12px', fontWeight: lbcParticipation === v ? 700 : 400,
+              borderColor: lbcParticipation === v ? '#042C53' : '#e5e7eb',
+              background: lbcParticipation === v ? '#042C53' : '#f9fafb',
+              color: lbcParticipation === v ? '#fff' : '#374151',
+            }}>{l}</button>
+          ))}
+        </div>
+      </div>
+
+      {activeFilterCount > 0 && (
+        <button onClick={clearAllFilters} style={{
+          width: '100%', height: 34, borderRadius: 8, border: '1.5px solid #fca5a5',
+          background: '#fff', color: '#dc2626', fontSize: 13, fontWeight: 600,
+          cursor: 'pointer',
+        }}>✕ Clear all filters</button>
+      )}
+    </div>
   );
 
   return (
@@ -286,7 +403,8 @@ export default function NAEventsPage() {
         </div>
       )}
 
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '16px 16px 0' }}>
+      {/* ── Main content wrapper — desktop = full-width, inner splits into sidebar + list ── */}
+      <div style={{ maxWidth: isDesktop ? 1100 : 720, margin: '0 auto', padding: '16px 16px 0' }}>
 
         {/* Add event form */}
         {showAddForm && (
@@ -331,12 +449,86 @@ export default function NAEventsPage() {
         )}
 
         {tab === 'upcoming' ? (
+          isDesktop ? (
+            /* ── DESKTOP: sidebar filters + event list ── */
+            <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+              {/* Left: city pills + filter sidebar */}
+              <div style={{ width: 220, flexShrink: 0 }}>
+                {/* City picker */}
+                <div style={{ marginBottom: 12 }}>
+                  <FilterLabel>City</FilterLabel>
+                  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
+                    {CITIES.map(city => (
+                      <button key={city} onClick={() => setCityFilter(city)} style={{
+                        height: 34, borderRadius: 8, border: '1.5px solid', cursor: 'pointer', fontSize: 13,
+                        textAlign: 'left' as const, padding: '0 12px',
+                        fontWeight: cityFilter === city ? 700 : 400,
+                        borderColor: cityFilter === city ? '#042C53' : '#e5e7eb',
+                        background: cityFilter === city ? '#042C53' : '#f9fafb',
+                        color: cityFilter === city ? '#fff' : '#374151',
+                      }}>{city}</button>
+                    ))}
+                  </div>
+                </div>
+                <DesktopFilterPanel />
+              </div>
+
+              {/* Right: result count + event cards */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <div style={{ fontSize: 13, color: '#6b7280' }}>
+                    <strong style={{ color: '#111827' }}>{filteredLbc.length}</strong> of {lbcEvents.length} events
+                    {activeFilterCount > 0 && (
+                      <button onClick={clearAllFilters} style={{ marginLeft: 10, fontSize: 12, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>
+                        ✕ Clear filters
+                      </button>
+                    )}
+                  </div>
+                </div>
+                {loadingData ? (
+                  <div style={{ textAlign: 'center', color: '#9ca3af', padding: '32px 0', fontSize: 14 }}>Loading…</div>
+                ) : filteredLbc.length === 0 ? (
+                  <div style={{ textAlign: 'center', color: '#6b7280', padding: '48px 0', fontSize: 14 }}>
+                    {lbcEvents.length === 0 ? `No upcoming events for ${cityFilter}.` : 'No events match your filters.'}
+                    {activeFilterCount > 0 && <div style={{ marginTop: 8 }}><button onClick={clearAllFilters} style={{ color: '#2563eb', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13 }}>Clear all filters</button></div>}
+                  </div>
+                ) : filteredLbc.map(ev => {
+                  const flagged = flaggedIds.has(ev.id);
+                  const costColor = ev.paid === 'Free' ? { bg: '#f0fdf4', text: '#15803d' } : ev.paid === 'Paid' ? { bg: '#fef3c7', text: '#92400e' } : { bg: '#f3f4f6', text: '#6b7280' };
+                  return (
+                    <div key={ev.id} style={css.card}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 3 }}>{ev.name}</div>
+                          <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 600 }}>{formatDate(ev.start_date)}{ev.start_time ? ` · ${ev.start_time}` : ''}</div>
+                          {ev.group_name && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>{ev.group_name}</div>}
+                          {ev.event_address && <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 1 }}>{ev.event_address}</div>}
+                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginTop: 7 }}>
+                            {ev.paid && <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: costColor.bg, color: costColor.text, textTransform: 'uppercase' as const }}>{ev.paid}</span>}
+                            {ev.participation && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 10, background: '#f0f4ff', color: '#3b5bdb' }}>{ev.participation}</span>}
+                            {ev.event_type && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 10, background: '#f9fafb', color: '#6b7280' }}>{ev.event_type}</span>}
+                          </div>
+                        </div>
+                        <button onClick={() => handleFlag(ev)} disabled={flagged} style={{
+                          height: 34, borderRadius: 8, border: 'none', cursor: flagged ? 'default' : 'pointer',
+                          fontSize: 12, fontWeight: 700, padding: '0 14px', flexShrink: 0,
+                          background: flagged ? '#f3f4f6' : '#042C53',
+                          color: flagged ? '#9ca3af' : '#fff',
+                        }}>{flagged ? '✓ Added' : '+ Add'}</button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            /* ── MOBILE: horizontal scrolling pills + expandable more-filters ── */
             <>
-              {/* City pills */}
-              <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' as const }}>
+              {/* City pills — scrollable row */}
+              <div style={{ display: 'flex', gap: 8, overflowX: 'auto', scrollbarWidth: 'none' as const, marginBottom: 10, paddingBottom: 2 }}>
                 {CITIES.map(city => (
                   <button key={city} onClick={() => setCityFilter(city)} style={{
-                    height: 32, borderRadius: 20, border: '1.5px solid', cursor: 'pointer', fontSize: 13, padding: '0 14px',
+                    flexShrink: 0, height: 34, borderRadius: 20, border: '1.5px solid', cursor: 'pointer', fontSize: 13, padding: '0 16px',
                     borderColor: cityFilter === city ? '#042C53' : '#e5e7eb',
                     background: cityFilter === city ? '#042C53' : '#fff',
                     color: cityFilter === city ? '#fff' : '#374151',
@@ -345,84 +537,63 @@ export default function NAEventsPage() {
                 ))}
               </div>
 
-              {/* Search bar */}
+              {/* Search */}
               <input
                 value={lbcSearch} onChange={e => setLbcSearch(e.target.value)}
                 placeholder="Search events, organizations, venues…"
-                style={{ ...css.input, marginBottom: 8, fontSize: 14 }}
+                style={{ ...css.input, marginBottom: 10, fontSize: 14 }}
               />
 
-              {/* Filter toggle */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: lbcFiltersOpen ? 10 : 12 }}>
-                <button onClick={() => setLbcFiltersOpen(o => !o)} style={{
-                  display: 'flex', alignItems: 'center', gap: 6, height: 32, padding: '0 12px',
-                  borderRadius: 8, border: '1px solid', cursor: 'pointer', fontSize: 12, fontWeight: 600,
-                  borderColor: activeFilterCount > 0 ? '#2563eb' : '#e5e7eb',
-                  background: activeFilterCount > 0 ? '#eff6ff' : '#fff',
-                  color: activeFilterCount > 0 ? '#2563eb' : '#6b7280',
-                }}>
-                  <span>⚙ Filters</span>
-                  {activeFilterCount > 0 && <span style={{ background: '#2563eb', color: '#fff', borderRadius: 10, padding: '0 6px', fontSize: 10, fontWeight: 700 }}>{activeFilterCount}</span>}
-                  <span style={{ fontSize: 10 }}>{lbcFiltersOpen ? '▲' : '▼'}</span>
-                </button>
-                <span style={{ fontSize: 12, color: '#9ca3af' }}>{filteredLbc.length} of {lbcEvents.length} events</span>
+              {/* Quick filter pills row */}
+              <div style={{ display: 'flex', gap: 6, overflowX: 'auto', scrollbarWidth: 'none' as const, marginBottom: 8, paddingBottom: 2 }}>
+                <FilterPill label="All dates" active={lbcDateRange === 'all'} onClick={() => setLbcDateRange('all')} />
+                <FilterPill label="Today" active={lbcDateRange === 'today'} onClick={() => setLbcDateRange('today')} />
+                <FilterPill label="This week" active={lbcDateRange === 'week'} onClick={() => setLbcDateRange('week')} />
+                <FilterPill label="This month" active={lbcDateRange === 'month'} onClick={() => setLbcDateRange('month')} />
+                <div style={{ width: 1, height: 32, background: '#e5e7eb', flexShrink: 0, alignSelf: 'center' }} />
+                <FilterPill label="Networking" active={lbcCategory === 'Networking'} onClick={() => setLbcCategory(lbcCategory === 'Networking' ? 'all' : 'Networking')} />
+                <FilterPill label="Educational" active={lbcCategory === 'Educational'} onClick={() => setLbcCategory(lbcCategory === 'Educational' ? 'all' : 'Educational')} />
               </div>
 
-              {/* Collapsible filter panel */}
-              {lbcFiltersOpen && (
-                <div style={{ background: '#f8f9fb', border: '1px solid #e8eaed', borderRadius: 12, padding: 14, marginBottom: 14 }}>
+              {/* More filters + result count row */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <button onClick={() => setLbcMoreFiltersOpen(o => !o)} style={{
+                  display: 'flex', alignItems: 'center', gap: 5, height: 30, padding: '0 12px',
+                  borderRadius: 8, border: '1px solid', cursor: 'pointer', fontSize: 12, fontWeight: 600,
+                  borderColor: (lbcCost !== 'all' || lbcParticipation !== 'all') ? '#2563eb' : '#e5e7eb',
+                  background: (lbcCost !== 'all' || lbcParticipation !== 'all') ? '#eff6ff' : '#fff',
+                  color: (lbcCost !== 'all' || lbcParticipation !== 'all') ? '#2563eb' : '#6b7280',
+                }}>
+                  <span>More filters</span>
+                  {(lbcCost !== 'all' || lbcParticipation !== 'all') && <span style={{ background: '#2563eb', color: '#fff', borderRadius: 10, padding: '0 5px', fontSize: 10, fontWeight: 700 }}>!</span>}
+                  <span style={{ fontSize: 10 }}>{lbcMoreFiltersOpen ? '▲' : '▼'}</span>
+                </button>
+                <span style={{ fontSize: 12, color: '#9ca3af' }}>{filteredLbc.length} of {lbcEvents.length}</span>
+              </div>
 
-                  {/* Date range */}
+              {/* Expandable: cost + participation */}
+              {lbcMoreFiltersOpen && (
+                <div style={{ background: '#f8f9fb', border: '1px solid #e8eaed', borderRadius: 12, padding: '12px 14px', marginBottom: 12 }}>
                   <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 7 }}>Date</div>
+                    <FilterLabel>Cost</FilterLabel>
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
-                      {([['all','All'],['today','Today'],['week','This Week'],['month','This Month']] as const).map(([v, l]) => (
-                        <FilterPill key={v} label={l} active={lbcDateRange === v} onClick={() => setLbcDateRange(v)} />
+                      {(['all','Free','Paid','Unknown','Both'] as const).map(v => (
+                        <FilterPill key={v} label={v === 'all' ? 'All' : v === 'Both' ? 'Free + Paid' : v} active={lbcCost === v} onClick={() => setLbcCost(v)} />
                       ))}
                     </div>
                   </div>
-
-                  {/* Cost */}
-                  <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 7 }}>Cost</div>
+                  <div>
+                    <FilterLabel>Format</FilterLabel>
                     <div style={{ display: 'flex', gap: 6 }}>
-                      <FilterPill label="All" active={lbcCost === 'all'} onClick={() => setLbcCost('all')} />
-                      <FilterPill label="Free" active={lbcCost === 'free'} onClick={() => setLbcCost('free')} />
-                      <FilterPill label="Paid" active={lbcCost === 'paid'} onClick={() => setLbcCost('paid')} />
+                      <FilterPill label="All" active={lbcParticipation === 'all'} onClick={() => setLbcParticipation('all')} />
+                      <FilterPill label="In-Person" active={lbcParticipation === 'In-Person'} onClick={() => setLbcParticipation('In-Person')} />
+                      <FilterPill label="Virtual" active={lbcParticipation === 'Virtual'} onClick={() => setLbcParticipation('Virtual')} />
                     </div>
                   </div>
-
-                  {/* Participation */}
-                  {participationOptions.length > 0 && (
-                    <div style={{ marginBottom: 12 }}>
-                      <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 7 }}>Participation</div>
-                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
-                        <FilterPill label="All" active={lbcParticipation === 'all'} onClick={() => setLbcParticipation('all')} />
-                        {participationOptions.map(p => (
-                          <FilterPill key={p} label={p} active={lbcParticipation === p} onClick={() => setLbcParticipation(p)} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Category */}
-                  {categoryOptions.length > 0 && (
-                    <div style={{ marginBottom: 4 }}>
-                      <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 7 }}>Category</div>
-                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
-                        <FilterPill label="All" active={lbcCategory === 'all'} onClick={() => setLbcCategory('all')} />
-                        {categoryOptions.map(c => (
-                          <FilterPill key={c} label={c.charAt(0).toUpperCase() + c.slice(1)} active={lbcCategory === c} onClick={() => setLbcCategory(c)} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Clear */}
                   {activeFilterCount > 0 && (
-                    <button onClick={() => { setLbcCost('all'); setLbcParticipation('all'); setLbcCategory('all'); setLbcDateRange('all'); setLbcSearch(''); }} style={{
-                      marginTop: 12, fontSize: 12, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontWeight: 600,
-                    }}>✕ Clear all filters</button>
+                    <button onClick={clearAllFilters} style={{ marginTop: 12, fontSize: 12, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontWeight: 600 }}>
+                      ✕ Clear all filters
+                    </button>
                   )}
                 </div>
               )}
@@ -435,6 +606,7 @@ export default function NAEventsPage() {
                 </div>
               ) : filteredLbc.map(ev => {
                 const flagged = flaggedIds.has(ev.id);
+                const costColor = ev.paid === 'Free' ? { bg: '#f0fdf4', text: '#15803d' } : ev.paid === 'Paid' ? { bg: '#fef3c7', text: '#92400e' } : { bg: '#f3f4f6', text: '#6b7280' };
                 return (
                   <div key={ev.id} style={css.card}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
@@ -444,17 +616,9 @@ export default function NAEventsPage() {
                         {ev.group_name && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 1 }}>{ev.group_name}</div>}
                         {ev.event_address && <div style={{ fontSize: 12, color: '#9ca3af' }}>{ev.event_address}</div>}
                         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginTop: 6 }}>
-                          {ev.paid && (
-                            <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 10, background: ev.paid.toLowerCase().includes('free') ? '#f0fdf4' : '#fef3c7', color: ev.paid.toLowerCase().includes('free') ? '#15803d' : '#92400e', textTransform: 'uppercase' as const }}>
-                              {ev.paid.toLowerCase().includes('free') ? 'Free' : 'Paid'}
-                            </span>
-                          )}
-                          {ev.participation && (
-                            <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 10, background: '#f0f4ff', color: '#3b5bdb' }}>{ev.participation}</span>
-                          )}
-                          {ev.event_type && (
-                            <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 10, background: '#f9fafb', color: '#6b7280', textTransform: 'capitalize' as const }}>{ev.event_type}</span>
-                          )}
+                          {ev.paid && <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 10, background: costColor.bg, color: costColor.text, textTransform: 'uppercase' as const }}>{ev.paid}</span>}
+                          {ev.participation && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 10, background: '#f0f4ff', color: '#3b5bdb' }}>{ev.participation}</span>}
+                          {ev.event_type && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 10, background: '#f9fafb', color: '#6b7280' }}>{ev.event_type}</span>}
                         </div>
                       </div>
                       <button onClick={() => handleFlag(ev)} disabled={flagged} style={{
@@ -468,6 +632,7 @@ export default function NAEventsPage() {
                 );
               })}
             </>
+          )
         ) : (
           myEvents.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#6b7280', padding: '32px 0', fontSize: 14 }}>
