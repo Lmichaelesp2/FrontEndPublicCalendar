@@ -91,6 +91,11 @@ export default function NAHomePage() {
   const [queueSearch, setQueueSearch]       = useState('');
   const [contactsView, setContactsView]     = useState<'people' | 'companies'>('people');
   const [expandedCompany, setExpandedCompany] = useState<string | null>(null);
+  // Event filters
+  const [evSearch, setEvSearch]             = useState('');
+  const [evTypeFilter, setEvTypeFilter]     = useState<string>('all');
+  const [evDateFilter, setEvDateFilter]     = useState<'all' | 'today' | 'week' | 'month'>('all');
+  const [evFiltersOpen, setEvFiltersOpen]   = useState(false);
 
   useEffect(() => {
     setActiveEventName(localStorage.getItem('na_active_event_name'));
@@ -536,55 +541,150 @@ export default function NAHomePage() {
 
   const EventsList = () => {
     const todayStr = new Date().toISOString().split('T')[0];
-    const todayEvents = events.filter((e: any) => e.event_date === todayStr);
-    const otherEvents = events.filter((e: any) => e.event_date !== todayStr);
+    const weekEnd  = new Date(); weekEnd.setDate(weekEnd.getDate() + 7);
+    const monthEnd = new Date(); monthEnd.setDate(monthEnd.getDate() + 30);
+    const weekStr  = weekEnd.toISOString().split('T')[0];
+    const monthStr = monthEnd.toISOString().split('T')[0];
 
-    if (events.length === 0) return (
-      <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
-        No events. <a href="/networking-assistant-beta-2026/events" style={{ color: '#2563eb' }}>Browse LBC →</a>
+    // Derive unique event types for the type filter
+    const eventTypes = Array.from(new Set(events.map((e: any) => e.event_type).filter(Boolean))) as string[];
+
+    const filtered = events.filter((ev: any) => {
+      const q = evSearch.toLowerCase();
+      const matchSearch = !q || ev.event_name.toLowerCase().includes(q) || (ev.host_org ?? '').toLowerCase().includes(q);
+      const matchType = evTypeFilter === 'all' || ev.event_type === evTypeFilter;
+      const matchDate = evDateFilter === 'all' ? true
+        : evDateFilter === 'today' ? ev.event_date === todayStr
+        : evDateFilter === 'week'  ? ev.event_date >= todayStr && ev.event_date <= weekStr
+        : ev.event_date >= todayStr && ev.event_date <= monthStr;
+      return matchSearch && matchType && matchDate;
+    });
+
+    const todayEvents   = filtered.filter((e: any) => e.event_date === todayStr);
+    const upcomingEvents = filtered.filter((e: any) => e.event_date > todayStr);
+    const activeFilters = (evSearch ? 1 : 0) + (evTypeFilter !== 'all' ? 1 : 0) + (evDateFilter !== 'all' ? 1 : 0);
+
+    const EventCard = ({ ev, highlight }: { ev: any; highlight?: boolean }) => (
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        padding: '10px 0', borderBottom: `1px solid ${highlight ? '#fed7aa' : '#f3f4f6'}`,
+      }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{ev.event_name}</div>
+          <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 600 }}>{formatDate(ev.event_date)}</div>
+          {ev.host_org && <div style={{ fontSize: 11, color: '#9ca3af' }}>{ev.host_org}</div>}
+          {ev.event_type && (
+            <span style={{ display: 'inline-block', marginTop: 3, fontSize: 10, fontWeight: 600, background: '#f0f4ff', color: '#3b5bdb', borderRadius: 4, padding: '1px 6px', textTransform: 'capitalize' as const }}>
+              {ev.event_type}
+            </span>
+          )}
+        </div>
+        <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+          height: 30, padding: '0 10px', borderRadius: 6, background: highlight ? '#c2410c' : '#042C53',
+          color: '#fff', fontWeight: 700, fontSize: 11, textDecoration: 'none',
+          display: 'inline-flex', alignItems: 'center', flexShrink: 0, marginLeft: 10,
+        }}>Capture →</a>
       </div>
     );
 
     return (
       <div>
-        {todayEvents.length > 0 && (
-          <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '12px 14px', marginBottom: 16 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#c2410c', marginBottom: 10, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>
-              📍 Today · {todayEvents.length} event{todayEvents.length > 1 ? 's' : ''} — tap Capture when you arrive
-            </div>
-            {todayEvents.map((ev: any) => (
-              <div key={ev.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderTop: '1px solid #fed7aa' }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{ev.event_name}</div>
-                  {ev.host_org && <div style={{ fontSize: 11, color: '#9ca3af' }}>{ev.host_org}</div>}
-                </div>
-                <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
-                  height: 34, padding: '0 14px', borderRadius: 7, background: '#c2410c',
-                  color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
-                  display: 'inline-flex', alignItems: 'center', flexShrink: 0, marginLeft: 10,
-                }}>Capture →</a>
+        {/* Search bar */}
+        <input
+          value={evSearch} onChange={e => setEvSearch(e.target.value)}
+          placeholder="Search events, organizations…"
+          style={{ width: '100%', boxSizing: 'border-box' as const, padding: '8px 12px', borderRadius: 8, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', marginBottom: 8, outline: 'none' }}
+        />
+
+        {/* Filter toggle row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: evFiltersOpen ? 10 : 6 }}>
+          <button onClick={() => setEvFiltersOpen(o => !o)} style={{
+            display: 'flex', alignItems: 'center', gap: 5, height: 30, padding: '0 10px',
+            borderRadius: 6, border: '1px solid #e8eaed', background: activeFilters > 0 ? '#eff6ff' : '#fff',
+            color: activeFilters > 0 ? '#2563eb' : '#6b7280', fontSize: 12, fontWeight: 600, cursor: 'pointer',
+          }}>
+            <span>⚙ Filters</span>
+            {activeFilters > 0 && <span style={{ background: '#2563eb', color: '#fff', borderRadius: 10, padding: '0 5px', fontSize: 10 }}>{activeFilters}</span>}
+            <span style={{ fontSize: 10 }}>{evFiltersOpen ? '▲' : '▼'}</span>
+          </button>
+          <span style={{ fontSize: 11, color: '#9ca3af' }}>{filtered.length} event{filtered.length !== 1 ? 's' : ''}</span>
+        </div>
+
+        {/* Collapsible filter panel */}
+        {evFiltersOpen && (
+          <div style={{ background: '#f8f9fb', border: '1px solid #e8eaed', borderRadius: 10, padding: '12px', marginBottom: 12 }}>
+            {/* Date filter */}
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 6 }}>Date Range</div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
+                {([['all','All'],['today','Today'],['week','This Week'],['month','This Month']] as const).map(([val, label]) => (
+                  <button key={val} onClick={() => setEvDateFilter(val)} style={{
+                    height: 28, padding: '0 10px', borderRadius: 14, border: '1px solid',
+                    fontSize: 11, cursor: 'pointer', fontWeight: evDateFilter === val ? 700 : 400,
+                    borderColor: evDateFilter === val ? '#042C53' : '#e8eaed',
+                    background: evDateFilter === val ? '#042C53' : '#fff',
+                    color: evDateFilter === val ? '#fff' : '#374151',
+                  }}>{label}</button>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Type filter */}
+            {eventTypes.length > 0 && (
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 6 }}>Event Type</div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
+                  <button onClick={() => setEvTypeFilter('all')} style={{
+                    height: 28, padding: '0 10px', borderRadius: 14, border: '1px solid',
+                    fontSize: 11, cursor: 'pointer', fontWeight: evTypeFilter === 'all' ? 700 : 400,
+                    borderColor: evTypeFilter === 'all' ? '#042C53' : '#e8eaed',
+                    background: evTypeFilter === 'all' ? '#042C53' : '#fff',
+                    color: evTypeFilter === 'all' ? '#fff' : '#374151',
+                  }}>All</button>
+                  {eventTypes.map(t => (
+                    <button key={t} onClick={() => setEvTypeFilter(t)} style={{
+                      height: 28, padding: '0 10px', borderRadius: 14, border: '1px solid',
+                      fontSize: 11, cursor: 'pointer', fontWeight: evTypeFilter === t ? 700 : 400,
+                      borderColor: evTypeFilter === t ? '#042C53' : '#e8eaed',
+                      background: evTypeFilter === t ? '#042C53' : '#fff',
+                      color: evTypeFilter === t ? '#fff' : '#374151', textTransform: 'capitalize' as const,
+                    }}>{t}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Clear */}
+            {activeFilters > 0 && (
+              <button onClick={() => { setEvTypeFilter('all'); setEvDateFilter('all'); setEvSearch(''); }} style={{
+                marginTop: 10, fontSize: 11, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontWeight: 600,
+              }}>✕ Clear all filters</button>
+            )}
           </div>
         )}
-        {otherEvents.length > 0 && (
+
+        {events.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
+            No events saved yet. <a href="/networking-assistant-beta-2026/events" style={{ color: '#2563eb' }}>Browse LBC →</a>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '32px 0', fontSize: 13, color: '#9ca3af' }}>No events match your filters.</div>
+        ) : (
           <>
             {todayEvents.length > 0 && (
-              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8 }}>Upcoming</div>
-            )}
-            {otherEvents.map((ev: any) => (
-              <div key={ev.id} style={{ padding: '10px 0', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#111827', marginBottom: 1 }}>{ev.event_name}</div>
-                  <div style={{ fontSize: 11, color: '#2563eb', fontWeight: 600 }}>{formatDate(ev.event_date)}</div>
-                  {ev.host_org && <div style={{ fontSize: 11, color: '#9ca3af' }}>{ev.host_org}</div>}
+              <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '12px 14px', marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#c2410c', marginBottom: 6, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>
+                  📍 Today · {todayEvents.length} event{todayEvents.length > 1 ? 's' : ''} — tap Capture when you arrive
                 </div>
-                <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
-                  height: 28, padding: '0 10px', borderRadius: 5, background: '#042C53', color: '#fff',
-                  fontWeight: 700, fontSize: 11, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', flexShrink: 0, marginLeft: 8,
-                }}>Capture →</a>
+                {todayEvents.map((ev: any) => <EventCard key={ev.id} ev={ev} highlight />)}
               </div>
-            ))}
+            )}
+            {upcomingEvents.length > 0 && (
+              <>
+                {todayEvents.length > 0 && <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase' as const, margin: '8px 0' }}>Upcoming</div>}
+                {upcomingEvents.map((ev: any) => <EventCard key={ev.id} ev={ev} />)}
+              </>
+            )}
           </>
         )}
       </div>
