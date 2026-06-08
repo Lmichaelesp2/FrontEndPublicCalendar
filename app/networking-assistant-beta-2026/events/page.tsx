@@ -107,6 +107,16 @@ function toggleSet(set: Set<string>, setFn: (s: Set<string>) => void, val: strin
   setFn(next);
 }
 
+function timeOfDayBucket(timeStr: string | null): 'morning' | 'lunch' | 'afternoon' | 'evening' | null {
+  if (!timeStr) return null;
+  const [h, m] = timeStr.split(':').map(Number);
+  const mins = h * 60 + (m || 0);
+  if (mins < 690)  return 'morning';    // before 11:30
+  if (mins < 810)  return 'lunch';      // 11:30–13:30
+  if (mins < 1020) return 'afternoon';  // 13:30–17:00
+  return 'evening';                     // 17:00+
+}
+
 const css = {
   page: { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 80 } as React.CSSProperties,
   header: { background: '#042C53', padding: '0 16px' } as React.CSSProperties,
@@ -275,6 +285,11 @@ export default function NAEventsPage() {
     }
   }
 
+  function clearAllFilters() {
+    setLbcSearch(''); setLbcCosts(new Set()); setLbcFormats(new Set());
+    setLbcCategories(new Set()); setLbcTimes(new Set()); setLbcDateRange('all');
+  }
+
   if (loading) return (
     <div style={{ minHeight: '100vh', background: '#f4f6f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#6b7280' }}>
       Loading…
@@ -286,16 +301,6 @@ export default function NAEventsPage() {
   const todayStr  = new Date().toISOString().split('T')[0];
   const weekStr   = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
   const monthStr  = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
-
-  function timeOfDayBucket(timeStr: string | null): 'morning' | 'lunch' | 'afternoon' | 'evening' | null {
-    if (!timeStr) return null;
-    const [h, m] = timeStr.split(':').map(Number);
-    const mins = h * 60 + (m || 0);
-    if (mins < 690)  return 'morning';    // before 11:30
-    if (mins < 810)  return 'lunch';      // 11:30–13:30
-    if (mins < 1020) return 'afternoon';  // 13:30–17:00
-    return 'evening';                     // 17:00+
-  }
 
   const filteredLbc = lbcEvents.filter(ev => {
     const q = lbcSearch.toLowerCase();
@@ -317,13 +322,6 @@ export default function NAEventsPage() {
   });
 
   const activeFilterCount = (lbcSearch ? 1 : 0) + lbcCosts.size + lbcFormats.size + lbcCategories.size + lbcTimes.size + (lbcDateRange !== 'all' ? 1 : 0);
-
-  function clearAllFilters() {
-    setLbcSearch(''); setLbcCosts(new Set()); setLbcFormats(new Set());
-    setLbcCategories(new Set()); setLbcTimes(new Set()); setLbcDateRange('all');
-  }
-
-  // Desktop sidebar filter panel (inlined at usage site to avoid SWC sub-component parse issues)
 
   return (
     <div style={css.page}>
