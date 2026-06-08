@@ -584,11 +584,18 @@ export default function NAEventsPage() {
                       <div style={{ width: 36, height: 4, borderRadius: 2, background: '#d1d5db', margin: '0 auto 14px' }} />
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
                         <div style={{ fontSize: 17, fontWeight: 800, color: '#111827' }}>Filters</div>
-                        {activeFilterCount > 0 && (
-                          <button onClick={clearAllFilters} style={{ fontSize: 13, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>
-                            Clear all
-                          </button>
-                        )}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          {activeFilterCount > 0 && (
+                            <button onClick={clearAllFilters} style={{ fontSize: 13, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>
+                              Clear all
+                            </button>
+                          )}
+                          <button onClick={() => setFilterSheetOpen(false)} style={{
+                            width: 30, height: 30, borderRadius: '50%', border: 'none', cursor: 'pointer',
+                            background: '#f3f4f6', color: '#6b7280', fontSize: 18, lineHeight: 1,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 400,
+                          }}>×</button>
+                        </div>
                       </div>
                     </div>
 
