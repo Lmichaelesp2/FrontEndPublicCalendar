@@ -37,7 +37,7 @@ export type NAPerson = {
   city: string | null;
   industry: string | null;
   tags: string[] | null;
-  relationship_status: 'hot' | 'warm' | 'cold' | 'archived';
+  relationship_status: 'prospect' | 'referral' | 'connector' | 'archived';
   first_met_event_id: string | null;
   first_met_date: string | null;
   notes: string | null;

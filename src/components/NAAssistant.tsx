@@ -101,7 +101,7 @@ export function NAAssistant({ context, onHelpRef }: { context: NAContext; onHelp
       {/* Chat panel */}
       {open && (
         <div style={{
-          position: 'fixed', bottom: 80, right: 16, width: 340, maxHeight: '70vh',
+          position: 'fixed', bottom: 138, right: 16, width: 340, maxHeight: '65vh',
           background: '#fff', borderRadius: 16, boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
           zIndex: 9997, display: 'flex', flexDirection: 'column', overflow: 'hidden',
           border: '1px solid #e5e7eb',
@@ -187,7 +187,7 @@ export function NAAssistant({ context, onHelpRef }: { context: NAContext; onHelp
       )}
 
       {/* AI assistant floating button only */}
-      <div style={{ position: 'fixed', bottom: 16, right: 16, zIndex: 9996 }}>
+      <div style={{ position: 'fixed', bottom: 74, right: 16, zIndex: 9996 }}>
         <button onClick={() => setOpen(o => !o)} style={{
           width: 52, height: 52, borderRadius: '50%', border: 'none', cursor: 'pointer',
           background: open ? '#042C53' : '#7c3aed', color: '#fff', fontSize: 22,

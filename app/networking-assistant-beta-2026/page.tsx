@@ -1001,7 +1001,7 @@ export default function NAHomePage() {
 
   // ────────────────────────── MOBILE LAYOUT ──────────────────────────
   return (
-    <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72 }}>
+    <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72, overscrollBehavior: 'none', touchAction: 'pan-y' }}>
       <div style={{ background: '#042C53' }}>
         <div style={{ padding: '0 16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 52 }}>
@@ -1055,7 +1055,7 @@ export default function NAHomePage() {
         </div>
       </div>
 
-      <div style={{ padding: '16px 16px 0' }}>
+      <div style={{ padding: '16px 16px 0', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
         {pageLoading ? (
           <div style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 48, fontSize: 13 }}>Loading…</div>
         ) : mobileTab === 'queue' ? <QueueContent />
