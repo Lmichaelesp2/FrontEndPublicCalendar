@@ -398,7 +398,7 @@ export function Navigation() {
               {/* Networking Assistant — premium users only */}
               {user && profile?.subscription_tier && profile.subscription_tier !== 'free' && (
                 <Link
-                  href="/networking-assistant-beta-2026"
+                  href="/networking-assistant"
                   className="nav-link"
                   style={{ marginRight: '4px' }}
                 >

@@ -321,7 +321,7 @@ export default function NAEventsPage() {
       Loading…
     </div>
   );
-  if (!user) { router.push('/networking-assistant-beta-2026'); return null; }
+  if (!user) { router.push('/networking-assistant'); return null; }
 
   return (
     <div style={css.page}>
@@ -329,7 +329,7 @@ export default function NAEventsPage() {
       <div style={css.header}>
         <div style={css.headerInner}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <a href="/networking-assistant-beta-2026" style={{
+            <a href="/networking-assistant" style={{
               display: 'flex', alignItems: 'center', gap: 3,
               color: 'rgba(255,255,255,0.55)', fontSize: 14, fontWeight: 500, textDecoration: 'none',
               padding: '10px 14px 10px 2px', margin: '-10px 0', letterSpacing: 0.1,
@@ -385,7 +385,7 @@ export default function NAEventsPage() {
             <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{localStorage.getItem('na_active_event_name')}</div>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <a href="/networking-assistant-beta-2026/capture" style={{
+            <a href="/networking-assistant/capture" style={{
               height: 32, borderRadius: 8, background: '#fff', color: '#c2410c',
               fontWeight: 700, fontSize: 12, padding: '0 12px', textDecoration: 'none',
               display: 'inline-flex', alignItems: 'center',
@@ -922,7 +922,7 @@ export default function NAEventsPage() {
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
                         {activeEventId === ev.id ? (
                           <>
-                            <a href="/networking-assistant-beta-2026/capture" style={{
+                            <a href="/networking-assistant/capture" style={{
                               height: 36, borderRadius: 8, background: '#c2410c', color: '#fff',
                               fontWeight: 700, fontSize: 12, padding: '0 14px', textDecoration: 'none',
                               display: 'inline-flex', alignItems: 'center', flexShrink: 0,
@@ -938,7 +938,7 @@ export default function NAEventsPage() {
                               height: 36, borderRadius: 8, background: '#042C53', color: '#fff',
                               fontWeight: 700, fontSize: 12, padding: '0 12px', border: 'none', cursor: 'pointer', flexShrink: 0,
                             }}>I'm going →</button>
-                            <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+                            <a href={`/networking-assistant/capture?event=${ev.id}`} style={{
                               height: 26, borderRadius: 6, border: '1px solid #e5e7eb', background: '#fff',
                               color: '#374151', fontWeight: 500, fontSize: 11, padding: '0 10px', textDecoration: 'none',
                               display: 'inline-flex', alignItems: 'center',
@@ -965,10 +965,10 @@ export default function NAEventsPage() {
           backdropFilter: 'blur(8px)',
         }}>
           {[
-            { href: '/networking-assistant-beta-2026', icon: '◎', label: 'Queue' },
-            { href: '/networking-assistant-beta-2026?tab=people', icon: '👤', label: 'Contacts' },
-            { href: '/networking-assistant-beta-2026/events', icon: '📅', label: 'Events', active: true },
-            { href: '/networking-assistant-beta-2026?tab=orgs', icon: '🏛', label: 'Orgs' },
+            { href: '/networking-assistant', icon: '◎', label: 'Queue' },
+            { href: '/networking-assistant?tab=people', icon: '👤', label: 'Contacts' },
+            { href: '/networking-assistant/events', icon: '📅', label: 'Events', active: true },
+            { href: '/networking-assistant?tab=orgs', icon: '🏛', label: 'Orgs' },
           ].map(item => (
             <a key={item.href} href={item.href} style={{
               flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',

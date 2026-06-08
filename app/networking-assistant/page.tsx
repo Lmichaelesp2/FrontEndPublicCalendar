@@ -325,7 +325,7 @@ export default function NAHomePage() {
         <div style={{ width: 8, height: 8, borderRadius: '50%', background: BUCKET_DOT[bucket], flexShrink: 0, marginTop: 6 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 3 }}>
-            <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`}
+            <a href={`/networking-assistant/persons/${fu.person_id}`}
               style={{ fontSize: 14, fontWeight: 700, color: '#111827', textDecoration: 'none' }}>
               {name}
             </a>
@@ -349,7 +349,7 @@ export default function NAHomePage() {
               height: 28, padding: '0 12px', borderRadius: 5, border: '1px solid #e5e7eb',
               background: '#fff', color: '#374151', fontWeight: 600, fontSize: 12, cursor: 'pointer',
             }}>Snooze 2d</button>
-            <a href={`/networking-assistant-beta-2026/persons/${fu.person_id}`} style={{
+            <a href={`/networking-assistant/persons/${fu.person_id}`} style={{
               height: 28, padding: '0 12px', borderRadius: 5, border: '1px solid #dbeafe',
               background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: 12,
               textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
@@ -431,11 +431,11 @@ export default function NAHomePage() {
             <div style={{ fontSize: 14, color: '#4b5563', lineHeight: 1.7, textAlign: 'center', marginBottom: 28 }}>
               Tap <strong>?</strong> in the top right any time you need a reminder of how things work. You won't see this setup screen again.
             </div>
-            <a href="/networking-assistant-beta-2026/capture" onClick={() => finish(welcomeCity)} style={{
+            <a href="/networking-assistant/capture" onClick={() => finish(welcomeCity)} style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', height: 50, borderRadius: 12,
               background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 16, textDecoration: 'none', marginBottom: 10,
             }}>🎤 Capture your first contact →</a>
-            <a href="/networking-assistant-beta-2026/events" onClick={() => finish(welcomeCity)} style={{
+            <a href="/networking-assistant/events" onClick={() => finish(welcomeCity)} style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', height: 44, borderRadius: 12,
               background: '#042C53', color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none', marginBottom: 10,
             }}>📅 Browse upcoming events first</a>
@@ -472,7 +472,7 @@ export default function NAHomePage() {
           <div style={{ fontSize: 13, color: '#9ca3af', marginBottom: 24 }}>
             Use 🎤 Voice for the fastest capture — just say their name and what you talked about.
           </div>
-          <a href="/networking-assistant-beta-2026/capture" style={{
+          <a href="/networking-assistant/capture" style={{
             display: 'inline-flex', alignItems: 'center', height: 48, padding: '0 28px',
             borderRadius: 10, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none', gap: 8,
           }}>🎤 Capture Your First Contact →</a>
@@ -488,11 +488,11 @@ export default function NAHomePage() {
               </div>
               <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 20 }}>Capture contacts as you meet them — your follow-ups will queue up automatically.</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 280, margin: '0 auto' }}>
-                <a href="/networking-assistant-beta-2026/capture" style={{
+                <a href="/networking-assistant/capture" style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center', height: 44,
                   borderRadius: 9, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none',
                 }}>🎤 Capture a Contact</a>
-                <a href="/networking-assistant-beta-2026/events" style={{
+                <a href="/networking-assistant/events" style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center', height: 38,
                   borderRadius: 9, background: '#042C53', color: '#fff', fontWeight: 600, fontSize: 13, textDecoration: 'none',
                 }}>📅 Browse Events</a>
@@ -503,7 +503,7 @@ export default function NAHomePage() {
               <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 20, lineHeight: 1.6 }}>
                 No follow-ups pending. Check back after your next event.
               </div>
-              <a href="/networking-assistant-beta-2026/capture" style={{
+              <a href="/networking-assistant/capture" style={{
                 display: 'inline-flex', alignItems: 'center', height: 38, padding: '0 20px',
                 borderRadius: 7, background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
               }}>+ Capture a Contact</a>
@@ -542,7 +542,7 @@ export default function NAHomePage() {
     }
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid #f3f4f6' }}>
-        <a href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
+        <a href={`/networking-assistant/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
           <div style={{
             width: 34, height: 34, borderRadius: '50%', background: '#eff6ff',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -583,7 +583,7 @@ export default function NAHomePage() {
       />
       {persons.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
-          No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
+          No contacts yet. <a href="/networking-assistant/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
         </div>
       ) : filteredPersons.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '32px 0', fontSize: 13, color: '#9ca3af' }}>No contacts match "{contactSearch}"</div>
@@ -651,7 +651,7 @@ export default function NAHomePage() {
                 {isOpen && (
                   <div style={{ background: '#fafafa', border: '1px solid #e8eaed', borderTop: 'none', borderRadius: '0 0 8px 8px', padding: '4px 0' }}>
                     {g.contacts.map((p: any) => (
-                      <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{
+                      <a key={p.id} href={`/networking-assistant/persons/${p.id}`} style={{
                         display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
                         textDecoration: 'none', borderBottom: '1px solid #f3f4f6',
                       }}
@@ -720,7 +720,7 @@ export default function NAHomePage() {
             </span>
           )}
         </div>
-        <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+        <a href={`/networking-assistant/capture?event=${ev.id}`} style={{
           height: 30, padding: '0 10px', borderRadius: 6, background: highlight ? '#c2410c' : '#042C53',
           color: '#fff', fontWeight: 700, fontSize: 11, textDecoration: 'none',
           display: 'inline-flex', alignItems: 'center', flexShrink: 0, marginLeft: 10,
@@ -806,7 +806,7 @@ export default function NAHomePage() {
 
         {events.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '48px 0', fontSize: 13, color: '#6b7280' }}>
-            No events saved yet. <a href="/networking-assistant-beta-2026/events" style={{ color: '#2563eb' }}>Browse LBC →</a>
+            No events saved yet. <a href="/networking-assistant/events" style={{ color: '#2563eb' }}>Browse LBC →</a>
           </div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '32px 0', fontSize: 13, color: '#9ca3af' }}>No events match your filters.</div>
@@ -965,7 +965,7 @@ export default function NAHomePage() {
                     <span style={{ fontSize: 11, color: '#9ca3af', flexShrink: 0, marginRight: 8 }}>{isExpanded ? '▲' : '▼'}</span>
                   </button>
                   <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                    <a href={`/networking-assistant-beta-2026/capture?org=${m.id}&orgname=${encodeURIComponent(m.org_name ?? '')}`} style={{
+                    <a href={`/networking-assistant/capture?org=${m.id}&orgname=${encodeURIComponent(m.org_name ?? '')}`} style={{
                       height: 32, padding: '0 12px', borderRadius: 6, background: '#c2410c',
                       color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
                       display: 'inline-flex', alignItems: 'center',
@@ -988,13 +988,13 @@ export default function NAHomePage() {
                     ) : contacts.length === 0 ? (
                       <div style={{ textAlign: 'center', padding: '16px 0', fontSize: 13, color: '#9ca3af' }}>
                         No contacts captured through this org yet.{' '}
-                        <a href={`/networking-assistant-beta-2026/capture?org=${m.id}&orgname=${encodeURIComponent(m.org_name ?? '')}`} style={{ color: '#2563eb' }}>Capture first →</a>
+                        <a href={`/networking-assistant/capture?org=${m.id}&orgname=${encodeURIComponent(m.org_name ?? '')}`} style={{ color: '#2563eb' }}>Capture first →</a>
                       </div>
                     ) : contacts.map((c: any) => {
                       const p = c.na_persons;
                       if (!p) return null;
                       return (
-                        <a key={c.person_id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{
+                        <a key={c.person_id} href={`/networking-assistant/persons/${p.id}`} style={{
                           display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
                           textDecoration: 'none', borderBottom: '1px solid #f0f0f0',
                         }}
@@ -1057,12 +1057,12 @@ export default function NAHomePage() {
         </div>
         {persons.length === 0 ? (
           <div style={{ textAlign: 'center', paddingTop: 48, fontSize: 13, color: '#6b7280' }}>
-            No contacts yet. <a href="/networking-assistant-beta-2026/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
+            No contacts yet. <a href="/networking-assistant/capture" style={{ color: '#2563eb' }}>Capture your first →</a>
           </div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: 'center', paddingTop: 32, fontSize: 13, color: '#9ca3af' }}>No contacts match your filters.</div>
         ) : filtered.map((p: any) => (
-          <a key={p.id} href={`/networking-assistant-beta-2026/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', marginBottom: 6, background: '#fff', borderRadius: 8, border: '1px solid #e8eaed' }}
+          <a key={p.id} href={`/networking-assistant/persons/${p.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', marginBottom: 6, background: '#fff', borderRadius: 8, border: '1px solid #e8eaed' }}
             onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)')}
             onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
           >
@@ -1149,7 +1149,7 @@ export default function NAHomePage() {
             </svg>
             Log Out
           </button>
-          <a href="/networking-assistant-beta-2026/capture" style={{
+          <a href="/networking-assistant/capture" style={{
             height: 34, padding: '0 18px', borderRadius: 8, background: '#c2410c',
             color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
             display: 'inline-flex', alignItems: 'center', gap: 5,
@@ -1171,7 +1171,7 @@ export default function NAHomePage() {
           <NavItem label="My Organizations" icon="🏛" active={desktopView === 'orgs'} badge={memberships.length > 0 ? memberships.length : undefined} onClick={() => setDesktopView('orgs')} />
           <NavSection label="My Activity" />
           <NavItem label="My Events" icon="📅" active={desktopView === 'events'} onClick={() => setDesktopView('events')} />
-          <NavItem label="+ Add Events" icon="↗" href="/networking-assistant-beta-2026/events" />
+          <NavItem label="+ Add Events" icon="↗" href="/networking-assistant/events" />
         </div>
 
         {/* Main content */}
@@ -1222,7 +1222,7 @@ export default function NAHomePage() {
                 <div style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>
                   My Events <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{events.length}</span>
                 </div>
-                <a href="/networking-assistant-beta-2026/events" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>Browse LBC →</a>
+                <a href="/networking-assistant/events" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>Browse LBC →</a>
               </div>
               {events.length === 0 ? (
                 <div style={{ textAlign: 'center', paddingTop: 48, fontSize: 13, color: '#6b7280' }}>No events yet.</div>
@@ -1233,7 +1233,7 @@ export default function NAHomePage() {
                     <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.event_date)}</div>
                     {ev.host_org && <div style={{ fontSize: 11, color: '#6b7280' }}>{ev.host_org}</div>}
                   </div>
-                  <a href={`/networking-assistant-beta-2026/capture?event=${ev.id}`} style={{
+                  <a href={`/networking-assistant/capture?event=${ev.id}`} style={{
                     height: 32, padding: '0 14px', borderRadius: 6, background: '#c2410c',
                     color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
                     display: 'inline-flex', alignItems: 'center',
@@ -1316,7 +1316,7 @@ export default function NAHomePage() {
               <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: 1.4, textTransform: 'uppercase' as const, marginBottom: 2, fontWeight: 600 }}>Local Business Calendars</div>
               <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: -0.3, lineHeight: 1, whiteSpace: 'nowrap' as const }}>Networking Assistant</div>
             </div>
-            <a href="/networking-assistant-beta-2026/capture" style={{
+            <a href="/networking-assistant/capture" style={{
               height: 34, padding: '0 14px', borderRadius: 8, background: '#c2410c',
               color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
               display: 'inline-flex', alignItems: 'center', flexShrink: 0, marginLeft: 10,
@@ -1326,7 +1326,7 @@ export default function NAHomePage() {
 
           {/* Context-aware event nudge */}
           {isEventTime && followUps.length === 0 && persons.length > 0 && (
-            <a href="/networking-assistant-beta-2026/capture" style={{
+            <a href="/networking-assistant/capture" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               background: 'rgba(194,65,12,0.9)', borderRadius: 10, padding: '8px 14px',
               marginBottom: 8, textDecoration: 'none',
@@ -1387,7 +1387,7 @@ export default function NAHomePage() {
           : mobileTab === 'events' ? <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
               <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Events · {events.length}</div>
-              <a href="/networking-assistant-beta-2026/events" style={{
+              <a href="/networking-assistant/events" style={{
                 height: 30, padding: '0 12px', borderRadius: 6, background: '#042C53',
                 color: '#fff', fontWeight: 700, fontSize: 11, textDecoration: 'none',
                 display: 'inline-flex', alignItems: 'center', gap: 4,
@@ -1398,7 +1398,7 @@ export default function NAHomePage() {
                 <div style={{ fontSize: 28, marginBottom: 8 }}>📅</div>
                 <div style={{ fontSize: 14, fontWeight: 600, color: '#374151', marginBottom: 4 }}>No events saved yet</div>
                 <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 16 }}>Browse local business events and tap "+ Add" to save them to your list.</div>
-                <a href="/networking-assistant-beta-2026/events" style={{
+                <a href="/networking-assistant/events" style={{
                   display: 'inline-flex', alignItems: 'center', height: 38, padding: '0 20px',
                   borderRadius: 8, background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
                 }}>Browse LBC Events →</a>

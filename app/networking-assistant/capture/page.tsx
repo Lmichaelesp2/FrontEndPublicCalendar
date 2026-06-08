@@ -393,7 +393,7 @@ function CaptureFlowInner() {
       Loading…
     </div>
   );
-  if (!user) { router.push('/networking-assistant-beta-2026'); return null; }
+  if (!user) { router.push('/networking-assistant'); return null; }
 
   // ── Header
   const Header = ({ onBack }: { onBack: () => void }) => (
@@ -415,7 +415,7 @@ function CaptureFlowInner() {
   // ── PHASE: Capture form
   if (phase === 'form') return (
     <div style={css.page}>
-      <Header onBack={() => router.push('/networking-assistant-beta-2026')} />
+      <Header onBack={() => router.push('/networking-assistant')} />
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '16px 16px 48px' }}>
 
         {/* ── Source type: event by default, org link below */}
@@ -521,7 +521,7 @@ function CaptureFlowInner() {
             {myMemberships.length === 0 ? (
               <div style={{ background: '#faf5ff', border: '1.5px solid #e9d5ff', borderRadius: 8, padding: '12px 14px', fontSize: 13, color: '#7c3aed' }}>
                 No organizations yet.{' '}
-                <a href="/networking-assistant-beta-2026?tab=orgs" style={{ color: '#7c3aed', fontWeight: 700 }}>Add orgs first →</a>
+                <a href="/networking-assistant?tab=orgs" style={{ color: '#7c3aed', fontWeight: 700 }}>Add orgs first →</a>
               </div>
             ) : (
               <div>
@@ -767,7 +767,7 @@ function CaptureFlowInner() {
               Is this the same person? You can view their existing record or save as a new contact anyway.
             </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const }}>
-              <a href={`/networking-assistant-beta-2026/persons/${dupWarning.id}`} style={{
+              <a href={`/networking-assistant/persons/${dupWarning.id}`} style={{
                 height: 36, padding: '0 16px', borderRadius: 7, background: '#042C53',
                 color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
                 display: 'inline-flex', alignItems: 'center',
@@ -828,14 +828,14 @@ function CaptureFlowInner() {
           }}>+ Capture Next Person →</button>
 
           {savedPersonId && (
-            <a href={`/networking-assistant-beta-2026/persons/${savedPersonId}`} style={{
+            <a href={`/networking-assistant/persons/${savedPersonId}`} style={{
               height: 44, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
               color: '#1652f0', fontWeight: 600, fontSize: 14, textDecoration: 'none',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>View {savedName}'s Record →</a>
           )}
 
-          <a href="/networking-assistant-beta-2026" style={{
+          <a href="/networking-assistant" style={{
             height: 44, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
             color: '#374151', fontWeight: 600, fontSize: 14, textDecoration: 'none',
             display: 'flex', alignItems: 'center', justifyContent: 'center',

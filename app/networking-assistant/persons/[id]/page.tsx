@@ -176,12 +176,12 @@ export default function PersonRecordPage() {
     if (!person) return;
     if (!confirm(`Delete ${person.first_name} ${person.last_name ?? ''}? This also removes their follow-ups and interactions.`)) return;
     await deletePerson(person.id);
-    router.push('/networking-assistant-beta-2026');
+    router.push('/networking-assistant');
   }
 
   if (loading || !user) return null;
   if (pageLoading) return <div style={{ ...css.page, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9ca3af' }}>Loading…</div>;
-  if (!person) return <div style={{ ...css.page, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280', fontSize: 14 }}>Contact not found. <a href="/networking-assistant-beta-2026" style={{ color: '#2563eb', marginLeft: 8 }}>← Back</a></div>;
+  if (!person) return <div style={{ ...css.page, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280', fontSize: 14 }}>Contact not found. <a href="/networking-assistant" style={{ color: '#2563eb', marginLeft: 8 }}>← Back</a></div>;
 
   const fullName = [person.first_name, person.last_name].filter(Boolean).join(' ');
   const relStyle = REL_COLORS[person.relationship_status] ?? REL_COLORS.prospect;
@@ -341,7 +341,7 @@ export default function PersonRecordPage() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {sameCompany.map(c => (
-                    <a key={c.id} href={`/networking-assistant-beta-2026/persons/${c.id}`} style={{
+                    <a key={c.id} href={`/networking-assistant/persons/${c.id}`} style={{
                       display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px',
                       background: '#f9fafb', borderRadius: 8, textDecoration: 'none',
                       border: '1px solid #f3f4f6',
@@ -375,7 +375,7 @@ export default function PersonRecordPage() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {contacts.map(c => (
-                    <a key={c.id} href={`/networking-assistant-beta-2026/persons/${c.id}`} style={{
+                    <a key={c.id} href={`/networking-assistant/persons/${c.id}`} style={{
                       display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px',
                       background: '#faf5ff', borderRadius: 8, textDecoration: 'none',
                       border: '1px solid #ede9fe',
@@ -404,7 +404,7 @@ export default function PersonRecordPage() {
           </div>
         )}
 
-        <a href="/networking-assistant-beta-2026/capture" style={{
+        <a href="/networking-assistant/capture" style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', height: 44,
           borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff', color: '#374151',
           fontWeight: 600, fontSize: 14, textDecoration: 'none',

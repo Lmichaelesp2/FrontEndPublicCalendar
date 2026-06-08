@@ -11,7 +11,7 @@ interface Message {
 export function ChatWidget() {
   const pathname = usePathname();
   // Hide on Networking Assistant pages — it has its own AI assistant
-  if (pathname?.startsWith('/networking-assistant-beta-2026')) return null;
+  if (pathname?.startsWith('/networking-assistant')) return null;
 
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<'ai' | 'contact'>('ai');
