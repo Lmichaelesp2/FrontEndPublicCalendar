@@ -24,6 +24,10 @@ const REL_COLORS: Record<string, { bg: string; text: string }> = {
   referral:  { bg: '#f0fdf4', text: '#15803d' },
   connector: { bg: '#faf5ff', text: '#7c3aed' },
   archived:  { bg: '#f9fafb', text: '#9ca3af' },
+  // legacy values — contacts saved before the rename
+  hot:       { bg: '#fef2f2', text: '#dc2626' },
+  warm:      { bg: '#eff6ff', text: '#1d4ed8' },
+  cold:      { bg: '#f9fafb', text: '#6b7280' },
 };
 const REL_LABEL: Record<string, string> = {
   prospect: 'Prospect', referral: 'Referral', connector: 'Connector', archived: 'Archived',
@@ -180,7 +184,7 @@ export default function PersonRecordPage() {
   if (!person) return <div style={{ ...css.page, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280', fontSize: 14 }}>Contact not found. <a href="/networking-assistant-beta-2026" style={{ color: '#2563eb', marginLeft: 8 }}>← Back</a></div>;
 
   const fullName = [person.first_name, person.last_name].filter(Boolean).join(' ');
-  const relStyle = REL_COLORS[person.relationship_status] ?? REL_COLORS.warm;
+  const relStyle = REL_COLORS[person.relationship_status] ?? REL_COLORS.prospect;
   const linkedInURL = person.linkedin_url || linkedInSearchURL(person.first_name, person.last_name, person.company);
 
   return (

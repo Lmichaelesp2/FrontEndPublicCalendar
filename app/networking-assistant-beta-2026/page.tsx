@@ -43,9 +43,13 @@ function initials(first: string, last?: string | null) {
 
 const REL_COLOR: Record<string, string> = {
   prospect: '#2563eb', referral: '#16a34a', connector: '#7c3aed', archived: '#9ca3af',
+  // legacy
+  hot: '#dc2626', warm: '#2563eb', cold: '#6b7280',
 };
 const REL_LABEL: Record<string, string> = {
   prospect: 'Prospect', referral: 'Referral', connector: 'Connector', archived: 'Archived',
+  // legacy — display old values gracefully
+  hot: 'Hot', warm: 'Warm', cold: 'Cold',
 };
 const BUCKET_DOT: Record<string, string> = {
   overdue: '#ef4444', today: '#2563eb', upcoming: '#d1d5db',
