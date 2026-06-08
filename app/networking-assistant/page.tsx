@@ -1350,15 +1350,18 @@ export default function NAHomePage() {
         {!pageLoading && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '10px 8px 12px' }}>
             {[
-              { label: 'Overdue',  val: overdue.length,  alert: overdue.length > 0 },
-              { label: 'Today',    val: today.length,    alert: today.length > 0 },
-              { label: 'Queue',    val: upcoming.length, alert: false },
-              { label: 'Contacts', val: persons.length,  alert: false },
+              { label: 'Overdue',  val: overdue.length,  alert: overdue.length > 0, tab: 'queue' as const },
+              { label: 'Today',    val: today.length,    alert: today.length > 0,   tab: 'queue' as const },
+              { label: 'Queue',    val: upcoming.length, alert: false,              tab: 'queue' as const },
+              { label: 'Contacts', val: persons.length,  alert: false,              tab: 'people' as const },
             ].map(s => (
-              <div key={s.label} style={{ textAlign: 'center' }}>
+              <button key={s.label} onClick={() => setMobileTab(s.tab)} style={{
+                textAlign: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0',
+                borderRadius: 8, WebkitTapHighlightColor: 'transparent',
+              }}>
                 <div style={{ fontSize: 22, fontWeight: 800, color: s.alert ? '#fca5a5' : '#f1f5f9', lineHeight: 1 }}>{s.val}</div>
                 <div style={{ fontSize: 9, color: s.alert ? '#fca5a5' : '#64748b', letterSpacing: 0.9, textTransform: 'uppercase' as const, marginTop: 3, fontWeight: 600 }}>{s.label}</div>
-              </div>
+              </button>
             ))}
           </div>
         )}
