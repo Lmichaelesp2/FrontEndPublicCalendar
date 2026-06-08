@@ -43,6 +43,70 @@ function dayBucket(dateStr: string): string {
 
 const BUCKET_ORDER = ['Today', 'Tomorrow', 'This Week', 'Later', 'Past'];
 
+// Universal category list from organizations.category in the LBC database
+const CATEGORY_OPTIONS = [
+  'Career/HR', 'Chambers', 'Co-Working', 'Community/Edu', 'Const/Design/Mfg',
+  'Fed/State/Local', 'Financial', 'Financial Services', 'Healthcare', 'Hospitality',
+  'Networking', 'Professional Svcs', 'Real Estate', 'Small Business', 'Technology', 'Other',
+];
+
+// ── Sub-components (module-level to avoid SWC parse issues with early returns) ──
+
+const FilterPill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
+  <button onClick={onClick} style={{
+    flexShrink: 0, height: 32, padding: '0 14px', borderRadius: 16, border: '1.5px solid',
+    cursor: 'pointer', fontSize: 13, fontWeight: active ? 700 : 400,
+    borderColor: active ? '#042C53' : '#d1d5db',
+    background: active ? '#042C53' : '#fff',
+    color: active ? '#fff' : '#374151',
+    whiteSpace: 'nowrap' as const,
+    transition: 'all 0.15s',
+  }}>{label}</button>
+);
+
+const FilterLabel = ({ children }: { children: string }) => (
+  <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginBottom: 8 }}>{children}</div>
+);
+
+const SidebarSection = ({ sectionKey, label, active, children, isOpen, onToggle }: {
+  sectionKey: string; label: string; active: boolean; children: React.ReactNode;
+  isOpen: boolean; onToggle: (k: string) => void;
+}) => (
+  <div style={{ borderBottom: '1px solid #f3f4f6', marginBottom: 4 }}>
+    <button onClick={() => onToggle(sectionKey)} style={{
+      width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      padding: '10px 0', background: 'none', border: 'none', cursor: 'pointer',
+    }}>
+      <span style={{ fontSize: 12, fontWeight: 700, color: active ? '#042C53' : '#374151', letterSpacing: 0.5, textTransform: 'uppercase' as const }}>
+        {label}
+      </span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        {active && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#c2410c', display: 'inline-block' }} />}
+        <span style={{ fontSize: 11, color: '#9ca3af' }}>{isOpen ? '▲' : '▼'}</span>
+      </div>
+    </button>
+    {isOpen && (
+      <div style={{ paddingBottom: 12 }}>{children}</div>
+    )}
+  </div>
+);
+
+const SidebarBtn = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
+  <button onClick={onClick} style={{
+    width: '100%', height: 32, borderRadius: 7, border: '1.5px solid', cursor: 'pointer', fontSize: 12,
+    textAlign: 'left' as const, padding: '0 10px', fontWeight: active ? 700 : 400, marginBottom: 4,
+    borderColor: active ? '#042C53' : '#e5e7eb',
+    background: active ? '#042C53' : '#f9fafb',
+    color: active ? '#fff' : '#374151',
+  }}>{label}</button>
+);
+
+function toggleSet(set: Set<string>, setFn: (s: Set<string>) => void, val: string) {
+  const next = new Set(set);
+  if (next.has(val)) next.delete(val); else next.add(val);
+  setFn(next);
+}
+
 const css = {
   page: { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 80 } as React.CSSProperties,
   header: { background: '#042C53', padding: '0 16px' } as React.CSSProperties,
@@ -79,12 +143,6 @@ export default function NAEventsPage() {
     date: true, time: false, category: false, cost: false, format: false,
   });
   const toggleDesk = (key: string) => setDeskOpen(p => ({ ...p, [key]: !p[key] }));
-
-  function toggleSet(set: Set<string>, setFn: (s: Set<string>) => void, val: string) {
-    const next = new Set(set);
-    if (next.has(val)) next.delete(val); else next.add(val);
-    setFn(next);
-  }
 
   const [form, setForm] = useState({
     event_name: '', event_date: '', event_type: 'other' as typeof EVENT_TYPES[number],
@@ -265,61 +323,6 @@ export default function NAEventsPage() {
     setLbcCategories(new Set()); setLbcTimes(new Set()); setLbcDateRange('all');
   }
 
-  // Universal category list from organizations.category in the LBC database
-  const CATEGORY_OPTIONS = [
-    'Career/HR', 'Chambers', 'Co-Working', 'Community/Edu', 'Const/Design/Mfg',
-    'Fed/State/Local', 'Financial', 'Financial Services', 'Healthcare', 'Hospitality',
-    'Networking', 'Professional Svcs', 'Real Estate', 'Small Business', 'Technology', 'Other',
-  ];
-
-  // Filter pill component
-  const FilterPill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
-    <button onClick={onClick} style={{
-      flexShrink: 0, height: 32, padding: '0 14px', borderRadius: 16, border: '1.5px solid',
-      cursor: 'pointer', fontSize: 13, fontWeight: active ? 700 : 400,
-      borderColor: active ? '#042C53' : '#d1d5db',
-      background: active ? '#042C53' : '#fff',
-      color: active ? '#fff' : '#374151',
-      whiteSpace: 'nowrap' as const,
-      transition: 'all 0.15s',
-    }}>{label}</button>
-  );
-
-  // Filter section label
-  const FilterLabel = ({ children }: { children: string }) => (
-    <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginBottom: 8 }}>{children}</div>
-  );
-
-  const SidebarSection = ({ sectionKey, label, active, children }: { sectionKey: string; label: string; active: boolean; children: React.ReactNode }) => (
-    <div style={{ borderBottom: '1px solid #f3f4f6', marginBottom: 4 }}>
-      <button onClick={() => toggleDesk(sectionKey)} style={{
-        width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '10px 0', background: 'none', border: 'none', cursor: 'pointer',
-      }}>
-        <span style={{ fontSize: 12, fontWeight: 700, color: active ? '#042C53' : '#374151', letterSpacing: 0.5, textTransform: 'uppercase' as const }}>
-          {label}
-        </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          {active && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#c2410c', display: 'inline-block' }} />}
-          <span style={{ fontSize: 11, color: '#9ca3af' }}>{deskOpen[sectionKey] ? '▲' : '▼'}</span>
-        </div>
-      </button>
-      {deskOpen[sectionKey] && (
-        <div style={{ paddingBottom: 12 }}>{children}</div>
-      )}
-    </div>
-  );
-
-  const SidebarBtn = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
-    <button onClick={onClick} style={{
-      width: '100%', height: 32, borderRadius: 7, border: '1.5px solid', cursor: 'pointer', fontSize: 12,
-      textAlign: 'left' as const, padding: '0 10px', fontWeight: active ? 700 : 400, marginBottom: 4,
-      borderColor: active ? '#042C53' : '#e5e7eb',
-      background: active ? '#042C53' : '#f9fafb',
-      color: active ? '#fff' : '#374151',
-    }}>{label}</button>
-  );
-
   // Desktop sidebar filter panel
   const DesktopFilterPanel = () => (
     <div style={{
@@ -343,31 +346,31 @@ export default function NAEventsPage() {
         style={{ width: '100%', padding: '9px 11px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', color: '#111827', outline: 'none', marginBottom: 10 }}
       />
 
-      <SidebarSection sectionKey="date" label="Date" active={lbcDateRange !== 'all'}>
+      <SidebarSection sectionKey="date" label="Date" active={lbcDateRange !== 'all'} isOpen={deskOpen['date']} onToggle={toggleDesk}>
         {([['all','All upcoming'],['today','Today'],['week','This week'],['month','This month']] as const).map(([v, l]) => (
           <SidebarBtn key={v} label={l} active={lbcDateRange === v} onClick={() => setLbcDateRange(v)} />
         ))}
       </SidebarSection>
 
-      <SidebarSection sectionKey="time" label="Time of Day" active={lbcTimes.size > 0}>
-        {([['morning','Morning (before 11:30)'],['lunch','Lunch (11:30–1:30)'],['afternoon','Afternoon (1:30–5pm)'],['evening','Evening (5pm+)']] as [string,string][]).map(([v, l]) => (
-          <SidebarBtn key={v} label={l} active={lbcTimes.has(v)} onClick={() => toggleSet(lbcTimes, setLbcTimes, v)} />
+      <SidebarSection sectionKey="time" label="Time of Day" active={lbcTimes.size > 0} isOpen={deskOpen['time']} onToggle={toggleDesk}>
+        {(['morning','lunch','afternoon','evening'] as const).map(v => (
+          <SidebarBtn key={v} label={v === 'morning' ? 'Morning (before 11:30)' : v === 'lunch' ? 'Lunch (11:30–1:30)' : v === 'afternoon' ? 'Afternoon (1:30–5pm)' : 'Evening (5pm+)'} active={lbcTimes.has(v)} onClick={() => toggleSet(lbcTimes, setLbcTimes, v)} />
         ))}
       </SidebarSection>
 
-      <SidebarSection sectionKey="category" label="Category" active={lbcCategories.size > 0}>
+      <SidebarSection sectionKey="category" label="Category" active={lbcCategories.size > 0} isOpen={deskOpen['category']} onToggle={toggleDesk}>
         {CATEGORY_OPTIONS.map(v => (
           <SidebarBtn key={v} label={v} active={lbcCategories.has(v)} onClick={() => toggleSet(lbcCategories, setLbcCategories, v)} />
         ))}
       </SidebarSection>
 
-      <SidebarSection sectionKey="cost" label="Cost" active={lbcCosts.size > 0}>
+      <SidebarSection sectionKey="cost" label="Cost" active={lbcCosts.size > 0} isOpen={deskOpen['cost']} onToggle={toggleDesk}>
         {(['Free','Paid','Unknown','Both'] as const).map(v => (
           <SidebarBtn key={v} label={v === 'Both' ? 'Free + Paid options' : v} active={lbcCosts.has(v)} onClick={() => toggleSet(lbcCosts, setLbcCosts, v)} />
         ))}
       </SidebarSection>
 
-      <SidebarSection sectionKey="format" label="Format" active={lbcFormats.size > 0}>
+      <SidebarSection sectionKey="format" label="Format" active={lbcFormats.size > 0} isOpen={deskOpen['format']} onToggle={toggleDesk}>
         {(['In-Person','Virtual'] as const).map(v => (
           <SidebarBtn key={v} label={v} active={lbcFormats.has(v)} onClick={() => toggleSet(lbcFormats, setLbcFormats, v)} />
         ))}
