@@ -1317,10 +1317,10 @@ export default function NAHomePage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: -0.3, lineHeight: 1, whiteSpace: 'nowrap' as const }}>Networking Assistant</div>
                 <div style={{
-                  fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
-                  background: 'rgba(255,255,255,0.1)', borderRadius: 20,
+                  fontSize: 10, fontWeight: 700, color: '#0B2C52',
+                  background: '#e2eaf4', borderRadius: 20,
                   padding: '2px 8px', letterSpacing: 0.3, whiteSpace: 'nowrap' as const,
-                  border: '1px solid rgba(255,255,255,0.15)',
+                  border: 'none',
                 }}>
                   {{ queue: 'Queue', people: 'Contacts', events: 'Events', orgs: 'Orgs' }[mobileTab]}
                 </div>
