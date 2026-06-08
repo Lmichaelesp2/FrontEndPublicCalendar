@@ -761,7 +761,7 @@ export default function NAEventsPage() {
                     <span key={v} onClick={() => toggleSet(lbcCosts, setLbcCosts, v)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
                       {v === 'Both' ? 'Free + Paid' : v} ✕
                     </span>
-                  )}
+                  ))}
                   {lbcFormats.has('In-Person') && (
                     <span onClick={() => toggleSet(lbcFormats, setLbcFormats, 'In-Person')} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>In-Person ✕</span>
                   )}
