@@ -128,6 +128,7 @@ function CaptureFlowInner() {
   // Voice capture
   const [voiceState, setVoiceState]           = useState<'idle' | 'listening' | 'parsing'>('idle');
   const [voiceMode, setVoiceMode]             = useState<'full' | 'followup'>('full');
+  const [showMoreFields, setShowMoreFields]   = useState(false);
   const [voiceTranscript, setVoiceTranscript] = useState('');
   const [voiceError, setVoiceError]           = useState('');
   const recognitionRef                        = useRef<any>(null);
@@ -394,23 +395,23 @@ function CaptureFlowInner() {
       <Header onBack={() => router.push('/networking-assistant-beta-2026')} />
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '16px 16px 48px' }}>
 
-        {/* ── Source type toggle: Event vs Org */}
-        <div style={{ display: 'flex', background: '#f3f4f6', borderRadius: 10, padding: 4, gap: 4, marginBottom: 14 }}>
-          <button onClick={() => { setSourceType('event'); if (!selectedEvent) setShowEventPicker(true); }} style={{
-            flex: 1, height: 40, borderRadius: 7, border: 'none', cursor: 'pointer',
-            fontWeight: sourceType === 'event' ? 700 : 400, fontSize: 13,
-            background: sourceType === 'event' ? '#fff' : 'transparent',
-            color: sourceType === 'event' ? '#042C53' : '#6b7280',
-            boxShadow: sourceType === 'event' ? '0 1px 4px rgba(0,0,0,0.1)' : 'none',
-          }}>📅 At an Event</button>
-          <button onClick={() => { setSourceType('org'); setShowEventPicker(false); }} style={{
-            flex: 1, height: 40, borderRadius: 7, border: 'none', cursor: 'pointer',
-            fontWeight: sourceType === 'org' ? 700 : 400, fontSize: 13,
-            background: sourceType === 'org' ? '#fff' : 'transparent',
-            color: sourceType === 'org' ? '#7c3aed' : '#6b7280',
-            boxShadow: sourceType === 'org' ? '0 1px 4px rgba(0,0,0,0.1)' : 'none',
-          }}>🏛 Through an Org</button>
-        </div>
+        {/* ── Source type: event by default, org link below */}
+        {sourceType === 'event' && (
+          <div style={{ textAlign: 'right', marginBottom: 6 }}>
+            <button onClick={() => { setSourceType('org'); setShowEventPicker(false); }} style={{
+              background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+              fontSize: 12, color: '#7c3aed', fontWeight: 600,
+            }}>🏛 In one of my organizations instead →</button>
+          </div>
+        )}
+        {sourceType === 'org' && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#7c3aed' }}>🏛 From one of my organizations</div>
+            <button onClick={() => { setSourceType('event'); setShowEventPicker(!selectedEvent); }} style={{
+              background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#6b7280', padding: 0,
+            }}>← At an event instead</button>
+          </div>
+        )}
 
         {/* ── Event context (shown when sourceType === 'event') */}
         {sourceType === 'event' && (
@@ -527,34 +528,42 @@ function CaptureFlowInner() {
           </div>
         )}
 
-        {/* Quick Capture */}
+        {/* Quick Capture — voice is primary */}
         <div style={{ ...css.card, marginBottom: 12 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#374151', marginBottom: 10, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>Quick Capture</div>
 
           {voiceState === 'idle' && photoState === 'idle' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: photoPreview ? 10 : 0 }}>
+            <div>
+              {/* Voice — primary large button */}
               <button onClick={() => { setVoiceMode('full'); startListening(); }} style={{
-                height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
-                cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
+                width: '100%', height: 64, borderRadius: 12, border: '2px solid #042C53',
+                background: '#042C53', color: '#fff', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                marginBottom: 8,
               }}>
-                <span style={{ fontSize: 20 }}>🎤</span>
-                <span style={{ fontSize: 10, fontWeight: 600, color: '#374151' }}>Voice</span>
+                <span style={{ fontSize: 24 }}>🎤</span>
+                <div style={{ textAlign: 'left' as const }}>
+                  <div style={{ fontSize: 15, fontWeight: 700 }}>Capture by Voice</div>
+                  <div style={{ fontSize: 11, color: '#93b4d4' }}>Say their name, company, what you talked about</div>
+                </div>
               </button>
-              <button onClick={() => photoInputRef.current?.click()} style={{
-                height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
-                cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
-              }}>
-                <span style={{ fontSize: 20 }}>📷</span>
-                <span style={{ fontSize: 10, fontWeight: 600, color: '#374151' }}>Photo</span>
-              </button>
-              <input ref={photoInputRef} type="file" accept="image/*" capture="environment" onChange={handlePhotoChange} style={{ display: 'none' }} />
-              <button onClick={() => document.getElementById('contact-fields')?.scrollIntoView({ behavior: 'smooth' })} style={{
-                height: 52, borderRadius: 10, border: '1.5px solid #e5e7eb', background: '#fff',
-                cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3,
-              }}>
-                <span style={{ fontSize: 20 }}>✏️</span>
-                <span style={{ fontSize: 10, fontWeight: 600, color: '#374151' }}>Manual</span>
-              </button>
+              {/* Photo + Manual — secondary row */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: photoPreview ? 10 : 0 }}>
+                <button onClick={() => photoInputRef.current?.click()} style={{
+                  height: 44, borderRadius: 8, border: '1.5px solid #e5e7eb', background: '#fff',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                }}>
+                  <span style={{ fontSize: 16 }}>📷</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: '#374151' }}>Photo / Business Card</span>
+                </button>
+                <button onClick={() => document.getElementById('contact-fields')?.scrollIntoView({ behavior: 'smooth' })} style={{
+                  height: 44, borderRadius: 8, border: '1.5px solid #e5e7eb', background: '#fff',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                }}>
+                  <span style={{ fontSize: 16 }}>✏️</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: '#374151' }}>Type Manually</span>
+                </button>
+                <input ref={photoInputRef} type="file" accept="image/*" capture="environment" onChange={handlePhotoChange} style={{ display: 'none' }} />
+              </div>
             </div>
           )}
 
@@ -618,15 +627,8 @@ function CaptureFlowInner() {
           </div>
         )}
 
-        {/* Contact info */}
+        {/* Contact info — 3 core fields, rest expandable */}
         <div id="contact-fields" style={css.card}>
-          <div style={css.sectionTitle}>Contact Info</div>
-          <div style={{ marginBottom: 10 }}>
-            <label style={css.label}>LinkedIn Profile URL</label>
-            <input value={linkedinUrl} onChange={e => setLinkedinUrl(e.target.value)}
-              placeholder="https://linkedin.com/in/sarahjohnson"
-              style={{ ...css.input, borderColor: '#e0e7ff' }} />
-          </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
             <div>
               <label style={css.label}>First Name *</label>
@@ -638,24 +640,43 @@ function CaptureFlowInner() {
               <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Johnson" style={css.input} />
             </div>
           </div>
-          <div style={{ marginBottom: 10 }}>
+          <div style={{ marginBottom: showMoreFields ? 10 : 0 }}>
             <label style={css.label}>Company</label>
             <input value={company} onChange={e => setCompany(e.target.value)} placeholder="Acme Corp" style={css.input} />
           </div>
-          <div style={{ marginBottom: 10 }}>
-            <label style={css.label}>Title / Role</label>
-            <input value={title} onChange={e => setTitle(e.target.value)} placeholder="VP of Sales" style={css.input} />
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 4 }}>
-            <div>
-              <label style={css.label}>Email</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="sarah@acme.com" style={css.input} />
-            </div>
-            <div>
-              <label style={css.label}>Phone</label>
-              <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="210-555-0100" style={css.input} />
-            </div>
-          </div>
+
+          {/* Expandable extra fields */}
+          {showMoreFields && (
+            <>
+              <div style={{ marginBottom: 10, marginTop: 10 }}>
+                <label style={css.label}>Title / Role</label>
+                <input value={title} onChange={e => setTitle(e.target.value)} placeholder="VP of Sales" style={css.input} />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+                <div>
+                  <label style={css.label}>Email</label>
+                  <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="sarah@acme.com" style={css.input} />
+                </div>
+                <div>
+                  <label style={css.label}>Phone</label>
+                  <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="210-555-0100" style={css.input} />
+                </div>
+              </div>
+              <div style={{ marginBottom: 4 }}>
+                <label style={css.label}>LinkedIn Profile URL</label>
+                <input value={linkedinUrl} onChange={e => setLinkedinUrl(e.target.value)}
+                  placeholder="https://linkedin.com/in/sarahjohnson"
+                  style={{ ...css.input, borderColor: '#e0e7ff' }} />
+              </div>
+            </>
+          )}
+
+          <button onClick={() => setShowMoreFields(v => !v)} style={{
+            background: 'none', border: 'none', cursor: 'pointer', padding: '8px 0 0',
+            fontSize: 12, color: '#6b7280', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4,
+          }}>
+            {showMoreFields ? '▲ Less details' : '▼ Add title, email, phone, LinkedIn'}
+          </button>
         </div>
 
         {/* Topic */}

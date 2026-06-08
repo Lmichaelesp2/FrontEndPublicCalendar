@@ -59,7 +59,7 @@ export default function NAHomePage() {
   const [events, setEvents]               = useState<any[]>([]);
   const [memberships, setMemberships]     = useState<NAMembership[]>([]);
   const [pageLoading, setPageLoading]     = useState(true);
-  const [mobileTab, setMobileTab]         = useState<'queue' | 'contacts' | 'events' | 'orgs'>('queue');
+  const [mobileTab, setMobileTab]         = useState<'queue' | 'people' | 'events' | 'orgs'>('queue');
   const [isDesktop, setIsDesktop]         = useState(false);
   const [desktopView, setDesktopView]     = useState<'queue' | 'allcontacts' | 'companies' | 'events' | 'orgs'>('queue');
   const [activeEventName, setActiveEventName] = useState<string | null>(null);
@@ -336,7 +336,23 @@ export default function NAHomePage() {
           style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid #e8eaed', fontSize: 13, marginBottom: 16, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
         />
       )}
-      {followUps.length === 0 ? (
+      {followUps.length === 0 && persons.length === 0 ? (
+        /* New user empty state */
+        <div style={{ textAlign: 'center', padding: '48px 16px' }}>
+          <div style={{ fontSize: 40, marginBottom: 12 }}>🤝</div>
+          <div style={{ fontSize: 18, fontWeight: 700, color: '#111827', marginBottom: 8 }}>Welcome to your Networking Assistant</div>
+          <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 8, lineHeight: 1.6 }}>
+            Capture the people you meet at events and in organizations. Your follow-up queue will appear here.
+          </div>
+          <div style={{ fontSize: 13, color: '#9ca3af', marginBottom: 24 }}>
+            Use 🎤 Voice for the fastest capture — just say their name and what you talked about.
+          </div>
+          <a href="/networking-assistant-beta-2026/capture" style={{
+            display: 'inline-flex', alignItems: 'center', height: 48, padding: '0 28px',
+            borderRadius: 10, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none', gap: 8,
+          }}>🎤 Capture Your First Contact →</a>
+        </div>
+      ) : followUps.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '56px 16px' }}>
           <div style={{ fontSize: 32, marginBottom: 10 }}>✓</div>
           <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 6 }}>All caught up</div>
@@ -1020,16 +1036,16 @@ export default function NAHomePage() {
         )}
         {/* Mobile tabs */}
         <div style={{ display: 'flex', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          {(['queue','contacts','events','orgs'] as const).map(t => (
+          {(['queue','people','events','orgs'] as const).map(t => (
             <button key={t} onClick={() => setMobileTab(t)} style={{
               flex: 1, height: 36, background: 'none', border: 'none', cursor: 'pointer',
               fontSize: 11, fontWeight: mobileTab === t ? 700 : 400,
               color: mobileTab === t ? '#fff' : '#6b93b8',
               borderBottom: mobileTab === t ? '2px solid #c2410c' : '2px solid transparent',
             }}>
-              {t === 'queue' ? 'Queue' : t === 'contacts' ? 'Contacts' : t === 'events' ? 'Events' : 'Orgs'}
+              {t === 'queue' ? 'Queue' : t === 'people' ? 'People' : t === 'events' ? 'Events' : 'My Orgs'}
               <span style={{ marginLeft: 3, fontSize: 10, color: mobileTab === t ? '#93c5fd' : '#4a6a8a' }}>
-                {t === 'queue' ? followUps.length : t === 'contacts' ? persons.length : t === 'events' ? events.length : memberships.length}
+                {t === 'queue' ? followUps.length : t === 'people' ? persons.length : t === 'events' ? events.length : memberships.length}
               </span>
             </button>
           ))}
@@ -1040,9 +1056,9 @@ export default function NAHomePage() {
         {pageLoading ? (
           <div style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 48, fontSize: 13 }}>Loading…</div>
         ) : mobileTab === 'queue' ? <QueueContent />
-          : mobileTab === 'contacts' ? <>
+          : mobileTab === 'people' ? <>
             <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 4 }}>
-              {contactsView === 'people' ? `Contacts · ${persons.length}` : `Companies · ${companyGroups.length}`}
+              {contactsView === 'people' ? `People · ${persons.length}` : `Companies · ${companyGroups.length}`}
             </div>
             <ContactsToggle />
             {contactsView === 'people' ? <ContactsList /> : <CompaniesView />}
@@ -1068,8 +1084,8 @@ export default function NAHomePage() {
         display: 'flex', boxShadow: '0 -2px 12px rgba(0,0,0,0.07)',
       }}>
         {([
-          { key: 'queue',    icon: '◎',  label: 'Queue',    badge: overdue.length + today.length },
-          { key: 'contacts', icon: '👤', label: 'Contacts', badge: 0 },
+          { key: 'queue',  icon: '◎',  label: 'Queue',   badge: overdue.length + today.length },
+          { key: 'people', icon: '👤', label: 'People',  badge: 0 },
           { key: 'events',   icon: '📅', label: 'Events',   badge: 0 },
           { key: 'orgs',     icon: '🏛', label: 'Orgs',     badge: 0 },
         ] as const).map(t => (
