@@ -338,25 +338,26 @@ function CaptureFlowInner() {
     });
 
     if (person) {
-      await createInteraction({
-        user_profile_id: user!.id, person_id: person.id,
-        event_id: sourceType === 'event' ? (selectedEvent?.id ?? null) : null,
-        org_id: sourceType === 'org' ? (selectedMembership?.org_id ?? null) : null,
-        membership_id: sourceType === 'org' ? (selectedMembership?.id ?? null) : null,
-        source_type: sourceType,
-        interaction_date: interactionDate,
-        voice_transcript: null, key_topic: topic.trim() || null,
-        opportunity_notes: null, follow_up_intent: null, sentiment: 'positive',
-      });
-      for (const type of followUps) {
-        await createFollowUp({
+      // Run interaction + all follow-ups in parallel — no sequential waiting
+      await Promise.all([
+        createInteraction({
+          user_profile_id: user!.id, person_id: person.id,
+          event_id: sourceType === 'event' ? (selectedEvent?.id ?? null) : null,
+          org_id: sourceType === 'org' ? (selectedMembership?.org_id ?? null) : null,
+          membership_id: sourceType === 'org' ? (selectedMembership?.id ?? null) : null,
+          source_type: sourceType,
+          interaction_date: interactionDate,
+          voice_transcript: null, key_topic: topic.trim() || null,
+          opportunity_notes: null, follow_up_intent: null, sentiment: 'positive',
+        }),
+        ...followUps.map(type => createFollowUp({
           user_profile_id: user!.id, person_id: person.id,
           event_id: sourceType === 'event' ? (selectedEvent?.id ?? null) : null,
           action_type: type as any,
           due_date: due, status: 'pending',
           ai_draft_message: null, snooze_until: null, completed_at: null, skip_reason: null,
-        });
-      }
+        })),
+      ]);
       setSavedName([firstName.trim(), lastName.trim()].filter(Boolean).join(' '));
       setSavedPersonId(person.id);
       setSavedCount(c => c + 1);
