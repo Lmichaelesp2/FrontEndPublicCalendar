@@ -290,14 +290,7 @@ export default function NAEventsPage() {
     setLbcCategories(new Set()); setLbcTimes(new Set()); setLbcDateRange('all');
   }
 
-  if (loading) return (
-    <div style={{ minHeight: '100vh', background: '#f4f6f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#6b7280' }}>
-      Loading…
-    </div>
-  );
-  if (!user) { router.push('/networking-assistant-beta-2026'); return null; }
-
-  // ── LBC filter logic (computed before render) ──
+  // ── LBC filter logic (computed before early returns so no code follows a JSX return) ──
   const todayStr  = new Date().toISOString().split('T')[0];
   const weekStr   = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
   const monthStr  = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
@@ -322,6 +315,13 @@ export default function NAEventsPage() {
   });
 
   const activeFilterCount = (lbcSearch ? 1 : 0) + lbcCosts.size + lbcFormats.size + lbcCategories.size + lbcTimes.size + (lbcDateRange !== 'all' ? 1 : 0);
+
+  if (loading) return (
+    <div style={{ minHeight: '100vh', background: '#f4f6f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif', color: '#6b7280' }}>
+      Loading…
+    </div>
+  );
+  if (!user) { router.push('/networking-assistant-beta-2026'); return null; }
 
   return (
     <div style={css.page}>
