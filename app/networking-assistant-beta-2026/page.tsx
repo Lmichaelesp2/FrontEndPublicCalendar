@@ -42,7 +42,10 @@ function initials(first: string, last?: string | null) {
 }
 
 const REL_COLOR: Record<string, string> = {
-  hot: '#dc2626', warm: '#2563eb', cold: '#6b7280', archived: '#9ca3af',
+  prospect: '#2563eb', referral: '#16a34a', connector: '#7c3aed', archived: '#9ca3af',
+};
+const REL_LABEL: Record<string, string> = {
+  prospect: 'Prospect', referral: 'Referral', connector: 'Connector', archived: 'Archived',
 };
 const BUCKET_DOT: Record<string, string> = {
   overdue: '#ef4444', today: '#2563eb', upcoming: '#d1d5db',
@@ -410,7 +413,7 @@ export default function NAHomePage() {
             </div>
           </div>
           <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
-            {p.relationship_status}
+            {REL_LABEL[p.relationship_status] ?? p.relationship_status}
           </span>
         </a>
         <button onClick={handleDelete} title="Delete contact" style={{
@@ -517,7 +520,7 @@ export default function NAHomePage() {
                           {p.title && <div style={{ fontSize: 11, color: '#6b7280' }}>{p.title}</div>}
                         </div>
                         <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
-                          {p.relationship_status}
+                          {REL_LABEL[p.relationship_status] ?? p.relationship_status}
                         </span>
                       </a>
                     ))}
@@ -765,7 +768,7 @@ export default function NAHomePage() {
                             <div style={{ fontSize: 11, color: '#6b7280' }}>{[p.title, p.company].filter(Boolean).join(' · ')}</div>
                           </div>
                           <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
-                            {p.relationship_status}
+                            {REL_LABEL[p.relationship_status] ?? p.relationship_status}
                           </span>
                         </a>
                       );
@@ -801,14 +804,14 @@ export default function NAHomePage() {
             placeholder="Search name, company, title…"
             style={{ flex: 1, minWidth: 200, padding: '8px 12px', borderRadius: 7, border: '1px solid #e8eaed', fontSize: 13, fontFamily: 'Inter, sans-serif', outline: 'none', background: '#fff' }}
           />
-          {(['all','hot','warm','cold'] as const).map(r => (
+          {(['all','prospect','referral','connector'] as const).map(r => (
             <button key={r} onClick={() => setRelFilter(r)} style={{
               height: 34, padding: '0 14px', borderRadius: 20, border: '1.5px solid',
               cursor: 'pointer', fontSize: 12, fontWeight: relFilter === r ? 700 : 400,
               borderColor: relFilter === r ? '#042C53' : '#e8eaed',
               background: relFilter === r ? '#042C53' : '#fff',
               color: relFilter === r ? '#fff' : '#374151',
-            }}>{r === 'all' ? 'All' : r.charAt(0).toUpperCase() + r.slice(1)}</button>
+            }}>{r === 'all' ? 'All' : REL_LABEL[r]}</button>
           ))}
         </div>
         {persons.length === 0 ? (
@@ -831,7 +834,7 @@ export default function NAHomePage() {
               {p.first_met_date && <div style={{ fontSize: 11, color: '#9ca3af' }}>Met {metLabel(p.first_met_date)}</div>}
             </div>
             <span style={{ fontSize: 10, fontWeight: 700, color: REL_COLOR[p.relationship_status] ?? '#6b7280', textTransform: 'uppercase' as const }}>
-              {p.relationship_status}
+              {REL_LABEL[p.relationship_status] ?? p.relationship_status}
             </span>
           </a>
         ))}

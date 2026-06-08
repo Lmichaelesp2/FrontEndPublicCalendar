@@ -20,10 +20,13 @@ const ACTION_LABELS: Record<string, string> = {
 };
 
 const REL_COLORS: Record<string, { bg: string; text: string }> = {
-  hot:      { bg: '#fef2f2', text: '#dc2626' },
-  warm:     { bg: '#eff6ff', text: '#1d4ed8' },
-  cold:     { bg: '#f9fafb', text: '#6b7280' },
-  archived: { bg: '#f9fafb', text: '#9ca3af' },
+  prospect:  { bg: '#eff6ff', text: '#1d4ed8' },
+  referral:  { bg: '#f0fdf4', text: '#15803d' },
+  connector: { bg: '#faf5ff', text: '#7c3aed' },
+  archived:  { bg: '#f9fafb', text: '#9ca3af' },
+};
+const REL_LABEL: Record<string, string> = {
+  prospect: 'Prospect', referral: 'Referral', connector: 'Connector', archived: 'Archived',
 };
 
 function formatDate(d: string) {
@@ -220,8 +223,8 @@ export default function PersonRecordPage() {
                 </div>
                 <div style={{ gridColumn: '1/-1' }}>
                   <label style={css.label}>Relationship Status</label>
-                  <select value={editForm.relationship_status ?? 'warm'} onChange={e => setEditForm(p => ({ ...p, relationship_status: e.target.value as any }))} style={css.input}>
-                    {['hot','warm','cold','archived'].map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+                  <select value={editForm.relationship_status ?? 'prospect'} onChange={e => setEditForm(p => ({ ...p, relationship_status: e.target.value as any }))} style={css.input}>
+                    {['prospect','referral','connector','archived'].map(s => <option key={s} value={s}>{REL_LABEL[s]}</option>)}
                   </select>
                 </div>
                 <div style={{ gridColumn: '1/-1' }}>
@@ -242,7 +245,7 @@ export default function PersonRecordPage() {
                   {person.company && <div style={{ fontSize: 14, color: '#6b7280' }}>{person.company}</div>}
                 </div>
                 <span style={{ fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 20, background: relStyle.bg, color: relStyle.text, textTransform: 'uppercase' as const, letterSpacing: 0.5 }}>
-                  {person.relationship_status}
+                  {REL_LABEL[person.relationship_status] ?? person.relationship_status}
                 </span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 14, fontSize: 13, color: '#374151' }}>
@@ -352,8 +355,8 @@ export default function PersonRecordPage() {
                         </div>
                         {c.title && <div style={{ fontSize: 11, color: '#6b7280' }}>{c.title}</div>}
                       </div>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: c.relationship_status === 'hot' ? '#dc2626' : c.relationship_status === 'warm' ? '#2563eb' : '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
-                        {c.relationship_status}
+                      <span style={{ fontSize: 10, fontWeight: 700, color: c.relationship_status === 'connector' ? '#7c3aed' : c.relationship_status === 'referral' ? '#15803d' : '#2563eb', textTransform: 'uppercase' as const, flexShrink: 0 }}>
+                        {REL_LABEL[c.relationship_status] ?? c.relationship_status}
                       </span>
                     </a>
                   ))}
@@ -386,8 +389,8 @@ export default function PersonRecordPage() {
                         </div>
                         {c.title && <div style={{ fontSize: 11, color: '#6b7280' }}>{c.title}</div>}
                       </div>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: c.relationship_status === 'hot' ? '#dc2626' : c.relationship_status === 'warm' ? '#2563eb' : '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
-                        {c.relationship_status}
+                      <span style={{ fontSize: 10, fontWeight: 700, color: c.relationship_status === 'connector' ? '#7c3aed' : c.relationship_status === 'referral' ? '#15803d' : '#2563eb', textTransform: 'uppercase' as const, flexShrink: 0 }}>
+                        {REL_LABEL[c.relationship_status] ?? c.relationship_status}
                       </span>
                     </a>
                   ))}

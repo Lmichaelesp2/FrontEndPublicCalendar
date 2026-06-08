@@ -353,7 +353,7 @@ function CaptureFlowInner() {
       email: email.trim() || null, phone: phone.trim() || null,
       linkedin_url: linkedinUrl.trim() || null,
       city: sourceType === 'event' ? (selectedEvent?.city ?? null) : (selectedMembership?.org_city ?? null),
-      industry: null, tags: null, relationship_status: 'warm',
+      industry: null, tags: null, relationship_status: 'prospect',
       first_met_event_id: sourceType === 'event' ? (selectedEvent?.id ?? null) : null,
       first_met_date: interactionDate,
       notes, linkedin_connected: false, google_contact_id: null,
