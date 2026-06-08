@@ -170,7 +170,20 @@ export default function NAHomePage() {
       is_active: true,
       notes: null,
     });
-    if (data) setMemberships(p => [data, ...p]);
+    if (data) {
+      setMemberships(p => [data, ...p]);
+      // Notify LBC team so they can add this org to the database
+      fetch('/api/na-org-suggestion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          org_name: manualOrgName.trim(),
+          org_city: manualOrgCity,
+          org_type: manualOrgType.trim() || null,
+          submitted_by: profile?.email ?? user.email ?? user.id,
+        }),
+      }).catch(() => {}); // fire and forget — don't block the UI
+    }
     setSavingOrg(false);
     setShowOrgPicker(false);
     setShowManualOrg(false);
