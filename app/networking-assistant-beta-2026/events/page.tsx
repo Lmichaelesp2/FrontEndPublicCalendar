@@ -63,8 +63,10 @@ export default function NAEventsPage() {
   const [lbcSearch, setLbcSearch]                 = useState('');
   const [lbcCost, setLbcCost]                     = useState<'all' | 'Free' | 'Paid' | 'Unknown' | 'Both'>('all');
   const [lbcParticipation, setLbcParticipation]   = useState<'all' | 'In-Person' | 'Virtual'>('all');
-  const [lbcCategory, setLbcCategory]             = useState<'all' | 'Networking' | 'Educational' | 'Other'>('all');
+  const [lbcCategory, setLbcCategory]             = useState<string>('all');
+  const [lbcGroupType, setLbcGroupType]           = useState<string>('all');
   const [lbcDateRange, setLbcDateRange]           = useState<'all' | 'today' | 'week' | 'month'>('all');
+  const [lbcTimeOfDay, setLbcTimeOfDay]           = useState<'all' | 'morning' | 'lunch' | 'afternoon' | 'evening'>('all');
   const [lbcMoreFiltersOpen, setLbcMoreFiltersOpen] = useState(false);
 
   const [form, setForm] = useState({
@@ -210,6 +212,16 @@ export default function NAEventsPage() {
   const weekStr   = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
   const monthStr  = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
 
+  function timeOfDayBucket(timeStr: string | null): 'morning' | 'lunch' | 'afternoon' | 'evening' | null {
+    if (!timeStr) return null;
+    const [h, m] = timeStr.split(':').map(Number);
+    const mins = h * 60 + (m || 0);
+    if (mins < 690)  return 'morning';    // before 11:30
+    if (mins < 810)  return 'lunch';      // 11:30–13:30
+    if (mins < 1020) return 'afternoon';  // 13:30–17:00
+    return 'evening';                     // 17:00+
+  }
+
   const filteredLbc = lbcEvents.filter(ev => {
     const q = lbcSearch.toLowerCase();
     const matchSearch = !q
@@ -220,19 +232,28 @@ export default function NAEventsPage() {
     const matchCost = lbcCost === 'all' || ev.paid === lbcCost;
     const matchParticipation = lbcParticipation === 'all' || ev.participation === lbcParticipation;
     const matchCategory = lbcCategory === 'all' || ev.event_type === lbcCategory;
+    const matchGroupType = lbcGroupType === 'all' || ev.group_type === lbcGroupType;
     const matchDate = lbcDateRange === 'all' ? true
       : lbcDateRange === 'today' ? ev.start_date === todayStr
       : lbcDateRange === 'week'  ? ev.start_date >= todayStr && ev.start_date <= weekStr
       : ev.start_date >= todayStr && ev.start_date <= monthStr;
-    return matchSearch && matchCost && matchParticipation && matchCategory && matchDate;
+    const matchTime = lbcTimeOfDay === 'all' ? true
+      : timeOfDayBucket(ev.start_time) === lbcTimeOfDay;
+    return matchSearch && matchCost && matchParticipation && matchCategory && matchGroupType && matchDate && matchTime;
   });
 
-  const activeFilterCount = (lbcSearch ? 1 : 0) + (lbcCost !== 'all' ? 1 : 0) + (lbcParticipation !== 'all' ? 1 : 0) + (lbcCategory !== 'all' ? 1 : 0) + (lbcDateRange !== 'all' ? 1 : 0);
+  const activeFilterCount = (lbcSearch ? 1 : 0) + (lbcCost !== 'all' ? 1 : 0) + (lbcParticipation !== 'all' ? 1 : 0) + (lbcCategory !== 'all' ? 1 : 0) + (lbcGroupType !== 'all' ? 1 : 0) + (lbcDateRange !== 'all' ? 1 : 0) + (lbcTimeOfDay !== 'all' ? 1 : 0);
 
   function clearAllFilters() {
     setLbcSearch(''); setLbcCost('all'); setLbcParticipation('all');
-    setLbcCategory('all'); setLbcDateRange('all');
+    setLbcCategory('all'); setLbcGroupType('all'); setLbcDateRange('all'); setLbcTimeOfDay('all');
   }
+
+  // The real org category values from DB
+  const GROUP_TYPE_OPTIONS = [
+    'Business/Industry', 'Chambers', 'Dedicated Networking',
+    'Networking', 'Resource/Gov/Edu', 'Small Business', 'Other',
+  ];
 
   // Filter pill component
   const FilterPill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
@@ -287,18 +308,40 @@ export default function NAEventsPage() {
         </div>
       </div>
 
-      {/* Event Type */}
+      {/* Time of Day */}
       <div style={{ marginBottom: 18 }}>
-        <FilterLabel>Event Type</FilterLabel>
+        <FilterLabel>Time of Day</FilterLabel>
         <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
-          {([['all','All types'],['Networking','Networking'],['Educational','Educational'],['Other','Other']] as const).map(([v, l]) => (
-            <button key={v} onClick={() => setLbcCategory(v)} style={{
+          {([
+            ['all',       'Any time'],
+            ['morning',   'Morning (before 11:30)'],
+            ['lunch',     'Lunch (11:30–1:30)'],
+            ['afternoon', 'Afternoon (1:30–5pm)'],
+            ['evening',   'Evening (5pm+)'],
+          ] as const).map(([v, l]) => (
+            <button key={v} onClick={() => setLbcTimeOfDay(v)} style={{
               height: 34, borderRadius: 8, border: '1.5px solid', cursor: 'pointer', fontSize: 13,
-              textAlign: 'left' as const, padding: '0 12px', fontWeight: lbcCategory === v ? 700 : 400,
-              borderColor: lbcCategory === v ? '#042C53' : '#e5e7eb',
-              background: lbcCategory === v ? '#042C53' : '#f9fafb',
-              color: lbcCategory === v ? '#fff' : '#374151',
+              textAlign: 'left' as const, padding: '0 12px', fontWeight: lbcTimeOfDay === v ? 700 : 400,
+              borderColor: lbcTimeOfDay === v ? '#042C53' : '#e5e7eb',
+              background: lbcTimeOfDay === v ? '#042C53' : '#f9fafb',
+              color: lbcTimeOfDay === v ? '#fff' : '#374151',
             }}>{l}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* Category (org group_type) */}
+      <div style={{ marginBottom: 18 }}>
+        <FilterLabel>Category</FilterLabel>
+        <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
+          {(['all', ...GROUP_TYPE_OPTIONS]).map(v => (
+            <button key={v} onClick={() => setLbcGroupType(v)} style={{
+              height: 34, borderRadius: 8, border: '1.5px solid', cursor: 'pointer', fontSize: 13,
+              textAlign: 'left' as const, padding: '0 12px', fontWeight: lbcGroupType === v ? 700 : 400,
+              borderColor: lbcGroupType === v ? '#042C53' : '#e5e7eb',
+              background: lbcGroupType === v ? '#042C53' : '#f9fafb',
+              color: lbcGroupType === v ? '#fff' : '#374151',
+            }}>{v === 'all' ? 'All categories' : v}</button>
           ))}
         </div>
       </div>
@@ -551,8 +594,9 @@ export default function NAEventsPage() {
                 <FilterPill label="This week" active={lbcDateRange === 'week'} onClick={() => setLbcDateRange('week')} />
                 <FilterPill label="This month" active={lbcDateRange === 'month'} onClick={() => setLbcDateRange('month')} />
                 <div style={{ width: 1, height: 32, background: '#e5e7eb', flexShrink: 0, alignSelf: 'center' }} />
-                <FilterPill label="Networking" active={lbcCategory === 'Networking'} onClick={() => setLbcCategory(lbcCategory === 'Networking' ? 'all' : 'Networking')} />
-                <FilterPill label="Educational" active={lbcCategory === 'Educational'} onClick={() => setLbcCategory(lbcCategory === 'Educational' ? 'all' : 'Educational')} />
+                <FilterPill label="Chambers" active={lbcGroupType === 'Chambers'} onClick={() => setLbcGroupType(lbcGroupType === 'Chambers' ? 'all' : 'Chambers')} />
+                <FilterPill label="Business" active={lbcGroupType === 'Business/Industry'} onClick={() => setLbcGroupType(lbcGroupType === 'Business/Industry' ? 'all' : 'Business/Industry')} />
+                <FilterPill label="Networking" active={lbcGroupType === 'Dedicated Networking'} onClick={() => setLbcGroupType(lbcGroupType === 'Dedicated Networking' ? 'all' : 'Dedicated Networking')} />
               </div>
 
               {/* More filters + result count row */}
@@ -560,12 +604,12 @@ export default function NAEventsPage() {
                 <button onClick={() => setLbcMoreFiltersOpen(o => !o)} style={{
                   display: 'flex', alignItems: 'center', gap: 5, height: 30, padding: '0 12px',
                   borderRadius: 8, border: '1px solid', cursor: 'pointer', fontSize: 12, fontWeight: 600,
-                  borderColor: (lbcCost !== 'all' || lbcParticipation !== 'all') ? '#2563eb' : '#e5e7eb',
-                  background: (lbcCost !== 'all' || lbcParticipation !== 'all') ? '#eff6ff' : '#fff',
-                  color: (lbcCost !== 'all' || lbcParticipation !== 'all') ? '#2563eb' : '#6b7280',
+                  borderColor: (lbcCost !== 'all' || lbcParticipation !== 'all' || lbcGroupType !== 'all' || lbcTimeOfDay !== 'all') ? '#2563eb' : '#e5e7eb',
+                  background: (lbcCost !== 'all' || lbcParticipation !== 'all' || lbcGroupType !== 'all' || lbcTimeOfDay !== 'all') ? '#eff6ff' : '#fff',
+                  color: (lbcCost !== 'all' || lbcParticipation !== 'all' || lbcGroupType !== 'all' || lbcTimeOfDay !== 'all') ? '#2563eb' : '#6b7280',
                 }}>
                   <span>More filters</span>
-                  {(lbcCost !== 'all' || lbcParticipation !== 'all') && <span style={{ background: '#2563eb', color: '#fff', borderRadius: 10, padding: '0 5px', fontSize: 10, fontWeight: 700 }}>!</span>}
+                  {(lbcCost !== 'all' || lbcParticipation !== 'all' || lbcGroupType !== 'all' || lbcTimeOfDay !== 'all') && <span style={{ background: '#2563eb', color: '#fff', borderRadius: 10, padding: '0 5px', fontSize: 10, fontWeight: 700 }}>!</span>}
                   <span style={{ fontSize: 10 }}>{lbcMoreFiltersOpen ? '▲' : '▼'}</span>
                 </button>
                 <span style={{ fontSize: 12, color: '#9ca3af' }}>{filteredLbc.length} of {lbcEvents.length}</span>
@@ -575,6 +619,15 @@ export default function NAEventsPage() {
               {lbcMoreFiltersOpen && (
                 <div style={{ background: '#f8f9fb', border: '1px solid #e8eaed', borderRadius: 12, padding: '12px 14px', marginBottom: 12 }}>
                   <div style={{ marginBottom: 12 }}>
+                    <FilterLabel>Category</FilterLabel>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
+                      <FilterPill label="All" active={lbcGroupType === 'all'} onClick={() => setLbcGroupType('all')} />
+                      {GROUP_TYPE_OPTIONS.map(v => (
+                        <FilterPill key={v} label={v} active={lbcGroupType === v} onClick={() => setLbcGroupType(v)} />
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: 12 }}>
                     <FilterLabel>Cost</FilterLabel>
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
                       {(['all','Free','Paid','Unknown','Both'] as const).map(v => (
@@ -582,12 +635,22 @@ export default function NAEventsPage() {
                       ))}
                     </div>
                   </div>
-                  <div>
+                  <div style={{ marginBottom: 12 }}>
                     <FilterLabel>Format</FilterLabel>
-                    <div style={{ display: 'flex', gap: 6 }}>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
                       <FilterPill label="All" active={lbcParticipation === 'all'} onClick={() => setLbcParticipation('all')} />
                       <FilterPill label="In-Person" active={lbcParticipation === 'In-Person'} onClick={() => setLbcParticipation('In-Person')} />
                       <FilterPill label="Virtual" active={lbcParticipation === 'Virtual'} onClick={() => setLbcParticipation('Virtual')} />
+                    </div>
+                  </div>
+                  <div>
+                    <FilterLabel>Time of Day</FilterLabel>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
+                      <FilterPill label="Any time" active={lbcTimeOfDay === 'all'} onClick={() => setLbcTimeOfDay('all')} />
+                      <FilterPill label="Morning" active={lbcTimeOfDay === 'morning'} onClick={() => setLbcTimeOfDay('morning')} />
+                      <FilterPill label="Lunch" active={lbcTimeOfDay === 'lunch'} onClick={() => setLbcTimeOfDay('lunch')} />
+                      <FilterPill label="Afternoon" active={lbcTimeOfDay === 'afternoon'} onClick={() => setLbcTimeOfDay('afternoon')} />
+                      <FilterPill label="Evening" active={lbcTimeOfDay === 'evening'} onClick={() => setLbcTimeOfDay('evening')} />
                     </div>
                   </div>
                   {activeFilterCount > 0 && (
