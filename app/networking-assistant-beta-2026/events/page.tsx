@@ -237,8 +237,8 @@ export default function NAEventsPage() {
     const q = lbcSearch.toLowerCase();
     const matchSearch = !q
       || ev.name.toLowerCase().includes(q)
-      || (ev.group_name ?? '').toLowerCase().includes(q)
-      || (ev.event_address ?? '').toLowerCase().includes(q)
+      || (ev.org_name ?? '').toLowerCase().includes(q)
+      || (ev.address ?? '').toLowerCase().includes(q)
       || (ev.description ?? '').toLowerCase().includes(q);
     const matchCost = lbcCost === 'all' || ev.paid === lbcCost;
     const matchParticipation = lbcParticipation === 'all' || ev.participation === lbcParticipation;
@@ -526,8 +526,8 @@ export default function NAEventsPage() {
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 3 }}>{ev.name}</div>
                           <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 600 }}>{formatDate(ev.start_date)}{ev.start_time ? ` · ${formatTime(ev.start_time)}` : ''}</div>
-                          {ev.group_name && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>{ev.group_name}</div>}
-                          {ev.event_address && <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 1 }}>{ev.event_address}</div>}
+                          {ev.org_name && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>{ev.org_name}</div>}
+                          {ev.address && <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 1 }}>{ev.address}</div>}
                           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginTop: 7 }}>
                             {ev.paid && <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: costColor.bg, color: costColor.text, textTransform: 'uppercase' as const }}>{ev.paid}</span>}
                             {ev.participation && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 10, background: '#f0f4ff', color: '#3b5bdb' }}>{ev.participation}</span>}
@@ -783,8 +783,8 @@ export default function NAEventsPage() {
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 3 }}>{ev.name}</div>
                         <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.start_date)}{ev.start_time ? ` · ${formatTime(ev.start_time)}` : ''}</div>
-                        {ev.group_name && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 1 }}>{ev.group_name}</div>}
-                        {ev.event_address && <div style={{ fontSize: 12, color: '#9ca3af' }}>{ev.event_address}</div>}
+                        {ev.org_name && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 1 }}>{ev.org_name}</div>}
+                        {ev.address && <div style={{ fontSize: 12, color: '#9ca3af' }}>{ev.address}</div>}
                         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginTop: 6 }}>
                           {ev.paid && <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 10, background: costColor.bg, color: costColor.text, textTransform: 'uppercase' as const }}>{ev.paid}</span>}
                           {ev.participation && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 10, background: '#f0f4ff', color: '#3b5bdb' }}>{ev.participation}</span>}

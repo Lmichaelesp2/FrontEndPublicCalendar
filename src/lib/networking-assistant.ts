@@ -109,16 +109,16 @@ export type LBCEvent = {
   end_date: string | null;
   end_time: string | null;
   description: string | null;
-  event_address: string | null;
+  address: string | null;
   city_calendar: string | null;
-  group_name: string | null;
+  org_name: string | null;
   group_type: string | null;
   event_category: string | null;
   website: string | null;
   paid: string | null;
   participation: string | null;
   event_type: string | null;
-  subcategory: string | null;
+  subcategories: string | null;
 };
 
 // ─── Queries ──────────────────────────────────────────────────────────────────
@@ -130,7 +130,7 @@ export async function fetchUpcomingLBCEvents(city?: string) {
 
   let query = supabase
     .from('events_published_view')
-    .select('id, name, start_date, start_time, end_date, end_time, description, address as event_address, city_calendar, org_name as group_name, group_type, event_category, website, paid, participation, event_type, subcategories as subcategory')
+    .select('id, name, start_date, start_time, end_date, end_time, description, address, city_calendar, org_name, group_type, event_category, website, paid, participation, event_type, subcategories')
     .gte('start_date', today)
     .lte('start_date', in60)
     .order('start_date', { ascending: true });
@@ -172,8 +172,8 @@ export async function flagLBCEvent(userId: string, lbcEvent: LBCEvent) {
     event_name: lbcEvent.name,
     event_date: lbcEvent.start_date,
     event_type: 'other',
-    host_org: lbcEvent.group_name,
-    location_name: lbcEvent.event_address,
+    host_org: lbcEvent.org_name,
+    location_name: lbcEvent.address,
     city: lbcEvent.city_calendar,
     description: lbcEvent.description,
     user_goal: null,
