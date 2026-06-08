@@ -110,6 +110,21 @@ export default function NAHomePage() {
     if (!localStorage.getItem('na_onboarded')) {
       setWelcomeStep(0);
     }
+    // Prevent iOS Safari elastic bounce / full-page drag
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.height = '100%';
+    document.body.style.overflow = 'hidden';
+    document.body.style.height = '100%';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.documentElement.style.height = '';
+      document.body.style.overflow = '';
+      document.body.style.height = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
   }, []);
 
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
@@ -1264,7 +1279,7 @@ export default function NAHomePage() {
   const isEventTime = (hour >= 17 && hour <= 22) || dow === 0 || dow === 6;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72, overscrollBehavior: 'none', overflowX: 'hidden', width: '100%', boxSizing: 'border-box' as const }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: '#f0f2f5', fontFamily: 'Inter, -apple-system, sans-serif', overflowX: 'hidden', width: '100%', display: 'flex', flexDirection: 'column' as const }}>
       <div style={{
         background: 'linear-gradient(160deg, #0B2C52 0%, #042C53 55%, #0a3660 100%)',
         boxShadow: '0 2px 16px rgba(4,44,83,0.3)',
@@ -1358,7 +1373,7 @@ export default function NAHomePage() {
         </div>
       </div>
 
-      <div style={{ padding: '16px 16px 0', WebkitOverflowScrolling: 'touch', boxSizing: 'border-box', width: '100%', overflowX: 'hidden' } as React.CSSProperties}>
+      <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch', padding: '16px 16px 80px', boxSizing: 'border-box', width: '100%' } as React.CSSProperties}>
         {pageLoading ? (
           <div style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 48, fontSize: 13 }}>Loading…</div>
         ) : mobileTab === 'queue' ? <QueueContent />
