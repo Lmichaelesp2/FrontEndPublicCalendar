@@ -1114,6 +1114,26 @@ export default function NAHomePage() {
             color: 'rgba(255,255,255,0.65)', fontWeight: 600,
             fontSize: 12, cursor: 'pointer', letterSpacing: 0.1,
           }}>? Help</button>
+          <button onClick={() => window.location.reload()} title="Refresh" style={{
+            height: 34, width: 34, borderRadius: 8,
+            background: 'rgba(255,255,255,0.08)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            color: 'rgba(255,255,255,0.65)', fontSize: 16, cursor: 'pointer',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          }}>↺</button>
+          <button onClick={async () => { await signOut(); window.location.href = '/'; }} title="Log out" style={{
+            height: 34, padding: '0 14px', borderRadius: 8,
+            background: 'rgba(255,255,255,0.08)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            color: 'rgba(255,255,255,0.65)', fontWeight: 600,
+            fontSize: 12, cursor: 'pointer', letterSpacing: 0.1,
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+          }}>
+            <svg width="13" height="13" viewBox="0 0 15 15" fill="none">
+              <path d="M6 2H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3M10 10l3-3-3-3M13 7.5H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Log Out
+          </button>
           <a href="/networking-assistant-beta-2026/capture" style={{
             height: 34, padding: '0 18px', borderRadius: 8, background: '#c2410c',
             color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
