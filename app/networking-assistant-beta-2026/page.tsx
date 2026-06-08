@@ -96,9 +96,16 @@ export default function NAHomePage() {
   const [evTypeFilter, setEvTypeFilter]     = useState<string>('all');
   const [evDateFilter, setEvDateFilter]     = useState<'all' | 'today' | 'week' | 'month'>('all');
   const [evFiltersOpen, setEvFiltersOpen]   = useState(false);
+  // Onboarding
+  const [welcomeStep, setWelcomeStep]       = useState<0 | 1 | 2 | null>(null);
+  const [welcomeCity, setWelcomeCity]       = useState('');
 
   useEffect(() => {
     setActiveEventName(localStorage.getItem('na_active_event_name'));
+    // Show welcome flow for first-time users
+    if (!localStorage.getItem('na_onboarded')) {
+      setWelcomeStep(0);
+    }
   }, []);
 
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
@@ -334,7 +341,98 @@ export default function NAHomePage() {
     );
   };
 
-  const QueueContent = ({ showSearch = false }: { showSearch?: boolean }) => (
+  // ── Welcome / Onboarding Modal ──
+  const WelcomeModal = () => {
+    if (welcomeStep === null) return null;
+    const finish = (city?: string) => {
+      if (city) localStorage.setItem('na_home_city', city);
+      localStorage.setItem('na_onboarded', '1');
+      setWelcomeStep(null);
+    };
+    return (
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 10000, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+        <div style={{ background: '#fff', borderRadius: '20px 20px 0 0', width: '100%', maxWidth: 480, padding: '28px 24px 44px', display: 'flex', flexDirection: 'column' }}>
+
+          {/* Step 0 — What is this? */}
+          {welcomeStep === 0 && (<>
+            <div style={{ fontSize: 36, textAlign: 'center', marginBottom: 16 }}>🤝</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#042C53', textAlign: 'center', marginBottom: 10 }}>Welcome to your Networking Assistant</div>
+            <div style={{ fontSize: 14, color: '#4b5563', lineHeight: 1.7, marginBottom: 20, textAlign: 'center' }}>
+              Go to an event. Capture the people you meet. Come back the next day and complete your follow-ups. That's the whole app.
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+              {[
+                { icon: '📅', text: 'Save events you\'re attending' },
+                { icon: '🎤', text: 'Capture contacts by voice, photo, or typing' },
+                { icon: '✅', text: 'Your follow-up queue tells you what to do next' },
+                { icon: '🏛', text: 'Track the organizations you belong to' },
+              ].map(item => (
+                <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', background: '#f8f9fb', borderRadius: 10 }}>
+                  <span style={{ fontSize: 20 }}>{item.icon}</span>
+                  <span style={{ fontSize: 14, color: '#374151', fontWeight: 500 }}>{item.text}</span>
+                </div>
+              ))}
+            </div>
+            <button onClick={() => setWelcomeStep(1)} style={{
+              width: '100%', height: 50, borderRadius: 12, border: 'none',
+              background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 16, cursor: 'pointer',
+            }}>Got it — let's set up →</button>
+            <button onClick={() => finish()} style={{ marginTop: 10, background: 'none', border: 'none', color: '#9ca3af', fontSize: 13, cursor: 'pointer' }}>Skip setup</button>
+          </>)}
+
+          {/* Step 1 — City */}
+          {welcomeStep === 1 && (<>
+            <div style={{ fontSize: 36, textAlign: 'center', marginBottom: 16 }}>📍</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#042C53', textAlign: 'center', marginBottom: 8 }}>Where do you network?</div>
+            <div style={{ fontSize: 14, color: '#6b7280', textAlign: 'center', marginBottom: 24 }}>We'll show you local events from the LBC calendar.</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+              {['San Antonio', 'Austin', 'Dallas', 'Houston'].map(city => (
+                <button key={city} onClick={() => setWelcomeCity(city)} style={{
+                  height: 50, borderRadius: 12, border: '2px solid',
+                  borderColor: welcomeCity === city ? '#042C53' : '#e5e7eb',
+                  background: welcomeCity === city ? '#eff6ff' : '#fff',
+                  color: welcomeCity === city ? '#042C53' : '#374151',
+                  fontWeight: welcomeCity === city ? 700 : 500, fontSize: 15, cursor: 'pointer',
+                }}>{city}</button>
+              ))}
+            </div>
+            <button onClick={() => setWelcomeStep(2)} disabled={!welcomeCity} style={{
+              width: '100%', height: 50, borderRadius: 12, border: 'none',
+              background: welcomeCity ? '#042C53' : '#e5e7eb',
+              color: welcomeCity ? '#fff' : '#9ca3af',
+              fontWeight: 700, fontSize: 16, cursor: welcomeCity ? 'pointer' : 'default',
+            }}>Continue →</button>
+            <button onClick={() => finish()} style={{ marginTop: 10, background: 'none', border: 'none', color: '#9ca3af', fontSize: 13, cursor: 'pointer' }}>Skip for now</button>
+          </>)}
+
+          {/* Step 2 — Ready */}
+          {welcomeStep === 2 && (<>
+            <div style={{ fontSize: 36, textAlign: 'center', marginBottom: 16 }}>🚀</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: '#042C53', textAlign: 'center', marginBottom: 10 }}>You're all set!</div>
+            <div style={{ fontSize: 14, color: '#4b5563', lineHeight: 1.7, textAlign: 'center', marginBottom: 28 }}>
+              Tap <strong>?</strong> in the top right any time you need a reminder of how things work. You won't see this setup screen again.
+            </div>
+            <a href="/networking-assistant-beta-2026/capture" onClick={() => finish(welcomeCity)} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', height: 50, borderRadius: 12,
+              background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 16, textDecoration: 'none', marginBottom: 10,
+            }}>🎤 Capture your first contact →</a>
+            <a href="/networking-assistant-beta-2026/events" onClick={() => finish(welcomeCity)} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', height: 44, borderRadius: 12,
+              background: '#042C53', color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none', marginBottom: 10,
+            }}>📅 Browse upcoming events first</a>
+            <button onClick={() => finish(welcomeCity)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 13, cursor: 'pointer' }}>Take me to the dashboard</button>
+          </>)}
+
+        </div>
+      </div>
+    );
+  };
+
+  const QueueContent = ({ showSearch = false }: { showSearch?: boolean }) => {
+    const hour = new Date().getHours();
+    const day  = new Date().getDay(); // 0=Sun, 6=Sat
+    const isEventTime = (hour >= 17 && hour <= 22) || (day === 0 || day === 6);
+    return (
     <div>
       {showSearch && (
         <input
@@ -361,14 +459,37 @@ export default function NAHomePage() {
           }}>🎤 Capture Your First Contact →</a>
         </div>
       ) : followUps.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '56px 16px' }}>
+        <div style={{ textAlign: 'center', padding: '40px 16px' }}>
           <div style={{ fontSize: 32, marginBottom: 10 }}>✓</div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 6 }}>All caught up</div>
-          <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>No follow-ups pending.</div>
-          <a href="/networking-assistant-beta-2026/capture" style={{
-            display: 'inline-flex', alignItems: 'center', height: 38, padding: '0 20px',
-            borderRadius: 7, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
-          }}>+ Capture Contacts</a>
+          <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 6 }}>All caught up!</div>
+          {isEventTime ? (
+            <>
+              <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 6, lineHeight: 1.6 }}>
+                Looks like it could be event time. Heading out tonight?
+              </div>
+              <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 20 }}>Capture contacts as you meet them — your follow-ups will queue up automatically.</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 280, margin: '0 auto' }}>
+                <a href="/networking-assistant-beta-2026/capture" style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', height: 44,
+                  borderRadius: 9, background: '#c2410c', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none',
+                }}>🎤 Capture a Contact</a>
+                <a href="/networking-assistant-beta-2026/events" style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', height: 38,
+                  borderRadius: 9, background: '#042C53', color: '#fff', fontWeight: 600, fontSize: 13, textDecoration: 'none',
+                }}>📅 Browse Events</a>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 20, lineHeight: 1.6 }}>
+                No follow-ups pending. Check back after your next event.
+              </div>
+              <a href="/networking-assistant-beta-2026/capture" style={{
+                display: 'inline-flex', alignItems: 'center', height: 38, padding: '0 20px',
+                borderRadius: 7, background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
+              }}>+ Capture a Contact</a>
+            </>
+          )}
         </div>
       ) : filteredQueue.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '32px 0', fontSize: 13, color: '#9ca3af' }}>No results for "{queueSearch}"</div>
@@ -389,7 +510,8 @@ export default function NAHomePage() {
         </div>
       )}
     </div>
-  );
+    );
+  };
 
   // ── Contact row with avatar + delete
   const ContactRow = ({ p }: { p: any }) => {
@@ -1096,14 +1218,30 @@ export default function NAHomePage() {
 
       <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
       {showOrgPicker && <OrgPickerModal />}
+      <WelcomeModal />
     </div>
   );
 
   // ────────────────────────── MOBILE LAYOUT ──────────────────────────
+  const hour = new Date().getHours();
+  const dow  = new Date().getDay();
+  const isEventTime = (hour >= 17 && hour <= 22) || dow === 0 || dow === 6;
+
   return (
     <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72, overscrollBehavior: 'none', touchAction: 'pan-y' }}>
       <div style={{ background: '#042C53' }}>
         <div style={{ padding: '0 16px' }}>
+          {/* Context-aware event nudge */}
+          {isEventTime && followUps.length === 0 && persons.length > 0 && (
+            <a href="/networking-assistant-beta-2026/capture" style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              background: 'rgba(194,65,12,0.85)', borderRadius: 8, padding: '7px 12px',
+              marginTop: 8, textDecoration: 'none',
+            }}>
+              <span style={{ fontSize: 12, color: '#fff', fontWeight: 600 }}>🎤 At an event? Capture a contact →</span>
+              <span style={{ fontSize: 11, color: '#fca5a5' }}>Tap here</span>
+            </a>
+          )}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 52 }}>
             <div>
               <div style={{ fontSize: 9, color: '#6b93b8', letterSpacing: 1, textTransform: 'uppercase' as const }}>Local Business Calendars</div>
@@ -1210,6 +1348,7 @@ export default function NAHomePage() {
 
       <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
       {showOrgPicker && <OrgPickerModal />}
+      <WelcomeModal />
     </div>
   );
 }
