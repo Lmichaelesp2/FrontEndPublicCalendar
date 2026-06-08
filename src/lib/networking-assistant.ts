@@ -113,6 +113,7 @@ export type LBCEvent = {
   city_calendar: string | null;
   group_name: string | null;
   group_type: string | null;
+  event_category: string | null;
   website: string | null;
   paid: string | null;
   participation: string | null;
@@ -128,8 +129,8 @@ export async function fetchUpcomingLBCEvents(city?: string) {
   const in60 = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
   let query = supabase
-    .from('events_published')
-    .select('id, name, start_date, start_time, end_date, end_time, description, event_address, city_calendar, group_name, group_type, website, paid, participation, event_type, subcategory')
+    .from('events_published_view')
+    .select('id, name, start_date, start_time, end_date, end_time, description, address as event_address, city_calendar, org_name as group_name, group_type, event_category, website, paid, participation, event_type, subcategories as subcategory')
     .gte('start_date', today)
     .lte('start_date', in60)
     .order('start_date', { ascending: true });
