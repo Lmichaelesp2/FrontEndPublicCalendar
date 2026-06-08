@@ -57,7 +57,7 @@ const BUCKET_DOT: Record<string, string> = {
 const ACTIVE_CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'] as const;
 
 export default function NAHomePage() {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading, signOut } = useAuth();
   const router = useRouter();
   const helpTriggerRef = useRef<(() => void) | null>(null);
 
@@ -1268,14 +1268,28 @@ export default function NAHomePage() {
               <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', letterSpacing: -0.4, lineHeight: 1 }}>Networking Assistant</div>
             </div>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-              <button onClick={() => helpTriggerRef.current?.()} style={{
+              {/* Refresh */}
+              <button onClick={() => window.location.reload()} title="Refresh" style={{
                 height: 34, width: 34, borderRadius: 8,
                 background: 'rgba(255,255,255,0.08)',
                 border: '1px solid rgba(255,255,255,0.15)',
-                color: 'rgba(255,255,255,0.6)', fontWeight: 700, fontSize: 14, cursor: 'pointer',
-              }}>?</button>
+                color: 'rgba(255,255,255,0.6)', fontSize: 16, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>↺</button>
+              {/* Log out */}
+              <button onClick={async () => { await signOut(); window.location.href = '/'; }} title="Log out" style={{
+                height: 34, width: 34, borderRadius: 8,
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                color: 'rgba(255,255,255,0.6)', fontSize: 13, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                  <path d="M6 2H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3M10 10l3-3-3-3M13 7.5H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
               <a href="/networking-assistant-beta-2026/capture" style={{
-                height: 34, padding: '0 16px', borderRadius: 8, background: '#c2410c',
+                height: 34, padding: '0 14px', borderRadius: 8, background: '#c2410c',
                 color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
                 display: 'inline-flex', alignItems: 'center',
                 boxShadow: '0 2px 6px rgba(194,65,12,0.4)',
