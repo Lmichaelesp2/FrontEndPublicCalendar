@@ -100,8 +100,8 @@ const HELP_TABS = [
       },
       {
         icon: '🏢',
-        title: 'Companies view',
-        desc: 'Switch to Companies to see your contacts grouped by employer. Useful for knowing how many people you know at a specific company.',
+        title: 'Companies toggle',
+        desc: 'Inside My Contacts, switch between People and Companies views. Companies groups your contacts by their employer — useful for knowing how many people you know at a specific organization.',
       },
       {
         icon: '🏷',

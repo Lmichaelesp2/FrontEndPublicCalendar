@@ -1118,13 +1118,11 @@ export default function NAHomePage() {
           <NavSection label="Follow-Ups" />
           <NavItem label="Queue" icon="◎" active={desktopView === 'queue'} badge={overdue.length + today.length} onClick={() => setDesktopView('queue')} />
           <NavSection label="My Network" />
-          <NavItem label="All Contacts" icon="👤" active={desktopView === 'allcontacts'} badge={persons.length > 0 ? persons.length : undefined} onClick={() => { setDesktopView('allcontacts'); setContactSearch(''); setRelFilter('all'); }} />
-          <NavItem label="Companies" icon="🏢" active={desktopView === 'companies'} badge={companyGroups.length > 0 ? companyGroups.length : undefined} onClick={() => { setDesktopView('companies'); setContactSearch(''); }} />
-          <NavSection label="Events" />
+          <NavItem label="My Contacts" icon="👤" active={desktopView === 'allcontacts' || desktopView === 'companies'} badge={persons.length > 0 ? persons.length : undefined} onClick={() => { setDesktopView('allcontacts'); setContactSearch(''); setRelFilter('all'); }} />
+          <NavItem label="My Organizations" icon="🏛" active={desktopView === 'orgs'} badge={memberships.length > 0 ? memberships.length : undefined} onClick={() => setDesktopView('orgs')} />
+          <NavSection label="My Activity" />
           <NavItem label="My Events" icon="📅" active={desktopView === 'events'} onClick={() => setDesktopView('events')} />
-          <NavItem label="Browse LBC" icon="↗" href="/networking-assistant-beta-2026/events" />
-          <NavSection label="Organizations" />
-          <NavItem label="My Orgs" icon="🏛" active={desktopView === 'orgs'} badge={memberships.length > 0 ? memberships.length : undefined} onClick={() => setDesktopView('orgs')} />
+          <NavItem label="+ Add Events" icon="↗" href="/networking-assistant-beta-2026/events" />
         </div>
 
         {/* Main content */}
@@ -1141,14 +1139,14 @@ export default function NAHomePage() {
           ) : desktopView === 'allcontacts' ? (
             <>
               <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 16 }}>
-                All Contacts <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{persons.length} total</span>
+                My Contacts <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{persons.length} total</span>
               </div>
               <div style={{ maxWidth: 640 }}><AllContactsView /></div>
             </>
           ) : desktopView === 'companies' ? (
             <>
               <div style={{ fontSize: 16, fontWeight: 700, color: '#111827', marginBottom: 16 }}>
-                Companies <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{companyGroups.length}</span>
+                All Companies <span style={{ fontSize: 13, fontWeight: 400, color: '#6b7280', marginLeft: 6 }}>{companyGroups.length}</span>
               </div>
               <div style={{ marginBottom: 16 }}>
                 <input value={contactSearch} onChange={e => setContactSearch(e.target.value)} placeholder="Search companies…"
@@ -1199,7 +1197,7 @@ export default function NAHomePage() {
 
         {/* Right panel — contact search */}
         <div style={{ background: '#fff', borderLeft: '1px solid #e8eaed', overflowY: 'auto', padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Network · {persons.length}</div>
+          <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Contacts · {persons.length}</div>
           <input
             placeholder="Search contacts…"
             value={contactSearch}
@@ -1288,7 +1286,7 @@ export default function NAHomePage() {
               color: mobileTab === t ? '#fff' : '#6b93b8',
               borderBottom: mobileTab === t ? '2px solid #c2410c' : '2px solid transparent',
             }}>
-              {t === 'queue' ? 'Queue' : t === 'people' ? 'People' : t === 'events' ? 'Events' : 'My Orgs'}
+              {t === 'queue' ? 'Queue' : t === 'people' ? 'Contacts' : t === 'events' ? 'Events' : 'Orgs'}
               <span style={{ marginLeft: 3, fontSize: 10, color: mobileTab === t ? '#93c5fd' : '#4a6a8a' }}>
                 {t === 'queue' ? followUps.length : t === 'people' ? persons.length : t === 'events' ? events.length : memberships.length}
               </span>
@@ -1329,10 +1327,10 @@ export default function NAHomePage() {
         display: 'flex', boxShadow: '0 -2px 12px rgba(0,0,0,0.07)',
       }}>
         {([
-          { key: 'queue',  icon: '◎',  label: 'Queue',   badge: overdue.length + today.length },
-          { key: 'people', icon: '👤', label: 'People',  badge: 0 },
-          { key: 'events',   icon: '📅', label: 'Events',   badge: 0 },
-          { key: 'orgs',     icon: '🏛', label: 'Orgs',     badge: 0 },
+          { key: 'queue',  icon: '◎',  label: 'Queue',    badge: overdue.length + today.length },
+          { key: 'people', icon: '👤', label: 'Contacts', badge: 0 },
+          { key: 'events', icon: '📅', label: 'Events',   badge: 0 },
+          { key: 'orgs',   icon: '🏛', label: 'Orgs',     badge: 0 },
         ] as const).map(t => (
           <button key={t.key} onClick={() => setMobileTab(t.key)} style={{
             flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
