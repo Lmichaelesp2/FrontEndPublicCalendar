@@ -1314,7 +1314,17 @@ export default function NAHomePage() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 50 }}>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: 1.4, textTransform: 'uppercase' as const, marginBottom: 2, fontWeight: 600 }}>Local Business Calendars</div>
-              <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: -0.3, lineHeight: 1, whiteSpace: 'nowrap' as const }}>Networking Assistant</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: -0.3, lineHeight: 1, whiteSpace: 'nowrap' as const }}>Networking Assistant</div>
+                <div style={{
+                  fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
+                  background: 'rgba(255,255,255,0.1)', borderRadius: 20,
+                  padding: '2px 8px', letterSpacing: 0.3, whiteSpace: 'nowrap' as const,
+                  border: '1px solid rgba(255,255,255,0.15)',
+                }}>
+                  {{ queue: 'Queue', people: 'Contacts', events: 'Events', orgs: 'Orgs' }[mobileTab]}
+                </div>
+              </div>
             </div>
             <a href="/networking-assistant/capture" style={{
               height: 34, padding: '0 14px', borderRadius: 8, background: '#c2410c',
@@ -1427,21 +1437,32 @@ export default function NAHomePage() {
           { key: 'people', icon: '👤', label: 'Contacts', badge: 0 },
           { key: 'events', icon: '📅', label: 'Events',   badge: 0 },
           { key: 'orgs',   icon: '🏛', label: 'Orgs',     badge: 0 },
-        ] as const).map(t => (
-          <button key={t.key} onClick={() => setMobileTab(t.key)} style={{
-            flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            border: 'none', background: 'none', cursor: 'pointer', gap: 2, position: 'relative',
-            borderTop: mobileTab === t.key ? '2px solid #042C53' : '2px solid transparent',
-          }}>
-            {t.badge > 0 && (
-              <span style={{ position: 'absolute', top: 6, right: '50%', transform: 'translateX(10px)', background: '#ef4444', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: 10, padding: '1px 5px', minWidth: 16, textAlign: 'center' as const }}>
-                {t.badge}
-              </span>
-            )}
-            <span style={{ fontSize: 18 }}>{t.icon}</span>
-            <span style={{ fontSize: 10, fontWeight: mobileTab === t.key ? 700 : 400, color: mobileTab === t.key ? '#042C53' : '#6b7280' }}>{t.label}</span>
-          </button>
-        ))}
+        ] as const).map(t => {
+          const isActive = mobileTab === t.key;
+          return (
+            <button key={t.key} onClick={() => setMobileTab(t.key)} style={{
+              flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              border: 'none', background: 'none', cursor: 'pointer', gap: 2, position: 'relative',
+              padding: '4px 0',
+            }}>
+              <div style={{
+                display: 'flex', flexDirection: 'column' as const, alignItems: 'center', gap: 2,
+                background: isActive ? 'rgba(4,44,83,0.09)' : 'transparent',
+                borderRadius: 12, padding: isActive ? '5px 16px' : '5px 16px',
+                border: isActive ? '1.5px solid rgba(4,44,83,0.18)' : '1.5px solid transparent',
+                transition: 'background 0.15s',
+              }}>
+                {t.badge > 0 && (
+                  <span style={{ position: 'absolute', top: 4, right: '50%', transform: 'translateX(18px)', background: '#ef4444', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: 10, padding: '1px 5px', minWidth: 16, textAlign: 'center' as const }}>
+                    {t.badge}
+                  </span>
+                )}
+                <span style={{ fontSize: 18 }}>{t.icon}</span>
+                <span style={{ fontSize: 10, fontWeight: isActive ? 700 : 400, color: isActive ? '#042C53' : '#6b7280' }}>{t.label}</span>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       <NAAssistant context={{ followUps, persons, events }} onHelpRef={fn => { helpTriggerRef.current = fn; }} />
