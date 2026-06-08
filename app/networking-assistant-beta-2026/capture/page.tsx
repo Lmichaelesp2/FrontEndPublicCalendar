@@ -7,6 +7,7 @@ import {
   fetchMyNAEvents, fetchMemberships, createNAEvent, createPerson, createInteraction, createFollowUp,
   type NAEvent, type NAMembership,
 } from '../../../src/lib/networking-assistant';
+import { supabase } from '../../../src/lib/supabase';
 
 function addDays(days: number) {
   const d = new Date(); d.setDate(d.getDate() + days);
@@ -124,6 +125,7 @@ function CaptureFlowInner() {
   const [savedCount, setSavedCount]   = useState(0);
   const [savedName, setSavedName]     = useState('');
   const [errors, setErrors]           = useState<string[]>([]);
+  const [dupWarning, setDupWarning]   = useState<{ id: string; name: string } | null>(null);
 
   // Voice capture
   const [voiceState, setVoiceState]           = useState<'idle' | 'listening' | 'parsing'>('idle');
@@ -310,12 +312,32 @@ function CaptureFlowInner() {
     reader.readAsDataURL(file);
   }
 
-  async function handleSave() {
+  async function handleSave(skipDupCheck = false) {
     const errs: string[] = [];
     if (!firstName.trim()) errs.push('First name is required.');
     if (followUps.length === 0) errs.push('Select at least one follow-up.');
     if (sourceType === 'org' && !selectedMembership) errs.push('Select which organization you met them through.');
     if (errs.length) { setErrors(errs); return; }
+
+    // Duplicate check — unless user already confirmed they want to save anyway
+    if (!skipDupCheck && firstName.trim()) {
+      const { data: existing } = await supabase
+        .from('na_persons')
+        .select('id, first_name, last_name')
+        .eq('user_profile_id', user!.id)
+        .ilike('first_name', firstName.trim())
+        .ilike('last_name', lastName.trim() || '')
+        .limit(1)
+        .single();
+      if (existing) {
+        setDupWarning({
+          id: existing.id,
+          name: [existing.first_name, existing.last_name].filter(Boolean).join(' '),
+        });
+        return;
+      }
+    }
+    setDupWarning(null);
     setSaving(true);
     const due = customDate || addDays(whenDays);
     const notes = gotCard ? 'Business card received — fill in details later.' : null;
@@ -735,7 +757,34 @@ function CaptureFlowInner() {
           </div>
         </div>
 
-        <button onClick={handleSave} disabled={saving} style={{
+        {/* Duplicate warning */}
+        {dupWarning && (
+          <div style={{ background: '#fffbeb', border: '1.5px solid #fcd34d', borderRadius: 10, padding: '14px 16px', marginBottom: 12 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: '#92400e', marginBottom: 6 }}>
+              ⚠ Looks like you already have {dupWarning.name} in your contacts.
+            </div>
+            <div style={{ fontSize: 13, color: '#78350f', marginBottom: 12 }}>
+              Is this the same person? You can view their existing record or save as a new contact anyway.
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const }}>
+              <a href={`/networking-assistant-beta-2026/persons/${dupWarning.id}`} style={{
+                height: 36, padding: '0 16px', borderRadius: 7, background: '#042C53',
+                color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
+                display: 'inline-flex', alignItems: 'center',
+              }}>View {dupWarning.name} →</a>
+              <button onClick={() => handleSave(true)} style={{
+                height: 36, padding: '0 16px', borderRadius: 7, border: '1.5px solid #d97706',
+                background: '#fff', color: '#92400e', fontWeight: 600, fontSize: 13, cursor: 'pointer',
+              }}>Save as new contact anyway</button>
+              <button onClick={() => setDupWarning(null)} style={{
+                height: 36, padding: '0 12px', borderRadius: 7, border: '1px solid #e5e7eb',
+                background: '#fff', color: '#6b7280', fontSize: 13, cursor: 'pointer',
+              }}>Cancel</button>
+            </div>
+          </div>
+        )}
+
+        <button onClick={() => handleSave()} disabled={saving} style={{
           width: '100%', height: 50, borderRadius: 12, border: 'none',
           background: saving ? '#e5e7eb' : '#c2410c', color: saving ? '#9ca3af' : '#fff',
           fontWeight: 700, fontSize: 16, cursor: saving ? 'default' : 'pointer',
