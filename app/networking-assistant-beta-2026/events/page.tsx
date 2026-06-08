@@ -118,12 +118,12 @@ function timeOfDayBucket(timeStr: string | null): 'morning' | 'lunch' | 'afterno
 }
 
 const css = {
-  page: { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 80 } as React.CSSProperties,
-  header: { background: '#042C53', padding: '0 16px' } as React.CSSProperties,
-  headerInner: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 } as React.CSSProperties,
-  card: { background: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 10 } as React.CSSProperties,
+  page: { minHeight: '100vh', background: '#f0f2f5', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", paddingBottom: 80 } as React.CSSProperties,
+  header: { background: 'linear-gradient(160deg, #052f5a 0%, #042C53 60%, #0a3d6b 100%)', padding: '0 16px', boxShadow: '0 2px 12px rgba(4,44,83,0.18)' } as React.CSSProperties,
+  headerInner: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 } as React.CSSProperties,
+  card: { background: '#fff', borderRadius: 14, padding: '15px 16px', marginBottom: 10, boxShadow: '0 1px 4px rgba(0,0,0,0.07), 0 0 1px rgba(0,0,0,0.04)' } as React.CSSProperties,
   sectionLabel: { fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 8, marginTop: 16 },
-  input: { width: '100%', padding: '11px 13px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 15, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', color: '#111827', outline: 'none' },
+  input: { width: '100%', padding: '11px 13px', borderRadius: 10, border: '1.5px solid #e5e7eb', fontSize: 15, boxSizing: 'border-box' as const, fontFamily: "'Inter', sans-serif", color: '#111827', outline: 'none', background: '#fff' },
   label: { display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 5 },
 };
 
@@ -328,30 +328,39 @@ export default function NAEventsPage() {
       {/* Header */}
       <div style={css.header}>
         <div style={css.headerInner}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <a href="/networking-assistant-beta-2026" style={{
-              display: 'flex', alignItems: 'center', gap: 4,
-              color: '#93b4d4', fontSize: 15, fontWeight: 600, textDecoration: 'none',
-              padding: '8px 12px 8px 4px', margin: '-8px 0',
-            }}>‹ Back</a>
-            <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Events</div>
+              display: 'flex', alignItems: 'center', gap: 3,
+              color: 'rgba(255,255,255,0.55)', fontSize: 14, fontWeight: 500, textDecoration: 'none',
+              padding: '10px 14px 10px 2px', margin: '-10px 0', letterSpacing: 0.1,
+            }}>
+              <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style={{ marginTop: 0.5 }}>
+                <path d="M6 1L1 6L6 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Back
+            </a>
+            <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.15)', margin: '0 4px' }} />
+            <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', letterSpacing: -0.3 }}>Events</div>
           </div>
           <button onClick={() => setShowAddForm(v => !v)} style={{
-            height: 36, borderRadius: 8, background: showAddForm ? '#1f2a3d' : '#c2410c',
-            color: '#fff', fontWeight: 700, fontSize: 13, border: 'none', cursor: 'pointer', padding: '0 14px',
-          }}>{showAddForm ? '✕ Cancel' : '+ Add Event'}</button>
+            height: 34, borderRadius: 20, border: 'none', cursor: 'pointer', padding: '0 16px',
+            background: showAddForm ? 'rgba(255,255,255,0.12)' : '#c2410c',
+            color: '#fff', fontWeight: 600, fontSize: 13, letterSpacing: 0.1,
+            boxShadow: showAddForm ? 'none' : '0 2px 6px rgba(194,65,12,0.4)',
+          }}>{showAddForm ? '✕ Cancel' : '+ Add'}</button>
         </div>
 
         {/* Tabs */}
-        <div style={{ display: 'flex', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <div style={{ display: 'flex', gap: 4, padding: '0 0 10px' }}>
           {(['upcoming', 'mine'] as const).map(t => (
             <button key={t} onClick={() => setTab(t)} style={{
-              flex: 1, height: 40, background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 13, fontWeight: tab === t ? 700 : 400,
-              color: tab === t ? '#fff' : '#93b4d4',
-              borderBottom: tab === t ? '2px solid #c2410c' : '2px solid transparent',
+              height: 32, borderRadius: 20, border: 'none', cursor: 'pointer', padding: '0 16px',
+              fontSize: 13, fontWeight: tab === t ? 700 : 500, letterSpacing: 0.1,
+              background: tab === t ? 'rgba(255,255,255,0.15)' : 'transparent',
+              color: tab === t ? '#fff' : 'rgba(255,255,255,0.5)',
+              transition: 'all 0.15s',
             }}>
-              {t === 'upcoming' ? 'Upcoming LBC' : `My Events (${myEvents.length})`}
+              {t === 'upcoming' ? 'Upcoming Events' : `My Events${myEvents.length > 0 ? ` (${myEvents.length})` : ''}`}
             </button>
           ))}
         </div>
@@ -359,7 +368,11 @@ export default function NAEventsPage() {
 
       {/* Toast */}
       {toast && (
-        <div style={{ background: '#042C53', color: '#fff', padding: '10px 16px', fontSize: 13, textAlign: 'center' }}>
+        <div style={{
+          background: 'linear-gradient(90deg, #042C53, #0a3d6b)',
+          color: '#fff', padding: '10px 16px', fontSize: 13, textAlign: 'center',
+          fontWeight: 500, letterSpacing: 0.1,
+        }}>
           ✓ {toast}
         </div>
       )}
@@ -514,32 +527,34 @@ export default function NAEventsPage() {
                   <div style={{ textAlign: 'center', color: '#9ca3af', padding: '32px 0', fontSize: 14 }}>Loading…</div>
                 ) : filteredLbc.length === 0 ? (
                   <div style={{ textAlign: 'center', color: '#6b7280', padding: '48px 0', fontSize: 14 }}>
-                    {lbcEvents.length === 0 ? `No upcoming events for ${cityFilter}.` : 'No events match your filters.'}
+                    {lbcEvents.length === 0 ? `No upcoming events found for ${cityFilter}.` : 'No events match your filters.'}
                     {activeFilterCount > 0 && <div style={{ marginTop: 8 }}><button onClick={clearAllFilters} style={{ color: '#2563eb', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13 }}>Clear all filters</button></div>}
                   </div>
                 ) : filteredLbc.map(ev => {
                   const flagged = flaggedIds.has(ev.id);
-                  const costColor = ev.paid === 'Free' ? { bg: '#f0fdf4', text: '#15803d' } : ev.paid === 'Paid' ? { bg: '#fef3c7', text: '#92400e' } : { bg: '#f3f4f6', text: '#6b7280' };
+                  const costColor = ev.paid === 'Free' ? { bg: '#f0fdf4', text: '#15803d', border: '#bbf7d0' } : ev.paid === 'Paid' ? { bg: '#fffbeb', text: '#b45309', border: '#fde68a' } : { bg: '#f3f4f6', text: '#6b7280', border: '#e5e7eb' };
                   return (
-                    <div key={ev.id} style={css.card}>
+                    <div key={ev.id} style={{ ...css.card, borderLeft: '3px solid #e5e7eb', paddingLeft: 13 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 3 }}>{ev.name}</div>
-                          <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 600 }}>{formatDate(ev.start_date)}{ev.start_time ? ` · ${formatTime(ev.start_time)}` : ''}</div>
-                          {ev.org_name && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>{ev.org_name}</div>}
-                          {ev.address && <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 1 }}>{ev.address}</div>}
-                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginTop: 7 }}>
-                            {ev.paid && <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: costColor.bg, color: costColor.text, textTransform: 'uppercase' as const }}>{ev.paid}</span>}
-                            {ev.participation && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 10, background: '#f0f4ff', color: '#3b5bdb' }}>{ev.participation}</span>}
-                            {ev.event_type && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 10, background: '#f9fafb', color: '#6b7280' }}>{ev.event_type}</span>}
+                          <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 3, lineHeight: 1.35, letterSpacing: -0.1 }}>{ev.name}</div>
+                          <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 600, letterSpacing: 0.1 }}>{formatDate(ev.start_date)}{ev.start_time ? ` · ${formatTime(ev.start_time)}` : ''}</div>
+                          {ev.org_name && <div style={{ fontSize: 12, color: '#475569', marginTop: 3, fontWeight: 500 }}>{ev.org_name}</div>}
+                          {ev.address && <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 1 }}>{ev.address}</div>}
+                          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginTop: 8 }}>
+                            {ev.paid && <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 20, background: costColor.bg, color: costColor.text, border: `1px solid ${costColor.border}`, letterSpacing: 0.3, textTransform: 'uppercase' as const }}>{ev.paid}</span>}
+                            {ev.participation && <span style={{ fontSize: 10, fontWeight: 600, padding: '3px 8px', borderRadius: 20, background: '#eff6ff', color: '#3b82f6', border: '1px solid #bfdbfe' }}>{ev.participation}</span>}
+                            {ev.event_category && <span style={{ fontSize: 10, fontWeight: 500, padding: '3px 8px', borderRadius: 20, background: '#f8fafc', color: '#64748b', border: '1px solid #e2e8f0' }}>{ev.event_category}</span>}
                           </div>
                         </div>
                         <button onClick={() => handleFlag(ev)} disabled={flagged} style={{
-                          height: 34, borderRadius: 8, border: 'none', cursor: flagged ? 'default' : 'pointer',
-                          fontSize: 12, fontWeight: 700, padding: '0 14px', flexShrink: 0,
-                          background: flagged ? '#f3f4f6' : '#042C53',
-                          color: flagged ? '#9ca3af' : '#fff',
-                        }}>{flagged ? '✓ Added' : '+ Add'}</button>
+                          height: 32, borderRadius: 20, border: flagged ? '1.5px solid #e5e7eb' : 'none',
+                          cursor: flagged ? 'default' : 'pointer',
+                          fontSize: 12, fontWeight: 600, padding: '0 14px', flexShrink: 0,
+                          background: flagged ? '#fff' : '#042C53',
+                          color: flagged ? '#94a3b8' : '#fff',
+                          boxShadow: flagged ? 'none' : '0 1px 4px rgba(4,44,83,0.25)',
+                        }}>{flagged ? '✓ Saved' : '+ Save'}</button>
                       </div>
                     </div>
                   );
@@ -697,29 +712,35 @@ export default function NAEventsPage() {
               )}
 
               {/* ── Row 1: Search + Filter button ── */}
-              <div style={{ display: 'flex', gap: 10, marginBottom: 10, alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center' }}>
                 <div style={{ flex: 1, position: 'relative' as const }}>
-                  <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 16, color: '#9ca3af', pointerEvents: 'none' }}>🔍</span>
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style={{ position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', pointerEvents: 'none' }}>
+                    <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5"/>
+                    <path d="M10.5 10.5L13.5 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
                   <input
                     value={lbcSearch} onChange={e => setLbcSearch(e.target.value)}
                     placeholder="Search events, orgs, venues…"
-                    style={{ ...css.input, paddingLeft: 38, fontSize: 14 }}
+                    style={{ ...css.input, paddingLeft: 36, fontSize: 14, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
                   />
                 </div>
                 <button onClick={() => setFilterSheetOpen(true)} style={{
-                  flexShrink: 0, height: 46, borderRadius: 12, border: '1.5px solid', cursor: 'pointer',
-                  padding: '0 14px', display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, fontSize: 14,
-                  borderColor: activeFilterCount > 0 ? '#042C53' : '#e5e7eb',
+                  flexShrink: 0, height: 46, borderRadius: 12, cursor: 'pointer',
+                  padding: '0 14px', display: 'flex', alignItems: 'center', gap: 5, fontWeight: 600, fontSize: 13,
+                  border: activeFilterCount > 0 ? 'none' : '1.5px solid #e2e8f0',
                   background: activeFilterCount > 0 ? '#042C53' : '#fff',
                   color: activeFilterCount > 0 ? '#fff' : '#374151',
+                  boxShadow: activeFilterCount > 0 ? '0 2px 6px rgba(4,44,83,0.25)' : '0 1px 3px rgba(0,0,0,0.06)',
                   position: 'relative' as const,
                 }}>
-                  <span style={{ fontSize: 16 }}>⚙</span>
-                  <span>Filters</span>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  <span>Filter</span>
                   {activeFilterCount > 0 && (
                     <span style={{
                       minWidth: 18, height: 18, borderRadius: 9, background: '#c2410c',
-                      color: '#fff', fontSize: 11, fontWeight: 800,
+                      color: '#fff', fontSize: 10, fontWeight: 800,
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0 4px',
                     }}>{activeFilterCount}</span>
                   )}
@@ -727,14 +748,15 @@ export default function NAEventsPage() {
               </div>
 
               {/* ── Row 2: City pills ── */}
-              <div style={{ display: 'flex', gap: 8, overflowX: 'auto', scrollbarWidth: 'none' as const, marginBottom: 10, paddingBottom: 2 }}>
+              <div style={{ display: 'flex', gap: 6, overflowX: 'auto', scrollbarWidth: 'none' as const, marginBottom: 10, paddingBottom: 2 }}>
                 {CITIES.map(city => (
                   <button key={city} onClick={() => setCityFilter(city)} style={{
-                    flexShrink: 0, height: 34, borderRadius: 20, border: '1.5px solid', cursor: 'pointer', fontSize: 13, padding: '0 16px',
-                    borderColor: cityFilter === city ? '#042C53' : '#e5e7eb',
+                    flexShrink: 0, height: 32, borderRadius: 20, cursor: 'pointer', fontSize: 13, padding: '0 14px',
+                    fontWeight: cityFilter === city ? 700 : 500,
+                    border: cityFilter === city ? 'none' : '1.5px solid #e2e8f0',
                     background: cityFilter === city ? '#042C53' : '#fff',
-                    color: cityFilter === city ? '#fff' : '#374151',
-                    fontWeight: cityFilter === city ? 700 : 400,
+                    color: cityFilter === city ? '#fff' : '#475569',
+                    boxShadow: cityFilter === city ? '0 1px 4px rgba(4,44,83,0.2)' : '0 1px 2px rgba(0,0,0,0.04)',
                   }}>{city}</button>
                 ))}
               </div>
@@ -789,27 +811,29 @@ export default function NAEventsPage() {
                 </div>
               ) : filteredLbc.map(ev => {
                 const flagged = flaggedIds.has(ev.id);
-                const costColor = ev.paid === 'Free' ? { bg: '#f0fdf4', text: '#15803d' } : ev.paid === 'Paid' ? { bg: '#fef3c7', text: '#92400e' } : { bg: '#f3f4f6', text: '#6b7280' };
+                const costColor = ev.paid === 'Free' ? { bg: '#f0fdf4', text: '#15803d', border: '#bbf7d0' } : ev.paid === 'Paid' ? { bg: '#fffbeb', text: '#b45309', border: '#fde68a' } : { bg: '#f3f4f6', text: '#6b7280', border: '#e5e7eb' };
                 return (
-                  <div key={ev.id} style={css.card}>
+                  <div key={ev.id} style={{ ...css.card, borderLeft: '3px solid #e2e8f0', paddingLeft: 13 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 15, fontWeight: 700, color: '#111827', marginBottom: 3 }}>{ev.name}</div>
-                        <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 500 }}>{formatDate(ev.start_date)}{ev.start_time ? ` · ${formatTime(ev.start_time)}` : ''}</div>
-                        {ev.org_name && <div style={{ fontSize: 12, color: '#6b7280', marginTop: 1 }}>{ev.org_name}</div>}
-                        {ev.address && <div style={{ fontSize: 12, color: '#9ca3af' }}>{ev.address}</div>}
-                        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginTop: 6 }}>
-                          {ev.paid && <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 10, background: costColor.bg, color: costColor.text, textTransform: 'uppercase' as const }}>{ev.paid}</span>}
-                          {ev.participation && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 10, background: '#f0f4ff', color: '#3b5bdb' }}>{ev.participation}</span>}
-                          {ev.event_type && <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 10, background: '#f9fafb', color: '#6b7280' }}>{ev.event_type}</span>}
+                        <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', marginBottom: 3, lineHeight: 1.35, letterSpacing: -0.1 }}>{ev.name}</div>
+                        <div style={{ fontSize: 13, color: '#2563eb', fontWeight: 600, letterSpacing: 0.1 }}>{formatDate(ev.start_date)}{ev.start_time ? ` · ${formatTime(ev.start_time)}` : ''}</div>
+                        {ev.org_name && <div style={{ fontSize: 12, color: '#475569', marginTop: 2, fontWeight: 500 }}>{ev.org_name}</div>}
+                        {ev.address && <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 1 }}>{ev.address}</div>}
+                        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' as const, marginTop: 7 }}>
+                          {ev.paid && <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 20, background: costColor.bg, color: costColor.text, border: `1px solid ${costColor.border}`, letterSpacing: 0.3, textTransform: 'uppercase' as const }}>{ev.paid}</span>}
+                          {ev.participation && <span style={{ fontSize: 10, fontWeight: 600, padding: '3px 8px', borderRadius: 20, background: '#eff6ff', color: '#3b82f6', border: '1px solid #bfdbfe' }}>{ev.participation}</span>}
+                          {ev.event_category && <span style={{ fontSize: 10, fontWeight: 500, padding: '3px 8px', borderRadius: 20, background: '#f8fafc', color: '#64748b', border: '1px solid #e2e8f0' }}>{ev.event_category}</span>}
                         </div>
                       </div>
                       <button onClick={() => handleFlag(ev)} disabled={flagged} style={{
-                        height: 34, borderRadius: 8, border: 'none', cursor: flagged ? 'default' : 'pointer',
-                        fontSize: 12, fontWeight: 700, padding: '0 12px', flexShrink: 0, whiteSpace: 'nowrap' as const,
-                        background: flagged ? '#f3f4f6' : '#042C53',
-                        color: flagged ? '#9ca3af' : '#fff',
-                      }}>{flagged ? '✓ Added' : '+ Add'}</button>
+                        height: 32, borderRadius: 20, border: flagged ? '1.5px solid #e5e7eb' : 'none',
+                        cursor: flagged ? 'default' : 'pointer',
+                        fontSize: 12, fontWeight: 600, padding: '0 14px', flexShrink: 0, whiteSpace: 'nowrap' as const,
+                        background: flagged ? '#fff' : '#042C53',
+                        color: flagged ? '#94a3b8' : '#fff',
+                        boxShadow: flagged ? 'none' : '0 1px 4px rgba(4,44,83,0.25)',
+                      }}>{flagged ? '✓ Saved' : '+ Save'}</button>
                     </div>
                   </div>
                 );
@@ -819,7 +843,7 @@ export default function NAEventsPage() {
         ) : (
           myEvents.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#6b7280', padding: '32px 0', fontSize: 14 }}>
-              No events yet. Browse upcoming LBC events or add one above.
+              No events yet. Browse upcoming events or add one above.
             </div>
           ) : (() => {
             const grouped: Record<string, NAEvent[]> = {};
@@ -935,9 +959,10 @@ export default function NAEventsPage() {
       {!isDesktop && (
         <div style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 900,
-          background: '#fff', borderTop: '1px solid #e5e7eb',
-          display: 'flex', height: 60,
-          boxShadow: '0 -2px 10px rgba(0,0,0,0.06)',
+          background: 'rgba(255,255,255,0.97)', borderTop: '1px solid #f1f5f9',
+          display: 'flex', height: 62,
+          boxShadow: '0 -4px 16px rgba(0,0,0,0.08)',
+          backdropFilter: 'blur(8px)',
         }}>
           {[
             { href: '/networking-assistant-beta-2026', icon: '◎', label: 'Queue' },
@@ -947,11 +972,14 @@ export default function NAEventsPage() {
           ].map(item => (
             <a key={item.href} href={item.href} style={{
               flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              gap: 3, textDecoration: 'none', color: item.active ? '#c2410c' : '#6b7280',
+              gap: 2, textDecoration: 'none',
+              color: item.active ? '#042C53' : '#94a3b8',
               fontSize: 10, fontWeight: item.active ? 700 : 500,
+              letterSpacing: 0.2,
             }}>
-              <span style={{ fontSize: 20 }}>{item.icon}</span>
-              <span>{item.label}</span>
+              <span style={{ fontSize: 21, lineHeight: 1 }}>{item.icon}</span>
+              <span style={{ fontSize: 10 }}>{item.label}</span>
+              {item.active && <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#c2410c', marginTop: 1 }} />}
             </a>
           ))}
         </div>
