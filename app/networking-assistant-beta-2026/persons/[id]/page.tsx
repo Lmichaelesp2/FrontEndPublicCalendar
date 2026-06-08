@@ -5,7 +5,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '../../../../src/contexts/AuthContext';
 import {
   fetchPerson, fetchInteractionsForPerson, updateFollowUp,
-  linkedInSearchURL, daysAgo, deletePerson, type NAPerson,
+  linkedInSearchURL, daysAgo, deletePerson, fetchPersons, fetchMemberships, fetchPersonsByMembership,
+  type NAPerson, type NAMembership,
 } from '../../../../src/lib/networking-assistant';
 import { supabase } from '../../../../src/lib/supabase';
 
@@ -55,13 +56,16 @@ export default function PersonRecordPage() {
   const params = useParams();
   const personId = params.id as string;
 
-  const [person, setPerson]           = useState<NAPerson | null>(null);
+  const [person, setPerson]             = useState<NAPerson | null>(null);
   const [interactions, setInteractions] = useState<any[]>([]);
-  const [followUps, setFollowUps]     = useState<any[]>([]);
-  const [pageLoading, setPageLoading] = useState(true);
-  const [editing, setEditing]         = useState(false);
-  const [editForm, setEditForm]       = useState<Partial<NAPerson>>({});
-  const [savingEdit, setSavingEdit]   = useState(false);
+  const [followUps, setFollowUps]       = useState<any[]>([]);
+  const [pageLoading, setPageLoading]   = useState(true);
+  const [editing, setEditing]           = useState(false);
+  const [editForm, setEditForm]         = useState<Partial<NAPerson>>({});
+  const [savingEdit, setSavingEdit]     = useState(false);
+  // "Also know" context
+  const [sameCompany, setSameCompany]   = useState<NAPerson[]>([]);
+  const [sameOrgs, setSameOrgs]         = useState<{ membership: NAMembership; contacts: NAPerson[] }[]>([]);
 
   useEffect(() => { if (!loading && !user) router.push('/'); }, [loading, user, router]);
 
@@ -79,6 +83,56 @@ export default function PersonRecordPage() {
       if (i.data) setInteractions(i.data);
       if (f.data) setFollowUps(f.data);
       setPageLoading(false);
+
+      // Load "also know" context after main data
+      if (p.data) {
+        const personData = p.data;
+
+        // Same company
+        if (personData.company) {
+          const { data: allPersons } = await fetchPersons(user.id);
+          if (allPersons) {
+            const normalize = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').trim();
+            const coworkers = allPersons.filter(c =>
+              c.id !== personId &&
+              c.company &&
+              normalize(c.company) === normalize(personData.company!)
+            );
+            setSameCompany(coworkers);
+          }
+        }
+
+        // Same orgs — find which memberships this person was captured through
+        if (i.data && i.data.length > 0) {
+          const membershipIds = [...new Set(
+            i.data.filter((int: any) => int.membership_id).map((int: any) => int.membership_id)
+          )] as string[];
+
+          if (membershipIds.length > 0) {
+            const { data: memberships } = await fetchMemberships(user.id);
+            const orgResults: { membership: NAMembership; contacts: NAPerson[] }[] = [];
+
+            for (const mid of membershipIds) {
+              const mb = memberships?.find(m => m.id === mid);
+              if (!mb) continue;
+              const { data: orgContacts } = await fetchPersonsByMembership(mid);
+              if (orgContacts) {
+                const others = orgContacts
+                  .filter((c: any) => c.person_id !== personId && c.na_persons)
+                  .map((c: any) => c.na_persons as NAPerson);
+                // Dedupe by person id
+                const seen = new Set<string>();
+                const unique = others.filter((c: NAPerson) => {
+                  if (seen.has(c.id)) return false;
+                  seen.add(c.id); return true;
+                });
+                if (unique.length > 0) orgResults.push({ membership: mb, contacts: unique });
+              }
+            }
+            setSameOrgs(orgResults);
+          }
+        }
+      }
     })();
   }, [user, personId]);
 
@@ -267,6 +321,81 @@ export default function PersonRecordPage() {
             );
           })}
         </div>
+
+        {/* ── "Others you know here" context */}
+        {(sameCompany.length > 0 || sameOrgs.length > 0) && (
+          <div style={css.card}>
+            <div style={css.sectionTitle}>Others You Know Here</div>
+
+            {sameCompany.length > 0 && (
+              <div style={{ marginBottom: sameOrgs.length > 0 ? 16 : 0 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  🏢 Also at {person!.company}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {sameCompany.map(c => (
+                    <a key={c.id} href={`/networking-assistant-beta-2026/persons/${c.id}`} style={{
+                      display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px',
+                      background: '#f9fafb', borderRadius: 8, textDecoration: 'none',
+                      border: '1px solid #f3f4f6',
+                    }}>
+                      <div style={{
+                        width: 30, height: 30, borderRadius: '50%', background: '#eff6ff',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 11, fontWeight: 700, color: '#1d4ed8', flexShrink: 0,
+                      }}>
+                        {((c.first_name?.[0] ?? '') + (c.last_name?.[0] ?? '')).toUpperCase() || '?'}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>
+                          {[c.first_name, c.last_name].filter(Boolean).join(' ')}
+                        </div>
+                        {c.title && <div style={{ fontSize: 11, color: '#6b7280' }}>{c.title}</div>}
+                      </div>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: c.relationship_status === 'hot' ? '#dc2626' : c.relationship_status === 'warm' ? '#2563eb' : '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
+                        {c.relationship_status}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {sameOrgs.map(({ membership, contacts }) => (
+              <div key={membership.id} style={{ marginBottom: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: '#7c3aed', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  🏛 Also in {membership.org_name}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {contacts.map(c => (
+                    <a key={c.id} href={`/networking-assistant-beta-2026/persons/${c.id}`} style={{
+                      display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px',
+                      background: '#faf5ff', borderRadius: 8, textDecoration: 'none',
+                      border: '1px solid #ede9fe',
+                    }}>
+                      <div style={{
+                        width: 30, height: 30, borderRadius: '50%', background: '#ede9fe',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 11, fontWeight: 700, color: '#7c3aed', flexShrink: 0,
+                      }}>
+                        {((c.first_name?.[0] ?? '') + (c.last_name?.[0] ?? '')).toUpperCase() || '?'}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>
+                          {[c.first_name, c.last_name].filter(Boolean).join(' ')}
+                        </div>
+                        {c.title && <div style={{ fontSize: 11, color: '#6b7280' }}>{c.title}</div>}
+                      </div>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: c.relationship_status === 'hot' ? '#dc2626' : c.relationship_status === 'warm' ? '#2563eb' : '#6b7280', textTransform: 'uppercase' as const, flexShrink: 0 }}>
+                        {c.relationship_status}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         <a href="/networking-assistant-beta-2026/capture" style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', height: 44,
