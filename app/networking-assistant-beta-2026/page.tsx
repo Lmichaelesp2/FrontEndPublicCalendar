@@ -1073,14 +1073,20 @@ export default function NAHomePage() {
     <div style={{ minHeight: '100vh', background: '#f0f2f5', fontFamily: 'Inter, -apple-system, sans-serif', display: 'flex', flexDirection: 'column' }}>
 
       {/* Top bar */}
-      <div style={{ background: '#042C53', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <div>
-            <div style={{ fontSize: 9, color: '#6b93b8', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>Local Business Calendars</div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#fff', letterSpacing: -0.2 }}>Networking Assistant</div>
+      <div style={{
+        background: 'linear-gradient(135deg, #0B2C52 0%, #042C53 50%, #0a3660 100%)',
+        height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 24px', flexShrink: 0,
+        boxShadow: '0 2px 16px rgba(4,44,83,0.25)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+          <div style={{ marginRight: 28 }}>
+            <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.38)', letterSpacing: 1.5, textTransform: 'uppercase' as const, marginBottom: 1, fontWeight: 600 }}>Local Business Calendars</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#fff', letterSpacing: -0.4, lineHeight: 1 }}>Networking Assistant</div>
           </div>
           {!pageLoading && (
-            <div style={{ display: 'flex', gap: 20, marginLeft: 24, paddingLeft: 24, borderLeft: '1px solid rgba(255,255,255,0.12)' }}>
+            <div style={{ display: 'flex', gap: 6, marginLeft: 4, paddingLeft: 24, borderLeft: '1px solid rgba(255,255,255,0.1)' }}>
               {[
                 { label: 'Overdue',  val: overdue.length,  alert: overdue.length > 0 },
                 { label: 'Today',    val: today.length,    alert: today.length > 0 },
@@ -1088,9 +1094,13 @@ export default function NAHomePage() {
                 { label: 'Contacts', val: persons.length,  alert: false },
                 { label: 'Orgs',     val: memberships.length, alert: false },
               ].map(s => (
-                <div key={s.label} style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 17, fontWeight: 700, color: s.alert ? '#fca5a5' : '#e2e8f0', lineHeight: 1 }}>{s.val}</div>
-                  <div style={{ fontSize: 9, color: '#94a3b8', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginTop: 1 }}>{s.label}</div>
+                <div key={s.label} style={{
+                  textAlign: 'center', padding: '4px 12px', borderRadius: 8,
+                  background: s.alert ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.06)',
+                  border: s.alert ? '1px solid rgba(239,68,68,0.3)' : '1px solid rgba(255,255,255,0.08)',
+                }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: s.alert ? '#fca5a5' : '#f1f5f9', lineHeight: 1.1 }}>{s.val}</div>
+                  <div style={{ fontSize: 8.5, color: s.alert ? '#fca5a5' : '#94a3b8', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginTop: 2, fontWeight: 600 }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -1098,14 +1108,18 @@ export default function NAHomePage() {
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <button onClick={() => helpTriggerRef.current?.()} style={{
-            height: 32, padding: '0 14px', borderRadius: 6, background: 'rgba(255,255,255,0.12)',
-            border: '1px solid rgba(255,255,255,0.2)', color: '#93b4d4', fontWeight: 600,
-            fontSize: 12, cursor: 'pointer',
+            height: 34, padding: '0 14px', borderRadius: 8,
+            background: 'rgba(255,255,255,0.08)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            color: 'rgba(255,255,255,0.65)', fontWeight: 600,
+            fontSize: 12, cursor: 'pointer', letterSpacing: 0.1,
           }}>? Help</button>
           <a href="/networking-assistant-beta-2026/capture" style={{
-            height: 32, padding: '0 16px', borderRadius: 6, background: '#c2410c',
+            height: 34, padding: '0 18px', borderRadius: 8, background: '#c2410c',
             color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
-            display: 'inline-flex', alignItems: 'center',
+            display: 'inline-flex', alignItems: 'center', gap: 5,
+            boxShadow: '0 2px 8px rgba(194,65,12,0.4)',
+            letterSpacing: 0.1,
           }}>+ Capture Contact</a>
         </div>
       </div>
@@ -1231,67 +1245,77 @@ export default function NAHomePage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72, overscrollBehavior: 'none', touchAction: 'pan-y', maxWidth: '100vw', overflowX: 'hidden' }}>
-      <div style={{ background: '#042C53' }}>
+      <div style={{
+        background: 'linear-gradient(160deg, #0B2C52 0%, #042C53 55%, #0a3660 100%)',
+        boxShadow: '0 2px 16px rgba(4,44,83,0.3)',
+      }}>
         <div style={{ padding: '0 16px' }}>
           {/* Context-aware event nudge */}
           {isEventTime && followUps.length === 0 && persons.length > 0 && (
             <a href="/networking-assistant-beta-2026/capture" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              background: 'rgba(194,65,12,0.85)', borderRadius: 8, padding: '7px 12px',
-              marginTop: 8, textDecoration: 'none',
+              background: 'rgba(194,65,12,0.9)', borderRadius: 10, padding: '8px 14px',
+              marginTop: 10, textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(194,65,12,0.35)',
             }}>
-              <span style={{ fontSize: 12, color: '#fff', fontWeight: 600 }}>🎤 At an event? Capture a contact →</span>
-              <span style={{ fontSize: 11, color: '#fca5a5' }}>Tap here</span>
+              <span style={{ fontSize: 12, color: '#fff', fontWeight: 600 }}>🎤 At an event? Capture a contact</span>
+              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)', fontWeight: 500 }}>Tap →</span>
             </a>
           )}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 52 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
             <div>
-              <div style={{ fontSize: 9, color: '#6b93b8', letterSpacing: 1, textTransform: 'uppercase' as const }}>Local Business Calendars</div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: '#fff' }}>Networking Assistant</div>
+              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: 1.5, textTransform: 'uppercase' as const, marginBottom: 2, fontWeight: 600 }}>Local Business Calendars</div>
+              <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', letterSpacing: -0.4, lineHeight: 1 }}>Networking Assistant</div>
             </div>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               <button onClick={() => helpTriggerRef.current?.()} style={{
-                height: 34, width: 34, borderRadius: 7, background: 'rgba(255,255,255,0.12)',
-                border: '1px solid rgba(255,255,255,0.2)', color: '#93b4d4', fontWeight: 700, fontSize: 14, cursor: 'pointer',
+                height: 34, width: 34, borderRadius: 8,
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                color: 'rgba(255,255,255,0.6)', fontWeight: 700, fontSize: 14, cursor: 'pointer',
               }}>?</button>
               <a href="/networking-assistant-beta-2026/capture" style={{
-                height: 34, padding: '0 14px', borderRadius: 7, background: '#c2410c',
+                height: 34, padding: '0 16px', borderRadius: 8, background: '#c2410c',
                 color: '#fff', fontWeight: 700, fontSize: 12, textDecoration: 'none',
                 display: 'inline-flex', alignItems: 'center',
+                boxShadow: '0 2px 6px rgba(194,65,12,0.4)',
               }}>+ Capture</a>
             </div>
           </div>
         </div>
         {!pageLoading && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.1)', padding: '8px 0 10px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderTop: '1px solid rgba(255,255,255,0.08)', padding: '10px 8px 12px' }}>
             {[
-              { label: 'Overdue',  val: overdue.length,  color: overdue.length > 0 ? '#f87171' : '#6b93b8' },
-              { label: 'Today',    val: today.length,    color: today.length > 0 ? '#93c5fd' : '#6b93b8' },
-              { label: 'Queue',    val: upcoming.length, color: '#6b93b8' },
-              { label: 'Contacts', val: persons.length,  color: '#6b93b8' },
+              { label: 'Overdue',  val: overdue.length,  alert: overdue.length > 0 },
+              { label: 'Today',    val: today.length,    alert: today.length > 0 },
+              { label: 'Queue',    val: upcoming.length, alert: false },
+              { label: 'Contacts', val: persons.length,  alert: false },
             ].map(s => (
               <div key={s.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 20, fontWeight: 700, color: s.color, lineHeight: 1 }}>{s.val}</div>
-                <div style={{ fontSize: 9, color: '#4a6a8a', letterSpacing: 0.8, textTransform: 'uppercase' as const, marginTop: 1 }}>{s.label}</div>
+                <div style={{ fontSize: 22, fontWeight: 800, color: s.alert ? '#fca5a5' : '#f1f5f9', lineHeight: 1 }}>{s.val}</div>
+                <div style={{ fontSize: 9, color: s.alert ? '#fca5a5' : '#64748b', letterSpacing: 0.9, textTransform: 'uppercase' as const, marginTop: 3, fontWeight: 600 }}>{s.label}</div>
               </div>
             ))}
           </div>
         )}
-        {/* Mobile tabs */}
-        <div style={{ display: 'flex', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          {(['queue','people','events','orgs'] as const).map(t => (
-            <button key={t} onClick={() => setMobileTab(t)} style={{
-              flex: 1, height: 36, background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 11, fontWeight: mobileTab === t ? 700 : 400,
-              color: mobileTab === t ? '#fff' : '#6b93b8',
-              borderBottom: mobileTab === t ? '2px solid #c2410c' : '2px solid transparent',
-            }}>
-              {t === 'queue' ? 'Queue' : t === 'people' ? 'Contacts' : t === 'events' ? 'Events' : 'Orgs'}
-              <span style={{ marginLeft: 3, fontSize: 10, color: mobileTab === t ? '#93c5fd' : '#4a6a8a' }}>
-                {t === 'queue' ? followUps.length : t === 'people' ? persons.length : t === 'events' ? events.length : memberships.length}
-              </span>
-            </button>
-          ))}
+        {/* Mobile tabs — pill style */}
+        <div style={{ display: 'flex', gap: 4, padding: '0 12px 10px' }}>
+          {(['queue','people','events','orgs'] as const).map(t => {
+            const active = mobileTab === t;
+            const count = t === 'queue' ? followUps.length : t === 'people' ? persons.length : t === 'events' ? events.length : memberships.length;
+            return (
+              <button key={t} onClick={() => setMobileTab(t)} style={{
+                flex: 1, height: 30, borderRadius: 20, border: 'none', cursor: 'pointer',
+                fontSize: 11, fontWeight: active ? 700 : 500, letterSpacing: 0.1,
+                background: active ? 'rgba(255,255,255,0.16)' : 'transparent',
+                color: active ? '#fff' : 'rgba(255,255,255,0.45)',
+                transition: 'all 0.15s',
+              }}>
+                {t === 'queue' ? 'Queue' : t === 'people' ? 'Contacts' : t === 'events' ? 'Events' : 'Orgs'}
+                {count > 0 && <span style={{ marginLeft: 4, fontSize: 10, opacity: active ? 0.8 : 0.5 }}>{count}</span>}
+              </button>
+            );
+          })}
         </div>
       </div>
 
