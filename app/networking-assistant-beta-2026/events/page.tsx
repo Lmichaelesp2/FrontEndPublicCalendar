@@ -323,60 +323,7 @@ export default function NAEventsPage() {
     setLbcCategories(new Set()); setLbcTimes(new Set()); setLbcDateRange('all');
   }
 
-  // Desktop sidebar filter panel
-  const DesktopFilterPanel = () => (
-    <div style={{
-      width: 220, flexShrink: 0, background: '#fff', borderRadius: 12,
-      border: '1px solid #e5e7eb', padding: '14px 14px 8px',
-      height: 'fit-content', position: 'sticky', top: 16,
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Filters</div>
-        {activeFilterCount > 0 && (
-          <button onClick={clearAllFilters} style={{ fontSize: 11, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>
-            ✕ Clear all
-          </button>
-        )}
-      </div>
-
-      {/* Search — always visible */}
-      <input
-        value={lbcSearch} onChange={e => setLbcSearch(e.target.value)}
-        placeholder="Search events, orgs, venues…"
-        style={{ width: '100%', padding: '9px 11px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', color: '#111827', outline: 'none', marginBottom: 10 }}
-      />
-
-      <SidebarSection sectionKey="date" label="Date" active={lbcDateRange !== 'all'} isOpen={deskOpen['date']} onToggle={toggleDesk}>
-        {([['all','All upcoming'],['today','Today'],['week','This week'],['month','This month']] as const).map(([v, l]) => (
-          <SidebarBtn key={v} label={l} active={lbcDateRange === v} onClick={() => setLbcDateRange(v)} />
-        ))}
-      </SidebarSection>
-
-      <SidebarSection sectionKey="time" label="Time of Day" active={lbcTimes.size > 0} isOpen={deskOpen['time']} onToggle={toggleDesk}>
-        {(['morning','lunch','afternoon','evening'] as const).map(v => (
-          <SidebarBtn key={v} label={v === 'morning' ? 'Morning (before 11:30)' : v === 'lunch' ? 'Lunch (11:30–1:30)' : v === 'afternoon' ? 'Afternoon (1:30–5pm)' : 'Evening (5pm+)'} active={lbcTimes.has(v)} onClick={() => toggleSet(lbcTimes, setLbcTimes, v)} />
-        ))}
-      </SidebarSection>
-
-      <SidebarSection sectionKey="category" label="Category" active={lbcCategories.size > 0} isOpen={deskOpen['category']} onToggle={toggleDesk}>
-        {CATEGORY_OPTIONS.map(v => (
-          <SidebarBtn key={v} label={v} active={lbcCategories.has(v)} onClick={() => toggleSet(lbcCategories, setLbcCategories, v)} />
-        ))}
-      </SidebarSection>
-
-      <SidebarSection sectionKey="cost" label="Cost" active={lbcCosts.size > 0} isOpen={deskOpen['cost']} onToggle={toggleDesk}>
-        {(['Free','Paid','Unknown','Both'] as const).map(v => (
-          <SidebarBtn key={v} label={v === 'Both' ? 'Free + Paid options' : v} active={lbcCosts.has(v)} onClick={() => toggleSet(lbcCosts, setLbcCosts, v)} />
-        ))}
-      </SidebarSection>
-
-      <SidebarSection sectionKey="format" label="Format" active={lbcFormats.size > 0} isOpen={deskOpen['format']} onToggle={toggleDesk}>
-        {(['In-Person','Virtual'] as const).map(v => (
-          <SidebarBtn key={v} label={v} active={lbcFormats.has(v)} onClick={() => toggleSet(lbcFormats, setLbcFormats, v)} />
-        ))}
-      </SidebarSection>
-    </div>
-  );
+  // Desktop sidebar filter panel (inlined at usage site to avoid SWC sub-component parse issues)
 
   return (
     <div style={css.page}>
@@ -507,7 +454,50 @@ export default function NAEventsPage() {
                     ))}
                   </div>
                 </div>
-                <DesktopFilterPanel />
+                <div style={{
+                  width: 220, flexShrink: 0, background: '#fff', borderRadius: 12,
+                  border: '1px solid #e5e7eb', padding: '14px 14px 8px',
+                  height: 'fit-content', position: 'sticky', top: 16,
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Filters</div>
+                    {activeFilterCount > 0 && (
+                      <button onClick={clearAllFilters} style={{ fontSize: 11, color: '#dc2626', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>
+                        ✕ Clear all
+                      </button>
+                    )}
+                  </div>
+                  <input
+                    value={lbcSearch} onChange={e => setLbcSearch(e.target.value)}
+                    placeholder="Search events, orgs, venues…"
+                    style={{ width: '100%', padding: '9px 11px', borderRadius: 8, border: '1.5px solid #e5e7eb', fontSize: 13, boxSizing: 'border-box' as const, fontFamily: 'Inter, sans-serif', color: '#111827', outline: 'none', marginBottom: 10 }}
+                  />
+                  <SidebarSection sectionKey="date" label="Date" active={lbcDateRange !== 'all'} isOpen={deskOpen['date']} onToggle={toggleDesk}>
+                    {([['all','All upcoming'],['today','Today'],['week','This week'],['month','This month']] as const).map(([v, l]) => (
+                      <SidebarBtn key={v} label={l} active={lbcDateRange === v} onClick={() => setLbcDateRange(v)} />
+                    ))}
+                  </SidebarSection>
+                  <SidebarSection sectionKey="time" label="Time of Day" active={lbcTimes.size > 0} isOpen={deskOpen['time']} onToggle={toggleDesk}>
+                    {(['morning','lunch','afternoon','evening'] as const).map(v => (
+                      <SidebarBtn key={v} label={v === 'morning' ? 'Morning (before 11:30)' : v === 'lunch' ? 'Lunch (11:30–1:30)' : v === 'afternoon' ? 'Afternoon (1:30–5pm)' : 'Evening (5pm+)'} active={lbcTimes.has(v)} onClick={() => toggleSet(lbcTimes, setLbcTimes, v)} />
+                    ))}
+                  </SidebarSection>
+                  <SidebarSection sectionKey="category" label="Category" active={lbcCategories.size > 0} isOpen={deskOpen['category']} onToggle={toggleDesk}>
+                    {CATEGORY_OPTIONS.map(v => (
+                      <SidebarBtn key={v} label={v} active={lbcCategories.has(v)} onClick={() => toggleSet(lbcCategories, setLbcCategories, v)} />
+                    ))}
+                  </SidebarSection>
+                  <SidebarSection sectionKey="cost" label="Cost" active={lbcCosts.size > 0} isOpen={deskOpen['cost']} onToggle={toggleDesk}>
+                    {(['Free','Paid','Unknown','Both'] as const).map(v => (
+                      <SidebarBtn key={v} label={v === 'Both' ? 'Free + Paid options' : v} active={lbcCosts.has(v)} onClick={() => toggleSet(lbcCosts, setLbcCosts, v)} />
+                    ))}
+                  </SidebarSection>
+                  <SidebarSection sectionKey="format" label="Format" active={lbcFormats.size > 0} isOpen={deskOpen['format']} onToggle={toggleDesk}>
+                    {(['In-Person','Virtual'] as const).map(v => (
+                      <SidebarBtn key={v} label={v} active={lbcFormats.has(v)} onClick={() => toggleSet(lbcFormats, setLbcFormats, v)} />
+                    ))}
+                  </SidebarSection>
+                </div>
               </div>
 
               {/* Right: result count + event cards */}
