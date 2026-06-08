@@ -1230,7 +1230,7 @@ export default function NAHomePage() {
   const isEventTime = (hour >= 17 && hour <= 22) || dow === 0 || dow === 6;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72, overscrollBehavior: 'none', touchAction: 'pan-y' }}>
+    <div style={{ minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 72, overscrollBehavior: 'none', touchAction: 'pan-y', maxWidth: '100vw', overflowX: 'hidden' }}>
       <div style={{ background: '#042C53' }}>
         <div style={{ padding: '0 16px' }}>
           {/* Context-aware event nudge */}
@@ -1295,7 +1295,7 @@ export default function NAHomePage() {
         </div>
       </div>
 
-      <div style={{ padding: '16px 16px 0', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
+      <div style={{ padding: '16px 16px 0', WebkitOverflowScrolling: 'touch', boxSizing: 'border-box', width: '100%', overflowX: 'hidden' } as React.CSSProperties}>
         {pageLoading ? (
           <div style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 48, fontSize: 13 }}>Loading…</div>
         ) : mobileTab === 'queue' ? <QueueContent />
@@ -1307,7 +1307,25 @@ export default function NAHomePage() {
             {contactsView === 'people' ? <ContactsList /> : <CompaniesView />}
           </>
           : mobileTab === 'events' ? <>
-            <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const, marginBottom: 10 }}>My Events · {events.length}</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', letterSpacing: 1.2, textTransform: 'uppercase' as const }}>My Events · {events.length}</div>
+              <a href="/networking-assistant-beta-2026/events" style={{
+                height: 30, padding: '0 12px', borderRadius: 6, background: '#042C53',
+                color: '#fff', fontWeight: 700, fontSize: 11, textDecoration: 'none',
+                display: 'inline-flex', alignItems: 'center', gap: 4,
+              }}>🔍 Browse LBC Events</a>
+            </div>
+            {events.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '32px 16px', background: '#fff', borderRadius: 12, marginBottom: 12 }}>
+                <div style={{ fontSize: 28, marginBottom: 8 }}>📅</div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#374151', marginBottom: 4 }}>No events saved yet</div>
+                <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 16 }}>Browse local business events and tap "+ Add" to save them to your list.</div>
+                <a href="/networking-assistant-beta-2026/events" style={{
+                  display: 'inline-flex', alignItems: 'center', height: 38, padding: '0 20px',
+                  borderRadius: 8, background: '#042C53', color: '#fff', fontWeight: 700, fontSize: 13, textDecoration: 'none',
+                }}>Browse LBC Events →</a>
+              </div>
+            )}
             <EventsList />
           </>
           : <>
