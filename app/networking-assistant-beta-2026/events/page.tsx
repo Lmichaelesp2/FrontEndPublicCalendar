@@ -44,7 +44,7 @@ function dayBucket(dateStr: string): string {
 const BUCKET_ORDER = ['Today', 'Tomorrow', 'This Week', 'Later', 'Past'];
 
 const css = {
-  page: { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 24 } as React.CSSProperties,
+  page: { minHeight: '100vh', background: '#f4f6f9', fontFamily: 'Inter, -apple-system, sans-serif', paddingBottom: 80 } as React.CSSProperties,
   header: { background: '#042C53', padding: '0 16px' } as React.CSSProperties,
   headerInner: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 56 } as React.CSSProperties,
   card: { background: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 10 } as React.CSSProperties,
@@ -67,18 +67,24 @@ export default function NAEventsPage() {
   const [saving, setSaving]         = useState(false);
   const [toast, setToast]           = useState('');
   const [isDesktop, setIsDesktop]   = useState(false);
-  // LBC filters
-  const [lbcSearch, setLbcSearch]                 = useState('');
-  const [lbcCost, setLbcCost]                     = useState<'all' | 'Free' | 'Paid' | 'Unknown' | 'Both'>('all');
-  const [lbcParticipation, setLbcParticipation]   = useState<'all' | 'In-Person' | 'Virtual'>('all');
-  const [lbcCategory, setLbcCategory]             = useState<string>('all');
-  const [lbcDateRange, setLbcDateRange]           = useState<'all' | 'today' | 'week' | 'month'>('all');
-  const [lbcTimeOfDay, setLbcTimeOfDay]           = useState<'all' | 'morning' | 'lunch' | 'afternoon' | 'evening'>('all');
+  // LBC filters — multi-select sets (empty set = "all")
+  const [lbcSearch, setLbcSearch]           = useState('');
+  const [lbcCosts, setLbcCosts]             = useState<Set<string>>(new Set());
+  const [lbcFormats, setLbcFormats]         = useState<Set<string>>(new Set());
+  const [lbcCategories, setLbcCategories]   = useState<Set<string>>(new Set());
+  const [lbcTimes, setLbcTimes]             = useState<Set<string>>(new Set());
+  const [lbcDateRange, setLbcDateRange]     = useState<'all' | 'today' | 'week' | 'month'>('all');
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   const [deskOpen, setDeskOpen] = useState<Record<string, boolean>>({
     date: true, time: false, category: false, cost: false, format: false,
   });
   const toggleDesk = (key: string) => setDeskOpen(p => ({ ...p, [key]: !p[key] }));
+
+  function toggleSet(set: Set<string>, setFn: (s: Set<string>) => void, val: string) {
+    const next = new Set(set);
+    if (next.has(val)) next.delete(val); else next.add(val);
+    setFn(next);
+  }
 
   const [form, setForm] = useState({
     event_name: '', event_date: '', event_type: 'other' as typeof EVENT_TYPES[number],
@@ -240,23 +246,23 @@ export default function NAEventsPage() {
       || (ev.org_name ?? '').toLowerCase().includes(q)
       || (ev.address ?? '').toLowerCase().includes(q)
       || (ev.description ?? '').toLowerCase().includes(q);
-    const matchCost = lbcCost === 'all' || ev.paid === lbcCost;
-    const matchParticipation = lbcParticipation === 'all' || ev.participation === lbcParticipation;
-    const matchCategory = lbcCategory === 'all' || ev.event_category === lbcCategory;
+    const matchCost = lbcCosts.size === 0 || lbcCosts.has(ev.paid ?? '');
+    const matchParticipation = lbcFormats.size === 0 || lbcFormats.has(ev.participation ?? '');
+    const matchCategory = lbcCategories.size === 0 || lbcCategories.has(ev.event_category ?? '');
     const matchDate = lbcDateRange === 'all' ? true
       : lbcDateRange === 'today' ? ev.start_date === todayStr
       : lbcDateRange === 'week'  ? ev.start_date >= todayStr && ev.start_date <= weekStr
       : ev.start_date >= todayStr && ev.start_date <= monthStr;
-    const matchTime = lbcTimeOfDay === 'all' ? true
-      : timeOfDayBucket(ev.start_time) === lbcTimeOfDay;
+    const bucket = timeOfDayBucket(ev.start_time);
+    const matchTime = lbcTimes.size === 0 || (bucket !== null && lbcTimes.has(bucket));
     return matchSearch && matchCost && matchParticipation && matchCategory && matchDate && matchTime;
   });
 
-  const activeFilterCount = (lbcSearch ? 1 : 0) + (lbcCost !== 'all' ? 1 : 0) + (lbcParticipation !== 'all' ? 1 : 0) + (lbcCategory !== 'all' ? 1 : 0) + (lbcDateRange !== 'all' ? 1 : 0) + (lbcTimeOfDay !== 'all' ? 1 : 0);
+  const activeFilterCount = (lbcSearch ? 1 : 0) + lbcCosts.size + lbcFormats.size + lbcCategories.size + lbcTimes.size + (lbcDateRange !== 'all' ? 1 : 0);
 
   function clearAllFilters() {
-    setLbcSearch(''); setLbcCost('all'); setLbcParticipation('all');
-    setLbcCategory('all'); setLbcDateRange('all'); setLbcTimeOfDay('all');
+    setLbcSearch(''); setLbcCosts(new Set()); setLbcFormats(new Set());
+    setLbcCategories(new Set()); setLbcTimes(new Set()); setLbcDateRange('all');
   }
 
   // Universal category list from organizations.category in the LBC database
@@ -343,28 +349,27 @@ export default function NAEventsPage() {
         ))}
       </SidebarSection>
 
-      <SidebarSection sectionKey="time" label="Time of Day" active={lbcTimeOfDay !== 'all'}>
-        {([['all','Any time'],['morning','Morning (before 11:30)'],['lunch','Lunch (11:30–1:30)'],['afternoon','Afternoon (1:30–5pm)'],['evening','Evening (5pm+)']] as const).map(([v, l]) => (
-          <SidebarBtn key={v} label={l} active={lbcTimeOfDay === v} onClick={() => setLbcTimeOfDay(v)} />
+      <SidebarSection sectionKey="time" label="Time of Day" active={lbcTimes.size > 0}>
+        {([['morning','Morning (before 11:30)'],['lunch','Lunch (11:30–1:30)'],['afternoon','Afternoon (1:30–5pm)'],['evening','Evening (5pm+)']] as [string,string][]).map(([v, l]) => (
+          <SidebarBtn key={v} label={l} active={lbcTimes.has(v)} onClick={() => toggleSet(lbcTimes, setLbcTimes, v)} />
         ))}
       </SidebarSection>
 
-      <SidebarSection sectionKey="category" label="Category" active={lbcCategory !== 'all'}>
-        <SidebarBtn label="All categories" active={lbcCategory === 'all'} onClick={() => setLbcCategory('all')} />
+      <SidebarSection sectionKey="category" label="Category" active={lbcCategories.size > 0}>
         {CATEGORY_OPTIONS.map(v => (
-          <SidebarBtn key={v} label={v} active={lbcCategory === v} onClick={() => setLbcCategory(v)} />
+          <SidebarBtn key={v} label={v} active={lbcCategories.has(v)} onClick={() => toggleSet(lbcCategories, setLbcCategories, v)} />
         ))}
       </SidebarSection>
 
-      <SidebarSection sectionKey="cost" label="Cost" active={lbcCost !== 'all'}>
-        {([['all','All'],['Free','Free'],['Paid','Paid'],['Unknown','Unknown'],['Both','Free + Paid options']] as const).map(([v, l]) => (
-          <SidebarBtn key={v} label={l} active={lbcCost === v} onClick={() => setLbcCost(v)} />
+      <SidebarSection sectionKey="cost" label="Cost" active={lbcCosts.size > 0}>
+        {(['Free','Paid','Unknown','Both'] as const).map(v => (
+          <SidebarBtn key={v} label={v === 'Both' ? 'Free + Paid options' : v} active={lbcCosts.has(v)} onClick={() => toggleSet(lbcCosts, setLbcCosts, v)} />
         ))}
       </SidebarSection>
 
-      <SidebarSection sectionKey="format" label="Format" active={lbcParticipation !== 'all'}>
-        {([['all','All'],['In-Person','In-Person'],['Virtual','Virtual']] as const).map(([v, l]) => (
-          <SidebarBtn key={v} label={l} active={lbcParticipation === v} onClick={() => setLbcParticipation(v)} />
+      <SidebarSection sectionKey="format" label="Format" active={lbcFormats.size > 0}>
+        {(['In-Person','Virtual'] as const).map(v => (
+          <SidebarBtn key={v} label={v} active={lbcFormats.has(v)} onClick={() => toggleSet(lbcFormats, setLbcFormats, v)} />
         ))}
       </SidebarSection>
     </div>
@@ -375,8 +380,12 @@ export default function NAEventsPage() {
       {/* Header */}
       <div style={css.header}>
         <div style={css.headerInner}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <a href="/networking-assistant-beta-2026" style={{ color: '#93b4d4', fontSize: 20, textDecoration: 'none', lineHeight: 1 }}>‹</a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <a href="/networking-assistant-beta-2026" style={{
+              display: 'flex', alignItems: 'center', gap: 4,
+              color: '#93b4d4', fontSize: 15, fontWeight: 600, textDecoration: 'none',
+              padding: '8px 12px 8px 4px', margin: '-8px 0',
+            }}>‹ Back</a>
             <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>Events</div>
           </div>
           <button onClick={() => setShowAddForm(v => !v)} style={{
@@ -597,76 +606,88 @@ export default function NAEventsPage() {
                         </div>
                       </div>
 
-                      {/* CATEGORY */}
+                      {/* CATEGORY — multi-select list */}
                       <div style={{ marginBottom: 24 }}>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 10, letterSpacing: 0.3 }}>CATEGORY</div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                          {(['all', ...CATEGORY_OPTIONS] as const).map(v => (
-                            <button key={v} onClick={() => setLbcCategory(v)} style={{
-                              height: 46, borderRadius: 10, border: 'none', cursor: 'pointer',
-                              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                              padding: '0 14px', background: lbcCategory === v ? '#f0f4ff' : 'transparent',
-                              textAlign: 'left' as const,
-                            }}>
-                              <span style={{ fontSize: 15, fontWeight: lbcCategory === v ? 700 : 400, color: lbcCategory === v ? '#042C53' : '#374151' }}>
-                                {v === 'all' ? 'All categories' : v}
-                              </span>
-                              {lbcCategory === v && <span style={{ fontSize: 18, color: '#042C53' }}>✓</span>}
-                            </button>
-                          ))}
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 4, letterSpacing: 0.3 }}>
+                          CATEGORY {lbcCategories.size > 0 && <span style={{ color: '#c2410c', fontWeight: 800 }}>· {lbcCategories.size} selected</span>}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                          {CATEGORY_OPTIONS.map(v => {
+                            const on = lbcCategories.has(v);
+                            return (
+                              <button key={v} onClick={() => toggleSet(lbcCategories, setLbcCategories, v)} style={{
+                                height: 46, borderRadius: 10, border: 'none', cursor: 'pointer',
+                                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                                padding: '0 14px', background: on ? '#f0f4ff' : 'transparent', textAlign: 'left' as const,
+                              }}>
+                                <span style={{ fontSize: 15, fontWeight: on ? 700 : 400, color: on ? '#042C53' : '#374151' }}>{v}</span>
+                                <span style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${on ? '#042C53' : '#d1d5db'}`, background: on ? '#042C53' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                  {on && <span style={{ color: '#fff', fontSize: 13, fontWeight: 800 }}>✓</span>}
+                                </span>
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
 
-                      {/* TIME OF DAY */}
+                      {/* TIME OF DAY — multi-select grid */}
                       <div style={{ marginBottom: 24 }}>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 10, letterSpacing: 0.3 }}>TIME OF DAY</div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 10, letterSpacing: 0.3 }}>
+                          TIME OF DAY {lbcTimes.size > 0 && <span style={{ color: '#c2410c', fontWeight: 800 }}>· {lbcTimes.size} selected</span>}
+                        </div>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                          {([['all','Any time','🕐'],['morning','Morning','🌅'],['lunch','Lunch','☀️'],['afternoon','Afternoon','🌤'],['evening','Evening','🌙']] as const).map(([v, l, icon]) => (
-                            <button key={v} onClick={() => setLbcTimeOfDay(v)} style={{
-                              height: 48, borderRadius: 12, border: '1.5px solid', cursor: 'pointer',
-                              fontWeight: lbcTimeOfDay === v ? 700 : 500, fontSize: 14,
-                              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                              borderColor: lbcTimeOfDay === v ? '#042C53' : '#e5e7eb',
-                              background: lbcTimeOfDay === v ? '#042C53' : '#f9fafb',
-                              color: lbcTimeOfDay === v ? '#fff' : '#374151',
-                              gridColumn: v === 'all' ? '1 / -1' : 'auto',
-                            }}><span>{icon}</span><span>{l}</span></button>
-                          ))}
+                          {([['morning','Morning','🌅'],['lunch','Lunch','☀️'],['afternoon','Afternoon','🌤'],['evening','Evening','🌙']] as [string,string,string][]).map(([v, l, icon]) => {
+                            const on = lbcTimes.has(v);
+                            return (
+                              <button key={v} onClick={() => toggleSet(lbcTimes, setLbcTimes, v)} style={{
+                                height: 56, borderRadius: 12, border: '1.5px solid', cursor: 'pointer', fontSize: 14,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                                borderColor: on ? '#042C53' : '#e5e7eb',
+                                background: on ? '#042C53' : '#f9fafb',
+                                color: on ? '#fff' : '#374151', fontWeight: on ? 700 : 500,
+                              }}><span>{icon}</span><span>{l}</span></button>
+                            );
+                          })}
                         </div>
                       </div>
 
-                      {/* COST */}
+                      {/* COST — multi-select grid */}
                       <div style={{ marginBottom: 24 }}>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 10, letterSpacing: 0.3 }}>COST</div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 10, letterSpacing: 0.3 }}>
+                          COST {lbcCosts.size > 0 && <span style={{ color: '#c2410c', fontWeight: 800 }}>· {lbcCosts.size} selected</span>}
+                        </div>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                          {([['all','All','💳'],['Free','Free','🎁'],['Paid','Paid','💰'],['Unknown','Unknown','❓'],['Both','Free + Paid','🎟']] as const).map(([v, l, icon]) => (
-                            <button key={v} onClick={() => setLbcCost(v as any)} style={{
-                              height: 48, borderRadius: 12, border: '1.5px solid', cursor: 'pointer',
-                              fontWeight: lbcCost === v ? 700 : 500, fontSize: 14,
-                              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                              borderColor: lbcCost === v ? '#042C53' : '#e5e7eb',
-                              background: lbcCost === v ? '#042C53' : '#f9fafb',
-                              color: lbcCost === v ? '#fff' : '#374151',
-                              gridColumn: v === 'all' ? '1 / -1' : 'auto',
-                            }}><span>{icon}</span><span>{l}</span></button>
-                          ))}
+                          {([['Free','Free','🎁'],['Paid','Paid','💰'],['Unknown','Unknown','❓'],['Both','Free + Paid','🎟']] as [string,string,string][]).map(([v, l, icon]) => {
+                            const on = lbcCosts.has(v);
+                            return (
+                              <button key={v} onClick={() => toggleSet(lbcCosts, setLbcCosts, v)} style={{
+                                height: 56, borderRadius: 12, border: '1.5px solid', cursor: 'pointer', fontSize: 14,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                                borderColor: on ? '#042C53' : '#e5e7eb',
+                                background: on ? '#042C53' : '#f9fafb',
+                                color: on ? '#fff' : '#374151', fontWeight: on ? 700 : 500,
+                              }}><span>{icon}</span><span>{l}</span></button>
+                            );
+                          })}
                         </div>
                       </div>
 
-                      {/* FORMAT */}
+                      {/* FORMAT — multi-select */}
                       <div style={{ marginBottom: 8 }}>
                         <div style={{ fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 10, letterSpacing: 0.3 }}>FORMAT</div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
-                          {([['all','All','🌐'],['In-Person','In-Person','📍'],['Virtual','Virtual','💻']] as const).map(([v, l, icon]) => (
-                            <button key={v} onClick={() => setLbcParticipation(v as any)} style={{
-                              height: 48, borderRadius: 12, border: '1.5px solid', cursor: 'pointer',
-                              fontWeight: lbcParticipation === v ? 700 : 500, fontSize: 13,
-                              display: 'flex', flexDirection: 'column' as const, alignItems: 'center', justifyContent: 'center', gap: 3,
-                              borderColor: lbcParticipation === v ? '#042C53' : '#e5e7eb',
-                              background: lbcParticipation === v ? '#042C53' : '#f9fafb',
-                              color: lbcParticipation === v ? '#fff' : '#374151',
-                            }}><span style={{ fontSize: 18 }}>{icon}</span><span>{l}</span></button>
-                          ))}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                          {([['In-Person','In-Person','📍'],['Virtual','Virtual','💻']] as [string,string,string][]).map(([v, l, icon]) => {
+                            const on = lbcFormats.has(v);
+                            return (
+                              <button key={v} onClick={() => toggleSet(lbcFormats, setLbcFormats, v)} style={{
+                                height: 56, borderRadius: 12, border: '1.5px solid', cursor: 'pointer', fontSize: 14,
+                                display: 'flex', flexDirection: 'column' as const, alignItems: 'center', justifyContent: 'center', gap: 4,
+                                borderColor: on ? '#042C53' : '#e5e7eb',
+                                background: on ? '#042C53' : '#f9fafb',
+                                color: on ? '#fff' : '#374151', fontWeight: on ? 700 : 500,
+                              }}><span style={{ fontSize: 20 }}>{icon}</span><span>{l}</span></button>
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
@@ -735,25 +756,26 @@ export default function NAEventsPage() {
                       {lbcDateRange === 'today' ? 'Today' : lbcDateRange === 'week' ? 'This week' : 'This month'} ✕
                     </span>
                   )}
-                  {lbcCategory !== 'all' && (
-                    <span onClick={() => setLbcCategory('all')} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                      {lbcCategory} ✕
+                  {Array.from(lbcCategories).map(v => (
+                    <span key={v} onClick={() => toggleSet(lbcCategories, setLbcCategories, v)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+                      {v} ✕
+                    </span>
+                  ))}
+                  {Array.from(lbcTimes).map(v => (
+                    <span key={v} onClick={() => toggleSet(lbcTimes, setLbcTimes, v)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+                      {v.charAt(0).toUpperCase() + v.slice(1)} ✕
+                    </span>
+                  ))}
+                  {Array.from(lbcCosts).map(v => (
+                    <span key={v} onClick={() => toggleSet(lbcCosts, setLbcCosts, v)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+                      {v === 'Both' ? 'Free + Paid' : v} ✕
                     </span>
                   )}
-                  {lbcTimeOfDay !== 'all' && (
-                    <span onClick={() => setLbcTimeOfDay('all')} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                      {lbcTimeOfDay.charAt(0).toUpperCase() + lbcTimeOfDay.slice(1)} ✕
-                    </span>
+                  {lbcFormats.has('In-Person') && (
+                    <span onClick={() => toggleSet(lbcFormats, setLbcFormats, 'In-Person')} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>In-Person ✕</span>
                   )}
-                  {lbcCost !== 'all' && (
-                    <span onClick={() => setLbcCost('all')} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                      {lbcCost === 'Both' ? 'Free + Paid' : lbcCost} ✕
-                    </span>
-                  )}
-                  {lbcParticipation !== 'all' && (
-                    <span onClick={() => setLbcParticipation('all')} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
-                      {lbcParticipation} ✕
-                    </span>
+                  {lbcFormats.has('Virtual') && (
+                    <span onClick={() => toggleSet(lbcFormats, setLbcFormats, 'Virtual')} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Virtual ✕</span>
                   )}
                   {lbcSearch && (
                     <span onClick={() => setLbcSearch('')} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, height: 28, padding: '0 10px', borderRadius: 14, background: '#e0e7ff', color: '#3730a3', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
@@ -917,6 +939,32 @@ export default function NAEventsPage() {
           })()
         )}
       </div>
+
+      {/* ── Mobile bottom nav ── */}
+      {!isDesktop && (
+        <div style={{
+          position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 900,
+          background: '#fff', borderTop: '1px solid #e5e7eb',
+          display: 'flex', height: 60,
+          boxShadow: '0 -2px 10px rgba(0,0,0,0.06)',
+        }}>
+          {[
+            { href: '/networking-assistant-beta-2026', icon: '◎', label: 'Queue' },
+            { href: '/networking-assistant-beta-2026?tab=people', icon: '👤', label: 'Contacts' },
+            { href: '/networking-assistant-beta-2026/events', icon: '📅', label: 'Events', active: true },
+            { href: '/networking-assistant-beta-2026?tab=orgs', icon: '🏛', label: 'Orgs' },
+          ].map(item => (
+            <a key={item.href} href={item.href} style={{
+              flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              gap: 3, textDecoration: 'none', color: item.active ? '#c2410c' : '#6b7280',
+              fontSize: 10, fontWeight: item.active ? 700 : 500,
+            }}>
+              <span style={{ fontSize: 20 }}>{item.icon}</span>
+              <span>{item.label}</span>
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
