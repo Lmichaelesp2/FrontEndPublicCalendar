@@ -188,7 +188,7 @@ export default function PersonRecordPage() {
       {/* Header */}
       <div style={css.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <a href="/networking-assistant-beta-2026" style={{ color: '#93b4d4', fontSize: 20, textDecoration: 'none' }}>‹</a>
+          <button onClick={() => router.back()} style={{ background: 'none', border: 'none', color: '#93b4d4', fontSize: 22, cursor: 'pointer', padding: '0 4px 0 0', lineHeight: 1 }}>‹</button>
           <div>
             <div style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>{fullName}</div>
           </div>
