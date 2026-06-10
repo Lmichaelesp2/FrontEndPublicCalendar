@@ -96,6 +96,16 @@ export function getTodayKey(): string {
   return dateKey(new Date());
 }
 
+export function getTwoWeekRange(): { start: string; end: string } {
+  const now = new Date();
+  const day = now.getDay();
+  const sunday = new Date(now);
+  sunday.setDate(now.getDate() - day);
+  const nextSaturday = new Date(sunday);
+  nextSaturday.setDate(sunday.getDate() + 13);
+  return { start: dateKey(sunday), end: dateKey(nextSaturday) };
+}
+
 export function getCurrentWeekRange(): { start: string; end: string } {
   const now = new Date();
   const day = now.getDay();
