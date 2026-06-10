@@ -3,10 +3,13 @@ import { CityProvider } from '../../../../src/contexts/CityContext';
 import { DallasRealEstatePage } from '../../../../src/components/cities/DallasRealEstatePage';
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 import { buildPageSchema } from '../../../../src/lib/structured-data';
+import { redirect } from 'next/navigation';
+import { SUB_CALENDARS_ENABLED } from '../../../../src/lib/subCalendars';
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false }, // SUB-CAL: hidden while paused
   title: 'Dallas Real Estate Events – Networking & Business',
   description: 'Dallas Real Estate events calendar — browse upcoming real estate investment events, agent networking, and market update meetings in Dallas, Texas. Free weekly newsletter for professionals.',  alternates: {
     canonical: '/texas/dallas/real-estate',
@@ -24,6 +27,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+  // SUB-CAL: hidden while sub-calendars are paused
+  if (!SUB_CALENDARS_ENABLED) {
+    redirect('/texas/dallas');
+  }
+
   const events = await fetchApprovedEvents({ city: 'Dallas', groupType: 'real_estate' });
 
   const schemaJson = buildPageSchema({

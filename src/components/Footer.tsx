@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { SUB_CALENDARS_ENABLED } from '../lib/subCalendars';
 
 interface CategoryLink {
   label: string;
@@ -37,7 +38,8 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
   };
   return (
     <footer className="footer">
-      {categoryNav ? (
+      {categoryNav && SUB_CALENDARS_ENABLED ? (
+        // SUB-CAL: hidden while sub-calendars are paused
         <nav className="footer-category-nav" aria-label="Category pages">
           <span className="footer-category-label">{categoryNav.cityLabel}</span>
           <div className="footer-category-links">
@@ -58,12 +60,13 @@ export function Footer({ showIndustryCalendars = false, variant = 'default', cit
           <Link href="/texas/dallas" className="industry-calendar-button">Dallas Business Calendar</Link>
           <Link href="/texas/houston" className="industry-calendar-button">Houston Business Calendar</Link>
         </nav>
-      ) : !showIndustryCalendars ? (
+      ) : !showIndustryCalendars || !SUB_CALENDARS_ENABLED ? (
         <nav className="footer-cities" aria-label="State pages">
           <Link href="/texas">Texas Calendars</Link>
           <span className="footer-cities-coming">More Coming Soon</span>
         </nav>
       ) : (
+        // SUB-CAL: hidden while sub-calendars are paused (re-enabled via SUB_CALENDARS_ENABLED above)
         <nav className="footer-cities footer-industry-calendars" aria-label="Industry calendars">
           <Link href={`/texas/${citySlug}/technology`} className="industry-calendar-button">
             {cityName} Technology Events

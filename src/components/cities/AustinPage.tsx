@@ -1,4 +1,5 @@
 'use client';
+import { SUB_CALENDARS_ENABLED } from '../../lib/subCalendars';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Plus, Minus, Users, Clock, Monitor, Home, Landmark, Briefcase, Search, Building2, Star, Mail } from 'lucide-react';
@@ -196,7 +197,7 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
               <ul className="hero-city-panel-list">
                 {['Chamber', 'Technology', 'Real Estate', 'Small Business', 'and many more'].map((tag) => {
                   const slug = {'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business'};
-                  const href = slug[tag as keyof typeof slug] ? `/texas/austin/${slug[tag as keyof typeof slug]}` : null;
+                  const href = (SUB_CALENDARS_ENABLED && slug[tag as keyof typeof slug]) ? `/texas/austin/${slug[tag as keyof typeof slug]}` : null; // SUB-CAL: hidden while paused
                   return (
                     <li key={tag} className="hero-city-panel-row">
                       {href ? (

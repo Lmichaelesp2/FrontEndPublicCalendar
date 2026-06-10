@@ -3,10 +3,13 @@ import { CityProvider } from '../../../../src/contexts/CityContext';
 import { AustinChamberPage } from '../../../../src/components/cities/AustinChamberPage';
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 import { buildPageSchema } from '../../../../src/lib/structured-data';
+import { redirect } from 'next/navigation';
+import { SUB_CALENDARS_ENABLED } from '../../../../src/lib/subCalendars';
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false }, // SUB-CAL: hidden while paused
   title: 'Austin Chamber Events – Networking & Business',
   description: 'Austin Chamber of Commerce events calendar — browse upcoming chamber of commerce mixers, ribbon cuttings, and member networking events in Austin, Texas. Free weekly newsletter for professionals.',  alternates: {
     canonical: '/texas/austin/chamber',
@@ -24,6 +27,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+  // SUB-CAL: hidden while sub-calendars are paused
+  if (!SUB_CALENDARS_ENABLED) {
+    redirect('/texas/austin');
+  }
+
   const events = await fetchApprovedEvents({ city: 'Austin', groupType: 'chamber' });
 
   const schemaJson = buildPageSchema({

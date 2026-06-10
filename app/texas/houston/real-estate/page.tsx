@@ -3,10 +3,13 @@ import { CityProvider } from '../../../../src/contexts/CityContext';
 import { HoustonRealEstatePage } from '../../../../src/components/cities/HoustonRealEstatePage';
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 import { buildPageSchema } from '../../../../src/lib/structured-data';
+import { redirect } from 'next/navigation';
+import { SUB_CALENDARS_ENABLED } from '../../../../src/lib/subCalendars';
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false }, // SUB-CAL: hidden while paused
   title: 'Houston Real Estate Events – Networking & Business',
   description: 'Houston Real Estate events calendar — browse upcoming real estate investment events, agent networking, and market update meetings in Houston, Texas. Free weekly newsletter for professionals.',  alternates: {
     canonical: '/texas/houston/real-estate',
@@ -24,6 +27,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+  // SUB-CAL: hidden while sub-calendars are paused
+  if (!SUB_CALENDARS_ENABLED) {
+    redirect('/texas/houston');
+  }
+
   const events = await fetchApprovedEvents({ city: 'Houston', groupType: 'real_estate' });
 
   const schemaJson = buildPageSchema({

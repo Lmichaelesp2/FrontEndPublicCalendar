@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import sgMail from '@sendgrid/mail';
 import { createClient } from '@supabase/supabase-js';
+import { SUB_CALENDARS_ENABLED } from '../../../src/lib/subCalendars';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
@@ -291,6 +292,12 @@ export async function POST(req: NextRequest) {
       : null;
 
     console.log('[send-newsletter] city:', city, '| subCalendar:', subCalendar, '| testEmails:', !!testEmails);
+
+    // SUB-CAL: sub-calendar sends are paused while sub-calendar pages are hidden.
+    // Remove this block to re-enable (see src/lib/subCalendars.ts).
+    if (subCalendar && !SUB_CALENDARS_ENABLED) {
+      return NextResponse.json({ error: 'Sub-calendar newsletters are temporarily paused.' }, { status: 503 });
+    }
 
     if (!city) {
       return NextResponse.json({ error: 'city is required' }, { status: 400 });

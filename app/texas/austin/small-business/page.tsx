@@ -3,10 +3,13 @@ import { CityProvider } from '../../../../src/contexts/CityContext';
 import { AustinSmallBusinessPage } from '../../../../src/components/cities/AustinSmallBusinessPage';
 import { fetchApprovedEvents } from '../../../../src/lib/supabase-server';
 import { buildPageSchema } from '../../../../src/lib/structured-data';
+import { redirect } from 'next/navigation';
+import { SUB_CALENDARS_ENABLED } from '../../../../src/lib/subCalendars';
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false }, // SUB-CAL: hidden while paused
   title: 'Austin Small Business Events – Networking & Business',
   description: 'Austin Small Business events calendar — browse upcoming small business workshops, entrepreneur meetups, and local business owner events in Austin, Texas. Free weekly newsletter for professionals.',  alternates: {
     canonical: '/texas/austin/small-business',
@@ -24,6 +27,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+  // SUB-CAL: hidden while sub-calendars are paused
+  if (!SUB_CALENDARS_ENABLED) {
+    redirect('/texas/austin');
+  }
+
   const events = await fetchApprovedEvents({ city: 'Austin', groupType: 'small_business' });
 
   const schemaJson = buildPageSchema({
