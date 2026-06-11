@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Cuvosa Technologies logo">
+  <rect width="160" height="160" rx="20" fill="#0b2a4a"/>
+  <circle cx="80" cy="64" r="26" fill="none" stroke="#38bdf8" stroke-width="6"/>
+  <circle cx="80" cy="64" r="9" fill="#38bdf8"/>
+  <circle cx="80" cy="30" r="5" fill="#7dd3fc"/>
+  <circle cx="111" cy="80" r="5" fill="#7dd3fc"/>
+  <circle cx="49" cy="80" r="5" fill="#7dd3fc"/>
+  <text x="80" y="124" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#ffffff">cuvosa</text>
+  <text x="80" y="142" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" letter-spacing="2" fill="#7dd3fc">TECHNOLOGIES</text>
+</svg>

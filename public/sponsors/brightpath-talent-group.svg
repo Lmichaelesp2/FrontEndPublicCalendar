@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Brightpath Talent Group logo">
+  <rect width="160" height="160" rx="20" fill="#b8460e"/>
+  <path d="M44 92 C60 60, 100 60, 116 36" fill="none" stroke="#ffd9a8" stroke-width="7" stroke-linecap="round"/>
+  <polygon points="116,30 122,48 102,44" fill="#ffd9a8"/>
+  <circle cx="44" cy="92" r="8" fill="#ffffff"/>
+  <text x="80" y="124" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Brightpath</text>
+  <text x="80" y="142" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" letter-spacing="1.5" fill="#ffd9a8">TALENT GROUP</text>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Summit Payroll and HR logo">
+  <rect width="160" height="160" rx="20" fill="#3b1d60"/>
+  <polygon points="80,32 104,78 56,78" fill="#c4b5fd"/>
+  <polygon points="80,46 92,70 68,70" fill="#3b1d60"/>
+  <polygon points="104,58 124,90 84,90" fill="#a78bfa" opacity="0.85"/>
+  <text x="80" y="124" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#ffffff">Summit</text>
+  <text x="80" y="142" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="8.5" letter-spacing="1.5" fill="#c4b5fd">PAYROLL &amp; HR</text>
+</svg>

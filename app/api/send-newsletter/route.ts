@@ -76,6 +76,33 @@ function todayCST(): string {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
 }
 
+// ─── Sponsor rotation ─────────────────────────────────────────────────────────
+// Returns the ISO week number for a given YYYY-MM-DD (the week's Monday).
+// Used to rotate which sponsor leads the email so every sponsor gets the top
+// slot equally over time.
+function isoWeekNumber(dateStr: string): number {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const date = new Date(Date.UTC(y, m - 1, d));
+  // Thursday of this week determines the ISO year/week
+  const dayNum = (date.getUTCDay() + 6) % 7; // Mon=0 … Sun=6
+  date.setUTCDate(date.getUTCDate() - dayNum + 3);
+  const firstThursday = new Date(Date.UTC(date.getUTCFullYear(), 0, 4));
+  const firstDayNum = (firstThursday.getUTCDay() + 6) % 7;
+  firstThursday.setUTCDate(firstThursday.getUTCDate() - firstDayNum + 3);
+  return 1 + Math.round((date.getTime() - firstThursday.getTime()) / (7 * 86400000));
+}
+
+// Rotate the sponsor array by the week number so the lead position cycles
+// through every sponsor evenly. Works for any count (1–4): with 2 sponsors
+// they alternate the top slot each week; with 1 it's always top; with 0 it's
+// a no-op. Rotating the whole array means #2/#3 (in-body) and #4 (recap) also
+// cycle, so no single sponsor is permanently buried.
+function rotateSponsors(sponsors: SponsorData[], weekNumber: number): SponsorData[] {
+  if (sponsors.length <= 1) return sponsors;
+  const shift = weekNumber % sponsors.length;
+  return [...sponsors.slice(shift), ...sponsors.slice(0, shift)];
+}
+
 // ─── Email HTML builder ───────────────────────────────────────────────────────
 interface EventRow {
   id: number;
@@ -101,22 +128,45 @@ interface SponsorData {
   url?: string | null;
   tagline?: string | null;
   logo_url?: string | null;
+  quote?: string | null;
 }
 
-// Small inline strip placed between event rows (mid-email sponsors)
-function buildInlineSponsorRow(sponsor: SponsorData): string {
+// Shared inner markup for a full sponsor block — NPR-underwriting voice.
+// Every sponsor gets the same treatment: a "support comes from" label, the
+// org name + tagline, an optional italic quote (when present in the DB), and a
+// personal "Please support {Name} →" call to action. Used for ALL sponsors so
+// blocks look identical; rotation order is the only difference.
+function sponsorBlockInner(sponsor: SponsorData, label: string): string {
+  const supportCta = sponsor.url
+    ? `<a href="${sponsor.url}" target="_blank" style="font-size:11px;font-weight:700;color:#1a3a5c;text-decoration:none;white-space:nowrap;">Please support ${sponsor.name} →</a>`
+    : '';
+  return `
+        <p style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#8a8a8a;margin:0 0 7px 0;">${label}</p>
+        <table cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            ${sponsor.logo_url ? `<td width="60" style="vertical-align:top;padding-right:12px;"><img src="${sponsor.logo_url}" width="52" height="52" alt="${sponsor.name} logo" style="display:block;object-fit:contain;border-radius:4px;" /></td>` : ''}
+            <td style="vertical-align:top;">
+              ${sponsor.url
+                ? `<a href="${sponsor.url}" target="_blank" style="font-size:14px;font-weight:700;color:#1a1a1a;text-decoration:none;">${sponsor.name}</a>`
+                : `<span style="font-size:14px;font-weight:700;color:#1a1a1a;">${sponsor.name}</span>`}
+              ${sponsor.tagline ? `<br><span style="font-size:11px;color:#666;">${sponsor.tagline}</span>` : ''}
+              ${sponsor.quote ? `<br><span style="font-size:11px;color:#555;font-style:italic;line-height:1.5;display:inline-block;margin-top:5px;">“${sponsor.quote}”</span>` : ''}
+              ${supportCta ? `<br><span style="display:inline-block;margin-top:7px;">${supportCta}</span>` : ''}
+            </td>
+          </tr>
+        </table>`;
+}
+
+// A full sponsor block wrapped as an events-table <tr>, for positions 2–4
+// woven through the event list. Same visual weight as the top block.
+function buildSponsorRowBlock(sponsor: SponsorData): string {
   return `
         <tr>
           <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f2;border-radius:4px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f2;border:1px solid #e8e8e8;border-radius:4px;">
               <tr>
-                <td style="padding:10px 14px;">
-                  <span style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;">Sponsored</span><br>
-                  ${sponsor.url
-                    ? `<a href="${sponsor.url}" target="_blank" style="font-size:12px;font-weight:700;color:#1a1a1a;text-decoration:none;">${sponsor.name}</a>`
-                    : `<span style="font-size:12px;font-weight:700;color:#1a1a1a;">${sponsor.name}</span>`}
-                  ${sponsor.tagline ? ` <span style="font-size:11px;color:#666;">— ${sponsor.tagline}</span>` : ''}
-                  ${sponsor.url ? ` &nbsp;<a href="${sponsor.url}" target="_blank" style="font-size:11px;font-weight:600;color:#1a3a5c;text-decoration:none;white-space:nowrap;">Learn more →</a>` : ''}
+                <td style="padding:14px 16px;">
+                  ${sponsorBlockInner(sponsor, 'Support comes from')}
                 </td>
               </tr>
             </table>
@@ -124,34 +174,36 @@ function buildInlineSponsorRow(sponsor: SponsorData): string {
         </tr>`;
 }
 
-// Pre-footer recap card: features the 4th sponsor + lists all sponsors
+// Pre-footer recap card: a clear thank-you that names every sponsor and makes
+// it plain the free calendar exists because of them. Features the last sponsor
+// in the (rotated) list so the in-body/recap features stay varied week to week.
+// Adapts gracefully to any sponsor count (1–4).
 function buildSponsorRecap(sponsors: SponsorData[]): string {
   if (sponsors.length === 0) return '';
-  const featured = sponsors[3] ?? null;
+  const multiple = sponsors.length > 1;
   const names = sponsors
     .map(s => s.url
       ? `<a href="${s.url}" target="_blank" style="color:#1a3a5c;text-decoration:none;font-weight:600;">${s.name}</a>`
       : `<span style="font-weight:600;color:#333;">${s.name}</span>`)
     .join(' &nbsp;·&nbsp; ');
+  const header = 'Brought to you this week by';
+  const thankLine = multiple
+    ? `This calendar reaches your inbox free every week only because these ${sponsors.length} organizations choose to support it. If they ever earn your business, please give it to them.`
+    : `This calendar reaches your inbox free every week only because this organization chooses to support it. If they ever earn your business, please give it to them.`;
   return `
     <!-- SPONSOR RECAP -->
     <tr>
       <td style="padding:0 24px 20px;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f2;border:1px solid #eee;border-radius:4px;">
-          ${featured ? `
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f1ea;border:1px solid #e6e0d4;border-radius:4px;">
           <tr>
-            <td style="padding:14px 16px 4px;">
-              <span style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;">Sponsored</span><br>
-              ${featured.url
-                ? `<a href="${featured.url}" target="_blank" style="font-size:13px;font-weight:700;color:#1a1a1a;text-decoration:none;">${featured.name}</a>`
-                : `<span style="font-size:13px;font-weight:700;color:#1a1a1a;">${featured.name}</span>`}
-              ${featured.tagline ? `<br><span style="font-size:11px;color:#666;">${featured.tagline}</span>` : ''}
+            <td style="padding:14px 16px 6px;">
+              <span style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a8a;">${header}</span><br>
+              <span style="font-size:12px;line-height:1.9;">${names}</span>
             </td>
-          </tr>` : ''}
+          </tr>
           <tr>
-            <td style="padding:10px 16px 14px;${featured ? 'border-top:1px solid #eee;' : ''}">
-              <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#999;">This week's sponsors</span><br>
-              <span style="font-size:11px;line-height:1.8;">${names}</span>
+            <td style="padding:0 16px 14px;">
+              <span style="font-size:11px;color:#6b6b6b;line-height:1.6;">${thankLine}</span>
             </td>
           </tr>
         </table>
@@ -161,23 +213,12 @@ function buildSponsorRecap(sponsors: SponsorData[]): string {
 
 function buildSponsorBlock(sponsor: SponsorData | null, city: string): string {
   if (sponsor) {
+    const leadLabel = 'Support for this free calendar comes from';
     return `
-    <!-- SPONSOR BLOCK (active) -->
+    <!-- SPONSOR BLOCK (active, position 1) -->
     <tr>
-      <td style="background:#f9f7f2;border-bottom:1px solid #e8e8e8;padding:14px 24px;">
-        <p style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;margin:0 0 5px 0;">This newsletter is free because of our sponsor</p>
-        <table cellpadding="0" cellspacing="0" width="100%">
-          <tr>
-            ${sponsor.logo_url ? `<td width="56" style="vertical-align:middle;padding-right:12px;"><img src="${sponsor.logo_url}" width="48" height="48" alt="${sponsor.name} logo" style="display:block;object-fit:contain;border-radius:4px;" /></td>` : ''}
-            <td style="vertical-align:middle;">
-              ${sponsor.url
-                ? `<a href="${sponsor.url}" target="_blank" style="font-size:13px;font-weight:700;color:#1a1a1a;text-decoration:none;">${sponsor.name}</a>`
-                : `<span style="font-size:13px;font-weight:700;color:#1a1a1a;">${sponsor.name}</span>`}
-              ${sponsor.tagline ? `<br><span style="font-size:11px;color:#666;">${sponsor.tagline}</span>` : ''}
-            </td>
-            ${sponsor.url ? `<td align="right" style="vertical-align:middle;"><a href="${sponsor.url}" target="_blank" style="font-size:11px;font-weight:600;color:#1a3a5c;text-decoration:none;white-space:nowrap;">Learn more →</a></td>` : ''}
-          </tr>
-        </table>
+      <td style="background:#f9f7f2;border-bottom:1px solid #e8e8e8;padding:16px 24px;">
+        ${sponsorBlockInner(sponsor, leadLabel)}
       </td>
     </tr>`;
   }
@@ -238,16 +279,24 @@ function buildNewsletterHtml(
         </tr>`;
       });
 
-  // Weave mid-email sponsor strips (sponsors 2 and 3) into the event list
-  // at roughly 1/3 and 2/3 of the way through.
-  if (events.length > 0) {
-    const third = Math.ceil(events.length / 3);
-    if (sponsors[2]) eventRowList.splice(Math.min(third * 2, eventRowList.length), 0, buildInlineSponsorRow(sponsors[2]));
-    if (sponsors[1]) eventRowList.splice(Math.min(third, eventRowList.length), 0, buildInlineSponsorRow(sponsors[1]));
+  // Position 1 (sponsors[0]) shows in the top block. The remaining sponsors
+  // (sponsors[1..3]) appear as full, identical sponsor blocks spread evenly
+  // through the event list. Insert from the back so earlier indices stay valid.
+  const rest = sponsors.slice(1);
+  if (events.length > 0 && rest.length > 0) {
+    const n = eventRowList.length;
+    // Even insertion points: with k blocks, place them at k/(k+1) fractions.
+    const points = rest.map((_, i) => Math.min(Math.round((n * (i + 1)) / (rest.length + 1)), n));
+    for (let i = rest.length - 1; i >= 0; i--) {
+      eventRowList.splice(points[i], 0, buildSponsorRowBlock(rest[i]));
+    }
   }
 
+  // When there are no events, still show every sponsor so all four always
+  // appear — stack the remaining blocks under the "no events" note.
   const eventRows = events.length === 0
     ? `<tr><td style="padding:16px 0;color:#aaa;font-size:13px;font-style:italic;">No events found for this week — check back next Monday!</td></tr>`
+      + rest.map(s => buildSponsorRowBlock(s)).join('')
     : eventRowList.join('');
 
   return `<!DOCTYPE html>
@@ -442,7 +491,7 @@ export async function POST(req: NextRequest) {
     if (categorySlug) {
       const { data: subSponsor } = await supabase
         .from('sponsors')
-        .select('name, url, tagline, logo_url')
+        .select('name, url, tagline, logo_url, quote')
         .eq('city_slug', citySlug)
         .eq('category_slug', categorySlug)
         .eq('active', true)
@@ -451,13 +500,18 @@ export async function POST(req: NextRequest) {
     } else {
       const { data: slotSponsors } = await supabase
         .from('sponsors')
-        .select('name, url, tagline, logo_url, category_slug')
+        .select('name, url, tagline, logo_url, quote, category_slug')
         .eq('city_slug', citySlug)
         .eq('active', true)
         .in('category_slug', SLOT_ORDER);
       const bySlot = Object.fromEntries((slotSponsors ?? []).map(s => [s.category_slug, s]));
       sponsors = SLOT_ORDER.map(slug => bySlot[slug]).filter(Boolean) as SponsorData[];
     }
+
+    // Rotate the lead slot weekly so every sponsor gets the top spot equally.
+    // Anchored to the week's Monday so all sends in the same week match.
+    // Sub-cal sends have a single sponsor, so rotation is a no-op there.
+    sponsors = rotateSponsors(sponsors, isoWeekNumber(monday));
 
     // ── Format week label ─────────────────────────────────────────────────────
     const fmtDate = (s: string) => {

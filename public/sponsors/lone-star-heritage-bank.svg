@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Lone Star Heritage Bank logo">
+  <rect width="160" height="160" rx="20" fill="#0f3d2e"/>
+  <polygon points="80,34 88,58 113,58 93,73 100,97 80,82 60,97 67,73 47,58 72,58" fill="#e8c87a"/>
+  <text x="80" y="124" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" font-weight="700" fill="#ffffff">LSHB</text>
+  <text x="80" y="142" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="9" letter-spacing="1.5" fill="#e8c87a">HERITAGE BANK</text>
+</svg>
