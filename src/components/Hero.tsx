@@ -7,32 +7,6 @@ import Link from 'next/link';
 
 
 
-function getWeekRange(): string {
-  const now = new Date();
-  const day = now.getDay();
-  const diffToMon = day === 0 ? -6 : 1 - day;
-  const mon = new Date(now);
-  mon.setDate(now.getDate() + diffToMon);
-  const sun = new Date(mon);
-  sun.setDate(mon.getDate() + 6);
-  const fmt = (d: Date) =>
-    d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  return `${fmt(mon)} – ${fmt(sun)}, ${sun.getFullYear()}`;
-}
-
-function getISOWeekNumber(): number {
-  const now = new Date();
-  const day = now.getDay();
-  const diffToMon = day === 0 ? -6 : 1 - day;
-  const mon = new Date(now);
-  mon.setDate(now.getDate() + diffToMon);
-  // Thursday of this week determines the year
-  const thu = new Date(mon);
-  thu.setDate(mon.getDate() + 3);
-  const yearStart = new Date(thu.getFullYear(), 0, 4);
-  return 1 + Math.round(((thu.getTime() - yearStart.getTime()) / 86400000 - 3 + (yearStart.getDay() + 6) % 7) / 7);
-}
-
 function getNextMonday(): string {
   const now = new Date();
   const day = now.getDay();
@@ -56,9 +30,7 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
   const CITY_EVENT_COUNTS: Record<string, number> = cityCounts ?? {};
   const TOTAL_EVENTS = Object.values(CITY_EVENT_COUNTS).reduce((a, b) => a + b, 0);
 
-  const weekRange   = getWeekRange();
   const nextMonday  = getNextMonday();
-  const weekNumber  = getISOWeekNumber();
   const cityCount = cityConfig ? (CITY_EVENT_COUNTS[cityConfig.name] ?? 0) : TOTAL_EVENTS;
   const cityLabel = cityConfig ? cityConfig.name.toUpperCase() : 'TEXAS';
 
@@ -121,7 +93,7 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
           <div className="hero-right">
             <div className="hero-city-panel">
               <div className="hero-city-panel-header">
-                {cityConfig ? 'EVENT TYPES' : 'THIS WEEK, BY CITY'}
+                {cityConfig ? 'EVENT TYPES' : 'BROWSE BY CITY'}
               </div>
 
               {!cityConfig ? (
@@ -130,12 +102,13 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
                     <li key={c.slug} className="hero-city-panel-row">
                       <Link href={`/texas/${c.slug}`} className="hero-city-panel-link">
                         <span className="hero-city-panel-name">{c.name}</span>
-                        <span className="hero-city-panel-count">
-                          {CITY_EVENT_COUNTS[c.name] ?? 0} events
-                        </span>
+                        <span className="hero-city-panel-arrow" aria-hidden="true">&rarr;</span>
                       </Link>
                     </li>
                   ))}
+                  <li className="hero-city-panel-row hero-city-panel-more">
+                    <span className="hero-city-panel-tag">More cities coming soon</span>
+                  </li>
                 </ul>
               ) : (
                 <ul className="hero-city-panel-list">
@@ -153,8 +126,6 @@ export function Hero({ cityCounts }: { cityCounts?: Record<string, number> } = {
 
         {/* ── Bottom editorial strip ── */}
         <div className="hero-strip">
-          <span>WEEK {weekNumber} &middot; {weekRange}</span>
-          <span className="hero-strip-divider">|</span>
           <span>NEXT NEWSLETTER: MONDAY, {nextMonday.toUpperCase()} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
           <span>EVENT SOURCES MONITORED: 800+</span>

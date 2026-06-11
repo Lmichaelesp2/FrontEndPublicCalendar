@@ -2,7 +2,7 @@
 import { SUB_CALENDARS_ENABLED } from '../../lib/subCalendars';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Minus, Search, Mail, Building2, Users, Clock, Monitor, Home, Landmark, Briefcase, Star } from 'lucide-react';
+import { Plus, Minus, Users, Clock, Monitor, Home, Landmark, Briefcase, Search, Building2, Star, Mail } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { SEOHead } from '../SEOHead';
@@ -16,67 +16,75 @@ import { SponsorSubmitSection } from '../SponsorSubmitSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
 
-const SA_STATS = [
-  { number: '2,500+', label: 'San Antonio professionals subscribed' },
-  { number: '250+', label: 'San Antonio business organizations tracked' },
+const STATS = [
+  { number: '1,000+', label: 'Dallas professionals subscribed' },
+  { number: '300+', label: 'Dallas business organizations tracked' },
 ];
 
-const SA_TESTIMONIALS = [
+const TESTIMONIALS = [
   {
-    quote: "Finally, all the networking events in one place. No more missing out because I didn't know something was happening in San Antonio.",
-    name: 'Sarah M.',
-    location: 'San Antonio, TX',
+    quote: "DFW has so many networking events but they're impossible to track. This calendar changed everything for me.",
+    name: 'Robert A.',
+    location: 'Dallas, TX',
   },
   {
-    quote: "This calendar has become essential for growing my professional network in the Alamo City. The weekly email alone saves me hours.",
-    name: 'Marcus T.',
-    location: 'San Antonio, TX',
+    quote: "The weekly Dallas business events email is the first thing I read every Monday morning.",
+    name: 'Sandra T.',
+    location: 'Plano, TX',
   },
   {
-    quote: "I used to check the SA Chamber site, Eventbrite, and Facebook separately. Now I just check one site.",
-    name: 'Jennifer L.',
-    location: 'San Antonio, TX',
+    quote: "I've made more meaningful connections in Dallas since subscribing than I did in three years of searching on my own.",
+    name: 'Marcus W.',
+    location: 'Dallas, TX',
   },
 ];
 
-const SA_FAQ = [
+const FAQ_ITEMS = [
   {
     question: 'Is this really free?',
-    answer: 'Yes! The San Antonio calendar and weekly email are completely free — no credit card required. We also offer a Personal Event Assistant for professionals who want AI-powered event recommendations tailored to their goals.',
+    answer: 'Yes! The Dallas calendar and weekly email are completely free — no credit card required. The full calendar is free and open to everyone. Give us your email and we deliver every upcoming event straight to your inbox every Monday morning.',
   },
   {
-    question: 'What kinds of events are listed for San Antonio?',
-    answer: 'We track business networking mixers, chamber events (SA Chamber, North SA Chamber, Hispanic Chamber, and more), SCORE workshops, professional development sessions, entrepreneur meetups, and industry-specific events across the city.',
+    question: 'What kinds of events are listed for Dallas?',
+    answer: 'We track business networking mixers, chamber events (Dallas Regional Chamber, Hispanic Chamber, Women\'s Chamber, and more), SCORE workshops, professional development sessions, entrepreneur meetups, startup events, and industry-specific events across the DFW metroplex.',
   },
   {
-    question: 'How do you find San Antonio events?',
-    answer: 'We monitor top San Antonio business organizations, chambers of commerce, Meetup, Eventbrite, Facebook, and dozens of local sources — so you don\'t have to check multiple sites.',
+    question: 'How do you find Dallas events?',
+    answer: "We monitor top Dallas business organizations, chambers of commerce, Meetup, Eventbrite, Facebook, and dozens of local sources across DFW — so you don't have to check multiple sites.",
   },
   {
     question: 'How is this different from Eventbrite or Meetup?',
-    answer: 'Those platforms only show events posted on their own site. We gather networking and business events from all major platforms and local San Antonio organizations into one calendar, giving you a complete picture.',
+    answer: "Those platforms only show events posted on their own site. We gather networking and business events from all major platforms and local Dallas-Fort Worth organizations into one calendar, giving you a complete picture.",
   },
   {
-    question: 'What do I get with the weekly email?',
-    answer: 'A curated digest of San Antonio\'s best upcoming networking and business events, delivered to your inbox every Monday morning. The calendar on the site is always free to browse.',
+    question: 'What do I get when I sign up free?',
+    answer: "Free signup gives you access to the full week of Dallas business events on the calendar — not just today's events. You also get the Monday morning newsletter with that week's curated digest.",
   },
   {
-    question: 'What is the Personal Event Assistant?',
-    answer: 'An upcoming AI-powered tool that learns your industry, professional goals, and schedule to recommend the best San Antonio events for you personally. Join the waitlist to be first in line.',
-  },
-  {
-    question: 'Can I add my own San Antonio event?',
-    answer: 'Yes! Use our Submit Event page to add your networking or business event to the San Antonio calendar for free.',
+    question: 'Can I add my own Dallas event?',
+    answer: 'Yes! Use our Submit Event page to add your networking or business event to the Dallas calendar for free.',
   },
 ];
 
-const EVENT_TYPES = [
-  'Business networking events',
-  'Industry meetups',
-  'Professional workshops',
-  'Chamber and association events',
-  'Educational business sessions',
-  'Entrepreneur and startup gatherings',
+const ORGS = [
+  'Dallas Regional Chamber',
+  'Dallas Fort Worth Hispanic Chamber',
+  'Dallas Women\'s Chamber',
+  'Greater Dallas Hispanic Chamber',
+  'Dallas Startup Week',
+  'SCORE Dallas',
+  'North Texas SBDC',
+  'Dallas Entrepreneur Center',
+  'DFW Nonprofit',
+  'Dallas Young Professionals',
+  '... and many more',
+];
+
+const CATEGORY_LINKS = [
+  { label: 'Chamber Events', href: '/texas/dallas/chamber', icon: <Landmark size={20} /> },
+  { label: 'Technology Events', href: '/texas/dallas/technology', icon: <Monitor size={20} /> },
+  { label: 'Real Estate Events', href: '/texas/dallas/real-estate', icon: <Home size={20} /> },
+  { label: 'Small Business Events', href: '/texas/dallas/small-business', icon: <Briefcase size={20} /> },
 ];
 
 
@@ -104,7 +112,7 @@ function getWeekInfo(events: { start_date?: string }[]) {
   nextMon.setDate(sun.getDate() + 8);
   const nextMonStr = `MONDAY, ${MONTHS[nextMon.getMonth()]} ${nextMon.getDate()}`;
 
-  // ISO week number of the year (Week 1 = week containing Jan 4)
+  // ISO week number of the year
   const thu = new Date(sun); thu.setDate(sun.getDate() + 4);
   const yearStart = new Date(thu.getFullYear(), 0, 4);
   const weekNum = 1 + Math.round(((thu.getTime() - yearStart.getTime()) / 86400000 - 3 + (yearStart.getDay() + 6) % 7) / 7);
@@ -113,7 +121,7 @@ function getWeekInfo(events: { start_date?: string }[]) {
 }
 
 
-function SAFaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
+function FaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {
   return (
     <div className={`faq-item${open ? ' open' : ''}`}>
       <button className="faq-trigger" onClick={onToggle} aria-expanded={open}>
@@ -127,7 +135,7 @@ function SAFaqItem({ question, answer, open, onToggle }: { question: string; ans
   );
 }
 
-function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
+function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
   const { profile } = useAuth();
   const isPremium = profile?.subscription_tier === 'premium';
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -138,14 +146,14 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
   }, []);
 
   if (isPremium) {
-    return <PremiumCityView city="San Antonio" citySlug="san-antonio" initialEvents={initialEvents} />;
+    return <PremiumCityView city="Dallas" citySlug="dallas" initialEvents={initialEvents} />;
   }
 
   return (
     <div className="sa-page">
       <SEOHead
-        title="San Antonio Business Calendar | Free Networking & Business Events Newsletter"
-        description="Find networking events, business mixers, chamber meetings, and professional development opportunities in San Antonio, Texas. Updated weekly with the latest events."
+        title="Dallas Business Calendar | Free Networking & Business Events Newsletter"
+        description="Find networking events, business mixers, chamber meetings, and professional development opportunities in Dallas, Texas. Updated weekly with the latest events."
       />
 
       <Navigation />
@@ -153,7 +161,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
       <Breadcrumb items={[
         { label: 'Local Business Calendars', href: '/' },
         { label: 'Texas', href: '/texas' },
-        { label: 'San Antonio' },
+        { label: 'Dallas' },
       ]} />
 
       <section className="hero">
@@ -161,21 +169,21 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           <div className="hero-left">
             <div className="hero-badge">
               <span className="hero-badge-dot" />
-              THIS WEEK IN SAN ANTONIO &middot; {weekInfo.count} EVENTS
+              THIS WEEK IN DALLAS &middot; {weekInfo.count} EVENTS
             </div>
             <h1>
-              Find the events where San Antonio business{' '}
+              Find the events where Dallas business{' '}
               <em>actually</em> happens.
             </h1>
             <p className="hero-sub">
-              Chamber events, business mixers, real estate gatherings, and tech meetups — San Antonio's public business events organized into one calendar and one weekly email.
+              Chamber mixers, technology meetups, real estate events, and small business gatherings — Dallas business events organized into one calendar and one weekly email.
             </p>
             <div className="hero-cta-group">
-              <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">
+              <Link href="/texas/dallas/subscribe" className="btn btn-primary">
                 Subscribe Free — Get This Week's Events
               </Link>
               <a href="#calendar" className="btn btn-ghost">
-                Browse San Antonio &rarr;
+                Browse Dallas &rarr;
               </a>
             </div>
             <p className="hero-trust">
@@ -188,7 +196,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
               <ul className="hero-city-panel-list">
                 {['Chamber', 'Technology', 'Real Estate', 'Small Business', 'and many more'].map((tag) => {
                   const slug = {'Chamber': 'chamber', 'Technology': 'technology', 'Real Estate': 'real-estate', 'Small Business': 'small-business'};
-                  const href = (SUB_CALENDARS_ENABLED && slug[tag as keyof typeof slug]) ? `/texas/san-antonio/${slug[tag as keyof typeof slug]}` : null; // SUB-CAL: hidden while paused
+                  const href = (SUB_CALENDARS_ENABLED && slug[tag as keyof typeof slug]) ? `/texas/dallas/${slug[tag as keyof typeof slug]}` : null; // SUB-CAL: hidden while paused
                   return (
                     <li key={tag} className="hero-city-panel-row">
                       {href ? (
@@ -204,36 +212,38 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
         <div className="hero-strip">
+          <span>WEEK {weekInfo.vol} &middot; {weekInfo.weekRange}</span>
+          <span className="hero-strip-divider">|</span>
           <span>NEXT NEWSLETTER: {weekInfo.nextMonStr} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
-          <span>TRACKED ORGANIZATIONS: 250+</span>
+          <span>TRACKED ORGANIZATIONS: 300+</span>
         </div>
       </section>
 
 
-      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" />
+      <SponsorPatronSection city="Dallas" citySlug="dallas" />
 
 
 
       <section className="features-section">
         <div className="features-inner">
-          <h2>We Track San Antonio Business Events So You Don't Have To</h2>
-          <p className="features-subtitle">San Antonio business events are scattered across chambers, Eventbrite, Meetup, LinkedIn, and military/business community sites. We organize them into one weekly calendar.</p>
+          <h2>We Track Dallas Business Events So You Don't Have To</h2>
+          <p className="features-subtitle">Dallas business events are scattered across chambers, Eventbrite, Meetup, LinkedIn, and professional networks. We organize them into one weekly calendar.</p>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-step">1</div>
               <h3>Sign up free</h3>
-              <p>Enter your email and get instant access to the full San Antonio business events calendar. No credit card, no setup.</p>
+              <p>Enter your email and get instant access to the full Dallas business events calendar. No credit card, no setup.</p>
             </div>
             <div className="feature-card">
               <div className="feature-step">2</div>
               <h3>Get your Monday newsletter</h3>
-              <p>Every Monday, get a curated digest of that week's top networking and business events in San Antonio.</p>
+              <p>Every Monday, get a curated digest of that week's top networking and business events in Dallas.</p>
             </div>
             <div className="feature-card">
               <div className="feature-step">3</div>
               <h3>Pick events and show up</h3>
-              <p>Scan the list, choose what fits your schedule, and walk in ready to meet the right San Antonio professionals.</p>
+              <p>Scan the list, choose what fits your schedule, and walk in ready to meet the right Dallas professionals.</p>
             </div>
           </div>
         </div>
@@ -241,30 +251,30 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
 
       <section className="sa-calendar-section" id="calendar">
         <div className="sa-calendar-header">
-          <h2>Find Your Next San Antonio Event</h2>
+          <h2>Find Your Next Dallas Event</h2>
           <p>Browse networking events, business mixers, lunch-and-learns, and more</p>
         </div>
-        <EventGate forcedCity="San Antonio" initialEvents={initialEvents} showMonthCalendar={true} citySlug="san-antonio" />
+        <EventGate forcedCity="Dallas" initialEvents={initialEvents} showMonthCalendar={true} citySlug="dallas" />
       </section>
 
 
             <WhySection
-        heading="Why San Antonio Professionals Use This Calendar"
-        subtitle="San Antonio business events are spread across too many platforms and websites. Here's how Local Business Calendars helps San Antonio professionals keep up."
-        problemText="Business events in San Antonio are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."
-        whatWeDoText="We track local business event hosts and organize their public events into one simple San Antonio calendar and weekly newsletter."
+        heading="Why Dallas Professionals Use This Calendar"
+        subtitle="Dallas business events are spread across too many platforms and websites. Here's how Local Business Calendars helps Dallas professionals keep up."
+        problemText="Business events in Dallas are spread across Eventbrite, Meetup, LinkedIn, chambers, and association websites. Finding the right ones takes time."
+        whatWeDoText="We track local business event hosts and organize their public events into one simple Dallas calendar and weekly newsletter."
         whatYouGetText="Less searching, better event discovery, and a weekly event newsletter that helps you stay up to date."
       />
-      <section className="sa-subscribe-section" id="sa-subscribe">
+      <section className="sa-subscribe-section" id="dallas-subscribe">
         <div className="sa-subscribe-inner">
           <div className="sa-subscribe-badge">
             <Clock size={14} />
             Free • Takes 30 Seconds
           </div>
-          <h2>Get the Full Week of San Antonio Events</h2>
-          <p>Get San Antonio business events delivered to your inbox every Monday — free, no account needed.</p>
+          <h2>Get the Full Week of Dallas Events</h2>
+          <p>Get Dallas business events delivered to your inbox every Monday — free, no account needed.</p>
           <div className="sa-subscribe-actions">
-            <Link href="/texas/san-antonio/subscribe" className="btn btn-primary">Subscribe Free — Get the Full Week</Link>
+            <Link href="/texas/dallas/subscribe" className="btn btn-primary">Subscribe Free — Get the Full Week</Link>
           </div>
         </div>
       </section>
@@ -272,8 +282,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         <div className="faq-inner">
           <h2>Frequently Asked Questions</h2>
           <div className="faq-list">
-            {SA_FAQ.map((item, i) => (
-              <SAFaqItem
+            {FAQ_ITEMS.map((item, i) => (
+              <FaqItem
                 key={i}
                 question={item.question}
                 answer={item.answer}
@@ -285,14 +295,14 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="San Antonio" />
-      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" />
+      <EventNetworkingMethodSection city="Dallas" />
+      <SponsorSubmitSection city="Dallas" citySlug="dallas" />
 
-      <Footer showIndustryCalendars={true} citySlug="san-antonio" cityName="San Antonio" />
+      <Footer showIndustryCalendars={true} citySlug="dallas" cityName="Dallas" />
     </div>
   );
 }
 
-export function SanAntonioPage({ initialEvents }: { initialEvents: Event[] }) {
-  return <SanAntonioContent initialEvents={initialEvents} />;
+export function DallasPage({ initialEvents }: { initialEvents: Event[] }) {
+  return <DallasContent initialEvents={initialEvents} />;
 }

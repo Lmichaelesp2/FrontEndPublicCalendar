@@ -756,6 +756,10 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .hero-city-panel-link:hover{background:var(--color-paper-2);text-decoration:none}
 .hero-city-panel-name{font-size:var(--fs-base);font-weight:var(--fw-medium);color:var(--color-ink)}
 .hero-city-panel-count{font-size:var(--fs-sm);color:var(--color-primary);font-weight:var(--fw-semi)}
+.hero-city-panel-arrow{font-size:var(--fs-base);color:var(--fg-3);font-weight:var(--fw-semi);transition:transform .15s ease,color .15s ease}
+.hero-city-panel-link:hover .hero-city-panel-arrow{color:var(--color-primary);transform:translateX(3px)}
+.hero-city-panel-more .hero-city-panel-tag{color:var(--fg-3);font-weight:var(--fw-medium);font-style:italic;font-size:var(--fs-sm);border-left-color:transparent}
+.hero-city-panel-more .hero-city-panel-tag::before{display:none}
 .hero-city-panel-tag{display:flex;align-items:center;gap:.6rem;padding:.7rem 1.25rem;font-size:var(--fs-base);color:var(--color-ink);font-weight:var(--fw-semi);transition:all .18s;position:relative;border-left:3px solid transparent}
 .hero-city-panel-tag::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
 a.hero-city-panel-tag{text-decoration:none;cursor:pointer}

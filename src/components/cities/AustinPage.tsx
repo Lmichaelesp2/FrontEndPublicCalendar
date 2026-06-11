@@ -213,8 +213,6 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
           </div>
         </div>
         <div className="hero-strip">
-          <span>WEEK {weekInfo.vol} &middot; {weekInfo.weekRange}</span>
-          <span className="hero-strip-divider">|</span>
           <span>NEXT NEWSLETTER: {weekInfo.nextMonStr} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
           <span>TRACKED ORGANIZATIONS: 250+</span>

@@ -145,26 +145,22 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
       {!citySlug && (
         <section className="hp-sponsor-teaser">
           <div className="hp-sponsor-teaser-inner">
-            <div className="hp-sponsor-teaser-left">
-              <div className="hp-sponsor-teaser-label">Made Possible By Our Sponsors</div>
-              <h2>This Calendar Is Free Because of Community Sponsors</h2>
-              <p>Like public radio, Local Business Calendars is free to the business community because local organizations choose to support it. Each city calendar has one sponsor — a business or organization that believes professionals deserve free access to what's happening in their city.</p>
-              <p style={{fontSize:'0.9rem', opacity: 0.85}}>Would you like to support the business community in your city?</p>
-              <Link href="/sponsor" className="hp-sponsor-teaser-btn">
-                Learn About Sponsorship →
-              </Link>
-            </div>
-            <div className="hp-sponsor-teaser-cards">
+            <div className="hp-sponsor-teaser-label">Made Possible By Our Sponsors</div>
+            <h2>This Calendar Is Free Because of Community Sponsors</h2>
+            <p>Like public radio, Local Business Calendars stays free for the business community because local organizations choose to support it. Each city we cover is open for a sponsor — a business or organization that believes professionals deserve free access to what's happening where they work.</p>
+            <div className="hp-sponsor-city-list">
               {(['San Antonio', 'Austin', 'Dallas', 'Houston'] as const).map((city) => (
-                <div key={city} className="hp-sponsor-teaser-card">
-                  <div className="hp-sponsor-teaser-card-city">{city}</div>
-                  <div className="hp-sponsor-teaser-card-slot">
-                    <div className="hp-sponsor-teaser-card-tag">COMMUNITY SPONSOR</div>
-                    <div className="hp-sponsor-teaser-card-name">Open — Be the First</div>
+                <div key={city} className="hp-sponsor-city-row">
+                  <div className="hp-sponsor-city-left">
+                    <span className="hp-sponsor-city-name">{city}</span>
                   </div>
+                  <Link href="/sponsor" className="hp-sponsor-city-cta">Sponsorship open →</Link>
                 </div>
               ))}
             </div>
+            <Link href="/sponsor" className="hp-sponsor-teaser-btn">
+              Learn About Sponsorship →
+            </Link>
           </div>
         </section>
       )}

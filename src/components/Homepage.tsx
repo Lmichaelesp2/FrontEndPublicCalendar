@@ -144,31 +144,34 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
           {/* Right column — city panel */}
           <div className="hero-right">
             <div className="hero-city-panel">
-              <div className="hero-city-panel-header">THIS WEEK, BY CITY</div>
+              <div className="hero-city-panel-header">BROWSE BY CITY</div>
               <ul className="hero-city-panel-list">
                 <li className="hero-city-panel-row">
                   <Link href="/texas/san-antonio" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">San Antonio</span>
-                    <span className="hero-city-panel-count">{cityCounts['San Antonio'] ?? 0} events</span>
+                    <span className="hero-city-panel-arrow" aria-hidden="true">&rarr;</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/austin" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Austin</span>
-                    <span className="hero-city-panel-count">{cityCounts['Austin'] ?? 0} events</span>
+                    <span className="hero-city-panel-arrow" aria-hidden="true">&rarr;</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/dallas" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Dallas</span>
-                    <span className="hero-city-panel-count">{cityCounts['Dallas'] ?? 0} events</span>
+                    <span className="hero-city-panel-arrow" aria-hidden="true">&rarr;</span>
                   </Link>
                 </li>
                 <li className="hero-city-panel-row">
                   <Link href="/texas/houston" className="hero-city-panel-link">
                     <span className="hero-city-panel-name">Houston</span>
-                    <span className="hero-city-panel-count">{cityCounts['Houston'] ?? 0} events</span>
+                    <span className="hero-city-panel-arrow" aria-hidden="true">&rarr;</span>
                   </Link>
+                </li>
+                <li className="hero-city-panel-row hero-city-panel-more">
+                  <span className="hero-city-panel-tag">More cities coming soon</span>
                 </li>
               </ul>
             </div>
@@ -178,8 +181,6 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
 
         {/* Bottom editorial strip */}
         <div className="hero-strip">
-          <span>WEEK {weekInfo.vol} &middot; {weekInfo.weekRange}</span>
-          <span className="hero-strip-divider">|</span>
           <span>NEXT NEWSLETTER: {weekInfo.nextMonStr} &middot; 6:00 A.M. CT</span>
           <span className="hero-strip-divider">|</span>
           <span>TRACKED ORGANIZATIONS: 800+</span>
@@ -269,23 +270,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
         <div className="hp-sponsor-teaser-inner">
           <div className="hp-sponsor-teaser-label">Community Supported</div>
           <h2>Local Business Calendars Is Free — and Sponsors Make That Possible</h2>
-          <p>Every week, thousands of business professionals across Texas use this calendar to find events, stay connected, and grow their network. Sponsors keep it free for everyone. Each city has four category sponsors — Chamber, Real Estate, Technology, and Small Business. Each sponsor owns their category exclusively, with visibility across all city content and a direct connection to the professionals who follow that space.</p>
-          <div className="hp-sponsor-city-list">
-            {([
-              { city: 'San Antonio', cats: 'Chamber · Real Estate · Technology · Small Business' },
-              { city: 'Austin',      cats: 'Chamber · Real Estate · Technology · Small Business' },
-              { city: 'Dallas',      cats: 'Chamber · Real Estate · Technology · Small Business' },
-              { city: 'Houston',     cats: 'Chamber · Real Estate · Technology · Small Business' },
-            ] as const).map(({ city, cats }) => (
-              <div key={city} className="hp-sponsor-city-row">
-                <div className="hp-sponsor-city-left">
-                  <span className="hp-sponsor-city-name">{city}</span>
-                  <span className="hp-sponsor-city-cats">{cats}</span>
-                </div>
-                <Link href="/sponsor" className="hp-sponsor-city-cta">4 spots open →</Link>
-              </div>
-            ))}
-          </div>
+          <p>Thousands of business professionals use this calendar every week to find events, stay connected, and grow their network. Sponsors keep it free for everyone — with exclusive category visibility and a direct connection to the professionals who follow their space.</p>
           <Link href="/sponsor" className="hp-sponsor-teaser-btn">
             Learn About Sponsorship →
           </Link>
