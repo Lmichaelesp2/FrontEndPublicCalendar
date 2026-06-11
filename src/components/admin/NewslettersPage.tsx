@@ -11,6 +11,19 @@ import type { Event } from '../../lib/supabase';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
+// Send endpoints require the admin password (server-verified) — never callable
+// without it. Wraps fetch and attaches the x-admin-password header.
+function authFetch(url: string, init?: RequestInit): Promise<Response> {
+  const adminPassword = typeof window !== 'undefined' ? localStorage.getItem('adminPassword') : null;
+  return fetch(url, {
+    ...init,
+    headers: {
+      ...(init?.headers ?? {}),
+      ...(adminPassword ? { 'x-admin-password': adminPassword } : {}),
+    },
+  });
+}
+
 const CITIES = ['Austin', 'Dallas', 'Houston', 'San Antonio'] as const;
 const SUB_CALENDARS = ['Networking', 'Technology', 'Real Estate', 'Chamber', 'Small Business'] as const;
 
@@ -302,7 +315,7 @@ function SendButton({ city, subCalendar }: { city: string; subCalendar: string |
     try {
       const params = new URLSearchParams({ city });
       if (subCalendar) params.set('subCalendar', subCalendar);
-      const res = await fetch(`/api/send-newsletter?${params}`);
+      const res = await authFetch(`/api/send-newsletter?${params}`);
       const data = await res.json();
       setStats(data);
       setStatus('confirm');
@@ -315,7 +328,7 @@ function SendButton({ city, subCalendar }: { city: string; subCalendar: string |
   async function handleSend() {
     setStatus('sending');
     try {
-      const res = await fetch('/api/send-newsletter', {
+      const res = await authFetch('/api/send-newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ city, subCalendar }),
@@ -466,7 +479,7 @@ function TestSendButton({ city, subCalendar }: { city: string; subCalendar: stri
     if (emails.length === 0) return;
     setStatus('sending');
     try {
-      const res = await fetch('/api/send-newsletter', {
+      const res = await authFetch('/api/send-newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ city, subCalendar, testEmails: emails }),
@@ -717,7 +730,7 @@ function SendCityButton({ city, newsletters }: { city: string; newsletters: News
 
     for (const nl of cityNewsletters) {
       try {
-        const res = await fetch('/api/send-newsletter', {
+        const res = await authFetch('/api/send-newsletter', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ city: nl.city, subCalendar: nl.subCal }),
@@ -833,7 +846,7 @@ function PremiumDigestSection() {
     setStatsLoading(true);
     setStatsError('');
     try {
-      const res  = await fetch('/api/send-premium-digest');
+      const res  = await authFetch('/api/send-premium-digest');
       const data = await res.json();
       if (!res.ok) {
         setStatsError(data.error ?? `HTTP ${res.status}`);
@@ -875,7 +888,7 @@ function PremiumDigestSection() {
     if (emails.length === 0) return;
     setTestStatus('sending');
     try {
-      const res  = await fetch('/api/send-premium-digest', {
+      const res  = await authFetch('/api/send-premium-digest', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({ testEmails: emails }),
@@ -894,7 +907,7 @@ function PremiumDigestSection() {
   async function handleConfirmSend() {
     setSendStatus('sending');
     try {
-      const res  = await fetch('/api/send-premium-digest', {
+      const res  = await authFetch('/api/send-premium-digest', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({}),
@@ -1097,7 +1110,7 @@ function SendAllCitiesButton({ newsletters }: { newsletters: Newsletter[] }) {
     for (const nl of newsletters) {
       setProgress(`Sending ${nl.label}…`);
       try {
-        const res = await fetch('/api/send-newsletter', {
+        const res = await authFetch('/api/send-newsletter', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ city: nl.city, subCalendar: nl.subCal }),

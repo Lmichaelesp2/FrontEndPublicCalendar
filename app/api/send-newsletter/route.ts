@@ -8,6 +8,23 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 const FROM_EMAIL = 'michael@localbusinesscalendars.com';
 const FROM_NAME  = 'Michael — Local Business Calendars';
 
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+// Mass-email endpoints must never be publicly callable. Two accepted creds:
+//   1. Authorization: Bearer <NEWSLETTER_SEND_SECRET>   (cron / scripts)
+//   2. x-admin-password header matching ADMIN_PASSWORD  (admin panel)
+// If neither env var is configured, ALL requests are rejected (fail closed).
+function requireSendAuth(req: NextRequest): boolean {
+  const bearer = req.headers.get('authorization');
+  const sendSecret = process.env.NEWSLETTER_SEND_SECRET;
+  if (sendSecret && bearer === `Bearer ${sendSecret}`) return true;
+
+  const adminPw = process.env.ADMIN_PASSWORD;
+  const provided = req.headers.get('x-admin-password');
+  if (adminPw && provided && provided === adminPw) return true;
+
+  return false;
+}
+
 // ─── San Antonio ramp schedule ────────────────────────────────────────────────
 // Week 1–2: 250/day, Week 3: 500/day, Week 4: 1000/day, Week 5+: unlimited
 const SA_DAILY_CAP = 250; // current cap — adjust as reputation builds
@@ -86,6 +103,62 @@ interface SponsorData {
   logo_url?: string | null;
 }
 
+// Small inline strip placed between event rows (mid-email sponsors)
+function buildInlineSponsorRow(sponsor: SponsorData): string {
+  return `
+        <tr>
+          <td style="padding:12px 0;border-bottom:1px solid #f0f0f0;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f2;border-radius:4px;">
+              <tr>
+                <td style="padding:10px 14px;">
+                  <span style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;">Sponsored</span><br>
+                  ${sponsor.url
+                    ? `<a href="${sponsor.url}" target="_blank" style="font-size:12px;font-weight:700;color:#1a1a1a;text-decoration:none;">${sponsor.name}</a>`
+                    : `<span style="font-size:12px;font-weight:700;color:#1a1a1a;">${sponsor.name}</span>`}
+                  ${sponsor.tagline ? ` <span style="font-size:11px;color:#666;">— ${sponsor.tagline}</span>` : ''}
+                  ${sponsor.url ? ` &nbsp;<a href="${sponsor.url}" target="_blank" style="font-size:11px;font-weight:600;color:#1a3a5c;text-decoration:none;white-space:nowrap;">Learn more →</a>` : ''}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>`;
+}
+
+// Pre-footer recap card: features the 4th sponsor + lists all sponsors
+function buildSponsorRecap(sponsors: SponsorData[]): string {
+  if (sponsors.length === 0) return '';
+  const featured = sponsors[3] ?? null;
+  const names = sponsors
+    .map(s => s.url
+      ? `<a href="${s.url}" target="_blank" style="color:#1a3a5c;text-decoration:none;font-weight:600;">${s.name}</a>`
+      : `<span style="font-weight:600;color:#333;">${s.name}</span>`)
+    .join(' &nbsp;·&nbsp; ');
+  return `
+    <!-- SPONSOR RECAP -->
+    <tr>
+      <td style="padding:0 24px 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f2;border:1px solid #eee;border-radius:4px;">
+          ${featured ? `
+          <tr>
+            <td style="padding:14px 16px 4px;">
+              <span style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;">Sponsored</span><br>
+              ${featured.url
+                ? `<a href="${featured.url}" target="_blank" style="font-size:13px;font-weight:700;color:#1a1a1a;text-decoration:none;">${featured.name}</a>`
+                : `<span style="font-size:13px;font-weight:700;color:#1a1a1a;">${featured.name}</span>`}
+              ${featured.tagline ? `<br><span style="font-size:11px;color:#666;">${featured.tagline}</span>` : ''}
+            </td>
+          </tr>` : ''}
+          <tr>
+            <td style="padding:10px 16px 14px;${featured ? 'border-top:1px solid #eee;' : ''}">
+              <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#999;">This week's sponsors</span><br>
+              <span style="font-size:11px;line-height:1.8;">${names}</span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>`;
+}
+
 function buildSponsorBlock(sponsor: SponsorData | null, city: string): string {
   if (sponsor) {
     return `
@@ -128,17 +201,16 @@ function buildNewsletterHtml(
   firstName: string | null,
   unsubToken: string,
   subCalendar: string | null = null,
-  sponsor: SponsorData | null = null,
+  sponsors: SponsorData[] = [],
 ): string {
   const calUrl = CITY_CALENDAR_URL[city] ?? 'https://www.localbusinesscalendars.com';
   const unsubUrl = `https://www.localbusinesscalendars.com/unsubscribe?token=${unsubToken}`;
   const greeting = firstName ? `Hey ${firstName},` : 'Hey there,';
   const headerLabel = subCalendar ? `${city} — ${subCalendar}` : `${city}`;
   const eventsHeading = subCalendar ? `${subCalendar} Events This Week` : `This Week's Events`;
+  const topSponsor = sponsors[0] ?? null;
 
-  const eventRows = events.length === 0
-    ? `<tr><td style="padding:16px 0;color:#aaa;font-size:13px;font-style:italic;">No events found for this week — check back next Monday!</td></tr>`
-    : events.map(e => {
+  const eventRowList = events.map(e => {
         const dayLabel = shortDayLabel(e.start_date);
         const venue = e.org_name || e.address || '';
         const time = e.start_time || '';
@@ -164,7 +236,19 @@ function buildNewsletterHtml(
             </table>
           </td>
         </tr>`;
-      }).join('');
+      });
+
+  // Weave mid-email sponsor strips (sponsors 2 and 3) into the event list
+  // at roughly 1/3 and 2/3 of the way through.
+  if (events.length > 0) {
+    const third = Math.ceil(events.length / 3);
+    if (sponsors[2]) eventRowList.splice(Math.min(third * 2, eventRowList.length), 0, buildInlineSponsorRow(sponsors[2]));
+    if (sponsors[1]) eventRowList.splice(Math.min(third, eventRowList.length), 0, buildInlineSponsorRow(sponsors[1]));
+  }
+
+  const eventRows = events.length === 0
+    ? `<tr><td style="padding:16px 0;color:#aaa;font-size:13px;font-style:italic;">No events found for this week — check back next Monday!</td></tr>`
+    : eventRowList.join('');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -202,7 +286,7 @@ function buildNewsletterHtml(
       </td>
     </tr>
 
-    ${buildSponsorBlock(sponsor, city)}
+    ${buildSponsorBlock(topSponsor, city)}
 
     <!-- GREETING -->
     <tr>
@@ -233,11 +317,13 @@ function buildNewsletterHtml(
       </td>
     </tr>
 
+    ${buildSponsorRecap(sponsors)}
+
     <!-- FOOTER -->
     <tr>
       <td style="padding:14px 24px;border-top:1px solid #e8e8e8;text-align:center;">
         <p style="font-size:11px;color:#aaa;margin:0;line-height:1.8;">
-          You're receiving this free newsletter${sponsor ? ` thanks to our sponsor, ${sponsor.name}` : ' — community supported'}.<br>
+          You're receiving this free newsletter${sponsors.length > 0 ? ' thanks to our sponsors' : ' — community supported'}.<br>
           <a href="${calUrl}" style="color:#1a3a5c;text-decoration:none;">Visit the calendar</a>
           &nbsp;·&nbsp;
           <a href="${unsubUrl}" style="color:#1a3a5c;text-decoration:none;">Unsubscribe</a>
@@ -283,6 +369,9 @@ function buildLabel(city: string, subCalendar: string | null): string {
 // ─── Main handler ─────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
+  if (!requireSendAuth(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   try {
     const body = await req.json();
     const { city, dryRun, testEmails } = body;
@@ -341,7 +430,12 @@ export async function POST(req: NextRequest) {
     const citySlug = citySlugMap[city] ?? city.toLowerCase().replace(/\s+/g, '-');
     const categorySlug = subCalendar ? subCalendar.toLowerCase().replace(/\s+/g, '-') : null;
 
-    let sponsor: SponsorData | null = null;
+    // City-wide newsletters feature the city's 4 sponsor slots (same sponsors
+    // shown on the city page). Slots are keyed by legacy category slugs under
+    // the hood, but NO category labels are shown in the email.
+    // Sub-cal sends (currently paused) still use their single category sponsor.
+    const SLOT_ORDER = ['chamber', 'technology', 'real-estate', 'small-business'];
+    let sponsors: SponsorData[] = [];
     if (categorySlug) {
       const { data: subSponsor } = await supabase
         .from('sponsors')
@@ -350,18 +444,16 @@ export async function POST(req: NextRequest) {
         .eq('category_slug', categorySlug)
         .eq('active', true)
         .maybeSingle();
-      sponsor = subSponsor ?? null;
-    }
-    if (!sponsor) {
-      // Fall back to any active sponsor for this city
-      const { data: citySponsor } = await supabase
+      if (subSponsor) sponsors = [subSponsor];
+    } else {
+      const { data: slotSponsors } = await supabase
         .from('sponsors')
-        .select('name, url, tagline, logo_url')
+        .select('name, url, tagline, logo_url, category_slug')
         .eq('city_slug', citySlug)
         .eq('active', true)
-        .limit(1)
-        .maybeSingle();
-      sponsor = citySponsor ?? null;
+        .in('category_slug', SLOT_ORDER);
+      const bySlot = Object.fromEntries((slotSponsors ?? []).map(s => [s.category_slug, s]));
+      sponsors = SLOT_ORDER.map(slug => bySlot[slug]).filter(Boolean) as SponsorData[];
     }
 
     // ── Format week label ─────────────────────────────────────────────────────
@@ -378,7 +470,7 @@ export async function POST(req: NextRequest) {
 
       await Promise.all(testEmails.map(async (email: string) => {
         const unsubToken = Buffer.from(email).toString('base64');
-        const html = buildNewsletterHtml(city, weekLabel, events, null, unsubToken, subCalendar, sponsor);
+        const html = buildNewsletterHtml(city, weekLabel, events, null, unsubToken, subCalendar, sponsors);
         const testHtml = html.replace(
           '<!-- HEADER -->',
           `<!-- TEST BANNER -->
@@ -421,6 +513,12 @@ export async function POST(req: NextRequest) {
     // sub-cal:   sub_calendar = 'Networking' (etc.)
     // NOTE: build the full query in one chain — Supabase query builder
     // reassignment is unreliable; conditional chaining must be done inline.
+    // Idempotency + SA ramp continuation: exclude anyone already emailed for
+    // THIS week (last_email_sent_at >= week's Monday). This means:
+    //  - re-clicking Send can never double-email anyone
+    //  - the SA daily ramp resumes where it left off instead of re-sending
+    //    the same first 250 subscribers each day
+    const notSentThisWeek = `last_email_sent_at.is.null,last_email_sent_at.lt.${monday}`;
     const { data: subsData, error: subsError } = subCalendar
       ? await supabase
           .from('newsletter_subscriptions')
@@ -428,12 +526,16 @@ export async function POST(req: NextRequest) {
           .eq('city', city)
           .eq('status', 'active')
           .eq('sub_calendar', subCalendar)
+          .or(notSentThisWeek)
+          .order('id', { ascending: true })
       : await supabase
           .from('newsletter_subscriptions')
           .select('id, email, first_name')
           .eq('city', city)
           .eq('status', 'active')
-          .is('sub_calendar', null);
+          .is('sub_calendar', null)
+          .or(notSentThisWeek)
+          .order('id', { ascending: true });
 
     if (subsError) {
       return NextResponse.json({ error: 'Failed to fetch subscribers', detail: subsError.message }, { status: 500 });
@@ -504,7 +606,7 @@ export async function POST(req: NextRequest) {
 
       await Promise.all(batch.map(async (sub) => {
         const unsubToken = Buffer.from(`id:${sub.id}`).toString('base64');
-        const html = buildNewsletterHtml(city, weekLabel, events, sub.first_name, unsubToken, subCalendar, sponsor);
+        const html = buildNewsletterHtml(city, weekLabel, events, sub.first_name, unsubToken, subCalendar, sponsors);
 
         try {
           await sgMail.send({
@@ -563,6 +665,9 @@ export async function POST(req: NextRequest) {
 // ─── GET — return today's send stats for a list ───────────────────────────────
 
 export async function GET(req: NextRequest) {
+  if (!requireSendAuth(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   const city       = req.nextUrl.searchParams.get('city');
   const subCalendar = req.nextUrl.searchParams.get('subCalendar') ?? null;
 

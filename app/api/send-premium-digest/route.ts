@@ -277,8 +277,22 @@ function buildPremiumDigestHtml(
 </html>`;
 }
 
+// ─── Auth — mass-email endpoint must never be publicly callable ───────────────
+function requireSendAuth(req: NextRequest): boolean {
+  const bearer = req.headers.get('authorization');
+  const sendSecret = process.env.NEWSLETTER_SEND_SECRET;
+  if (sendSecret && bearer === `Bearer ${sendSecret}`) return true;
+  const adminPw = process.env.ADMIN_PASSWORD;
+  const provided = req.headers.get('x-admin-password');
+  if (adminPw && provided && provided === adminPw) return true;
+  return false;
+}
+
 // ─── GET — return premium digest stats ───────────────────────────────────────
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (!requireSendAuth(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   const supabase = getSupabaseAdmin();
 
   const { data: premiumUsers, error } = await supabase
@@ -312,6 +326,9 @@ export async function GET() {
 
 // ─── POST — send premium digest ───────────────────────────────────────────────
 export async function POST(req: NextRequest) {
+  if (!requireSendAuth(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   try {
     const body = await req.json();
     const { dryRun, testEmails } = body;
