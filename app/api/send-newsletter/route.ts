@@ -113,6 +113,7 @@ interface EventRow {
   address: string | null;
   website: string | null;
   paid: string | null;
+  description: string | null;
 }
 
 function shortDayLabel(dateStr: string): string {
@@ -121,6 +122,38 @@ function shortDayLabel(dateStr: string): string {
   const weekday = d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
   const mon = d.toLocaleDateString('en-US', { month: 'numeric' });
   return `${weekday} ${mon}/${day}`;
+}
+
+// Day · Date for the prominent event header line, e.g. "THU · JUN 11"
+function dayDateLabel(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  const weekday = d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+  const mon = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+  return `${weekday} · ${mon} ${day}`;
+}
+
+// One-line description: strip newlines, collapse whitespace, truncate ~100 chars.
+function oneLineDesc(raw: string | null | undefined, max = 100): string {
+  if (!raw) return '';
+  const clean = String(raw).replace(/\s+/g, ' ').trim();
+  if (clean.length <= max) return clean;
+  return clean.slice(0, max).replace(/\s+\S*$/, '') + '…';
+}
+
+// Convert "HH:MM" (or "H:MM") 24h DB time to 12-hour with AM/PM, e.g. "5:30 PM".
+// Returns '' if the time is missing or unparseable.
+function formatTime12(raw: string | null | undefined): string {
+  if (!raw) return '';
+  const m = String(raw).trim().match(/^(\d{1,2}):(\d{2})/);
+  if (!m) return String(raw).trim();
+  let h = parseInt(m[1], 10);
+  const min = m[2];
+  if (isNaN(h)) return '';
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12;
+  if (h === 0) h = 12;
+  return `${h}:${min} ${ampm}`;
 }
 
 interface SponsorData {
@@ -140,15 +173,26 @@ function sponsorBlockInner(sponsor: SponsorData, label: string): string {
   const supportCta = sponsor.url
     ? `<a href="${sponsor.url}" target="_blank" style="font-size:11px;font-weight:700;color:#1a3a5c;text-decoration:none;white-space:nowrap;">Please support ${sponsor.name} →</a>`
     : '';
+  // Logo sits to the LEFT in its own fixed-width cell; name + tagline + quote +
+  // CTA stack to the right. A logo always renders — sponsors without an uploaded
+  // logo get an industry placeholder set on logo_url, so there's never a broken
+  // image or empty slot.
+  const logoCell = sponsor.logo_url
+    ? `<td width="64" style="vertical-align:top;padding-right:14px;">
+         ${sponsor.url ? `<a href="${sponsor.url}" target="_blank" style="text-decoration:none;">` : ''}
+         <img src="${sponsor.logo_url}" width="56" height="56" alt="${sponsor.name}" style="display:block;width:56px;height:56px;object-fit:cover;border-radius:6px;border:0;" />
+         ${sponsor.url ? `</a>` : ''}
+       </td>`
+    : '';
   return `
-        <p style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#8a8a8a;margin:0 0 7px 0;">${label}</p>
+        <p style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#8a8a8a;margin:0 0 9px 0;">${label}</p>
         <table cellpadding="0" cellspacing="0" width="100%">
           <tr>
-            ${sponsor.logo_url ? `<td width="60" style="vertical-align:top;padding-right:12px;"><img src="${sponsor.logo_url}" width="52" height="52" alt="${sponsor.name} logo" style="display:block;object-fit:contain;border-radius:4px;" /></td>` : ''}
+            ${logoCell}
             <td style="vertical-align:top;">
               ${sponsor.url
-                ? `<a href="${sponsor.url}" target="_blank" style="font-size:14px;font-weight:700;color:#1a1a1a;text-decoration:none;">${sponsor.name}</a>`
-                : `<span style="font-size:14px;font-weight:700;color:#1a1a1a;">${sponsor.name}</span>`}
+                ? `<a href="${sponsor.url}" target="_blank" style="font-size:15px;font-weight:700;color:#1a1a1a;text-decoration:none;">${sponsor.name}</a>`
+                : `<span style="font-size:15px;font-weight:700;color:#1a1a1a;">${sponsor.name}</span>`}
               ${sponsor.tagline ? `<br><span style="font-size:11px;color:#666;">${sponsor.tagline}</span>` : ''}
               ${sponsor.quote ? `<br><span style="font-size:11px;color:#555;font-style:italic;line-height:1.5;display:inline-block;margin-top:5px;">“${sponsor.quote}”</span>` : ''}
               ${supportCta ? `<br><span style="display:inline-block;margin-top:7px;">${supportCta}</span>` : ''}
@@ -251,27 +295,30 @@ function buildNewsletterHtml(
   const eventsHeading = subCalendar ? `${subCalendar} Events This Week` : `This Week's Events`;
   const topSponsor = sponsors[0] ?? null;
 
-  const eventRowList = events.map(e => {
-        const dayLabel = shortDayLabel(e.start_date);
-        const venue = e.org_name || e.address || '';
-        const time = e.start_time || '';
-        const meta = [venue, time].filter(Boolean).join(' · ');
+  const eventRowList = events.map((e, idx) => {
+        // Prominent, equally-weighted day · date · time anchor line.
+        const dateTime = [dayDateLabel(e.start_date), formatTime12(e.start_time)]
+          .filter(Boolean)
+          .join(' · ');
+        const org = e.org_name || e.address || '';
         const link = e.website ?? null;
+        const desc = oneLineDesc(e.description);
+        // Alternating row shading so events don't run together visually.
+        const rowBg = idx % 2 === 1 ? '#f7f6f2' : '#ffffff';
         return `
         <tr>
-          <td style="padding:10px 0;border-bottom:1px solid #f0f0f0;">
-            <table width="100%" cellpadding="0" cellspacing="0">
+          <td style="padding:0;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:${rowBg};border-bottom:1px solid #ececec;">
               <tr>
-                <td width="60" style="vertical-align:top;padding-top:1px;">
-                  <span style="font-size:11px;font-weight:700;color:#1a3a5c;letter-spacing:0.04em;text-transform:uppercase;">${dayLabel}</span>
-                </td>
-                <td style="vertical-align:top;">
+                <td style="padding:12px 14px;">
+                  <p style="margin:0 0 3px;font-size:12px;font-weight:700;color:#1a3a5c;letter-spacing:0.05em;text-transform:uppercase;">${dateTime}</p>
                   ${link
-                    ? `<a href="${link}" style="font-size:13px;font-weight:600;color:#1a1a1a;text-decoration:none;">${e.name}</a>`
-                    : `<span style="font-size:13px;font-weight:600;color:#1a1a1a;">${e.name}</span>`
+                    ? `<a href="${link}" style="font-size:14px;font-weight:700;color:#1a1a1a;text-decoration:none;line-height:1.35;">${e.name}</a>`
+                    : `<span style="font-size:14px;font-weight:700;color:#1a1a1a;line-height:1.35;">${e.name}</span>`
                   }
-                  ${meta ? `<br><span style="font-size:11px;color:#888;">${meta}</span>` : ''}
-                  ${e.paid && e.paid !== 'Free' ? `<br><span style="font-size:11px;color:#b45309;">${e.paid}</span>` : ''}
+                  ${org ? `<br><span style="font-size:12px;color:#777;">${org}</span>` : ''}
+                  ${desc ? `<br><span style="font-size:12px;color:#999;line-height:1.45;">${desc}</span>` : ''}
+                  ${link ? `<br><a href="${link}" style="font-size:11px;font-weight:700;color:#1a3a5c;text-decoration:none;">View event →</a>` : ''}
                 </td>
               </tr>
             </table>
@@ -455,7 +502,7 @@ export async function POST(req: NextRequest) {
     // Uses events_approved (same view as the admin preview) to stay in sync.
     let eventsQuery = supabase
       .from('events_approved')
-      .select('id, name, start_date, start_time, org_name, address, website, paid, event_category')
+      .select('id, name, start_date, start_time, org_name, address, website, paid, event_category, description')
       .eq('city_calendar', city)
       .gte('start_date', monday)
       .lte('start_date', sunday)
