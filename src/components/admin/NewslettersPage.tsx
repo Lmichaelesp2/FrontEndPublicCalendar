@@ -1203,6 +1203,9 @@ export function NewslettersPage() {
   const [newsletters, setNewsletters] = useState<Newsletter[]>([]);
   const [loading, setLoading] = useState(true);
   const [weekLabel, setWeekLabel] = useState('');
+  // Sub-calendar (per-category) newsletters are hidden by default — only the 4
+  // city newsletters show, since those are the weekly sends. Toggle to reveal.
+  const [showSubCals, setShowSubCals] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -1301,7 +1304,7 @@ export function NewslettersPage() {
             </p>
             {!loading && newsletters.length > 0 && (
               <div className="nl-send-all-row">
-                <SendAllCitiesButton newsletters={newsletters} />
+                <SendAllCitiesButton newsletters={showSubCals ? newsletters : newsletters.filter(nl => nl.subCal === null)} />
               </div>
             )}
           </div>
@@ -1312,22 +1315,38 @@ export function NewslettersPage() {
           {loading ? (
             <div className="nl-loading">Loading events...</div>
           ) : (
-            <div className="nl-list">
-              {CITIES.map(city => {
-                const cityNls = newsletters.filter(nl => nl.city === city);
-                return (
-                  <div key={city} className="nl-city-group">
-                    <div className="nl-city-group-header">
-                      <span className="nl-city-group-label">{city}</span>
-                      <SendCityButton city={city} newsletters={newsletters} />
+            <>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 0 12px' }}>
+                <button
+                  onClick={() => setShowSubCals(v => !v)}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    background: 'transparent', border: '1px solid #d0d7de', borderRadius: 8,
+                    padding: '6px 12px', fontSize: 12, fontWeight: 600, color: '#475569', cursor: 'pointer',
+                  }}>
+                  {showSubCals ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                  {showSubCals ? 'Hide sub-calendars' : 'Show sub-calendars'}
+                </button>
+              </div>
+              <div className="nl-list">
+                {CITIES.map(city => {
+                  const cityNls = newsletters.filter(nl =>
+                    nl.city === city && (showSubCals || nl.subCal === null)
+                  );
+                  return (
+                    <div key={city} className="nl-city-group">
+                      <div className="nl-city-group-header">
+                        <span className="nl-city-group-label">{city}</span>
+                        <SendCityButton city={city} newsletters={showSubCals ? newsletters : newsletters.filter(nl => nl.subCal === null)} />
+                      </div>
+                      {cityNls.map(nl => (
+                        <NewsletterCard key={nl.key} newsletter={nl} weekLabel={weekLabel} />
+                      ))}
                     </div>
-                    {cityNls.map(nl => (
-                      <NewsletterCard key={nl.key} newsletter={nl} weekLabel={weekLabel} />
-                    ))}
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            </>
           )}
         </div>
       </div>
