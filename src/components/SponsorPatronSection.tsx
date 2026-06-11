@@ -110,12 +110,6 @@ function SponsorStripVacant({ city, category }: { city: string; category?: strin
 
 // Chamber, Technology, Real Estate, Small Business — no Networking
 const CATEGORY_SLUGS = ['chamber', 'technology', 'real-estate', 'small-business'];
-const CATEGORY_LABELS: Record<string, string> = {
-  'chamber': 'Chamber',
-  'technology': 'Technology',
-  'real-estate': 'Real Estate',
-  'small-business': 'Small Business',
-};
 
 function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo | null)[] }) {
   const filled = sponsors.filter(Boolean);
@@ -145,7 +139,6 @@ function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo 
         <div className="sp-grid-cards" ref={scrollRef} onScroll={handleScroll}>
           {sponsors.map((sponsor, i) => {
             const slug = CATEGORY_SLUGS[i];
-            const label = CATEGORY_LABELS[slug] ?? slug;
             if (!sponsor) {
               return (
                 <Link key={slug} href="/sponsor" className="sp-grid-card sp-grid-card--vacant">
@@ -154,9 +147,8 @@ function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo 
                     <div className="sp-grid-logo sp-grid-logo--vacant">
                       <span className="sp-grid-vacant-text">Your logo here</span>
                     </div>
-                    <span className="sp-grid-label">{label}</span>
                     <span className="sp-grid-name sp-grid-name--vacant">Open sponsorship</span>
-                    <span className="sp-grid-tagline">Be the founding patron of the {city} {label} Calendar.</span>
+                    <span className="sp-grid-tagline">Sponsor the {city} Business Calendar.</span>
                     <span className="sp-grid-cta">Become a sponsor →</span>
                   </div>
                 </Link>
@@ -175,7 +167,6 @@ function SponsorGrid({ city, sponsors }: { city: string; sponsors: (SponsorInfo 
                       <span className="sp-grid-initials">{initials}</span>
                     )}
                   </div>
-                  <span className="sp-grid-label">{label}</span>
                   <span className="sp-grid-name">{sponsor.name}</span>
                   <span className="sp-grid-tagline">{sponsor.tagline}</span>
                   {sponsor.url && (
