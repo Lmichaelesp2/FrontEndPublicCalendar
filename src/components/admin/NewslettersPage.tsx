@@ -638,8 +638,38 @@ function NewsletterCard({ newsletter, weekLabel }: { newsletter: Newsletter; wee
   const [tab, setTab] = useState<'html' | 'text'>('html');
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const html = buildHtmlEmail(newsletter.label, weekLabel, newsletter.events, newsletter.subCal !== null);
+  // Local builder is a fallback only. The real preview is fetched from the
+  // send-newsletter API in preview mode so what you see === what actually sends
+  // (real sponsors, weekly rotation, NPR layout).
+  const fallbackHtml = buildHtmlEmail(newsletter.label, weekLabel, newsletter.events, newsletter.subCal !== null);
   const plain = buildPlainText(newsletter.label, weekLabel, newsletter.events);
+
+  const [html, setHtml] = useState(fallbackHtml);
+  const [previewLoading, setPreviewLoading] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    setPreviewLoading(true);
+    (async () => {
+      try {
+        const res = await authFetch('/api/send-newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ city: newsletter.city, subCalendar: newsletter.subCal, preview: true }),
+        });
+        if (res.ok) {
+          const real = await res.text();
+          if (!cancelled && real) setHtml(real);
+        }
+      } catch {
+        /* keep fallback */
+      } finally {
+        if (!cancelled) setPreviewLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [open, newsletter.city, newsletter.subCal]);
 
   return (
     <div className="nl-card">

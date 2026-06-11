@@ -426,7 +426,7 @@ export async function POST(req: NextRequest) {
   }
   try {
     const body = await req.json();
-    const { city, dryRun, testEmails } = body;
+    const { city, dryRun, testEmails, preview } = body;
     // Explicitly handle subCalendar — treat missing/undefined/empty string all as null
     const subCalendar: string | null = body.subCalendar && typeof body.subCalendar === 'string'
       ? body.subCalendar
@@ -519,6 +519,18 @@ export async function POST(req: NextRequest) {
       return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     };
     const weekLabel = `Week of ${fmtDate(monday)} – ${fmtDate(sunday)}`;
+
+    // ── PREVIEW — return the exact email HTML without sending anything ─────────
+    // The admin panel renders this in an iframe so the on-screen preview always
+    // matches the real send (same sponsors, rotation, layout). No emails sent,
+    // no subscriber/ramp logic touched.
+    if (preview) {
+      const html = buildNewsletterHtml(city, weekLabel, events, null, 'preview', subCalendar, sponsors);
+      return new NextResponse(html, {
+        status: 200,
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+      });
+    }
 
     // ── TEST SEND — bypass subscriber list and ramp logic entirely ────────────
     if (testEmails && Array.isArray(testEmails) && testEmails.length > 0) {
