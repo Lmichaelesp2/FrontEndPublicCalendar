@@ -43,7 +43,7 @@ export function AgencyPage() {
             {[
               { icon: 'ti-users',          title: 'People',        body: 'Get clear on exactly who you want in your network — before you walk into any room. We help you define your ideal connection by role, organization, and the events they already attend.' },
               { icon: 'ti-microphone',     title: 'Content',       body: 'Turn every event you discover into content that keeps your name in front of the right people. Audio, video, text, graphics — the content you produce is the fuel that powers everything that follows.' },
-              { icon: 'ti-calendar-event', title: 'Events',        body: 'Show up in the right rooms — as an attendee, a speaker, a supporter, or a host. We identify the events your ideal connections already attend and help you show up with intention.' },
+              { icon: 'ti-calendar-event', title: 'Participation',  body: 'Participate narrow, scan wide — go deep in three or four organizations while always watching the wider universe of events for the rooms that matter. We help you advance from showing up to stepping up to building your own rooms.' },
               { icon: 'ti-link',           title: 'Relationships', body: 'Use event content to stay in touch with everyone you meet — consistently, not occasionally. We build the systems that keep your network warm across email, social, and your own events.' },
             ].map(({ icon, title, body }) => (
               <div key={title} className="agency-card" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -68,7 +68,7 @@ export function AgencyPage() {
             <ul className="agency-pillars">
               <li><strong>People</strong> — who to connect with, and how</li>
               <li><strong>Content</strong> — how to show up as a resource, not just an attendee</li>
-              <li><strong>Events</strong> — which rooms are worth your time</li>
+              <li><strong>Participation</strong> — commit narrow, scan wide, then build your own rooms</li>
               <li><strong>Relationships</strong> — how to turn conversations into lasting business connections</li>
             </ul>
             <Link href="/local-business-networking-method" className="agency-btn-primary" style={{ display: 'inline-block', marginTop: '1.5rem' }}>
@@ -79,7 +79,7 @@ export function AgencyPage() {
             <div className="agency-method-card">
               <div className="agency-method-card-label">The Local Business Networking Method</div>
               <div className="agency-method-pillars">
-                {['People', 'Content', 'Events', 'Relationships'].map(p => (
+                {['People', 'Content', 'Participation', 'Relationships'].map(p => (
                   <div key={p} className="agency-method-pillar">{p}</div>
                 ))}
               </div>
