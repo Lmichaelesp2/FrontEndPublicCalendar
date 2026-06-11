@@ -328,6 +328,9 @@ function buildNewsletterHtml(
           &nbsp;·&nbsp;
           <a href="${unsubUrl}" style="color:#1a3a5c;text-decoration:none;">Unsubscribe</a>
         </p>
+        <p style="font-size:10px;color:#bbb;margin:6px 0 0;">
+          Local Business Calendars · 2400 McCullough #12041, San Antonio, TX 78212
+        </p>
       </td>
     </tr>
 
