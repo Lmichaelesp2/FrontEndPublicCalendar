@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
-import { User, Mail, Calendar, MapPin, LogOut, X, ArrowRight, Sparkles } from 'lucide-react';
+import { User, Mail, Calendar, MapPin, LogOut, X, ArrowRight, Sparkles, Plus } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const CITY_TO_SLUG: Record<string, string> = {
@@ -165,10 +165,12 @@ function AccountLoginGate() {
 }
 
 export function AccountPage() {
-  const { user, profile, newsletterSubs, signOut, removeNewsletterSub, loading } = useAuth();
+  const { user, profile, newsletterSubs, signOut, removeNewsletterSub, addNewsletterSub, loading } = useAuth();
   const router = useRouter();
   const [removing, setRemoving]     = useState<number | null>(null);
   const [timedOut, setTimedOut]     = useState(false);
+  const [confirmRemove, setConfirmRemove] = useState<{ subId: number; label: string } | null>(null);
+  const [addingCity, setAddingCity] = useState<string | null>(null);
 
   // Safety timeout — if still loading after 4s, stop waiting and show login gate
   useEffect(() => {
@@ -222,23 +224,36 @@ export function AccountPage() {
     ? new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : null;
 
-  // Group newsletter subscriptions by city (source of truth)
-  const byCityMap: Record<string, { label: string; subId: number; source: string | null }[]> = {};
-  newsletterSubs.forEach(s => {
+  // Only the city-wide newsletter subscriptions are shown/managed here
+  // (sub-calendar lists are paused). One chip per city the member is on.
+  const ALL_CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'];
+  const cityWideSubs = newsletterSubs.filter(s => !s.sub_calendar && (s.status ?? 'active') === 'active');
+
+  const byCityMap: Record<string, { label: string; subId: number; source: string | null }> = {};
+  cityWideSubs.forEach(s => {
     const city = s.city || 'Unknown';
-    if (!byCityMap[city]) byCityMap[city] = [];
-    byCityMap[city].push({
-      label:  s.sub_calendar ? `${city} ${s.sub_calendar} Newsletter` : `${city} Newsletter`,
+    if (byCityMap[city]) return; // one chip per city
+    byCityMap[city] = {
+      label:  `${city} Newsletter`,
       subId:  s.id,
       source: s.source ?? null,
-    });
+    };
   });
+  const subscribedCities = Object.keys(byCityMap);
   const byCity = Object.entries(byCityMap);
+  const availableCities = ALL_CITIES.filter(c => !subscribedCities.includes(c));
 
   async function handleRemove(subId: number) {
     setRemoving(subId);
     await removeNewsletterSub(subId);
     setRemoving(null);
+    setConfirmRemove(null);
+  }
+
+  async function handleAddCity(city: string) {
+    setAddingCity(city);
+    await addNewsletterSub(city);
+    setAddingCity(null);
   }
 
   async function handleSignOut() {
@@ -293,67 +308,73 @@ export function AccountPage() {
 
             {byCity.length === 0 ? (
               <div className="acct-empty">
-                You haven't subscribed to any newsletters yet.
+                You're not subscribed to any city newsletters yet.
               </div>
             ) : (
               <div className="acct-subs">
-                {byCity.map(([city, subs]) => (
-                  <div key={city} className="acct-sub-row">
-                    <div className="acct-sub-cats">
-                      {subs.map(({ label, subId, source }) => (
-                        <div key={subId} className="acct-sub-tag-wrap" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <span className="acct-sub-tag">{label}</span>
-                            <button
-                              className="acct-sub-remove"
-                              onClick={() => handleRemove(subId)}
-                              disabled={removing === subId}
-                              title={`Unsubscribe from ${label}`}
-                            >
-                              <X size={11} />
-                            </button>
-                          </div>
-                          {source === 'lbo_signup' && (
-                            <span style={{ fontSize: '0.75rem', color: '#888', paddingLeft: '2px' }}>
-                              Enrolled via your{' '}
-                              <a href="https://www.localbusinessorganizations.com" target="_blank" rel="noopener noreferrer" style={{ color: '#1a3a5c', textDecoration: 'none', fontWeight: '600' }}>
-                                Local Business Organizations
-                              </a>{' '}account
-                            </span>
-                          )}
+                <div className="acct-sub-row">
+                  <div className="acct-sub-cats">
+                    {byCity.map(([city, { label, subId, source }]) => (
+                      <div key={subId} className="acct-sub-tag-wrap" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span className="acct-sub-tag">{label}</span>
+                          <button
+                            className="acct-sub-remove"
+                            onClick={() => setConfirmRemove({ subId, label })}
+                            disabled={removing === subId}
+                            title={`Unsubscribe from ${label}`}
+                          >
+                            <X size={11} />
+                          </button>
                         </div>
-                      ))}
-                    </div>
+                        {source === 'lbo_signup' && (
+                          <span style={{ fontSize: '0.75rem', color: '#888', paddingLeft: '2px' }}>
+                            Enrolled via your{' '}
+                            <a href="https://www.localbusinessorganizations.com" target="_blank" rel="noopener noreferrer" style={{ color: '#1a3a5c', textDecoration: 'none', fontWeight: '600' }}>
+                              Local Business Organizations
+                            </a>{' '}account
+                          </span>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
             )}
 
-            {/* Add newsletter callout */}
-            <div style={{
-              marginTop: '1.5rem',
-              padding: '1rem 1.25rem',
-              background: '#f0f4ff',
-              borderLeft: '4px solid #1a3a5c',
-              borderRadius: '4px',
-            }}>
-              <p style={{ margin: 0, fontWeight: '600', fontSize: '0.95rem', color: '#1a3a5c' }}>
-                Want to add a newsletter?
-              </p>
-              <p style={{ margin: '0.3rem 0 0.75rem', fontSize: '0.88rem', color: '#444', lineHeight: '1.5' }}>
-                Visit any city calendar page and click <strong>Subscribe Free</strong> to add that newsletter to your account.
-              </p>
-              <a href="/texas" style={{
-                display: 'inline-block',
-                fontSize: '0.88rem',
-                fontWeight: '600',
-                color: '#1a3a5c',
-                textDecoration: 'none',
-                borderBottom: '1px solid #1a3a5c',
+            {/* Add another city — inline, no extra screen */}
+            {availableCities.length > 0 && (
+              <div style={{
+                marginTop: '1.5rem',
+                padding: '1rem 1.25rem',
+                background: '#f0f4ff',
+                borderLeft: '4px solid #1a3a5c',
+                borderRadius: '4px',
               }}>
-                Browse city calendars →
-              </a>
-            </div>
+                <p style={{ margin: '0 0 0.75rem', fontWeight: '600', fontSize: '0.95rem', color: '#1a3a5c' }}>
+                  Add another city
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {availableCities.map(city => (
+                    <button
+                      key={city}
+                      onClick={() => handleAddCity(city)}
+                      disabled={addingCity === city}
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '6px',
+                        background: '#fff', border: '1.5px solid #1a3a5c', borderRadius: '999px',
+                        padding: '7px 14px', fontSize: '0.88rem', fontWeight: 600,
+                        color: '#1a3a5c', cursor: addingCity === city ? 'default' : 'pointer',
+                        opacity: addingCity === city ? 0.6 : 1,
+                      }}
+                    >
+                      <Plus size={14} />
+                      {addingCity === city ? 'Adding…' : `${city} Newsletter`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Sign out */}
@@ -364,6 +385,57 @@ export function AccountPage() {
 
         </div>
       </main>
+
+      {/* Unsubscribe confirmation */}
+      {confirmRemove && (
+        <div
+          onClick={() => removing === null && setConfirmRemove(null)}
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.45)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '1rem', zIndex: 1000,
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: '#fff', borderRadius: '12px', padding: '1.5rem',
+              maxWidth: '380px', width: '100%', boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
+            }}
+          >
+            <h3 style={{ margin: '0 0 0.5rem', fontSize: '1.05rem', fontWeight: 700, color: '#1a1a1a' }}>
+              Unsubscribe?
+            </h3>
+            <p style={{ margin: '0 0 1.25rem', fontSize: '0.9rem', color: '#555', lineHeight: 1.5 }}>
+              Are you sure you want to unsubscribe from <strong>{confirmRemove.label}</strong>? You'll stop receiving its weekly email.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem' }}>
+              <button
+                onClick={() => setConfirmRemove(null)}
+                disabled={removing !== null}
+                style={{
+                  background: '#fff', border: '1.5px solid #d0d7de', borderRadius: '8px',
+                  padding: '8px 16px', fontSize: '0.88rem', fontWeight: 600, color: '#475569', cursor: 'pointer',
+                }}
+              >
+                Keep it
+              </button>
+              <button
+                onClick={() => handleRemove(confirmRemove.subId)}
+                disabled={removing !== null}
+                style={{
+                  background: '#b91c1c', border: 'none', borderRadius: '8px',
+                  padding: '8px 16px', fontSize: '0.88rem', fontWeight: 700, color: '#fff',
+                  cursor: removing !== null ? 'default' : 'pointer', opacity: removing !== null ? 0.7 : 1,
+                }}
+              >
+                {removing !== null ? 'Unsubscribing…' : 'Yes, unsubscribe'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </>
   );

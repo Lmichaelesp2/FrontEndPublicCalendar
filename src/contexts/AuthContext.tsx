@@ -65,6 +65,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data?: any }>;
   sendMagicLink: (email: string) => Promise<{ error: Error | null }>;
   removeNewsletterSub: (subId: number) => Promise<void>;
+  addNewsletterSub: (city: string) => Promise<void>;
   signOut: () => Promise<void>;
   updatePreferences: (prefs: Omit<UserPreference, 'id' | 'user_id'>[]) => Promise<void>;
   saveNetworkProfile: (profile: NetworkProfile) => Promise<void>;
@@ -230,6 +231,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setNewsletterSubs(prev => prev.filter(s => s.id !== subId));
   }
 
+  // ── addNewsletterSub — subscribe the signed-in user to a city newsletter
+  // (city-wide, sub_calendar = null) directly from the account page.
+  async function addNewsletterSub(city: string) {
+    if (!user) return;
+    const email = (profile?.email ?? user.email ?? '').trim().toLowerCase();
+    if (!email) return;
+    const { data } = await supabase
+      .from('newsletter_subscriptions')
+      .upsert({
+        user_id:      user.id,
+        email,
+        first_name:   profile?.first_name ?? null,
+        city,
+        sub_calendar: null,
+        status:       'active',
+        source:       'account_page',
+      }, { onConflict: 'email,city,sub_calendar' })
+      .select()
+      .single();
+    if (data) {
+      setNewsletterSubs(prev => {
+        const without = prev.filter(s => s.id !== (data as NewsletterSubscription).id);
+        return [...without, data as NewsletterSubscription];
+      });
+    }
+  }
+
   // ── sendMagicLink
   async function sendMagicLink(email: string) {
     try {
@@ -297,7 +325,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={{
       user, session, profile, preferences, newsletterSubs, userFilters, showQuestionnaire, showWelcomeModal, loading,
-      signUp, signIn, sendMagicLink, removeNewsletterSub, signOut, updatePreferences, saveNetworkProfile, refreshProfile, completeWelcome,
+      signUp, signIn, sendMagicLink, removeNewsletterSub, addNewsletterSub, signOut, updatePreferences, saveNetworkProfile, refreshProfile, completeWelcome,
     }}>
       {children}
     </AuthContext.Provider>
