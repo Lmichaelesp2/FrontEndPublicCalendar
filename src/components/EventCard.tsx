@@ -328,7 +328,19 @@ export function EventCard({ event, index, isLoggedIn = false, isPremium = false,
           {/* Organizer — visible to everyone */}
           {event.org_name && (
             <div style={{ color: '#888', fontSize: '12px', marginTop: '4px' }}>
-              Organized by: <span style={{ color: '#60a5fa' }}>{event.org_name}</span>
+              Organized by:{' '}
+              {event.org_home_page ? (
+                <a
+                  href={event.org_home_page}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#60a5fa', textDecoration: 'underline' }}
+                >
+                  {event.org_name}
+                </a>
+              ) : (
+                <span style={{ color: '#60a5fa' }}>{event.org_name}</span>
+              )}
             </div>
           )}
         </div>

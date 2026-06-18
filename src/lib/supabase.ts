@@ -33,6 +33,7 @@ export type Event = {
   address: string | null;
   zipcode: string | null;
   org_name: string | null;
+  org_home_page: string | null;
   participation: string;
   part_of_town: string | null;
   city_calendar: string | null;
