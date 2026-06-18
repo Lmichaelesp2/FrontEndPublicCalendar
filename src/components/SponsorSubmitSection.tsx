@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { supabase } from '../lib/supabase';
+import { SHOW_SPONSOR_SECTIONS } from '../lib/featureFlags';
 
 interface Props {
   citySlug: string;
@@ -21,14 +22,18 @@ interface SponsorInfo {
 /**
  * SponsorSubmitSection
  *
- * A sponsor-voiced "Submit your event" reminder shown near the bottom of each
- * sub-calendar and city page. When a sponsor is active it uses their brand;
- * when vacant it defaults to a generic Event Networking Studio voice.
+ * A "Submit your event" CTA shown near the bottom of each city/sub-cal page.
+ * The sponsor logo/messaging is gated by SHOW_SPONSOR_SECTIONS.
+ * The Submit CTA is always visible.
  */
 export function SponsorSubmitSection({ citySlug, categorySlug, city, category }: Props) {
   const [sponsor, setSponsor] = useState<SponsorInfo | null | undefined>(undefined);
 
   useEffect(() => {
+    if (!SHOW_SPONSOR_SECTIONS) {
+      setSponsor(null);
+      return;
+    }
     async function fetchSponsor() {
       const query = supabase
         .from('sponsors')
@@ -44,13 +49,15 @@ export function SponsorSubmitSection({ citySlug, categorySlug, city, category }:
     fetchSponsor();
   }, [citySlug, categorySlug]);
 
-  // Still loading — render nothing to avoid layout shift
-  if (sponsor === undefined) return null;
+  // Still loading sponsors — render nothing to avoid layout shift
+  if (SHOW_SPONSOR_SECTIONS && sponsor === undefined) return null;
 
+  const calendarLabel = category ? `${city} ${category} Calendar` : `${city} Business Calendar`;
+
+  // --- Sponsor parts (only when flag is on) ---
   const sponsorName = sponsor?.name ?? 'Event Networking Studio';
   const sponsorLogoUrl = sponsor?.logo_url ?? null;
   const sponsorUrl = sponsor?.url ?? null;
-  const calendarLabel = category ? `${city} ${category} Calendar` : `${city} Business Calendar`;
 
   const logoEl = sponsorLogoUrl ? (
     <Image
@@ -69,25 +76,29 @@ export function SponsorSubmitSection({ citySlug, categorySlug, city, category }:
   return (
     <div className="sss-outer">
       <div className="sss-inner">
-        <div className="sss-logo-col">
-          {sponsorUrl ? (
-            <a href={sponsorUrl} target="_blank" rel="noopener noreferrer" className="sss-logo-link">
-              {logoEl}
-            </a>
-          ) : (
-            <div className="sss-logo-box">{logoEl}</div>
-          )}
-          <span className="sss-sponsor-label">
-            Sponsor of the<br />{calendarLabel}
-          </span>
-        </div>
+        {SHOW_SPONSOR_SECTIONS && (
+          <div className="sss-logo-col">
+            {sponsorUrl ? (
+              <a href={sponsorUrl} target="_blank" rel="noopener noreferrer" className="sss-logo-link">
+                {logoEl}
+              </a>
+            ) : (
+              <div className="sss-logo-box">{logoEl}</div>
+            )}
+            <span className="sss-sponsor-label">
+              Sponsor of the<br />{calendarLabel}
+            </span>
+          </div>
+        )}
         <div className="sss-body">
-          <p className="sss-eyebrow">A message from {sponsorName}</p>
+          {SHOW_SPONSOR_SECTIONS && (
+            <p className="sss-eyebrow">A message from {sponsorName}</p>
+          )}
           <h3 className="sss-heading">Is your event on the calendar?</h3>
           <p className="sss-copy">
             The {calendarLabel} is only as good as the events in it.
-            If you're hosting a {category ? category.toLowerCase() : 'business'} event in {city},
-            submit it — it's free and reaches hundreds of local professionals every week.
+            If you&apos;re hosting a {category ? category.toLowerCase() : 'business'} event in {city},
+            submit it — it&apos;s free and reaches hundreds of local professionals every week.
           </p>
           <Link href="/submit" className="sss-btn">
             Submit Your Event →
