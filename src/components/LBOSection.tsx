@@ -1,21 +1,21 @@
 'use client';
 
 import Link from 'next/link';
+import { Building2, Users, Handshake } from 'lucide-react';
 
 interface Props {
-  city?: string;       // e.g. "San Antonio" — omit for the Texas-wide page
-  citySlug?: string;   // e.g. "san-antonio" — omit for the Texas-wide page
+  city?: string;
+  citySlug?: string;
 }
 
 const LBO_BASE = 'https://www.localbusinessorganizations.com';
 
-/**
- * LBOSection
- *
- * Highlights the Local Business Organizations directory on each calendar page.
- * Links to the city-specific LBO page (e.g. /dallas) or the Texas page (/texas)
- * depending on which props are passed.
- */
+const ORG_TYPES = [
+  { icon: Building2, label: 'Chambers &\nAssociations' },
+  { icon: Users,     label: 'Networking\nGroups' },
+  { icon: Handshake, label: 'Business\nAlliances' },
+];
+
 export function LBOSection({ city, citySlug }: Props) {
   const isTexas = !city || !citySlug;
   const lboUrl = isTexas ? `${LBO_BASE}/texas` : `${LBO_BASE}/${citySlug}`;
@@ -46,12 +46,16 @@ export function LBOSection({ city, citySlug }: Props) {
             Browse {locationLabel} Organizations →
           </Link>
         </div>
+
         <div className="lbo-section-graphic" aria-hidden="true">
-          <div className="lbo-section-badge">
-            <span className="lbo-section-badge-label">Local Business</span>
-            <span className="lbo-section-badge-name">Organizations</span>
-            <span className="lbo-section-badge-location">{locationLabel}</span>
-          </div>
+          {ORG_TYPES.map(({ icon: Icon, label }) => (
+            <div className="lbo-org-card" key={label}>
+              <div className="lbo-org-card-icon">
+                <Icon size={22} strokeWidth={1.5} />
+              </div>
+              <span className="lbo-org-card-label">{label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
