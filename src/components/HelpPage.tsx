@@ -17,24 +17,19 @@ Instead of checking multiple websites, Facebook groups, and Eventbrite pages, ev
     title: 'Browsing by City',
     body: `We cover four Texas cities — each with its own calendar:
 
-• San Antonio — sanantonio.localbusinesscalendars.com
-• Austin — austin.localbusinesscalendars.com
-• Dallas — dallas.localbusinesscalendars.com
-• Houston — houston.localbusinesscalendars.com
+• San Antonio — localbusinesscalendars.com/texas/san-antonio
+• Austin — localbusinesscalendars.com/texas/austin
+• Dallas — localbusinesscalendars.com/texas/dallas
+• Houston — localbusinesscalendars.com/texas/houston
 
-Click any city in the Cities menu at the top of the page to browse that city's events for the current week.`,
+Click any city in the navigation menu at the top of the page to browse that city's events for the current week.`,
   },
   {
     icon: 'ti-layout-grid',
     title: 'Browsing by Category',
-    body: `Each city has sub-calendars organized by industry or event type:
+    body: `Events on each city calendar are organized by industry type — Networking, Chamber Events, Real Estate, Technology, and Small Business. Each event card shows its category so you can quickly spot what's relevant to you.
 
-• Chamber Events — chamber luncheons, ribbon cuttings, Business After Hours, and association events
-• Technology Events — tech meetups, startup events, developer gatherings, and innovation talks
-• Real Estate Events — realtor mixers, investor meetups, property management events, and industry conferences
-• Small Business Events — entrepreneur workshops, SCORE sessions, small business networking, and vendor expos
-
-Browse the city calendar to see all event types together, or go directly to a sub-calendar to focus on one category.`,
+Browse the full city calendar to see everything at once, or use the category filters to focus on one type.`,
   },
   {
     icon: 'ti-mail',
@@ -48,15 +43,14 @@ To subscribe, click the "Sign Up — Free →" button in the top right corner, o
   {
     icon: 'ti-list',
     title: 'Reading an Event Listing',
-    body: `Each event listing shows:
+    body: `Each event card shows the event name, date and time, organizing group, location, whether it's free or paid, and a description.
 
-• Event name and organizing group
-• Date and time
-• Location or virtual link (when available)
-• Whether it's free or paid
-• A link to the event page for full details and registration
+• Event Page button — opens the original event page for full details and registration
+• Organizing group link — if the hosting organization has a website, their name is clickable and takes you directly to it
+• Add button — saves the event to your personal calendar (Google, Apple, Outlook)
+• Share button — copies a link to the event so you can send it to a colleague
 
-We always link directly to the original event page so you can register and get the most up-to-date information from the organizer.`,
+We always link to the organizer's original page so you get the most current information directly from the source.`,
   },
   {
     icon: 'ti-circle-plus',
@@ -65,7 +59,7 @@ We always link directly to the original event page so you can register and get t
 
 We review all submissions and add qualifying business and professional events. Your event reaches thousands of Texas professionals who check the calendar each week.
 
-Click "+ Submit an Event" in the footer, or visit the Submit page directly.`,
+Click "Submit Your Event" in the footer, or visit the Submit page directly at localbusinesscalendars.com/submit.`,
   },
   {
     icon: 'ti-sparkles',
@@ -74,12 +68,20 @@ Click "+ Submit an Event" in the footer, or visit the Submit page directly.`,
 
 With Event Assistant you get:
 • 30 days of upcoming events — plan a full month ahead
-• Choose your city — San Antonio, Austin, Dallas, or Houston
 • Personalized event recommendations based on your goals and industry
 • Advanced filters — by city, cost, time of day, and category
-• Personalized event recommendations based on your goals
+• A personalized weekly email digest every Monday
 
 Click "Sign Up — Free →" to create a free account, then upgrade to Event Assistant from your account page.`,
+  },
+  {
+    icon: 'ti-building',
+    title: 'Local Business Organizations Directory',
+    body: `The events on this calendar come from chambers, associations, networking groups, and business alliances across Texas. If you want to learn more about a specific organization — who they are, what they do, and how to get involved — visit the Local Business Organizations directory.
+
+The directory lists hundreds of Texas business organizations by city. You can browse by San Antonio, Austin, Dallas, or Houston, and see each organization's description, website, and event history.
+
+Visit localbusinessorganizations.com to explore the directory. You'll also find a link to it in the "Discover the Organizations Behind These Events" section at the bottom of each calendar page.`,
   },
   {
     icon: 'ti-message-circle',

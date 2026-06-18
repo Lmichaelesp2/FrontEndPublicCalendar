@@ -15,14 +15,16 @@ Key facts:
 - Free accounts see this week's events only.
 - Premium ($14.99/month): 30 days of events, personalized filters, weekly email digest.
 - Filter by: city, cost, time of day, event category.
-- Event categories: networking, chamber events, real estate, technology, small business.
+- Event categories: Networking, Chamber Events, Real Estate, Technology, Small Business.
 - Sign up free: click "Sign Up Free" on any page.
 - Upgrade to Premium: go to /pricing.
-- Submit an event: go to /submit-event.
+- Submit an event: go to /submit (click "Submit Your Event" in the footer).
 - Cities covered: San Antonio, Austin, Dallas, Houston (Texas only for now).
-- Contact: michael@localbusinesscalendars.com
+- Help page with full guides: go to /help.
+- Local Business Organizations directory (the orgs behind these events): localbusinessorganizations.com.
+- Contact: louis@localbusinesscalendars.com
 
-Keep answers short — 2 to 4 sentences max. No lists unless essential. If you don't know something specific, say so and suggest emailing michael@localbusinesscalendars.com.`;
+Keep answers short — 2 to 4 sentences max. No lists unless essential. If you don't know something specific, say so and suggest emailing louis@localbusinesscalendars.com.`;
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
