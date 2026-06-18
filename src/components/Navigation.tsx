@@ -432,8 +432,10 @@ export function Navigation() {
           <div className="nav-links-inner">
 
             <nav className="nav-city-links" aria-label="Browse by city">
-              <Link href="/texas" className={`nav-link${pathname === '/texas' ? ' nav-link--active' : ''}`}>Texas</Link>
-              <CitiesDropdown pathname={pathname ?? '/'} />
+              <Link href="/texas/san-antonio" className={`nav-link${pathname?.startsWith('/texas/san-antonio') ? ' nav-link--active' : ''}`}>San Antonio</Link>
+              <Link href="/texas/austin" className={`nav-link${pathname?.startsWith('/texas/austin') ? ' nav-link--active' : ''}`}>Austin</Link>
+              <Link href="/texas/dallas" className={`nav-link${pathname?.startsWith('/texas/dallas') ? ' nav-link--active' : ''}`}>Dallas</Link>
+              <Link href="/texas/houston" className={`nav-link${pathname?.startsWith('/texas/houston') ? ' nav-link--active' : ''}`}>Houston</Link>
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
               <Link href="/help" className={`nav-link${pathname === '/help' ? ' nav-link--active' : ''}`}>Help</Link>
