@@ -89,7 +89,7 @@ export function SubscribeChoosePage() {
             <div className="scp-how-step">
               <div className="scp-how-num">2</div>
               <div>
-                <h3>Get your Monday newsletter</h3>
+                <h3>Browse the calendar</h3>
                 <p>Every Monday at 6 a.m. CT, your newsletter arrives with every upcoming business event in your city — delivered straight to your inbox so you never have to remember to check the calendar.</p>
               </div>
             </div>

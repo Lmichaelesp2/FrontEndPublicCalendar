@@ -200,7 +200,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
             </div>
             <div className="feature-card" style={{ position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', bottom: '-12px', right: '10px', fontSize: '4.5rem', fontWeight: 800, color: 'var(--color-primary)', opacity: 0.07, lineHeight: 1, pointerEvents: 'none', fontFamily: 'var(--font-sans)', letterSpacing: '-0.05em' }}>2</div>
-              <h3>Get your Monday newsletter</h3>
+              <h3>Browse the calendar</h3>
               <p>Every Monday morning your newsletter arrives with every upcoming networking event and business gathering in your city — delivered straight to your inbox so you never have to remember to check.</p>
             </div>
             <div className="feature-card" style={{ position: 'relative', overflow: 'hidden' }}>

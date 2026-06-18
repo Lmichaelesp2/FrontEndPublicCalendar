@@ -199,7 +199,7 @@ function MainLayoutInner() {
 
               <div className="feature-card">
                 <div className="feature-step">2</div>
-                <h3>Get your Monday newsletter</h3>
+                <h3>Browse the calendar</h3>
                 <p>Every Monday morning you'll receive a curated digest of that week's networking events, meetups, and business gatherings in your city.</p>
               </div>
 

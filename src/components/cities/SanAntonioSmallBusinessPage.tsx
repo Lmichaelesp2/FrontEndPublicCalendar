@@ -167,7 +167,7 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
             </div>
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
+              <h3>Browse the calendar</h3>
               <p>Every Monday, get a curated digest of that week's top San Antonio small business events.</p>
             </div>
             <div className="feature-card">

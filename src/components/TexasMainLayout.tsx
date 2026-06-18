@@ -120,7 +120,7 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
 
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
+              <h3>Browse the calendar</h3>
               <p>Give us your email and every Monday we send you every upcoming event in your city — so you never have to remember to check the calendar.</p>
             </div>
 

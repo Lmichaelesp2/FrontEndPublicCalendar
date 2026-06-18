@@ -156,7 +156,7 @@ function DallasRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
             </div>
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
+              <h3>Browse the calendar</h3>
               <p>Every Monday, get a curated digest of that week's top Dallas real estate events.</p>
             </div>
             <div className="feature-card">

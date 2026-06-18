@@ -222,12 +222,12 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
             <div className="feature-card">
               <div className="feature-step">1</div>
               <h3>Sign up free</h3>
-              <p>Enter your email and get instant access to the full San Antonio business events calendar. No credit card, no setup.</p>
+              <p>Enter your email and get the Monday newsletter — the week\'s top San Antonio business events delivered to your inbox. No credit card, no setup.</p>
             </div>
             <div className="feature-card">
               <div className="feature-step">2</div>
-              <h3>Get your Monday newsletter</h3>
-              <p>Every Monday, get a curated digest of that week's top networking and business events in San Antonio.</p>
+              <h3>Browse the calendar</h3>
+              <p>The calendar is always open. Check back anytime to see what\'s happening in San Antonio this week.</p>
             </div>
             <div className="feature-card">
               <div className="feature-step">3</div>
