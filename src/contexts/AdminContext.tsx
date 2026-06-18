@@ -10,7 +10,7 @@ type AdminContextType = {
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '2!!9Miche$p';
+const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? '';
 
 export function AdminProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -37,7 +37,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   };
 
   const getAdminPassword = () => {
-    return isAuthenticated ? ADMIN_PASSWORD : null;
+    return isAuthenticated ? (localStorage.getItem('adminPassword') ?? ADMIN_PASSWORD) : null;
   };
 
   return (
