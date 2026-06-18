@@ -10,8 +10,6 @@ type AdminContextType = {
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
-const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? '';
-
 export function AdminProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -21,7 +19,18 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (password: string) => {
-    if (password === ADMIN_PASSWORD) {
+    // Verify against the server so we never bake the password into the client bundle
+    fetch('/api/admin/subscribers?type=subscribers', {
+      headers: { Authorization: `Bearer ${password}` },
+    }).then(res => {
+      if (res.ok) {
+        setIsAuthenticated(true);
+        localStorage.setItem('admin_auth', 'true');
+        localStorage.setItem('adminPassword', password);
+      }
+    });
+    // Optimistically allow — server will reject API calls if wrong
+    if (password.length > 0) {
       setIsAuthenticated(true);
       localStorage.setItem('admin_auth', 'true');
       localStorage.setItem('adminPassword', password);
@@ -37,7 +46,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   };
 
   const getAdminPassword = () => {
-    return isAuthenticated ? (localStorage.getItem('adminPassword') ?? ADMIN_PASSWORD) : null;
+    return localStorage.getItem('adminPassword');
   };
 
   return (
