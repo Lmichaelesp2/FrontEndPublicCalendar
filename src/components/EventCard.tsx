@@ -116,10 +116,10 @@ function PaidBadge({ paid }: { paid: string }) {
   if (isUnknown) return null;
   return (
     <span style={{
-      background: isFree ? '#f0fdf4' : '#fff7ed',
-      border: `1px solid ${isFree ? '#86efac' : '#fed7aa'}`,
-      color: isFree ? '#15803d' : '#92400e',
-      borderRadius: '20px', fontSize: '11px', fontWeight: 600, padding: '3px 10px',
+      background: isFree ? 'var(--color-primary-bg)' : 'var(--color-paper-2)',
+      border: `1px solid ${isFree ? 'var(--color-primary-light)' : 'var(--color-rule)'}`,
+      color: isFree ? 'var(--color-primary-dark)' : 'var(--fg-3)',
+      borderRadius: '20px', fontSize: '11px', fontWeight: isFree ? 600 : 500, padding: '3px 10px',
     }}>
       {isFree ? 'Free' : 'Paid'}
     </span>
