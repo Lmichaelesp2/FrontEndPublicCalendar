@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -153,13 +154,8 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Houston" citySlug="houston" category="Technology" categorySlug="technology" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Houston" citySlug="houston" category="Technology" categorySlug="technology" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Houston Tech Events So You Don't Have To</h2>
           <p className="features-subtitle">Houston tech events are spread across Meetup, The Ion community, Eventbrite, and local tech organization pages. We bring them together into one weekly calendar.</p>
@@ -248,8 +244,8 @@ function HoustonTechnologyContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Houston" category="Technology" />
-      <SponsorSubmitSection city="Houston" citySlug="houston" category="Technology" categorySlug="technology" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Houston" category="Technology" />)}
+<SponsorSubmitSection city="Houston" citySlug="houston" category="Technology" categorySlug="technology" />
 
       <Footer
         citySlug="houston"

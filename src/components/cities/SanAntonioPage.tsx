@@ -15,6 +15,7 @@ import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },
@@ -211,11 +212,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" />
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="San Antonio" citySlug="san-antonio" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track San Antonio Business Events So You Don't Have To</h2>
           <p className="features-subtitle">San Antonio business events are scattered across chambers, Eventbrite, Meetup, LinkedIn, and military/business community sites. We organize them into one weekly calendar.</p>
@@ -285,8 +283,8 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="San Antonio" />
-      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="San Antonio" />)}
+<SponsorSubmitSection city="San Antonio" citySlug="san-antonio" />
 
       <Footer showIndustryCalendars={true} citySlug="san-antonio" cityName="San Antonio" />
     </div>

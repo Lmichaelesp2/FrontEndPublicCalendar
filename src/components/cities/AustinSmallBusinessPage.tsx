@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -142,13 +143,8 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Austin" citySlug="austin" category="Small Business" categorySlug="small-business" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Austin" citySlug="austin" category="Small Business" categorySlug="small-business" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Austin Small Business Events So You Don't Have To</h2>
           <p className="features-subtitle">Austin small business events are spread across SBDC, SCORE, accelerator sites, and local organization pages. We pull them together into one weekly calendar.</p>
@@ -237,8 +233,8 @@ function AustinSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Austin" category="Small Business" />
-      <SponsorSubmitSection city="Austin" citySlug="austin" category="Small Business" categorySlug="small-business" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Austin" category="Small Business" />)}
+<SponsorSubmitSection city="Austin" citySlug="austin" category="Small Business" categorySlug="small-business" />
 
       <Footer
         citySlug="austin"

@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Dallas professionals subscribed' },
@@ -142,13 +143,8 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Dallas" citySlug="dallas" category="Networking" categorySlug="networking" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Dallas" citySlug="dallas" category="Networking" categorySlug="networking" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Networking Events So You Don't Have To</h2>
           <p className="features-subtitle">Dallas networking events are scattered across BNI chapters, LinkedIn, Meetup, and local professional groups. We organize them in one place.</p>
@@ -237,8 +233,8 @@ function DallasNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Dallas" category="Networking" />
-      <SponsorSubmitSection city="Dallas" citySlug="dallas" category="Networking" categorySlug="networking" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Dallas" category="Networking" />)}
+<SponsorSubmitSection city="Dallas" citySlug="dallas" category="Networking" categorySlug="networking" />
 
       <Footer
         citySlug="dallas"

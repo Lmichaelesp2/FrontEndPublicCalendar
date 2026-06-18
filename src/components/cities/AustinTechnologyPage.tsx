@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const TECH_STATS = [
   { number: '500+', label: 'Tech professionals subscribed' },
@@ -142,13 +143,8 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Austin" citySlug="austin" category="Technology" categorySlug="technology" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Austin" citySlug="austin" category="Technology" categorySlug="technology" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Austin Tech Events So You Don't Have To</h2>
           <p className="features-subtitle">Austin tech events are spread across Meetup, startup community sites, Eventbrite, and accelerator pages. We pull them together into one weekly calendar.</p>
@@ -237,8 +233,8 @@ function AustinTechnologyContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Austin" category="Technology" />
-      <SponsorSubmitSection city="Austin" citySlug="austin" category="Technology" categorySlug="technology" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Austin" category="Technology" />)}
+<SponsorSubmitSection city="Austin" citySlug="austin" category="Technology" categorySlug="technology" />
 
       <Footer
         citySlug="austin"

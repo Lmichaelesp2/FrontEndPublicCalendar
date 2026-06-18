@@ -8,6 +8,7 @@ import { Footer } from './Footer';
 import { SEOHead } from './SEOHead';
 import { WhySection } from './WhySection';
 import { EventNetworkingMethodSection } from './EventNetworkingMethodSection';
+import { SHOW_ENM_SECTION } from '../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Events every week' },
@@ -263,7 +264,7 @@ export function Homepage({ cityCounts = {} }: { cityCounts?: Record<string, numb
         whatYouGetText="The full calendar is free — browse anytime. Sign up for the Monday newsletter and every upcoming event in your city arrives in your inbox automatically."
       />
 
-      <EventNetworkingMethodSection />
+      {SHOW_ENM_SECTION && <EventNetworkingMethodSection />}
 
       {/* ── Sponsor teaser ── */}
       <section className="hp-sponsor-teaser">

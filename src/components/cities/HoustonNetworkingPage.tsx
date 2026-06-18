@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'Houston professionals subscribed' },
@@ -142,13 +143,8 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Houston" citySlug="houston" category="Networking" categorySlug="networking" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Houston" citySlug="houston" category="Networking" categorySlug="networking" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Houston Networking Events So You Don't Have To</h2>
           <p className="features-subtitle">Houston networking events are spread across BNI chapters, Meetup, LinkedIn, and local business group pages. We bring them together in one place.</p>
@@ -237,8 +233,8 @@ function HoustonNetworkingContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Houston" category="Networking" />
-      <SponsorSubmitSection city="Houston" citySlug="houston" category="Networking" categorySlug="networking" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Houston" category="Networking" />)}
+<SponsorSubmitSection city="Houston" citySlug="houston" category="Networking" categorySlug="networking" />
 
       <Footer
         citySlug="houston"

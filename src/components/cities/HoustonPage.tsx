@@ -15,6 +15,7 @@ import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '1,000+', label: 'Houston professionals subscribed' },
@@ -219,11 +220,8 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <SponsorPatronSection city="Houston" citySlug="houston" />
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Houston" citySlug="houston" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Houston Business Events So You Don't Have To</h2>
           <p className="features-subtitle">Houston business events are scattered across chambers, Eventbrite, Meetup, LinkedIn, and energy industry networks. We organize them into one weekly calendar.</p>
@@ -293,8 +291,8 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Houston" />
-      <SponsorSubmitSection city="Houston" citySlug="houston" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Houston" />)}
+<SponsorSubmitSection city="Houston" citySlug="houston" />
 
       <Footer showIndustryCalendars={true} citySlug="houston" cityName="Houston" />
     </div>

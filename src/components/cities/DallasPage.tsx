@@ -15,6 +15,7 @@ import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '1,000+', label: 'Dallas professionals subscribed' },
@@ -219,11 +220,8 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <SponsorPatronSection city="Dallas" citySlug="dallas" />
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Dallas" citySlug="dallas" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Business Events So You Don't Have To</h2>
           <p className="features-subtitle">Dallas business events are scattered across chambers, Eventbrite, Meetup, LinkedIn, and professional networks. We organize them into one weekly calendar.</p>
@@ -293,8 +291,8 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Dallas" />
-      <SponsorSubmitSection city="Dallas" citySlug="dallas" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Dallas" />)}
+<SponsorSubmitSection city="Dallas" citySlug="dallas" />
 
       <Footer showIndustryCalendars={true} citySlug="dallas" cityName="Dallas" />
     </div>

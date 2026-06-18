@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -142,13 +143,8 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Dallas" citySlug="dallas" category="Small Business" categorySlug="small-business" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Dallas" citySlug="dallas" category="Small Business" categorySlug="small-business" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Small Business Events So You Don't Have To</h2>
           <p className="features-subtitle">Dallas small business events — workshops, panels, funding meetups — are scattered across SBDC, SCORE, and local organization sites. We organize them into one weekly calendar.</p>
@@ -237,8 +233,8 @@ function DallasSmallBusinessContent({ initialEvents }: { initialEvents: Event[] 
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Dallas" category="Small Business" />
-      <SponsorSubmitSection city="Dallas" citySlug="dallas" category="Small Business" categorySlug="small-business" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Dallas" category="Small Business" />)}
+<SponsorSubmitSection city="Dallas" citySlug="dallas" category="Small Business" categorySlug="small-business" />
 
       <Footer
         citySlug="dallas"

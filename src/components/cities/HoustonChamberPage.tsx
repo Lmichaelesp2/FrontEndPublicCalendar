@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Chamber members subscribed' },
@@ -153,13 +154,8 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Houston" citySlug="houston" category="Chamber" categorySlug="chamber" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Houston" citySlug="houston" category="Chamber" categorySlug="chamber" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Houston Chamber Events So You Don't Have To</h2>
           <p className="features-subtitle">Houston chamber events are spread across multiple chamber and association websites. We bring them together into one weekly calendar.</p>
@@ -248,8 +244,8 @@ function HoustonChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Houston" category="Chamber" />
-      <SponsorSubmitSection city="Houston" citySlug="houston" category="Chamber" categorySlug="chamber" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Houston" category="Chamber" />)}
+<SponsorSubmitSection city="Houston" citySlug="houston" category="Chamber" categorySlug="chamber" />
 
       <Footer
         citySlug="houston"

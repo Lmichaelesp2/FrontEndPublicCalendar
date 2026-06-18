@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -153,13 +154,8 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Austin Real Estate Events So You Don't Have To</h2>
           <p className="features-subtitle">Austin real estate events are spread across association sites, Eventbrite, and investor group pages. We pull them together into one weekly calendar.</p>
@@ -248,8 +244,8 @@ function AustinRealEstateContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Austin" category="Real Estate" />
-      <SponsorSubmitSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Austin" category="Real Estate" />)}
+<SponsorSubmitSection city="Austin" citySlug="austin" category="Real Estate" categorySlug="real-estate" />
 
       <Footer
         citySlug="austin"

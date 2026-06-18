@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -153,13 +154,8 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Small Business" categorySlug="small-business" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Small Business" categorySlug="small-business" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track San Antonio Small Business Events So You Don't Have To</h2>
           <p className="features-subtitle">San Antonio small business events — workshops, panels, mentorship meetups — are scattered across SBDC, SCORE, and local organization pages. We organize them into one weekly calendar.</p>
@@ -248,8 +244,8 @@ function SanAntonioSmallBusinessContent({ initialEvents }: { initialEvents: Even
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="San Antonio" category="Small Business" />
-      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Small Business" categorySlug="small-business" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="San Antonio" category="Small Business" />)}
+<SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Small Business" categorySlug="small-business" />
 
       <Footer
         citySlug="san-antonio"

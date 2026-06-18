@@ -15,6 +15,7 @@ import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '1,000+', label: 'Austin professionals subscribed' },
@@ -220,11 +221,8 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
 
-      <SponsorPatronSection city="Austin" citySlug="austin" />
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Austin" citySlug="austin" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Austin Business Events So You Don't Have To</h2>
           <p className="features-subtitle">Austin business events are scattered across chambers, Eventbrite, Meetup, LinkedIn, and startup community sites. We organize them into one weekly calendar.</p>
@@ -294,8 +292,8 @@ function AustinContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Austin" />
-      <SponsorSubmitSection city="Austin" citySlug="austin" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Austin" />)}
+<SponsorSubmitSection city="Austin" citySlug="austin" />
 
       <Footer showIndustryCalendars={true} citySlug="austin" cityName="Austin" />
     </div>

@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Real estate professionals subscribed' },
@@ -153,13 +154,8 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Real Estate" categorySlug="real-estate" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Real Estate" categorySlug="real-estate" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track San Antonio Real Estate Events So You Don't Have To</h2>
           <p className="features-subtitle">San Antonio real estate events — investor meetups, agent networking, property tours — are scattered across multiple sites. We organize them into one weekly calendar.</p>
@@ -248,8 +244,8 @@ function SanAntonioRealEstateContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="San Antonio" category="Real Estate" />
-      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Real Estate" categorySlug="real-estate" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="San Antonio" category="Real Estate" />)}
+<SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Real Estate" categorySlug="real-estate" />
 
       <Footer
         citySlug="san-antonio"

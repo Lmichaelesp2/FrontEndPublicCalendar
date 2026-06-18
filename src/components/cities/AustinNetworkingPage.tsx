@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'Austin professionals subscribed' },
@@ -142,13 +143,8 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Austin" citySlug="austin" category="Networking" categorySlug="networking" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Austin" citySlug="austin" category="Networking" categorySlug="networking" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Austin Networking Events So You Don't Have To</h2>
           <p className="features-subtitle">Austin networking events are spread across Meetup, LinkedIn, startup groups, and association pages. We pull them together in one place.</p>
@@ -237,8 +233,8 @@ function AustinNetworkingContent({ initialEvents }: { initialEvents: Event[] }) 
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Austin" category="Networking" />
-      <SponsorSubmitSection city="Austin" citySlug="austin" category="Networking" categorySlug="networking" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Austin" category="Networking" />)}
+<SponsorSubmitSection city="Austin" citySlug="austin" category="Networking" categorySlug="networking" />
 
       <Footer
         citySlug="austin"

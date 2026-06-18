@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const NETWORKING_STATS = [
   { number: '500+', label: 'San Antonio professionals subscribed' },
@@ -142,13 +143,8 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Networking" categorySlug="networking" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Networking" categorySlug="networking" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track San Antonio Networking Events So You Don't Have To</h2>
           <p className="features-subtitle">San Antonio networking events are scattered across BNI chapters, Meetup, LinkedIn, and local group pages. We organize them in one place.</p>
@@ -237,8 +233,8 @@ function SanAntonioNetworkingContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="San Antonio" category="Networking" />
-      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Networking" categorySlug="networking" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="San Antonio" category="Networking" />)}
+<SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Networking" categorySlug="networking" />
 
       <Footer
         citySlug="san-antonio"

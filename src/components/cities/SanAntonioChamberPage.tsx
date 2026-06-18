@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Chamber members subscribed' },
@@ -153,13 +154,8 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track San Antonio Chamber Events So You Don't Have To</h2>
           <p className="features-subtitle">San Antonio chamber events — luncheons, ribbon cuttings, mixers — are spread across multiple chamber websites. We organize them into one weekly calendar.</p>
@@ -248,8 +244,8 @@ function SanAntonioChamberContent({ initialEvents }: { initialEvents: Event[] })
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="San Antonio" category="Chamber" />
-      <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="San Antonio" category="Chamber" />)}
+<SponsorSubmitSection city="San Antonio" citySlug="san-antonio" category="Chamber" categorySlug="chamber" />
 
       <Footer
         citySlug="san-antonio"

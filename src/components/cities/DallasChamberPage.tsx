@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Chamber members subscribed' },
@@ -142,13 +143,8 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Dallas" citySlug="dallas" category="Chamber" categorySlug="chamber" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Dallas" citySlug="dallas" category="Chamber" categorySlug="chamber" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Dallas Chamber Events So You Don't Have To</h2>
           <p className="features-subtitle">Dallas chamber events — mixers, luncheons, ribbon cuttings — are scattered across chamber websites. We organize them into one weekly calendar.</p>
@@ -237,8 +233,8 @@ function DallasChamberContent({ initialEvents }: { initialEvents: Event[] }) {
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Dallas" category="Chamber" />
-      <SponsorSubmitSection city="Dallas" citySlug="dallas" category="Chamber" categorySlug="chamber" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Dallas" category="Chamber" />)}
+<SponsorSubmitSection city="Dallas" citySlug="dallas" category="Chamber" categorySlug="chamber" />
 
       <Footer
         citySlug="dallas"

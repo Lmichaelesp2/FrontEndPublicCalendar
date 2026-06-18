@@ -12,6 +12,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
 
 const STATS = [
   { number: '500+', label: 'Small business owners subscribed' },
@@ -153,13 +154,8 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
         </div>
         </div>
       </section>
-      <SponsorPatronSection city="Houston" citySlug="houston" category="Small Business" categorySlug="small-business" variant="hero" />
-
-
-
-
-
-      <section className="features-section">
+      {SHOW_SPONSOR_SECTIONS && (<SponsorPatronSection city="Houston" citySlug="houston" category="Small Business" categorySlug="small-business" variant="hero" />)}
+<section className="features-section">
         <div className="features-inner">
           <h2>We Track Houston Small Business Events So You Don't Have To</h2>
           <p className="features-subtitle">Houston small business events are spread across SBDC, SCORE, and local business organization pages. We bring them together into one weekly calendar.</p>
@@ -248,8 +244,8 @@ function HoustonSmallBusinessContent({ initialEvents }: { initialEvents: Event[]
         </div>
       </section>
 
-      <EventNetworkingMethodSection city="Houston" category="Small Business" />
-      <SponsorSubmitSection city="Houston" citySlug="houston" category="Small Business" categorySlug="small-business" />
+      {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Houston" category="Small Business" />)}
+<SponsorSubmitSection city="Houston" citySlug="houston" category="Small Business" categorySlug="small-business" />
 
       <Footer
         citySlug="houston"
