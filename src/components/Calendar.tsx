@@ -677,10 +677,12 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
             </div>
           ) : (
             <>
-              <div className="cal-results-label">
-                <span>{searchActive ? 'Search Results' : dayLabel}</span>
-                <span className="cal-results-count">{eventCount} event{eventCount !== 1 ? 's' : ''}</span>
-              </div>
+              {searchActive && (
+                <div className="cal-results-label">
+                  <span>Search Results</span>
+                  <span className="cal-results-count">{eventCount} event{eventCount !== 1 ? 's' : ''}</span>
+                </div>
+              )}
               {displayEvents.map((event, index) => {
                 // For week mode: group by Monday–Sunday week header
                 // For day mode: group by date
