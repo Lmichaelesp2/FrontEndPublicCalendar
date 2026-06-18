@@ -1361,7 +1361,7 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .sub-go-btn:hover{background:var(--color-ink)}
 
 /* FOOTER */
-.footer{background:var(--color-dark-section);padding:2.5rem 2rem;text-align:center}
+.footer{background:var(--color-dark-section);padding:2.5rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,.15)}
 .footer p{color:rgba(255,255,255,.58);font-size:.76rem;line-height:1.7}
 .footer a{color:rgba(255,255,255,.75);text-decoration:none}
 .footer a:hover{color:#ffffff}
