@@ -13,6 +13,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { LBOSection } from '../LBOSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
 import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
@@ -292,6 +293,7 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
       {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Dallas" />)}
+<LBOSection city="Dallas" citySlug="dallas" />
 <SponsorSubmitSection city="Dallas" citySlug="dallas" />
 
       <Footer showIndustryCalendars={true} citySlug="dallas" cityName="Dallas" />

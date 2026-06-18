@@ -13,6 +13,7 @@ import { CityProvider } from '../contexts/CityContext';
 import type { Event } from '../lib/supabase';
 import { Plus, Minus } from 'lucide-react';
 import { WhySection } from './WhySection';
+import { LBOSection } from './LBOSection';
 
 const CITY_NAMES: Record<string, string> = {
   austin: 'Austin',
@@ -183,6 +184,7 @@ function MainLayoutInner({ initialEvents, cityCounts }: { initialEvents?: Event[
           </div>
         </section>
       )}
+      <LBOSection city={citySlug ? cityName : undefined} citySlug={citySlug || undefined} />
       <Footer showIndustryCalendars={showIndustryCalendars} citySlug={citySlug} cityName={cityName} isTexasPage={!citySlug} />
     </div>
   );

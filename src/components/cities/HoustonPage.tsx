@@ -13,6 +13,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { LBOSection } from '../LBOSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
 import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
@@ -292,6 +293,7 @@ function HoustonContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
       {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="Houston" />)}
+<LBOSection city="Houston" citySlug="houston" />
 <SponsorSubmitSection city="Houston" citySlug="houston" />
 
       <Footer showIndustryCalendars={true} citySlug="houston" cityName="Houston" />

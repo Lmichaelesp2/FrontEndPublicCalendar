@@ -13,6 +13,7 @@ import { EventNetworkingMethodSection } from '../EventNetworkingMethodSection';
 import type { Event } from '../../lib/supabase';
 import { SponsorPatronSection } from '../SponsorPatronSection';
 import { SponsorSubmitSection } from '../SponsorSubmitSection';
+import { LBOSection } from '../LBOSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
 import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
@@ -284,6 +285,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
       </section>
 
       {SHOW_ENM_SECTION && (<EventNetworkingMethodSection city="San Antonio" />)}
+<LBOSection city="San Antonio" citySlug="san-antonio" />
 <SponsorSubmitSection city="San Antonio" citySlug="san-antonio" />
 
       <Footer showIndustryCalendars={true} citySlug="san-antonio" cityName="San Antonio" />
