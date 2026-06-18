@@ -9,7 +9,7 @@ import { useRef } from 'react';
 import { CITY_CONFIGS } from '../lib/cities';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
-import { SHOW_SPONSOR_SECTIONS } from '../lib/featureFlags';
+import { SHOW_SPONSOR_NAV, SHOW_MORE_MENU } from '../lib/featureFlags';
 
 function getDayDateline(): string {
   return new Date().toLocaleDateString('en-US', {
@@ -437,7 +437,8 @@ export function Navigation() {
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
               <Link href="/help" className={`nav-link${pathname === '/help' ? ' nav-link--active' : ''}`}>Help</Link>
-              {SHOW_SPONSOR_SECTIONS ? <SponsorsDropdown /> : null}
+              {SHOW_MORE_MENU && <ResourcesDropdown />}
+              {SHOW_SPONSOR_NAV && <SponsorsDropdown />}
             </nav>
 
             <div className="nav-actions">
