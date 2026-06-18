@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Users, Search, X, ChevronDown, ChevronUp, ArrowUpDown, LogOut, ArrowLeft, Pencil, Trash2, Upload, Crown } from 'lucide-react';
-import { supabaseAdmin } from '../../lib/supabase';
 import { useAdmin } from '../../contexts/AdminContext';
 import { AdminLogin } from './AdminLogin';
 import { SubscriberImport } from './SubscriberImport';
@@ -317,7 +316,7 @@ function DeleteModal({ subscriber, onClose, onConfirm }: {
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export function SubscribersPage() {
-  const { isAuthenticated, logout } = useAdmin();
+  const { isAuthenticated, logout, getAdminPassword } = useAdmin();
 
   const [rows, setRows]               = useState<SubRow[]>([]);
   const [loading, setLoading]         = useState(true);
@@ -338,54 +337,29 @@ export function SubscribersPage() {
 
   async function fetchSubs() {
     setLoading(true);
-    const PAGE = 1000;
-    let all: SubRow[] = [];
-    let from = 0;
-    while (true) {
-      const { data, error } = await supabaseAdmin
-        .from('newsletter_subscriptions')
-        .select('id, email, first_name, city, sub_calendar, status, source, created_at')
-        .order('created_at', { ascending: false })
-        .range(from, from + PAGE - 1);
-      if (error || !data || data.length === 0) break;
-      all = [...all, ...(data as SubRow[])];
-      if (data.length < PAGE) break;
-      from += PAGE;
+    try {
+      const res = await fetch('/api/admin/subscribers?type=subscribers', {
+        headers: { Authorization: `Bearer ${getAdminPassword()}` },
+      });
+      const json = await res.json();
+      setRows((json.data ?? []) as SubRow[]);
+    } catch {
+      setRows([]);
     }
-    setRows(all);
     setLoading(false);
   }
 
   async function fetchPremium() {
     setPremiumLoading(true);
-
-    // 1. Fetch premium profiles
-    const { data: profiles } = await supabaseAdmin
-      .from('user_profiles')
-      .select('id, email, first_name, subscription_tier, subscription_status, stripe_customer_id, grace_period_ends_at, created_at, notes')
-      .order('created_at', { ascending: false });
-
-    const rows = (profiles as PremiumRow[]) ?? [];
-
-    // 2. Look up city from old `users` table by email
-    if (rows.length > 0) {
-      const emails = rows.map(r => r.email.toLowerCase());
-      const { data: userRows } = await supabaseAdmin
-        .from('users')
-        .select('email, city')
-        .in('email', emails);
-
-      const cityMap = new Map<string, string>();
-      for (const u of (userRows ?? []) as { email: string; city: string }[]) {
-        cityMap.set(u.email.toLowerCase(), u.city);
-      }
-
-      for (const r of rows) {
-        r.city = cityMap.get(r.email.toLowerCase()) ?? null;
-      }
+    try {
+      const res = await fetch('/api/admin/subscribers?type=premium', {
+        headers: { Authorization: `Bearer ${getAdminPassword()}` },
+      });
+      const json = await res.json();
+      setPremiumRows((json.data ?? []) as PremiumRow[]);
+    } catch {
+      setPremiumRows([]);
     }
-
-    setPremiumRows(rows);
     setPremiumLoading(false);
   }
 
@@ -445,53 +419,37 @@ export function SubscribersPage() {
     toAdd: { city: string; sub_calendar: string | null }[],
     toRemoveIds: string[]
   ) {
-    // 1. Update name + email on all existing rows
     const existingIds = rows
       .filter(r => r.email.toLowerCase() === oldEmail.toLowerCase())
       .map(r => r.id);
 
-    if (existingIds.length > 0) {
-      const { error } = await supabaseAdmin
-        .from('newsletter_subscriptions')
-        .update({ first_name: newFirstName || null, email: newEmail })
-        .in('id', existingIds);
-      if (error) throw new Error(error.message);
-    }
-
-    // 2. Delete removed subscriptions
-    if (toRemoveIds.length > 0) {
-      const { error } = await supabaseAdmin
-        .from('newsletter_subscriptions')
-        .delete()
-        .in('id', toRemoveIds);
-      if (error) throw new Error(error.message);
-    }
-
-    // 3. Insert new subscriptions
-    if (toAdd.length > 0) {
-      const newRows = toAdd.map(a => ({
-        email: newEmail,
-        first_name: newFirstName || null,
-        city: a.city,
-        sub_calendar: a.sub_calendar,
-        status: 'active',
-        source: 'admin_added',
-      }));
-      const { error } = await supabaseAdmin
-        .from('newsletter_subscriptions')
-        .insert(newRows);
-      if (error) throw new Error(error.message);
-    }
-
-    // 4. Refresh local state
+    const res = await fetch('/api/admin/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getAdminPassword()}`,
+      },
+      body: JSON.stringify({ oldEmail, newFirstName, newEmail, toAdd, toRemoveIds, existingIds }),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error ?? 'Failed to save');
     await fetchSubs();
   }
 
   // Delete: remove all rows for this subscriber
   async function handleDelete(email: string) {
     const ids = rows.filter(r => r.email.toLowerCase() === email.toLowerCase()).map(r => r.id);
-    await supabaseAdmin.from('newsletter_subscriptions').delete().in('id', ids);
-    setRows(prev => prev.filter(r => r.email.toLowerCase() !== email.toLowerCase()));
+    const res = await fetch('/api/admin/subscribers', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getAdminPassword()}`,
+      },
+      body: JSON.stringify({ ids }),
+    });
+    if (res.ok) {
+      setRows(prev => prev.filter(r => r.email.toLowerCase() !== email.toLowerCase()));
+    }
   }
 
   // Filter + sort
