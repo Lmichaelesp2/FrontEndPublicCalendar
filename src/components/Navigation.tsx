@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import { CITY_CONFIGS } from '../lib/cities';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import { SHOW_SPONSOR_SECTIONS } from '../lib/featureFlags';
 
 function getDayDateline(): string {
   return new Date().toLocaleDateString('en-US', {
@@ -255,6 +256,51 @@ function ResourcesDropdown() {
   );
 }
 
+function SponsorsDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div className="nav-resources-wrap" ref={ref}>
+      <button
+        className="nav-link nav-resources-btn"
+        onClick={() => setOpen(o => !o)}
+        aria-expanded={open}
+      >
+        Sponsors <ChevronDown size={12} className={open ? 'nav-chevron-open' : ''} />
+      </button>
+      {open && (
+        <div className="nav-resources-drop">
+          <Link
+            href="/sponsors"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Our Sponsors</span>
+            <span className="nav-resources-item-desc">Meet the organizations that make this free</span>
+          </Link>
+          <Link
+            href="/sponsor"
+            className="nav-resources-item"
+            onClick={() => setOpen(false)}
+          >
+            <span className="nav-resources-item-title">Become a Sponsor</span>
+            <span className="nav-resources-item-desc">Reach local business professionals every week</span>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Classic Calendar Login Modal (city picker) ───────────────────
 const CLASSIC_CITIES = [
   { name: 'San Antonio', slug: 'san-antonio' },
@@ -391,7 +437,7 @@ export function Navigation() {
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
               <Link href="/help" className={`nav-link${pathname === '/help' ? ' nav-link--active' : ''}`}>Help</Link>
-              <ResourcesDropdown />
+              {SHOW_SPONSOR_SECTIONS ? <SponsorsDropdown /> : null}
             </nav>
 
             <div className="nav-actions">
