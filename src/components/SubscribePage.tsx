@@ -8,6 +8,7 @@ import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
+import { SHOW_SUB_CALENDARS } from '../lib/featureFlags';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -453,7 +454,7 @@ export function SubscribePage() {
             <div className="sub-other-grid">
 
               {/* Current city's other sub-calendars (if on city-wide page) */}
-              {!isSubCal && cityName && (
+              {SHOW_SUB_CALENDARS && !isSubCal && cityName && (
                 <div className="sub-other-city-block">
                   <div className="sub-other-city-name">{cityName} — Sub-Calendars</div>
                   <div className="sub-other-links">
@@ -471,7 +472,7 @@ export function SubscribePage() {
               )}
 
               {/* Current city's other sub-cals (if on a sub-cal page) */}
-              {isSubCal && cityName && (
+              {SHOW_SUB_CALENDARS && isSubCal && cityName && (
                 <div className="sub-other-city-block">
                   <div className="sub-other-city-name">More {cityName} Calendars</div>
                   <div className="sub-other-links">
@@ -499,7 +500,7 @@ export function SubscribePage() {
                     <Link href={`/texas/${slug}/subscribe`} className="sub-other-link sub-other-link--city">
                       {name} (all events) <ArrowRight size={12} />
                     </Link>
-                    {SUB_CALENDARS.map(({ key, slug: subSlugVal }) => (
+                    {SHOW_SUB_CALENDARS && SUB_CALENDARS.map(({ key, slug: subSlugVal }) => (
                       <Link
                         key={key}
                         href={`/texas/${slug}/${subSlugVal}/subscribe`}

@@ -952,16 +952,20 @@ a.hero-city-panel-tag:hover{background:rgba(10,22,40,.04);padding-left:1.4rem;bo
 .cal-cell:nth-child(7n){border-right:none}
 .cal-cell.empty{cursor:default;background:var(--color-paper)}
 .cal-cell:hover:not(.past):not(.empty){background:var(--color-paper-2)}
-.cal-cell.past{cursor:default;opacity:.4}
+.cal-cell.past{cursor:default;opacity:.3}
 .cal-cell.is-today .cal-cell-num{color:var(--color-primary);font-weight:800}
 .cal-cell.in-range{background:#ddeeff}
 .cal-cell.range-edge{background:var(--color-ink)}
 .cal-cell.range-edge .cal-cell-num{color:var(--white);font-weight:700}
 .cal-cell.range-edge .cal-cell-dot{background:rgba(255,255,255,.7)}
-.cal-cell-num{font-size:.9rem;font-weight:500;color:var(--color-ink);line-height:1;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .12s,color .12s}
+/* Future dates — darker number, more visible */
+.cal-cell:not(.past):not(.empty):not(.is-today) .cal-cell-num{color:#1a2e4a;font-weight:600}
+.cal-cell-num{font-size:.95rem;font-weight:500;color:var(--color-ink);line-height:1;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .12s,color .12s}
 .cal-cell.range-selected .cal-cell-num{background:var(--color-ink);color:#fff}
 .cal-cell.is-today:not(.range-edge) .cal-cell-num{background:var(--color-paper-2)}
-.cal-cell-dot{width:7px;height:7px;border-radius:50%;background:var(--color-primary);margin-top:4px;opacity:0.8}
+/* Future event dots — solid, full opacity */
+.cal-cell-dot{width:7px;height:7px;border-radius:50%;background:var(--color-primary);margin-top:4px;opacity:1}
+.cal-cell.past .cal-cell-dot{opacity:.35}
 .cal-cell.has-events:not(.range-edge):hover .cal-cell-num{background:#d0e8ff}
 .cal-cell.future-gated{cursor:pointer;opacity:.55}
 .cal-cell.future-gated:hover{background:var(--color-paper-2)}

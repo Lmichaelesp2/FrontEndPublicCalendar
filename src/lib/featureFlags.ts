@@ -11,3 +11,4 @@ export const SHOW_SPONSOR_NAV      = true;   // Sponsors menu item always visibl
 export const SHOW_SPONSOR_SECTIONS = false;  // page-level sponsor blocks hidden for launch
 export const SHOW_ENM_SECTION      = false;
 export const SHOW_MORE_MENU        = false;  // More menu hidden while Sponsors menu is shown
+export const SHOW_SUB_CALENDARS    = false;  // Sub-calendar links on subscribe page hidden for launch
