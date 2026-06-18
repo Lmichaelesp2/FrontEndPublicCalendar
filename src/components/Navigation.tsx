@@ -433,7 +433,7 @@ export function Navigation() {
 
             <nav className="nav-city-links" aria-label="Browse by city">
               {pathname === '/' ? (
-                <Link href="/texas" className={`nav-link${pathname === '/texas' ? ' nav-link--active' : ''}`}>Texas</Link>
+                <Link href="/texas" className="nav-link">Texas</Link>
               ) : (
                 <>
                   <Link href="/texas/san-antonio" className={`nav-link${pathname?.startsWith('/texas/san-antonio') ? ' nav-link--active' : ''}`}>San Antonio</Link>
