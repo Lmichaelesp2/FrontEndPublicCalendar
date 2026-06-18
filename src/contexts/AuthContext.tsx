@@ -212,6 +212,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             category: 'Networking',
             city:     cityName,
           });
+
+          // Also insert into newsletter_subscriptions so they receive emails
+          await supabase.from('newsletter_subscriptions').insert({
+            user_id:    data.user.id,
+            email:      data.user.email!,
+            first_name: firstName.trim(),
+            city:       cityName,
+            status:     'active',
+            source:     'account_signup',
+          });
         }
       }
 
