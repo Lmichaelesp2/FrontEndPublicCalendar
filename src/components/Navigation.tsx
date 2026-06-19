@@ -301,53 +301,57 @@ function SponsorsDropdown() {
   );
 }
 
-// ── Classic Calendar Login Modal (city picker) ───────────────────
-const CLASSIC_CITIES = [
-  { name: 'San Antonio', slug: 'san-antonio' },
-  { name: 'Austin',      slug: 'austin' },
-  { name: 'Dallas',      slug: 'dallas' },
-  { name: 'Houston',     slug: 'houston' },
-];
+// ── Login Explainer Modal ─────────────────────────────────────────
+// Triggered by the single nav "Login" button. Explains that no login
+// is needed to browse this week's events, then routes the user to
+// whichever login actually applies to them.
+const CITY_NAME_BY_SLUG: Record<string, string> = {
+  'san-antonio': 'San Antonio',
+  austin: 'Austin',
+  dallas: 'Dallas',
+  houston: 'Houston',
+};
 
-function PremiumLoginModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void; citySlug?: string }) {
+function LoginExplainerModal({ isOpen, onClose, citySlug }: { isOpen: boolean; onClose: () => void; citySlug: string }) {
   if (!isOpen) return null;
+
+  const cityName = CITY_NAME_BY_SLUG[citySlug] || 'your city';
 
   return (
     <div className="prem-modal-overlay" onClick={onClose}>
-      <div className="prem-modal prem-modal--city" onClick={e => e.stopPropagation()}>
+      <div className="prem-modal" onClick={e => e.stopPropagation()}>
         <button className="prem-modal-close" onClick={onClose} aria-label="Close">✕</button>
 
         <div className="prem-modal-header">
-          <span className="prem-modal-crown">👑</span>
-          <h2 className="prem-modal-title">Classic Calendar Login</h2>
-          <p className="prem-modal-sub">Select your city to log in</p>
+          <h2 className="prem-modal-title">You don't need to log in to see events</h2>
+          <p className="prem-modal-sub">
+            The {cityName} calendar is open to everyone — browse this week's events anytime, no account required.
+          </p>
         </div>
 
-        <div className="prem-city-grid">
-          {CLASSIC_CITIES.map(city => (
-            <a
-              key={city.slug}
-              className="prem-city-btn"
-              href={`https://www.localbusinesscalendars.app/${city.slug}/login`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={onClose}
-            >
-              <span className="prem-city-name">{city.name}</span>
-              <span className="prem-city-arrow">→</span>
-            </a>
-          ))}
-        </div>
+        <div className="login-explainer-options">
+          <a
+            className="login-explainer-option"
+            href={`https://www.localbusinesscalendars.app/${citySlug}/login`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onClose}
+          >
+            <span className="login-explainer-option-title">Premium member?</span>
+            <span className="login-explainer-option-desc">Log in here for your personalized calendar and extended event details.</span>
+            <span className="prem-city-arrow">→</span>
+          </a>
 
-        <p className="prem-modal-footer">
-          Looking for the new calendar?&nbsp;
-          <button className="prem-modal-upgrade-link" onClick={() => {
-            onClose();
-            document.dispatchEvent(new CustomEvent('open-auth-modal'));
-          }}>
-            Sign in here
-          </button>
-        </p>
+          <Link
+            className="login-explainer-option"
+            href="/account"
+            onClick={onClose}
+          >
+            <span className="login-explainer-option-title">Manage My Subscription</span>
+            <span className="login-explainer-option-desc">Update or cancel your weekly email newsletter.</span>
+            <span className="prem-city-arrow">→</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -357,7 +361,7 @@ export function Navigation() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signup' | 'signin'>('signup');
   const [accountDropOpen, setAccountDropOpen] = useState(false);
-  const [premiumModalOpen, setPremiumModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
@@ -472,17 +476,17 @@ export function Navigation() {
                 Organizations ↗
               </a>
 
-              {/* Premium Login — all 4 city pages */}
+              {/* Login — all 4 city pages. Opens explainer modal instead of */}
+              {/* linking straight out, since most visitors no longer need to log in. */}
               {!user && /^\/texas\/(san-antonio|austin|dallas|houston)(\/|$)/.test(pathname ?? '') && (
-                <a
-                  href={`https://www.localbusinesscalendars.app/${currentCitySlug}/login`}
+                <button
+                  type="button"
                   className="nav-classic-btn"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Log in to your premium calendar account"
+                  onClick={() => setLoginModalOpen(true)}
+                  title="Login info"
                 >
-                  Premium Login
-                </a>
+                  Login
+                </button>
               )}
 
               {user && isCityPage(pathname ?? '') ? (
@@ -540,9 +544,10 @@ export function Navigation() {
         cityName={modalContext.calendarLabel}
       />
 
-      <PremiumLoginModal
-        isOpen={premiumModalOpen}
-        onClose={() => setPremiumModalOpen(false)}
+      <LoginExplainerModal
+        isOpen={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
+        citySlug={currentCitySlug}
       />
     </>
   );

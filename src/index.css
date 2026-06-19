@@ -556,6 +556,62 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   .prem-modal{ padding: 1.5rem 1.2rem 1.2rem; }
 }
 
+/* Login explainer modal — two action rows (Premium Login / Manage Subscription) */
+.login-explainer-options{
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+.login-explainer-option{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  padding: .9rem 1.1rem;
+  border-radius: 10px;
+  background: #f1f5f9;
+  border: 2px solid #e2e8f0;
+  text-decoration: none;
+  transition: all .15s ease;
+  cursor: pointer;
+}
+.login-explainer-option:hover{
+  background: #1e1b4b;
+  border-color: #4338ca;
+}
+.login-explainer-option:hover .login-explainer-option-title,
+.login-explainer-option:hover .login-explainer-option-desc,
+.login-explainer-option:hover .prem-city-arrow{
+  color: #fff;
+}
+.login-explainer-option-title{
+  font-family: var(--font-sans);
+  font-size: .92rem;
+  font-weight: 700;
+  color: #1e293b;
+  transition: color .15s;
+  flex: 0 0 auto;
+}
+.login-explainer-option-desc{
+  font-family: var(--font-sans);
+  font-size: .8rem;
+  color: #64748b;
+  transition: color .15s;
+  flex: 1 1 auto;
+  text-align: left;
+}
+@media (max-width: 560px){
+  .login-explainer-option{
+    flex-wrap: wrap;
+  }
+  .login-explainer-option-title{
+    flex: 1 1 100%;
+  }
+  .login-explainer-option-desc{
+    flex: 1 1 100%;
+  }
+}
+
 /* Mobile toggle */
 .nav-mobile-toggle{
   display: none;
