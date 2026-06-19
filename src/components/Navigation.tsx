@@ -472,10 +472,10 @@ export function Navigation() {
                 Organizations ↗
               </a>
 
-              {/* Premium Login — SA pages only */}
-              {!user && /^\/texas\/san-antonio(\/|$)/.test(pathname ?? '') && (
+              {/* Premium Login — all 4 city pages */}
+              {!user && /^\/texas\/(san-antonio|austin|dallas|houston)(\/|$)/.test(pathname ?? '') && (
                 <a
-                  href="https://www.localbusinesscalendars.app/san-antonio/login"
+                  href={`https://www.localbusinesscalendars.app/${currentCitySlug}/login`}
                   className="nav-classic-btn"
                   target="_blank"
                   rel="noopener noreferrer"
