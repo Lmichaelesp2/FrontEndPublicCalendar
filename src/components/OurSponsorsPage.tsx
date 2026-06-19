@@ -103,7 +103,7 @@ export function OurSponsorsPage() {
       </section>
 
       <main style={{ background: 'var(--color-paper-2)', padding: '3rem 2rem' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
           {loading ? (
             <p style={{ color: 'var(--fg-3)', textAlign: 'center', padding: '3rem 0' }}>Loading sponsors…</p>
@@ -111,7 +111,7 @@ export function OurSponsorsPage() {
             <div style={{ marginBottom: '3.5rem' }}>
 
               {/* Section heading */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                 <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 600, color: 'var(--color-ink)', margin: 0 }}>
                   Founding Sponsors — All Four Cities
                 </h2>
@@ -119,16 +119,17 @@ export function OurSponsorsPage() {
               </div>
 
               {/* Founding sponsor cards grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
-                {foundingSponsors.map(({ sponsor, cities }) => (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1.25rem' }}>
+                {foundingSponsors.map(({ sponsor, cities }, i) => (
                   <SponsorCard
                     key={sponsor.name}
                     sponsor={sponsor}
+                    slotNumber={i + 1}
                     label={cities.length === CITIES.length ? 'All 4 Cities' : cities.map(c => CITY_NAMES[c]).join(', ')}
                   />
                 ))}
                 {Array.from({ length: openSlots }).map((_, i) => (
-                  <SponsorCard key={`open-${i}`} sponsor={null} label="All 4 Cities" />
+                  <SponsorCard key={`open-${i}`} sponsor={null} slotNumber={filledSlots + i + 1} label="All 4 Cities" />
                 ))}
               </div>
             </div>
@@ -182,96 +183,124 @@ export function OurSponsorsPage() {
 
 // ── Sponsor card ──────────────────────────────────────────────────────────────
 
-function SponsorCard({ sponsor, label }: {
+function SponsorCard({ sponsor, label, slotNumber }: {
   sponsor: Sponsor | null;
   label: string;
+  slotNumber: number;
 }) {
   const isActive = sponsor?.active && sponsor?.name;
 
-  return (
-    <div style={{
-      background: '#fff',
-      border: '1px solid var(--color-rule)',
-      borderRadius: '8px',
-      overflow: 'hidden',
-      opacity: isActive ? 1 : 0.75,
-    }}>
-      {/* Card header — logo or placeholder */}
+  if (isActive) {
+    return (
       <div style={{
-        height: '80px',
-        background: isActive ? 'var(--color-paper-2)' : '#f5f5f5',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1rem',
-        borderBottom: '1px solid var(--color-rule)',
+        background: '#fff',
+        border: '1px solid var(--color-rule)',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        boxShadow: '0 1px 3px rgba(10,22,40,.05)',
       }}>
-        {isActive && sponsor?.logo_url ? (
-          <img src={sponsor.logo_url} alt={sponsor.name ?? ''} style={{ maxHeight: '48px', maxWidth: '160px', objectFit: 'contain' }} />
-        ) : (
-          <span style={{ fontSize: '0.75rem', color: '#bbb', fontStyle: 'italic' }}>
-            {isActive ? sponsor?.name : 'Open sponsorship'}
-          </span>
-        )}
+        <div style={{
+          height: '88px',
+          background: 'var(--color-paper-2)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1rem',
+          borderBottom: '1px solid var(--color-rule)',
+        }}>
+          {sponsor?.logo_url ? (
+            <img src={sponsor.logo_url} alt={sponsor.name ?? ''} style={{ maxHeight: '52px', maxWidth: '170px', objectFit: 'contain' }} />
+          ) : (
+            <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--color-ink)' }}>{sponsor!.name}</span>
+          )}
+        </div>
+        <div style={{ padding: '1.25rem 1.3rem' }}>
+          <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-primary)', margin: '0 0 0.5rem' }}>
+            Founding Sponsor · {label}
+          </p>
+          <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-ink)', margin: '0 0 0.35rem' }}>
+            {sponsor!.name}
+          </p>
+          {sponsor!.tagline && (
+            <p style={{ fontSize: '0.82rem', color: 'var(--fg-3)', margin: '0 0 0.85rem', lineHeight: 1.55 }}>
+              {sponsor!.tagline}
+            </p>
+          )}
+          {sponsor!.quote && (
+            <blockquote style={{
+              borderLeft: '2px solid var(--color-rule)',
+              paddingLeft: '0.75rem',
+              margin: '0 0 0.85rem',
+              fontStyle: 'italic',
+              fontSize: '0.78rem',
+              color: 'var(--fg-3)',
+              lineHeight: 1.6,
+            }}>
+              "{sponsor!.quote}"
+              {sponsor!.quote_by && (
+                <cite style={{ display: 'block', fontStyle: 'normal', fontSize: '0.7rem', color: 'var(--fg-4)', marginTop: '0.3rem' }}>
+                  — {sponsor!.quote_by}
+                </cite>
+              )}
+            </blockquote>
+          )}
+          {sponsor!.url && (
+            <a href={sponsor!.url} target="_blank" rel="noopener noreferrer" style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
+              fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-primary)', textDecoration: 'none',
+            }}>
+              {sponsor!.cta_label ?? 'Visit website →'}
+            </a>
+          )}
+        </div>
       </div>
+    );
+  }
 
-      {/* Card body */}
-      <div style={{ padding: '1rem 1.1rem' }}>
-        {/* Calendar label */}
-        <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#042C53', margin: '0 0 0.4rem' }}>
-          {label}
-        </p>
-
-        {isActive ? (
-          <>
-            <p style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-ink)', margin: '0 0 0.35rem' }}>
-              {sponsor!.name}
-            </p>
-            {sponsor!.tagline && (
-              <p style={{ fontSize: '0.8rem', color: 'var(--fg-3)', margin: '0 0 0.75rem', lineHeight: 1.5 }}>
-                {sponsor!.tagline}
-              </p>
-            )}
-            {sponsor!.quote && (
-              <blockquote style={{
-                borderLeft: '2px solid var(--color-rule)',
-                paddingLeft: '0.75rem',
-                margin: '0 0 0.75rem',
-                fontStyle: 'italic',
-                fontSize: '0.78rem',
-                color: 'var(--fg-3)',
-                lineHeight: 1.6,
-              }}>
-                "{sponsor!.quote}"
-                {sponsor!.quote_by && (
-                  <cite style={{ display: 'block', fontStyle: 'normal', fontSize: '0.7rem', color: 'var(--fg-4)', marginTop: '0.3rem' }}>
-                    — {sponsor!.quote_by}
-                  </cite>
-                )}
-              </blockquote>
-            )}
-            {sponsor!.url && (
-              <a href={sponsor!.url} target="_blank" rel="noopener noreferrer" style={{
-                fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-primary)', textDecoration: 'none',
-              }}>
-                {sponsor!.cta_label ?? 'Learn more →'}
-              </a>
-            )}
-          </>
-        ) : (
-          <>
-            <p style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--fg-3)', margin: '0 0 0.35rem' }}>
-              Available
-            </p>
-            <p style={{ fontSize: '0.78rem', color: '#bbb', margin: '0 0 0.75rem', lineHeight: 1.5 }}>
-              One of four founding sponsor spots — featured across all four Texas cities.
-            </p>
-            <Link href="/sponsor" style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-accent)', textDecoration: 'none' }}>
-              Become a sponsor →
-            </Link>
-          </>
-        )}
+  // ── Open founding sponsor slot ──────────────────────────────────────────
+  return (
+    <Link href="/sponsor" style={{
+      display: 'block',
+      background: 'var(--color-paper-2)',
+      border: '1.5px dashed #c7d2e8',
+      borderRadius: '12px',
+      padding: '1.5rem 1.4rem',
+      textDecoration: 'none',
+      transition: 'all .18s ease',
+    }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--color-primary)';
+        (e.currentTarget as HTMLAnchorElement).style.background = '#fff';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLAnchorElement).style.borderColor = '#c7d2e8';
+        (e.currentTarget as HTMLAnchorElement).style.background = 'var(--color-paper-2)';
+      }}
+    >
+      <div style={{
+        width: '36px', height: '36px', borderRadius: '50%',
+        background: '#fff', border: '1.5px solid #c7d2e8',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-primary)',
+        marginBottom: '1rem',
+      }}>
+        {slotNumber}
       </div>
-    </div>
+      <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--fg-4)', margin: '0 0 0.5rem' }}>
+        Founding Sponsor · {label}
+      </p>
+      <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-ink)', margin: '0 0 0.5rem' }}>
+        This spot is open
+      </p>
+      <p style={{ fontSize: '0.82rem', color: 'var(--fg-3)', margin: '0 0 1rem', lineHeight: 1.55 }}>
+        Be one of only four founding sponsors, featured on every calendar and every weekly newsletter across all four Texas cities.
+      </p>
+      <span style={{
+        display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+        fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-accent)',
+      }}>
+        Become a sponsor →
+      </span>
+    </Link>
   );
 }
