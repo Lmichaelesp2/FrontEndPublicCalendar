@@ -27,38 +27,38 @@ const WHO_BENEFITS = [
   {
     icon: 'ti-speakerphone',
     title: 'Startups & Tech Companies',
-    desc: 'Companies looking to build brand recognition inside the local professional community before expanding. Sponsoring a sub-calendar like Technology or Networking puts you directly in front of early adopters.',
+    desc: 'Companies looking to build brand recognition across the Texas professional community before expanding city by city. One sponsorship puts you in front of early adopters in all four markets at once.',
   },
   {
     icon: 'ti-award',
     title: 'Chambers & Associations',
-    desc: 'Trade associations, chambers of commerce, and professional organizations looking to grow membership. Your message goes directly to the people most likely to join.',
+    desc: 'Trade associations, chambers of commerce, and professional organizations looking to grow membership statewide. Your message goes directly to the people most likely to join, in every city you serve.',
   },
   {
     icon: 'ti-users',
     title: 'Recruiters & Staffing Firms',
-    desc: 'Companies that need to build name recognition with local professionals in specific industries. Networking, Technology, and Small Business sub-calendars give you laser-focused reach.',
+    desc: 'Companies that need to build name recognition with local professionals across multiple Texas markets at once, without running four separate campaigns.',
   },
 ];
 
 // ─── What sponsors get ────────────────────────────────────────────────────────
 
 const WHAT_YOU_GET = [
-  'Exclusive sponsor placement in the weekly newsletter — one sponsor per calendar, no competition',
-  'Your name and message in front of subscribers who opted in specifically for that city or industry',
-  'Brand presence on the live calendar page at localbusinesscalendars.com (sub-calendar sponsors)',
+  'Your brand featured across all four Texas calendars at once — San Antonio, Austin, Dallas, and Houston — not just one market',
+  'One of only four founding sponsor spots on the entire network — exclusive, not shared with competitors',
+  'Placement in every city\'s weekly newsletter and on every live calendar page across the network',
   'A short sponsor intro written to fit naturally alongside the content — not an intrusive ad',
-  'Direct association with a trusted local resource professionals rely on every week',
-  'Option to sponsor a single city-wide calendar or a specific sub-calendar (Technology, Networking, Real Estate, Chamber, Small Business)',
+  'Direct association with a trusted local resource thousands of Texas professionals rely on every week',
+  'If a statewide spot isn\'t the right fit, single-city sponsorships are available too — reach out to discuss',
 ];
 
 // ─── Calendars available ──────────────────────────────────────────────────────
 
 const CALENDARS = [
-  { city: 'San Antonio',  subs: ['Networking', 'Technology', 'Real Estate', 'Chamber', 'Small Business'] },
-  { city: 'Austin',       subs: ['Networking', 'Technology', 'Real Estate', 'Chamber', 'Small Business'] },
-  { city: 'Dallas',       subs: ['Networking', 'Technology', 'Real Estate', 'Chamber', 'Small Business'] },
-  { city: 'Houston',      subs: ['Networking', 'Technology', 'Real Estate', 'Chamber', 'Small Business'] },
+  { city: 'San Antonio' },
+  { city: 'Austin' },
+  { city: 'Dallas' },
+  { city: 'Houston' },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -67,20 +67,21 @@ export function SponsorPage() {
   return (
     <div className="sponsor-page">
       <SEOHead
-        title="Sponsor a Local Business Calendar — Reach Texas Professionals Every Week"
-        description="Become a founding sponsor of Local Business Calendars. Reach thousands of active business professionals in San Antonio, Austin, Dallas, and Houston through our weekly newsletter."
+        title="Become a Founding Sponsor — Local Business Calendars"
+        description="Only four founding sponsor spots are available, and each one appears across all four Texas markets — San Antonio, Austin, Dallas, and Houston — in every weekly newsletter and on every calendar page."
       />
       <Navigation />
 
       {/* ── Hero ── */}
       <div className="sponsor-hero">
         <div className="sponsor-hero-inner">
-          <div className="sponsor-hero-badge">Founding Sponsorship</div>
-          <h1>Reach Local Business Professionals Every Week</h1>
+          <div className="sponsor-hero-badge">Founding Sponsorship — 4 Spots Available</div>
+          <h1>If Your Customers Are in San Antonio, Austin, Dallas, or Houston — Show Them You Support the Texas Business Community</h1>
           <p>
-            Local Business Calendars delivers a free weekly newsletter to thousands of professionals
-            across Texas — people who actively attend networking events, chamber meetings, and industry
-            gatherings. A sponsorship puts your brand directly in front of that audience, every Monday morning.
+            We're selecting four founding sponsors for Local Business Calendars — and each one is featured
+            across all four Texas markets at once. One sponsorship, four cities, every weekly newsletter,
+            every calendar page. It's the simplest way to put your brand in front of thousands of active
+            Texas professionals, no matter which of our cities your business serves.
           </p>
           <a href="mailto:sponsors@localbusinesscalendars.com?subject=Sponsorship Inquiry" className="sponsor-hero-cta">
             Get in Touch <ArrowRight size={16} />
@@ -93,12 +94,12 @@ export function SponsorPage() {
         <div className="sponsor-audience-inner">
           <div className="sponsor-audience-stat">
             <span className="sponsor-stat-number">4</span>
-            <span className="sponsor-stat-label">Texas Cities</span>
+            <span className="sponsor-stat-label">Founding Sponsor Spots</span>
           </div>
           <div className="sponsor-audience-divider" />
           <div className="sponsor-audience-stat">
-            <span className="sponsor-stat-number">20+</span>
-            <span className="sponsor-stat-label">Industry-Specific Calendars</span>
+            <span className="sponsor-stat-number">4</span>
+            <span className="sponsor-stat-label">Texas Cities, Every Spot</span>
           </div>
           <div className="sponsor-audience-divider" />
           <div className="sponsor-audience-stat">
@@ -108,7 +109,7 @@ export function SponsorPage() {
           <div className="sponsor-audience-divider" />
           <div className="sponsor-audience-stat">
             <span className="sponsor-stat-number">1</span>
-            <span className="sponsor-stat-label">Sponsor Per Calendar</span>
+            <span className="sponsor-stat-label">Network, Not Just One City</span>
           </div>
         </div>
       </div>
@@ -117,10 +118,11 @@ export function SponsorPage() {
       <div className="sponsor-section sponsor-section-alt">
         <div className="sponsor-section-inner">
           <div className="sponsor-section-label">Who Should Sponsor</div>
-          <h2>Built for Businesses That Serve Other Businesses</h2>
+          <h2>Built for Businesses That Serve the Whole State, Not Just One City</h2>
           <p className="sponsor-section-desc">
-            Our subscribers are active members of the local business community — they show up, they make buying decisions,
-            and they talk to other professionals. If your business depends on local visibility and trust, this audience is for you.
+            Our subscribers are active members of the local business community in every market we serve — they show up,
+            they make buying decisions, and they talk to other professionals. If your customers are spread across San Antonio,
+            Austin, Dallas, and Houston, a single network sponsorship puts your brand in front of all of them at once.
           </p>
           <div className="sponsor-who-grid">
             {WHO_BENEFITS.map(({ icon, title, desc }) => (
@@ -138,10 +140,11 @@ export function SponsorPage() {
       <div className="sponsor-section">
         <div className="sponsor-section-inner">
           <div className="sponsor-section-label">What's Included</div>
-          <h2>Exclusive, Low-Noise Placement</h2>
+          <h2>One Sponsorship, Featured in Every City</h2>
           <p className="sponsor-section-desc">
-            Each calendar has one sponsor slot — not a rotating ad unit, not a banner shared with three other brands.
-            One business, one calendar, one audience. That exclusivity is the point.
+            There are only four founding sponsor spots, and each one appears across the entire network —
+            not a rotating ad unit, not a banner shared with competitors. Four businesses, four cities each,
+            one audience of thousands. That exclusivity is the point.
           </p>
           <div className="sponsor-benefits-list">
             {WHAT_YOU_GET.map((item, i) => (
@@ -154,28 +157,23 @@ export function SponsorPage() {
         </div>
       </div>
 
-      {/* ── Calendars available ── */}
+      {/* ── Where your brand shows up ── */}
       <div className="sponsor-section sponsor-section-alt">
         <div className="sponsor-section-inner">
-          <div className="sponsor-section-label">Available Calendars</div>
-          <h2>Sponsor the Calendar That Fits Your Audience</h2>
+          <div className="sponsor-section-label">Where Your Brand Shows Up</div>
+          <h2>One Spot, All Four Cities</h2>
           <p className="sponsor-section-desc">
-            Each city has a city-wide calendar and five industry-specific sub-calendars. You can sponsor
-            the one that best fits your target audience, or reach out to discuss multi-calendar options.
+            A founding sponsorship isn't tied to a single market — your brand appears on every city calendar
+            and in every city's weekly newsletter, the same way, every time.
           </p>
           <div className="sponsor-cal-grid">
-            {CALENDARS.map(({ city, subs }) => (
+            {CALENDARS.map(({ city }) => (
               <div key={city} className="sponsor-cal-card">
                 <div className="sponsor-cal-city">
                   <i className="ti ti-map-pin" style={{ fontSize: '0.85rem' }} aria-hidden="true" />
                   {city}
                 </div>
-                <div className="sponsor-cal-citywide">City-Wide Calendar</div>
-                <div className="sponsor-cal-subs">
-                  {subs.map(s => (
-                    <span key={s} className="sponsor-cal-tag">{s}</span>
-                  ))}
-                </div>
+                <div className="sponsor-cal-citywide">Business Calendar &amp; Weekly Newsletter</div>
               </div>
             ))}
           </div>
@@ -189,31 +187,23 @@ export function SponsorPage() {
           <div className="sponsor-section-label">What It Looks Like</div>
           <h2>See How Your Brand Appears Across the Network</h2>
           <p className="sponsor-section-desc">
-            Each city calendar has one exclusive sponsor slot. Your brand appears at the top of the weekly newsletter and on the live calendar page — the only sponsor your audience sees, every week.
+            Your brand appears at the top of the weekly newsletter and on the live calendar page in every city — the same placement, the same recognition, four times over.
           </p>
 
           <div className="sponsor-mockup-grid">
-            {CALENDARS.map(({ city, subs }) => (
+            {CALENDARS.map(({ city }) => (
               <div key={city} className="sponsor-mockup-card">
                 <div className="sponsor-mockup-city-label">{city}</div>
                 <div className="sponsor-mockup-slot">
-                  <div className="sponsor-mockup-slot-tag">CITY CALENDAR SPONSOR</div>
+                  <div className="sponsor-mockup-slot-tag">FOUNDING SPONSOR</div>
                   <div className="sponsor-mockup-calendar-name">{city} Business Calendar</div>
                   <div className="sponsor-mockup-brand">Your Brand Here</div>
-                </div>
-                <div className="sponsor-mockup-subs">
-                  {subs.map(s => (
-                    <div key={s} className="sponsor-mockup-sub-row">
-                      <span className="sponsor-mockup-sub-cat">{s}</span>
-                      <span className="sponsor-mockup-sub-brand">Available</span>
-                    </div>
-                  ))}
                 </div>
               </div>
             ))}
           </div>
           <p className="sponsor-mockup-note">
-            City calendar sponsors receive the strongest placement. Sub-calendar sponsors appear within their specific industry newsletter — focused reach for a focused audience.
+            Only four founding sponsor spots exist, and each one appears in all four cities — not split up by market.
           </p>
         </div>
       </div>
@@ -223,16 +213,17 @@ export function SponsorPage() {
         <div className="sponsor-section-inner sponsor-founding-inner">
           <div className="sponsor-founding-text">
             <div className="sponsor-section-label">Why Now</div>
-            <h2>Be a Founding Sponsor</h2>
+            <h2>Be One of Four Founding Sponsors</h2>
             <p>
-              Local Business Calendars is growing. Founding sponsors get in early — before rates change,
-              before slots fill, and while your brand gets to be the name professionals associate with
-              their go-to local resource. This is an opportunity to build real recognition inside a
-              community that values consistency and local commitment.
+              Local Business Calendars is growing across Texas. We're only taking four founding sponsors —
+              once those four spots are filled, that's it. Get in early and your brand becomes the name
+              thousands of professionals in San Antonio, Austin, Dallas, and Houston associate with their
+              go-to local resource, in every one of those cities at once.
             </p>
             <p>
               There's no long-term contract required to get started. Reach out and we'll have a
-              straightforward conversation about fit, audience, and what a sponsorship would look like for your business.
+              straightforward conversation about fit and what a network sponsorship would look like for your business.
+              If a statewide spot isn't the right fit, we're also happy to talk about sponsoring a single city.
             </p>
           </div>
           <div className="sponsor-founding-visual">
@@ -240,9 +231,9 @@ export function SponsorPage() {
               <div className="sponsor-founding-card-label">Founding Sponsor Slot</div>
               <div className="sponsor-founding-card-name">Your Business Here</div>
               <div className="sponsor-founding-card-desc">
-                This spot reaches active local professionals in your city every Monday morning.
+                This spot reaches active local professionals in all four Texas cities, every Monday morning.
               </div>
-              <div className="sponsor-founding-card-cta">One sponsor per calendar — exclusive placement</div>
+              <div className="sponsor-founding-card-cta">Only 4 spots — exclusive, network-wide placement</div>
             </div>
           </div>
         </div>

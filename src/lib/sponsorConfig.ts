@@ -1,18 +1,21 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// sponsorConfig.ts
+// sponsorConfig.ts — NOT USED. Nothing in the app imports this file.
 //
-// HOW TO ACTIVATE A REAL SPONSOR
-// ─────────────────────────────────────────────────────────────────────────────
-// 1. Find the slot key below (e.g. 'san-antonio-networking')
-// 2. Replace `null` with a SponsorInfo object
-// 3. Push to production — the sponsor appears immediately on that page
+// Real sponsor data lives in the Supabase `sponsors` table (lbc project,
+// noilusnecqyveosmqeyl), read directly by SponsorPatronSection.tsx,
+// SponsorSubmitSection.tsx, and Calendar.tsx via supabase.from('sponsors').
 //
-// SLOT KEY FORMAT
-//   City-wide:       'san-antonio', 'austin', 'dallas', 'houston'
-//   Sub-calendar:    'san-antonio-networking', 'dallas-technology', etc.
-//   Texas-wide:      'texas'
+// CURRENT MODEL (as of the founding sponsor push): up to 4 network sponsors
+// total, each one inserted as 4 separate rows — one per city_slug
+// ('san-antonio', 'austin', 'dallas', 'houston') — all sharing the same
+// name/tagline/logo_url/url, with category_slug = null (city-wide slot,
+// since sub-calendars are hidden). A single-city fallback sponsor is just
+// one row instead of four.
 //
-// AVAILABLE CATEGORY SLUGS: networking, technology, real-estate, chamber, small-business
+// This file is kept only as historical reference for the old per-slot
+// model (one independent sponsor per city+category, 24 slots) and should
+// not be used to add real sponsors. Do not rewire the app to read from
+// here — update the `sponsors` table instead.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface SponsorInfo {
