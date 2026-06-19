@@ -14,6 +14,7 @@ import type { Event } from '../lib/supabase';
 import { Plus, Minus } from 'lucide-react';
 import { WhySection } from './WhySection';
 import { LBOSection } from './LBOSection';
+import { SHOW_EVENT_ASSISTANT } from '../lib/featureFlags';
 
 const CITY_NAMES: Record<string, string> = {
   austin: 'Austin',
@@ -43,10 +44,10 @@ const TEXAS_FAQ_ITEMS = [
     question: 'How do you find events across Texas?',
     answer: 'We monitor chambers of commerce, professional associations, networking groups, Meetup, Eventbrite, Facebook, LinkedIn, and dozens of individual organization websites across all four cities — so you don\'t have to.',
   },
-  {
+  ...(SHOW_EVENT_ASSISTANT ? [{
     question: 'What is the Event Assistant?',
     answer: 'The Event Assistant is a paid upgrade for professionals who want a personalized calendar. It learns your city, industry, and goals — then shows you the events most worth your time and sends a personalized digest every Monday. It\'s built for serious networkers, founders, and business development professionals.',
-  },
+  }] : []),
 ];
 
 function TexasFaqItem({ question, answer, open, onToggle }: { question: string; answer: string; open: boolean; onToggle: () => void }) {

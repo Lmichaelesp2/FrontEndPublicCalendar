@@ -43,6 +43,7 @@ import { HoustonSmallBusinessPage } from './components/cities/HoustonSmallBusine
 import { SubscribePage } from './components/SubscribePage';
 import { Homepage } from './components/Homepage';
 import { Mail, CalendarDays } from 'lucide-react';
+import { SHOW_EVENT_ASSISTANT } from './lib/featureFlags';
 
 const CITY_NAMES: Record<string, string> = {
   austin: 'Austin',
@@ -86,10 +87,10 @@ const TEXAS_FAQ_ITEMS = [
     question: 'What do I get with a free subscription?',
     answer: 'Access to your city\'s full events calendar plus a weekly email every Monday with the best upcoming networking and business events in your area.',
   },
-  {
+  ...(SHOW_EVENT_ASSISTANT ? [{
     question: 'What is the Personal Event Assistant?',
     answer: 'It\'s an upcoming AI-powered tool that learns your industry, professional goals, and schedule to recommend the best events for you personally — so you spend less time searching and more time networking. Join the waitlist above to be first in line when it launches.',
-  },
+  }] : []),
 ];
 
 function MainLayoutInner() {

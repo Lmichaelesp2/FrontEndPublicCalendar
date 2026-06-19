@@ -6,6 +6,7 @@ import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import { useAuth } from '../contexts/AuthContext';
 import { useUpgrade } from '../hooks/useUpgrade';
+import { SHOW_EVENT_ASSISTANT } from '../lib/featureFlags';
 
 const FEATURES_FREE = [
   'Current week events only',
@@ -75,8 +76,30 @@ export function UpgradePageClient() {
           </div>
         )}
 
+        {/* Paused — flag is off and this user isn't already premium */}
+        {!isPremium && !SHOW_EVENT_ASSISTANT && (
+          <div style={{
+            background: '#fff', border: '1px solid #e5e5e5', borderRadius: '16px',
+            padding: '32px', textAlign: 'center', maxWidth: '480px', margin: '0 auto',
+          }}>
+            <p style={{ fontSize: '1.1rem', fontWeight: 700, color: '#111', margin: '0 0 8px' }}>
+              New signups are paused right now
+            </p>
+            <p style={{ color: '#555', margin: '0 0 20px' }}>
+              The Event Assistant isn't taking new subscribers at the moment. The full calendar is still free to browse anytime.
+            </p>
+            <Link href="/subscribe" style={{
+              display: 'inline-block', background: '#111', color: '#fff',
+              padding: '12px 28px', borderRadius: '8px', fontWeight: 700,
+              textDecoration: 'none', fontSize: '0.95rem',
+            }}>
+              Browse the Free Calendar
+            </Link>
+          </div>
+        )}
+
         {/* Pricing cards */}
-        {!isPremium && (
+        {!isPremium && SHOW_EVENT_ASSISTANT && (
           <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'flex-start' }}>
 
             {/* Free card */}
@@ -169,7 +192,7 @@ export function UpgradePageClient() {
         )}
 
         {/* Trust line */}
-        {!isPremium && (
+        {!isPremium && SHOW_EVENT_ASSISTANT && (
           <p style={{ textAlign: 'center', color: '#888', fontSize: '13px', marginTop: '32px' }}>
             Already subscribed on the old calendar?{' '}
             <a href="mailto:michael@localbusinesscalendars.com" style={{ color: '#c2410c', textDecoration: 'none' }}>

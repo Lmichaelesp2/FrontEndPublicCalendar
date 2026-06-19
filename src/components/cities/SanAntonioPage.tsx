@@ -16,7 +16,7 @@ import { SponsorSubmitSection } from '../SponsorSubmitSection';
 import { LBOSection } from '../LBOSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
-import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
+import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION, SHOW_EVENT_ASSISTANT } from '../../lib/featureFlags';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },
@@ -44,7 +44,9 @@ const SA_TESTIMONIALS = [
 const SA_FAQ = [
   {
     question: 'Is this really free?',
-    answer: 'Yes! The San Antonio calendar and weekly email are completely free — no credit card required. We also offer a Personal Event Assistant for professionals who want AI-powered event recommendations tailored to their goals.',
+    answer: SHOW_EVENT_ASSISTANT
+      ? 'Yes! The San Antonio calendar and weekly email are completely free — no credit card required. We also offer a Personal Event Assistant for professionals who want AI-powered event recommendations tailored to their goals.'
+      : 'Yes! The San Antonio calendar and weekly email are completely free — no credit card required, ever.',
   },
   {
     question: 'What kinds of events are listed for San Antonio?',
@@ -62,10 +64,10 @@ const SA_FAQ = [
     question: 'What do I get with the weekly email?',
     answer: 'A curated digest of San Antonio\'s best upcoming networking and business events, delivered to your inbox every Monday morning. The calendar on the site is always free to browse.',
   },
-  {
+  ...(SHOW_EVENT_ASSISTANT ? [{
     question: 'What is the Personal Event Assistant?',
     answer: 'An upcoming AI-powered tool that learns your industry, professional goals, and schedule to recommend the best San Antonio events for you personally. Join the waitlist to be first in line.',
-  },
+  }] : []),
   {
     question: 'Can I add my own San Antonio event?',
     answer: 'Yes! Use our Submit Event page to add your networking or business event to the San Antonio calendar for free.',

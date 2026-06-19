@@ -3,10 +3,13 @@ import Link from 'next/link';
 import { Check } from 'lucide-react';
 import { Navigation } from '../../src/components/Navigation';
 import { Footer } from '../../src/components/Footer';
+import { SHOW_EVENT_ASSISTANT } from '../../src/lib/featureFlags';
 
 export const metadata: Metadata = {
   title: 'Pricing | Local Business Calendars',
-  description: 'The full calendar is free. Get the Event Assistant when you want personalized events, advanced filters, and a weekly digest built for your goals.',
+  description: SHOW_EVENT_ASSISTANT
+    ? 'The full calendar is free. Get the Event Assistant when you want personalized events, advanced filters, and a weekly digest built for your goals.'
+    : 'The full business event calendar is completely free — every city, every category, no credit card required.',
 };
 
 const FREE_FEATURES = [
@@ -36,10 +39,12 @@ export default function PricingPage() {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '56px' }}>
           <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#111', margin: '0 0 14px', lineHeight: 1.2 }}>
-            Free calendar. Event Assistant when you're ready.
+            {SHOW_EVENT_ASSISTANT ? "Free calendar. Event Assistant when you're ready." : 'The calendar is free. Always.'}
           </h1>
           <p style={{ color: '#666', fontSize: '1.05rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.6 }}>
-            The full calendar is open to everyone. When you want events picked for you, the Event Assistant personalizes your view and builds a weekly digest around your goals.
+            {SHOW_EVENT_ASSISTANT
+              ? 'The full calendar is open to everyone. When you want events picked for you, the Event Assistant personalizes your view and builds a weekly digest around your goals.'
+              : 'Every city, every category, every event — no credit card, no catch.'}
           </p>
         </div>
 
@@ -85,46 +90,48 @@ export default function PricingPage() {
             </Link>
           </div>
 
-          {/* Premium card — secondary */}
-          <div style={{
-            background: '#fff',
-            border: '1px solid #e5e5e5',
-            borderRadius: '16px',
-            padding: '36px 32px',
-            width: '300px',
-            flexShrink: 0,
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-            <div style={{ fontSize: '12px', fontWeight: 800, color: '#c2410c', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Event Assistant</div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '4px' }}>
-              <span style={{ fontSize: '2.2rem', fontWeight: 800, color: '#111' }}>$14.99</span>
-              <span style={{ fontSize: '14px', color: '#888' }}>/month</span>
+          {/* Premium card — secondary, hidden while Event Assistant is paused */}
+          {SHOW_EVENT_ASSISTANT && (
+            <div style={{
+              background: '#fff',
+              border: '1px solid #e5e5e5',
+              borderRadius: '16px',
+              padding: '36px 32px',
+              width: '300px',
+              flexShrink: 0,
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: '#c2410c', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Event Assistant</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '4px' }}>
+                <span style={{ fontSize: '2.2rem', fontWeight: 800, color: '#111' }}>$14.99</span>
+                <span style={{ fontSize: '14px', color: '#888' }}>/month</span>
+              </div>
+              <div style={{ fontSize: '13px', color: '#888', marginBottom: '28px' }}>Cancel anytime.</div>
+
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px', flex: 1 }}>
+                {PREMIUM_FEATURES.map(f => (
+                  <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.4 }}>
+                    <Check size={15} style={{ color: '#c2410c', flexShrink: 0, marginTop: '1px' }} />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/upgrade"
+                style={{
+                  display: 'block', textAlign: 'center',
+                  background: '#fff', color: '#c2410c',
+                  padding: '12px', borderRadius: '8px',
+                  fontSize: '15px', fontWeight: 700, textDecoration: 'none',
+                  border: '1.5px solid #c2410c',
+                }}
+              >
+                Learn More
+              </Link>
             </div>
-            <div style={{ fontSize: '13px', color: '#888', marginBottom: '28px' }}>Cancel anytime.</div>
-
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px', flex: 1 }}>
-              {PREMIUM_FEATURES.map(f => (
-                <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.4 }}>
-                  <Check size={15} style={{ color: '#c2410c', flexShrink: 0, marginTop: '1px' }} />
-                  {f}
-                </li>
-              ))}
-            </ul>
-
-            <Link
-              href="/upgrade"
-              style={{
-                display: 'block', textAlign: 'center',
-                background: '#fff', color: '#c2410c',
-                padding: '12px', borderRadius: '8px',
-                fontSize: '15px', fontWeight: 700, textDecoration: 'none',
-                border: '1.5px solid #c2410c',
-              }}
-            >
-              Learn More
-            </Link>
-          </div>
+          )}
         </div>
 
         {/* Footer note */}

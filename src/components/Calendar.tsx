@@ -10,6 +10,7 @@ import { EventCard } from './EventCard';
 import { FilterBar, FilterState, emptyFilters, hasActiveFilters } from './FilterBar';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import { SHOW_EVENT_ASSISTANT } from '../lib/featureFlags';
 import { useUpgrade } from '../hooks/useUpgrade';
 
 
@@ -575,7 +576,7 @@ export function Calendar({ initialEvents, forcedCity, groupType, maxDate, minDat
         </div>
 
         {/* Upgrade nudge — shown when free user tries to navigate past 7 days */}
-        {showUpgradeNudge && !isPremium && (
+        {showUpgradeNudge && !isPremium && SHOW_EVENT_ASSISTANT && (
           <div style={{
             background: 'linear-gradient(135deg, #1e2130 0%, #252a42 100%)',
             border: '1px solid #f5a62340',
