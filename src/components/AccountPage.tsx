@@ -229,17 +229,27 @@ export function AccountPage() {
     );
   }
 
-  // Logged in but no profile row yet — show minimal page with sign out
+  // Logged in but no profile row yet — show minimal page with sign out.
+  // Even without a profile row, newsletterSubs may already be loaded —
+  // use it to send them back to their actual city instead of the generic Texas page.
   if (!profile) {
+    const noProfileCityWideSubs = newsletterSubs
+      .filter(s => !s.sub_calendar && (s.status ?? 'active') === 'active')
+      .sort((a, b) => a.id - b.id);
+    const noProfilePrimaryCity = noProfileCityWideSubs[0]?.city || null;
+    const noProfileCitySlug = noProfilePrimaryCity ? CITY_TO_SLUG[noProfilePrimaryCity] : null;
+    const noProfileBackHref = noProfileCitySlug ? `/texas/${noProfileCitySlug}` : '/texas';
+    const noProfileBackLabel = noProfilePrimaryCity ? `Back to ${noProfilePrimaryCity} Business Calendar` : 'Back to Texas Business Calendars';
+
     return (
       <>
         <Navigation />
         <div className="sub-success-wrap">
           <div className="sub-form-card" style={{ maxWidth: '420px', margin: '0 auto', textAlign: 'center' }}>
             <div className="acct-gate-body">
-              <a href="/texas" className="acct-back-btn" style={{ marginBottom: '1.25rem' }}>
+              <a href={noProfileBackHref} className="acct-back-btn" style={{ marginBottom: '1.25rem' }}>
                 <ArrowLeft size={14} />
-                Back to Texas Business Calendars
+                {noProfileBackLabel}
               </a>
               <h2 style={{ marginBottom: '0.5rem', fontSize: '1.3rem' }}>Hi, {user?.email}</h2>
               <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
