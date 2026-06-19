@@ -261,46 +261,57 @@ function SponsorCard({ sponsor, label, slotNumber }: {
   return (
     <Link href="/sponsor" style={{
       display: 'block',
-      background: 'var(--color-paper-2)',
+      background: '#fff',
       border: '1.5px dashed #c7d2e8',
       borderRadius: '12px',
-      padding: '1.5rem 1.4rem',
+      overflow: 'hidden',
       textDecoration: 'none',
       transition: 'all .18s ease',
     }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--color-primary)';
-        (e.currentTarget as HTMLAnchorElement).style.background = '#fff';
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLAnchorElement).style.borderColor = '#c7d2e8';
-        (e.currentTarget as HTMLAnchorElement).style.background = 'var(--color-paper-2)';
-      }}
+      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--color-primary)'; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#c7d2e8'; }}
     >
+      {/* Logo placeholder zone — matches the filled-card header height */}
       <div style={{
-        width: '36px', height: '36px', borderRadius: '50%',
-        background: '#fff', border: '1.5px solid #c7d2e8',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-primary)',
-        marginBottom: '1rem',
+        height: '88px',
+        background: 'var(--color-paper-2)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderBottom: '1.5px dashed #c7d2e8',
       }}>
-        {slotNumber}
+        <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg-4)', fontStyle: 'italic' }}>
+          Your logo here
+        </span>
       </div>
-      <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--fg-4)', margin: '0 0 0.5rem' }}>
-        Founding Sponsor · {label}
-      </p>
-      <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-ink)', margin: '0 0 0.5rem' }}>
-        This spot is open
-      </p>
-      <p style={{ fontSize: '0.82rem', color: 'var(--fg-3)', margin: '0 0 1rem', lineHeight: 1.55 }}>
-        Be one of only four founding sponsors, featured on every calendar and every weekly newsletter across all four Texas cities.
-      </p>
-      <span style={{
-        display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-        fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-accent)',
-      }}>
-        Become a sponsor →
-      </span>
+
+      {/* Body — number watermarked bottom-right, same recipe as .feature-step */}
+      <div style={{ position: 'relative', padding: '1.25rem 1.3rem', overflow: 'hidden' }}>
+        <span aria-hidden="true" style={{
+          position: 'absolute', bottom: '-10px', right: '6px',
+          fontSize: '4.5rem', fontWeight: 800, lineHeight: 1,
+          color: 'var(--fg-1)', opacity: 0.06,
+          fontFamily: 'var(--font-sans)', letterSpacing: '-0.04em',
+          pointerEvents: 'none', userSelect: 'none',
+        }}>
+          {slotNumber}
+        </span>
+        <p style={{ position: 'relative', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--fg-4)', margin: '0 0 0.5rem' }}>
+          Founding Sponsor · {label}
+        </p>
+        <p style={{ position: 'relative', fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-ink)', margin: '0 0 0.5rem' }}>
+          This spot is open
+        </p>
+        <p style={{ position: 'relative', fontSize: '0.82rem', color: 'var(--fg-3)', margin: '0 0 1rem', lineHeight: 1.55 }}>
+          Be one of only four founding sponsors, featured on every calendar and every weekly newsletter across all four Texas cities.
+        </p>
+        <span style={{
+          position: 'relative', display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+          fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-accent)',
+        }}>
+          Become a sponsor →
+        </span>
+      </div>
     </Link>
   );
 }
