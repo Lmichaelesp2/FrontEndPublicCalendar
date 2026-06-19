@@ -25,13 +25,6 @@ Instead of checking multiple websites, Facebook groups, and Eventbrite pages, ev
 Click any city in the navigation menu at the top of the page to browse that city's events for the current week.`,
   },
   {
-    icon: 'ti-layout-grid',
-    title: 'Browsing by Category',
-    body: `Events on each city calendar are organized by industry type — Networking, Chamber Events, Real Estate, Technology, and Small Business. Each event card shows its category so you can quickly spot what's relevant to you.
-
-Browse the full city calendar to see everything at once, or use the category filters to focus on one type.`,
-  },
-  {
     icon: 'ti-mail',
     title: 'Getting the Free Weekly Email',
     body: `The easiest way to stay up to date is to subscribe to the free Monday morning email. Every Monday, we send a curated digest of that week's best events in your city — straight to your inbox.
@@ -60,19 +53,6 @@ We always link to the organizer's original page so you get the most current info
 We review all submissions and add qualifying business and professional events. Your event reaches thousands of Texas professionals who check the calendar each week.
 
 Click "Submit Your Event" in the footer, or visit the Submit page directly at localbusinesscalendars.com/submit.`,
-  },
-  {
-    icon: 'ti-sparkles',
-    title: 'Event Assistant (Premium)',
-    body: `Want more than this week's events? Event Assistant is our premium upgrade at $14.99/month.
-
-With Event Assistant you get:
-• 30 days of upcoming events — plan a full month ahead
-• Personalized event recommendations based on your goals and industry
-• Advanced filters — by city, cost, time of day, and category
-• A personalized weekly email digest every Monday
-
-Click "Sign Up — Free →" to create a free account, then upgrade to Event Assistant from your account page.`,
   },
   {
     icon: 'ti-building',

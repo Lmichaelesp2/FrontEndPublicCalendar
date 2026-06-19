@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { MapPin, Calendar, Share2, CalendarPlus, X } from 'lucide-react';
 import { Event } from '../lib/supabase';
 import { parseDate, formatTime } from '../lib/utils';
+import { SHOW_SPONSOR_SECTIONS } from '../lib/featureFlags';
 
 // ─── Calendar helpers ─────────────────────────────────────────────────────────
 
@@ -410,7 +411,7 @@ export function EventCard({ event, index, isLoggedIn = false, isPremium = false,
             flexWrap: 'wrap',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              {sponsorLogoUrl && (
+              {SHOW_SPONSOR_SECTIONS && sponsorLogoUrl && (
                 <img
                   src={sponsorLogoUrl}
                   alt={sponsorName ?? 'Sponsor'}
@@ -419,7 +420,7 @@ export function EventCard({ event, index, isLoggedIn = false, isPremium = false,
               )}
               <span style={{ color: '#666', fontSize: '12px' }}>
                 Get these events delivered every Monday
-                {sponsorName && (
+                {SHOW_SPONSOR_SECTIONS && sponsorName && (
                   <> · <span style={{ fontWeight: 700, color: 'var(--color-ink)', fontSize: '11px', letterSpacing: '0.01em' }}>{sponsorName}</span></>
                 )}
               </span>
@@ -440,7 +441,7 @@ export function EventCard({ event, index, isLoggedIn = false, isPremium = false,
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.88'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
             >
-              Get Monday Email →
+              Get Monday Newsletter →
             </button>
           </div>
         )}
