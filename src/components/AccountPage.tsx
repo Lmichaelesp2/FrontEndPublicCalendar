@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
-import { User, Mail, Calendar, MapPin, LogOut, X, ArrowRight, Sparkles, Plus } from 'lucide-react';
+import { User, Mail, Calendar, MapPin, LogOut, X, ArrowRight, Sparkles, Plus, ArrowLeft } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const CITY_TO_SLUG: Record<string, string> = {
@@ -69,6 +69,11 @@ function AccountLoginGate() {
       <Navigation />
       <div className="sub-success-wrap">
         <div className="sub-form-card" style={{ maxWidth: '420px', margin: '0 auto' }}>
+
+          <a href="/texas" className="acct-back-btn" style={{ marginBottom: '1.25rem' }}>
+            <ArrowLeft size={14} />
+            Back to Texas Business Calendars
+          </a>
 
           <h2 style={{ marginBottom: '0.25rem', fontSize: '1.4rem' }}>Manage My Subscriptions</h2>
           <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
@@ -200,6 +205,10 @@ export function AccountPage() {
         <Navigation />
         <div className="sub-success-wrap">
           <div className="sub-form-card" style={{ maxWidth: '420px', margin: '0 auto', textAlign: 'center' }}>
+            <a href="/texas" className="acct-back-btn" style={{ marginBottom: '1.25rem' }}>
+              <ArrowLeft size={14} />
+              Back to Texas Business Calendars
+            </a>
             <h2 style={{ marginBottom: '0.5rem', fontSize: '1.3rem' }}>Hi, {user?.email}</h2>
             <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
               Your subscriptions are managed by email. Visit any city page and subscribe to add calendars to your account.
@@ -243,6 +252,12 @@ export function AccountPage() {
   const byCity = Object.entries(byCityMap);
   const availableCities = ALL_CITIES.filter(c => !subscribedCities.includes(c));
 
+  // "Back to [City] Business Calendar" if they have a city, else back to Texas overview
+  const primaryCity = subscribedCities[0];
+  const primaryCitySlug = primaryCity ? CITY_TO_SLUG[primaryCity] : null;
+  const backHref = primaryCitySlug ? `/texas/${primaryCitySlug}` : '/texas';
+  const backLabel = primaryCity ? `Back to ${primaryCity} Business Calendar` : 'Back to Texas Business Calendars';
+
   async function handleRemove(subId: number) {
     setRemoving(subId);
     await removeNewsletterSub(subId);
@@ -271,6 +286,12 @@ export function AccountPage() {
       <Navigation />
       <main className="acct-page">
         <div className="acct-container">
+
+          {/* Back to calendar */}
+          <a href={backHref} className="acct-back-btn">
+            <ArrowLeft size={14} />
+            {backLabel}
+          </a>
 
           {/* Header */}
           <div className="acct-header">
