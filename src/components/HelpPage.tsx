@@ -17,10 +17,10 @@ Instead of checking multiple websites, Facebook groups, and Eventbrite pages, ev
     title: 'Browsing by City',
     body: `We cover four Texas cities — each with its own calendar:
 
-• San Antonio — localbusinesscalendars.com/texas/san-antonio
-• Austin — localbusinesscalendars.com/texas/austin
-• Dallas — localbusinesscalendars.com/texas/dallas
-• Houston — localbusinesscalendars.com/texas/houston
+• San Antonio — localbusinesscalendar.com/texas/san-antonio
+• Austin — localbusinesscalendar.com/texas/austin
+• Dallas — localbusinesscalendar.com/texas/dallas
+• Houston — localbusinesscalendar.com/texas/houston
 
 Click any city in the navigation menu at the top of the page to browse that city's events for the current week.`,
   },
@@ -52,7 +52,23 @@ We always link to the organizer's original page so you get the most current info
 
 We review all submissions and add qualifying business and professional events. Your event reaches thousands of Texas professionals who check the calendar each week.
 
-Click "Submit Your Event" in the footer, or visit the Submit page directly at localbusinesscalendars.com/submit.`,
+Click "Submit Your Event" in the footer, or visit the Submit page directly at localbusinesscalendar.com/submit.`,
+  },
+  {
+    icon: 'ti-heart-handshake',
+    title: 'Sponsors',
+    body: `Local Business Calendars is free to use because local sponsors help cover the cost of running it. You may see sponsor names or logos in a few places around the site as a result.
+
+Click "Sponsors" in the navigation menu to see who currently supports the calendar, or to learn about becoming a sponsor yourself.`,
+  },
+  {
+    icon: 'ti-crown',
+    title: 'Premium / Classic Calendar Login',
+    body: `If you were a paid subscriber on our previous calendar, you still have an account — it just lives on a separate login from the free newsletter account described above.
+
+Click "Login" in the navigation menu, then choose "Premium member?" to go to your city's Classic Calendar login. This is different from "Manage My Subscription," which only covers the free weekly newsletter.
+
+New Event Assistant signups are paused right now, but existing premium accounts are unaffected and continue to work as before.`,
   },
   {
     icon: 'ti-building',
