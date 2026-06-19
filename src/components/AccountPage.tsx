@@ -236,23 +236,25 @@ export function AccountPage() {
         <Navigation />
         <div className="sub-success-wrap">
           <div className="sub-form-card" style={{ maxWidth: '420px', margin: '0 auto', textAlign: 'center' }}>
-            <a href="/texas" className="acct-back-btn" style={{ marginBottom: '1.25rem' }}>
-              <ArrowLeft size={14} />
-              Back to Texas Business Calendars
-            </a>
-            <h2 style={{ marginBottom: '0.5rem', fontSize: '1.3rem' }}>Hi, {user?.email}</h2>
-            <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-              Your subscriptions are managed by email. Visit any city page and subscribe to add calendars to your account.
-            </p>
-            <a href="/subscribe" className="sub-submit" style={{ display: 'inline-flex', textDecoration: 'none', justifyContent: 'center' }}>
-              Browse Calendars <ArrowRight size={16} />
-            </a>
-            <button
-              onClick={async () => { await signOut(); router.push('/'); }}
-              style={{ display: 'block', margin: '1rem auto 0', background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem' }}
-            >
-              <LogOut size={13} style={{ marginRight: '4px' }} /> Sign Out
-            </button>
+            <div className="acct-gate-body">
+              <a href="/texas" className="acct-back-btn" style={{ marginBottom: '1.25rem' }}>
+                <ArrowLeft size={14} />
+                Back to Texas Business Calendars
+              </a>
+              <h2 style={{ marginBottom: '0.5rem', fontSize: '1.3rem' }}>Hi, {user?.email}</h2>
+              <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+                Your subscriptions are managed by email. Visit any city page and subscribe to add calendars to your account.
+              </p>
+              <a href="/subscribe" className="sub-submit" style={{ display: 'inline-flex', textDecoration: 'none', justifyContent: 'center' }}>
+                Browse Calendars <ArrowRight size={16} />
+              </a>
+              <button
+                onClick={async () => { await signOut(); router.push('/'); }}
+                style={{ display: 'block', margin: '1rem auto 0', background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem' }}
+              >
+                <LogOut size={13} style={{ marginRight: '4px' }} /> Sign Out
+              </button>
+            </div>
           </div>
         </div>
         <Footer />
@@ -267,12 +269,14 @@ export function AccountPage() {
   // Only the city-wide newsletter subscriptions are shown/managed here
   // (sub-calendar lists are paused). One chip per city the member is on.
   const ALL_CITIES = ['San Antonio', 'Austin', 'Dallas', 'Houston'];
-  const cityWideSubs = newsletterSubs.filter(s => !s.sub_calendar && (s.status ?? 'active') === 'active');
+  const cityWideSubs = newsletterSubs
+    .filter(s => !s.sub_calendar && (s.status ?? 'active') === 'active')
+    .sort((a, b) => a.id - b.id); // oldest subscription (lowest id) first
 
   const byCityMap: Record<string, { label: string; subId: number; source: string | null }> = {};
   cityWideSubs.forEach(s => {
     const city = s.city || 'Unknown';
-    if (byCityMap[city]) return; // one chip per city
+    if (byCityMap[city]) return; // one chip per city — keeps the earliest since list is sorted
     byCityMap[city] = {
       label:  `${city} Newsletter`,
       subId:  s.id,
@@ -283,8 +287,10 @@ export function AccountPage() {
   const byCity = Object.entries(byCityMap);
   const availableCities = ALL_CITIES.filter(c => !subscribedCities.includes(c));
 
-  // "Back to [City] Business Calendar" if they have a city, else back to Texas overview
-  const primaryCity = subscribedCities[0];
+  // "Back to [City] Business Calendar" — the FIRST city they ever subscribed to
+  // (lowest subscription id, since cityWideSubs is sorted oldest-first above).
+  // Falls back to the Texas overview only if they have no active city subscription at all.
+  const primaryCity = cityWideSubs.length > 0 ? (cityWideSubs[0].city || null) : null;
   const primaryCitySlug = primaryCity ? CITY_TO_SLUG[primaryCity] : null;
   const backHref = primaryCitySlug ? `/texas/${primaryCitySlug}` : '/texas';
   const backLabel = primaryCity ? `Back to ${primaryCity} Business Calendar` : 'Back to Texas Business Calendars';
