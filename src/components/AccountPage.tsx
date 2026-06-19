@@ -15,6 +15,13 @@ const CITY_TO_SLUG: Record<string, string> = {
   'San Antonio': 'san-antonio',
 };
 
+const SLUG_TO_CITY_NAME: Record<string, string> = {
+  'san-antonio': 'San Antonio',
+  austin:        'Austin',
+  dallas:        'Dallas',
+  houston:       'Houston',
+};
+
 const CAT_TO_SLUG: Record<string, string> = {
   'Networking':     'networking',
   'Technology':     'technology',
@@ -69,6 +76,7 @@ function AccountLoginGate() {
       <Navigation />
       <div className="sub-success-wrap">
         <div className="sub-form-card" style={{ maxWidth: '420px', margin: '0 auto' }}>
+        <div className="acct-gate-body">
 
           <a href="/texas" className="acct-back-btn" style={{ marginBottom: '1.25rem' }}>
             <ArrowLeft size={14} />
@@ -77,7 +85,7 @@ function AccountLoginGate() {
 
           <h2 style={{ marginBottom: '0.25rem', fontSize: '1.4rem' }}>Manage My Subscriptions</h2>
           <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
-            Log in to view, add, or remove your newsletter subscriptions.
+            This is for your free account — your weekly newsletter emails and your Local Business Organizations directory access. Log in to view, add, or remove what you're subscribed to.
           </p>
 
           {mode === 'choose' && (
@@ -159,9 +167,32 @@ function AccountLoginGate() {
             </div>
           )}
 
-          <p className="sub-fine-print" style={{ marginTop: '1.5rem' }}>
+          <p className="sub-fine-print" style={{ marginTop: '1.5rem', padding: 0 }}>
             Don't have an account? <a href="/texas/san-antonio/subscribe">Subscribe free →</a>
           </p>
+
+        </div>
+
+        <div className="acct-premium-callout">
+          <span className="acct-premium-callout-label">Premium subscriber?</span>
+          <p className="acct-premium-callout-desc">
+            This page is for free newsletter accounts only. Premium Event Assistant members should log in here instead:
+          </p>
+          <div className="acct-premium-callout-links">
+            {(['san-antonio', 'austin', 'dallas', 'houston'] as const).map(slug => (
+              <a
+                key={slug}
+                href={`https://www.localbusinesscalendars.app/${slug}/login`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="acct-premium-callout-link"
+              >
+                {SLUG_TO_CITY_NAME[slug]}
+              </a>
+            ))}
+          </div>
+        </div>
+
         </div>
       </div>
       <Footer />
