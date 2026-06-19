@@ -377,6 +377,59 @@ export function AccountPage() {
             )}
           </div>
 
+          {/* LBO Directory Access */}
+          <div className="acct-section">
+            <div className="acct-section-header">
+              <h2 className="acct-section-title">
+                <Sparkles size={16} />
+                Business Organizations Directory
+              </h2>
+            </div>
+            <p style={{ fontSize: '0.875rem', color: 'var(--color-muted)', marginBottom: '1rem', lineHeight: 1.6 }}>
+              Your account gives you access to the full <strong>Local Business Organizations</strong> directory — complete org profiles, contact info, membership details, and social links for every city you're subscribed to.
+            </p>
+            {subscribedCities.length === 0 ? (
+              <div className="acct-empty">
+                Subscribe to a city newsletter to unlock directory access.
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {subscribedCities.map(city => {
+                  const slug = CITY_TO_SLUG[city] || city.toLowerCase().replace(' ', '-');
+                  return (
+                    <a
+                      key={city}
+                      href={`https://www.localbusinessorganizations.com/texas/${slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '8px',
+                        background: '#f0f4ff', border: '1.5px solid #1a3a5c',
+                        borderRadius: '8px', padding: '10px 16px',
+                        fontSize: '0.875rem', fontWeight: 600, color: '#1a3a5c',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <MapPin size={14} />
+                      {city} Organizations
+                      <ArrowRight size={13} />
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+            {subscribedCities.length === 0 && (
+              <a
+                href="https://www.localbusinessorganizations.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '0.75rem', fontSize: '0.85rem', color: '#1a3a5c', fontWeight: 600, textDecoration: 'none' }}
+              >
+                Browse the directory → <ArrowRight size={13} />
+              </a>
+            )}
+          </div>
+
           {/* Sign out */}
           <button className="acct-signout" onClick={handleSignOut}>
             <LogOut size={15} />
