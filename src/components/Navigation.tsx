@@ -330,18 +330,6 @@ function LoginExplainerModal({ isOpen, onClose, citySlug }: { isOpen: boolean; o
         </div>
 
         <div className="login-explainer-options">
-          <a
-            className="login-explainer-option"
-            href={`https://www.localbusinesscalendars.app/${citySlug}/login`}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={onClose}
-          >
-            <span className="login-explainer-option-title">Premium member?</span>
-            <span className="login-explainer-option-desc">Log in here for your personalized calendar and extended event details.</span>
-            <span className="prem-city-arrow">→</span>
-          </a>
-
           <Link
             className="login-explainer-option"
             href="/account"
@@ -351,6 +339,18 @@ function LoginExplainerModal({ isOpen, onClose, citySlug }: { isOpen: boolean; o
             <span className="login-explainer-option-desc">Update or cancel your weekly email newsletter.</span>
             <span className="prem-city-arrow">→</span>
           </Link>
+
+          <a
+            className="login-explainer-option login-explainer-option--premium"
+            href={`https://www.localbusinesscalendars.app/${citySlug}/login`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onClose}
+          >
+            <span className="login-explainer-option-title">Premium member?</span>
+            <span className="login-explainer-option-desc">Log in here for your personalized calendar and extended event details.</span>
+            <span className="prem-city-arrow">→</span>
+          </a>
         </div>
       </div>
     </div>

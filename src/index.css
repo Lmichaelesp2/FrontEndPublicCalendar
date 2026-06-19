@@ -584,6 +584,30 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 .login-explainer-option:hover .prem-city-arrow{
   color: #fff;
 }
+
+/* Premium member option — stands out in gold since these are paid customers */
+.login-explainer-option--premium{
+  background: #fffbeb;
+  border-color: #fcd34d;
+}
+.login-explainer-option--premium .login-explainer-option-title{
+  color: #92400e;
+}
+.login-explainer-option--premium .login-explainer-option-desc{
+  color: #a16207;
+}
+.login-explainer-option--premium .prem-city-arrow{
+  color: #b45309;
+}
+.login-explainer-option--premium:hover{
+  background: #92400e;
+  border-color: #92400e;
+}
+.login-explainer-option--premium:hover .login-explainer-option-title,
+.login-explainer-option--premium:hover .login-explainer-option-desc,
+.login-explainer-option--premium:hover .prem-city-arrow{
+  color: #fff;
+}
 .login-explainer-option-title{
   font-family: var(--font-sans);
   font-size: .92rem;
