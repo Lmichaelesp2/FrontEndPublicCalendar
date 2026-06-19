@@ -32,7 +32,7 @@ const WHO_BENEFITS = [
   {
     icon: 'ti-award',
     title: 'Chambers & Associations',
-    desc: 'Trade associations, chambers of commerce, and professional organizations looking to grow membership statewide. Your message goes directly to the people most likely to join, in every city you serve.',
+    desc: 'Trade associations, chambers of commerce, and professional organizations looking to grow membership across multiple cities. Your message goes directly to the people most likely to join, in every city you serve.',
   },
   {
     icon: 'ti-users',
@@ -49,7 +49,7 @@ const WHAT_YOU_GET = [
   'Placement in every city\'s weekly newsletter and on every live calendar page across the network',
   'A short sponsor intro written to fit naturally alongside the content — not an intrusive ad',
   'Direct association with a trusted local resource thousands of Texas professionals rely on every week',
-  'If a statewide spot isn\'t the right fit, single-city sponsorships are available too — reach out to discuss',
+  'If an all-four-cities spot isn\'t the right fit, single-city sponsorships are available too — reach out to discuss',
 ];
 
 // ─── Calendars available ──────────────────────────────────────────────────────
@@ -118,7 +118,7 @@ export function SponsorPage() {
       <div className="sponsor-section sponsor-section-alt">
         <div className="sponsor-section-inner">
           <div className="sponsor-section-label">Who Should Sponsor</div>
-          <h2>Built for Businesses That Serve the Whole State, Not Just One City</h2>
+          <h2>Built for Businesses That Serve Texas's Four Largest Cities, Not Just One</h2>
           <p className="sponsor-section-desc">
             Our subscribers are active members of the local business community in every market we serve — they show up,
             they make buying decisions, and they talk to other professionals. If your customers are spread across San Antonio,
@@ -223,7 +223,7 @@ export function SponsorPage() {
             <p>
               There's no long-term contract required to get started. Reach out and we'll have a
               straightforward conversation about fit and what a network sponsorship would look like for your business.
-              If a statewide spot isn't the right fit, we're also happy to talk about sponsoring a single city.
+              If an all-four-cities spot isn't the right fit, we're also happy to talk about sponsoring a single city.
             </p>
           </div>
           <div className="sponsor-founding-visual">
