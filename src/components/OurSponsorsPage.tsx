@@ -14,14 +14,7 @@ const CITY_NAMES: Record<string, string> = {
   'dallas': 'Dallas',
   'houston': 'Houston',
 };
-const CATEGORIES = ['networking', 'technology', 'real-estate', 'chamber', 'small-business'];
-const CATEGORY_NAMES: Record<string, string> = {
-  'networking': 'Networking',
-  'technology': 'Technology',
-  'real-estate': 'Real Estate',
-  'chamber': 'Chamber',
-  'small-business': 'Small Business',
-};
+const FOUNDING_SLOT_COUNT = 4;
 
 interface Sponsor {
   id: number;
@@ -52,19 +45,24 @@ export function OurSponsorsPage() {
       });
   }, []);
 
-  // Build a map: city → category → sponsor|null
-  const sponsorMap: Record<string, Record<string, Sponsor | null>> = {};
-  CITIES.forEach(city => {
-    sponsorMap[city] = {};
-    // City-wide slot (no category)
-    const cityWide = sponsors.find(s => s.city_slug === city && !s.category_slug);
-    sponsorMap[city]['city'] = cityWide ?? null;
-    CATEGORIES.forEach(cat => {
-      sponsorMap[city][cat] = sponsors.find(s => s.city_slug === city && s.category_slug === cat) ?? null;
-    });
+  // A founding sponsor is one or more rows sharing the same name (one row per
+  // city it appears in — city-wide slots only, category_slug is null).
+  // Dedupe by name to get the unique list of founding sponsors, and track
+  // which cities each one actually appears in (a single-city fallback
+  // sponsor will only have one row/city instead of all four).
+  const cityWideSponsors = sponsors.filter(s => s.active && s.name && !s.category_slug);
+  const foundingSponsors: { sponsor: Sponsor; cities: string[] }[] = [];
+  cityWideSponsors.forEach(s => {
+    const existing = foundingSponsors.find(f => f.sponsor.name === s.name);
+    if (existing) {
+      existing.cities.push(s.city_slug);
+    } else {
+      foundingSponsors.push({ sponsor: s, cities: [s.city_slug] });
+    }
   });
 
-  const activeCount = sponsors.filter(s => s.active && s.name).length;
+  const filledSlots = foundingSponsors.length;
+  const openSlots = Math.max(0, FOUNDING_SLOT_COUNT - filledSlots);
 
   return (
     <>
@@ -84,7 +82,7 @@ export function OurSponsorsPage() {
             Our Sponsors
           </h1>
           <p style={{ fontSize: '1.05rem', color: 'var(--fg-3)', lineHeight: 1.75, maxWidth: '620px', marginBottom: '0' }}>
-            Local Business Calendars is free to the business community because local organizations choose to support it — like public radio, but for business events. Each sponsor supports a specific city or category calendar, putting their name in front of the professionals who rely on it every Monday morning.
+            Local Business Calendars is free to the business community because local organizations choose to support it — like public radio, but for business events. There are only four founding sponsor spots on the entire network, and each one appears across all four Texas cities — San Antonio, Austin, Dallas, and Houston — in front of the professionals who rely on it every Monday morning.
           </p>
         </div>
       </section>
@@ -93,13 +91,13 @@ export function OurSponsorsPage() {
       <section style={{ background: 'var(--color-dark-section)', padding: '0.65rem 2rem' }}>
         <div style={{ maxWidth: '780px', margin: '0 auto', display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,.65)' }}>
-            <strong style={{ color: '#fff' }}>{activeCount}</strong> active sponsor{activeCount !== 1 ? 's' : ''}
+            <strong style={{ color: '#fff' }}>{filledSlots}</strong> founding sponsor{filledSlots !== 1 ? 's' : ''}
           </span>
           <span style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,.65)' }}>
-            <strong style={{ color: '#fff' }}>4</strong> Texas cities
+            <strong style={{ color: '#fff' }}>4</strong> Texas cities, every spot
           </span>
           <span style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,.65)' }}>
-            <strong style={{ color: '#fff' }}>20</strong> available slots
+            <strong style={{ color: '#fff' }}>{openSlots}</strong> spot{openSlots !== 1 ? 's' : ''} open
           </span>
         </div>
       </section>
@@ -110,39 +108,30 @@ export function OurSponsorsPage() {
           {loading ? (
             <p style={{ color: 'var(--fg-3)', textAlign: 'center', padding: '3rem 0' }}>Loading sponsors…</p>
           ) : (
-            CITIES.map(city => (
-              <div key={city} style={{ marginBottom: '3.5rem' }}>
+            <div style={{ marginBottom: '3.5rem' }}>
 
-                {/* City heading */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
-                  <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 600, color: 'var(--color-ink)', margin: 0 }}>
-                    {CITY_NAMES[city]}
-                  </h2>
-                  <div style={{ flex: 1, height: '1px', background: 'var(--color-rule)' }} />
-                </div>
-
-                {/* Sponsor cards grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
-                  {/* City-wide slot */}
-                  <SponsorCard
-                    sponsor={sponsorMap[city]['city']}
-                    label={`${CITY_NAMES[city]} — All Events`}
-                    city={city}
-                    category={null}
-                  />
-                  {/* Sub-calendar slots */}
-                  {CATEGORIES.map(cat => (
-                    <SponsorCard
-                      key={cat}
-                      sponsor={sponsorMap[city][cat]}
-                      label={`${CITY_NAMES[city]} ${CATEGORY_NAMES[cat]}`}
-                      city={city}
-                      category={cat}
-                    />
-                  ))}
-                </div>
+              {/* Section heading */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+                <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 600, color: 'var(--color-ink)', margin: 0 }}>
+                  Founding Sponsors — All Four Cities
+                </h2>
+                <div style={{ flex: 1, height: '1px', background: 'var(--color-rule)' }} />
               </div>
-            ))
+
+              {/* Founding sponsor cards grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1rem' }}>
+                {foundingSponsors.map(({ sponsor, cities }) => (
+                  <SponsorCard
+                    key={sponsor.name}
+                    sponsor={sponsor}
+                    label={cities.length === CITIES.length ? 'All 4 Cities' : cities.map(c => CITY_NAMES[c]).join(', ')}
+                  />
+                ))}
+                {Array.from({ length: openSlots }).map((_, i) => (
+                  <SponsorCard key={`open-${i}`} sponsor={null} label="All 4 Cities" />
+                ))}
+              </div>
+            </div>
           )}
 
           {/* Bottom CTA */}
@@ -164,7 +153,7 @@ export function OurSponsorsPage() {
                 Interested in sponsoring?
               </p>
               <p style={{ fontSize: '0.88rem', color: 'var(--fg-3)', margin: 0, lineHeight: 1.6 }}>
-                Each city and sub-calendar has one exclusive sponsor slot. Your brand in front of active local professionals every Monday.
+                Only four founding sponsor spots exist, and each one appears across all four Texas cities. Your brand in front of active local professionals every Monday, in every city.
               </p>
             </div>
             <Link href="/sponsor" style={{
@@ -193,11 +182,9 @@ export function OurSponsorsPage() {
 
 // ── Sponsor card ──────────────────────────────────────────────────────────────
 
-function SponsorCard({ sponsor, label, city, category }: {
+function SponsorCard({ sponsor, label }: {
   sponsor: Sponsor | null;
   label: string;
-  city: string;
-  category: string | null;
 }) {
   const isActive = sponsor?.active && sponsor?.name;
 
@@ -277,7 +264,7 @@ function SponsorCard({ sponsor, label, city, category }: {
               Available
             </p>
             <p style={{ fontSize: '0.78rem', color: '#bbb', margin: '0 0 0.75rem', lineHeight: 1.5 }}>
-              Be the exclusive sponsor of the {label} newsletter.
+              One of four founding sponsor spots — featured across all four Texas cities.
             </p>
             <Link href="/sponsor" style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-accent)', textDecoration: 'none' }}>
               Become a sponsor →
