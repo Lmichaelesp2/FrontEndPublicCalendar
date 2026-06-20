@@ -1122,6 +1122,312 @@ function PremiumDigestSection() {
   );
 }
 
+// ─── ReengagementSection — legacy free_subscribers re-engagement campaign ─────
+
+type ReengageStatus = 'idle' | 'open' | 'sending' | 'done' | 'error';
+
+interface ReengageDryRunResult {
+  group: string;
+  city: string;
+  totalCandidates: number;
+  sentToday: number;
+  dailyCap: number;
+  wouldSendTo: number;
+}
+
+interface ReengageSendResult {
+  sentCount: number;
+  sentTo?: string[];
+  totalCandidates?: number;
+  sentToday?: number;
+  dailyCap?: number;
+  errors?: { email: string; error: string }[];
+}
+
+function ReengagementSection() {
+  const [open, setOpen] = useState(false);
+  const [group, setGroup] = useState<'warm' | 'cold'>('warm');
+
+  // Dry-run / stats
+  const [dryRun, setDryRun] = useState<ReengageDryRunResult | null>(null);
+  const [dryRunLoading, setDryRunLoading] = useState(false);
+  const [dryRunErr, setDryRunErr] = useState('');
+
+  // Test send
+  const [testStatus, setTestStatus] = useState<ReengageStatus>('idle');
+  const [selected, setSelected] = useState<Set<string>>(new Set(['themobilecoach@gmail.com']));
+  const [customEmail, setCustomEmail] = useState('');
+  const [testList, setTestList] = useState<string[]>(['themobilecoach@gmail.com']);
+  const [testResult, setTestResult] = useState<ReengageSendResult | null>(null);
+  const [testErr, setTestErr] = useState('');
+
+  // Real send
+  const [sendStatus, setSendStatus] = useState<ReengageStatus | 'confirm'>('idle');
+  const [sendResult, setSendResult] = useState<ReengageSendResult | null>(null);
+  const [sendErr, setSendErr] = useState('');
+
+  async function loadDryRun(g: 'warm' | 'cold') {
+    setDryRunLoading(true);
+    setDryRunErr('');
+    try {
+      const res = await authFetch('/api/send-reengagement', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ group: g, dryRun: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setDryRunErr(data.error ?? `HTTP ${res.status}`);
+      } else {
+        setDryRun(data);
+      }
+    } catch (e: any) {
+      setDryRunErr(e?.message ?? 'Failed to load dry run');
+    } finally {
+      setDryRunLoading(false);
+    }
+  }
+
+  function handleToggle() {
+    const next = !open;
+    setOpen(next);
+    if (next) loadDryRun(group);
+  }
+
+  function handleGroupChange(g: 'warm' | 'cold') {
+    setGroup(g);
+    setDryRun(null);
+    loadDryRun(g);
+  }
+
+  // ── Test send ──────────────────────────────────────────────────────────────
+  function toggleTestEmail(email: string) {
+    setSelected(prev => {
+      const next = new Set(prev);
+      next.has(email) ? next.delete(email) : next.add(email);
+      return next;
+    });
+  }
+
+  function addCustomTestEmail() {
+    const email = customEmail.trim().toLowerCase();
+    if (!email || !email.includes('@')) return;
+    if (!testList.includes(email)) setTestList(prev => [...prev, email]);
+    setSelected(prev => new Set([...prev, email]));
+    setCustomEmail('');
+  }
+
+  async function handleTestSend() {
+    const emails = testList.filter(e => selected.has(e));
+    if (emails.length === 0) return;
+    setTestStatus('sending');
+    try {
+      const res = await authFetch('/api/send-reengagement', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ testEmails: emails, city: 'San Antonio' }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setTestErr((data.error ?? 'Test send failed') + (data.detail ? ` — ${data.detail}` : ''));
+        setTestStatus('error');
+        return;
+      }
+      setTestResult(data);
+      setTestStatus('done');
+    } catch (e: any) {
+      setTestErr(e?.message ?? 'Test send failed');
+      setTestStatus('error');
+    }
+  }
+
+  // ── Real send ──────────────────────────────────────────────────────────────
+  async function handleConfirmSend() {
+    setSendStatus('sending');
+    try {
+      const res = await authFetch('/api/send-reengagement', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ group }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setSendErr(data.error ?? 'Send failed'); setSendStatus('error'); return; }
+      setSendResult(data);
+      setSendStatus('done');
+    } catch (e: any) {
+      setSendErr(e?.message ?? 'Send failed');
+      setSendStatus('error');
+    }
+  }
+
+  return (
+    <div className="nl-premium-section">
+      <button className="nl-premium-header" onClick={handleToggle}>
+        <div className="nl-premium-title">
+          <span className="nl-premium-badge" style={{ background: '#7c3aed' }}>↻ Re-engagement</span>
+          <span>Legacy Subscriber Re-engagement</span>
+          {dryRun && (
+            <span className="nl-event-count">
+              {dryRun.totalCandidates} candidates · {dryRun.sentToday}/{dryRun.dailyCap} sent today
+            </span>
+          )}
+          {dryRunLoading && <span className="nl-event-count">Loading…</span>}
+        </div>
+        {open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+      </button>
+
+      {open && (
+        <div className="nl-premium-body">
+          <p className="nl-hint" style={{ marginBottom: '1rem' }}>
+            One-time "we rebuilt the calendar, it's free now" note to people in free_subscribers.
+            Never sends to the same person twice (tracked in reengagement_sends) and excludes premium members.
+          </p>
+
+          {/* Group toggle */}
+          <div className="nl-test-list" style={{ marginBottom: '.75rem' }}>
+            <label className="nl-test-email-row">
+              <input type="radio" name="reengage-group" checked={group === 'warm'} onChange={() => handleGroupChange('warm')} />
+              <span><strong>Warm</strong> — already getting the weekly newsletter (low risk, ~485 people)</span>
+            </label>
+            <label className="nl-test-email-row">
+              <input type="radio" name="reengage-group" checked={group === 'cold'} onChange={() => handleGroupChange('cold')} />
+              <span><strong>Cold</strong> — no recent send history (higher deliverability risk, ramp slowly)</span>
+            </label>
+          </div>
+
+          {dryRunErr && (
+            <div className="nl-send-status nl-send-error" style={{ marginBottom: '.75rem' }}>
+              <AlertTriangle size={13} /> {dryRunErr}
+              <button onClick={() => loadDryRun(group)} className="nl-send-reset">Retry</button>
+            </div>
+          )}
+          {dryRun && (
+            <div className="nl-premium-stats">
+              <span><strong>{dryRun.totalCandidates}</strong> eligible in "{dryRun.group}" group</span>
+              <span><strong>{dryRun.sentToday}</strong> / {dryRun.dailyCap} sent today (daily cap)</span>
+              <span><strong>{dryRun.wouldSendTo}</strong> would be sent to right now</span>
+            </div>
+          )}
+
+          <div className="nl-send-row" style={{ marginTop: '1rem' }}>
+            <div className="nl-send-row-btns">
+
+              {/* Real send button */}
+              {sendStatus === 'idle' && (
+                <button onClick={() => setSendStatus('confirm')} className="nl-send-btn">
+                  <Send size={14} /> Send to {group === 'warm' ? 'Warm' : 'Cold'} Group
+                </button>
+              )}
+              {sendStatus === 'confirm' && (
+                <div className="nl-send-confirm">
+                  <div className="nl-send-confirm-info">
+                    <strong>Send to up to {dryRun?.wouldSendTo ?? '?'} people in the {group} group?</strong>
+                  </div>
+                  <div className="nl-send-confirm-btns">
+                    <button onClick={handleConfirmSend} className="nl-send-btn nl-send-confirm-go">
+                      <Send size={14} /> Confirm Send
+                    </button>
+                    <button onClick={() => setSendStatus('idle')} className="nl-send-cancel">Cancel</button>
+                  </div>
+                </div>
+              )}
+              {sendStatus === 'sending' && (
+                <div className="nl-send-status nl-send-checking">
+                  <Loader2 size={14} className="nl-spin" /> Sending…
+                </div>
+              )}
+              {sendStatus === 'done' && sendResult && (
+                <div className="nl-send-status nl-send-done">
+                  <CheckCircle size={14} />
+                  <span>
+                    ✓ Sent to <strong>{sendResult.sentCount}</strong> people
+                    {sendResult.errors && sendResult.errors.length > 0 && <> · {sendResult.errors.length} failed</>}
+                  </span>
+                  <button onClick={() => { setSendStatus('idle'); setSendResult(null); loadDryRun(group); }} className="nl-send-reset">
+                    Reset
+                  </button>
+                </div>
+              )}
+              {sendStatus === 'error' && (
+                <div className="nl-send-status nl-send-error">
+                  <AlertTriangle size={14} /> {sendErr}
+                  <button onClick={() => setSendStatus('idle')} className="nl-send-reset">Retry</button>
+                </div>
+              )}
+
+              {/* Test send button */}
+              {testStatus === 'idle' && (
+                <button onClick={() => setTestStatus('open')} className="nl-test-btn">
+                  <Mail size={13} /> Test Send
+                </button>
+              )}
+              {testStatus === 'open' && (
+                <div className="nl-test-panel">
+                  <div className="nl-test-panel-header">
+                    <span className="nl-test-label">Test Send — Re-engagement</span>
+                    <button onClick={() => setTestStatus('idle')} className="nl-test-close">✕</button>
+                  </div>
+                  <p className="nl-test-hint">
+                    Sends the real email HTML (with a TEST banner) to these addresses only. Does not touch the candidate list or count against the daily cap.
+                  </p>
+                  <div className="nl-test-list">
+                    {testList.map(email => (
+                      <label key={email} className="nl-test-email-row">
+                        <input type="checkbox" checked={selected.has(email)} onChange={() => toggleTestEmail(email)} />
+                        <span>{email}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="nl-test-add-row">
+                    <input
+                      type="email"
+                      value={customEmail}
+                      onChange={e => setCustomEmail(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && addCustomTestEmail()}
+                      placeholder="Add another email…"
+                      className="nl-test-input"
+                    />
+                    <button onClick={addCustomTestEmail} className="nl-test-add-btn">Add</button>
+                  </div>
+                  <div className="nl-test-send-row">
+                    <button
+                      onClick={handleTestSend}
+                      disabled={testList.filter(e => selected.has(e)).length === 0}
+                      className="nl-test-send-go"
+                    >
+                      <Send size={13} /> Send to {testList.filter(e => selected.has(e)).length} address{testList.filter(e => selected.has(e)).length !== 1 ? 'es' : ''}
+                    </button>
+                    <button onClick={() => setTestStatus('idle')} className="nl-send-cancel">Cancel</button>
+                  </div>
+                </div>
+              )}
+              {testStatus === 'sending' && (
+                <div className="nl-send-status nl-send-checking">
+                  <Loader2 size={14} className="nl-spin" /> Sending test…
+                </div>
+              )}
+              {testStatus === 'done' && testResult && (
+                <div className="nl-send-status nl-send-done">
+                  <CheckCircle size={14} />
+                  <span>Test sent to <strong>{testResult.sentCount}</strong> address{testResult.sentCount !== 1 ? 'es' : ''}</span>
+                  <button onClick={() => { setTestStatus('idle'); setTestResult(null); }} className="nl-send-reset">Done</button>
+                </div>
+              )}
+              {testStatus === 'error' && (
+                <div className="nl-send-status nl-send-error">
+                  <AlertTriangle size={14} /> {testErr}
+                  <button onClick={() => setTestStatus('open')} className="nl-send-reset">Retry</button>
+                </div>
+              )}
+
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── SendAllCitiesButton — sends every city, every list ───────────────────────
 
 function SendAllCitiesButton({ newsletters }: { newsletters: Newsletter[] }) {
@@ -1311,6 +1617,9 @@ export function NewslettersPage() {
 
           {/* Premium digest — always visible, loads its own data */}
           <PremiumDigestSection />
+
+          {/* Re-engagement campaign — always visible, loads its own data */}
+          <ReengagementSection />
 
           {loading ? (
             <div className="nl-loading">Loading events...</div>
