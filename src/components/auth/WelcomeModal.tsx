@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
-const CATEGORIES = ['Networking', 'Technology', 'Real Estate', 'Chamber', 'Small Business'];
-
 interface WelcomeModalProps {
   userId: string;
   email: string;
@@ -12,17 +10,10 @@ interface WelcomeModalProps {
   onComplete: (firstName: string) => void;
 }
 
-export function WelcomeModal({ userId, email, city, onComplete }: WelcomeModalProps) {
+export function WelcomeModal({ userId, city, onComplete }: WelcomeModalProps) {
   const [firstName, setFirstName] = useState('');
-  const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  function toggleCategory(cat: string) {
-    setSelected(prev =>
-      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
-    );
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -35,33 +26,6 @@ export function WelcomeModal({ userId, email, city, onComplete }: WelcomeModalPr
       .update({ first_name: firstName.trim() })
       .eq('id', userId);
 
-    // Add selected category newsletters to newsletter_subscriptions
-    if (selected.length > 0) {
-      const rows = selected.map(cat => ({
-        email,
-        first_name: firstName.trim(),
-        city,
-        sub_calendar: cat,
-        status: 'active',
-        source: 'welcome_modal',
-      }));
-
-      // Only insert ones not already subscribed
-      for (const row of rows) {
-        const { data: existing } = await supabase
-          .from('newsletter_subscriptions')
-          .select('id')
-          .eq('email', email)
-          .eq('city', city)
-          .eq('sub_calendar', row.sub_calendar)
-          .maybeSingle();
-
-        if (!existing) {
-          await supabase.from('newsletter_subscriptions').insert(row);
-        }
-      }
-    }
-
     setLoading(false);
     onComplete(firstName.trim());
   }
@@ -72,9 +36,11 @@ export function WelcomeModal({ userId, email, city, onComplete }: WelcomeModalPr
 
         <div className="auth-modal-hero">
           <div className="auth-modal-hero-inner">
-            <h2 className="auth-modal-city-name">Welcome to Local Business Calendars!</h2>
+            <h2 className="auth-modal-city-name">Welcome to the new {city} Calendar!</h2>
             <p className="auth-modal-hero-sub">
-              You're subscribed to the {city} Events Newsletter. Let's get your account set up.
+              You're subscribed to the {city} Events Newsletter. Good news — you don't need to log in
+              to browse the calendar anymore, it's open to everyone. We just need your name to finish
+              setting up your account.
             </p>
           </div>
         </div>
@@ -93,35 +59,6 @@ export function WelcomeModal({ userId, email, city, onComplete }: WelcomeModalPr
                 required
                 autoFocus
               />
-            </div>
-
-            <div className="auth-field" style={{ marginTop: '1.25rem' }}>
-              <label style={{ marginBottom: '0.5rem', display: 'block' }}>
-                Would you like to receive any of our other {city} Events Newsletters?
-              </label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {CATEGORIES.map(cat => (
-                  <label
-                    key={cat}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.6rem',
-                      fontSize: '0.9rem',
-                      cursor: 'pointer',
-                      padding: '0.4rem 0',
-                    }}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selected.includes(cat)}
-                      onChange={() => toggleCategory(cat)}
-                      style={{ width: 16, height: 16, cursor: 'pointer' }}
-                    />
-                    {cat}
-                  </label>
-                ))}
-              </div>
             </div>
 
             {error && <div className="auth-error">{error}</div>}
