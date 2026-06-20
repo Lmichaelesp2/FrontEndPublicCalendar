@@ -4,7 +4,7 @@ import { ChatWidget } from '../src/components/ChatWidget';
 import '../src/index.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.businesscalendar.link'),
+  metadataBase: new URL('https://www.localbusinesscalendars.com'),
   title: 'Local Business Calendars – Find Events by City & Industry',
   description: 'Find business and networking events by state, city, and industry. Get weekly newsletters with the events that matter to you.',
   alternates: {
@@ -52,6 +52,28 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="BC Calendars" />
         <link rel="apple-touch-icon" href="/icons/01-white-blue-calendar-bc-180.png" />
+        {/* Sitebehavior analytics */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  if (window.location && window.location.search && window.location.search.indexOf('capture-sitebehaviour-heatmap') !== -1) {
+                    sessionStorage.setItem('capture-sitebehaviour-heatmap', '_');
+                  }
+
+                  var sbSiteSecret = '48f59a94-cbf8-468d-b249-e60862fd802e';
+                  window.sitebehaviourTrackingSecret = sbSiteSecret;
+                  var scriptElement = document.createElement('script');
+                  scriptElement.defer = true;
+                  scriptElement.id = 'site-behaviour-script-v2';
+                  scriptElement.src = 'https://sitebehaviour-cdn.fra1.cdn.digitaloceanspaces.com/index.min.js?sitebehaviour-secret=' + sbSiteSecret;
+                  document.head.appendChild(scriptElement);
+                } catch (e) { console.error(e); }
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
         <Providers>{children}</Providers>
