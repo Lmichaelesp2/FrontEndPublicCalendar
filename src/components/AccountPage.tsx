@@ -200,8 +200,108 @@ function AccountLoginGate() {
   );
 }
 
+// ── Set new password — shown when the user arrives via a password reset link ──
+function SetNewPasswordForm() {
+  const { updatePassword, clearPasswordRecovery, signOut } = useAuth();
+  const router = useRouter();
+  const [password, setPassword]   = useState('');
+  const [confirm, setConfirm]     = useState('');
+  const [loading, setLoading]     = useState(false);
+  const [error, setError]         = useState('');
+  const [done, setDone]           = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    if (password.length < 6) { setError('Password must be at least 6 characters.'); return; }
+    if (password !== confirm) { setError('Passwords do not match.'); return; }
+
+    setLoading(true);
+    const { error: err } = await updatePassword(password);
+    setLoading(false);
+    if (err) { setError(err.message); return; }
+    setDone(true);
+  }
+
+  async function handleContinue() {
+    clearPasswordRecovery();
+    router.push('/account');
+  }
+
+  return (
+    <>
+      <Navigation />
+      <div className="sub-success-wrap">
+        <div className="sub-form-card" style={{ maxWidth: '420px', margin: '0 auto' }}>
+          <div className="acct-gate-body">
+            <h2 style={{ marginBottom: '0.25rem', fontSize: '1.4rem' }}>Set a new password</h2>
+
+            {!done ? (
+              <>
+                <p style={{ color: 'var(--color-muted)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+                  Choose a new password for your account.
+                </p>
+                <form onSubmit={handleSubmit} className="sub-form">
+                  <div className="sub-field">
+                    <label htmlFor="new-password">New password</label>
+                    <input
+                      id="new-password"
+                      type="password"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      required
+                      autoFocus
+                    />
+                  </div>
+                  <div className="sub-field">
+                    <label htmlFor="confirm-password">Confirm password</label>
+                    <input
+                      id="confirm-password"
+                      type="password"
+                      value={confirm}
+                      onChange={e => setConfirm(e.target.value)}
+                      placeholder="••••••••"
+                      required
+                    />
+                  </div>
+                  {error && <div className="sub-error">{error}</div>}
+                  <button type="submit" className="sub-submit" disabled={loading}>
+                    {loading ? 'Saving…' : 'Save new password'} {!loading && <ArrowRight size={16} />}
+                  </button>
+                </form>
+              </>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '1rem 0' }}>
+                <p style={{ fontWeight: 600, marginBottom: '0.75rem' }}>Password updated!</p>
+                <p style={{ color: 'var(--color-muted)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                  You can now use your new password to log in.
+                </p>
+                <button className="sub-submit" onClick={handleContinue} style={{ justifyContent: 'center' }}>
+                  Continue to my account <ArrowRight size={16} />
+                </button>
+              </div>
+            )}
+
+            {!done && (
+              <button
+                type="button"
+                onClick={async () => { clearPasswordRecovery(); await signOut(); router.push('/account'); }}
+                style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer', fontSize: '0.85rem', marginTop: '1rem' }}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
+}
+
 export function AccountPage() {
-  const { user, profile, newsletterSubs, signOut, removeNewsletterSub, addNewsletterSub, loading } = useAuth();
+  const { user, profile, newsletterSubs, signOut, removeNewsletterSub, addNewsletterSub, loading, passwordRecovery } = useAuth();
   const router = useRouter();
   const [removing, setRemoving]     = useState<number | null>(null);
   const [timedOut, setTimedOut]     = useState(false);
@@ -214,6 +314,9 @@ export function AccountPage() {
     const t = setTimeout(() => setTimedOut(true), 4000);
     return () => clearTimeout(t);
   }, [loading]);
+
+  // Arrived via a password reset link — let them set a new password before anything else
+  if (passwordRecovery) return <SetNewPasswordForm />;
 
   // Show login gate instead of redirecting
   if ((!loading && !user) || timedOut) return <AccountLoginGate />;

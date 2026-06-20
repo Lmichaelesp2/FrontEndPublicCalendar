@@ -59,11 +59,14 @@ interface AuthContextType {
   userFilters: UserFilter[];
   showQuestionnaire: boolean;
   showWelcomeModal: boolean;
+  passwordRecovery: boolean;
   loading: boolean;
   completeWelcome: (firstName: string) => void;
   signUp: (email: string, password: string, firstName: string, cityName?: string) => Promise<{ error: Error | null; data?: any }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data?: any }>;
   sendMagicLink: (email: string) => Promise<{ error: Error | null }>;
+  updatePassword: (newPassword: string) => Promise<{ error: Error | null }>;
+  clearPasswordRecovery: () => void;
   removeNewsletterSub: (subId: number) => Promise<void>;
   addNewsletterSub: (city: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -84,6 +87,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [newsletterSubs, setNewsletterSubs] = useState<NewsletterSubscription[]>([]);
   const [userFilters, setUserFilters]     = useState<UserFilter[]>([]);
   const [loading, setLoading]         = useState(true);
+  const [passwordRecovery, setPasswordRecovery] = useState(false);
+
+  function clearPasswordRecovery() {
+    setPasswordRecovery(false);
+  }
+
+  async function updatePassword(newPassword: string) {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (!error) setPasswordRecovery(false);
+    return { error: error as Error | null };
+  }
 
   // showQuestionnaire: premium user who hasn't saved a network profile yet
   const isPremium = profile?.subscription_tier === 'premium';
@@ -175,6 +189,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
+        if (_event === 'PASSWORD_RECOVERY') setPasswordRecovery(true);
+
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
@@ -334,8 +350,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{
-      user, session, profile, preferences, newsletterSubs, userFilters, showQuestionnaire, showWelcomeModal, loading,
+      user, session, profile, preferences, newsletterSubs, userFilters, showQuestionnaire, showWelcomeModal, passwordRecovery, loading,
       signUp, signIn, sendMagicLink, removeNewsletterSub, addNewsletterSub, signOut, updatePreferences, saveNetworkProfile, refreshProfile, completeWelcome,
+      updatePassword, clearPasswordRecovery,
     }}>
       {children}
     </AuthContext.Provider>
