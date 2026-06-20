@@ -90,7 +90,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const showQuestionnaire = !loading && isPremium && userFilters.length === 0;
 
   // showWelcomeModal: free user who logged in but has no first_name yet (legacy user first login)
-  const showWelcomeModal = !loading && !!user && !!profile && !isPremium && !profile.first_name;
+  // DISABLED 2026-06-20 (Louis): hide until sub-calendar newsletters are rolled out.
+  // To re-enable, restore: !loading && !!user && !!profile && !isPremium && !profile.first_name
+  const showWelcomeModal = false;
 
   function completeWelcome(firstName: string) {
     if (profile) setProfile({ ...profile, first_name: firstName });
