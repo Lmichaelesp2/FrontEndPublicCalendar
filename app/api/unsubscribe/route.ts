@@ -31,7 +31,31 @@ export async function GET(req: NextRequest) {
 
   let email: string | null = null;
 
-  if (decoded.startsWith('id:')) {
+  if (decoded.startsWith('fs:')) {
+    // Re-engagement format: "fs:123" — unsubscribe this free_subscribers row.
+    // Distinct table from newsletter_subscriptions, so it gets its own prefix.
+    const id = parseInt(decoded.slice(3), 10);
+    if (isNaN(id)) {
+      return NextResponse.redirect(new URL('/unsubscribe?error=invalid', req.url));
+    }
+
+    const { data: row } = await supabase
+      .from('free_subscribers')
+      .select('email')
+      .eq('id', id)
+      .single();
+    email = row?.email ?? null;
+
+    const { error } = await supabase
+      .from('free_subscribers')
+      .update({ unsubscribe: new Date().toISOString() })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Unsubscribe error (free_subscribers):', error.message);
+      return NextResponse.redirect(new URL('/unsubscribe?error=server', req.url));
+    }
+  } else if (decoded.startsWith('id:')) {
     // New format: "id:123" — unsubscribe only this specific subscription row
     const id = parseInt(decoded.slice(3), 10);
     if (isNaN(id)) {
