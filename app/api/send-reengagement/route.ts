@@ -59,15 +59,18 @@ function buildReengagementHtml(
 ): string {
   const calendarUrl = CITY_CALENDAR_URL[city] ?? 'https://www.localbusinesscalendars.com';
   const unsubUrl = `https://www.localbusinesscalendars.com/unsubscribe?token=${unsubToken}`;
+  const sponsorUrl = 'https://www.localbusinesscalendars.com/sponsor';
+  const lboUrl = 'https://www.localbusinessorganizations.com';
   const name = firstName ? firstName : 'there';
   const calLabel = `${city} Business Calendar`;
+  const lboLabel = `${city} Business Organizations`;
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${city} Business Calendar — quick update</title>
+  <title>${city} Business Calendar — this week's events</title>
 </head>
 <body style="margin:0;padding:0;background:#f7fafc;font-family:Arial,Helvetica,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7fafc;padding:40px 20px;">
@@ -77,9 +80,9 @@ function buildReengagementHtml(
 
           <!-- Header -->
           <tr>
-            <td style="background:#1652f0;padding:32px 40px;border-radius:12px 12px 0 0;text-align:center;">
+            <td style="background:#1652f0;padding:36px 40px;border-radius:12px 12px 0 0;text-align:center;">
               <p style="margin:0;font-size:11px;letter-spacing:3px;color:#cfe0ff;text-transform:uppercase;font-family:Arial,sans-serif;">${city} Business Calendar</p>
-              <h1 style="margin:12px 0 0;font-size:26px;color:#ffffff;font-weight:700;">Quick update on your account</h1>
+              <h1 style="margin:14px 0 0;font-size:27px;color:#ffffff;font-weight:700;line-height:1.3;">Browse this week's events — no login needed</h1>
             </td>
           </tr>
 
@@ -92,36 +95,52 @@ function buildReengagementHtml(
               </p>
 
               <p style="margin:0 0 20px;font-size:16px;color:#1f2a3d;line-height:1.7;">
-                A while back you signed up for the ${calLabel} — since then we've rebuilt it from the ground up, and wanted to make sure you knew what changed.
+                You joined the ${calLabel} because staying connected to the local business community matters to you — that hasn't changed.
+              </p>
+
+              <p style="margin:0 0 20px;font-size:16px;color:#1f2a3d;line-height:1.7;">
+                You haven't been getting our weekly email for a while. Starting this week, that changes — you'll get our roundup of ${city} business events again.
               </p>
 
               <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
                 <tr>
                   <td style="background:#eef3fe;padding:14px 20px;">
-                    <p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#1652f0;font-weight:bold;font-family:Arial,sans-serif;">What's new</p>
+                    <p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#1652f0;font-weight:bold;font-family:Arial,sans-serif;">A few things to know</p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:20px;">
                     <p style="margin:0 0 12px;font-size:15px;color:#1f2a3d;line-height:1.7;">
-                      The calendar is now <strong>completely free, with no trial and no downgrade</strong> — the old free-trial model is gone. Your account is already active, no need to sign up again.
+                      It's completely free, and you don't need to log in to browse — head to the calendar anytime and see what's happening that week.
                     </p>
                     <p style="margin:0 0 16px;font-size:15px;color:#1f2a3d;line-height:1.7;">
-                      Just head to the calendar and use <strong>Forgot Password</strong> to get back in — that's it.
+                      In case you've forgotten your password, click <strong>Forgot Password</strong> on the login screen — your account's already set up, and logging back in lets you manage your newsletter settings for your city.
                     </p>
-                    <a href="${calendarUrl}" style="display:inline-block;background:#1652f0;color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;padding:11px 22px;border-radius:8px;text-decoration:none;letter-spacing:.5px;">
-                      Visit the ${city} Calendar →
+                    <a href="${calendarUrl}" style="display:inline-block;background:#1652f0;color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;padding:12px 24px;border-radius:8px;text-decoration:none;letter-spacing:.5px;">
+                      Open the ${city} Calendar →
                     </a>
                   </td>
                 </tr>
               </table>
 
               <p style="margin:0 0 20px;font-size:15px;color:#1f2a3d;line-height:1.7;">
-                If you'd like a calendar that's filtered just for you — your categories, your week, delivered straight to your inbox — that's what <strong>Event Assistant</strong> does. Totally optional, and easy to try.
+                Your account also gives you access to <strong>${lboLabel}</strong> — our directory of ${city} chambers, networking groups, and associations, with full profiles and contact info. Same login, no extra signup.
               </p>
 
-              <p style="margin:0 0 4px;font-size:16px;color:#1f2a3d;">— Michael</p>
-              <p style="margin:0;font-size:14px;color:#5b6678;font-family:Arial,sans-serif;">Local Business Calendars</p>
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
+                <tr>
+                  <td style="background:#f8fafc;padding:16px 20px;">
+                    <p style="margin:0 0 6px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#475569;font-weight:bold;font-family:Arial,sans-serif;">Sponsor supported</p>
+                    <p style="margin:0;font-size:14px;color:#1f2a3d;line-height:1.7;">
+                      This calendar stays free thanks to local sponsors. Their support is what lets us keep improving it for the ${city} business community.
+                      Interested in sponsoring? <a href="${sponsorUrl}" style="color:#1652f0;text-decoration:none;font-weight:bold;">Learn more →</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 4px;font-size:16px;color:#1f2a3d;">Michael</p>
+              <p style="margin:0;font-size:14px;color:#5b6678;font-family:Arial,sans-serif;">${calLabel} &amp; ${lboLabel}</p>
 
             </td>
           </tr>
@@ -130,15 +149,17 @@ function buildReengagementHtml(
           <tr>
             <td style="background:#f1f5f9;padding:24px 40px;border-radius:0 0 12px 12px;text-align:center;border:1px solid #e2e8f0;border-top:none;">
               <p style="margin:0 0 8px;font-size:12px;color:#5b6678;font-family:Arial,sans-serif;line-height:1.6;">
-                You're receiving this one-time note because you signed up for the ${city} Business Calendar in the past.
+                You're getting this note because you signed up for the ${calLabel} in the past — remember, you can always browse the calendar without logging in. We won't send this note again.
               </p>
               <p style="margin:0;font-size:12px;color:#5b6678;font-family:Arial,sans-serif;">
                 <a href="${unsubUrl}" style="color:#1652f0;text-decoration:none;">Unsubscribe</a>
                 &nbsp;·&nbsp;
                 <a href="${calendarUrl}" style="color:#1652f0;text-decoration:none;">Visit the calendar</a>
+                &nbsp;·&nbsp;
+                <a href="${lboUrl}" style="color:#1652f0;text-decoration:none;">${lboLabel}</a>
               </p>
               <p style="margin:8px 0 0;font-size:10px;color:#9aa5b4;font-family:Arial,sans-serif;">
-                Local Business Calendars · 2400 McCullough #12041, San Antonio, TX 78212
+                ${calLabel} · 2400 McCullough #12041, San Antonio, TX 78212
               </p>
             </td>
           </tr>
@@ -152,7 +173,7 @@ function buildReengagementHtml(
 }
 
 function buildSubject(city: string): string {
-  return `Your ${city} Business Calendar account — quick update`;
+  return `See this week's ${city} business events — no login required`;
 }
 
 // ─── Main handler ─────────────────────────────────────────────────────────────
