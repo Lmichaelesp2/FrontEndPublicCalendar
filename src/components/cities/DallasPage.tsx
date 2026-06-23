@@ -17,6 +17,7 @@ import { LBOSection } from '../LBOSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
 import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION } from '../../lib/featureFlags';
+import { AnnouncementBar } from '../AnnouncementBar';
 
 const STATS = [
   { number: '1,000+', label: 'Dallas professionals subscribed' },
@@ -159,6 +160,7 @@ function DallasContent({ initialEvents }: { initialEvents: Event[] }) {
       />
 
       <Navigation />
+      <AnnouncementBar />
 
       <Breadcrumb items={[
         { label: 'Local Business Calendars', href: '/' },

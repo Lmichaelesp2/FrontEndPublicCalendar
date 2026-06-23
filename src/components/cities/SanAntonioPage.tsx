@@ -17,6 +17,7 @@ import { LBOSection } from '../LBOSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { PremiumCityView } from '../PremiumCityView';
 import { SHOW_SPONSOR_SECTIONS, SHOW_ENM_SECTION, SHOW_EVENT_ASSISTANT } from '../../lib/featureFlags';
+import { AnnouncementBar } from '../AnnouncementBar';
 
 const SA_STATS = [
   { number: '2,500+', label: 'San Antonio professionals subscribed' },
@@ -153,6 +154,7 @@ function SanAntonioContent({ initialEvents }: { initialEvents: Event[] }) {
       />
 
       <Navigation />
+      <AnnouncementBar />
 
       <Breadcrumb items={[
         { label: 'Local Business Calendars', href: '/' },

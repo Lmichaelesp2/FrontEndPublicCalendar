@@ -765,6 +765,11 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
   }
 }
 
+.announcement-bar{background:#f59e0b;border-bottom:2px solid #d97706;width:100%}
+.announcement-bar-inner{max-width:1200px;margin:0 auto;padding:.65rem 1.5rem;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.announcement-bar-icon{color:#1c1917;flex-shrink:0}
+.announcement-bar-text{font-size:.9rem;font-weight:600;color:#1c1917;text-align:center;margin:0;line-height:1.3}
+@media(max-width:640px){.announcement-bar-text{font-size:.82rem}}
 .city-login-banner{background:var(--color-paper-2);border:1px solid var(--color-rule);border-radius:4px;margin:.75rem 1.5rem}
 .city-login-banner-inner{max-width:1200px;margin:0 auto;padding:1.1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
 .city-login-banner-left{display:flex;align-items:center;gap:1rem;flex:1;min-width:0}
