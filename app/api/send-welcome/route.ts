@@ -26,52 +26,48 @@ function buildWelcomeEmail(firstName: string | null, city: string, subCalendar: 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome — Your ${city} Business Network</title>
 </head>
-<body style="margin:0;padding:0;background:#f5f4f0;font-family:Georgia,serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f4f0;padding:40px 20px;">
+<body style="margin:0;padding:0;background:#f7fafc;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7fafc;padding:40px 20px;">
     <tr>
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
           <!-- Header -->
           <tr>
-            <td style="background:#1a1a2e;padding:32px 40px;border-radius:8px 8px 0 0;text-align:center;">
-              <p style="margin:0;font-size:11px;letter-spacing:3px;color:#c9a84c;text-transform:uppercase;font-family:Arial,sans-serif;">Local Business Network · ${city}</p>
-              <h1 style="margin:12px 0 0;font-size:28px;color:#ffffff;font-weight:normal;">${firstName ? `You're in, ${firstName}.` : `You're in.`}</h1>
-              <p style="margin:10px 0 0;font-size:14px;color:#aab4c4;font-family:Georgia,serif;font-style:italic;">Your free account connects two tools — the event calendar and the organization directory.</p>
+            <td style="background:#1652f0;padding:32px 40px;border-radius:12px 12px 0 0;text-align:center;">
+              <p style="margin:0;font-size:11px;letter-spacing:3px;color:#cfe0ff;text-transform:uppercase;font-family:Arial,sans-serif;">${city} Business Calendar</p>
+              <h1 style="margin:12px 0 0;font-size:28px;color:#ffffff;font-weight:700;">${firstName ? `You're in, ${firstName}.` : `You're in.`}</h1>
+              <p style="margin:10px 0 0;font-size:15px;color:#eaf0ff;font-family:Arial,sans-serif;">Your free account connects two tools — the event calendar and the organization directory.</p>
             </td>
           </tr>
 
           <!-- Body -->
           <tr>
-            <td style="background:#ffffff;padding:40px;">
+            <td style="background:#ffffff;padding:40px;border:1px solid #e2e8f0;border-top:none;">
 
-              <p style="margin:0 0 20px;font-size:17px;color:#1a1a2e;line-height:1.6;">
-                Hey ${name},
-              </p>
-
-              <p style="margin:0 0 24px;font-size:16px;color:#333;line-height:1.7;">
+              <p style="margin:0 0 24px;font-size:16px;color:#1f2a3d;line-height:1.7;">
                 Hey ${name} — here's everything your free ${city} account includes:
               </p>
 
               <!-- LBC block -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;border:1px solid #e8e8e8;border-radius:6px;overflow:hidden;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
                 <tr>
-                  <td style="background:#1a3a5c;padding:14px 20px;">
-                    <p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-family:Arial,sans-serif;">Local Business Calendars</p>
+                  <td style="background:#eef3fe;padding:14px 20px;">
+                    <p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#1652f0;font-weight:bold;font-family:Arial,sans-serif;">Local Business Calendars</p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:20px;">
-                    <p style="margin:0 0 12px;font-size:15px;color:#333;line-height:1.7;">
+                    <p style="margin:0 0 12px;font-size:15px;color:#1f2a3d;line-height:1.7;">
                       The ${city} calendar is <strong>free and open</strong> — anyone can browse it anytime at LocalBusinessCalendars.com. No account needed.
                     </p>
-                    <p style="margin:0 0 12px;font-size:15px;color:#333;line-height:1.7;">
+                    <p style="margin:0 0 12px;font-size:15px;color:#1f2a3d;line-height:1.7;">
                       As a subscriber, you'll receive the <strong>${calLabel} Newsletter</strong> every Monday morning at 6 a.m. CT — a curated digest of upcoming ${city} business events delivered straight to your inbox.
                     </p>
-                    <p style="margin:0 0 16px;font-size:14px;color:#666;line-height:1.6;">
+                    <p style="margin:0 0 16px;font-size:14px;color:#5b6678;line-height:1.6;">
                       You can add more city or category newsletters anytime by visiting any calendar page and clicking Subscribe Free.
                     </p>
-                    <a href="${calendarUrl}" style="display:inline-block;background:#1a3a5c;color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;padding:10px 22px;border-radius:4px;text-decoration:none;letter-spacing:.5px;">
+                    <a href="${calendarUrl}" style="display:inline-block;background:#1652f0;color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;padding:11px 22px;border-radius:8px;text-decoration:none;letter-spacing:.5px;">
                       Visit the ${city} Calendar →
                     </a>
                   </td>
@@ -79,49 +75,49 @@ function buildWelcomeEmail(firstName: string | null, city: string, subCalendar: 
               </table>
 
               <!-- LBO block -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 32px;border:1px solid #e8e8e8;border-radius:6px;overflow:hidden;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 32px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
                 <tr>
-                  <td style="background:#2d5016;padding:14px 20px;">
-                    <p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a8d57a;font-family:Arial,sans-serif;">Local Business Organizations</p>
+                  <td style="background:#f1f5f9;padding:14px 20px;">
+                    <p style="margin:0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#334155;font-weight:bold;font-family:Arial,sans-serif;">Local Business Organizations</p>
                   </td>
                 </tr>
                 <tr>
                   <td style="padding:20px;">
-                    <p style="margin:0 0 12px;font-size:15px;color:#333;line-height:1.7;">
+                    <p style="margin:0 0 12px;font-size:15px;color:#1f2a3d;line-height:1.7;">
                       Your account unlocks full organization profiles on <strong>Local Business Organizations</strong> — the directory of ${city} chambers of commerce, professional associations, networking groups, and trade organizations.
                     </p>
-                    <p style="margin:0 0 16px;font-size:15px;color:#333;line-height:1.7;">
+                    <p style="margin:0 0 16px;font-size:15px;color:#1f2a3d;line-height:1.7;">
                       Full profiles include contact info, descriptions, website, social links, and membership details. <strong>Same login, no extra signup needed.</strong>
                     </p>
-                    <a href="${lboUrl}" style="display:inline-block;background:#2d5016;color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;padding:10px 22px;border-radius:4px;text-decoration:none;letter-spacing:.5px;">
+                    <a href="${lboUrl}" style="display:inline-block;background:#334155;color:#ffffff;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;padding:11px 22px;border-radius:8px;text-decoration:none;letter-spacing:.5px;">
                       Browse ${city} Organizations →
                     </a>
                   </td>
                 </tr>
               </table>
 
-              <p style="margin:0 0 20px;font-size:16px;color:#333;line-height:1.7;">
+              <p style="margin:0 0 20px;font-size:16px;color:#1f2a3d;line-height:1.7;">
                 The professionals who show up consistently are the ones who build the relationships that lead to referrals, partnerships, and opportunities. I'm glad you're in.
               </p>
 
-              <p style="margin:0 0 4px;font-size:16px;color:#1a1a2e;">— Michael</p>
-              <p style="margin:0;font-size:14px;color:#888;font-family:Arial,sans-serif;">Local Business Calendars &amp; Local Business Organizations</p>
+              <p style="margin:0 0 4px;font-size:16px;color:#1f2a3d;">— Michael</p>
+              <p style="margin:0;font-size:14px;color:#5b6678;font-family:Arial,sans-serif;">Local Business Calendars &amp; Local Business Organizations</p>
 
             </td>
           </tr>
 
           <!-- Footer -->
           <tr>
-            <td style="background:#f0ede6;padding:24px 40px;border-radius:0 0 8px 8px;text-align:center;">
-              <p style="margin:0 0 8px;font-size:12px;color:#888;font-family:Arial,sans-serif;line-height:1.6;">
+            <td style="background:#f1f5f9;padding:24px 40px;border-radius:0 0 12px 12px;text-align:center;border:1px solid #e2e8f0;border-top:none;">
+              <p style="margin:0 0 8px;font-size:12px;color:#5b6678;font-family:Arial,sans-serif;line-height:1.6;">
                 You're receiving this because you created a free account on the Local Business Network.
               </p>
-              <p style="margin:0;font-size:12px;color:#888;font-family:Arial,sans-serif;">
-                <a href="https://www.localbusinesscalendars.com/unsubscribe" style="color:#c9a84c;text-decoration:none;">Unsubscribe from newsletters</a>
+              <p style="margin:0;font-size:12px;color:#5b6678;font-family:Arial,sans-serif;">
+                <a href="https://www.localbusinesscalendars.com/unsubscribe" style="color:#1652f0;text-decoration:none;">Unsubscribe from newsletters</a>
                 &nbsp;·&nbsp;
-                <a href="https://www.localbusinesscalendars.com" style="color:#c9a84c;text-decoration:none;">Local Business Calendars</a>
+                <a href="https://www.localbusinesscalendars.com" style="color:#1652f0;text-decoration:none;">Local Business Calendars</a>
                 &nbsp;·&nbsp;
-                <a href="${lboUrl}" style="color:#c9a84c;text-decoration:none;">Local Business Organizations</a>
+                <a href="${lboUrl}" style="color:#1652f0;text-decoration:none;">Local Business Organizations</a>
               </p>
             </td>
           </tr>

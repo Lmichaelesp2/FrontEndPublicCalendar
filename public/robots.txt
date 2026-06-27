@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api
-Sitemap: https://www.businesscalendar.link/sitemap.xml
+Sitemap: https://www.localbusinesscalendars.com/sitemap.xml
