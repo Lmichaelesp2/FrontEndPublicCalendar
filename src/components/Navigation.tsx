@@ -9,7 +9,7 @@ import { useRef } from 'react';
 import { CITY_CONFIGS } from '../lib/cities';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
-import { SHOW_SPONSOR_NAV, SHOW_MORE_MENU } from '../lib/featureFlags';
+import { SHOW_SPONSOR_NAV, SHOW_MORE_MENU, SHOW_TRAINING_NAV, SHOW_CHALLENGE_NAV } from '../lib/featureFlags';
 
 function getDayDateline(): string {
   return new Date().toLocaleDateString('en-US', {
@@ -446,8 +446,8 @@ export function Navigation() {
                   <Link href="/texas/houston" className={`nav-link${pathname?.startsWith('/texas/houston') ? ' nav-link--active' : ''}`}>Houston</Link>
                 </>
               )}
-              <Link href="/training" className={`nav-link${pathname?.startsWith('/training') ? ' nav-link--active' : ''}`}>Training</Link>
-              <Link href="/networking-challenge" className={`nav-link${pathname === '/networking-challenge' ? ' nav-link--active' : ''}`}>Networking Challenge</Link>
+              {SHOW_TRAINING_NAV && <Link href="/training" className={`nav-link${pathname?.startsWith('/training') ? ' nav-link--active' : ''}`}>Training</Link>}
+              {SHOW_CHALLENGE_NAV && <Link href="/networking-challenge" className={`nav-link${pathname === '/networking-challenge' ? ' nav-link--active' : ''}`}>Networking Challenge</Link>}
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
               <Link href="/help" className={`nav-link${pathname === '/help' ? ' nav-link--active' : ''}`}>Help</Link>

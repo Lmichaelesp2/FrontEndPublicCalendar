@@ -21,3 +21,5 @@ export const SHOW_ENM_SECTION      = false;
 export const SHOW_MORE_MENU        = false;  // More menu hidden while Sponsors menu is shown
 export const SHOW_SUB_CALENDARS    = false;  // Sub-calendar links on subscribe page hidden for launch
 export const SHOW_EVENT_ASSISTANT  = false;  // Event Assistant paused — see note above
+export const SHOW_TRAINING_NAV     = false;  // Training link — hidden until ready to launch
+export const SHOW_CHALLENGE_NAV    = false;  // Networking Challenge link — hidden until ready to launch
