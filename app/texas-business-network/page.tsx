@@ -27,8 +27,8 @@ const PILLARS = [
   },
   {
     label: 'Content',
-    title: 'Turn the events you're already attending into content that keeps you visible.',
-    body: 'You don't need to create content from scratch. Every event you attend is content waiting to be shared — a photo, a takeaway, a quick recap. We show you the simplest possible process so the people who couldn't be there remember who was.',
+    title: "Turn the events you're already attending into content that keeps you visible.",
+    body: "You don't need to create content from scratch. Every event you attend is content waiting to be shared — a photo, a takeaway, a quick recap. We show you the simplest possible process so the people who couldn't be there remember who was.",
   },
   {
     label: 'Participation',
@@ -182,7 +182,7 @@ export default function TexasBusinessNetworkPage() {
               </div>
               <div style={{ background: '#f7f7f5', border: '1px solid #e8e8e4', borderRadius: 10, padding: '1.5rem' }}>
                 <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#c2410c', marginBottom: '0.5rem' }}>Direct Access to Louis</p>
-                <h3 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '1.2rem', color: '#0a1628', marginBottom: '0.5rem' }}>Strategy, judgment, and the human moments the AI can't replace.</h3>
+                <h3 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '1.2rem', color: '#0a1628', marginBottom: '0.5rem' }}>Strategy, judgment, and the human moments the AI cannot replace.</h3>
                 <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: '#1f2a3d', margin: 0 }}>
                   Periodic group touchpoints and direct access for guidance, questions, and accountability. Louis knows the local networking landscape in Texas — the right chambers, the right mixers, the right industry groups — better than any individual member does.
                 </p>
@@ -284,11 +284,11 @@ export default function TexasBusinessNetworkPage() {
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {[
-                { day: 'Monday', label: 'Weekly check-in', detail: 'Your AI assistant asks: "You set a goal to attend one event this week. What's on your calendar?" It surfaces 2–3 events matched to your profile and reminds you who you still owe a follow-up.' },
-                { day: 'Mid-week', label: 'Event guidance', detail: 'You get a short note on what to look for at Thursday's mixer — which industries are likely in the room, a conversation opener worth trying, and a reminder to grab a photo you can post afterward.' },
-                { day: 'Event night', label: 'You show up — we told you exactly why this room matters', detail: 'You already know why this event is worth your time, who you're looking for, and what to do when you find them. You're not just attending. You're working the room.' },
-                { day: 'Next morning', label: 'Follow-up nudge', detail: 'Your assistant checks in: "You went to the Chamber mixer last night — who'd you meet?" You log two names. It schedules their follow-up reminder for 48 hours from now and prompts you to post a quick recap.' },
-                { day: 'End of month', label: 'Progress milestone', detail: 'You're at 34 contacts in your network. The system marks the milestone and shows you the pace to 50. Louis sends a short note on what to focus on next.' },
+                { day: 'Monday', label: 'Weekly check-in', detail: "Your AI assistant asks: \"You set a goal to attend one event this week. What's on your calendar?\" It surfaces 2–3 events matched to your profile and reminds you who you still owe a follow-up." },
+                { day: 'Mid-week', label: 'Event guidance', detail: "You get a short note on what to look for at Thursday's mixer — which industries are likely in the room, a conversation opener worth trying, and a reminder to grab a photo you can post afterward." },
+                { day: 'Event night', label: 'You show up — we told you exactly why this room matters', detail: "You already know why this event is worth your time, who you're looking for, and what to do when you find them. You're not just attending. You're working the room." },
+                { day: 'Next morning', label: 'Follow-up nudge', detail: "Your assistant checks in: \"You went to the Chamber mixer last night — who'd you meet?\" You log two names. It schedules their follow-up reminder for 48 hours from now and prompts you to post a quick recap." },
+                { day: 'End of month', label: 'Progress milestone', detail: "You're at 34 contacts in your network. The system marks the milestone and shows you the pace to 50. Louis sends a short note on what to focus on next." },
               ].map(({ day, label, detail }, i) => (
                 <div key={day} style={{
                   display: 'grid',
