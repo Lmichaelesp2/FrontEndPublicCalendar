@@ -446,6 +446,7 @@ export function Navigation() {
                   <Link href="/texas/houston" className={`nav-link${pathname?.startsWith('/texas/houston') ? ' nav-link--active' : ''}`}>Houston</Link>
                 </>
               )}
+              <Link href="/training" className={`nav-link${pathname?.startsWith('/training') ? ' nav-link--active' : ''}`}>Training</Link>
               <Link href="/networking-challenge" className={`nav-link${pathname === '/networking-challenge' ? ' nav-link--active' : ''}`}>Networking Challenge</Link>
               <Link href="/about" className="nav-link">About</Link>
               <Link href="/contact" className="nav-link">Contact</Link>
