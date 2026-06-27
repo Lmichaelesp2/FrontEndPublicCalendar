@@ -22,21 +22,44 @@ const INDUSTRIES = [
 const PILLARS = [
   {
     label: 'People',
+    svg: (
+      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="13" r="6" stroke="#0a1628" strokeWidth="2.5" opacity="0.18"/>
+        <path d="M8 34c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#0a1628" strokeWidth="2.5" strokeLinecap="round" opacity="0.18"/>
+      </svg>
+    ),
     title: 'Know exactly who belongs in your network — before you walk into any room.',
     body: 'We profile your ideal prospects, referral partners, connectors, and existing customers. Then we map the organizations and events in your city where those people already gather. You stop wasting evenings in the wrong rooms.',
   },
   {
     label: 'Content',
+    svg: (
+      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="8" width="28" height="20" rx="3" stroke="#0a1628" strokeWidth="2.5" opacity="0.18"/>
+        <path d="M13 16h14M13 22h8" stroke="#0a1628" strokeWidth="2.5" strokeLinecap="round" opacity="0.18"/>
+      </svg>
+    ),
     title: "Turn the events you're already attending into content that keeps you visible.",
     body: "You don't need to create content from scratch. Every event you attend is content waiting to be shared — a photo, a takeaway, a quick recap. We show you the simplest possible process so the people who couldn't be there remember who was.",
   },
   {
     label: 'Participation',
+    svg: (
+      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 6L6 16v20h28V16L20 6z" stroke="#0a1628" strokeWidth="2.5" strokeLinejoin="round" opacity="0.18"/>
+        <rect x="15" y="24" width="10" height="12" rx="1" stroke="#0a1628" strokeWidth="2.5" opacity="0.18"/>
+      </svg>
+    ),
     title: 'Work the right organizations and events with depth — not just attendance.',
     body: 'We tell you which chamber, which networking group, which industry association is worth your time and money. Then we guide you on how to show up: when to join, when to lead, and how to become a recognized presence people trust.',
   },
   {
     label: 'Relationships',
+    svg: (
+      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 34C20 34 6 26 6 16a7 7 0 0114 0 7 7 0 0114 0c0 10-14 18-14 18z" stroke="#0a1628" strokeWidth="2.5" strokeLinejoin="round" opacity="0.18"/>
+      </svg>
+    ),
     title: 'Stay top of mind after every room empties — until contacts become clients.',
     body: 'Most networking dies in the follow-up. We give you a simple maintenance system — email, social, and the AI assistant checking in weekly — so the relationships you build keep compounding long after the event ends.',
   },
@@ -144,10 +167,10 @@ export default function TexasBusinessNetworkPage() {
             </p>
 
             {/* Four pillars */}
-            {PILLARS.map((pillar, i) => (
+            {PILLARS.map((pillar) => (
               <div key={pillar.label} style={{
                 display: 'grid',
-                gridTemplateColumns: '80px 1fr',
+                gridTemplateColumns: '64px 1fr',
                 gap: '1.5rem',
                 padding: '2rem 0',
                 borderTop: '1px solid #e8e8e4',
@@ -155,12 +178,14 @@ export default function TexasBusinessNetworkPage() {
               }}>
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: i % 2 === 0 ? '#0a1628' : '#c2410c',
+                  border: '1.5px solid #e8e8e4',
+                  background: '#f7f7f5',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                 }}>
-                  <span style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '0.8rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{pillar.label}</span>
+                  {pillar.svg}
                 </div>
                 <div>
+                  <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#c2410c', marginBottom: '0.3rem' }}>{pillar.label}</p>
                   <h3 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(1.1rem, 2.5vw, 1.35rem)', lineHeight: 1.25, color: '#0a1628', marginBottom: '0.6rem' }}>
                     {pillar.title}
                   </h3>
