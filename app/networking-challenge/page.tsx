@@ -84,6 +84,15 @@ export default function NetworkingChallengePage() {
           </div>
         </section>
 
+        {/* Stats bar */}
+        <div style={{ background: '#0a1628', padding: '0.85rem 2rem' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#94a3b8' }}>4 STAGES</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#94a3b8' }}>25 · 50 · 75 · 100 CONNECTIONS</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#94a3b8' }}>FREE TO START</span>
+          </div>
+        </div>
+
         {/* Stages */}
         {STAGES.map((stage, i) => (
           <section
