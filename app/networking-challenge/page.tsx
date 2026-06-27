@@ -67,7 +67,7 @@ export default function NetworkingChallengePage() {
             <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#c2410c', marginBottom: '0.75rem' }}>
               The Networking Challenge
             </p>
-            <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2rem, 5vw, 3rem)', lineHeight: 1.15, marginBottom: '1.25rem', color: '#0a1628' }}>
+            <h1 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(2rem, 5vw, 3rem)', lineHeight: 1.15, marginBottom: '1.25rem', color: '#0a1628' }}>
               Turn the events you attend into real business connections.
             </h1>
             <p style={{ fontSize: '1.125rem', lineHeight: 1.7, color: '#1f2a3d', marginBottom: '2rem' }}>
@@ -115,14 +115,14 @@ export default function NetworkingChallengePage() {
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0,
                 }}>
-                  <span style={{ fontFamily: 'Georgia, serif', fontSize: '1.5rem', fontWeight: 700, lineHeight: 1 }}>{stage.number}</span>
+                  <span style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '1.5rem', fontWeight: 700, lineHeight: 1 }}>{stage.number}</span>
                   <span style={{ fontSize: '0.6rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#94a3b8', marginTop: '2px' }}>connections</span>
                 </div>
                 <div>
                   <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#c2410c', marginBottom: '0.2rem' }}>
                     Stage {i + 1} · {stage.pillar}
                   </p>
-                  <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: 1.2, color: '#0a1628', margin: 0 }}>
+                  <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(1.25rem, 3vw, 1.75rem)', lineHeight: 1.2, color: '#0a1628', margin: 0 }}>
                     {stage.title}
                   </h2>
                 </div>
@@ -159,7 +159,7 @@ export default function NetworkingChallengePage() {
             <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5b82f7', marginBottom: '0.75rem' }}>
               Built on the method
             </p>
-            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', color: '#fff', marginBottom: '1rem' }}>
+            <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', color: '#fff', marginBottom: '1rem' }}>
               People → Content → Participation → Relationships
             </h2>
             <p style={{ color: '#c7d0dd', lineHeight: 1.7, marginBottom: '2rem', fontSize: '1.05rem' }}>
@@ -177,7 +177,7 @@ export default function NetworkingChallengePage() {
             <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#c2410c', marginBottom: '0.75rem' }}>
               Texas Business Network
             </p>
-            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', marginBottom: '1rem', color: '#0a1628' }}>
+            <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', marginBottom: '1rem', color: '#0a1628' }}>
               Want to do this with expert guidance and an AI assistant behind you?
             </h2>
             <p style={{ fontSize: '1.05rem', lineHeight: 1.75, color: '#1f2a3d', marginBottom: '1.75rem' }}>
