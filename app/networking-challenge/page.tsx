@@ -71,7 +71,7 @@ export default function NetworkingChallengePage() {
               Turn the events you attend into real business connections.
             </h1>
             <p style={{ fontSize: '1.125rem', lineHeight: 1.7, color: '#1f2a3d', marginBottom: '2rem' }}>
-              Finding the right events is step one. The Networking Challenge is how you turn those events into real business relationships — by showing up consistently, meeting new people intentionally, and following up every time. Do that long enough and your network stops being a collection of contacts and starts being a source of real business.
+              Show up consistently, meet people intentionally, follow up every time. Do that long enough and your network becomes a source of real business.
             </p>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <a href="#stage-25" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: '#c2410c', color: '#fff', padding: '0.75rem 1.5rem', borderRadius: 8, fontWeight: 600, fontSize: '0.95rem', textDecoration: 'none' }}>
