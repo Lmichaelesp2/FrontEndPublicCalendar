@@ -160,10 +160,10 @@ export default function TexasBusinessNetworkPage() {
               What you get
             </p>
             <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', lineHeight: 1.2, color: '#0a1628', marginBottom: '0.5rem' }}>
-              A system, an assistant, and an expert — all pointed at the same goal.
+              Everything you need to build the right network — and nothing you don't.
             </h2>
             <p style={{ fontSize: '1.05rem', color: '#1f2a3d', lineHeight: 1.7, marginBottom: '3rem', maxWidth: 680 }}>
-              TBN is built on the Local Business Networking Method — a four-pillar framework for turning your local network into customers. Members get hands-on guidance through all four pillars, not just event recommendations.
+              Your membership includes the framework that tells you what to do, the app that keeps you on track, and Louis — who knows the Texas networking landscape and tells you exactly where to show up.
             </p>
 
             {/* Four pillars */}
