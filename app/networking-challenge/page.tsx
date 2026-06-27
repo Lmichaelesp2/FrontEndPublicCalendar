@@ -9,7 +9,7 @@ const STAGES = [
     number: 25,
     pillar: 'People',
     title: 'Define who you are looking for',
-    body: 'Before you count a single connection, get specific about who belongs in your network — role, industry, the rooms they already gather in. Your first 25 connections should be a mix of test cases: people who match your target so you can sharpen it. The clearer you are about who you want to meet, the more intentional every event becomes.',
+    body: 'Before you count a single connection, get specific about who belongs in your network — role, industry, the rooms they already gather in. Your first connections should be a mix of test cases: people who match your target so you can sharpen it. The clearer you are about who you want to meet, the more intentional every event becomes.',
     callout: 'Most people go to events hoping to meet someone useful. The method reverses it: decide who you want to meet first, then find the events where they already are.',
     checks: [
       'Write out your ideal prospect — industry, role, what they do',
@@ -21,10 +21,10 @@ const STAGES = [
     number: 50,
     pillar: 'Participation',
     title: 'Commit to your rooms',
-    body: 'By 50 connections, you should have picked three or four organizations to go deep in, while still scanning the wider universe of events for the rooms that matter. Depth in a few places beats a shallow presence everywhere. The events you attend inside your committed organizations are where relationships compound — because you see the same people repeatedly.',
-    callout: 'Commit narrow, watch wide: go deep in 3–4 organizations while always scanning the broader event landscape for rooms worth entering.',
+    body: 'By this stage you should have picked a handful of organizations to go deep in, while still scanning the wider universe of events for the rooms that matter. Depth in a few places beats a shallow presence everywhere. The events you attend inside your committed organizations are where relationships compound — because you see the same people repeatedly.',
+    callout: 'Commit narrow, watch wide: go deep in a few organizations while always scanning the broader event landscape for rooms worth entering.',
     checks: [
-      'Pick 3–4 organizations to commit to and attend their events consistently',
+      'Pick a few organizations to commit to and attend their events consistently',
       'Attend at least one outside event per month to discover new rooms',
       'Follow up with every new contact within 48 hours — every time',
     ],
@@ -33,7 +33,7 @@ const STAGES = [
     number: 75,
     pillar: 'Content',
     title: 'Stay top of mind between events',
-    body: 'Around 75 connections, your follow-up can no longer stay one-to-one — there are too many people to message individually. Start turning the events you attend and the organizations you are active in into content that keeps you visible to everyone at once. You do not need to create anything from scratch. Re-share what you are already doing: a photo from a chamber breakfast, a recap of a panel, a takeaway from a meeting you attended.',
+    body: 'As your network grows, your follow-up can no longer stay one-to-one — there are too many people to message individually. Start turning the events you attend and the organizations you are active in into content that keeps you visible to everyone at once. You do not need to create anything from scratch. Re-share what you are already doing: a photo from a chamber breakfast, a recap of a panel, a takeaway from a meeting you attended.',
     callout: 'The content that keeps you top of mind is already happening. You just have to document it. A photo and one sentence from an event you attended is enough to start.',
     checks: [
       'Post one piece of content per event attended — photo, recap, or takeaway',
@@ -45,11 +45,11 @@ const STAGES = [
     number: 100,
     pillar: 'Relationships',
     title: 'Build the system that keeps it warm',
-    body: 'The finish line is not the 100th name on a list — it is having a real system that keeps every one of those relationships warm over time. Follow up consistently across email, social media, and in-person touchpoints until they buy from you or send you someone who does. At any given moment, 2–3% of your network is ready to buy or refer. The goal of staying top of mind is to make sure that when they reach that moment, you are the first person they think of.',
-    callout: '100 warm relationships produces 2–3 people ready to buy or refer at any given time. That sounds small — until you do the math on what those 2–3 people are worth to your business.',
+    body: 'The finish line is not a number on a list — it is having a real system that keeps every relationship warm over time. Follow up consistently across email, social media, and in-person touchpoints until they buy from you or send you someone who does. At any given moment, a small percentage of your network is ready to buy or refer. The goal of staying top of mind is to make sure that when they reach that moment, you are the first person they think of.',
+    callout: 'A warm network produces buyers and referrers on an ongoing basis. The goal of every touchpoint is to make sure you are top of mind when someone is ready — not when it is convenient for you.',
     checks: [
       'Set a follow-up system — email, LinkedIn, or a simple spreadsheet',
-      'Check in with your top 20 relationships at least once a quarter',
+      'Check in with your closest relationships at least once a quarter',
       'Keep showing up in the same rooms consistently — that is your relationship maintenance',
     ],
   },
@@ -68,10 +68,10 @@ export default function NetworkingChallengePage() {
               The Networking Challenge
             </p>
             <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2rem, 5vw, 3rem)', lineHeight: 1.15, marginBottom: '1.25rem', color: '#0a1628' }}>
-              Turn the events you attend into 100 real business connections.
+              Turn the events you attend into real business connections.
             </h1>
             <p style={{ fontSize: '1.125rem', lineHeight: 1.7, color: '#1f2a3d', marginBottom: '2rem' }}>
-              Finding the right events is step one. The Networking Challenge is how you turn those events into 100 real business relationships — in 12 months, at one event per week, meeting two new people each time. Simple pace. Real results.
+              Finding the right events is step one. The Networking Challenge is how you turn those events into real business relationships — by showing up consistently, meeting new people intentionally, and following up every time. Do that long enough and your network stops being a collection of contacts and starts being a source of real business.
             </p>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <a href="#stage-25" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: '#c2410c', color: '#fff', padding: '0.75rem 1.5rem', borderRadius: 8, fontWeight: 600, fontSize: '0.95rem', textDecoration: 'none' }}>
@@ -81,31 +81,6 @@ export default function NetworkingChallengePage() {
                 Find events in your city
               </Link>
             </div>
-          </div>
-        </section>
-
-        {/* The pace */}
-        <section style={{ background: '#f7f7f5', borderBottom: '1px solid #e8e8e4', padding: '2.5rem 2rem' }}>
-          <div style={{ maxWidth: 720, margin: '0 auto' }}>
-            <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#5b6678', marginBottom: '1.25rem' }}>
-              The math is simple — and achievable for any busy professional:
-            </p>
-            <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-              {[
-                { number: '1', label: 'event per week' },
-                { number: '2', label: 'new people per event' },
-                { number: '52', label: 'weeks in a year' },
-                { number: '100+', label: 'real connections' },
-              ].map(stat => (
-                <div key={stat.label}>
-                  <div style={{ fontFamily: 'Georgia, serif', fontSize: '2.25rem', fontWeight: 700, color: '#1652f0', lineHeight: 1 }}>{stat.number}</div>
-                  <div style={{ fontSize: '0.85rem', color: '#5b6678', marginTop: '0.25rem' }}>{stat.label}</div>
-                </div>
-              ))}
-            </div>
-            <p style={{ color: '#5b6678', fontSize: '0.9rem', marginTop: '1.25rem', lineHeight: 1.6 }}>
-              100 is the floor, not the ceiling. One event a week and two conversations per event is the minimum pace. Most people who stay with it exceed 100 well before month 12.
-            </p>
           </div>
         </section>
 
@@ -197,7 +172,7 @@ export default function NetworkingChallengePage() {
               Want to do this with expert guidance and an AI assistant behind you?
             </h2>
             <p style={{ fontSize: '1.05rem', lineHeight: 1.75, color: '#1f2a3d', marginBottom: '1.75rem' }}>
-              The Texas Business Network is an exclusive membership for professionals committed to growing their business through the right relationships in Texas. We tell you which events to attend, which organizations to join, and what to do when you get there. An AI assistant checks in weekly to keep you on pace toward your 100-connection goal. Limited to 25 members per city.
+              The Texas Business Network is an exclusive membership for professionals committed to growing their business through the right relationships in Texas. We tell you which events to attend, which organizations to join, and what to do when you get there. An AI assistant checks in weekly to keep you on pace. Limited to a select number of members per city.
             </p>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <a href="mailto:themobilecoach@gmail.com" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: '#0a1628', color: '#fff', padding: '0.75rem 1.5rem', borderRadius: 8, fontWeight: 600, fontSize: '0.95rem', textDecoration: 'none' }}>
