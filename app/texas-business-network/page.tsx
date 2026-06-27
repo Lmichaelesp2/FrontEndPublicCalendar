@@ -116,6 +116,7 @@ export default function TexasBusinessNetworkPage() {
           <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#94a3b8' }}>25 MEMBERS PER CITY</span>
             <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#94a3b8' }}>4 TEXAS CITIES</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#94a3b8' }}>EVENTS + ORGANIZATIONS</span>
             <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#94a3b8' }}>APPLICATION REQUIRED</span>
           </div>
         </div>
@@ -162,7 +163,7 @@ export default function TexasBusinessNetworkPage() {
               Everything you need to build the right network — and nothing you don't.
             </h2>
             <p style={{ fontSize: '1.05rem', color: '#1f2a3d', lineHeight: 1.7, marginBottom: '3rem', maxWidth: 680 }}>
-              Your membership includes the framework that tells you what to do, the app that keeps you on track, and Louis — who knows the Texas networking landscape and tells you exactly where to show up.
+              The Local Business Calendars site helps you find events. The Local Business Organizations site helps you find groups to join. TBN does both — and tells you exactly what to do with each. Your membership covers the full process: which organizations to join, how deep to go in them, which events to attend, and how to follow up after every one.
             </p>
 
             {/* Four pillars */}
@@ -194,6 +195,33 @@ export default function TexasBusinessNetworkPage() {
                 </div>
               </div>
             ))}
+
+            {/* Orgs + Events */}
+            <div style={{ margin: '2.5rem 0', padding: '2rem', background: '#f7f7f5', borderRadius: 12, border: '1px solid #e8e8e4' }}>
+              <p style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#c2410c', marginBottom: '0.75rem' }}>The two things most people get wrong</p>
+              <h3 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', lineHeight: 1.25, color: '#0a1628', marginBottom: '1rem' }}>
+                Most people pick the wrong organizations and attend the wrong events. TBN fixes both.
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
+                <div>
+                  <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#0a1628', marginBottom: '0.5rem' }}>Organizations — go deep in 3–4</p>
+                  <p style={{ fontSize: '0.95rem', lineHeight: 1.75, color: '#1f2a3d', margin: 0 }}>
+                    We identify the 3–4 organizations in your city that are actually worth your time and dues — the right chamber, the right networking group, the right industry association for your specific goals. Then we tell you exactly how to show up inside them: when to attend, when to take on a role, and how to become a name people recognize and trust.
+                  </p>
+                </div>
+                <div>
+                  <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#0a1628', marginBottom: '0.5rem' }}>Events — the right rooms, every week</p>
+                  <p style={{ fontSize: '0.95rem', lineHeight: 1.75, color: '#1f2a3d', margin: 0 }}>
+                    We pull from hundreds of events happening across your city each week and surface the 2–3 that are actually worth your time. Not a firehose — a short, specific list with context: who is likely in the room, why it matters for your goals, and what to do when you get there.
+                  </p>
+                </div>
+              </div>
+              <div style={{ marginTop: '1.25rem', padding: '1rem 1.25rem', background: '#0a1628', borderRadius: 8 }}>
+                <p style={{ color: '#e2e8f0', fontSize: '0.93rem', lineHeight: 1.7, margin: 0 }}>
+                  <strong style={{ color: '#fff' }}>The calendar gives you events. The directory gives you organizations. TBN gives you both</strong> — with someone telling you exactly which ones are worth your time and what to do with them.
+                </p>
+              </div>
+            </div>
 
             {/* AI assistant + Louis */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginTop: '2.5rem' }}>
