@@ -63,7 +63,7 @@ export default function NetworkingChallengePage() {
 
         {/* Hero */}
         <section style={{ background: '#fff', borderBottom: '1px solid #e8e8e4', padding: '4rem 2rem 3.5rem' }}>
-          <div style={{ maxWidth: 720, margin: '0 auto' }}>
+          <div style={{ maxWidth: 960, margin: '0 auto' }}>
             <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#c2410c', marginBottom: '0.75rem' }}>
               The Networking Challenge
             </p>
@@ -96,7 +96,7 @@ export default function NetworkingChallengePage() {
               scrollMarginTop: '80px',
             }}
           >
-            <div style={{ maxWidth: 720, margin: '0 auto' }}>
+            <div style={{ maxWidth: 960, margin: '0 auto' }}>
 
               {/* Stage header */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '1.5rem' }}>
@@ -146,7 +146,7 @@ export default function NetworkingChallengePage() {
 
         {/* The loop */}
         <section style={{ background: '#0a1628', padding: '4rem 2rem' }}>
-          <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
             <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5b82f7', marginBottom: '0.75rem' }}>
               Built on the method
             </p>
@@ -164,7 +164,7 @@ export default function NetworkingChallengePage() {
 
         {/* TBN CTA */}
         <section style={{ background: '#fff', borderTop: '1px solid #e8e8e4', padding: '4rem 2rem' }}>
-          <div style={{ maxWidth: 720, margin: '0 auto' }}>
+          <div style={{ maxWidth: 960, margin: '0 auto' }}>
             <p style={{ fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#c2410c', marginBottom: '0.75rem' }}>
               Texas Business Network
             </p>
