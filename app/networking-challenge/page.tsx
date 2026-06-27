@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Navigation } from '../../../src/components/Navigation';
-import { Footer } from '../../../src/components/Footer';
+import { Navigation } from '@/components/Navigation';
+import { Footer } from '@/components/Footer';
 
 const STAGES = [
   {
