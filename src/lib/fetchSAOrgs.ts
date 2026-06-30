@@ -6,22 +6,23 @@ function getServerSupabase() {
   return createClient(url, key);
 }
 
-// Maps organization group_type / category values → our display category keys
+// Maps backend category values → LBO PUBLIC_CATEGORIES labels (must match exactly)
 const CATEGORY_MAP: Record<string, string> = {
-  'chamber':         'Chambers',
-  'chambers':        'Chambers',
-  'networking':      'Networking',
-  'real estate':     'Real Estate',
-  'real_estate':     'Real Estate',
-  'technology':      'Technology',
-  'tech':            'Technology',
-  'small business':  'Small Business',
-  'small_business':  'Small Business',
-  'alliance':        'Alliances',
-  'alliances':       'Alliances',
-  'association':     'Associations',
-  'associations':    'Associations',
-  'professional':    'Associations',
+  'Community/Edu':      'Community/Edu',
+  'Technology':         'Technology',
+  'Real Estate':        'Real Estate',
+  'Networking':         'Networking',
+  'Chambers':           'Chambers',
+  'Const/Design/Mfg':  'Const/Design/Mfg',
+  'Co-Working':         'Co-Working',
+  'Fed/State/Local':    'Other',
+  'Healthcare':         'Other',
+  'Professional Svcs':  'Other',
+  'Financial':          'Other',
+  'Financial Services': 'Other',
+  'Career/HR':          'Other',
+  'Hospitality':        'Other',
+  'Other':              'Other',
 };
 
 export async function fetchSAOrgCounts(): Promise<{

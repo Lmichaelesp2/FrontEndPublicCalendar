@@ -31,62 +31,56 @@ interface Props {
 
 // ── Org category definitions ──────────────────────────────────────────────────
 
+const LBO_SA = 'https://www.localbusinessorganizations.com/texas/san-antonio';
+
 const ORG_CATEGORIES = [
   {
     key: 'Chambers',
-    label: 'Chambers & Associations',
+    label: 'Chambers',
     desc: 'SA Chamber, Hispanic Chamber, North SA Chamber, and more.',
     icon: Landmark,
-    href: '/texas/san-antonio/chamber',
   },
   {
     key: 'Networking',
-    label: 'Networking Groups',
+    label: 'Networking',
     desc: 'Professional mixers, BNI chapters, and referral networks.',
     icon: Users,
-    href: '/texas/san-antonio/networking',
   },
   {
     key: 'Real Estate',
     label: 'Real Estate',
     desc: 'SABOR, REIA groups, and real estate investor associations.',
     icon: Home,
-    href: '/texas/san-antonio/real-estate',
   },
   {
     key: 'Technology',
     label: 'Technology',
     desc: 'Tech meetups, startup communities, and innovation hubs.',
     icon: Monitor,
-    href: '/texas/san-antonio/technology',
   },
   {
-    key: 'Small Business',
-    label: 'Small Business',
-    desc: 'SBDC, SCORE, UTSA, and entrepreneur support organizations.',
+    key: 'Community/Edu',
+    label: 'Community/Edu',
+    desc: 'Civic organizations, educational institutions, and SBDC/SCORE.',
     icon: Briefcase,
-    href: '/texas/san-antonio/small-business',
   },
   {
-    key: 'Alliances',
-    label: 'Business Alliances',
-    desc: 'Cross-industry business coalitions and economic development groups.',
-    icon: Handshake,
-    href: null, // no dedicated page yet — gate with auth modal
-  },
-  {
-    key: 'Associations',
-    label: 'Professional Associations',
-    desc: 'Industry-specific professional groups and trade associations.',
+    key: 'Const/Design/Mfg',
+    label: 'Const/Design/Mfg',
+    desc: 'Contractors, architects, manufacturers, and trade associations.',
     icon: Building2,
-    href: null,
+  },
+  {
+    key: 'Co-Working',
+    label: 'Co-Working',
+    desc: 'Shared workspaces and collaborative business environments.',
+    icon: Handshake,
   },
   {
     key: 'Other',
-    label: 'Other Organizations',
-    desc: 'Civic groups, nonprofits, and community business organizations.',
+    label: 'Other',
+    desc: 'Financial, healthcare, professional services, and more.',
     icon: Star,
-    href: null,
   },
 ];
 
@@ -530,12 +524,9 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
           <div style={{
             display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem',
           }} className="v2-org-grid">
-            {ORG_CATEGORIES.map(({ key, label, desc, icon: Icon, href }) => {
+            {ORG_CATEGORIES.map(({ key, label, desc, icon: Icon }) => {
               const count = orgCounts[key] ?? 0;
-              // Logged-in + has a dedicated page → navigate there
-              // Otherwise → open auth modal
               const isLoggedIn = !!profile;
-              const destination = isLoggedIn && href ? href : null;
 
               const cardStyle: React.CSSProperties = {
                 background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12,
@@ -549,7 +540,6 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
 
               const cardInner = (
                 <>
-                  {/* Ghost icon */}
                   <div style={{ position: 'absolute', bottom: 10, right: 10, pointerEvents: 'none', userSelect: 'none', lineHeight: 0 }}>
                     <Icon size={56} strokeWidth={1.2} style={{ stroke: '#1652f0', fill: 'none', opacity: .18 }} />
                   </div>
@@ -568,10 +558,12 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
                 </>
               );
 
-              return destination ? (
-                <Link key={key} href={destination} style={cardStyle}>
+              // Logged in → go to LBO directory (opens in new tab)
+              // Logged out → sign up first
+              return isLoggedIn ? (
+                <a key={key} href={LBO_SA} target="_blank" rel="noopener noreferrer" style={cardStyle}>
                   {cardInner}
-                </Link>
+                </a>
               ) : (
                 <button key={key} onClick={() => setAuthOpen(true)} style={cardStyle}>
                   {cardInner}
