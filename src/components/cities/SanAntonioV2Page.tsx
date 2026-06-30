@@ -37,48 +37,56 @@ const ORG_CATEGORIES = [
     label: 'Chambers & Associations',
     desc: 'SA Chamber, Hispanic Chamber, North SA Chamber, and more.',
     icon: Landmark,
+    href: '/texas/san-antonio/chamber',
   },
   {
     key: 'Networking',
     label: 'Networking Groups',
     desc: 'Professional mixers, BNI chapters, and referral networks.',
     icon: Users,
+    href: '/texas/san-antonio/networking',
   },
   {
     key: 'Real Estate',
     label: 'Real Estate',
     desc: 'SABOR, REIA groups, and real estate investor associations.',
     icon: Home,
+    href: '/texas/san-antonio/real-estate',
   },
   {
     key: 'Technology',
     label: 'Technology',
     desc: 'Tech meetups, startup communities, and innovation hubs.',
     icon: Monitor,
+    href: '/texas/san-antonio/technology',
   },
   {
     key: 'Small Business',
     label: 'Small Business',
     desc: 'SBDC, SCORE, UTSA, and entrepreneur support organizations.',
     icon: Briefcase,
+    href: '/texas/san-antonio/small-business',
   },
   {
     key: 'Alliances',
     label: 'Business Alliances',
     desc: 'Cross-industry business coalitions and economic development groups.',
     icon: Handshake,
+    href: null, // no dedicated page yet — gate with auth modal
   },
   {
     key: 'Associations',
     label: 'Professional Associations',
     desc: 'Industry-specific professional groups and trade associations.',
     icon: Building2,
+    href: null,
   },
   {
     key: 'Other',
     label: 'Other Organizations',
     desc: 'Civic groups, nonprofits, and community business organizations.',
     icon: Star,
+    href: null,
   },
 ];
 
@@ -522,22 +530,25 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
           <div style={{
             display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem',
           }} className="v2-org-grid">
-            {ORG_CATEGORIES.map(({ key, label, desc, icon: Icon }) => {
+            {ORG_CATEGORIES.map(({ key, label, desc, icon: Icon, href }) => {
               const count = orgCounts[key] ?? 0;
-              return (
-                <button
-                  key={key}
-                  onClick={() => setAuthOpen(true)}
-                  style={{
-                    background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12,
-                    padding: '1.2rem 1.1rem 1rem', textDecoration: 'none', color: 'inherit',
-                    display: 'flex', flexDirection: 'column', gap: 6,
-                    cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
-                    position: 'relative', overflow: 'hidden',
-                    boxShadow: '0 2px 8px rgba(10,22,40,.06)',
-                    transition: 'all .15s',
-                  }}
-                >
+              // Logged-in + has a dedicated page → navigate there
+              // Otherwise → open auth modal
+              const isLoggedIn = !!profile;
+              const destination = isLoggedIn && href ? href : null;
+
+              const cardStyle: React.CSSProperties = {
+                background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12,
+                padding: '1.2rem 1.1rem 1rem', textDecoration: 'none', color: 'inherit',
+                display: 'flex', flexDirection: 'column', gap: 6,
+                cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
+                position: 'relative', overflow: 'hidden',
+                boxShadow: '0 2px 8px rgba(10,22,40,.06)',
+                transition: 'all .15s',
+              };
+
+              const cardInner = (
+                <>
                   {/* Ghost icon */}
                   <div style={{ position: 'absolute', bottom: 10, right: 10, pointerEvents: 'none', userSelect: 'none', lineHeight: 0 }}>
                     <Icon size={56} strokeWidth={1.2} style={{ stroke: '#1652f0', fill: 'none', opacity: .18 }} />
@@ -554,6 +565,16 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
                   <span style={{ fontSize: '.76rem', fontWeight: 700, color: '#c2410c', marginTop: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
                     View all <ChevronRight size={12} />
                   </span>
+                </>
+              );
+
+              return destination ? (
+                <Link key={key} href={destination} style={cardStyle}>
+                  {cardInner}
+                </Link>
+              ) : (
+                <button key={key} onClick={() => setAuthOpen(true)} style={cardStyle}>
+                  {cardInner}
                 </button>
               );
             })}
