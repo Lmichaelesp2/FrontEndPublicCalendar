@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     .from('organizations')
     .select('*')
     .eq('city', city)
-    .eq('archive', false)
+    .or('archive.is.null,archive.eq.false')
     .order('name', { ascending: true });
 
   if (error) {
