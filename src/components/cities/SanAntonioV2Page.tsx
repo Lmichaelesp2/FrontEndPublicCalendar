@@ -333,30 +333,45 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
       </section>
 
       {/* ── Who it's for ── */}
-      <section style={{ background: '#f7f7f5', padding: '1rem 2rem', borderTop: '1px solid #e8e8e4' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-          <span style={{
-            fontSize: '.68rem', fontWeight: 700, textTransform: 'uppercase',
-            letterSpacing: '.1em', color: '#374151', whiteSpace: 'nowrap', flexShrink: 0,
-          }}>
-            This calendar is for
-          </span>
-          <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap' }}>
+      <section style={{ background: '#f7f7f5', padding: '2.75rem 2rem', borderTop: '1px solid #e8e8e4' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
+            <div style={{ fontSize: '.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.06em', color: '#1652f0', marginBottom: '.35rem' }}>
+              Who it's for
+            </div>
+            <h2 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: 'clamp(1.3rem,2.5vw,1.65rem)', fontWeight: 600, color: '#0a1628', letterSpacing: '-.02em', margin: 0 }}>
+              This calendar is built for you
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem' }} className="v2-who-grid">
             {([
-              { label: 'Business Owners',       Icon: Briefcase, color: '#1652f0' },
-              { label: 'Business Professionals', Icon: Users,     color: '#c2410c' },
-              { label: 'New to San Antonio',     Icon: MapPin,    color: '#1652f0' },
-              { label: 'Building your network',  Icon: Handshake, color: '#c2410c' },
+              { label: 'Business Owners',        Icon: Briefcase, color: '#1652f0' },
+              { label: 'Business Professionals',  Icon: Users,     color: '#c2410c' },
+              { label: 'New to San Antonio',      Icon: MapPin,    color: '#1652f0' },
+              { label: 'Building your network',   Icon: Handshake, color: '#c2410c' },
             ] as const).map(({ label, Icon, color }) => (
-              <span key={label} style={{
-                display: 'inline-flex', alignItems: 'center', gap: '.35rem',
-                background: '#fff', border: '1px solid #e8e8e4', borderRadius: 20,
-                padding: '5px 13px', fontSize: '.78rem', fontWeight: 600, color: '#0a1628',
-                boxShadow: '0 1px 3px rgba(10,22,40,.04)',
+              <div key={label} style={{
+                background: '#fff',
+                border: '1px solid #e8e8e4',
+                borderTop: `3px solid ${color}`,
+                borderRadius: 10,
+                padding: '1.5rem 1.25rem',
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', gap: '.85rem',
+                textAlign: 'center',
+                boxShadow: '0 2px 8px rgba(10,22,40,.06)',
               }}>
-                <Icon size={12} strokeWidth={1.8} style={{ stroke: color, flexShrink: 0 }} />
-                {label}
-              </span>
+                <div style={{
+                  width: 48, height: 48, borderRadius: 12,
+                  background: `${color}14`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}>
+                  <Icon size={22} strokeWidth={1.6} style={{ stroke: color }} />
+                </div>
+                <span style={{ fontSize: '.9rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.35 }}>
+                  {label}
+                </span>
+              </div>
             ))}
           </div>
         </div>
@@ -705,9 +720,11 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
           .v2-how-grid { grid-template-columns: 1fr !important; }
           .v2-org-grid { grid-template-columns: repeat(2,1fr) !important; }
           .v2-testimonial-grid { grid-template-columns: 1fr !important; }
+          .v2-who-grid { grid-template-columns: repeat(2,1fr) !important; }
         }
         @media (max-width: 680px) {
           .v2-hero-grid { grid-template-columns: 1fr !important; }
+          .v2-who-grid { grid-template-columns: repeat(2,1fr) !important; }
         }
       `}</style>
     </div>
