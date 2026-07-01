@@ -9,16 +9,16 @@ import type { LucideIcon } from 'lucide-react';
 import type { Organization } from '../../lib/supabase';
 import { OrgDetailModal } from './OrgDetailModal';
 
-// Matches the color system already used in OrgDetailModal
+// Site palette only: blue, rust, dark navy — no new colors
 const CATEGORY_CONFIG: Record<string, { Icon: LucideIcon; color: string }> = {
   'Chambers':          { Icon: Landmark,  color: '#1652f0' }, // blue
-  'Networking':        { Icon: Users,     color: '#0f6e56' }, // green
-  'Real Estate':       { Icon: Home,      color: '#c2410c' }, // rust
-  'Technology':        { Icon: Monitor,   color: '#6d28d9' }, // purple
+  'Networking':        { Icon: Users,     color: '#c2410c' }, // rust
+  'Real Estate':       { Icon: Home,      color: '#1652f0' }, // blue
+  'Technology':        { Icon: Monitor,   color: '#c2410c' }, // rust
   'Community/Edu':     { Icon: Briefcase, color: '#1652f0' }, // blue
-  'Const/Design/Mfg': { Icon: Building2, color: '#c2410c' }, // rust
-  'Co-Working':        { Icon: Handshake, color: '#0f6e56' }, // green
-  'Other':             { Icon: Star,      color: '#0369a1' }, // ocean
+  'Const/Design/Mfg': { Icon: Building2, color: '#374151' }, // dark gray
+  'Co-Working':        { Icon: Handshake, color: '#c2410c' }, // rust
+  'Other':             { Icon: Star,      color: '#374151' }, // dark gray
 };
 
 interface Props {

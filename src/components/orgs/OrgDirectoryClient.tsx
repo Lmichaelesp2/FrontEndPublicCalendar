@@ -19,14 +19,14 @@ import type { Organization } from '../../lib/supabase';
 // ── Category config ───────────────────────────────────────────────────────────
 
 const PUBLIC_CATEGORIES: { label: string; Icon: LucideIcon; color: string }[] = [
-  { label: 'Chambers',          Icon: Landmark,  color: '#1652f0' },
-  { label: 'Networking',        Icon: Users,     color: '#0f6e56' },
-  { label: 'Real Estate',       Icon: Home,      color: '#c2410c' },
-  { label: 'Technology',        Icon: Monitor,   color: '#6d28d9' },
-  { label: 'Community/Edu',     Icon: Briefcase, color: '#1652f0' },
-  { label: 'Const/Design/Mfg', Icon: Building2, color: '#c2410c' },
-  { label: 'Co-Working',        Icon: Handshake, color: '#0f6e56' },
-  { label: 'Other',             Icon: Star,      color: '#0369a1' },
+  { label: 'Chambers',          Icon: Landmark,  color: '#1652f0' }, // blue
+  { label: 'Networking',        Icon: Users,     color: '#c2410c' }, // rust
+  { label: 'Real Estate',       Icon: Home,      color: '#1652f0' }, // blue
+  { label: 'Technology',        Icon: Monitor,   color: '#c2410c' }, // rust
+  { label: 'Community/Edu',     Icon: Briefcase, color: '#1652f0' }, // blue
+  { label: 'Const/Design/Mfg', Icon: Building2, color: '#374151' }, // dark gray
+  { label: 'Co-Working',        Icon: Handshake, color: '#c2410c' }, // rust
+  { label: 'Other',             Icon: Star,      color: '#374151' }, // dark gray
 ];
 
 // Maps backend category values → display labels
