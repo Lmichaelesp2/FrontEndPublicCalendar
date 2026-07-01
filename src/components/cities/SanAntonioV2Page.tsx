@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import {
   Plus, Minus, Search, Building2, Users, Handshake, Home,
-  Monitor, Briefcase, Landmark, Star, ChevronRight,
+  Monitor, Briefcase, Landmark, Star, ChevronRight, MapPin,
 } from 'lucide-react';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
@@ -329,6 +329,36 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
           <span>{totalOrgs}+ organizations tracked</span>
           <span style={{ color: 'rgba(255,255,255,.3)' }}>|</span>
           <span>SABusinessCalendar.com</span>
+        </div>
+      </section>
+
+      {/* ── Who it's for ── */}
+      <section style={{ background: '#f7f7f5', padding: '1rem 2rem', borderTop: '1px solid #e8e8e4' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+          <span style={{
+            fontSize: '.68rem', fontWeight: 700, textTransform: 'uppercase',
+            letterSpacing: '.1em', color: '#374151', whiteSpace: 'nowrap', flexShrink: 0,
+          }}>
+            This calendar is for
+          </span>
+          <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap' }}>
+            {([
+              { label: 'Business Owners',       Icon: Briefcase, color: '#1652f0' },
+              { label: 'Business Professionals', Icon: Users,     color: '#c2410c' },
+              { label: 'New to San Antonio',     Icon: MapPin,    color: '#1652f0' },
+              { label: 'Building your network',  Icon: Handshake, color: '#c2410c' },
+            ] as const).map(({ label, Icon, color }) => (
+              <span key={label} style={{
+                display: 'inline-flex', alignItems: 'center', gap: '.35rem',
+                background: '#fff', border: '1px solid #e8e8e4', borderRadius: 20,
+                padding: '5px 13px', fontSize: '.78rem', fontWeight: 600, color: '#0a1628',
+                boxShadow: '0 1px 3px rgba(10,22,40,.04)',
+              }}>
+                <Icon size={12} strokeWidth={1.8} style={{ stroke: color, flexShrink: 0 }} />
+                {label}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
