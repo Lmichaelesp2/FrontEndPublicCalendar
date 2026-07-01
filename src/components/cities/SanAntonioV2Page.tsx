@@ -194,6 +194,54 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+// ── Community Partner slot ────────────────────────────────────────────────────
+// Shows a "Become a Partner" placeholder. When sponsors are active in Supabase,
+// swap headline/sub/url/cta with live data from the sponsors table.
+
+function CommunityPartnerSlot({
+  headline,
+  sub,
+  url = '/sponsor',
+  cta = 'Become a Community Partner →',
+  filled = false,
+}: {
+  headline: string;
+  sub: string;
+  url?: string;
+  cta?: string;
+  filled?: boolean;
+}) {
+  return (
+    <div style={{
+      background: filled ? '#fff' : '#eef3fe',
+      border: `1px solid ${filled ? '#e8e8e4' : '#c7d9fb'}`,
+      borderRadius: 10,
+      padding: '1.1rem 1.25rem 1.2rem',
+      display: 'flex', flexDirection: 'column', gap: '.45rem',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
+        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#1652f0', flexShrink: 0, display: 'inline-block' }} />
+        <span style={{ fontSize: '.63rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.09em', color: '#1652f0' }}>
+          Community Partner
+        </span>
+      </div>
+      <p style={{ fontSize: '.88rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.35, margin: 0 }}>
+        {headline}
+      </p>
+      <p style={{ fontSize: '.78rem', color: '#374151', lineHeight: 1.55, margin: 0 }}>
+        {sub}
+      </p>
+      <a href={url} style={{
+        display: 'inline-flex', alignItems: 'center', gap: '.25rem',
+        fontSize: '.75rem', fontWeight: 700, color: '#1652f0',
+        textDecoration: 'none', marginTop: '.2rem',
+      }}>
+        {cta}
+      </a>
+    </div>
+  );
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
@@ -446,10 +494,23 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
             </div>
           )}
 
-          {grouped.map(([dateStr, events]) => {
+          {grouped.map(([dateStr, events], dayIndex) => {
             const parts = parseDateParts(dateStr);
             return (
               <div key={dateStr} style={{ marginBottom: '2rem' }}>
+                {/* Community partner cards — after 2nd day group */}
+                {dayIndex === 1 && (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.75rem', marginBottom: '2rem' }} className="v2-partner-grid">
+                    <CommunityPartnerSlot
+                      headline="Your brand in front of SA's business community."
+                      sub="Be seen by the business owners and professionals who check this calendar every week."
+                    />
+                    <CommunityPartnerSlot
+                      headline="Be the company that keeps SA connected."
+                      sub="Community partners make this free weekly resource possible for thousands of local professionals."
+                    />
+                  </div>
+                )}
                 {/* Day header */}
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: '.5rem',
@@ -535,6 +596,25 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* ── Community Partners — events section bottom ── */}
+      <section style={{ background: '#f7f7f5', padding: '2.5rem 2rem', borderTop: '1px solid #e8e8e4' }}>
+        <div style={{ maxWidth: 820, margin: '0 auto' }}>
+          <div style={{ fontSize: '.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.09em', color: '#374151', marginBottom: '.85rem' }}>
+            Community Partners — Supporting San Antonio's Business Community
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.85rem' }} className="v2-partner-grid">
+            <CommunityPartnerSlot
+              headline="Support San Antonio's business community."
+              sub="Partner with us and be recognized by the business owners, professionals, and organizations that make up SA's business ecosystem."
+            />
+            <CommunityPartnerSlot
+              headline="Help keep SA's business events free for everyone."
+              sub="Community partners make this calendar — and the weekly Monday newsletter — free and accessible to all San Antonio professionals."
+            />
+          </div>
         </div>
       </section>
 
@@ -722,6 +802,7 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
         }
         @media (max-width: 680px) {
           .v2-hero-grid { grid-template-columns: 1fr !important; }
+          .v2-partner-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
