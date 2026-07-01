@@ -2,7 +2,11 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search } from 'lucide-react';
+import {
+  Search, Landmark, Users, Home, Monitor, Briefcase,
+  Building2, Handshake, Star, Filter, FileText, CalendarDays,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
@@ -14,16 +18,16 @@ import type { Organization } from '../../lib/supabase';
 
 // ── Category config ───────────────────────────────────────────────────────────
 
-const PUBLIC_CATEGORIES = [
-  { label: 'Chambers',          icon: '🏛️' },
-  { label: 'Networking',        icon: '🤝' },
-  { label: 'Real Estate',       icon: '🏢' },
-  { label: 'Technology',        icon: '💻' },
-  { label: 'Community/Edu',     icon: '🎓' },
-  { label: 'Const/Design/Mfg', icon: '🔧' },
-  { label: 'Co-Working',        icon: '🏠' },
-  { label: 'Other',             icon: '⚡' },
-] as const;
+const PUBLIC_CATEGORIES: { label: string; Icon: LucideIcon }[] = [
+  { label: 'Chambers',          Icon: Landmark  },
+  { label: 'Networking',        Icon: Users     },
+  { label: 'Real Estate',       Icon: Home      },
+  { label: 'Technology',        Icon: Monitor   },
+  { label: 'Community/Edu',     Icon: Briefcase },
+  { label: 'Const/Design/Mfg', Icon: Building2 },
+  { label: 'Co-Working',        Icon: Handshake },
+  { label: 'Other',             Icon: Star      },
+];
 
 // Maps backend category values → display labels
 const CATEGORY_MAP: Record<string, string> = {
@@ -214,16 +218,16 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           <div style={{ fontSize: '.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: '#1652f0', marginBottom: '1.25rem' }}>How to use this directory</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }} className="org-dir-steps-grid">
             {[
-              { icon: '🔍', head: 'Browse or search', body: `All active business organizations in ${city} are listed here. Search by name or use the category filters to zero in on what you're looking for.` },
-              { icon: '📂', head: 'Filter by category', body: 'Use the category buttons — Chambers, Networking, Real Estate, Technology, and more — to view only the type of organization that fits your goals.' },
-              { icon: '👆', head: 'Click to see full details', body: 'Select any organization card to open its full profile: contact info, membership details, website, social links, and more.' },
-            ].map(step => (
-              <div key={step.head} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '1.4rem', lineHeight: 1, flexShrink: 0, marginTop: 2 }}>{step.icon}</span>
-                <div>
-                  <h3 style={{ fontSize: '.9rem', fontWeight: 700, color: '#0a1628', marginBottom: '.35rem' }}>{step.head}</h3>
-                  <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6 }}>{step.body}</p>
+              { Icon: Search,      head: 'Browse or search',        body: `All active business organizations in ${city} are listed here. Search by name or use the category filters to zero in on what you're looking for.` },
+              { Icon: Filter,      head: 'Filter by category',      body: 'Use the category buttons — Chambers, Networking, Real Estate, Technology, and more — to view only the type of organization that fits your goals.' },
+              { Icon: FileText,    head: 'Click to see full details', body: 'Select any organization card to open its full profile: description, membership details, website, social links, and more.' },
+            ].map(({ Icon, head, body }) => (
+              <div key={head} style={{ background: '#f7f7f5', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', bottom: -6, right: 6, pointerEvents: 'none', lineHeight: 0 }}>
+                  <Icon size={52} strokeWidth={1.1} style={{ stroke: '#1652f0', fill: 'none', opacity: .15 }} />
                 </div>
+                <h3 style={{ fontSize: '.9rem', fontWeight: 700, color: '#0a1628', marginBottom: '.4rem' }}>{head}</h3>
+                <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, paddingRight: 36 }}>{body}</p>
               </div>
             ))}
           </div>
@@ -260,6 +264,7 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }} className="org-dir-cat-grid">
             {PUBLIC_CATEGORIES.map(cat => {
               const isActive = selectedCategory === cat.label;
+              const { Icon } = cat;
               return (
                 <button key={cat.label}
                   onClick={() => setSelectedCategory(isActive ? null : cat.label)}
@@ -269,14 +274,18 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
                     borderRadius: 10, padding: '.875rem 1rem', cursor: 'pointer',
                     textAlign: 'left', display: 'flex', alignItems: 'center', gap: 10,
                     fontFamily: 'inherit', transition: 'border-color 0.15s, background 0.15s',
+                    position: 'relative', overflow: 'hidden',
                   }}>
-                  <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{cat.icon}</span>
+                  {/* Ghost icon — bottom right decoration */}
+                  <div style={{ position: 'absolute', bottom: -4, right: 4, pointerEvents: 'none', lineHeight: 0 }}>
+                    <Icon size={38} strokeWidth={1.2} style={{ stroke: '#1652f0', fill: 'none', opacity: isActive ? .25 : .14 }} />
+                  </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '.8rem', fontWeight: 600, color: isActive ? '#1652f0' : '#0a1628', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{cat.label}</div>
                     <div style={{ fontSize: '.7rem', color: isActive ? '#1652f0' : '#94a3b8', marginTop: 2 }}>{loading ? '—' : (counts[cat.label] || 0)} orgs</div>
                   </div>
                   {isActive && (
-                    <span style={{ background: '#1652f0', color: '#fff', fontSize: '.65rem', fontWeight: 700, borderRadius: 100, padding: '1px 7px', lineHeight: 1.6, flexShrink: 0 }}>✓</span>
+                    <span style={{ background: '#1652f0', color: '#fff', fontSize: '.65rem', fontWeight: 700, borderRadius: 100, padding: '1px 7px', lineHeight: 1.6, flexShrink: 0, zIndex: 1 }}>✓</span>
                   )}
                 </button>
               );
@@ -313,10 +322,12 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
 
         {/* Not listed / Post an event */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: '1.75rem' }} className="org-dir-cta-grid">
-          <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem' }}>
-            <div style={{ fontSize: '1.25rem', marginBottom: '.5rem' }}>🏢</div>
+          <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', bottom: -8, right: 8, pointerEvents: 'none', lineHeight: 0 }}>
+              <Building2 size={60} strokeWidth={1.1} style={{ stroke: '#1652f0', fill: 'none', opacity: .13 }} />
+            </div>
             <h3 style={{ fontSize: '.95rem', fontWeight: 700, color: '#0a1628', marginBottom: '.4rem' }}>Is your organization missing?</h3>
-            <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, marginBottom: '1rem' }}>
+            <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, marginBottom: '1rem', paddingRight: 40 }}>
               Submit your {city} organization to get it added to the directory. Free, reviewed within 1–2 business days.
             </p>
             <a href="https://localbusinessorganizations.com/submit" target="_blank" rel="noopener noreferrer"
@@ -324,10 +335,12 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
               Submit an organization →
             </a>
           </div>
-          <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem' }}>
-            <div style={{ fontSize: '1.25rem', marginBottom: '.5rem' }}>📅</div>
+          <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', bottom: -8, right: 8, pointerEvents: 'none', lineHeight: 0 }}>
+              <CalendarDays size={60} strokeWidth={1.1} style={{ stroke: '#1652f0', fill: 'none', opacity: .13 }} />
+            </div>
             <h3 style={{ fontSize: '.95rem', fontWeight: 700, color: '#0a1628', marginBottom: '.4rem' }}>Need to post an event?</h3>
-            <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, marginBottom: '1rem' }}>
+            <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, marginBottom: '1rem', paddingRight: 40 }}>
               See all upcoming {city} business events — or find the right calendar to submit yours.
             </p>
             <Link href={`/texas/${citySlug}`}

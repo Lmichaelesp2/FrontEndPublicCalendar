@@ -209,15 +209,7 @@ export function OrgDetailModal({ org, onClose, onAuthOpen }: Props) {
                 </div>
               )}
 
-              {(org.group_contact || org.group_email || org.group_phone_number || org.group_address) && (
-                <div style={{ background: '#f7f7f5', border: '1px solid #e8e8e4', borderRadius: 10, padding: '16px 18px' }}>
-                  <SectionLabel>Get Connected</SectionLabel>
-                  {org.group_contact && <InfoRow icon="👤" label="Contact" value={org.group_contact} />}
-                  {org.group_email && <InfoRow icon="✉️" label="Email" value={org.group_email} href={`mailto:${org.group_email}`} />}
-                  {org.group_phone_number && <InfoRow icon="📞" label="Phone" value={org.group_phone_number} href={`tel:${org.group_phone_number}`} />}
-                  {org.group_address && <InfoRow icon="📍" label="Address" value={`${org.group_address}${org.group_zipcode ? `, ${org.group_zipcode}` : ''}`} />}
-                </div>
-              )}
+              {/* Get Connected (contact info) — hidden for now, revisit later */}
 
               {(org.linkedin_url || org.facebook_url || org.instagram_url || org.calendar_website) && (
                 <div style={{ background: '#f7f7f5', border: '1px solid #e8e8e4', borderRadius: 10, padding: '16px 18px' }}>
