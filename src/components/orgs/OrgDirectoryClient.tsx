@@ -335,9 +335,48 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           <div style={{ textAlign: 'center', padding: 48, color: '#94a3b8' }}>No organizations found.</div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, minWidth: 0 }} className="org-dir-grid">
-            {filtered.map(org => (
-              <OrgCard key={org.id} org={org} onAuthOpen={() => setAuthOpen(true)} />
-            ))}
+            {(() => {
+              const total = filtered.length;
+              // Insert a full-width partner card after every ~25% of orgs (4 slots total)
+              const insertAt = total > 0
+                ? [1, 2, 3, 4].map(n => Math.floor(n * total / 5))
+                : [];
+              const partnerSlots = [
+                { headline: 'Your brand alongside SA\'s business community.', sub: 'Be seen by the professionals who check this directory every week. Community partners get equal billing across all city pages.' },
+                { headline: 'Be part of what keeps SA connected.',            sub: 'Community partners make this free directory — and the weekly newsletter — possible for local professionals.' },
+                { headline: 'Reach SA\'s decision makers.',                   sub: 'Business owners and professionals browse this directory to find the organizations that matter. Put your brand here.' },
+                { headline: 'Support SA\'s business community.',              sub: 'Help keep this directory free and accessible. Community partners are recognized across every city calendar.' },
+              ];
+              const items: React.ReactNode[] = [];
+              filtered.forEach((org, i) => {
+                items.push(<OrgCard key={org.id} org={org} onAuthOpen={() => setAuthOpen(true)} />);
+                const slotIndex = insertAt.indexOf(i + 1);
+                if (slotIndex !== -1) {
+                  const s = partnerSlots[slotIndex % partnerSlots.length];
+                  items.push(
+                    <div key={`partner-${slotIndex}`} style={{
+                      gridColumn: '1 / -1',
+                      background: '#eef3fe', border: '1px solid #c7d9fb', borderRadius: 10,
+                      padding: '1rem 1.25rem', display: 'flex', alignItems: 'center',
+                      gap: '1.5rem', margin: '4px 0',
+                    }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '.35rem', flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem' }}>
+                          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#1652f0', display: 'inline-block', flexShrink: 0 }} />
+                          <span style={{ fontSize: '.63rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.09em', color: '#1652f0' }}>Community Partner</span>
+                        </div>
+                        <p style={{ fontSize: '.88rem', fontWeight: 700, color: '#0a1628', margin: 0, lineHeight: 1.3 }}>{s.headline}</p>
+                        <p style={{ fontSize: '.78rem', color: '#374151', margin: 0, lineHeight: 1.5 }}>{s.sub}</p>
+                      </div>
+                      <a href="/sponsor" style={{ flexShrink: 0, fontSize: '.75rem', fontWeight: 700, color: '#1652f0', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                        Become a Partner →
+                      </a>
+                    </div>
+                  );
+                }
+              });
+              return items;
+            })()}
           </div>
         )}
 

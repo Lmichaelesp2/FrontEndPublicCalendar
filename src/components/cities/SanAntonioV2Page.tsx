@@ -496,21 +496,16 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
 
           {grouped.map(([dateStr, events], dayIndex) => {
             const parts = parseDateParts(dateStr);
+            // 4 rotating partner messages — one shown between each consecutive day pair
+            const partnerSlots = [
+              { headline: 'Your brand in front of SA\'s business community.', sub: 'Be seen by the business owners and professionals who check this calendar every week.' },
+              { headline: 'Be the company that keeps SA connected.',          sub: 'Community partners make this free weekly resource possible for thousands of local professionals.' },
+              { headline: 'Reach the professionals who show up every week.',  sub: 'Every Monday morning your brand lands in thousands of inboxes alongside this week\'s SA business events.' },
+              { headline: 'Support SA\'s business community — and grow your own.', sub: 'Community partners get equal billing across every city calendar and the weekly newsletter.' },
+            ];
             return (
-              <div key={dateStr} style={{ marginBottom: '2rem' }}>
-                {/* Community partner cards — after 2nd day group */}
-                {dayIndex === 1 && (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.75rem', marginBottom: '2rem' }} className="v2-partner-grid">
-                    <CommunityPartnerSlot
-                      headline="Your brand in front of SA's business community."
-                      sub="Be seen by the business owners and professionals who check this calendar every week."
-                    />
-                    <CommunityPartnerSlot
-                      headline="Be the company that keeps SA connected."
-                      sub="Community partners make this free weekly resource possible for thousands of local professionals."
-                    />
-                  </div>
-                )}
+              <div key={dateStr}>
+                <div style={{ marginBottom: '2rem' }}>
                 {/* Day header */}
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: '.5rem',
@@ -594,27 +589,20 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
                   </button>
                 </div>
               </div>
+                </div>
+
+                {/* Community partner card — between each day, except after the last */}
+                {dayIndex < grouped.length - 1 && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <CommunityPartnerSlot
+                      headline={partnerSlots[dayIndex % partnerSlots.length].headline}
+                      sub={partnerSlots[dayIndex % partnerSlots.length].sub}
+                    />
+                  </div>
+                )}
+              </div>
             );
           })}
-        </div>
-      </section>
-
-      {/* ── Community Partners — events section bottom ── */}
-      <section style={{ background: '#f7f7f5', padding: '2.5rem 2rem', borderTop: '1px solid #e8e8e4' }}>
-        <div style={{ maxWidth: 820, margin: '0 auto' }}>
-          <div style={{ fontSize: '.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.09em', color: '#374151', marginBottom: '.85rem' }}>
-            Community Partners — Supporting San Antonio's Business Community
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.85rem' }} className="v2-partner-grid">
-            <CommunityPartnerSlot
-              headline="Support San Antonio's business community."
-              sub="Partner with us and be recognized by the business owners, professionals, and organizations that make up SA's business ecosystem."
-            />
-            <CommunityPartnerSlot
-              headline="Help keep SA's business events free for everyone."
-              sub="Community partners make this calendar — and the weekly Monday newsletter — free and accessible to all San Antonio professionals."
-            />
-          </div>
         </div>
       </section>
 
