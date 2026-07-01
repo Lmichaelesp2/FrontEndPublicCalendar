@@ -328,6 +328,32 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           <span style={{ fontSize: 12, color: '#94a3b8' }}>{filtered.length} organizations</span>
         </div>
 
+        {/* Community Partners — 4 across between filter and results */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8, marginBottom: '1.25rem' }} className="org-partner-row">
+          {[
+            { headline: 'Your brand. SA\'s business community.',   color: '#1652f0' },
+            { headline: 'Be part of what keeps SA connected.',     color: '#c2410c' },
+            { headline: 'Reach SA\'s decision makers.',            color: '#1652f0' },
+            { headline: 'Support SA\'s community. Grow your own.', color: '#c2410c' },
+          ].map(({ headline, color }, i) => (
+            <a key={i} href="/sponsor" style={{
+              display: 'flex', flexDirection: 'column', gap: 5,
+              background: '#fff', border: '1px solid #dce6f5',
+              borderTop: `2.5px solid ${color}`,
+              borderRadius: 8, padding: '10px 12px',
+              textDecoration: 'none',
+              transition: 'box-shadow 0.15s',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ width: 5, height: 5, borderRadius: '50%', background: color, flexShrink: 0, display: 'inline-block' }} />
+                <span style={{ fontSize: '.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color }}>Community Partner</span>
+              </div>
+              <span style={{ fontSize: '.78rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.3 }}>{headline}</span>
+              <span style={{ fontSize: '.7rem', fontWeight: 600, color, marginTop: 2 }}>Partner with us →</span>
+            </a>
+          ))}
+        </div>
+
         {/* Org grid */}
         {loading ? (
           <div style={{ textAlign: 'center', padding: 48, color: '#94a3b8' }}>Loading organizations...</div>
