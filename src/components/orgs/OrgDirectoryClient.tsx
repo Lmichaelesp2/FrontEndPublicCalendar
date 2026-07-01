@@ -18,15 +18,15 @@ import type { Organization } from '../../lib/supabase';
 
 // ── Category config ───────────────────────────────────────────────────────────
 
-const PUBLIC_CATEGORIES: { label: string; Icon: LucideIcon }[] = [
-  { label: 'Chambers',          Icon: Landmark  },
-  { label: 'Networking',        Icon: Users     },
-  { label: 'Real Estate',       Icon: Home      },
-  { label: 'Technology',        Icon: Monitor   },
-  { label: 'Community/Edu',     Icon: Briefcase },
-  { label: 'Const/Design/Mfg', Icon: Building2 },
-  { label: 'Co-Working',        Icon: Handshake },
-  { label: 'Other',             Icon: Star      },
+const PUBLIC_CATEGORIES: { label: string; Icon: LucideIcon; color: string }[] = [
+  { label: 'Chambers',          Icon: Landmark,  color: '#1652f0' },
+  { label: 'Networking',        Icon: Users,     color: '#0f6e56' },
+  { label: 'Real Estate',       Icon: Home,      color: '#c2410c' },
+  { label: 'Technology',        Icon: Monitor,   color: '#6d28d9' },
+  { label: 'Community/Edu',     Icon: Briefcase, color: '#1652f0' },
+  { label: 'Const/Design/Mfg', Icon: Building2, color: '#c2410c' },
+  { label: 'Co-Working',        Icon: Handshake, color: '#0f6e56' },
+  { label: 'Other',             Icon: Star,      color: '#0369a1' },
 ];
 
 // Maps backend category values → display labels
@@ -264,13 +264,13 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }} className="org-dir-cat-grid">
             {PUBLIC_CATEGORIES.map(cat => {
               const isActive = selectedCategory === cat.label;
-              const { Icon } = cat;
+              const { Icon, color } = cat;
               return (
                 <button key={cat.label}
                   onClick={() => setSelectedCategory(isActive ? null : cat.label)}
                   style={{
-                    background: isActive ? '#eef3fe' : '#fff',
-                    border: isActive ? '1.5px solid #1652f0' : '1px solid #e8e8e4',
+                    background: isActive ? `${color}12` : '#fff',
+                    border: isActive ? `1.5px solid ${color}` : '1px solid #e8e8e4',
                     borderRadius: 10, padding: '.875rem 1rem', cursor: 'pointer',
                     textAlign: 'left', display: 'flex', alignItems: 'center', gap: 10,
                     fontFamily: 'inherit', transition: 'border-color 0.15s, background 0.15s',
@@ -278,14 +278,14 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
                   }}>
                   {/* Ghost icon — bottom right decoration */}
                   <div style={{ position: 'absolute', bottom: -4, right: 4, pointerEvents: 'none', lineHeight: 0 }}>
-                    <Icon size={38} strokeWidth={1.2} style={{ stroke: '#1652f0', fill: 'none', opacity: isActive ? .25 : .14 }} />
+                    <Icon size={38} strokeWidth={1.2} style={{ stroke: color, fill: 'none', opacity: isActive ? .3 : .18 }} />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '.8rem', fontWeight: 600, color: isActive ? '#1652f0' : '#0a1628', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{cat.label}</div>
-                    <div style={{ fontSize: '.7rem', color: isActive ? '#1652f0' : '#94a3b8', marginTop: 2 }}>{loading ? '—' : (counts[cat.label] || 0)} orgs</div>
+                    <div style={{ fontSize: '.8rem', fontWeight: 600, color: isActive ? color : '#0a1628', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{cat.label}</div>
+                    <div style={{ fontSize: '.7rem', color: isActive ? color : '#94a3b8', marginTop: 2 }}>{loading ? '—' : (counts[cat.label] || 0)} orgs</div>
                   </div>
                   {isActive && (
-                    <span style={{ background: '#1652f0', color: '#fff', fontSize: '.65rem', fontWeight: 700, borderRadius: 100, padding: '1px 7px', lineHeight: 1.6, flexShrink: 0, zIndex: 1 }}>✓</span>
+                    <span style={{ background: color, color: '#fff', fontSize: '.65rem', fontWeight: 700, borderRadius: 100, padding: '1px 7px', lineHeight: 1.6, flexShrink: 0, zIndex: 1 }}>✓</span>
                   )}
                 </button>
               );

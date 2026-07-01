@@ -9,15 +9,16 @@ import type { LucideIcon } from 'lucide-react';
 import type { Organization } from '../../lib/supabase';
 import { OrgDetailModal } from './OrgDetailModal';
 
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  'Community/Edu':     Briefcase,
-  'Technology':        Monitor,
-  'Real Estate':       Home,
-  'Networking':        Users,
-  'Chambers':          Landmark,
-  'Const/Design/Mfg': Building2,
-  'Co-Working':        Handshake,
-  'Other':             Star,
+// Matches the color system already used in OrgDetailModal
+const CATEGORY_CONFIG: Record<string, { Icon: LucideIcon; color: string }> = {
+  'Chambers':          { Icon: Landmark,  color: '#1652f0' }, // blue
+  'Networking':        { Icon: Users,     color: '#0f6e56' }, // green
+  'Real Estate':       { Icon: Home,      color: '#c2410c' }, // rust
+  'Technology':        { Icon: Monitor,   color: '#6d28d9' }, // purple
+  'Community/Edu':     { Icon: Briefcase, color: '#1652f0' }, // blue
+  'Const/Design/Mfg': { Icon: Building2, color: '#c2410c' }, // rust
+  'Co-Working':        { Icon: Handshake, color: '#0f6e56' }, // green
+  'Other':             { Icon: Star,      color: '#0369a1' }, // ocean
 };
 
 interface Props {
@@ -27,7 +28,8 @@ interface Props {
 
 export function OrgCard({ org, onAuthOpen }: Props) {
   const [showModal, setShowModal] = useState(false);
-  const Icon = CATEGORY_ICONS[org.category || ''] ?? Star;
+  const config = CATEGORY_CONFIG[org.category || ''] ?? { Icon: Star, color: '#0369a1' };
+  const { Icon, color } = config;
 
   return (
     <>
@@ -50,16 +52,16 @@ export function OrgCard({ org, onAuthOpen }: Props) {
         }}
         onMouseEnter={e => {
           (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(10,22,40,.10)';
-          (e.currentTarget as HTMLDivElement).style.borderColor = '#1652f0';
+          (e.currentTarget as HTMLDivElement).style.borderColor = color;
         }}
         onMouseLeave={e => {
           (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 4px rgba(10,22,40,.06)';
           (e.currentTarget as HTMLDivElement).style.borderColor = '#e8e8e4';
         }}
       >
-        {/* Ghost icon */}
+        {/* Category icon — ghost color per category */}
         <div style={{ flexShrink: 0, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Icon size={26} strokeWidth={1.3} style={{ stroke: '#1652f0', fill: 'none', opacity: .35 }} />
+          <Icon size={26} strokeWidth={1.3} style={{ stroke: color, fill: 'none', opacity: .45 }} />
         </div>
 
         <div style={{ flex: '1 1 auto', minWidth: 0, overflow: 'hidden' }}>
@@ -68,7 +70,7 @@ export function OrgCard({ org, onAuthOpen }: Props) {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, overflow: 'hidden' }}>
             {org.category && (
-              <span style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.05em', color: '#1652f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: 10.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.05em', color, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {org.category}
               </span>
             )}
@@ -76,7 +78,7 @@ export function OrgCard({ org, onAuthOpen }: Props) {
           </div>
         </div>
 
-        <span style={{ fontSize: 11, color: '#1652f0', fontWeight: 600, flexShrink: 0 }}>View →</span>
+        <span style={{ fontSize: 11, color, fontWeight: 600, flexShrink: 0 }}>View →</span>
       </div>
 
       {showModal && (
