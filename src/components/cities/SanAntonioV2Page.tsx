@@ -589,7 +589,6 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
                   </button>
                 </div>
               </div>
-                </div>
 
                 {/* Community partner card — between each day, except after the last */}
                 {dayIndex < grouped.length - 1 && (
