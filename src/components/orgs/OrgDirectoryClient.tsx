@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { Breadcrumb } from '../Breadcrumb';
 import { AuthModal } from '../auth/AuthModal';
+import { useAuth } from '../../contexts/AuthContext';
 import { OrgCard } from './OrgCard';
 import type { Organization } from '../../lib/supabase';
 
@@ -73,6 +75,9 @@ interface Props {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export function OrgDirectoryClient({ city, citySlug }: Props) {
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+
   const [orgs, setOrgs] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -80,6 +85,13 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
   const [authOpen, setAuthOpen] = useState(false);
 
   const content = CITY_CONTENT[city];
+
+  // Auth guard — redirect to city page if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace(`/texas/${citySlug}`);
+    }
+  }, [authLoading, user, citySlug, router]);
 
   useEffect(() => {
     setLoading(true);
@@ -111,6 +123,9 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
       return matchCat && matchSearch;
     });
   }, [orgs, selectedCategory, search]);
+
+  // Don't render anything until we know auth state
+  if (authLoading || !user) return null;
 
   return (
     <div>
