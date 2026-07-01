@@ -353,22 +353,21 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
               <div key={label} style={{
                 background: '#fff',
                 border: '1px solid #e8e8e4',
-                borderTop: `3px solid ${color}`,
-                borderRadius: 10,
-                padding: '1.5rem 1.25rem',
+                borderRadius: 12,
+                padding: '1.4rem 1.2rem 2.2rem',
                 display: 'flex', flexDirection: 'column',
-                alignItems: 'center', gap: '.85rem',
-                textAlign: 'center',
+                position: 'relative', overflow: 'hidden',
                 boxShadow: '0 2px 8px rgba(10,22,40,.06)',
+                minHeight: 110,
               }}>
-                <div style={{
-                  width: 48, height: 48, borderRadius: 12,
-                  background: `${color}14`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                }}>
-                  <Icon size={22} strokeWidth={1.6} style={{ stroke: color }} />
+                {/* Ghost icon — faded watermark bottom-right */}
+                <div style={{ position: 'absolute', bottom: 8, right: 8, pointerEvents: 'none', userSelect: 'none', lineHeight: 0 }}>
+                  <Icon size={68} strokeWidth={1.1} style={{ stroke: color, fill: 'none', opacity: .13 }} />
                 </div>
-                <span style={{ fontSize: '.9rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.35 }}>
+                <span style={{ fontSize: '.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.07em', color, marginBottom: '.55rem' }}>
+                  For
+                </span>
+                <span style={{ fontSize: '1rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.3, paddingRight: 56 }}>
                   {label}
                 </span>
               </div>
