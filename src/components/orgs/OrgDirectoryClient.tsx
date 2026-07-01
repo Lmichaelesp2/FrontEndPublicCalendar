@@ -237,30 +237,49 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
       {/* ── Directory ── */}
       <div id="organizations" style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem', boxSizing: 'border-box', background: '#f7f7f5' }}>
 
-        <div style={{ marginBottom: '1.75rem' }}>
+        {/* Section heading */}
+        <div style={{ marginBottom: '1rem' }}>
           <div style={{ fontSize: '.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: '#1652f0', marginBottom: '.5rem' }}>
             Browse the directory
           </div>
-          <h2 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: '1.6rem', fontWeight: 600, color: '#0a1628', marginBottom: '.5rem' }}>
+          <h2 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: '1.6rem', fontWeight: 600, color: '#0a1628', marginBottom: '.4rem' }}>
             {loading ? 'Organizations' : orgs.length} Organizations in {city}, by Category
           </h2>
-          <p style={{ fontSize: '.9rem', color: '#374151', lineHeight: 1.6, marginBottom: '1.25rem', maxWidth: 640 }}>
+          <p style={{ fontSize: '.875rem', color: '#374151', lineHeight: 1.6, maxWidth: 640 }}>
             Every chamber, association, and networking group we've tracked in {city} — sorted into 8 categories.
           </p>
+        </div>
 
-          {/* Main search bar */}
-          <div style={{ position: 'relative', maxWidth: 420, marginBottom: '1.5rem' }}>
+        {/* ── Filter panel — distinct white card so it reads as a control, not content ── */}
+        <div style={{ background: '#fff', border: '1.5px solid #dce6f5', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem', boxShadow: '0 2px 10px rgba(10,22,40,.07)' }}>
+
+          {/* Panel header row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: 8 }}>
+            <div style={{ fontSize: '.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '.12em', color: '#042C53' }}>
+              Filter by Category
+            </div>
+            {selectedCategory && (
+              <button
+                onClick={() => setSelectedCategory(null)}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#c2410c', color: '#fff', border: 'none', borderRadius: 100, padding: '5px 14px', fontSize: '.75rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', lineHeight: 1 }}>
+                {selectedCategory} <span style={{ fontSize: '1rem', lineHeight: 1 }}>×</span>
+              </button>
+            )}
+          </div>
+
+          {/* Search bar — full width inside panel */}
+          <div style={{ position: 'relative', marginBottom: '1rem' }}>
             <Search size={14} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', pointerEvents: 'none' }} />
             <input
               type="text"
               placeholder={`Search ${city} organizations by name...`}
               value={search}
               onChange={e => setSearch(e.target.value)}
-              style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 8, padding: '.7rem 1rem .7rem 2.4rem', fontSize: '.875rem', width: '100%', color: '#0a1628', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box', boxShadow: '0 1px 3px rgba(10,22,40,.05)' }}
+              style={{ background: '#f7f7f5', border: '1px solid #e8e8e4', borderRadius: 8, padding: '.75rem 1rem .75rem 2.5rem', fontSize: '.9rem', width: '100%', color: '#0a1628', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
             />
           </div>
 
-          {/* Category filter */}
+          {/* Category buttons */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }} className="org-dir-cat-grid">
             {PUBLIC_CATEGORIES.map(cat => {
               const isActive = selectedCategory === cat.label;
@@ -269,34 +288,36 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
                 <button key={cat.label}
                   onClick={() => setSelectedCategory(isActive ? null : cat.label)}
                   style={{
-                    background: isActive ? `${color}12` : '#fff',
-                    border: isActive ? `1.5px solid ${color}` : '1px solid #e8e8e4',
-                    borderRadius: 10, padding: '.875rem 1rem', cursor: 'pointer',
-                    textAlign: 'left', display: 'flex', alignItems: 'center', gap: 10,
-                    fontFamily: 'inherit', transition: 'border-color 0.15s, background 0.15s',
-                    position: 'relative', overflow: 'hidden',
+                    background: isActive ? `${color}14` : '#f4f6fb',
+                    border: isActive ? `2px solid ${color}` : '1.5px solid #dce6f5',
+                    borderRadius: 10,
+                    padding: '1rem 1rem',
+                    minHeight: 56,
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    fontFamily: 'inherit',
+                    transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    boxShadow: isActive ? `0 0 0 3px ${color}22` : 'none',
                   }}>
-                  {/* Ghost icon — bottom right decoration */}
                   <div style={{ position: 'absolute', bottom: -4, right: 4, pointerEvents: 'none', lineHeight: 0 }}>
-                    <Icon size={38} strokeWidth={1.2} style={{ stroke: color, fill: 'none', opacity: isActive ? .3 : .18 }} />
+                    <Icon size={40} strokeWidth={1.2} style={{ stroke: color, fill: 'none', opacity: isActive ? .35 : .22 }} />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '.8rem', fontWeight: 600, color: isActive ? color : '#0a1628', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{cat.label}</div>
-                    <div style={{ fontSize: '.7rem', color: isActive ? color : '#94a3b8', marginTop: 2 }}>{loading ? '—' : (counts[cat.label] || 0)} orgs</div>
+                    <div style={{ fontSize: '.85rem', fontWeight: 700, color: isActive ? color : '#0a1628', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{cat.label}</div>
+                    <div style={{ fontSize: '.75rem', color: isActive ? color : '#6b7280', marginTop: 3, fontWeight: 500 }}>{loading ? '—' : (counts[cat.label] || 0)} orgs</div>
                   </div>
                   {isActive && (
-                    <span style={{ background: color, color: '#fff', fontSize: '.65rem', fontWeight: 700, borderRadius: 100, padding: '1px 7px', lineHeight: 1.6, flexShrink: 0, zIndex: 1 }}>✓</span>
+                    <span style={{ background: color, color: '#fff', fontSize: '.65rem', fontWeight: 800, borderRadius: 100, padding: '2px 8px', lineHeight: 1.6, flexShrink: 0, zIndex: 1 }}>✓</span>
                   )}
                 </button>
               );
             })}
           </div>
-          {selectedCategory && (
-            <button onClick={() => setSelectedCategory(null)}
-              style={{ marginTop: 8, background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '.75rem', padding: 0, fontFamily: 'inherit', fontWeight: 600 }}>
-              ← Clear filter
-            </button>
-          )}
         </div>
 
         {/* Results header */}
@@ -415,15 +436,23 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
       {/* Responsive CSS */}
       <style>{`
         @media (max-width: 900px) {
-          .org-dir-hero-grid { grid-template-columns: 1fr !important; }
-          .org-dir-steps-grid { grid-template-columns: 1fr !important; }
-          .org-dir-cat-grid { grid-template-columns: repeat(2,1fr) !important; }
-          .org-dir-grid { grid-template-columns: repeat(2,1fr) !important; }
-          .org-dir-cta-grid { grid-template-columns: 1fr !important; }
+          .org-dir-hero-grid   { grid-template-columns: 1fr !important; }
+          .org-dir-steps-grid  { grid-template-columns: 1fr !important; }
+          .org-dir-cat-grid    { grid-template-columns: repeat(2,1fr) !important; }
+          .org-dir-grid        { grid-template-columns: repeat(2,1fr) !important; }
+          .org-dir-cta-grid    { grid-template-columns: 1fr !important; }
         }
-        @media (max-width: 560px) {
-          .org-dir-grid { grid-template-columns: 1fr !important; }
-          .org-dir-cat-grid { grid-template-columns: repeat(2,1fr) !important; }
+        /* Mobile */
+        @media (max-width: 600px) {
+          .org-dir-grid        { grid-template-columns: 1fr !important; }
+          .org-dir-cat-grid    { grid-template-columns: repeat(2,1fr) !important; }
+          /* Bigger touch targets on mobile */
+          .org-dir-cat-grid button { min-height: 64px !important; padding: 1rem .875rem !important; }
+          /* Tighter page padding on mobile */
+          #organizations { padding: 1rem !important; }
+        }
+        @media (max-width: 380px) {
+          .org-dir-cat-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
