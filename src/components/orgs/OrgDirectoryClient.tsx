@@ -14,7 +14,21 @@ import { Breadcrumb } from '../Breadcrumb';
 import { AuthModal } from '../auth/AuthModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { OrgCard } from './OrgCard';
+import { supabase } from '../../lib/supabase';
 import type { Organization } from '../../lib/supabase';
+
+// One active sponsor row per city, category_slug = 'org-directory', powers the
+// "Community Partner" placements below. Falls back to a generic "become a
+// partner" pitch when no row is active for the city.
+const ORG_DIRECTORY_CATEGORY_SLUG = 'org-directory';
+
+interface OrgPartner {
+  name: string;
+  tagline: string;
+  url: string | null;
+  logo_url: string | null;
+  cta_label: string | null;
+}
 
 // ── Category config ───────────────────────────────────────────────────────────
 
@@ -87,6 +101,7 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [authOpen, setAuthOpen] = useState(false);
+  const [orgPartner, setOrgPartner] = useState<OrgPartner | null | undefined>(undefined);
 
   const content = CITY_CONTENT[city];
 
@@ -107,6 +122,22 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
       })
       .catch(() => setLoading(false));
   }, [city]);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchPartner() {
+      const { data } = await supabase
+        .from('sponsors')
+        .select('name, tagline, url, logo_url, cta_label')
+        .eq('city_slug', citySlug)
+        .eq('category_slug', ORG_DIRECTORY_CATEGORY_SLUG)
+        .eq('active', true)
+        .maybeSingle();
+      if (!cancelled) setOrgPartner(data ?? null);
+    }
+    fetchPartner();
+    return () => { cancelled = true; };
+  }, [citySlug]);
 
   // Category counts
   const counts = useMemo(() => {
@@ -328,31 +359,62 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           <span style={{ fontSize: 12, color: '#94a3b8' }}>{filtered.length} organizations</span>
         </div>
 
-        {/* Community Partners — 4 across between filter and results */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8, marginBottom: '1.25rem' }} className="org-partner-row">
-          {[
-            { headline: 'Your brand. SA\'s business community.',   color: '#1652f0' },
-            { headline: 'Be part of what keeps SA connected.',     color: '#c2410c' },
-            { headline: 'Reach SA\'s decision makers.',            color: '#1652f0' },
-            { headline: 'Support SA\'s community. Grow your own.', color: '#c2410c' },
-          ].map(({ headline, color }, i) => (
-            <a key={i} href="/sponsor" style={{
-              display: 'flex', flexDirection: 'column', gap: 5,
-              background: '#fff', border: '1px solid #dce6f5',
-              borderTop: `2.5px solid ${color}`,
-              borderRadius: 8, padding: '10px 12px',
-              textDecoration: 'none',
-              transition: 'box-shadow 0.15s',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                <span style={{ width: 5, height: 5, borderRadius: '50%', background: color, flexShrink: 0, display: 'inline-block' }} />
-                <span style={{ fontSize: '.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color }}>Community Partner</span>
+        {/* Community Partner(s) — 4 across between filter and results */}
+        {orgPartner ? (
+          // Real, active partner — single branded strip spanning the row
+          <a href={orgPartner.url ?? '/sponsor'} target={orgPartner.url ? '_blank' : undefined} rel="noopener noreferrer" style={{
+            display: 'flex', alignItems: 'center', gap: 14,
+            background: '#fff', border: '1px solid #dce6f5', borderTop: '2.5px solid #1652f0',
+            borderRadius: 8, padding: '12px 16px', marginBottom: '1.25rem',
+            textDecoration: 'none',
+          }}>
+            {orgPartner.logo_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={orgPartner.logo_url} alt={`${orgPartner.name} logo`} style={{ height: 32, width: 'auto', objectFit: 'contain', flexShrink: 0 }} />
+            ) : (
+              <div style={{ width: 32, height: 32, borderRadius: 8, background: '#eef3fe', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#1652f0', flexShrink: 0 }}>
+                {orgPartner.name.split(' ').slice(0, 2).map(w => w[0]).join('')}
               </div>
-              <span style={{ fontSize: '.78rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.3 }}>{headline}</span>
-              <span style={{ fontSize: '.7rem', fontWeight: 600, color, marginTop: 2 }}>Partner with us →</span>
-            </a>
-          ))}
-        </div>
+            )}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 2 }}>
+                <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#1652f0', flexShrink: 0, display: 'inline-block' }} />
+                <span style={{ fontSize: '.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: '#1652f0' }}>Community Partner</span>
+              </div>
+              <span style={{ fontSize: '.85rem', fontWeight: 700, color: '#0a1628' }}>{orgPartner.name}</span>
+              <span style={{ fontSize: '.78rem', color: '#374151', marginLeft: 8 }}>{orgPartner.tagline}</span>
+            </div>
+            <span style={{ fontSize: '.75rem', fontWeight: 700, color: '#1652f0', flexShrink: 0, whiteSpace: 'nowrap' }}>
+              {orgPartner.cta_label ?? 'Learn more →'}
+            </span>
+          </a>
+        ) : orgPartner === null ? (
+          // No active partner for this city — generic, city-aware pitch
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8, marginBottom: '1.25rem' }} className="org-partner-row">
+            {[
+              { headline: `Your brand. ${city}'s business community.`,   color: '#1652f0' },
+              { headline: `Be part of what keeps ${city} connected.`,    color: '#c2410c' },
+              { headline: `Reach ${city}'s decision makers.`,            color: '#1652f0' },
+              { headline: `Support ${city}'s community. Grow your own.`, color: '#c2410c' },
+            ].map(({ headline, color }, i) => (
+              <a key={i} href="/sponsor" style={{
+                display: 'flex', flexDirection: 'column', gap: 5,
+                background: '#fff', border: '1px solid #dce6f5',
+                borderTop: `2.5px solid ${color}`,
+                borderRadius: 8, padding: '10px 12px',
+                textDecoration: 'none',
+                transition: 'box-shadow 0.15s',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: color, flexShrink: 0, display: 'inline-block' }} />
+                  <span style={{ fontSize: '.6rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color }}>Community Partner</span>
+                </div>
+                <span style={{ fontSize: '.78rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.3 }}>{headline}</span>
+                <span style={{ fontSize: '.7rem', fontWeight: 600, color, marginTop: 2 }}>Partner with us →</span>
+              </a>
+            ))}
+          </div>
+        ) : null /* still loading — render nothing to avoid a flash */}
 
         {/* Org grid */}
         {loading ? (
@@ -367,17 +429,21 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
               const insertAt = total > 0
                 ? [1, 2, 3, 4].map(n => Math.floor(n * total / 5))
                 : [];
-              const partnerSlots = [
-                { headline: 'Your brand alongside SA\'s business community.', sub: 'Be seen by the professionals who check this directory every week. Community partners get equal billing across all city pages.' },
-                { headline: 'Be part of what keeps SA connected.',            sub: 'Community partners make this free directory — and the weekly newsletter — possible for local professionals.' },
-                { headline: 'Reach SA\'s decision makers.',                   sub: 'Business owners and professionals browse this directory to find the organizations that matter. Put your brand here.' },
-                { headline: 'Support SA\'s business community.',              sub: 'Help keep this directory free and accessible. Community partners are recognized across every city calendar.' },
-              ];
+              // Real active partner: repeat its own name/tagline at every insertion point.
+              // No active partner: rotate through generic, city-aware pitch copy.
+              const partnerSlots = orgPartner
+                ? [{ headline: orgPartner.name, sub: orgPartner.tagline, url: orgPartner.url ?? '/sponsor', cta: orgPartner.cta_label ?? 'Learn more →' }]
+                : [
+                    { headline: `Your brand alongside ${city}'s business community.`, sub: 'Be seen by the professionals who check this directory every week. Community partners get equal billing across all city pages.', url: '/sponsor', cta: 'Become a Partner →' },
+                    { headline: `Be part of what keeps ${city} connected.`,            sub: 'Community partners make this free directory — and the weekly newsletter — possible for local professionals.', url: '/sponsor', cta: 'Become a Partner →' },
+                    { headline: `Reach ${city}'s decision makers.`,                   sub: 'Business owners and professionals browse this directory to find the organizations that matter. Put your brand here.', url: '/sponsor', cta: 'Become a Partner →' },
+                    { headline: `Support ${city}'s business community.`,              sub: 'Help keep this directory free and accessible. Community partners are recognized across every city calendar.', url: '/sponsor', cta: 'Become a Partner →' },
+                  ];
               const items: React.ReactNode[] = [];
               filtered.forEach((org, i) => {
                 items.push(<OrgCard key={org.id} org={org} onAuthOpen={() => setAuthOpen(true)} />);
                 const slotIndex = insertAt.indexOf(i + 1);
-                if (slotIndex !== -1) {
+                if (slotIndex !== -1 && orgPartner !== undefined) {
                   const s = partnerSlots[slotIndex % partnerSlots.length];
                   items.push(
                     <div key={`partner-${slotIndex}`} style={{
@@ -394,8 +460,8 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
                         <p style={{ fontSize: '.88rem', fontWeight: 700, color: '#0a1628', margin: 0, lineHeight: 1.3 }}>{s.headline}</p>
                         <p style={{ fontSize: '.78rem', color: '#374151', margin: 0, lineHeight: 1.5 }}>{s.sub}</p>
                       </div>
-                      <a href="/sponsor" style={{ flexShrink: 0, fontSize: '.75rem', fontWeight: 700, color: '#1652f0', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                        Become a Partner →
+                      <a href={s.url} target={orgPartner ? '_blank' : undefined} rel="noopener noreferrer" style={{ flexShrink: 0, fontSize: '.75rem', fontWeight: 700, color: '#1652f0', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                        {s.cta}
                       </a>
                     </div>
                   );

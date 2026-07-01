@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 import type { Organization } from '../../lib/supabase';
 
 function stripHtml(html: string): string {
@@ -11,6 +12,22 @@ function stripHtml(html: string): string {
 
 function getInitials(name: string): string {
   return name.split(' ').filter(Boolean).slice(0, 3).map(w => w[0]).join('').toUpperCase();
+}
+
+/** 'San Antonio' -> 'san-antonio' — matches city_slug values used across sponsors table */
+function citySlugOf(city: string): string {
+  return city.trim().toLowerCase().replace(/\s+/g, '-');
+}
+
+// The org directory's own partner slot: one active row per city, category_slug = 'org-directory'
+const ORG_DIRECTORY_CATEGORY_SLUG = 'org-directory';
+
+interface OrgPartner {
+  name: string;
+  tagline: string;
+  url: string | null;
+  logo_url: string | null;
+  cta_label: string | null;
 }
 
 const CATEGORY_COLORS: Record<string, { bg: string; color: string; border: string }> = {
@@ -69,6 +86,25 @@ export function OrgDetailModal({ org, onClose, onAuthOpen }: Props) {
   const { user, loading } = useAuth();
   // Use `user` (session-derived, available immediately) not `profile` (requires a DB roundtrip)
   const isLoggedIn = !!user;
+
+  // Slim partner line — one active sponsor row per city, category_slug = 'org-directory'
+  const [partner, setPartner] = useState<OrgPartner | null | undefined>(undefined);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchPartner() {
+      const { data } = await supabase
+        .from('sponsors')
+        .select('name, tagline, url, logo_url, cta_label')
+        .eq('city_slug', citySlugOf(org.city))
+        .eq('category_slug', ORG_DIRECTORY_CATEGORY_SLUG)
+        .eq('active', true)
+        .maybeSingle();
+      if (!cancelled) setPartner(data ?? null);
+    }
+    fetchPartner();
+    return () => { cancelled = true; };
+  }, [org.city]);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -272,6 +308,23 @@ export function OrgDetailModal({ org, onClose, onAuthOpen }: Props) {
               Is this your organization? <span style={{ color: '#1652f0', fontWeight: 600 }}>Claim this listing →</span>
             </a>
           </div>
+
+          {/* Slim partner line */}
+          {partner && (
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+              borderTop: '1px solid #f0f0ee', paddingTop: 12, fontSize: 11, color: '#94a3b8',
+            }}>
+              <span>{org.city} organizations are brought to you by</span>
+              <a href={partner.url ?? 'https://localbusinesscalendars.com/sponsor'} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: '#1652f0', fontWeight: 700, textDecoration: 'none' }}>
+                {partner.logo_url && (
+                  <img src={partner.logo_url} alt="" style={{ height: 14, width: 'auto', objectFit: 'contain' }} />
+                )}
+                {partner.name}
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>
