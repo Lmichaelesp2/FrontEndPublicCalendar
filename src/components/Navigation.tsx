@@ -493,17 +493,20 @@ export function Navigation() {
                     </Link>
                   );
                 })()
-              ) : (
-                <a
-                  href="https://www.localbusinessorganizations.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="nav-link nav-link--organizations"
-                  style={{ marginRight: '4px' }}
-                >
-                  Organizations ↗
-                </a>
-              )}
+              ) : pathname && /^\/texas\/([a-z-]+)/.test(pathname) ? (
+                (() => {
+                  const citySlug = pathname.match(/^\/texas\/([a-z-]+)/)?.[1] ?? 'san-antonio';
+                  return (
+                    <Link
+                      href={`/texas/${citySlug}/organizations`}
+                      className="nav-link nav-link--organizations"
+                      style={{ marginRight: '4px' }}
+                    >
+                      Organizations ↗
+                    </Link>
+                  );
+                })()
+              ) : null}
 
               {/* Login — all 4 city pages. Opens explainer modal instead of */}
               {/* linking straight out, since most visitors no longer need to log in. */}
