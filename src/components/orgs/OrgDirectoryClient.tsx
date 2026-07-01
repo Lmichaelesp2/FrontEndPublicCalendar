@@ -151,14 +151,13 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
 
           {/* Stats panel */}
           <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 12px rgba(10,22,40,.07)' }}>
-            <div style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.10em', textTransform: 'uppercase', color: '#374151', padding: '.75rem 1.25rem', borderBottom: '1px solid #e8e8e4', background: '#f7f7f5', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>{city} Directory</span>
-              <span style={{ color: '#1652f0', fontWeight: 700 }}>{loading ? '—' : orgs.length} orgs</span>
+            <div style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.10em', textTransform: 'uppercase', color: '#374151', padding: '.75rem 1.25rem', borderBottom: '1px solid #e8e8e4', background: '#f7f7f5' }}>
+              {city} Directory
             </div>
             <div style={{ padding: '1rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
               {[
+                { label: 'Organizations', value: loading ? '—' : String(orgs.length) },
                 { label: 'Categories', value: '8' },
-                { label: 'Verified profiles', value: loading ? '—' : String(orgs.filter(o => o.verified).length) },
                 { label: 'Free to browse', value: 'Yes' },
               ].map(stat => (
                 <div key={stat.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '.83rem' }}>
@@ -193,6 +192,28 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           <span><strong>Free</strong> to browse</span>
         </div>
       </div>
+
+      {/* ── How it works ── */}
+      <section style={{ background: '#fff', padding: '2.5rem 2rem', borderBottom: '1px solid #e8e8e4' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ fontSize: '.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: '#1652f0', marginBottom: '1.25rem' }}>How to use this directory</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }} className="org-dir-steps-grid">
+            {[
+              { icon: '🔍', head: 'Browse or search', body: `All active business organizations in ${city} are listed here. Search by name or use the category filters to zero in on what you're looking for.` },
+              { icon: '📂', head: 'Filter by category', body: 'Use the category buttons — Chambers, Networking, Real Estate, Technology, and more — to view only the type of organization that fits your goals.' },
+              { icon: '👆', head: 'Click to see full details', body: 'Select any organization card to open its full profile: contact info, membership details, website, social links, and more.' },
+            ].map(step => (
+              <div key={step.head} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '1.4rem', lineHeight: 1, flexShrink: 0, marginTop: 2 }}>{step.icon}</span>
+                <div>
+                  <h3 style={{ fontSize: '.9rem', fontWeight: 700, color: '#0a1628', marginBottom: '.35rem' }}>{step.head}</h3>
+                  <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6 }}>{step.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── Directory ── */}
       <div id="organizations" style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem', boxSizing: 'border-box', background: '#f7f7f5' }}>
@@ -275,6 +296,32 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           </div>
         )}
 
+        {/* Not listed / Post an event */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: '1.75rem' }} className="org-dir-cta-grid">
+          <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem' }}>
+            <div style={{ fontSize: '1.25rem', marginBottom: '.5rem' }}>🏢</div>
+            <h3 style={{ fontSize: '.95rem', fontWeight: 700, color: '#0a1628', marginBottom: '.4rem' }}>Is your organization missing?</h3>
+            <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, marginBottom: '1rem' }}>
+              Submit your {city} organization to get it added to the directory. Free, reviewed within 1–2 business days.
+            </p>
+            <a href="https://localbusinessorganizations.com/submit" target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-block', background: '#0a1628', color: '#fff', padding: '.6rem 1.1rem', borderRadius: 7, fontSize: '.8rem', fontWeight: 700, textDecoration: 'none' }}>
+              Submit an organization →
+            </a>
+          </div>
+          <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem' }}>
+            <div style={{ fontSize: '1.25rem', marginBottom: '.5rem' }}>📅</div>
+            <h3 style={{ fontSize: '.95rem', fontWeight: 700, color: '#0a1628', marginBottom: '.4rem' }}>Need to post an event?</h3>
+            <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, marginBottom: '1rem' }}>
+              See all upcoming {city} business events — or find the right calendar to submit yours.
+            </p>
+            <Link href={`/texas/${citySlug}`}
+              style={{ display: 'inline-block', background: '#0a1628', color: '#fff', padding: '.6rem 1.1rem', borderRadius: 7, fontSize: '.8rem', fontWeight: 700, textDecoration: 'none' }}>
+              View {city} events →
+            </Link>
+          </div>
+        </div>
+
         {/* FAQ */}
         <div style={{ background: '#fff', borderRadius: 12, padding: '2rem', marginTop: '1.75rem' }}>
           <h3 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: '1.25rem', fontWeight: 600, color: '#0a1628', marginBottom: '1.5rem' }}>
@@ -326,8 +373,10 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
       <style>{`
         @media (max-width: 900px) {
           .org-dir-hero-grid { grid-template-columns: 1fr !important; }
+          .org-dir-steps-grid { grid-template-columns: 1fr !important; }
           .org-dir-cat-grid { grid-template-columns: repeat(2,1fr) !important; }
           .org-dir-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .org-dir-cta-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 560px) {
           .org-dir-grid { grid-template-columns: 1fr !important; }

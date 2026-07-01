@@ -66,8 +66,9 @@ interface Props {
 }
 
 export function OrgDetailModal({ org, onClose, onAuthOpen }: Props) {
-  const { profile } = useAuth();
-  const isLoggedIn = !!profile;
+  const { user, loading } = useAuth();
+  // Use `user` (session-derived, available immediately) not `profile` (requires a DB roundtrip)
+  const isLoggedIn = !!user;
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -153,7 +154,12 @@ export function OrgDetailModal({ org, onClose, onAuthOpen }: Props) {
         {/* Body */}
         <div style={{ padding: '20px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
 
-          {isLoggedIn ? (
+          {loading ? (
+            /* Session still resolving — don't flash the auth gate */
+            <div style={{ textAlign: 'center', padding: '2rem 0', color: '#94a3b8', fontSize: 13 }}>
+              Loading…
+            </div>
+          ) : isLoggedIn ? (
             <>
               {org.description && (
                 <p style={{ fontSize: 13, color: '#374151', lineHeight: 1.75, margin: 0 }}>
@@ -246,17 +252,17 @@ export function OrgDetailModal({ org, onClose, onAuthOpen }: Props) {
               )}
             </>
           ) : (
-            /* Auth gate */
+            /* Auth gate — only shown to genuinely logged-out visitors */
             <div style={{ background: 'linear-gradient(135deg, #fff 0%, #f0f4ff 100%)', border: '1px solid #e8e8e4', borderRadius: 12, padding: '20px', display: 'flex', gap: 16, alignItems: 'center' }}>
               <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#eef3fe', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <span style={{ fontSize: 18, color: '#1652f0' }}>🔒</span>
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontFamily: 'var(--serif, Georgia)', fontSize: 15, fontWeight: 700, color: '#0a1628', marginBottom: 4 }}>
-                  Full profile is members only
+                  Sign in to see the full profile
                 </div>
                 <p style={{ fontSize: 12, color: '#374151', lineHeight: 1.5, margin: '0 0 12px' }}>
-                  Free account unlocks: description, contact info, membership details, social links, and more.
+                  Create a free account to unlock contact info, membership details, social links, and more.
                 </p>
                 <button
                   onClick={() => { onClose(); onAuthOpen(); }}
