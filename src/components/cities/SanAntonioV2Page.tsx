@@ -31,7 +31,7 @@ interface Props {
 
 // ── Org category definitions ──────────────────────────────────────────────────
 
-const LBO_SA = 'https://www.localbusinessorganizations.com/texas/san-antonio';
+const ORG_DIRECTORY_URL = '/texas/san-antonio/organizations';
 
 const ORG_CATEGORIES = [
   {
@@ -242,16 +242,6 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
 
   return (
     <div>
-      {/* ── Test banner ── */}
-      <div style={{
-        background: '#7c3aed', color: '#fff', textAlign: 'center',
-        padding: '6px 16px', fontSize: '11px', fontWeight: 700,
-        letterSpacing: '.09em', textTransform: 'uppercase',
-        position: 'sticky', top: 0, zIndex: 9999,
-      }}>
-        ⚠ TEST PAGE — /texas/san-antonio/v2 — Not live yet
-      </div>
-
       <Navigation />
 
       {/* ── Hero ── */}
@@ -561,7 +551,7 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
               // Logged in → go to LBO directory (opens in new tab)
               // Logged out → sign up first
               return isLoggedIn ? (
-                <a key={key} href={LBO_SA} target="_blank" rel="noopener noreferrer" style={cardStyle}>
+                <a key={key} href={ORG_DIRECTORY_URL} target="_blank" rel="noopener noreferrer" style={cardStyle}>
                   {cardInner}
                 </a>
               ) : (
@@ -624,7 +614,7 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
             </p>
             <div style={{ display: 'flex', gap: '.75rem', flexWrap: 'wrap' }}>
               <Link href="/submit-event" className="btn btn-primary" style={{ padding: '.55rem 1.1rem', fontSize: '.82rem' }}>Submit an Event</Link>
-              <a href="https://www.localbusinessorganizations.com/submit" target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{ padding: '.55rem 1.1rem', fontSize: '.82rem' }}>Submit an Organization</a>
+              <Link href="/texas/san-antonio/organizations" className="btn btn-ghost" style={{ padding: '.55rem 1.1rem', fontSize: '.82rem' }}>Browse Organizations</Link>
             </div>
           </div>
         </div>

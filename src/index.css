@@ -285,7 +285,7 @@ body{font-family:var(--font-sans);color:var(--color-neutral-800);background:var(
 /* ── Bottom nav bar ── */
 .nav-links{
   background: #ffffff;
-
+  border-bottom: 1px solid var(--color-rule);
 }
 .nav-links-inner{
   max-width: var(--container-nav);

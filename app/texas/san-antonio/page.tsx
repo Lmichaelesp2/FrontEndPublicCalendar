@@ -9,7 +9,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'San Antonio Business Calendar – Events & Networking',
   description: 'San Antonio business events by industry – Technology, Real Estate, Chamber, Small Business, Networking. Weekly newsletters.',
-    alternates: {
+  alternates: {
     canonical: '/texas/san-antonio',
   },
   openGraph: {
@@ -37,8 +37,8 @@ export default async function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaJson }} />
       <CityProvider>
-      <SanAntonioPage initialEvents={events} />
-    </CityProvider>
+        <SanAntonioPage initialEvents={events} />
+      </CityProvider>
     </>
   );
 }
