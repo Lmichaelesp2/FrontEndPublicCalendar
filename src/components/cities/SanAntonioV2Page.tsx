@@ -343,31 +343,27 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
               This calendar is built for you
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem' }} className="v2-who-grid">
+          {/* Horizontal bar — 4 sections with dividers */}
+          <div className="v2-who-bar" style={{
+            background: '#fff', border: '1px solid #e8e8e4',
+            borderRadius: 12, display: 'flex', overflow: 'hidden',
+            boxShadow: '0 2px 8px rgba(10,22,40,.06)',
+          }}>
             {([
               { label: 'Business Owners',        Icon: Briefcase, color: '#1652f0' },
               { label: 'Business Professionals',  Icon: Users,     color: '#c2410c' },
               { label: 'New to San Antonio',      Icon: MapPin,    color: '#1652f0' },
               { label: 'Building your network',   Icon: Handshake, color: '#c2410c' },
-            ] as const).map(({ label, Icon, color }) => (
-              <div key={label} style={{
-                background: '#fff',
-                border: '1px solid #e8e8e4',
-                borderRadius: 12,
-                padding: '1.4rem 1.2rem 2.2rem',
-                display: 'flex', flexDirection: 'column',
-                position: 'relative', overflow: 'hidden',
-                boxShadow: '0 2px 8px rgba(10,22,40,.06)',
-                minHeight: 110,
+            ] as const).map(({ label, Icon, color }, i) => (
+              <div key={label} className="v2-who-cell" style={{
+                flex: 1, display: 'flex', flexDirection: 'column',
+                alignItems: 'center', gap: '.7rem',
+                padding: '1.75rem 1rem',
+                borderLeft: i > 0 ? '1px solid #e8e8e4' : 'none',
+                textAlign: 'center',
               }}>
-                {/* Ghost icon — faded watermark bottom-right */}
-                <div style={{ position: 'absolute', bottom: 8, right: 8, pointerEvents: 'none', userSelect: 'none', lineHeight: 0 }}>
-                  <Icon size={68} strokeWidth={1.1} style={{ stroke: color, fill: 'none', opacity: .13 }} />
-                </div>
-                <span style={{ fontSize: '.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.07em', color, marginBottom: '.55rem' }}>
-                  For
-                </span>
-                <span style={{ fontSize: '1rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.3, paddingRight: 56 }}>
+                <Icon size={40} strokeWidth={1.1} style={{ stroke: color, fill: 'none', opacity: .28 }} />
+                <span style={{ fontSize: '.88rem', fontWeight: 700, color: '#0a1628', lineHeight: 1.3 }}>
                   {label}
                 </span>
               </div>
@@ -719,11 +715,13 @@ function V2Content({ initialEvents, orgCounts, totalOrgs }: Props) {
           .v2-how-grid { grid-template-columns: 1fr !important; }
           .v2-org-grid { grid-template-columns: repeat(2,1fr) !important; }
           .v2-testimonial-grid { grid-template-columns: 1fr !important; }
-          .v2-who-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .v2-who-bar { flex-wrap: wrap !important; }
+          .v2-who-cell { flex: 1 1 45% !important; border-left: none !important; border-top: 1px solid #e8e8e4 !important; }
+          .v2-who-cell:nth-child(-n+2) { border-top: none !important; }
+          .v2-who-cell:nth-child(odd) { border-right: 1px solid #e8e8e4 !important; }
         }
         @media (max-width: 680px) {
           .v2-hero-grid { grid-template-columns: 1fr !important; }
-          .v2-who-grid { grid-template-columns: repeat(2,1fr) !important; }
         }
       `}</style>
     </div>
