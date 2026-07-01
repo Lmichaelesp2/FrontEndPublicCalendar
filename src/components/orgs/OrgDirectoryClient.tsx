@@ -7,7 +7,6 @@ import { Navigation } from '../Navigation';
 import { Footer } from '../Footer';
 import { Breadcrumb } from '../Breadcrumb';
 import { AuthModal } from '../auth/AuthModal';
-import { useAuth } from '../../contexts/AuthContext';
 import { OrgCard } from './OrgCard';
 import type { Organization } from '../../lib/supabase';
 
@@ -74,7 +73,6 @@ interface Props {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export function OrgDirectoryClient({ city, citySlug }: Props) {
-  const { profile } = useAuth();
   const [orgs, setOrgs] = useState<Organization[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -196,29 +194,6 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
         </div>
       </div>
 
-      {/* ── How it works ── */}
-      <section style={{ background: '#fff', padding: '4rem 2rem' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontSize: '.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: '#1652f0', marginBottom: '.5rem' }}>How it works</div>
-          <h2 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: '1.75rem', fontWeight: 600, color: '#0a1628', marginBottom: '1.75rem' }}>
-            Find Where to Plug In — in 3 Steps
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }} className="org-dir-steps-grid">
-            {[
-              { n: '1', head: `Browse ${city} organizations`, body: `See every chamber, association, networking group, and trade organization active in ${city} — all in one place, free to browse.` },
-              { n: '2', head: 'Filter by category', body: 'Narrow by Networking, Technology, Real Estate, Chambers, and more to find the organizations that match your industry and goals.' },
-              { n: '3', head: 'Join and get involved', body: `Find the ${city} organizations that fit, join them, and show up consistently. That's how you build real relationships in your local business community.` },
-            ].map(step => (
-              <div key={step.n} style={{ background: '#f7f7f5', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', bottom: -12, right: 10, fontSize: '4.5rem', fontWeight: 800, color: '#c2410c', opacity: .07, lineHeight: 1, pointerEvents: 'none' }}>{step.n}</div>
-                <h3 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: '1rem', fontWeight: 700, color: '#0a1628', marginBottom: '.5rem' }}>{step.head}</h3>
-                <p style={{ fontSize: '.875rem', color: '#374151', lineHeight: 1.6 }}>{step.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Directory ── */}
       <div id="organizations" style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem', boxSizing: 'border-box', background: '#f7f7f5' }}>
 
@@ -279,20 +254,6 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           )}
         </div>
 
-        {/* Account prompt — logged out only */}
-        {!profile && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, background: '#fdf1ec', border: '1px solid #f3cdb8', borderRadius: 8, padding: '10px 16px', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '.8rem', color: '#c2410c', lineHeight: 1.5 }}>
-              🔒 <strong>Free account</strong> unlocks full profiles, contact info, and the weekly {city} events newsletter.
-            </span>
-            <button
-              onClick={() => setAuthOpen(true)}
-              style={{ background: '#c2410c', color: '#fff', padding: '6px 14px', borderRadius: 6, fontSize: '.775rem', fontWeight: 700, border: 'none', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
-              Create account →
-            </button>
-          </div>
-        )}
-
         {/* Results header */}
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '.75rem', borderBottom: '1px solid #e8e8e4' }}>
           <h2 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: '1.2rem', fontWeight: 600, color: '#0a1628' }}>
@@ -314,76 +275,33 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           </div>
         )}
 
-        {/* CTA — navy */}
-        <div style={{ background: '#042C53', borderRadius: 12, padding: '2rem', marginTop: '1.75rem' }}>
-          <div style={{ fontSize: '.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.1em', color: 'rgba(255,255,255,.4)', marginBottom: '.5rem' }}>
-            Free Account — {city}
-          </div>
-          <h3 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: '1.25rem', fontWeight: 700, color: '#fff', marginBottom: '.5rem', lineHeight: 1.3 }}>
-            See the full directory and what these organizations are hosting every week.
-          </h3>
-          <p style={{ fontSize: '.85rem', color: 'rgba(255,255,255,.6)', lineHeight: 1.6, maxWidth: 540, marginBottom: '1.5rem' }}>
-            Create a free account to unlock complete organization profiles — contact info, membership details, social links, and more. You'll also get the <strong style={{ color: 'rgba(255,255,255,.85)' }}>{city} weekly business events newsletter</strong> every Monday.
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: '1.5rem' }}>
-            {[
-              'Full organization profiles — contact info, phone, email, address',
-              'Membership type, fee range, and how to join',
-              `Weekly ${city} business events digest — every Monday`,
-            ].map(item => (
-              <div key={item} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                <span style={{ color: '#c2410c', fontSize: '.875rem', marginTop: 2, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: '.825rem', color: 'rgba(255,255,255,.75)', lineHeight: 1.5 }}>{item}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ display: 'flex', gap: '.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            <button
-              onClick={() => setAuthOpen(true)}
-              style={{ background: '#c2410c', color: '#fff', padding: '.85rem 1.75rem', borderRadius: 8, fontSize: '.875rem', fontWeight: 700, border: 'none', cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
-              Create free account →
-            </button>
-            <Link href={`/texas/${citySlug}`}
-              style={{ fontSize: '.825rem', color: 'rgba(255,255,255,.55)', textDecoration: 'none', fontWeight: 600 }}>
-              Browse upcoming events ↗
-            </Link>
-          </div>
-        </div>
-
-        {/* Testimonials */}
-        <div style={{ marginTop: '2.5rem' }}>
-          <div style={{ fontSize: '.7rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#374151', marginBottom: '.75rem' }}>
-            What people are saying
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }} className="org-dir-testimonials">
-            {[
-              { quote: `I had no idea how many organizations were active in ${city} until I found this directory. It completely changed how I approach networking.`, name: 'Rachel M.' },
-              { quote: `Finally a single place to see every chamber, association, and networking group in ${city}. This saved me hours of searching.`, name: 'David K.' },
-              { quote: `I used this to find three new organizations to join in ${city}. The category breakdown made it easy to find exactly the right fit.`, name: 'Priya S.' },
-            ].map(t => (
-              <div key={t.name} style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.25rem' }}>
-                <div style={{ display: 'flex', gap: 2, marginBottom: '.6rem' }}>
-                  {'★★★★★'.split('').map((s, i) => <span key={i} style={{ color: '#c2410c', fontSize: '.8rem' }}>{s}</span>)}
-                </div>
-                <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, marginBottom: '.85rem', fontStyle: 'italic' }}>"{t.quote}"</p>
-                <div style={{ fontSize: '.775rem', fontWeight: 700, color: '#0a1628' }}>— {t.name}</div>
-                <div style={{ fontSize: '.7rem', color: '#94a3b8', marginTop: 2 }}>{city}, TX</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* FAQ */}
         <div style={{ background: '#fff', borderRadius: 12, padding: '2rem', marginTop: '1.75rem' }}>
           <h3 style={{ fontFamily: 'var(--serif, Georgia)', fontSize: '1.25rem', fontWeight: 600, color: '#0a1628', marginBottom: '1.5rem' }}>
-            Frequently Asked Questions
+            About This Directory
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {[
-              { q: 'Is it free to browse the directory?', a: `Yes — browsing ${city}'s directory is completely free. Create a free account to unlock full profiles including contact info, descriptions, social links, and membership details.` },
-              { q: `Can I see the events these organizations host?`, a: `Yes. Many of these organizations host weekly events tracked right here on Local Business Calendars. Subscribe free to get every upcoming ${city} event delivered every Monday morning.` },
-              { q: 'How often is the directory updated?', a: `We continually research and verify organizations through public records, event platforms, and direct outreach. Each profile is reviewed before being added.` },
-              { q: `How do I get my organization listed?`, a: 'Submit your organization at localbusinessorganizations.com/submit — it\'s free and reviewed within 1–2 business days.' },
+              {
+                q: 'What is this directory?',
+                a: `This is a comprehensive listing of business organizations active in ${city} — chambers of commerce, professional associations, networking groups, real estate organizations, co-working spaces, tech groups, and more. Every organization here has been researched and verified before being added.`,
+              },
+              {
+                q: 'Why do I have to click each organization to see its details?',
+                a: `The directory shows all organizations by name and category so you can browse freely. Full details — contact info, membership info, website, social links — are shown when you click into an individual profile. This keeps the directory useful for people who want to explore, while preventing automated tools from bulk-collecting contact data.`,
+              },
+              {
+                q: 'How do the category filters work?',
+                a: `Use the category buttons (Chambers, Networking, Real Estate, Technology, etc.) to narrow the list to a specific type of organization. Click a category to filter, click it again — or use "Clear filter" — to go back to the full list. You can also search by name at any time.`,
+              },
+              {
+                q: 'How often is this directory updated?',
+                a: `We continuously research and verify organizations through public records, event platforms, and direct outreach. New organizations are reviewed before being added, and inactive ones are removed on an ongoing basis.`,
+              },
+              {
+                q: 'How do I get my organization listed?',
+                a: 'Submit your organization at localbusinessorganizations.com/submit — it\'s free and reviewed within 1–2 business days.',
+              },
             ].map((item, i) => (
               <details key={i} style={{ borderTop: '1px solid #e8e8e4', padding: '1.1rem 0' }}>
                 <summary style={{ fontSize: '.9rem', fontWeight: 600, color: '#0a1628', cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
@@ -408,10 +326,8 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
       <style>{`
         @media (max-width: 900px) {
           .org-dir-hero-grid { grid-template-columns: 1fr !important; }
-          .org-dir-steps-grid { grid-template-columns: 1fr !important; }
           .org-dir-cat-grid { grid-template-columns: repeat(2,1fr) !important; }
           .org-dir-grid { grid-template-columns: repeat(2,1fr) !important; }
-          .org-dir-testimonials { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 560px) {
           .org-dir-grid { grid-template-columns: 1fr !important; }
