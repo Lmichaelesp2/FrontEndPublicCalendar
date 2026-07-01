@@ -320,7 +320,7 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           </div>
         )}
 
-        {/* Not listed / Post an event */}
+        {/* Submit + Claim — side by side */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: '1.75rem' }} className="org-dir-cta-grid">
           <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', bottom: -8, right: 8, pointerEvents: 'none', lineHeight: 0 }}>
@@ -337,17 +337,32 @@ export function OrgDirectoryClient({ city, citySlug }: Props) {
           </div>
           <div style={{ background: '#fff', border: '1px solid #e8e8e4', borderRadius: 12, padding: '1.5rem', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', bottom: -8, right: 8, pointerEvents: 'none', lineHeight: 0 }}>
-              <CalendarDays size={60} strokeWidth={1.1} style={{ stroke: '#1652f0', fill: 'none', opacity: .13 }} />
+              <Building2 size={60} strokeWidth={1.1} style={{ stroke: '#c2410c', fill: 'none', opacity: .13 }} />
             </div>
-            <h3 style={{ fontSize: '.95rem', fontWeight: 700, color: '#0a1628', marginBottom: '.4rem' }}>Need to post an event?</h3>
+            <h3 style={{ fontSize: '.95rem', fontWeight: 700, color: '#0a1628', marginBottom: '.4rem' }}>Is this your organization?</h3>
             <p style={{ fontSize: '.825rem', color: '#374151', lineHeight: 1.6, marginBottom: '1rem', paddingRight: 40 }}>
-              See all upcoming {city} business events — or find the right calendar to submit yours.
+              If your {city} organization is already listed, claim it to manage your profile and keep details up to date.
             </p>
-            <Link href={`/texas/${citySlug}`}
-              style={{ display: 'inline-block', background: '#0a1628', color: '#fff', padding: '.6rem 1.1rem', borderRadius: 7, fontSize: '.8rem', fontWeight: 700, textDecoration: 'none' }}>
-              View {city} events →
-            </Link>
+            <a href="https://www.localbusinessorganizations.com/claim" target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-block', background: '#c2410c', color: '#fff', padding: '.6rem 1.1rem', borderRadius: 7, fontSize: '.8rem', fontWeight: 700, textDecoration: 'none' }}>
+              Claim your listing →
+            </a>
           </div>
+        </div>
+
+        {/* Post an event — slim banner */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', background: '#fff', border: '1px solid #e8e8e4', borderRadius: 10, padding: '1rem 1.25rem', marginTop: 10, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <CalendarDays size={18} strokeWidth={1.4} style={{ stroke: '#1652f0', fill: 'none', opacity: .5, flexShrink: 0 }} />
+            <span style={{ fontSize: '.85rem', color: '#374151' }}>
+              <strong style={{ color: '#0a1628' }}>Need to post an event?</strong>{' '}
+              See all upcoming {city} business events or find the right calendar to submit yours.
+            </span>
+          </div>
+          <Link href={`/texas/${citySlug}`}
+            style={{ fontSize: '.8rem', fontWeight: 700, color: '#1652f0', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
+            View {city} events →
+          </Link>
         </div>
 
         {/* FAQ */}

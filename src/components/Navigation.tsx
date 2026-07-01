@@ -76,6 +76,18 @@ function getModalContext(pathname: string): { cityName: string; calendarLabel: s
 }
 
 function getWordmarkAndTagline(pathname: string): { wordmark: React.ReactNode; tagline: string } {
+  // /texas/san-antonio/organizations etc. — must check before generic subCatMatch
+  const orgMatch = pathname.match(/^\/texas\/([a-z-]+)\/organizations/);
+  if (orgMatch) {
+    const cityName = CITY_SLUG_TO_NAME[orgMatch[1]];
+    if (cityName) {
+      return {
+        wordmark: <><span className="wm-city">{cityName}</span><span className="wm-rest"> Business Organizations</span></>,
+        tagline: 'Part of the Local Business Calendars Network',
+      };
+    }
+  }
+
   // /texas/san-antonio/technology, /texas/austin/chamber, etc.
   const subCatMatch = pathname.match(/^\/texas\/([a-z-]+)\/([a-z-]+)/);
   if (subCatMatch) {
@@ -467,16 +479,31 @@ export function Navigation() {
                 </Link>
               )}
 
-              {/* Cross-link to LBO */}
-              <a
-                href="https://www.localbusinessorganizations.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="nav-link nav-link--organizations"
-                style={{ marginRight: '4px' }}
-              >
-                Organizations ↗
-              </a>
+              {/* Organizations link — context-aware */}
+              {pathname && /^\/texas\/([a-z-]+)\/organizations/.test(pathname) ? (
+                (() => {
+                  const citySlug = pathname.match(/^\/texas\/([a-z-]+)\/organizations/)?.[1] ?? 'san-antonio';
+                  return (
+                    <Link
+                      href={`/texas/${citySlug}`}
+                      className="nav-link nav-link--organizations"
+                      style={{ marginRight: '4px' }}
+                    >
+                      ← Back to Calendar
+                    </Link>
+                  );
+                })()
+              ) : (
+                <a
+                  href="https://www.localbusinessorganizations.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-link nav-link--organizations"
+                  style={{ marginRight: '4px' }}
+                >
+                  Organizations ↗
+                </a>
+              )}
 
               {/* Login — all 4 city pages. Opens explainer modal instead of */}
               {/* linking straight out, since most visitors no longer need to log in. */}
