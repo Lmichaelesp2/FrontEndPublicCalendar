@@ -33,9 +33,9 @@ export async function fetchSAOrgCounts(): Promise<{
 
   const { data, error } = await supabase
     .from('organizations')
-    .select('group_type, category')
+    .select('category')
     .eq('city', 'San Antonio')
-    .eq('archive', false);
+    .or('archive.is.null,archive.eq.false');
 
   if (error || !data) {
     console.error('fetchSAOrgCounts ERROR:', error);
@@ -45,9 +45,8 @@ export async function fetchSAOrgCounts(): Promise<{
   const counts: Record<string, number> = {};
 
   for (const org of data) {
-    // Try group_type first, then category
-    const raw = (org.group_type || org.category || '').toLowerCase().trim();
-    const mapped = CATEGORY_MAP[raw] ?? 'Other';
+    // Use category directly — CATEGORY_MAP keys are mixed-case, match as-is
+    const mapped = CATEGORY_MAP[org.category || ''] ?? 'Other';
     counts[mapped] = (counts[mapped] ?? 0) + 1;
   }
 
